@@ -6,4 +6,4 @@ NetCommons
 
 | dependencies | status |
 | ------------ | ------ |
-| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/52f1cc19ec13756b480000c4/badge.png)](https://www.versioneye.com/user/projects/52f1cc19ec13756b480000c4) |
+| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/538ea72a46c4738e2d00000b/badge.svg)](https://www.versioneye.com/user/projects/538ea72a46c4738e2d00000b) |

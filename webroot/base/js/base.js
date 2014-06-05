@@ -1,1 +1,1 @@
-var NetCommonsApp = angular.module('NetCommons', ['ui.bootstrap']);
+var NetCommonsApp = angular.module('NetCommonsApp', ['ui.bootstrap']);

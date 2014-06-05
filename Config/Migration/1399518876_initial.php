@@ -1068,7 +1068,7 @@ class Initial extends CakeMigration {
 /**
  * Before migration callback
  *
- * @param string $direction, up or down direction of migration process
+ * @param string $direction up or down direction of migration process
  * @return boolean Should process continue
  * @access public
  */
@@ -1079,7 +1079,7 @@ class Initial extends CakeMigration {
 /**
  * After migration callback
  *
- * @param string $direction, up or down direction of migration process
+ * @param string $direction up or down direction of migration process
  * @return boolean Should process continue
  * @access public
  */
@@ -1102,6 +1102,7 @@ class Initial extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
+ * @param string $scope ?
  * @return boolean Should process continue
  */
 	public function updateRecords($model, $records, $scope = null) {

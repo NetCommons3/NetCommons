@@ -1,1 +1,6 @@
-var NetCommonsApp = angular.module('NetCommonsApp', ['ui.bootstrap']);
+var NetCommonsApp = angular.module('NetCommonsApp',
+    [
+        'ui.bootstrap',
+        'ui.tinymce'
+    ]
+);

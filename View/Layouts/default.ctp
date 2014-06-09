@@ -32,8 +32,10 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<!-- themed  -->
 	<?php echo $this->Html->css("style"); ?>
 	<?php
+		echo $this->Html->script('//tinymce.cachefly.net/4.0/tinymce.min.js');
 		echo $this->Html->script('/net_commons/angular/angular.min.js');
 		echo $this->Html->script('/net_commons/angular-bootstrap/ui-bootstrap-tpls.min.js');
+		echo $this->Html->script('/net_commons/angular-ui-tinymce/src/tinymce.js');
 		echo $this->Html->script('/net_commons/base/js/base.js');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -104,7 +106,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	</footer>
 
 		<!-- /container -->
-		<?php echo $this->element('sql_dump'); ?>
+		<?php //echo $this->element('sql_dump'); ?>
 
 	</body>
 </html>

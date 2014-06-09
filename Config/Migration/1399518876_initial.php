@@ -989,7 +989,7 @@ class Initial extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'username' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'password' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'role_id' => array('type' => 'integer', 'null' => false, 'default' => 1),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),

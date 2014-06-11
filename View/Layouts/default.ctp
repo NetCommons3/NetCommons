@@ -32,7 +32,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<!-- themed  -->
 	<?php echo $this->Html->css("style"); ?>
 	<?php
-	echo $this->Html->script('/net_commons/ace-builds/src-min-noconflict/ace.js');
 		echo $this->Html->script('/tinymce/tinymce.min.js');
 		echo $this->Html->script('/net_commons/angular/angular.min.js');
 		echo $this->Html->script('/net_commons/angular-bootstrap/ui-bootstrap-tpls.min.js');

@@ -35,6 +35,8 @@ foreach ($files as $file) {
 	}
 }
 
+Router::parseExtensions();
+
 if (Configure::read('NetCommons.installed')) {
 	return;
 }
@@ -45,8 +47,5 @@ if (Configure::read('Security.salt') === 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9
 	App::uses('File', 'Utility');
 	App::uses('Security', 'Utility');
 	Configure::write('Security.salt', Security::generateAuthKey());
-	Configure::write('Security.cipherSeed', mt_rand() . mt_rand() . mt_rand() . mt_rand());
-
-	$file = new File(APP . 'Config' . DS . 'application.yml', true);
-	$file->write(Spyc::YAMLDump(Configure::read()));
+	Configure::write('Security.cipherSeed', mt_rand() . mt_rand());
 }

@@ -145,10 +145,8 @@ class Initial extends CakeMigration {
 				'Frame' => array(
 					array(
 						'id' => '1',
+						'room_id' => '1',
 						'box_id' => '1',
-						'parent_id' => '0',
-						'lft' => null,
-						'rght' => null,
 						'plugin_id' => '1',
 						'block_id' => '1',
 						'weight' => '1',
@@ -158,10 +156,8 @@ class Initial extends CakeMigration {
 					),
 					array(
 						'id' => '2',
+						'room_id' => '1',
 						'box_id' => '2',
-						'parent_id' => '0',
-						'lft' => null,
-						'rght' => null,
 						'plugin_id' => '1',
 						'block_id' => '2',
 						'weight' => '1',
@@ -171,10 +167,8 @@ class Initial extends CakeMigration {
 					),
 					array(
 						'id' => '3',
+						'room_id' => '1',
 						'box_id' => '3',
-						'parent_id' => '0',
-						'lft' => null,
-						'rght' => null,
 						'plugin_id' => '1',
 						'block_id' => '3',
 						'weight' => '1',
@@ -184,10 +178,8 @@ class Initial extends CakeMigration {
 					),
 					array(
 						'id' => '4',
+						'room_id' => '1',
 						'box_id' => '4',
-						'parent_id' => '0',
-						'lft' => null,
-						'rght' => null,
 						'plugin_id' => '1',
 						'block_id' => '4',
 						'weight' => '1',
@@ -197,10 +189,8 @@ class Initial extends CakeMigration {
 					),
 					array(
 						'id' => '5',
+						'room_id' => '1',
 						'box_id' => '5',
-						'parent_id' => '0',
-						'lft' => null,
-						'rght' => null,
 						'plugin_id' => '1',
 						'block_id' => '5',
 						'weight' => '1',
@@ -236,7 +226,7 @@ class Initial extends CakeMigration {
 				'Language' => array(
 					array(
 						'id' => '1',
-						'code' => 'rng',
+						'code' => 'eng',
 						'weight' => '1',
 						'is_active' => true,
 					),
@@ -508,7 +498,7 @@ class Initial extends CakeMigration {
 			'create_table' => array(
 				'blocks' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'room_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -535,7 +525,7 @@ class Initial extends CakeMigration {
 				'boxes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'container_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '1:each site,2:each space,3:each room,4:each page'),
 					'space_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'room_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -565,7 +555,7 @@ class Initial extends CakeMigration {
 				),
 				'containers' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '1:header,2:major,3:main,4:minor,5:footer'),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -591,10 +581,8 @@ class Initial extends CakeMigration {
 				),
 				'frames' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'box_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'parent_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'lft' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'rght' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -627,6 +615,7 @@ class Initial extends CakeMigration {
 				'group_parts' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'part_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'can_read_participant' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_add_participant' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_delete_participant' => array('type' => 'boolean', 'null' => true, 'default' => null),
@@ -763,6 +752,7 @@ class Initial extends CakeMigration {
 					'site_setting_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -789,7 +779,7 @@ class Initial extends CakeMigration {
 				'languages_user_attributes_users' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'user_attributes_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'user_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -864,6 +854,8 @@ class Initial extends CakeMigration {
 				'plugins' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'folder' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '1:for frame,2:for controll panel'),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -916,6 +908,7 @@ class Initial extends CakeMigration {
 				'room_parts' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'part_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'can_read_page' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_edit_page' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_create_page' => array('type' => 'boolean', 'null' => true, 'default' => null),
@@ -941,7 +934,6 @@ class Initial extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'space_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'top_page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -956,6 +948,7 @@ class Initial extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'site_setting_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),

@@ -116,7 +116,7 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '3',
 						'container_id' => '3',
-						'type' => '3',
+						'type' => '4',
 						'space_id' => null,
 						'room_id' => null,
 						'page_id' => '1',
@@ -407,6 +407,8 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '1',
 						'part_id' => '1',
+						'weight' => '1',
+						'hierarchy' => '1',
 						'can_read_page' => true,
 						'can_edit_page' => true,
 						'can_create_page' => true,
@@ -423,6 +425,8 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '2',
 						'part_id' => '2',
+						'weight' => '2',
+						'hierarchy' => '1',
 						'can_read_page' => true,
 						'can_edit_page' => true,
 						'can_create_page' => true,
@@ -439,6 +443,8 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '3',
 						'part_id' => '3',
+						'weight' => '3',
+						'hierarchy' => '1',
 						'can_read_page' => true,
 						'can_edit_page' => false,
 						'can_create_page' => false,
@@ -455,6 +461,8 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '4',
 						'part_id' => '4',
+						'weight' => '4',
+						'hierarchy' => '1',
 						'can_read_page' => true,
 						'can_edit_page' => false,
 						'can_create_page' => false,
@@ -471,6 +479,8 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '5',
 						'part_id' => '5',
+						'weight' => '5',
+						'hierarchy' => '1',
 						'can_read_page' => true,
 						'can_edit_page' => false,
 						'can_create_page' => false,
@@ -909,6 +919,7 @@ class Initial extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'part_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'hierarchy' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'can_read_page' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_edit_page' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_create_page' => array('type' => 'boolean', 'null' => true, 'default' => null),

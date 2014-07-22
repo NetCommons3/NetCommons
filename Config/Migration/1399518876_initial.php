@@ -1180,10 +1180,9 @@ class Initial extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @param string $scope ?
  * @return boolean Should process continue
  */
-	public function updateRecords($model, $records, $scope = null) {
+	public function updateRecords($model, $records) {
 		$Model = $this->generateModel($model);
 		foreach ($records as $record) {
 			$Model->create();

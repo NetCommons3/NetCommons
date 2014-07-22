@@ -28,8 +28,8 @@ class Initial extends CakeMigration {
 						'id' => '1',
 						'room_id' => '1',
 						'parent_id' => null,
-						'lft' => null,
-						'rght' => null,
+						'lft' => '1',
+						'rght' => '2',
 						'permalink' => '',
 						'slug' => null,
 						'is_published' => true,
@@ -142,6 +142,39 @@ class Initial extends CakeMigration {
 					),
 				),
 
+				'BoxesPage' => array(
+					array(
+						'id' => '1',
+						'page_id' => '1',
+						'box_id' => '1',
+						'is_visible' => true,
+					),
+					array(
+						'id' => '2',
+						'page_id' => '1',
+						'box_id' => '2',
+						'is_visible' => true,
+					),
+					array(
+						'id' => '3',
+						'page_id' => '1',
+						'box_id' => '3',
+						'is_visible' => true,
+					),
+					array(
+						'id' => '4',
+						'page_id' => '1',
+						'box_id' => '4',
+						'is_visible' => true,
+					),
+					array(
+						'id' => '5',
+						'page_id' => '1',
+						'box_id' => '5',
+						'is_visible' => true,
+					),
+				),
+
 				'Frame' => array(
 					array(
 						'id' => '1',
@@ -235,6 +268,21 @@ class Initial extends CakeMigration {
 						'code' => 'jpn',
 						'weight' => '2',
 						'is_active' => true,
+					),
+				),
+
+				'LanguagesPage' => array(
+					array(
+						'id' => '1',
+						'page_id' => '1',
+						'language_id' => '1',
+						'name' => 'TestPage001',
+					),
+					array(
+						'id' => '2',
+						'page_id' => '1',
+						'language_id' => '2',
+						'name' => 'テストページ001',
 					),
 				),
 

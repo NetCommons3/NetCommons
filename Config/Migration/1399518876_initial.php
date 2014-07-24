@@ -551,7 +551,7 @@ class Initial extends CakeMigration {
 					'name' => 'ルーム管理者',
 					'created_user_id' => 1,
 					'created' => false,
-					'modified_user_id' => false,
+					'modified_user_id' => 1,
 					'modified' => false,
 					),
 					array(
@@ -561,7 +561,7 @@ class Initial extends CakeMigration {
 						'name' => '編集長',
 						'created_user_id' => 1,
 						'created' => false,
-						'modified_user_id' => false,
+						'modified_user_id' => 1,
 						'modified' => false,
 					),
 					array(
@@ -571,7 +571,7 @@ class Initial extends CakeMigration {
 						'name' => '編集者',
 						'created_user_id' => 1,
 						'created' => false,
-						'modified_user_id' => false,
+						'modified_user_id' => 1,
 						'modified' => false,
 					),
 					array(
@@ -581,7 +581,7 @@ class Initial extends CakeMigration {
 						'name' => '一般',
 						'created_user_id' => 1,
 						'created' => false,
-						'modified_user_id' => false,
+						'modified_user_id' => 1,
 						'modified' => false,
 					),
 					array(
@@ -591,7 +591,7 @@ class Initial extends CakeMigration {
 						'name' => '参観者',
 						'created_user_id' => 1,
 						'created' => false,
-						'modified_user_id' => false,
+						'modified_user_id' => 1,
 						'modified' => false,
 					)
 				)
@@ -1097,96 +1097,11 @@ class Initial extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'username' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'password' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => 1),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1)
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-				),
-				'user_attributes' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'required' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'is_each_language' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'can_read_self' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'can_edit_self' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'position' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'user_attributes_users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'user_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'user_select_attributes' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'user_attribute_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'user_select_attributes_users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'user_select_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'value' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'username' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'password' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
 			),
 		),
 		'down' => array(
 			'drop_table' => array(
-				'blocks', 'blocks_languages', 'boxes', 'boxes_pages', 'containers', 'containers_pages', 'frames', 'frames_languages', 'group_parts', 'groups', 'groups_languages', 'groups_parts_users', 'groups_users', 'languages', 'languages_pages', 'languages_parts', 'languages_roles', 'languages_site_settings', 'languages_user_attributes', 'languages_user_attributes_users', 'languages_user_select_attributes', 'pages', 'parts', 'parts_rooms_users', 'plugins', 'roles', 'roles_plugins', 'roles_user_attributes', 'room_parts', 'rooms', 'site_setting_values', 'site_settings', 'spaces', 'user_attributes', 'user_attributes_users', 'user_select_attributes', 'user_select_attributes_users', 'users'
+				'blocks', 'blocks_languages', 'boxes', 'boxes_pages', 'containers', 'containers_pages', 'frames', 'frames_languages', 'group_parts', 'groups', 'groups_languages', 'groups_parts_users', 'groups_users', 'languages', 'languages_pages', 'languages_parts', 'languages_roles', 'languages_site_settings', 'languages_user_attributes', 'languages_user_attributes_users', 'languages_user_select_attributes', 'pages', 'parts', 'parts_rooms_users', 'plugins', 'roles', 'roles_plugins', 'roles_user_attributes', 'room_parts', 'rooms', 'site_setting_values', 'site_settings', 'spaces',
 			),
 		),
 	);

@@ -10,16 +10,6 @@ body{
 	padding-top: 60px;
 }
 
-#system-footer {
-  border-top: 1px solid #ccc;
-  padding-top: 30px;
-  margin-top: 30px;
-}
-
-#system-footer .copyright {
-  text-align: center;
-}
-
 input[type="radio"] ,
 input[type="checkbox"] {
     margin-right: 5px;
@@ -30,7 +20,19 @@ input[type="checkbox"] {
     padding-right: 20px;
 }
 
+/* angulrJS hidden class */
 .ng-hide {
     display: none;
+}
+
+/* netcommons */
+#nc-system-footer {
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
+    margin-top: 30px;
+}
+
+#nc-system-footer .copyright {
+    text-align: center;
 }
 

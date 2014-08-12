@@ -16,10 +16,10 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
  * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}
  */
     $scope.tinymceOptions = {
-        mode : "exact",
-        menubar: " ",
-        plugins: "textcolor advlist autolink autoresize charmap code link ",
-        toolbar: "undo redo  | forecolor | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link |"
+        mode : 'exact',
+        menubar: '',
+        plugins: 'textcolor advlist autolink autoresize charmap code link ',
+        toolbar: 'undo redo  | forecolor | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link |'
     };
 
 /**

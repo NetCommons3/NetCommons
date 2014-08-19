@@ -22,6 +22,19 @@ class NetCommonsPartsRoomsUser extends NetCommonsAppModel {
 	public $useTable = 'parts_rooms_users';
 
 /**
+ * __construct
+ *
+ * @param bool $id id
+ * @param null $table db table
+ * @param null $ds connection
+ * @return void
+ * @SuppressWarnings(PHPMD)
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+	}
+
+/**
  * useridから、ルーム内のパートの情報を取得する。
  *
  * @param int $roomId rooms.id

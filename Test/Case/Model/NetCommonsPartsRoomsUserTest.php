@@ -60,8 +60,8 @@ class NetCommonsPartsRoomsUserTest extends CakeTestCase {
 		$roomId = 1;
 		$userId = 1;
 		$rtn = $this->PartsRoomsUser->getRoomPart($roomId, $userId);
-		$this->assertTextEquals($userId, $rtn["NetCommonsPartsRoomsUser"]['user_id']);
-		$this->assertTextEquals($roomId, $rtn["NetCommonsPartsRoomsUser"]['room_id']);
+		$this->assertTextEquals($userId, $rtn[$this->PartsRoomsUser->name]['user_id']);
+		$this->assertTextEquals($roomId, $rtn[$this->PartsRoomsUser->name]['room_id']);
 	}
 
 /**

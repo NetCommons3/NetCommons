@@ -216,5 +216,67 @@ class NetCommonsPluginComponentTest extends CakeTestCase {
 		$rtn = $Component->checkApproval($App, $roomPart, $columnName, $approval);
 		$this->assertEquals(false, $rtn);
 	}
-}
 
+/**
+ * checkPartSetting
+ *
+ * @return void
+ */
+	public function testCheckPartSetting() {
+		$App = new TestNetCommonsPluginTestController;
+		$App->setAuth(true);
+
+		$Collection = new ComponentCollection();
+		$Component = new NetCommonsPluginComponent($Collection);
+
+		$Component->setFrameId($App, 1);
+		$roomPart['RoomPart'] = array(
+			'block_id' => 1,
+			'publish_content' => 1
+		);
+		$roomPart[$App->NetCommonsPartsRoomsUser->name] = array(
+			'part_id' => 1,
+			'id' => 1,
+			'user_id' => 1,
+			'room_id' => 1,
+		);
+		//権限有り
+		$columnName = 'publish_content';
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+		$this->assertTrue($rtn);
+
+		//権限なし
+		$roomPart['RoomPart'] = array(
+			'block_id' => 1,
+			'publish_content' => 0
+		);
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+
+		//blockIdなし
+		$roomPart['RoomPart'] = array(
+			'block_id' => 1,
+			'publish_content' => 1
+		);
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+		$this->assertTrue($rtn);
+
+		$roomPart['RoomPart'] = array(
+			'block_id' => 1,
+			'publish_content' => 0
+		);
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+		$this->assertFalse($rtn);
+
+		//RoomPartなし
+		$columnName = 'publish_content';
+		unset($roomPart['RoomPart']);
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+		$this->assertFalse($rtn);
+
+		//RoomPartなし
+		$columnName = 'publish_content';
+		$roomPart = array();
+		$rtn = $Component->checkPartSetting($App, $roomPart, $columnName);
+		$this->assertFalse($rtn);
+	}
+}

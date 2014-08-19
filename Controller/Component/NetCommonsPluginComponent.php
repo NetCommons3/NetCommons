@@ -83,6 +83,13 @@ class NetCommonsPluginComponent extends Component {
 	public $isNeedApproval = false;
 
 /**
+ * room part
+ *
+ * @var array
+ */
+	public $roomPart = array();
+
+/**
  * frames id set
  *
  * @param Controller $controller controller object
@@ -119,16 +126,16 @@ class NetCommonsPluginComponent extends Component {
 			$controller->set('isNeedApproval', $this->isNeedApproval);
 
 			//rooms part for login user
-			$roomPart = $controller->NetCommonsPartsRoomsUser->getRoomPart($this->roomId, $this->userId);
-			$this->checkRoomAdmin($controller, $roomPart);
+			$this->roomPart = $controller->NetCommonsPartsRoomsUser->getRoomPart($this->roomId, $this->userId);
+			$this->checkRoomAdmin($controller, $this->roomPart);
 
 			$columnName = 'edit_block';
 			$approval = 'isBlockEdit';
-			$this->checkApproval($controller, $roomPart, $columnName, $approval);
+			$this->checkApproval($controller, $this->roomPart, $columnName, $approval);
 
 			$columnName = 'create_block';
 			$approval = 'isBlockCreate';
-			$this->checkApproval($controller, $roomPart, $columnName, $approval);
+			$this->checkApproval($controller, $this->roomPart, $columnName, $approval);
 		}
 		return $frame;
 	}
@@ -200,5 +207,31 @@ class NetCommonsPluginComponent extends Component {
 		//set
 		$controller->set($approval, $this->$approval);
 		return $this->$approval;
+	}
+
+/**
+ * check part setting
+ *
+ * @param Controller $controller controller object
+ * @param array $roomPart room_parts recode
+ * @param string $columnName col
+ * @return bool
+ */
+	public function checkPartSetting(Controller $controller, $roomPart, $columnName) {
+		$RoomsUserName = $controller->NetCommonsPartsRoomsUser->name;
+		if (! $roomPart
+			|| ! isset($roomPart['RoomPart'])
+			|| ! isset($roomPart[$RoomsUserName])
+			|| ! isset($roomPart[$RoomsUserName]['part_id'])
+		) {
+			return false;
+		}
+		if (isset($roomPart['RoomPart'][$columnName])
+			&& $roomPart['RoomPart'][$columnName] == 1
+		) {
+			//権限あり
+			return true;
+		}
+		return false;
 	}
 }

@@ -16,13 +16,6 @@ class NetCommonsRoom extends NetCommonsAppModel {
 	public $useTable = 'rooms';
 
 /**
- * name
- *
- * @var string
- */
-	public $name = "NetCommonsRoom";
-
-/**
  * __construct
  *
  * @param bool $id id
@@ -42,6 +35,9 @@ class NetCommonsRoom extends NetCommonsAppModel {
  * @return bool
  */
 	public function checkApproval($roomId) {
+		if (! is_numeric($roomId)) {
+			return false;
+		}
 		$room = $this->findById($roomId);
 		if (isset($room[$this->name])
 			&& isset($room[$this->name]['need_approval'])

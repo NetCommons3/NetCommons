@@ -13,7 +13,7 @@ App::uses('NetCommonsFrame', 'NetCommons.Model');
 /**
  * Summary for Announcement Test Case
  */
-class AnnouncementRoomTest extends CakeTestCase {
+class NetCommonsRoomTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -21,7 +21,12 @@ class AnnouncementRoomTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.net_commons.net_commons_room'
+		'plugin.net_commons.net_commons_room',
+		'app.room_part',
+		'app.part',
+		'app.language',
+		'app.languages_part',
+		'app.parts_rooms_user'
 	);
 
 	public $Room;

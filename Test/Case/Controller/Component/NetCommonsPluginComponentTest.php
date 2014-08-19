@@ -68,9 +68,9 @@ class TestNetCommonsPluginMockAuth {
 /**
  * login flag
  *
- * @var bool
+ * @var int
  */
-	public $login = false;
+	public $login = "";
 
 /**
  * user mock

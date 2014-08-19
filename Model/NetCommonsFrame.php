@@ -14,6 +14,30 @@ App::uses('NetCommonsRoom', 'NetCommons.Model');
 class NetCommonsFrame extends AppModel {
 
 /**
+ * room admin's parts.id
+ *
+ * @var int
+ */
+	const ROOM_ADMIN_PART_ID = 1;
+
+/**
+ * validation
+ *
+ * @var array
+ */
+	public $validate = array(
+		'create_user_id' => array(
+			'rule' => array('numeric')
+		),
+		'modified_user_id' => array(
+			'rule' => array('numeric'),
+		),
+		'block_id' => array(
+			'rule' => array('numeric'),
+		)
+	);
+
+/**
  * テーブルの指定
  *
  * @var bool
@@ -67,12 +91,12 @@ class NetCommonsFrame extends AppModel {
 /**
  * blockの作成
  *
- * @param int $flameId frames.id
+ * @param int $frameId frames.id
  * @param int $userId  users.id
  * @return mix array or null
  */
-	public function createBlock($flameId, $userId) {
-		if (! $frame = $this->findById($flameId)) {
+	public function createBlock($frameId, $userId) {
+		if (! $frame = $this->findById($frameId)) {
 			return null;
 		}
 		//Block class object
@@ -88,29 +112,16 @@ class NetCommonsFrame extends AppModel {
 /**
  * blockIdの更新
  *
- * @param int $flameId frames.id
+ * @param int $frameId frames.id
  * @param int $blockId blocks.id
  * @param int $userId users.id
  * @return array
  */
-	public function updateBlockId($flameId, $blockId, $userId) {
-		$flame[$this->name]['id'] = $flameId;
+	public function updateBlockId($frameId, $blockId, $userId) {
+		$flame[$this->name]['id'] = $frameId;
 		$flame[$this->name]['block_id'] = $blockId;
 		$flame[$this->name]['modified_user_id'] = $userId;
 		return $this->save($flame);
-	}
-
-/**
- * ルーム管理者の承認が必要かどうかの確認
- *
- * @param int $frameId flames.id
- * @return bool
- * @SuppressWarnings(PHPMD)
- */
-	public function getRoomApproval($frameId) {
-		//$frame = $this->findById($frameId);
-		//$frame[$this->name]['room_id'];
-		return true;
 	}
 
 /**

@@ -82,5 +82,9 @@ class NetCommonsRoomTest extends CakeTestCase {
 		$roomId = 1000;
 		$rtn = $this->Room->checkApproval($roomId);
 		$this->assertFalse($rtn);
+
+		$roomId = 'A';
+		$rtn = $this->Room->checkApproval($roomId);
+		$this->assertFalse($rtn);
 	}
 }

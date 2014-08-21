@@ -103,6 +103,10 @@ class NetCommonsPluginComponent extends Component {
 		$controller->set('blockId', $this->blockId);
 		$controller->set('isNeedApproval', $this->isNeedApproval);
 		$controller->set('blockId', $this->blockId);
+		//setting mode
+		$this->isSetting = Configure::read('Pages.isSetting');
+		$controller->isSetting = $this->isSetting;
+		$controller->set('isSetting', $this->isSetting);
 
 		//userId取得
 		$this->getUserId($controller);
@@ -114,20 +118,25 @@ class NetCommonsPluginComponent extends Component {
 			//frames.id
 			$this->frameId = $frame[$controller->NetCommonsFrame->name]['id'];
 			$controller->set('frameId', $this->frameId);
+			$controller->frameId = $this->frameId;
 			//rooms.id
 			$this->roomId = $frame[$controller->NetCommonsFrame->name]['room_id'];
 			$controller->set('roomId', $this->roomId);
+			$controller->roomId = $this->roomId;
 			//blocks.id
 			$this->blockId = $frame[$controller->NetCommonsFrame->name]['block_id'];
 			$controller->set('blockId', $this->blockId);
+			$controller->blockId = $this->blockId;
 
 			//need approval flag
 			$this->isNeedApproval = $controller->NetCommonsRoom->checkApproval($this->roomId);
 			$controller->set('isNeedApproval', $this->isNeedApproval);
+			$controller->isNeedApproval = $this->isNeedApproval;
 
 			//rooms part for login user
 			$this->roomPart = $controller->NetCommonsPartsRoomsUser->getRoomPart($this->roomId, $this->userId);
 			$this->checkRoomAdmin($controller, $this->roomPart);
+			$controller->roomPart = $this->roomPart;
 
 			$columnName = 'edit_block';
 			$approval = 'isBlockEdit';
@@ -151,6 +160,7 @@ class NetCommonsPluginComponent extends Component {
 		if ($controller->Auth->loggedIn()) {
 			$this->userId = $controller->Auth->user('id');
 			$controller->Set('isLogin', true);
+			$controller->userId = $this->userId;
 		}
 		return $this->userId;
 	}
@@ -169,6 +179,7 @@ class NetCommonsPluginComponent extends Component {
 			//権限無し
 			$this->isRoomAdmin = true;
 			$controller->set('isRoomAdmin', $this->isRoomAdmin);
+			$controller->isRoomAdmin = $this->isRoomAdmin;
 			return true;
 		}
 		return false;
@@ -210,7 +221,7 @@ class NetCommonsPluginComponent extends Component {
 	}
 
 /**
- * check part setting
+ * check part setting from array
  *
  * @param Controller $controller controller object
  * @param array $roomPart room_parts recode

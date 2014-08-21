@@ -157,7 +157,8 @@ class NetCommonsPluginComponent extends Component {
  */
 	public function getUserId(Controller $controller) {
 		$controller->Set('isLogin', false);
-		if ($controller->Auth->loggedIn()) {
+		$controller->userId = $this->userId;
+		if ($controller->Auth->user('id')) {
 			$this->userId = $controller->Auth->user('id');
 			$controller->Set('isLogin', true);
 			$controller->userId = $this->userId;
@@ -173,6 +174,7 @@ class NetCommonsPluginComponent extends Component {
  * @return bool
  */
 	public function checkRoomAdmin(Controller $controller, $roomPart) {
+		$controller->set('isRoomAdmin', false);
 		if (isset($roomPart['RoomPart'])
 			&& $roomPart['RoomPart']['part_id'] == self::ROOM_ADMIN_PART_ID
 		) {

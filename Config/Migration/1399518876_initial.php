@@ -118,7 +118,7 @@ class Initial extends CakeMigration {
 						'container_id' => '3',
 						'type' => '4',
 						'space_id' => null,
-						'room_id' => null,
+						'room_id' => 1,
 						'page_id' => '1',
 						'weight' => '1',
 					),
@@ -191,7 +191,7 @@ class Initial extends CakeMigration {
 						'id' => '2',
 						'room_id' => '1',
 						'box_id' => '2',
-						'plugin_id' => '1',
+						'plugin_id' => '2',
 						'block_id' => '2',
 						'weight' => '1',
 						'is_published' => true,
@@ -416,8 +416,23 @@ class Initial extends CakeMigration {
 					array(
 						'id' => '1',
 						'folder' => 'announcements',
+						'type' => '1',
+						'version' => '3.0.0'
+					),
+					array(
+						'id' => '2',
+						'folder' => 'menus',
+						'type' => '1',
+						'version' => '3.0.0'
+					),
+					array(
+						'id' => '3',
+						'folder' => 'plugin_manager',
+						'type' => '2',
+						'version' => '3.0.0'
 					),
 				),
+
 
 				'Part' => array(
 					array(
@@ -594,7 +609,84 @@ class Initial extends CakeMigration {
 						'modified_user_id' => 1,
 						'modified' => false,
 					)
-				)
+				),
+
+				'Role' => array(
+					array(
+						'id' => '1',
+					),
+				),
+
+				'LanguagesPlugin' => array(
+					array(
+						'id' => '1',
+						'plugin_id' => 1,
+						'language_id' => 2,
+						'name' => 'お知らせ',
+						'created_user_id' => 1,
+						'created' => false,
+						'modified_user_id' => 1,
+						'modified' => false,
+					),
+					array(
+						'id' => '2',
+						'plugin_id' => 2,
+						'language_id' => 2,
+						'name' => 'メニュー',
+						'created_user_id' => 1,
+						'created' => false,
+						'modified_user_id' => 1,
+						'modified' => false,
+					),
+					array(
+						'id' => '3',
+						'plugin_id' => 3,
+						'language_id' => 2,
+						'name' => 'プラグイン管理',
+						'created_user_id' => 1,
+						'created' => false,
+						'modified_user_id' => 1,
+						'modified' => false,
+					),
+				),
+
+				'PluginsRole' => array(
+					array(
+						'id' => '1',
+						'role_id' => '1',
+						'plugin_id' => '1'
+					),
+					array(
+						'id' => '2',
+						'role_id' => '1',
+						'plugin_id' => '2'
+					),
+					array(
+						'id' => '3',
+						'role_id' => '1',
+						'plugin_id' => '3'
+					),
+				),
+
+				'PluginsRoom' => array(
+					array(
+						'id' => '1',
+						'room_id' => '1',
+						'plugin_id' => '1'
+					),
+					array(
+						'id' => '2',
+						'room_id' => '1',
+						'plugin_id' => '2'
+					),
+				),
+
+				'Room' => array(
+					array(
+						'id' => '1',
+						'space_id' => '1'
+					),
+				),
 			);
 
 /**
@@ -966,6 +1058,21 @@ class Initial extends CakeMigration {
 					'folder' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '1:for frame,2:for controll panel'),
+					'version' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'languages_plugins' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -986,9 +1093,23 @@ class Initial extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'roles_plugins' => array(
+				'plugins_roles' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'role_id' => array('type' => 'datetime', 'null' => false, 'default' => null),
+					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'permission' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'plugins_rooms' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'permission' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user_id' => array('type' => 'integer', 'null' => true, 'default' => null),

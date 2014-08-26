@@ -35,4 +35,8 @@ input[type="checkbox"] {
 #nc-system-footer .copyright {
     text-align: center;
 }
+/* modle width large*/
+.nc-modal-lg.modal-dialog {
+    width: 90%;
+}
 

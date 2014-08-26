@@ -26,9 +26,6 @@ class NetCommonsFrameAppController extends AppController {
  */
 	public $uses = array(
 		'Rooms.RoomPart',
-		'Announcements.Announcement',
-		'Announcements.AnnouncementPartSetting',
-		'Announcements.AnnouncementSetting',
 		'Rooms.PartsRoomsUser',
 		'Frames.Frame',
 		'LanguagesPart',

@@ -157,18 +157,18 @@ class NetCommonsFrameAppController extends AppController {
 	}
 
 /**
- * ajax output
+ * json render
  *
- * @param int $code status code
+ * @param int $statusCode status code
  * @param string $message message
- * @param array $data updated content data
+ * @param array $data return data
  * @return CakeResponse
  */
-	protected function _ajaxMessage($code, $message, $data = '') {
+	protected function _renderJson($statusCode, $message, $data = '') {
 		$this->viewClass = 'Json';
 		$this->layout = false;
 		$this->view = null;
-		$this->response->statusCode($code);
+		$this->response->statusCode($statusCode);
 		$result = array(
 			'message' => $message,
 			'data' => $data

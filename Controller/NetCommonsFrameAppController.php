@@ -25,10 +25,10 @@ class NetCommonsFrameAppController extends AppController {
  * @var array
  */
 	public $uses = array(
+		'Rooms.RoomPart',
 		'Announcements.Announcement',
 		'Announcements.AnnouncementPartSetting',
 		'Announcements.AnnouncementSetting',
-		'Rooms.RoomPart',
 		'Rooms.PartsRoomsUser',
 		'Frames.Frame',
 		'LanguagesPart',
@@ -41,19 +41,49 @@ class NetCommonsFrameAppController extends AppController {
  * @param int $frameId frames.id
  * @param string $lang language
  * @return bool
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	protected function _setFrameInitialize($frameId, $lang = '') {
+		$this->__setFrameDefault();
+
 		//language id
-		$this->langId = $this->_getLangId($lang);
+		$langId = $this->__getLangId($lang);
+		$this->set('langId', $langId);
 
 		//get frames recode
-		$frame = $frame = $this->Frame->findById($frameId);
+		$frame = $this->Frame->findById($frameId);
+		if (! $frame ||
+			! isset($frame[$this->Frame->name]['id']) ||
+			! isset($frame[$this->Frame->name]['room_id'])) {
+
+			return false;
+		}
+
+		$this->set('frameId', $frame[$this->Frame->name]['id']);
+		$this->set('blockId', $frame[$this->Frame->name]['block_id']);
+		$this->set('roomId', $frame[$this->Frame->name]['room_id']);
+
+		//roomに所属していない
+		if (! CakeSession::read('Auth.User.id') && ! $this->viewVars['roomId']) {
+			return true;
+		}
+
+		//ユーザのルームパートのセット
+		$this->__setUserRoomParts();
+
+		return true;
+	}
+
+/**
+ *  set frame default
+ *
+ * @return void
+ */
+	private function __setFrameDefault() {
 		//default
 		$this->set('frameId', 0);
 		$this->set('blockId', 0);
 		$this->set('roomId', 0);
-		$this->set('roomId', 0);
+		$this->set('langId', self::DEFAULT_LANGID);
 		$this->set('publishRoomAdminOnly', true);
 		$this->set('isRoomAdmin', false);
 		//block
@@ -66,61 +96,51 @@ class NetCommonsFrameAppController extends AppController {
 		$this->set('contentEditable', false);
 		$this->set('contentPublishable ', false);
 		$this->set('contentReadable', false);
-		//frames recode
-		if (! $frame) {
-			return false;
+	}
+
+/**
+ * set roomParts
+ *
+ * @return void
+ */
+	private function __setUserRoomParts() {
+		//part list
+		$partList = $this->LanguagesPart->find('all',
+			array('conditions' => array(
+				$this->LanguagesPart->name . '.language_id' => $this->viewVars['langId']
+			)));
+		$this->set('partList', $partList);
+
+		$this->RoomPart;
+		$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
+		if (isset($userPart[$this->RoomPart->name]['part_id']) &&
+			(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
+		) {
+			$this->set('isRoomAdmin', true);
 		}
-		if ($frame &&
-			isset($frame[$this->Frame->name]['id']) &&
-			isset($frame[$this->Frame->name]['room_id'])) {
-			$frame = $frame[$this->Frame->name];
-			$this->set('frameId', $frame['id']);
-			$this->set('blockId', $frame['block_id']);
-			$this->set('roomId', $frame['room_id']);
+		$this->set('userPart', $userPart);
 
-			//part list
-			$partList = $this->LanguagesPart->find('all',
-				array('conditions' => array(
-					$this->LanguagesPart->name . '.language_id' => $this->langId
-				)));
-			$this->set('partList', $partList);
+		$setParts = array(
+			'blockCreateable' => 'create_block',
+			'blockEditable' => 'edit_block',
+			'blockPublishable' => 'publish_block',
+			'blockCreateable' => 'create_block',
+			'contentCreateable' => 'create_content',
+			'contentEditable' => 'edit_content',
+			'contentPublishable' => 'publish_content',
+			'contentCreateable' => 'create_content',
+		);
 
-			//roomに所属していない
-			if (! CakeSession::read('Auth.User.id') &&
-				! isset($frame['room_id'])
-			) {
-				return true;
+		foreach ($setParts as $setName => $colName) {
+			//block
+			if (! isset($userPart[$this->RoomPart->name][$colName])) {
+				continue;
 			}
-			$this->RoomPart;
-			$userPart = $this->PartsRoomsUser->getPart($frame['room_id']);
-			if (isset($userPart[$this->RoomPart->name]['part_id']) &&
-				(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
-			) {
-				$this->set('isRoomAdmin', true);
-			}
-			$array = array(
-				'blockCreateable' => 'create_block',
-				'blockEditable' => 'edit_block',
-				'blockPublishable' => 'publish_block',
-				'blockCreateable' => 'create_block',
-				'contentCreateable' => 'create_content',
-				'contentEditable' => 'edit_content',
-				'contentPublishable' => 'publish_content',
-				'contentCreateable' => 'create_content',
-			);
 
-			foreach ($array as $setName => $colName) {
-				//block
-				if (isset($userPart[$this->RoomPart->name][$colName]) &&
-					(int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW
-				) {
-					$this->set($setName, true);
-				}
+			if ((int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW) {
+				$this->set($setName, true);
 			}
-			$this->set('userPart', $userPart);
-			return true;
 		}
-		return false;
 	}
 
 /**
@@ -129,7 +149,7 @@ class NetCommonsFrameAppController extends AppController {
  * @param string $lang lang code
  * @return int
  */
-	protected function _getLangId($lang = '') {
+	private function __getLangId($lang = '') {
 		$rtn = $this->Language->findByCode($lang);
 		if (isset($rtn[$this->Language->name]['id']) &&
 			$rtn[$this->Language->name]['id']) {
@@ -139,7 +159,7 @@ class NetCommonsFrameAppController extends AppController {
 	}
 
 /**
- * ajax message output
+ * ajax output
  *
  * @param int $code status code
  * @param string $message message
@@ -150,7 +170,6 @@ class NetCommonsFrameAppController extends AppController {
 		$this->viewClass = 'Json';
 		$this->layout = false;
 		$this->view = null;
-		//post以外の場合、エラー
 		$this->response->statusCode($code);
 		$result = array(
 			'message' => $message,

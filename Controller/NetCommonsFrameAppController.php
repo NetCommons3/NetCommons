@@ -62,11 +62,10 @@ class NetCommonsFrameAppController extends AppController {
 		$this->set('blockId', $frame[$this->Frame->name]['block_id']);
 		$this->set('roomId', $frame[$this->Frame->name]['room_id']);
 
-		//roomに所属していない
 		if (! CakeSession::read('Auth.User.id') && ! $this->viewVars['roomId']) {
 			return true;
 		}
-		//ユーザのルームパートのセット
+
 		$this->__setUserRoomParts();
 		return true;
 	}
@@ -109,7 +108,6 @@ class NetCommonsFrameAppController extends AppController {
 			)));
 		$this->set('partList', $partList);
 
-		$this->RoomPart;
 		$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
 		if (isset($userPart[$this->RoomPart->name]['part_id']) &&
 			(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID

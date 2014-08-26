@@ -66,10 +66,8 @@ class NetCommonsFrameAppController extends AppController {
 		if (! CakeSession::read('Auth.User.id') && ! $this->viewVars['roomId']) {
 			return true;
 		}
-
 		//ユーザのルームパートのセット
 		$this->__setUserRoomParts();
-
 		return true;
 	}
 

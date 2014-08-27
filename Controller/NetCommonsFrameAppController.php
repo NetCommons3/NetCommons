@@ -81,12 +81,12 @@ class NetCommonsFrameAppController extends AppController {
 		$this->set('publishRoomAdminOnly', true);
 		$this->set('isRoomAdmin', false);
 		//block
-		$this->set('blockCreateable', false);
+		$this->set('blockCreatable', false);
 		$this->set('blockEditable', false);
 		$this->set('blockPublishable', false);
 		$this->set('blockReadable', false);
 		//content
-		$this->set('contentCreateable', false);
+		$this->set('contentCreatable', false);
 		$this->set('contentEditable', false);
 		$this->set('contentPublishable ', false);
 		$this->set('contentReadable', false);
@@ -116,14 +116,14 @@ class NetCommonsFrameAppController extends AppController {
 		}
 
 		$setParts = array(
-			'blockCreateable' => 'create_block',
+			'blockCreatable' => 'create_block',
 			'blockEditable' => 'edit_block',
 			'blockPublishable' => 'publish_block',
-			'blockCreateable' => 'create_block',
-			'contentCreateable' => 'create_content',
+			'blockReadable' => 'create_block',
+			'contentCreatable' => 'create_content',
 			'contentEditable' => 'edit_content',
 			'contentPublishable' => 'publish_content',
-			'contentCreateable' => 'create_content',
+			'contentReadable' => 'create_content',
 		);
 
 		foreach ($setParts as $setName => $colName) {

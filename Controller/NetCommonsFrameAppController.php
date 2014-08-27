@@ -39,7 +39,7 @@ class NetCommonsFrameAppController extends AppController {
  * @param string $lang language
  * @return bool
  */
-	protected function _setFrameInitialize($frameId, $lang = '') {
+	protected function _initializeFrame($frameId, $lang = '') {
 		$this->__setFrameDefault();
 
 		//language id
@@ -111,7 +111,9 @@ class NetCommonsFrameAppController extends AppController {
 		) {
 			$this->set('isRoomAdmin', true);
 		}
-		$this->set('userPart', $userPart);
+		if (isset($userPart[$this->RoomPart->name]['part_id'])) {
+			$this->set('userPartId', (int)$userPart[$this->RoomPart->name]['part_id']);
+		}
 
 		$setParts = array(
 			'blockCreateable' => 'create_block',

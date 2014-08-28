@@ -6,11 +6,11 @@ App::uses('RoomPart', 'Rooms.Model');
 class NetCommonsFrameAppController extends AppController {
 
 /**
- *  langId of the default
+ *  languageId of the default
  *
  * @var int
  */
-	const DEFAULT_LANGID = 2;
+	const DEFAULT_LANGUAGE_ID = 2;
 
 /**
  * changeable part
@@ -43,8 +43,9 @@ class NetCommonsFrameAppController extends AppController {
 		$this->__setFrameDefault();
 
 		//language id
-		$langId = $this->__getLangId($lang);
-		$this->set('langId', $langId);
+		$languageId = $this->__getLanguageId($lang);
+		$this->set('languageId', $languageId);
+		$this->set('langId', $languageId);
 
 		//get frames recode
 		$frame = $this->Frame->findById($frameId);
@@ -77,7 +78,7 @@ class NetCommonsFrameAppController extends AppController {
 		$this->set('frameId', 0);
 		$this->set('blockId', 0);
 		$this->set('roomId', 0);
-		$this->set('langId', self::DEFAULT_LANGID);
+		$this->set('languageId', self::DEFAULT_LANGUAGE_ID);
 		$this->set('publishRoomAdminOnly', true);
 		$this->set('isRoomAdmin', false);
 		//block
@@ -101,7 +102,7 @@ class NetCommonsFrameAppController extends AppController {
 		//part list
 		$partList = $this->LanguagesPart->find('all',
 			array('conditions' => array(
-				$this->LanguagesPart->name . '.language_id' => $this->viewVars['langId']
+				$this->LanguagesPart->name . '.language_id' => $this->viewVars['languageId']
 			)));
 		$this->set('partList', $partList);
 
@@ -139,18 +140,18 @@ class NetCommonsFrameAppController extends AppController {
 	}
 
 /**
- * get langId
+ * get languageId
  *
  * @param string $lang lang code
  * @return int
  */
-	private function __getLangId($lang = '') {
+	private function __getLanguageId($lang = '') {
 		$rtn = $this->Language->findByCode($lang);
 		if (isset($rtn[$this->Language->name]['id']) &&
 			$rtn[$this->Language->name]['id']) {
 			return $rtn[$this->Language->name]['id'];
 		}
-		return self::DEFAULT_LANGID;
+		return self::DEFAULT_LANGUAGE_ID;
 	}
 
 /**

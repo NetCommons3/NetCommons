@@ -43,6 +43,22 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 	<body ng-controller="NetCommons.base">
+
+	<div
+		id="nc-net-commons-flash"
+		ng-init="flash.alertType='hidden'"
+		ng-init="flash.text=''"
+		ng-show="flash.text"
+		class="alert {{flash.alertType}}"
+	>
+		<span class="pull-right"
+		      ng-click="flash.text=''">
+			<span class="glyphicon glyphicon-remove"> </span>
+		</span>
+		<span class='message'>{{flash.text}}</span>
+	</div>
+
+
 	<!-- container-header -->
 	<header id="nc-system-header">
 		<div class="box-site box-id-6">
@@ -107,6 +123,5 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
 		<!-- /container -->
 		<?php //echo $this->element('sql_dump'); ?>
-
 	</body>
 </html>

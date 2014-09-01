@@ -26,6 +26,14 @@ input[type="checkbox"] {
 }
 
 /* netcommons */
+/*  flash   */
+#nc-net-commons-flash {
+    z-index: 2000;
+    top:40px;
+    position:fixed;
+    width: 100%;
+}
+/* nc-system- */
 #nc-system-footer {
     border-top: 1px solid #ccc;
     padding-top: 30px;
@@ -39,4 +47,3 @@ input[type="checkbox"] {
 .nc-modal-lg.modal-dialog {
     width: 90%;
 }
-

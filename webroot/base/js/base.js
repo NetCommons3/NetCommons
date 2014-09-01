@@ -30,8 +30,8 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
   };
 
   /**
-   * roomParts ヒエラルキー
-   * room_partsをjson_encodeした値になるべきもの
+   * roomParts hierarchy
+   * id room_part.part_id hierarchy room_part.hierarchy
    *
    * @type {{id: number, hierarchy: number}[]}
    */
@@ -44,8 +44,7 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
   ];
 
   /**
-   * idからヒエラルキーを取得する。
-   * $scope.roomParts から。
+   * get hierarchy from id. ($scope.roomParts)
    *
    * @param {number} _id
    * @type {id: number, hierarchy: number}
@@ -55,4 +54,16 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
       return item.id == _id;
     })[0];
   };
+
+  /**
+   * flash
+   * alertType bootstrap css alert-xxxx
+   *
+   * @type {{text: string, alertType: string}}
+   */
+  $scope.flash = {
+    text: '',
+    alertType: ''
+  };
+
 });

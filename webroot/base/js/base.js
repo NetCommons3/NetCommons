@@ -66,4 +66,17 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
     alertType: ''
   };
 
+  /**
+   * set flash
+   *
+   * @param {string} text message text
+   * @param {string} alertCssClassName bootstrap css class name alert-xxx
+   */
+  $scope.setFlash = function(text, alertCssClassName) {
+    $scope.flash = {
+      text: text,
+      alertType: alertCssClassName
+    };
+  };
+
 });

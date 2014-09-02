@@ -9,7 +9,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="/net_commons/jquery/jquery.js"></script>
 	<script src="/net_commons/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="/net_commons/twbs/bootstrap/assets/js/docs.min.js"></script>
+
 	<title><?php
 		if (isset($pageTitle)) {
 			echo h($pageTitle);
@@ -46,10 +46,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 
 	<div
 		id="nc-net-commons-flash"
-		ng-init="flash.alertType='hidden'"
-		ng-init="flash.text=''"
+		ng-init="flash.alertType='hidden'; flash.text='';"
 		ng-show="flash.text"
-		class="alert {{flash.alertType}}"
+		class="alert {{flash.alertType}} ng-hide"
 	>
 		<span class="pull-right"
 		      ng-click="flash.text=''">

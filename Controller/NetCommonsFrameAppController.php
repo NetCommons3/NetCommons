@@ -89,7 +89,7 @@ class NetCommonsFrameAppController extends AppController {
 		//content
 		$this->set('contentCreatable', false);
 		$this->set('contentEditable', false);
-		$this->set('contentPublishable ', false);
+		$this->set('contentPublishable', false);
 		$this->set('contentReadable', false);
 	}
 

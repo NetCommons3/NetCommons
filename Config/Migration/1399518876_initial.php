@@ -259,13 +259,13 @@ class Initial extends CakeMigration {
 				'Language' => array(
 					array(
 						'id' => '1',
-						'code' => 'eng',
+						'code' => 'en',
 						'weight' => '1',
 						'is_active' => true,
 					),
 					array(
 						'id' => '2',
-						'code' => 'jpn',
+						'code' => 'ja',
 						'weight' => '2',
 						'is_active' => true,
 					),

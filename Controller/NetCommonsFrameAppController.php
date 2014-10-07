@@ -28,7 +28,7 @@ class NetCommonsFrameAppController extends AppController {
 		'Rooms.RoomPart',
 		'Rooms.PartsRoomsUser',
 		'Frames.Frame',
-		'LanguagesPart',
+		'Role',
 		'Language'
 	);
 
@@ -100,9 +100,9 @@ class NetCommonsFrameAppController extends AppController {
  */
 	private function __setUserRoomParts() {
 		//part list
-		$partList = $this->LanguagesPart->find('all',
+		$partList = $this->Role->find('all',
 			array('conditions' => array(
-				$this->LanguagesPart->name . '.language_id' => $this->viewVars['languageId']
+				$this->Role->name . '.language_id' => $this->viewVars['languageId']
 			)));
 		$this->set('partList', $partList);
 

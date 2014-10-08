@@ -169,11 +169,13 @@ class LanguageFix extends CakeMigration {
 				'Frame' => array(
 					array(
 						'id' => '1',
-						'room_id' => '1',
-						'box_id' => '1',
-						'plugin_id' => '1',
-						'block_id' => '1',
 						'language_id' => '2',
+						'room_id' => '1',
+						'box_id' => '3',
+						'plugin_key' => 'announcements',
+						'block_id' => '1',
+						'key' => 'frame_1',
+						'name' => 'お知らせ',
 						'weight' => '1',
 						'is_published' => true,
 						'from' => null,
@@ -181,47 +183,13 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => '2',
+						'language_id' => '2',
 						'room_id' => '1',
 						'box_id' => '2',
-						'plugin_id' => '2',
+						'plugin_key' => 'menus',
 						'block_id' => '2',
-						'language_id' => '2',
-						'weight' => '1',
-						'is_published' => true,
-						'from' => null,
-						'to' => null,
-					),
-					array(
-						'id' => '3',
-						'room_id' => '1',
-						'box_id' => '3',
-						'plugin_id' => '1',
-						'block_id' => '3',
-						'language_id' => '2',
-						'weight' => '1',
-						'is_published' => true,
-						'from' => null,
-						'to' => null,
-					),
-					array(
-						'id' => '4',
-						'room_id' => '1',
-						'box_id' => '4',
-						'plugin_id' => '1',
-						'block_id' => '4',
-						'language_id' => '2',
-						'weight' => '1',
-						'is_published' => true,
-						'from' => null,
-						'to' => null,
-					),
-					array(
-						'id' => '5',
-						'room_id' => '1',
-						'box_id' => '5',
-						'plugin_id' => '1',
-						'block_id' => '5',
-						'language_id' => '2',
+						'key' => 'frame_2',
+						'name' => 'メニュー',
 						'weight' => '1',
 						'is_published' => true,
 						'from' => null,
@@ -232,23 +200,15 @@ class LanguageFix extends CakeMigration {
 				'Block' => array(
 					array(
 						'id' => '1',
+						'language_id' => '2',
 						'room_id' => '1',
+						'key' => 'block_1',
 					),
 					array(
 						'id' => '2',
+						'language_id' => '2',
 						'room_id' => '1',
-					),
-					array(
-						'id' => '3',
-						'room_id' => '1',
-					),
-					array(
-						'id' => '4',
-						'room_id' => '1',
-					),
-					array(
-						'id' => '5',
-						'room_id' => '1',
+						'key' => 'block_2',
 					),
 				),
 
@@ -261,7 +221,7 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => '2',
-						'code' => 'jp',
+						'code' => 'ja',
 						'weight' => '2',
 						'is_active' => true,
 					),
@@ -278,180 +238,103 @@ class LanguageFix extends CakeMigration {
 						'id' => '1',
 						'page_id' => '1',
 						'language_id' => '1',
-						'name' => 'TestPage001',
+						'name' => 'Home',
 					),
 					array(
 						'id' => '2',
 						'page_id' => '1',
 						'language_id' => '2',
-						'name' => 'テストページ001',
+						'name' => 'ホーム',
 					),
 				),
 
-				'Plugin' => array(
-					array(
-						'id' => '1',
-						'folder' => 'announcements',
-						'type' => '1',
-						'version' => '3.0.0'
-					),
-					array(
-						'id' => '2',
-						'folder' => 'menus',
-						'type' => '1',
-						'version' => '3.0.0'
-					),
-					array(
-						'id' => '3',
-						'folder' => 'plugin_manager',
-						'type' => '2',
-						'version' => '3.0.0'
-					),
-				),
-
-
-				'Part' => array(
-					array(
-						'id' => '1',
-						'type' => '2',
-					),
-					array(
-						'id' => '2',
-						'type' => '2',
-					),
-					array(
-						'id' => '3',
-						'type' => '2',
-					),
-					array(
-						'id' => '4',
-						'type' => '2',
-					),
-					array(
-						'id' => '5',
-						'type' => '2',
-					),
-				),
-
-				'PartsRoomsUser' => array(
+				'RolesRoom' => array(
 					array(
 						'id' => '1',
 						'room_id' => '1',
-						'user_id' => '1',
-						'part_id' => '1',
-					),
-				),
-
-				'RoomPart' => array(
-					array(
-						'id' => '1',
-						'part_id' => '1',
-						'weight' => '1',
-						'hierarchy' => '2147483647',
-						'read_page' => 1,
-						'edit_page' => 1,
-						'create_page' => 1,
-						'publish_page' => 1,
-						'read_block' => 1,
-						'edit_block' => 1,
-						'create_block' => 1,
-						'publish_block' => 1,
-						'read_content' => 1,
-						'edit_content' => 1,
-						'create_content' => 1,
-						'publish_content' => 1,
+						'role_key' => 'room_administrator',
 					),
 					array(
 						'id' => '2',
-						'part_id' => '2',
-						'weight' => '2',
-						'hierarchy' => '8000',
-						'read_page' => 1,
-						'edit_page' => 1,
-						'create_page' => 1,
-						'publish_page' => 2,
-						'read_block' => 1,
-						'edit_block' => 1,
-						'create_block' => 1,
-						'publish_block' => 2,
-						'read_content' => 1,
-						'edit_content' => 2,
-						'create_content' => 1,
-						'publish_content' => 2,
+						'room_id' => '1',
+						'role_key' => 'chief_editor',
 					),
 					array(
 						'id' => '3',
-						'part_id' => '3',
-						'weight' => '3',
-						'hierarchy' => '7000',
-						'read_page' => 1,
-						'edit_page' => 0,
-						'create_page' => 0,
-						'publish_page' => 0,
-						'read_block' => 1,
-						'edit_block' => 0,
-						'create_block' => 0,
-						'publish_block' => 0,
-						'read_content' => 1,
-						'edit_content' => 2,
-						'create_content' => 1,
-						'publish_content' => 2,
+						'room_id' => '1',
+						'role_key' => 'editor',
 					),
 					array(
 						'id' => '4',
-						'part_id' => '4',
-						'weight' => '4',
-						'hierarchy' => '6000',
-						'read_page' => 1,
-						'edit_page' => 0,
-						'create_page' => 0,
-						'publish_page' => 0,
-						'read_block' => 1,
-						'edit_block' => 0,
-						'create_block' => 0,
-						'publish_block' => 0,
-						'read_content' => 1,
-						'edit_content' => 0,
-						'create_content' => 1,
-						'publish_content' => 2,
+						'room_id' => '1',
+						'role_key' => 'general_user',
 					),
 					array(
 						'id' => '5',
-						'part_id' => '5',
-						'weight' => '5',
-						'hierarchy' => '1000',
-						'read_page' => 1,
-						'edit_page' => 0,
-						'create_page' => 0,
-						'publish_page' => 0,
-						'read_block' => 1,
-						'edit_block' => 0,
-						'create_block' => 0,
-						'publish_block' => 0,
-						'read_content' => 1,
-						'edit_content' => 0,
-						'create_content' => 0,
-						'publish_content' => 0,
+						'room_id' => '1',
+						'role_key' => 'visitor',
 					),
 				),
+
+				'RolesRoomsUser' => array(
+					array(
+						'id' => '1',
+						'roles_room_id' => '1',
+						'user_id' => '1',
+					),
+				),
+
+				'RoomRole' => array(
+					array(
+						'id' => '1',
+						'role_key' => 'room_administrator',
+						'lebel' => '2147483647',
+						'weight' => '1',
+					),
+					array(
+						'id' => '2',
+						'role_key' => 'chief_editor',
+						'lebel' => '8000',
+						'weight' => '2',
+					),
+					array(
+						'id' => '3',
+						'role_key' => 'editor',
+						'lebel' => '7000',
+						'weight' => '3',
+					),
+					array(
+						'id' => '4',
+						'role_key' => 'general_user',
+						'lebel' => '6000',
+						'weight' => '4',
+					),
+					array(
+						'id' => '5',
+						'role_key' => 'visitor',
+						'hierarchy' => '1000',
+						'weight' => '5',
+					),
+				),
+
 				'Role' => array(
 					array(
-					'id' => 1,
-					'role_id' => 1,
-					'language_id' => 2,
-					'key' => 'room_administrator',
-					'name' => 'ルーム管理者',
-					'created_user' => 1,
-					'created' => false,
-					'modified_user' => 1,
-					'modified' => false,
+						'id' => 1,
+						'language_id' => 2,
+						'key' => 'system_administrator',
+						'type' => 1,
+						'name' => 'システム管理者',
+						'created_user' => 1,
+						'created' => false,
+						'modified_user' => 1,
+						'modified' => false,
 					),
 					array(
 						'id' => 2,
-						'role_id' => 2,
 						'language_id' => 2,
-						'key' => 'chief_editor',
-						'name' => '編集長',
+						'key' => 'room_administrator',
+						'type' => 2,
+						'name' => 'ルーム管理者',
 						'created_user' => 1,
 						'created' => false,
 						'modified_user' => 1,
@@ -459,10 +342,10 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => 3,
-						'role_id' => 3,
 						'language_id' => 2,
-						'key' => 'editor',
-						'name' => '編集者',
+						'key' => 'chief_editor',
+						'type' => 2,
+						'name' => '編集長',
 						'created_user' => 1,
 						'created' => false,
 						'modified_user' => 1,
@@ -470,10 +353,10 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => 4,
-						'role_id' => 4,
 						'language_id' => 2,
-						'key' => 'general_user',
-						'name' => '一般',
+						'key' => 'editor',
+						'type' => 2,
+						'name' => '編集者',
 						'created_user' => 1,
 						'created' => false,
 						'modified_user' => 1,
@@ -481,9 +364,20 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => 5,
-						'role_id' => 5,
+						'language_id' => 2,
+						'key' => 'general_user',
+						'type' => 2,
+						'name' => '一般',
+						'created_user' => 1,
+						'created' => false,
+						'modified_user' => 1,
+						'modified' => false,
+					),
+					array(
+						'id' => 6,
 						'language_id' => 2,
 						'key' => 'visitor',
+						'type' => 2,
 						'name' => '参観者',
 						'created_user' => 1,
 						'created' => false,
@@ -495,11 +389,11 @@ class LanguageFix extends CakeMigration {
 				'Plugin' => array(
 					array(
 						'id' => '1',
-						'plugin_id' => 1,
 						'language_id' => 2,
 						'key' => 'announcements',
 						'namespace' => 'netcommons/announcements',
 						'name' => 'お知らせ',
+						'type' => 1,
 						'created_user' => 1,
 						'created' => false,
 						'modified_user' => 1,
@@ -507,23 +401,11 @@ class LanguageFix extends CakeMigration {
 					),
 					array(
 						'id' => '2',
-						'plugin_id' => 2,
 						'language_id' => 2,
 						'key' => 'menus',
 						'namespace' => 'netcommons/menus',
 						'name' => 'メニュー',
-						'created_user' => 1,
-						'created' => false,
-						'modified_user' => 1,
-						'modified' => false,
-					),
-					array(
-						'id' => '3',
-						'plugin_id' => 3,
-						'language_id' => 2,
-						'key' => 'plugin_manager',
-						'namespace' => 'netcommons/plugin_manager',
-						'name' => 'プラグイン管理',
+						'type' => 1,
 						'created_user' => 1,
 						'created' => false,
 						'modified_user' => 1,
@@ -534,18 +416,13 @@ class LanguageFix extends CakeMigration {
 				'PluginsRole' => array(
 					array(
 						'id' => '1',
-						'role_id' => '1',
-						'plugin_id' => '1'
+						'role_key' => 'room_administrator',
+						'plugin_key' => 'announcements'
 					),
 					array(
 						'id' => '2',
-						'role_id' => '1',
-						'plugin_id' => '2'
-					),
-					array(
-						'id' => '3',
-						'role_id' => '1',
-						'plugin_id' => '3'
+						'role_key' => 'room_administrator',
+						'plugin_key' => 'menus'
 					),
 				),
 
@@ -553,12 +430,12 @@ class LanguageFix extends CakeMigration {
 					array(
 						'id' => '1',
 						'room_id' => '1',
-						'plugin_id' => '1'
+						'plugin_key' => 'announcements'
 					),
 					array(
 						'id' => '2',
 						'room_id' => '1',
-						'plugin_id' => '2'
+						'plugin_key' => 'menus'
 					),
 				),
 
@@ -578,10 +455,27 @@ class LanguageFix extends CakeMigration {
 	public $migration = array(
 		'up' => array(
 			'create_table' => array(
+				'block_role_permissions' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'roles_room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'block_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'permission' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Permission name
+e.g.) create_content,  post_top_article', 'charset' => 'utf8'),
+					'value' => array('type' => 'boolean', 'null' => false, 'default' => null),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
 				'blocks' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
 					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key of the block.', 'charset' => 'utf8'),
 					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Name of the block.', 'charset' => 'utf8'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -595,7 +489,8 @@ class LanguageFix extends CakeMigration {
 				'boxes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'container_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the box.\\n1:each site, 2:each space, 3:each room, 4:each page'),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the box.
+1:each site, 2:each space, 3:each room, 4:each page'),
 					'space_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'room_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -613,7 +508,10 @@ class LanguageFix extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'box_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'ä¸€èˆ¬ä»¥ä¸‹ã®ãƒ‘ãƒ¼ãƒˆãŒé–²è¦§å¯èƒ½ã‹ã©ã†ã‹ã€‚\\n\\nãƒ«ãƒ¼ãƒ é…ä¸‹ãªã‚‰ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶(room_parts.edit_page, room_parts.create_page åŒæ–¹ãŒ true ã®ãƒ¦ãƒ¼ã‚¶)ã¯ã“ã®å€¤ã«é–¢ã‚ã‚‰ãšé–²è¦§ã§ãã‚‹ã€‚\\ne.g.) ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶: ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ç·¨é›†é•·'),
+					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => '一般以下のパートが閲覧可能かどうか。
+
+ルーム配下ならルーム管理者、またはそれに準ずるユーザ(room_parts.edit_page, room_parts.create_page 双方が true のユーザ)はこの値に関わらず閲覧できる。
+e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理者、編集長'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -625,7 +523,8 @@ class LanguageFix extends CakeMigration {
 				),
 				'containers' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the container.\\n1:Header, 2:Major, 3:Main, 4:Minor, 5:Footer'),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the container.
+1:Header, 2:Major, 3:Main, 4:Minor, 5:Footer'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -639,7 +538,29 @@ class LanguageFix extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'container_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'ä¸€èˆ¬ä»¥ä¸‹ã®ãƒ‘ãƒ¼ãƒˆãŒé–²è¦§å¯èƒ½ã‹ã©ã†ã‹ã€‚\\n\\nãƒ«ãƒ¼ãƒ é…ä¸‹ãªã‚‰ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶(room_parts.edit_page, room_parts.create_page åŒæ–¹ãŒ true ã®ãƒ¦ãƒ¼ã‚¶)ã¯ã“ã®å€¤ã«é–¢ã‚ã‚‰ãšé–²è¦§ã§ãã‚‹ã€‚\\ne.g.) ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶: ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ç·¨é›†é•·'),
+					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => '一般以下のパートが閲覧可能かどうか。
+
+ルーム配下ならルーム管理者、またはそれに準ずるユーザ(room_parts.edit_page, room_parts.create_page 双方が true のユーザ)はこの値に関わらず閲覧できる。
+e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理者、編集長'),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'default_role_permissions' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'type' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Role type
+e.g.) room_role, announcement_block_role, bbs_block_role
+', 'charset' => 'utf8'),
+					'permission' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Permission name
+e.g.) create_page, edit_other_content, post_top_article', 'charset' => 'utf8'),
+					'value' => array('type' => 'boolean', 'null' => false, 'default' => null),
+					'fixed' => array('type' => 'boolean', 'null' => false, 'default' => null),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -654,33 +575,17 @@ class LanguageFix extends CakeMigration {
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
 					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'box_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Name of the frame.', 'charset' => 'utf8'),
+					'plugin_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'block_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key of the frame.', 'charset' => 'utf8'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Name of the frame.', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Display order.'),
-					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'ä¸€èˆ¬ä»¥ä¸‹ã®ãƒ‘ãƒ¼ãƒˆãŒé–²è¦§å¯èƒ½ã‹ã©ã†ã‹ã€‚\\n\\nãƒ«ãƒ¼ãƒ é…ä¸‹ãªã‚‰ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶(room_parts.edit_page, room_parts.create_page åŒæ–¹ãŒ true ã®ãƒ¦ãƒ¼ã‚¶)ã¯ã“ã®å€¤ã«é–¢ã‚ã‚‰ãšé–²è¦§ã§ãã‚‹ã€‚\\ne.g.) ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ã¾ãŸã¯ãã‚Œã«æº–ãšã‚‹ãƒ¦ãƒ¼ã‚¶: ãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã€ç·¨é›†é•·'),
+					'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => '一般以下のパートが閲覧可能かどうか。
+
+ルーム配下ならルーム管理者、またはそれに準ずるユーザ(room_parts.edit_page, room_parts.create_page 双方が true のユーザ)はこの値に関わらず閲覧できる。
+e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理者、編集長'),
 					'from' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'Datetime display frame from.'),
 					'to' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'Datetime display frame to.'),
-					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'group_parts' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'part_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'read_participant' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'create_participant' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'delete_participant' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'read_group' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'create_group' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'edit_group' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'delete_group' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -697,7 +602,8 @@ class LanguageFix extends CakeMigration {
 					'rght' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'has_room' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'Group has room or not.'),
 					'need_approval' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'can_read_by_self' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'è‡ªåˆ†è‡ªèº«ãŒã‚°ãƒ«ãƒ¼ãƒ—ã®æ§‹æˆå“¡ã§ã‚ã‚‹ã‹ã©ã†ã‹ã€è‡ªåˆ†è‡ªèº«ãŒé–²è¦§ã—å¾—ã‚‹ã‹å¦ã‹ã€‚\\ne.g.) å«Œã„ãªäººã‚°ãƒ«ãƒ¼ãƒ—ã‚’ä½œã£ãŸå½“äººã¯é–²è¦§ã§ãã¦ã‚‚ã€å«Œã„ãªã‚°ãƒ«ãƒ¼ãƒ—ã«ç™»éŒ²ã•ã‚ŒãŸã ã‘ã®äººã¯é–²è¦§ä¸å¯ãªã©ã€‚'),
+					'can_read_by_self' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => '自分自身がグループの構成員であるかどうか、自分自身が閲覧し得るか否か。
+e.g.) 嫌いな人グループを作った当人は閲覧できても、嫌いなグループに登録されただけの人は閲覧不可など。'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -712,20 +618,6 @@ class LanguageFix extends CakeMigration {
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'groups_parts_users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'part_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -750,9 +642,10 @@ class LanguageFix extends CakeMigration {
 				),
 				'languages' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6, 'key' => 'primary'),
-					'code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 3, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Display order.'),
-					'is_active' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'Visible from user or not.\\nOnly user w/ administrator role can edit this flag whether it\\\'s true or false.'),
+					'is_active' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'Visible from user or not.
+Only user w/ administrator role can edit this flag whether it\'s true or false.'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -796,40 +689,16 @@ class LanguageFix extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'parts' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the part.\\n1: Room part, 2: Group part'),
-					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'parts_rooms_users' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'part_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
 				'plugins' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key to identify plugin.\\nMust be equivalent to plugin name used in router url.\\ne.g.) user_manager, auth, pages', 'charset' => 'utf8'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Human friendly name for the plugin.\\ne.g.) User Manager, Auth, Pages', 'charset' => 'utf8'),
-					'namespace' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Unique namespace for package management system.\\ne.g.) packagist', 'charset' => 'utf8'),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key to identify plugin.
+Must be equivalent to plugin name used in router url.
+e.g.) user_manager, auth, pages', 'charset' => 'utf8'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Human friendly name for the plugin.
+e.g.) User Manager, Auth, Pages', 'charset' => 'utf8'),
+					'namespace' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Unique namespace for package management system.
+e.g.) packagist', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Display order.'),
 					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '1:for frame,2:for control panel'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -843,8 +712,21 @@ class LanguageFix extends CakeMigration {
 				),
 				'plugins_roles' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'plugin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'plugin_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'plugins_rooms' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'plugin_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -857,7 +739,38 @@ class LanguageFix extends CakeMigration {
 				'roles' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Name of the role.\\ne.g.) Administrator, User Manager, Chief, User\\n', 'charset' => 'utf8'),
+					'key' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key of the role.', 'charset' => 'utf8'),
+					'type' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'Type of the role
+1: User role, 2: Room role, 2: Group role'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Name of the role.
+e.g.) Administrator, User Manager, Chief, User
+', 'charset' => 'utf8'),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'roles_rooms' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'roles_rooms_users' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'roles_room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -869,7 +782,7 @@ class LanguageFix extends CakeMigration {
 				),
 				'roles_user_attributes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'user_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'can_read' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_edit' => array('type' => 'boolean', 'null' => true, 'default' => null),
@@ -882,23 +795,28 @@ class LanguageFix extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'room_parts' => array(
+				'room_role_permissions' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'part_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'hierarchy' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'read_page' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '0: Unreadable, 1: Readable, 2: Variable'),
-					'edit_page' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'create_page' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'publish_page' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'read_block' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'edit_block' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'create_block' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'publish_block' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'read_content' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'edit_content' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'create_content' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'publish_content' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'roles_room_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'Role type
+e.g.) roomRole, announcementBlockRole, bbsBlockRole
+'),
+					'permission' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Permission name
+e.g.) createPage, editOtherContent, publishContent', 'charset' => 'utf8'),
+					'value' => array('type' => 'boolean', 'null' => true, 'default' => null),
+					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'room_roles' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'),
+					'level' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '下位レベルに与えた権限を上位に与える時に使用。大きいほうが上位。'),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Display order'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -913,7 +831,6 @@ class LanguageFix extends CakeMigration {
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'space_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'top_page_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'need_approval' => array('type' => 'boolean', 'null' => true, 'default' => null, 'comment' => 'è‡ªåˆ†ãŒãƒ«ãƒ¼ãƒ ç®¡ç†è€…ã¨ã—ã¦ãƒ‘ãƒ¼ãƒˆã‚’å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸæ™‚ã€è‡ªåˆ†ã‚ˆã‚Šä¸‹ä½ã®ãƒ‘ãƒ¼ãƒˆã«å…¬é–‹æ¨©é™ã‚’å‰²ã‚Šå½“ã¦ã‚‹ã“ã¨ãŒã§ãã‚‹ã‹å¦ã‹ã€‚'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -926,9 +843,12 @@ class LanguageFix extends CakeMigration {
 				'site_settings' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key of the record.\\ne.g.) theme_name, site_name', 'charset' => 'utf8'),
-					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Value of the record.\\ne.g.) default, My Homepage', 'charset' => 'utf8'),
-					'label' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Human friendly label for the record.\\ne.g.) Theme, Site Name', 'charset' => 'utf8'),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key of the record.
+e.g.) theme_name, site_name', 'charset' => 'utf8'),
+					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Value of the record.
+e.g.) default, My Homepage', 'charset' => 'utf8'),
+					'label' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Human friendly label for the record.
+e.g.) Theme, Site Name', 'charset' => 'utf8'),
 					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Display order.'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -944,7 +864,8 @@ class LanguageFix extends CakeMigration {
 					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'lft' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'rght' => array('type' => 'integer', 'null' => true, 'default' => null),
-					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the space.\\n1: Whole site, 2: Public space, 3: Private space, 4: Room space'),
+					'type' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Type of the space.
+1: Whole site, 2: Public space, 3: Private space, 4: Room space'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -957,13 +878,16 @@ class LanguageFix extends CakeMigration {
 				'user_attributes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-					'data_type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'Data type of user_attribute.\\n1: input text, 2: radio, 3: checkbox, 4: select, 5: textarea, 6: email, 7: mobile email, 8: link, 9: html, 10: file, 11: image file, 12: auto increment, 13: date, 14: created datetime,  15: modified datetime'),
-					'plugin_type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'Plugin type of this record belongs to.\\n1: All, 2: Users, 3: FlexibleDatabases / FlexibleForms'),
-					'label' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Label of the user_attribute.\\ne.g.) Nickname, Age, Email Address', 'charset' => 'utf8'),
+					'data_type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'Data type of user_attribute.
+1: input text, 2: radio, 3: checkbox, 4: select, 5: textarea, 6: email, 7: mobile email, 8: link, 9: html, 10: file, 11: image file, 12: auto increment, 13: date, 14: created datetime,  15: modified datetime'),
+					'plugin_type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'Plugin type of this record belongs to.
+1: All, 2: Users, 3: FlexibleDatabases / FlexibleForms'),
+					'label' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Label of the user_attribute.
+e.g.) Nickname, Age, Email Address', 'charset' => 'utf8'),
 					'required' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_read_self' => array('type' => 'boolean', 'null' => true, 'default' => null),
 					'can_edit_self' => array('type' => 'boolean', 'null' => true, 'default' => null),
-					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'è¡¨ç¤ºé †'),
+					'weight' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => '表示順'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -978,7 +902,8 @@ class LanguageFix extends CakeMigration {
 					'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'user_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key to identify record meaning.\\ne.g.) nickname, age, ', 'charset' => 'utf8'),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Key to identify record meaning.
+e.g.) nickname, age, ', 'charset' => 'utf8'),
 					'value' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -1006,7 +931,8 @@ class LanguageFix extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 					'user_select_attribute_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'value' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Value of the record.\\ne.g.) 0, 1, 5, 10'),
+					'value' => array('type' => 'integer', 'null' => true, 'default' => null, 'comment' => 'Value of the record.
+e.g.) 0, 1, 5, 10'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -1020,7 +946,7 @@ class LanguageFix extends CakeMigration {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 					'username' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'password' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'role_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'role_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),
@@ -1034,7 +960,7 @@ class LanguageFix extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'blocks', 'boxes', 'boxes_pages', 'containers', 'containers_pages', 'frames', 'group_parts', 'groups', 'groups_languages', 'groups_parts_users', 'groups_users', 'languages', 'languages_pages', 'pages', 'parts', 'parts_rooms_users', 'plugins', 'plugins_roles', 'roles', 'roles_user_attributes', 'room_parts', 'rooms', 'site_settings', 'spaces', 'user_attributes', 'user_attributes_users', 'user_select_attributes', 'user_select_attributes_users', 'users'
+				'block_role_permissions', 'blocks', 'boxes', 'boxes_pages', 'containers', 'containers_pages', 'default_role_permissions', 'frames', 'groups', 'groups_languages', 'groups_users', 'languages', 'languages_pages', 'pages', 'plugins', 'plugins_roles', 'plugins_rooms', 'roles', 'roles_rooms', 'roles_rooms_users', 'roles_user_attributes', 'room_role_permissions', 'room_roles', 'rooms', 'site_settings', 'spaces', 'user_attributes', 'user_attributes_users', 'user_select_attributes', 'user_select_attributes_users', 'users'
 			),
 		),
 	);
@@ -1042,8 +968,8 @@ class LanguageFix extends CakeMigration {
 /**
  * Before migration callback
  *
- * @param string $direction up or down direction of migration process
- * @return bool Should process continue
+ * @param string $direction, up or down direction of migration process
+ * @return boolean Should process continue
  */
 	public function before($direction) {
 		return true;
@@ -1052,8 +978,8 @@ class LanguageFix extends CakeMigration {
 /**
  * After migration callback
  *
- * @param string $direction up or down direction of migration process
- * @return bool Should process continue
+ * @param string $direction, up or down direction of migration process
+ * @return boolean Should process continue
  */
 	public function after($direction) {
 		if ($direction === 'down') {

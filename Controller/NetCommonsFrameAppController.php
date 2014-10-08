@@ -1,7 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
-App::uses('RoomPart', 'Rooms.Model');
+//App::uses('RoomPart', 'Rooms.Model');
 
 class NetCommonsFrameAppController extends AppController {
 
@@ -25,8 +25,8 @@ class NetCommonsFrameAppController extends AppController {
  * @var array
  */
 	public $uses = array(
-		'Rooms.RoomPart',
-		'Rooms.PartsRoomsUser',
+		//'Rooms.RoomPart',
+		//'Rooms.PartsRoomsUser',
 		'Frames.Frame',
 		'Role',
 		'Language'
@@ -100,21 +100,22 @@ class NetCommonsFrameAppController extends AppController {
  */
 	private function __setUserRoomParts() {
 		//part list
-		$partList = $this->Role->find('all',
-			array('conditions' => array(
-				$this->Role->name . '.language_id' => $this->viewVars['languageId']
-			)));
+		//$partList = $this->Role->find('all',
+		//	array('conditions' => array(
+		//		$this->Role->name . '.language_id' => $this->viewVars['languageId']
+		//	)));
+		$partList = array();
 		$this->set('partList', $partList);
 
-		$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
-		if (isset($userPart[$this->RoomPart->name]['part_id']) &&
-			(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
-		) {
+		//$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
+		//if (isset($userPart[$this->RoomPart->name]['part_id']) &&
+		//	(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
+		//) {
 			$this->set('isRoomAdmin', true);
-		}
-		if (isset($userPart[$this->RoomPart->name]['part_id'])) {
-			$this->set('userPartId', (int)$userPart[$this->RoomPart->name]['part_id']);
-		}
+		//}
+		//if (isset($userPart[$this->RoomPart->name]['part_id'])) {
+		//	$this->set('userPartId', (int)$userPart[$this->RoomPart->name]['part_id']);
+		//}
 
 		$setParts = array(
 			'blockCreatable' => 'create_block',
@@ -129,13 +130,13 @@ class NetCommonsFrameAppController extends AppController {
 
 		foreach ($setParts as $setName => $colName) {
 			//block
-			if (! isset($userPart[$this->RoomPart->name][$colName])) {
-				continue;
-			}
+			//if (! isset($userPart[$this->RoomPart->name][$colName])) {
+			//	continue;
+			//}
 
-			if ((int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW) {
+			//if ((int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW) {
 				$this->set($setName, true);
-			}
+			//}
 		}
 	}
 

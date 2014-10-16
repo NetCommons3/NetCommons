@@ -14,7 +14,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-App::uses('Language', 'Model');
+App::uses('Language', 'app.Model');
 
 /**
  * Controller for NetCommonsBlock component test

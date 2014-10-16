@@ -14,7 +14,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-App::uses('Language', 'Model');
+App::uses('Language', 'app.Model');
 
 /**
  * Controller for NetCommonsFrame component test
@@ -182,7 +182,12 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 
 		$this->assertInstanceOf('CakeResponse', $result);
 
-		$expected = '{"message":"Bad request.","status":400,"data":["testRenderJson"]}';
-		$this->assertEquals($expected, $this->Controller->response->body());
+		$expected = array(
+			'message' => 'Bad request.',
+			'status' => 400,
+			'data' => array('testRenderJson')
+		);
+		$result = $this->Controller->response->body();
+		$this->assertEquals($expected, get_object_vars(json_decode($result)));
 	}
 }

@@ -1,4 +1,23 @@
 <?php
+/**
+ * language fix migration
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+/**
+ * language fix migration
+ *
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Config\Migration
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ */
 class LanguageFix extends CakeMigration {
 
 /**
@@ -284,6 +303,45 @@ class LanguageFix extends CakeMigration {
 					),
 				),
 
+				'RoomRolePermission' => array(
+					array(
+						'id' => '1',
+						'roles_room_id' => '1',
+						'permission' => 'page_editable',
+						'value' => '1',
+					),
+					array(
+						'id' => '2',
+						'roles_room_id' => '1',
+						'permission' => 'block_editable',
+						'value' => '1',
+					),
+					array(
+						'id' => '3',
+						'roles_room_id' => '1',
+						'permission' => 'content_readable',
+						'value' => '1',
+					),
+					array(
+						'id' => '4',
+						'roles_room_id' => '1',
+						'permission' => 'content_creatable',
+						'value' => '1',
+					),
+					array(
+						'id' => '5',
+						'roles_room_id' => '1',
+						'permission' => 'content_editable',
+						'value' => '1',
+					),
+					array(
+						'id' => '6',
+						'roles_room_id' => '1',
+						'permission' => 'content_publishable',
+						'value' => '1',
+					),
+				),
+
 				'RoomRole' => array(
 					array(
 						'id' => '1',
@@ -314,6 +372,180 @@ class LanguageFix extends CakeMigration {
 						'role_key' => 'visitor',
 						'hierarchy' => '1000',
 						'weight' => '5',
+					),
+				),
+
+				'DefaultRolePermission' => array(
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'page_editable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'block_editable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'content_readable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'content_creatable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'content_editable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'room_administrator',
+						'type' => 'room_role',
+						'permission' => 'content_publishable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'page_editable',
+						'value' => 1,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'block_editable',
+						'value' => 1,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'content_readable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'content_creatable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'content_editable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'chief_editor',
+						'type' => 'room_role',
+						'permission' => 'content_publishable',
+						'value' => 1,
+						'fixed' => 0,
+					),
+
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'page_editable',
+						'value' => 0,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'block_editable',
+						'value' => 0,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'content_readable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'content_creatable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'content_editable',
+						'value' => 1,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'editor',
+						'type' => 'room_role',
+						'permission' => 'content_publishable',
+						'value' => 0,
+						'fixed' => 0,
+					),
+
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'page_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'block_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'content_readable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'content_creatable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'content_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'visitor',
+						'type' => 'room_role',
+						'permission' => 'content_publishable',
+						'value' => 0,
+						'fixed' => 1,
 					),
 				),
 
@@ -968,8 +1200,8 @@ e.g.) 0, 1, 5, 10'),
 /**
  * Before migration callback
  *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
+ * @param string $direction up or down direction of migration process
+ * @return bool Should process continue
  */
 	public function before($direction) {
 		return true;
@@ -978,8 +1210,8 @@ e.g.) 0, 1, 5, 10'),
 /**
  * After migration callback
  *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
+ * @param string $direction up or down direction of migration process
+ * @return bool Should process continue
  */
 	public function after($direction) {
 		if ($direction === 'down') {
@@ -1000,7 +1232,7 @@ e.g.) 0, 1, 5, 10'),
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @return boolean Should process continue
+ * @return bool Should process continue
  */
 	public function updateRecords($model, $records) {
 		$Model = $this->generateModel($model);

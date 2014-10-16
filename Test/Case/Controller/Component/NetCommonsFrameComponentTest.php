@@ -69,6 +69,8 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('Config.language', 'ja');
+
 		//テストコントローラ読み込み
 		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
@@ -89,6 +91,8 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 
 		unset($this->NetCommonsFrame);
 		unset($this->Controller);
+
+		Configure::write('Config.language', null);
 	}
 
 /**

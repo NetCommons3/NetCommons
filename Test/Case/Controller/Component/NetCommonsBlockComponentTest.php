@@ -14,7 +14,6 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-App::uses('Language', 'app.Model');
 
 /**
  * Controller for NetCommonsBlock component test
@@ -69,6 +68,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+		Configure::write('Config.language', 'ja');
 
 		//テストコントローラ読み込み
 		$CakeRequest = new CakeRequest();
@@ -90,6 +90,8 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 
 		unset($this->NetCommonsBlock);
 		unset($this->Controller);
+
+		Configure::write('Config.language', null);
 	}
 
 /**
@@ -135,8 +137,6 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  */
 	public function testSetViewKey() {
 		$this->testInitialize();
-
-		Configure::write('Config.language', 'ja');
 
 		$blockKey = 'block_1';
 		$result = $this->NetCommonsBlock->setViewKey($this->Controller, $blockKey);

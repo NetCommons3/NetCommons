@@ -47,7 +47,7 @@ class NetCommonsFrameComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param int $frameId frames.id
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	public function setView(Controller $controller, $frameId) {
 		//set language_id
@@ -69,7 +69,7 @@ class NetCommonsFrameComponent extends Component {
  * @param Controller $controller Instantiating controller
  * @param string $frameKey frames.key
  * @param string $languageCode languages.code
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	public function setViewKey(Controller $controller, $frameKey, $languageCode = '') {
 		//set language_id
@@ -95,7 +95,7 @@ class NetCommonsFrameComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param array $frame frame data
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	private function __setViewFrame(Controller $controller, $frame) {
 		if (! $frame || ! isset($frame['Frame']['id'])) {

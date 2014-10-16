@@ -83,7 +83,7 @@ class NetCommonsBlockComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param int $blockId blocks.id
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	public function setView(Controller $controller, $blockId) {
 		//set language_id
@@ -105,7 +105,7 @@ class NetCommonsBlockComponent extends Component {
  * @param Controller $controller Instantiating controller
  * @param string $blockKey blocks.key
  * @param string $languageCode languages.code
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	public function setViewKey(Controller $controller, $blockKey, $languageCode = '') {
 		//set language_id
@@ -131,7 +131,7 @@ class NetCommonsBlockComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param array $block blocks
- * @return boolean true is success, false is error.
+ * @return bool true is success, false is error.
  */
 	private function __setViewBlock(Controller $controller, $block) {
 		if (! $block || ! isset($block['Block']['id'])) {

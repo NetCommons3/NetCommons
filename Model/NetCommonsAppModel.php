@@ -1,19 +1,22 @@
 <?php
+/**
+ * NetCommonsApp Model
+ *
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @author Takako Miyagawa <nekoget@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
 
 App::uses('AppModel', 'Model');
 
-class NetCommonsAppModel extends AppModel {
-
 /**
- * __construct
+ * NetCommonsApp Model
  *
- * @param bool $id id
- * @param null $table db table
- * @param null $ds connection
- * @return void
- * @SuppressWarnings(PHPMD)
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @author Takako Miyagawa <nekoget@gmail.com>
+ * @package NetCommons\NetCommons\Model
  */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-	}
+class NetCommonsAppModel extends AppModel {
 }

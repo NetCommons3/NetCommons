@@ -1,8 +1,22 @@
 <?php
+/**
+ * NetCommonsFrame Controller
+ *
+ * @author Takako Miyagawa <nekoget@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
 
 App::uses('AppController', 'Controller');
 //App::uses('RoomPart', 'Rooms.Model');
 
+/**
+ * NetCommonsFrame Controller
+ *
+ * @author Takako Miyagawa <nekoget@gmail.com>
+ * @package NetCommons\NetCommons\Controller
+ */
 class NetCommonsFrameAppController extends AppController {
 
 /**
@@ -33,20 +47,21 @@ class NetCommonsFrameAppController extends AppController {
 	);
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		$this->__setFrameDefault();
+	}
+
+/**
  *  Content Preparation
  *
  * @param int $frameId frames.id
- * @param string $lang language
  * @return bool
  */
-	protected function _initializeFrame($frameId, $lang = '') {
-		$this->__setFrameDefault();
-
-		//language id
-		$languageId = $this->__getLanguageId($lang);
-		$this->set('languageId', $languageId);
-		$this->set('langId', $languageId);
-
+	protected function _initializeFrame($frameId) {
 		//get frames recode
 		$frame = $this->Frame->findById($frameId);
 		if (! $frame ||
@@ -56,15 +71,34 @@ class NetCommonsFrameAppController extends AppController {
 			return false;
 		}
 
+		////language id
+		//$languageId = $this->__getLanguageId($lang);
+		$languageId = 2;
+		$this->set('languageId', $languageId);
+		$this->set('langId', $languageId);
 		$this->set('frameId', $frame[$this->Frame->name]['id']);
 		$this->set('blockId', $frame[$this->Frame->name]['block_id']);
 		$this->set('roomId', $frame[$this->Frame->name]['room_id']);
 
-		if (! CakeSession::read('Auth.User.id') && ! $this->viewVars['roomId']) {
+		if (! CakeSession::read('Auth.User.id')) {
 			return true;
 		}
 
-		$this->__setUserRoomParts();
+		$setParts = array(
+			'blockCreatable',
+			'blockEditable',
+			'blockPublishable',
+			'blockReadable',
+			'contentCreatable',
+			'contentEditable',
+			'contentPublishable',
+			'contentReadable',
+		);
+
+		foreach ($setParts as $setName) {
+			$this->set($setName, true);
+		}
+		//$this->__setUserRoomParts();
 		return true;
 	}
 
@@ -79,18 +113,19 @@ class NetCommonsFrameAppController extends AppController {
 		$this->set('blockId', 0);
 		$this->set('roomId', 0);
 		$this->set('languageId', self::DEFAULT_LANGUAGE_ID);
-		$this->set('publishRoomAdminOnly', true);
-		$this->set('isRoomAdmin', false);
-		//block
-		$this->set('blockCreatable', false);
-		$this->set('blockEditable', false);
-		$this->set('blockPublishable', false);
-		$this->set('blockReadable', false);
-		//content
-		$this->set('contentCreatable', false);
-		$this->set('contentEditable', false);
-		$this->set('contentPublishable', false);
-		$this->set('contentReadable', false);
+
+		//$this->set('publishRoomAdminOnly', true);
+		//$this->set('isRoomAdmin', false);
+		////block
+		//$this->set('blockCreatable', false);
+		//$this->set('blockEditable', false);
+		//$this->set('blockPublishable', false);
+		//$this->set('blockReadable', false);
+		////content
+		//$this->set('contentCreatable', false);
+		//$this->set('contentEditable', false);
+		//$this->set('contentPublishable', false);
+		//$this->set('contentReadable', false);
 	}
 
 /**
@@ -98,47 +133,47 @@ class NetCommonsFrameAppController extends AppController {
  *
  * @return void
  */
-	private function __setUserRoomParts() {
-		//part list
-		//$partList = $this->Role->find('all',
-		//	array('conditions' => array(
-		//		$this->Role->name . '.language_id' => $this->viewVars['languageId']
-		//	)));
-		$partList = array();
-		$this->set('partList', $partList);
-
-		//$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
-		//if (isset($userPart[$this->RoomPart->name]['part_id']) &&
-		//	(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
-		//) {
-			$this->set('isRoomAdmin', true);
-		//}
-		//if (isset($userPart[$this->RoomPart->name]['part_id'])) {
-		//	$this->set('userPartId', (int)$userPart[$this->RoomPart->name]['part_id']);
-		//}
-
-		$setParts = array(
-			'blockCreatable' => 'create_block',
-			'blockEditable' => 'edit_block',
-			'blockPublishable' => 'publish_block',
-			'blockReadable' => 'create_block',
-			'contentCreatable' => 'create_content',
-			'contentEditable' => 'edit_content',
-			'contentPublishable' => 'publish_content',
-			'contentReadable' => 'create_content',
-		);
-
-		foreach ($setParts as $setName => $colName) {
-			//block
-			//if (! isset($userPart[$this->RoomPart->name][$colName])) {
-			//	continue;
-			//}
-
-			//if ((int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW) {
-				$this->set($setName, true);
-			//}
-		}
-	}
+	//private function __setUserRoomParts() {
+	//	//part list
+	//	//$partList = $this->Role->find('all',
+	//	//	array('conditions' => array(
+	//	//		$this->Role->name . '.language_id' => $this->viewVars['languageId']
+	//	//	)));
+	//	$partList = array();
+	//	$this->set('partList', $partList);
+	//
+	//	//$userPart = $this->PartsRoomsUser->getPart($this->viewVars['roomId']);
+	//	//if (isset($userPart[$this->RoomPart->name]['part_id']) &&
+	//	//	(int)$userPart[$this->RoomPart->name]['part_id'] === RoomPart::ROOM_ADMIN_PART_ID
+	//	//) {
+	//		$this->set('isRoomAdmin', true);
+	//	//}
+	//	//if (isset($userPart[$this->RoomPart->name]['part_id'])) {
+	//	//	$this->set('userPartId', (int)$userPart[$this->RoomPart->name]['part_id']);
+	//	//}
+	//
+	//	$setParts = array(
+	//		'blockCreatable' => 'create_block',
+	//		'blockEditable' => 'edit_block',
+	//		'blockPublishable' => 'publish_block',
+	//		'blockReadable' => 'create_block',
+	//		'contentCreatable' => 'create_content',
+	//		'contentEditable' => 'edit_content',
+	//		'contentPublishable' => 'publish_content',
+	//		'contentReadable' => 'create_content',
+	//	);
+	//
+	//	foreach ($setParts as $setName => $colName) {
+	//		//block
+	//		//if (! isset($userPart[$this->RoomPart->name][$colName])) {
+	//		//	continue;
+	//		//}
+	//
+	//		//if ((int)$userPart[$this->RoomPart->name][$colName] === RoomPart::IS_ALLOW) {
+	//			$this->set($setName, true);
+	//		//}
+	//	}
+	//}
 
 /**
  * get languageId
@@ -146,14 +181,14 @@ class NetCommonsFrameAppController extends AppController {
  * @param string $lang lang code
  * @return int
  */
-	private function __getLanguageId($lang = '') {
-		$rtn = $this->Language->findByCode($lang);
-		if (isset($rtn[$this->Language->name]['id']) &&
-			$rtn[$this->Language->name]['id']) {
-			return $rtn[$this->Language->name]['id'];
-		}
-		return self::DEFAULT_LANGUAGE_ID;
-	}
+	//private function __getLanguageId($lang = '') {
+	//	$rtn = $this->Language->findByCode($lang);
+	//	if (isset($rtn[$this->Language->name]['id']) &&
+	//		$rtn[$this->Language->name]['id']) {
+	//		return $rtn[$this->Language->name]['id'];
+	//	}
+	//	return self::DEFAULT_LANGUAGE_ID;
+	//}
 
 /**
  * json render

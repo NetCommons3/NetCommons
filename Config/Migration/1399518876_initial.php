@@ -7,6 +7,13 @@
  * @license  http://www.netcommons.org/license.txt NetCommons License
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
+
+/**
+ * Initial
+ *
+ * @author Takako Miyagawa <nekoget@gmail.com>
+ * @package NetCommons\NetCommons\Config\Migration
+ */
 class Initial extends CakeMigration {
 
 /**

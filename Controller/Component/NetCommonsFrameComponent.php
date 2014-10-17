@@ -29,7 +29,7 @@ class NetCommonsFrameComponent extends Component {
 		//model class registry
 		$models = array(
 			'Frame' => 'Frames.Frame',
-			'Language' => 'Language',
+			'Language' => 'app.Language',
 		);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);

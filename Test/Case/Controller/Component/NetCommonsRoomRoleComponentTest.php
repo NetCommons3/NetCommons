@@ -14,7 +14,6 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
-App::uses('Language', 'app.Model');
 
 /**
  * Controller for NetCommonsRoomRole component test

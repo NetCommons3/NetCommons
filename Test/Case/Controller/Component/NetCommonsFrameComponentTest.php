@@ -171,26 +171,4 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 
 		$this->assertFalse($result);
 	}
-
-/**
- * renderJson test
- *
- * @return void
- */
-	public function testRenderJson() {
-		$statusCode = 400;
-		$message = 'Bad request.';
-		$data = array('testRenderJson');
-		$result = $this->NetCommonsFrame->renderJson($this->Controller, $statusCode, $message, $data);
-
-		$this->assertInstanceOf('CakeResponse', $result);
-
-		$expected = array(
-			'message' => 'Bad request.',
-			'status' => 400,
-			'data' => array('testRenderJson')
-		);
-		$result = $this->Controller->response->body();
-		$this->assertEquals($expected, get_object_vars(json_decode($result)));
-	}
 }

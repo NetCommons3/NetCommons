@@ -110,29 +110,4 @@ class NetCommonsFrameComponent extends Component {
 
 		return true;
 	}
-
-/**
- * render json
- *
- * @param Controller $controller Instantiating controller
- * @param int $statusCode status code
- * @param string $message message
- * @param array $data return data
- * @return CakeResponse
- */
-	public function renderJson(Controller $controller, $statusCode, $message, $data = array()) {
-		$controller->viewClass = 'Json';
-		$controller->layout = false;
-		$controller->view = null;
-		$controller->response->statusCode($statusCode);
-		$result = array(
-			'message' => $message,
-			'status' => $statusCode,
-			'data' => $data
-		);
-		$controller->set(compact('result'));
-		$controller->set('_serialize', 'result');
-		return $controller->render();
-	}
-
 }

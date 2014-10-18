@@ -95,7 +95,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
- * initialize test
+ * testInitialize method
  *
  * @return void
  */
@@ -111,7 +111,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test
+ * testSetView method
  *
  * @return void
  */
@@ -133,7 +133,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
- * setViewKey test
+ * testSetViewKey method
  *
  * @return void
  */
@@ -159,7 +159,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test for not exist frame id
+ * testSetViewNotExistFrameId method
  *
  * @return void
  */

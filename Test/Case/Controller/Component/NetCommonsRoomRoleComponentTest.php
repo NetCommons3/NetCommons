@@ -97,7 +97,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * initialize test
+ * testInitialize method
  *
  * @return void
  */
@@ -117,7 +117,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * initialize test for no default permission
+ * testInitializeDefaultPermissionNoRoleKey method
  *
  * @return void
  */
@@ -135,7 +135,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test
+ * testSetView method
  *
  * @return void
  */
@@ -161,7 +161,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test for no login
+ * testSetViewNoLogin method
  *
  * @return void
  */
@@ -187,7 +187,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test for not exist user
+ * testSetViewNotExistUser method
  *
  * @return void
  */
@@ -203,7 +203,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
- * setView test for room_role_permision no data
+ * testSetViewRoomRolePermisionDataError method
  *
  * @return void
  */

@@ -59,7 +59,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
 	}
 
 /**
- * _itializeFrame protected method test
+ * testInitializeFrame method
  *
  * @return void
  */
@@ -72,7 +72,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
 	}
 
 /**
- * _itializeFrame protected method test for no frame id
+ * testInitializeFrameByNoFrameId method
  *
  * @return void
  */
@@ -85,7 +85,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
 	}
 
 /**
- * _itializeFrame protected method test for login user
+ * testInitializeFrameByLoginUser method
  *
  * @return void
  */
@@ -102,7 +102,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
 	}
 
 /**
- * beforeFilter method test
+ * testBeforeFilter method
  *
  * @return void
  */
@@ -112,7 +112,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
 	}
 
 /**
- * _renderJson protected method test
+ * testRenderJson method
  *
  * @return void
  */

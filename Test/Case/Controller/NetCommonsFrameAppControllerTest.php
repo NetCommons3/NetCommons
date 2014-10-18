@@ -76,7 +76,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
  *
  * @return void
  */
-	public function testInitializeFrameForNoFrameId() {
+	public function testInitializeFrameByNoFrameId() {
 		$frameId = 999;
 		$method = new ReflectionMethod($this->NetCommonsFrameApp, '_initializeFrame');
 		$method->setAccessible(true);
@@ -89,7 +89,7 @@ class NetCommonsFrameAppControllerTest extends ControllerTestCase {
  *
  * @return void
  */
-	public function testInitializeFrameForLoginUser() {
+	public function testInitializeFrameByLoginUser() {
 		CakeSession::write('Auth.User.id', 1);
 
 		$frameId = 1;

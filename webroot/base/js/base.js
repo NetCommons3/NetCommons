@@ -17,28 +17,28 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
    *
    * @const
    */
-	$scope.STATUS_PUBLISHED = '1';
+  $scope.STATUS_PUBLISHED = '1';
 
   /**
    * status approved
    *
    * @const
    */
-	$scope.STATUS_APPROVED = '2';
+  $scope.STATUS_APPROVED = '2';
 
   /**
    * status drafted
    *
    * @const
    */
-	$scope.STATUS_DRAFTED = '3';
+  $scope.STATUS_DRAFTED = '3';
 
   /**
    * status disaproved
    *
    * @const
    */
-	$scope.STATUS_DISAPPROVED = '4';
+  $scope.STATUS_DISAPPROVED = '4';
 
   /**
    * HTMLエディタ:tinymceの設定

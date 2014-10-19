@@ -13,6 +13,34 @@ var NetCommonsApp = angular.module('NetCommonsApp',
 NetCommonsApp.controller('NetCommons.base', function($scope) {
 
   /**
+   * status published
+   *
+   * @const
+   */
+	$scope.STATUS_PUBLISHED = '1';
+
+  /**
+   * status approved
+   *
+   * @const
+   */
+	$scope.STATUS_APPROVED = '2';
+
+  /**
+   * status drafted
+   *
+   * @const
+   */
+	$scope.STATUS_DRAFTED = '3';
+
+  /**
+   * status disaproved
+   *
+   * @const
+   */
+	$scope.STATUS_DISAPPROVED = '4';
+
+  /**
    * HTMLエディタ:tinymceの設定
    *
    * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}

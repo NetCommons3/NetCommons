@@ -1,0 +1,95 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-10-20 10:05+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Announcements/Controller/AnnouncementEditController.php:130
+msgid "Successfully finished."
+msgstr ""
+
+#: Announcements/Controller/AnnouncementEditController.php:138
+msgid "Failed to register data."
+msgstr ""
+
+#: /Announcements/View/Announcements/view.ctp:23
+msgid "Manage"
+msgstr ""
+
+#: /Announcements/View/Elements/AnnouncementEdit/button.ctp:16
+#: /Announcements/View/Elements/AnnouncementEdit/tab_header.ctp:15
+#: /Pages/View/Elements/setting_menu.ctp:88
+msgid "Close"
+msgstr ""
+
+#: /Announcements/View/Elements/AnnouncementEdit/button.ctp:23
+msgid "Disapproval"
+msgstr ""
+
+#: /Announcements/View/Elements/AnnouncementEdit/button.ctp:29
+msgid "Temporary"
+msgstr ""
+
+#:
+msgid "Draft"
+msgstr ""
+
+#:
+msgid "Save"
+msgstr ""
+
+#: /Announcements/View/Elements/AnnouncementEdit/button.ctp:37
+msgid "Publish"
+msgstr ""
+
+#: /Announcements/View/Elements/AnnouncementEdit/button.ctp:43
+msgid "Approval"
+msgstr ""
+
+#: /Announcements/View/Elements/Announcements/status_label.ctp:16
+msgid "Approving"
+msgstr ""
+
+#: /Announcements/View/Elements/Announcements/status_label.ctp:22
+msgid "Disapproving"
+msgstr ""
+
+#: /Announcements/View/Elements/Announcements/status_label.ctp:28
+msgid "Drafting"
+msgstr ""
+
+#: /Auth/View/Auth/login.ctp:26
+#: /NetCommons/View/Layouts/default.ctp:81
+#: /Pages/View/Pages/index.ctp:59
+msgid "Login"
+msgstr ""
+
+#: /NetCommons/View/Layouts/default.ctp:75
+#: /Pages/View/Pages/index.ctp:30
+msgid "Home"
+msgstr ""
+
+#: /NetCommons/View/Layouts/default.ctp:79
+#: /Pages/View/Pages/index.ctp:35
+msgid "Logout"
+msgstr ""
+
+#: /NetCommons/View/Layouts/default.ctp:90
+#: /Pages/View/Pages/index.ctp:43
+msgid "Theme setting"
+msgstr ""
+
+#: /Pages/View/Elements/setting_menu.ctp:89
+msgid "Add"
+msgstr ""
+

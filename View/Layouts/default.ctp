@@ -72,13 +72,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li><a href="/"><?php echo __("ホーム"); ?></a></li>
+							<li><a href="/"><?php echo __d('net_commons', 'Home'); ?></a></li>
 							<li>
 								<?php if ($User = AuthComponent::user()): ?>
 									<?php /*echo h($User['handle'])*/ ?>
-									<?php echo $this->Html->link(__('Logout'), '/auth/logout') ?>
+									<?php echo $this->Html->link(__d('net_commons', 'Logout'), '/auth/logout') ?>
 								<?php else: ?>
-									<?php echo $this->Html->link(__('Login'), '/auth/login') ?>
+									<?php echo $this->Html->link(__d('net_commons', 'Login'), '/auth/login') ?>
 								<?php endif; ?>
 							</li>
 							<li <?php
@@ -87,7 +87,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 								echo 'class="active"';
 								}
 							?>>
-								<?php echo $this->Html->link(__('テーマ設定'), '/theme_settings/site/') ?>
+								<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
 							</li>
 						</ul>
 					</div><!--/.nav-collapse -->

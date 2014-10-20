@@ -85,27 +85,41 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
   //};
 
   /**
-   * flash
-   * alertType bootstrap css alert-xxxx
-   *
-   * @type {{text: string, alertType: string}}
-   */
-  //$scope.flash = {
-  //  text: '',
-  //  alertType: ''
-  //};
-
-  /**
    * set flash
    *
    * @param {string} text message text
-   * @param {string} alertCssClassName bootstrap css class name alert-xxx
+   * @param {string} type bootstrap css class name alert-xxx
    */
-  //$scope.setFlash = function(text, alertCssClassName) {
-  //  $scope.flash = {
-  //    text: text,
-  //    alertType: alertCssClassName
-  //  };
-  //};
+  $scope.flash = {
+    message: '',
+    type: '',
+    close: function() {
+      $scope.flash.message = '';
+      $scope.flash.type = '';
+      $('#nc-flash-message').addClass('hidden');
+    },
+    success: function(message) {
+      $scope.flash.custom(message, 'alert-success', true);
+    },
+    info: function(message) {
+      $scope.flash.custom(message, 'alert-info', true);
+    },
+    warning: function(message) {
+      $scope.flash.custom(message, 'alert-warning', false);
+    },
+    danger: function(message) {
+      $scope.flash.custom(message, 'alert-danger', false);
+    },
+    custom: function(message, type, fadeOut) {
+      $scope.flash.message = message;
+      $scope.flash.type = type;
+      $('#nc-flash-message').removeClass('hidden');
+      if (fadeOut) {
+        $('#nc-flash-message').fadeIn(500).fadeTo(1000, 1).fadeOut(1500);
+      } else {
+        $('#nc-flash-message').fadeIn(500);
+      }
+    }
+  };
 
 });

@@ -45,17 +45,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 </head>
 	<body ng-controller="NetCommons.base">
 
-	<div
-		id="nc-net-commons-flash"
-		ng-init="flash.alertType='hidden'; flash.text='';"
-		ng-show="flash.text"
-		class="alert {{flash.alertType}} ng-hide"
-	>
-		<span class="pull-right"
-		      ng-click="flash.text=''">
+	<div id="nc-flash-message"
+			ng-init="flash.type='hidden'; flash.message='';"
+			class="alert {{flash.type}} hidden">
+		<button class="close pull-right" type="button" ng-click="flash.close()">
 			<span class="glyphicon glyphicon-remove"> </span>
-		</span>
-		<span class='message'>{{flash.text}}</span>
+		</button>
+		<span class='message'>{{flash.message}}</span>
 	</div>
 
 

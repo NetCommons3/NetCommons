@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2014-10-20 09:36+0000\n"
-"PO-Revision-Date: 2014-10-20 19:58+0900\n"
+"PO-Revision-Date: 2014-10-21 18:17+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: NetCommons3 <nakajimashouhei@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,10 @@ msgstr "データの登録に失敗しました。"
 #: /Announcements/View/Announcements/view.ctp:23
 msgid "Manage"
 msgstr "管理"
+
+#: /Announcements/View/Announcements/view.ctp:31
+msgid "Accept"
+msgstr "承認する"
 
 #: /Announcements/View/Elements/AnnouncementEdit/button.ctp:16
 #: /Announcements/View/Elements/AnnouncementEdit/tab_header.ctp:15
@@ -54,11 +58,11 @@ msgstr "公開する"
 
 #: /Announcements/View/Elements/AnnouncementEdit/button.ctp:43
 msgid "Approval"
-msgstr "承認する"
+msgstr "申請する"
 
 #: /Announcements/View/Elements/Announcements/status_label.ctp:16
 msgid "Approving"
-msgstr "承認中"
+msgstr "申請中"
 
 #: /Announcements/View/Elements/Announcements/status_label.ctp:22
 msgid "Disapproving"

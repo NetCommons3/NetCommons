@@ -26,6 +26,10 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
+#: /Announcements/View/Announcements/view.ctp:31
+msgid "Accept"
+msgstr ""
+
 #: /Announcements/View/Elements/AnnouncementEdit/button.ctp:16
 #: /Announcements/View/Elements/AnnouncementEdit/tab_header.ctp:15
 #: /Pages/View/Elements/setting_menu.ctp:88

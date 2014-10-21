@@ -112,6 +112,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => false,
 			'contentEditable' => false,
 			'contentPublishable' => false,
+			'rolesRoomId' => 0,
+			'roomRoleKey' => 'visitor',
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars);
 	}
@@ -140,9 +142,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetView() {
-		$this->testInitialize();
-
 		CakeSession::write('Auth.User.id', 1);
+
+		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
+		$this->assertNull($result);
 
 		$result = $this->NetCommonsRoomRole->setView($this->Controller);
 		$this->assertTrue($result);
@@ -154,6 +157,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => true,
 			'contentEditable' => true,
 			'contentPublishable' => true,
+			'rolesRoomId' => 1,
+			'roomRoleKey' => 'room_administrator',
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars);
 
@@ -166,9 +171,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewNoLogin() {
-		$this->testInitialize();
-
 		CakeSession::write('Auth.User.id', null);
+
+		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
+		$this->assertNull($result);
 
 		$result = $this->NetCommonsRoomRole->setView($this->Controller);
 		$this->assertTrue($result);
@@ -180,6 +186,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => false,
 			'contentEditable' => false,
 			'contentPublishable' => false,
+			'rolesRoomId' => 0,
+			'roomRoleKey' => 'visitor',
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars);
 
@@ -192,9 +200,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewNotExistUser() {
-		$this->testInitialize();
-
 		CakeSession::write('Auth.User.id', 999);
+
+		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
+		$this->assertFalse($result);
 
 		$result = $this->NetCommonsRoomRole->setView($this->Controller);
 		$this->assertFalse($result);
@@ -208,8 +217,6 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewRoomRolePermisionDataError() {
-		$this->testInitialize();
-
 		//テストデータ生成
 		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
 		$this->RoomRolePermission->updateAll(
@@ -218,6 +225,9 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		);
 
 		CakeSession::write('Auth.User.id', 1);
+
+		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
+		$this->assertNull($result);
 
 		$result = $this->NetCommonsRoomRole->setView($this->Controller);
 		$this->assertFalse($result);

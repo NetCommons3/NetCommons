@@ -103,7 +103,9 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->NetCommonsFrame->initialize($this->Controller);
 		$expected = array(
 			'frameId' => 0,
+			'frameKey' => '',
 			'blockId' => 0,
+			'blockKey' => '',
 			'roomId' => 0,
 			'languageId' => 0
 		);
@@ -126,6 +128,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 			'frameId' => 1,
 			'frameKey' => 'frame_1',
 			'blockId' => 5,
+			'blockKey' => 'block_5',
 			'roomId' => 1,
 			'languageId' => 2
 		);
@@ -150,6 +153,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 			'frameId' => 1,
 			'frameKey' => 'frame_1',
 			'blockId' => 5,
+			'blockKey' => 'block_5',
 			'roomId' => 1,
 			'languageId' => 2
 		);

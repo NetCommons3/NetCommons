@@ -37,7 +37,9 @@ class NetCommonsFrameComponent extends Component {
 
 		//default
 		$controller->set('frameId', 0);
+		$controller->set('frameKey', '');
 		$controller->set('blockId', 0);
+		$controller->set('blockKey', '');
 		$controller->set('roomId', 0);
 		$controller->set('languageId', 0);
 	}
@@ -105,6 +107,9 @@ class NetCommonsFrameComponent extends Component {
 		$controller->set('frameId', (int)$frame['Frame']['id']);
 		$controller->set('frameKey', $frame['Frame']['key']);
 		$controller->set('blockId', (int)$frame['Frame']['block_id']);
+		if (isset($frame['Block'])) {
+			$controller->set('blockKey', $frame['Block']['key']);
+		}
 		$controller->set('roomId', (int)$frame['Frame']['room_id']);
 		$controller->set('languageId', (int)$frame['Frame']['language_id']);
 

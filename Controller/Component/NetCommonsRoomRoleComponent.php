@@ -37,8 +37,24 @@ class NetCommonsRoomRoleComponent extends Component {
 		}
 
 		//デフォルトロールパーミッションの設定
+		$controller->set('roomRoleKey', 'visitor');
+		$controller->set('rolesRoomId', 0);
+
+		$userId = CakeSession::read('Auth.User.id');
+		if ($userId) {
+			$roleRoomUser =
+					$this->RolesRoomsUser->findByUserId($userId);
+			if (! $roleRoomUser) {
+				return false;
+			}
+			if (isset($roleRoomUser['RolesRoom'])) {
+				$controller->set('roomRoleKey', $roleRoomUser['RolesRoom']['role_key']);
+				$controller->set('rolesRoomId', $roleRoomUser['RolesRoom']['id']);
+			}
+		}
+
 		$defaultPermissions =
-				$this->DefaultRolePermission->findAllByRoleKey('visitor');
+				$this->DefaultRolePermission->findAllByRoleKey($controller->viewVars['roomRoleKey']);
 		if (! $defaultPermissions) {
 			return false;
 		}
@@ -54,25 +70,16 @@ class NetCommonsRoomRoleComponent extends Component {
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
- * @param int $userId users.id
  * @return bool true is success, false is error.
  */
-	public function setView(Controller $controller, $userId = 0) {
-		if (! $userId) {
-			$userId = CakeSession::read('Auth.User.id');
-		}
+	public function setView(Controller $controller) {
+		$userId = CakeSession::read('Auth.User.id');
 		if (! $userId) {
 			return true;
 		}
 
-		$roleRoomUser =
-				$this->RolesRoomsUser->findByUserId($userId);
-		if (! $roleRoomUser) {
-			return false;
-		}
-
 		$roomRolePermissions =
-				$this->RoomRolePermission->findAllByRolesRoomId($roleRoomUser['RolesRoom']['id']);
+				$this->RoomRolePermission->findAllByRolesRoomId($controller->viewVars['rolesRoomId']);
 		if (! $roomRolePermissions) {
 			return false;
 		}

@@ -104,6 +104,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		$this->NetCommonsBlock->initialize($this->Controller);
 		$expected = array(
 			'blockId' => 0,
+			'blockKey' => '',
 			'roomId' => 0,
 			'languageId' => 0
 		);

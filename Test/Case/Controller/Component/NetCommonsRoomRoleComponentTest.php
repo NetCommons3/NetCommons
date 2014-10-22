@@ -106,34 +106,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		$this->assertNull($result);
 
 		$expected = array(
-			'pageEditable' => false,
-			'blockEditable' => false,
-			'contentReadable' => true,
-			'contentCreatable' => false,
-			'contentEditable' => false,
-			'contentPublishable' => false,
 			'rolesRoomId' => 0,
 			'roomRoleKey' => 'visitor',
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars);
-	}
-
-/**
- * testInitializeDefaultPermissionNoRoleKey method
- *
- * @return void
- */
-	public function testInitializeDefaultPermissionNoRoleKey() {
-		//テストデータ生成
-		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
-		$this->DefaultRolePermission->updateAll(
-			array('DefaultRolePermission.role_key' => "'visitor2'"),
-			array('DefaultRolePermission.role_key' => 'visitor')
-		);
-
-		//initializeテスト
-		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
-		$this->assertFalse($result);
 	}
 
 /**
@@ -203,7 +179,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', 999);
 
 		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
-		$this->assertFalse($result);
+		$this->assertNull($result);
 
 		$result = $this->NetCommonsRoomRole->setView($this->Controller);
 		$this->assertFalse($result);

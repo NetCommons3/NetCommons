@@ -39,7 +39,15 @@ class NetCommonsRoomRoleComponent extends Component {
 		//デフォルトロールパーミッションの設定
 		$controller->set('roomRoleKey', 'visitor');
 		$controller->set('rolesRoomId', 0);
+	}
 
+/**
+ * Controller view set
+ *
+ * @param Controller $controller Instantiating controller
+ * @return bool true is success, false is error.
+ */
+	public function setView(Controller $controller) {
 		$userId = CakeSession::read('Auth.User.id');
 		if ($userId) {
 			$roleRoomUser =
@@ -64,16 +72,7 @@ class NetCommonsRoomRoleComponent extends Component {
 
 			$controller->set($key, $value);
 		}
-	}
 
-/**
- * Controller view set
- *
- * @param Controller $controller Instantiating controller
- * @return bool true is success, false is error.
- */
-	public function setView(Controller $controller) {
-		$userId = CakeSession::read('Auth.User.id');
 		if (! $userId) {
 			return true;
 		}

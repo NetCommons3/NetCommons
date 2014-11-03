@@ -620,18 +620,6 @@ class LanguageFix extends CakeMigration {
 
 				'Plugin' => array(
 					array(
-						'id' => '1',
-						'language_id' => 2,
-						'key' => 'announcements',
-						'namespace' => 'netcommons/announcements',
-						'name' => 'お知らせ',
-						'type' => 1,
-						'created_user' => 1,
-						'created' => false,
-						'modified_user' => 1,
-						'modified' => false,
-					),
-					array(
 						'id' => '2',
 						'language_id' => 2,
 						'key' => 'menus',
@@ -647,11 +635,6 @@ class LanguageFix extends CakeMigration {
 
 				'PluginsRole' => array(
 					array(
-						'id' => '1',
-						'role_key' => 'room_administrator',
-						'plugin_key' => 'announcements'
-					),
-					array(
 						'id' => '2',
 						'role_key' => 'room_administrator',
 						'plugin_key' => 'menus'
@@ -659,11 +642,6 @@ class LanguageFix extends CakeMigration {
 				),
 
 				'PluginsRoom' => array(
-					array(
-						'id' => '1',
-						'room_id' => '1',
-						'plugin_key' => 'announcements'
-					),
 					array(
 						'id' => '2',
 						'room_id' => '1',

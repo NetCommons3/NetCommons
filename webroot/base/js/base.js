@@ -95,14 +95,14 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
     }
   };
 
-      /**
-       * show user information method
-       *
-       * @param {number} users.id
-       * @return {string}
-       */
-      $scope.showUser = function(user_id) {
-        alert('user_id:' + user_id);
-      };
+  /**
+   * show user information method
+   *
+   * @param {number} users.id
+   * @return {string}
+   */
+  $scope.showUser = function(user_id) {
+    alert('user_id:' + user_id);
+  };
 
 });

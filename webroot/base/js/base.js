@@ -58,32 +58,6 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
   };
 
   /**
-   * roomParts hierarchy
-   * id room_part.part_id hierarchy room_part.hierarchy
-   *
-   * @type {{id: number, hierarchy: number}[]}
-   */
-  //$scope.roomParts = [
-  //  {id: 1, hierarchy: 2147483647},
-  //  {id: 2, hierarchy: 8000},
-  //  {id: 3, hierarchy: 7000},
-  //  {id: 4, hierarchy: 6000},
-  //  {id: 5, hierarchy: 1000}
-  //];
-
-  /**
-   * get hierarchy from id. ($scope.roomParts)
-   *
-   * @param {number} _id
-   * @type {id: number, hierarchy: number}
-   */
-  //$scope.getHierarchy = function(_id) {
-  //  return $.grep($scope.roomParts, function(item) {
-  //    return item.id == _id;
-  //  })[0];
-  //};
-
-  /**
    * set flash
    *
    * @param {string} text message text
@@ -120,5 +94,15 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
       }
     }
   };
+
+      /**
+       * show user information method
+       *
+       * @param {number} users.id
+       * @return {string}
+       */
+      $scope.showUser = function(user_id) {
+        alert('user_id:' + user_id);
+      };
 
 });

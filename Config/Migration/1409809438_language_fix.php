@@ -618,37 +618,6 @@ class LanguageFix extends CakeMigration {
 					)
 				),
 
-				'Plugin' => array(
-					array(
-						'id' => '2',
-						'language_id' => 2,
-						'key' => 'menus',
-						'namespace' => 'netcommons/menus',
-						'name' => 'メニュー',
-						'type' => 1,
-						'created_user' => 1,
-						'created' => false,
-						'modified_user' => 1,
-						'modified' => false,
-					),
-				),
-
-				'PluginsRole' => array(
-					array(
-						'id' => '2',
-						'role_key' => 'room_administrator',
-						'plugin_key' => 'menus'
-					),
-				),
-
-				'PluginsRoom' => array(
-					array(
-						'id' => '2',
-						'room_id' => '1',
-						'plugin_key' => 'menus'
-					),
-				),
-
 				'Room' => array(
 					array(
 						'id' => '1',

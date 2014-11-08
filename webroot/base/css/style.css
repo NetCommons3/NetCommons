@@ -55,3 +55,11 @@ input[type="checkbox"] {
 .nc-modal-lg.modal-dialog {
     width: 90%;
 }
+
+.nc-wysiwig-alert {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 5px;
+	margin-left: -5px;
+	margin-right: -5px;
+}

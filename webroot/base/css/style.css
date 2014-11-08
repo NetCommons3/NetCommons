@@ -60,6 +60,7 @@ input[type="checkbox"] {
     border: 1px solid transparent;
     border-radius: 4px;
     padding: 5px;
+	margin-top: -2px;
 	margin-left: -5px;
 	margin-right: -5px;
 }

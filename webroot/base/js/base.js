@@ -9,7 +9,7 @@ var NetCommonsApp = angular.module('NetCommonsApp',
 /**
  * base controller
  */
-NetCommonsApp.controller('NetCommons.base', function($scope) {
+NetCommonsApp.controller('NetCommons.base', function($scope, $modal) {
 
   /**
    * status published
@@ -103,6 +103,35 @@ NetCommonsApp.controller('NetCommons.base', function($scope) {
    */
   $scope.showUser = function(user_id) {
     alert('user_id:' + user_id);
+  };
+
+  /**
+   * show dialog method
+   *
+   * @param {object} scope
+   * @param {string} templateUrl
+   * @param {string} controller
+   * @return {string}
+   */
+  $scope.showDialog = function(scope, templateUrl, controller) {
+    //ダイアログ表示
+    $modal.open({
+      templateUrl: templateUrl,
+      controller: controller,
+      backdrop: 'static',
+      scope: scope
+    }).result.then(
+        function(result) {},
+        function(reason) {
+          if (typeof reason.data === 'object') {
+            //openによるエラー
+            $scope.flash.danger(reason.data.name);
+          } else if (reason === 'canceled') {
+            //キャンセル
+            $scope.flash.close();
+          }
+        }
+    );
   };
 
 });

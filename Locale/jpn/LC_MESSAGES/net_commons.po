@@ -4,85 +4,193 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-10-20 09:36+0000\n"
-"PO-Revision-Date: 2014-10-24 16:48+0900\n"
+"POT-Creation-Date: 2014-11-09 14:21+0000\n"
+"PO-Revision-Date: 2014-11-10 00:03+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
-"Language-Team: NetCommons3 <nakajimashouhei@gmail.com>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"Language: ja\n"
-"X-Generator: Poedit 1.6.10\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 1.5.7\n"
 
-#: Announcements/Controller/AnnouncementEditController.php:132
+#: AccessCounters/Controller/AccessCounterEditController.php:124
+#: Iframes/Controller/IframeDisplayChangeController.php:128
+#: Iframes/Controller/IframeEditController.php:142
+#: Links/Controller/LinkCategoryController.php:123;160;187
+#: Links/Controller/LinksController.php:158
+#: RssReaders/Controller/RssReaderEditController.php:121
+#: RssReaders/Test/Case/Controller/RssReaderEditControllerErrorTest.php:108
 msgid "Failed to register data."
 msgstr "データの登録に失敗しました。"
 
-#: Announcements/Controller/AnnouncementEditController.php:141
-#: Announcements/Test/Case/Controller/AnnouncementEditControllerLoginUserTest.php:217
+#: AccessCounters/Controller/AccessCounterEditController.php:131
+#: AccessCounters/Test/Case/Controller/AccessCounterEditControllerTest.php:209
+#: Announcements/Controller/AnnouncementEditController.php:224
+#: Announcements/Test/Case/Controller/AnnouncementEditControllerTest.php:348
+#: Iframes/Controller/IframeDisplayChangeController.php:136
+#: Iframes/Controller/IframeEditController.php:150
+#: Iframes/Test/Case/Controller/IframeDisplayChangeControllerLoginUserTest.php:211
+#: Iframes/Test/Case/Controller/IframeEditControllerLoginUserTest.php:212
+#: Links/Controller/LinkCategoryController.php:115;152;179
+#: Links/Controller/LinksController.php:150
+#: RssReaders/Controller/RssReaderEditController.php:114
+#: RssReaders/Controller/RssReaderFrameSettingsController.php:76
+#: RssReaders/Controller/RssReadersController.php:127
 msgid "Successfully finished."
 msgstr "正常に登録しました。"
 
-#: Announcements/View/Announcements/view.ctp:24
-msgid "Accept"
-msgstr "承認する"
-
-#: Announcements/View/Announcements/view.ctp:34
+#: AccessCounters/View/AccessCounters/view.ctp:25
+#: Announcements/View/Announcements/view.ctp:32
+#: Iframes/View/Iframes/view.ctp:35
 msgid "Manage"
 msgstr "管理"
 
+#: AccessCounters/View/Elements/AccessCounterEdit/button.ctp:16
 #: Announcements/View/Elements/AnnouncementEdit/button.ctp:16
+#: Iframes/View/Elements/IframeDisplayChange/button.ctp:16
+#: Iframes/View/Elements/IframeEdit/button.ctp:16
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:89
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:161
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:25
-msgid "Disapproval"
-msgstr "差し戻し"
-
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:31
-msgid "Save temporally"
-msgstr "一時保存"
-
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:44
+#: AccessCounters/View/Elements/AccessCounterEdit/button.ctp:19
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:43;49;56
+#: Iframes/View/Elements/IframeDisplayChange/button.ctp:22
+#: Iframes/View/Elements/IframeEdit/button.ctp:37
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:93
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:183;189
 msgid "OK"
 msgstr "決定"
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:50
-msgid "Approval"
-msgstr "申請する"
-
+#: AccessCounters/View/Elements/AccessCounterEdit/tab_header.ctp:14
 #: Announcements/View/Elements/AnnouncementEdit/tab_header.ctp:15
+#: Iframes/View/Elements/manage_tab_header.ctp:15
 #: Pages/View/Elements/setting_menu.ctp:88
+#: RssReaders/View/Elements/manage_tab_header.ctp:3
 msgid "Close"
 msgstr "閉じる"
 
+#: Announcements/Controller/AnnouncementEditController.php:56;61;66;187;214
+#: Announcements/Controller/AnnouncementsController.php:55;59
+msgid "Security Error! Unauthorized input."
+msgstr "不正にアクセスされた可能性があります。"
+
+#: Announcements/Controller/AnnouncementEditController.php:203
+#: Announcements/Test/Case/Controller/AnnouncementEditControllerValidateErrorTest.php:71;115
+#: Announcements/Model/Announcement.php:86;94;101;107;113
+msgid "Invalid request."
+msgstr "入力値が不正です。"
+
+#: Announcements/Model/Announcement.php:119;130
+#: Announcements/Test/Case/Controller/AnnouncementEditControllerValidateErrorTest.php:74;118
+msgid "Please input %s."
+msgstr "%sを入力してください"
+
+#: Announcements/Model/Announcement.php:130
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:17
+msgid "Comment"
+msgstr "コメント"
+
+#: Announcements/Model/Announcement.php:184;202
+msgid "Internal Server Error"
+msgstr "Internal Server Error"
+
+#: Announcements/View/Announcements/view.ctp:22
+#: Iframes/View/Iframes/view.ctp:25
+msgid "Accept"
+msgstr "承認する"
+
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:24
+#: Iframes/View/Elements/IframeEdit/button.ctp:23
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:169
+msgid "Disapproval"
+msgstr "差し戻し"
+
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:30;35
+#: Iframes/View/Elements/IframeEdit/button.ctp:29
+#: RssReaders/View/Elements/RssReaders/edit_form.ctp:175
+msgid "Save temporally"
+msgstr "一時保存"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:21
+msgid "Optional"
+msgstr "任意"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:27
+msgid "If it is not approved, comment is a required input."
+msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:37
+msgid "Please enter comments to the person in charge."
+msgstr "担当者にコメントを入力して下さい。"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:14
+msgid "Comment list"
+msgstr "コメント一覧"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:43
+msgid "Prev"
+msgstr "前へ"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:48
+msgid "Next"
+msgstr "次へ"
+
+#: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18
+msgid "Required"
+msgstr "必須"
+
 #: Announcements/View/Elements/Announcements/status_label.ctp:16
+#: Iframes/View/Elements/Iframes/status_label.ctp:16
 msgid "Approving"
 msgstr "承認待ち"
 
 #: Announcements/View/Elements/Announcements/status_label.ctp:22
+#: Iframes/View/Elements/Iframes/status_label.ctp:22
 msgid "Disapproving"
 msgstr "差し戻し"
 
 #: Announcements/View/Elements/Announcements/status_label.ctp:28
+#: Iframes/View/Elements/Iframes/status_label.ctp:28
 msgid "Temporary"
 msgstr "一時保存"
 
-#: Auth/View/Auth/login.ctp:26 NetCommons/View/Layouts/default.ctp:81
+#: Auth/View/Auth/login.ctp:26 NetCommons/View/Layouts/default.ctp:79
 #: Pages/View/Pages/index.ctp:59
 msgid "Login"
 msgstr "ログイン"
 
-#: NetCommons/View/Layouts/default.ctp:75 Pages/View/Pages/index.ctp:30
+#: Iframes/View/Elements/manage_tab_header.ctp:29
+msgid "Display change"
+msgstr "表示方法変更"
+
+#: Iframes/View/Elements/IframeDisplayChange/display_change_form.ctp:41
+#: Iframes/View/Elements/IframeEdit/edit_form.ctp:44
+msgid "Required field."
+msgstr ""
+
+#: Iframes/View/Elements/IframeEdit/button.ctp:43
+msgid "Approval"
+msgstr ""
+
+#: Iframes/View/Elements/IframeEdit/edit_form.ctp:15
+msgid "URL"
+msgstr ""
+
+#: Iframes/View/Elements/IframeEdit/edit_form.ctp:48
+msgid "Invalid input."
+msgstr ""
+
+#: NetCommons/View/Layouts/default.ctp:73 Pages/View/Pages/index.ctp:30
 msgid "Home"
 msgstr "ホーム"
 
-#: NetCommons/View/Layouts/default.ctp:79 Pages/View/Pages/index.ctp:35
+#: NetCommons/View/Layouts/default.ctp:77 Pages/View/Pages/index.ctp:35
 msgid "Logout"
 msgstr "ログアウト"
 
-#: NetCommons/View/Layouts/default.ctp:90 Pages/View/Pages/index.ctp:43
+#: NetCommons/View/Layouts/default.ctp:88 Pages/View/Pages/index.ctp:43
 msgid "Theme setting"
 msgstr "テーマ設定"

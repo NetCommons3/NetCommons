@@ -115,4 +115,30 @@ class NetCommonsFrameComponent extends Component {
 
 		return true;
 	}
+
+/**
+ * Controller view set
+ *
+ * @param Controller $controller Instantiating controller
+ * @param array $validationErrors model validationErrors
+ * @return bool true is success, false is error.
+ */
+	public function setViewValidationErrors(Controller $controller, $validationErrors) {
+		$controller->response->statusCode(403);
+		$errors = array();
+		$keys = array_keys($validationErrors);
+		foreach ($keys as $key) {
+			$errors[$key]['$invalid'] = true;
+			$errors[$key]['messages'] = $validationErrors[$key];
+		}
+		$result = array(
+			'name' => __d('net_commons', 'Invalid request.'),
+			'errors' => $errors
+		);
+		$controller->set(compact('result'));
+		$controller->set('_serialize', 'result');
+
+		return true;
+	}
+
 }

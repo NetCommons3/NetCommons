@@ -211,4 +211,28 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', null);
 	}
 
+/**
+ * testSetViewDefaultRolePermissionDataError method
+ *
+ * @return void
+ */
+	public function testSetViewDefaultRolePermissionDataError() {
+		//テストデータ生成
+		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
+		$this->DefaultRolePermission->updateAll(
+			array('DefaultRolePermission.role_key' => "''"),
+			array('DefaultRolePermission.role_key' => 'room_administrator')
+		);
+
+		CakeSession::write('Auth.User.id', 1);
+
+		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
+		$this->assertNull($result);
+
+		$result = $this->NetCommonsRoomRole->setView($this->Controller);
+		$this->assertFalse($result);
+
+		CakeSession::write('Auth.User.id', null);
+	}
+
 }

@@ -90,7 +90,7 @@ msgstr ""
 
 #: Announcements/Model/Announcement.php:130
 #: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:17
-msgid "Comment"
+msgid "Comments to the person in charge."
 msgstr ""
 
 #: Announcements/Model/Announcement.php:184;202

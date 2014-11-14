@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-14 03:14+0000\n"
-"PO-Revision-Date: 2014-11-14 16:20+0900\n"
+"POT-Creation-Date: 2014-11-14 11:01+0000\n"
+"PO-Revision-Date: 2014-11-14 20:16+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,6 @@ msgstr ""
 #: AccessCounters/Controller/AccessCounterEditController.php:124
 #: Iframes/Controller/IframeDisplayChangeController.php:128
 #: Iframes/Controller/IframeEditController.php:142
-#: Links/Controller/LinkCategoryController.php:123;160;187
-#: Links/Controller/LinksController.php:159
 #: RssReaders/Controller/RssReaderEditController.php:121
 #: RssReaders/Test/Case/Controller/RssReaderEditControllerErrorTest.php:108
 msgid "Failed to register data."
@@ -32,8 +30,6 @@ msgstr "データの登録に失敗しました。"
 #: Iframes/Controller/IframeEditController.php:150
 #: Iframes/Test/Case/Controller/IframeDisplayChangeControllerLoginUserTest.php:211
 #: Iframes/Test/Case/Controller/IframeEditControllerLoginUserTest.php:212
-#: Links/Controller/LinkCategoryController.php:115;152;179
-#: Links/Controller/LinksController.php:150
 #: RssReaders/Controller/RssReaderEditController.php:114
 #: RssReaders/Controller/RssReaderFrameSettingsController.php:100
 #: RssReaders/Controller/RssReadersController.php:134
@@ -126,13 +122,17 @@ msgstr "担当者へのコメントを入力して下さい。"
 msgid "If it is not approved, input required."
 msgstr "差し戻す場合は、必須項目です。"
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:54
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:51
 msgid "If it is not approved, comment is a required input."
 msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
 
 #: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:33
 msgid "More"
 msgstr "もっと見る"
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:38
+msgid "Top"
+msgstr "Top"
 
 #: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18
 msgid "Required"

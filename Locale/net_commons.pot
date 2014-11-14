@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-09 14:54+0000\n"
+"POT-Creation-Date: 2014-11-14 03:14+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: Iframes/Controller/IframeDisplayChangeController.php:128
 #: Iframes/Controller/IframeEditController.php:142
 #: Links/Controller/LinkCategoryController.php:123;160;187
-#: Links/Controller/LinksController.php:158
+#: Links/Controller/LinksController.php:159
 #: RssReaders/Controller/RssReaderEditController.php:121
 #: RssReaders/Test/Case/Controller/RssReaderEditControllerErrorTest.php:108
 msgid "Failed to register data."
@@ -26,8 +26,8 @@ msgstr ""
 
 #: AccessCounters/Controller/AccessCounterEditController.php:131
 #: AccessCounters/Test/Case/Controller/AccessCounterEditControllerTest.php:209
-#: Announcements/Controller/AnnouncementEditController.php:224
-#: Announcements/Test/Case/Controller/AnnouncementEditControllerTest.php:348
+#: Announcements/Controller/AnnouncementEditController.php:222
+#: Announcements/Test/Case/Controller/AnnouncementEditControllerTest.php:305
 #: Iframes/Controller/IframeDisplayChangeController.php:136
 #: Iframes/Controller/IframeEditController.php:150
 #: Iframes/Test/Case/Controller/IframeDisplayChangeControllerLoginUserTest.php:211
@@ -35,8 +35,8 @@ msgstr ""
 #: Links/Controller/LinkCategoryController.php:115;152;179
 #: Links/Controller/LinksController.php:150
 #: RssReaders/Controller/RssReaderEditController.php:114
-#: RssReaders/Controller/RssReaderFrameSettingsController.php:76
-#: RssReaders/Controller/RssReadersController.php:127
+#: RssReaders/Controller/RssReaderFrameSettingsController.php:100
+#: RssReaders/Controller/RssReadersController.php:134
 msgid "Successfully finished."
 msgstr ""
 
@@ -50,17 +50,17 @@ msgstr ""
 #: Announcements/View/Elements/AnnouncementEdit/button.ctp:16
 #: Iframes/View/Elements/IframeDisplayChange/button.ctp:16
 #: Iframes/View/Elements/IframeEdit/button.ctp:16
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:89
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:161
+#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:160
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:91
 msgid "Cancel"
 msgstr ""
 
 #: AccessCounters/View/Elements/AccessCounterEdit/button.ctp:19
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:43;49;56
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:48;55
 #: Iframes/View/Elements/IframeDisplayChange/button.ctp:22
 #: Iframes/View/Elements/IframeEdit/button.ctp:37
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:93
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:183;189
+#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:182;188
+#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:95
 msgid "OK"
 msgstr ""
 
@@ -72,28 +72,24 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: Announcements/Controller/AnnouncementEditController.php:56;61;66;187;214
+#: Announcements/Controller/AnnouncementEditController.php:58;63;68;195;200;206;212
 #: Announcements/Controller/AnnouncementsController.php:55;59
 msgid "Security Error! Unauthorized input."
 msgstr ""
 
-#: Announcements/Controller/AnnouncementEditController.php:203
-#: Announcements/Test/Case/Controller/AnnouncementEditControllerValidateErrorTest.php:71
-#: Announcements/Model/Announcement.php:86;94;101;107;113
+#: Announcements/Model/Announcement.php:72;80;87;93;99
+#: Blocks/Model/Comment.php:79;86;93
+#: NetCommons/Controller/Component/NetCommonsFrameComponent.php:135
+#: NetCommons/Test/Case/Controller/Component/NetCommonsFrameComponentTest.php:191
 msgid "Invalid request."
 msgstr ""
 
-#: Announcements/Model/Announcement.php:119;130
-#: Announcements/Test/Case/Controller/AnnouncementEditControllerValidateErrorTest.php:74;118
+#: Announcements/Model/Announcement.php:105
+#: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:31
 msgid "Please input %s."
 msgstr ""
 
-#: Announcements/Model/Announcement.php:130
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:17
-msgid "Comments to the person in charge."
-msgstr ""
-
-#: Announcements/Model/Announcement.php:184;202
+#: Announcements/Model/Announcement.php:183;202;207
 msgid "Internal Server Error"
 msgstr ""
 
@@ -102,40 +98,40 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:24
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:25
 #: Iframes/View/Elements/IframeEdit/button.ctp:23
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:169
+#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:168
 msgid "Disapproval"
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:30;35
+#: Announcements/View/Elements/AnnouncementEdit/button.ctp:32;39
 #: Iframes/View/Elements/IframeEdit/button.ctp:29
-#: RssReaders/View/Elements/RssReaders/edit_form.ctp:175
+#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:174
 msgid "Save temporally"
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:21
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:20
+msgid "Comments to the person in charge."
+msgstr ""
+
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:24
 msgid "Optional"
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:27
-msgid "If it is not approved, comment is a required input."
-msgstr ""
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:37
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:33
 msgid "Please enter comments to the person in charge."
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:14
-msgid "Comment list"
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:35
+msgid "If it is not approved, input required."
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:43
-msgid "Prev"
+#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:54
+msgid "If it is not approved, comment is a required input."
 msgstr ""
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:48
-msgid "Next"
+#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:33
+msgid "More"
 msgstr ""
 
 #: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18

@@ -33,7 +33,6 @@ class NetCommonsAppController extends AppController {
 		$result = array(
 			'code' => $status,
 			'name' => $name,
-			'url' => $this->url,
 			'results' => $results,
 		);
 		$this->set(compact('result'));

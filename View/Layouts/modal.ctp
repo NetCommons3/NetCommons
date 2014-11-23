@@ -19,7 +19,7 @@
 		<span class="glyphicon glyphicon-remove small"></span>
 	</button>
 
-	<?php echo h($title_for_layout); ?>
+	<?php echo $this->fetch('title'); ?>
 </div>
 
 <div class="modal-body">

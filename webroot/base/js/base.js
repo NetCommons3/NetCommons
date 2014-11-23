@@ -154,10 +154,10 @@ NetCommonsApp.controller('NetCommons.base',
        */
       $scope.tab = {
         tabId: 1,
-        setTab: function (tabId) {
+        setTab: function(tabId) {
           $scope.tabId = tabId;
         },
-        isSet: function (tabId) {
+        isSet: function(tabId) {
           return $scope.tabId === tabId;
         }
       };
@@ -186,9 +186,9 @@ NetCommonsApp.controller('NetCommons.base',
           $scope.comments.hasNext = comments.hasNext;
           $scope.comments.data = comments.data;
           $scope.comments.disabled =
-                          comments.data.length === 0 ? true : false;
+                            comments.data.length === 0 ? true : false;
           $scope.comments.visibility =
-                          comments.data.length === 0 ? false : true;
+                            comments.data.length === 0 ? false : true;
         },
         get: function(page) {
           $http.get('/comments/comments/index/' +
@@ -201,7 +201,7 @@ NetCommonsApp.controller('NetCommons.base',
                 $scope.comments.hasPrev = comments.hasPrev;
                 $scope.comments.hasNext = comments.hasNext;
                 if (page === 1 &&
-                          comments.limit > $scope.comments.data.length) {
+                        comments.limit > $scope.comments.data.length) {
                   $scope.comments.data = comments.data;
                 } else {
                   $scope.comments.data =
@@ -230,7 +230,7 @@ NetCommonsApp.controller('NetCommons.base',
               return '';
             } else {
               return ($scope.comments.input.invalid(form) ?
-                    'has-error' : 'has-success');
+                      'has-error' : 'has-success');
             }
           },
           glyphicon: function(form, statusModel, editStatusModel) {
@@ -239,15 +239,14 @@ NetCommonsApp.controller('NetCommons.base',
               return '';
             } else {
               return ($scope.comments.input.invalid(form) ?
-                    'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok');
+                      'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok');
             }
           },
           showMessage: function(form, statusModel, editStatusModel) {
             return ($scope.comments.input.hasErrorTarget(statusModel,
-                        editStatusModel) &&
+                              editStatusModel) &&
                     $scope.comments.input.invalid(form));
           }
         }
       };
-
-});
+    });

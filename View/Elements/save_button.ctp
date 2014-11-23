@@ -10,54 +10,54 @@
  */
 ?>
 
-<button type="button" class="btn btn-default" ng-click="cancel()" ng-disabled="sending">
-	<span class="glyphicon glyphicon-remove"></span>
-	<?php echo __d('net_commons', 'Cancel'); ?>
-</button>
+	<button type="button" class="btn btn-default" ng-click="cancel()" ng-disabled="sending">
+		<span class="glyphicon glyphicon-remove"></span>
+		<?php echo __d('net_commons', 'Cancel'); ?>
+	</button>
 
-<?php if ($contentPublishable) : ?>
-	<button type="button" name="status" class="btn btn-danger"
+	<?php if ($contentPublishable) : ?>
+		<button type="button" name="status" class="btn btn-danger"
 			ng-disabled="sending"
 			ng-hide="<?php echo h($statusModel); ?> !==
 				  '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
 			ng-click="save(<?php echo h($formName); ?>,
 				  '<?php echo NetCommonsBlockComponent::STATUS_DISAPPROVED ?>')">
-		<?php echo __d('net_commons', 'Disapproval'); ?>
-	</button>
+			<?php echo __d('net_commons', 'Disapproval'); ?>
+		</button>
 
-	<button type="button" class="btn btn-default ng-hide"
+		<button type="button" class="btn btn-default ng-hide"
 			ng-disabled="sending"
 			ng-hide="<?php echo h($statusModel); ?> ===
 				  '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
 			ng-click="save(<?php echo h($formName); ?>,
 				  '<?php echo NetCommonsBlockComponent::STATUS_DRAFTED ?>')">
-		<?php echo __d('net_commons', 'Save temporally'); ?>
-	</button>
+			<?php echo __d('net_commons', 'Save temporally'); ?>
+		</button>
 
-<?php else : ?>
-	<button type="button" class="btn btn-default"
+	<?php else : ?>
+		<button type="button" class="btn btn-default"
 			ng-disabled="sending"
 			ng-click="save(<?php echo h($formName); ?>,
 				  '<?php echo NetCommonsBlockComponent::STATUS_DRAFTED ?>')">
-		<?php echo __d('net_commons', 'Save temporally'); ?>
-	</button>
+			<?php echo __d('net_commons', 'Save temporally'); ?>
+		</button>
 
-<?php endif; ?>
+	<?php endif; ?>
 
-<?php if ($contentPublishable) : ?>
-	<button type="button" class="btn btn-primary"
+	<?php if ($contentPublishable) : ?>
+		<button type="button" class="btn btn-primary"
 			ng-disabled="sending"
 			ng-click="save(<?php echo h($formName); ?>,
 				  '<?php echo NetCommonsBlockComponent::STATUS_PUBLISHED ?>')">
-		<?php echo __d('net_commons', 'OK'); ?>
-	</button>
+			<?php echo __d('net_commons', 'OK'); ?>
+		</button>
 
-<?php else : ?>
-	<button type="button" class="btn btn-primary"
+	<?php else : ?>
+		<button type="button" class="btn btn-primary"
 			ng-disabled="sending"
 			ng-click="save(<?php echo h($formName); ?>,
 				  '<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>')">
-		<?php echo __d('net_commons', 'OK'); ?>
-	</button>
+			<?php echo __d('net_commons', 'OK'); ?>
+		</button>
 
-<?php endif;
+	<?php endif;

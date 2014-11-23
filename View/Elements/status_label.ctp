@@ -10,7 +10,7 @@
  */
 ?>
 
-<span ng-switch="<?php echo h($statusModel) ?>">
+<span class="ng-hide" ng-show="<?php echo h($statusModel) ?>" ng-switch="<?php echo h($statusModel) ?>">
 	<span class="label label-warning"
 			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>">
 		<?php echo __d('net_commons', 'Approving'); ?>

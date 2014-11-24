@@ -214,7 +214,7 @@ NetCommonsApp.controller('NetCommons.base',
         },
         input: {
           invalid: function(form) {
-            return form['comment'].$invalid;
+            return (! form['comment']['$viewValue']);
           },
           hasErrorTarget: function(statusModel, editStatusModel) {
             if (statusModel === editStatusModel ||

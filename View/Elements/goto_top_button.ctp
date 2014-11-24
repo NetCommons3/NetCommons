@@ -13,6 +13,6 @@
 <div class="text-right">
 	<button type="button" class="btn btn-default" ng-click="top()"
 			tooltip="<?php echo __d('net_commons', 'Go to Top'); ?>">
-		<span class="glyphicon glyphicon-hand-up"> </span>
+		<span class="glyphicon glyphicon-circle-arrow-up"> </span>
 	</button>
 </div>

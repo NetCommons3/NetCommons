@@ -19,7 +19,7 @@
 		<span class="glyphicon glyphicon-remove small"></span>
 	</button>
 
-	<?php echo $this->fetch('title'); ?>
+	<?php echo $this->fetch('title_for_modal'); ?>
 </div>
 
 <div class="modal-body">

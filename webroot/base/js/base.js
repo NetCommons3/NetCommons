@@ -138,6 +138,39 @@ NetCommonsApp.controller('NetCommons.base',
       };
 
       /**
+       * send get
+       *
+       * @param {string} url
+       * @return {void}
+       */
+      $scope.get = function(url) {
+        return $http.get(url, {cache: false});
+      };
+
+      /**
+       * send delete
+       *
+       * @param {string} url
+       * @return {void}
+       */
+      $scope.delete = function(url) {
+        return $http.delete(url, {cache: false});
+      };
+
+      /**
+       * send post
+       *
+       * @param {string} url
+       * @param {Object.<string>} postParams
+       * @return {void}
+       */
+      $scope.post = function(url, postParams) {
+        return $http.post(url, $.param(postParams),
+            {cache: false,
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      };
+
+      /**
        * top method
        *
        * @return {void}

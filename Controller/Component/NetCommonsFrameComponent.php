@@ -98,10 +98,11 @@ class NetCommonsFrameComponent extends Component {
  * @param Controller $controller Instantiating controller
  * @param array $frame frame data
  * @return bool true is success, false is error.
+ * @throws InternalErrorException
  */
 	private function __setViewFrame(Controller $controller, $frame) {
 		if (! $frame || ! isset($frame['Frame']['id'])) {
-			return false;
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		$controller->set('frameId', (int)$frame['Frame']['id']);
@@ -112,31 +113,6 @@ class NetCommonsFrameComponent extends Component {
 		}
 		$controller->set('roomId', (int)$frame['Frame']['room_id']);
 		$controller->set('languageId', (int)$frame['Frame']['language_id']);
-
-		return true;
-	}
-
-/**
- * Controller view set
- *
- * @param Controller $controller Instantiating controller
- * @param array $validationErrors model validationErrors
- * @return bool true is success, false is error.
- */
-	public function setViewValidationErrors(Controller $controller, $validationErrors) {
-		$controller->response->statusCode(403);
-		$errors = array();
-		$keys = array_keys($validationErrors);
-		foreach ($keys as $key) {
-			$errors[$key]['$invalid'] = true;
-			$errors[$key]['messages'] = $validationErrors[$key];
-		}
-		$result = array(
-			'name' => __d('net_commons', 'Invalid request.'),
-			'errors' => $errors
-		);
-		$controller->set(compact('result'));
-		$controller->set('_serialize', 'result');
 
 		return true;
 	}

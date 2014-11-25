@@ -176,6 +176,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewNotExistUser() {
+		$this->setExpectedException('InternalErrorException');
+
 		CakeSession::write('Auth.User.id', 999);
 
 		$result = $this->NetCommonsRoomRole->initialize($this->Controller);
@@ -193,6 +195,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewRoomRolePermisionDataError() {
+		$this->setExpectedException('InternalErrorException');
+
 		//テストデータ生成
 		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
 		$this->RoomRolePermission->updateAll(
@@ -217,6 +221,8 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewDefaultRolePermissionDataError() {
+		$this->setExpectedException('InternalErrorException');
+
 		//テストデータ生成
 		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 		$this->DefaultRolePermission->updateAll(

@@ -46,6 +46,7 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @return bool true is success, false is error.
+ * @throws InternalErrorException
  */
 	public function setView(Controller $controller) {
 		$userId = CakeSession::read('Auth.User.id');
@@ -53,7 +54,7 @@ class NetCommonsRoomRoleComponent extends Component {
 			$roleRoomUser =
 					$this->RolesRoomsUser->findByUserId($userId);
 			if (! $roleRoomUser) {
-				return false;
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 			if (isset($roleRoomUser['RolesRoom'])) {
 				$controller->set('roomRoleKey', $roleRoomUser['RolesRoom']['role_key']);
@@ -64,7 +65,7 @@ class NetCommonsRoomRoleComponent extends Component {
 		$defaultPermissions =
 				$this->DefaultRolePermission->findAllByRoleKey($controller->viewVars['roomRoleKey']);
 		if (! $defaultPermissions) {
-			return false;
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 		foreach ($defaultPermissions as $defaultPermission) {
 			$key = Inflector::variable($defaultPermission['DefaultRolePermission']['permission']);
@@ -80,7 +81,7 @@ class NetCommonsRoomRoleComponent extends Component {
 		$roomRolePermissions =
 				$this->RoomRolePermission->findAllByRolesRoomId($controller->viewVars['rolesRoomId']);
 		if (! $roomRolePermissions) {
-			return false;
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		foreach ($roomRolePermissions as $roomRolePermission) {

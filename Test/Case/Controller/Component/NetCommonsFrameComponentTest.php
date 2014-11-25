@@ -168,38 +168,14 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewNotExistFrameId() {
+		$this->setExpectedException('InternalErrorException');
+
 		$this->testInitialize();
 
 		$frameId = 999;
 		$result = $this->NetCommonsFrame->setView($this->Controller, $frameId);
 
 		$this->assertFalse($result);
-	}
-
-/**
- * testRenderValidationErrors method
- *
- * @return void
- */
-	public function testSetViewValidationErrors() {
-		$validationErrors = array(
-			'test' => 'validationErrors'
-		);
-		$this->NetCommonsFrame->setViewValidationErrors($this->Controller, $validationErrors);
-
-		$expected = array(
-			'name' => __d('net_commons', 'Invalid request.'),
-			'errors' => array(
-				'test' => array(
-					'$invalid' => true,
-					'messages' => 'validationErrors'
-				)
-			)
-		);
-
-		$result = $this->Controller->viewVars['result'];
-
-		$this->assertEquals($expected, $result, 'Json data =' . print_r($result, true));
 	}
 
 }

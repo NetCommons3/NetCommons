@@ -38,6 +38,7 @@ class NetCommonsAppController extends AppController {
 		$this->set(compact('result'));
 		$this->set('_serialize', 'result');
 
+		//TODO: autoRender = false もしくは、いらない？
 		$this->render(false);
 	}
 

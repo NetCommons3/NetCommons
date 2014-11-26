@@ -19,14 +19,17 @@
 		<span class="glyphicon glyphicon-remove small"></span>
 	</button>
 
+	<?php //TODO:titleForModal ?>
 	<?php echo $this->fetch('title_for_modal'); ?>
 </div>
 
 <div class="modal-body">
+	<?php //TODO: tablist⇒tabList。 空かどうかチェックしてbrを出す ?>
 	<?php echo $this->fetch('tablist'); ?>
 	<br />
 
 	<?php $tabId = $this->fetch('tabIndex'); ?>
+	<?php //TODO: tablistを空かどうかチェックする ?>
 	<div class="tab-content" ng-init="tab.setTab(<?php echo (int)$tabId; ?>)">
 		<?php echo $this->fetch('content'); ?>
 

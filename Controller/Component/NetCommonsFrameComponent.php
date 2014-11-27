@@ -20,6 +20,13 @@ App::uses('Component', 'Controller');
 class NetCommonsFrameComponent extends Component {
 
 /**
+ * startup setView
+ *
+ * @var bool
+ */
+	public $setView = false;
+
+/**
  * Initialize component
  *
  * @param Controller $controller Instantiating controller
@@ -45,11 +52,24 @@ class NetCommonsFrameComponent extends Component {
 	}
 
 /**
+ * Called after the Controller::beforeFilter() and before the controller action
+ *
+ * @param Controller $controller Controller with components to startup
+ * @return void
+ */
+	public function startup(Controller $controller) {
+		if ($this->setView) {
+			$frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
+			$this->setView($controller, $frameId);
+		}
+	}
+
+/**
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
  * @param int $frameId frames.id
- * @return bool true is success, false is error.
+ * @return void
  */
 	public function setView(Controller $controller, $frameId) {
 		//set language_id
@@ -62,7 +82,7 @@ class NetCommonsFrameComponent extends Component {
 		$frameId = (int)$frameId;
 		$frame = $this->Frame->findById($frameId);
 
-		return $this->__setViewFrame($controller, $frame);
+		$this->__setViewFrame($controller, $frame);
 	}
 
 /**
@@ -71,7 +91,7 @@ class NetCommonsFrameComponent extends Component {
  * @param Controller $controller Instantiating controller
  * @param string $frameKey frames.key
  * @param string $languageCode languages.code
- * @return bool true is success, false is error.
+ * @return void
  */
 	public function setViewKey(Controller $controller, $frameKey, $languageCode = '') {
 		//set language_id
@@ -89,7 +109,7 @@ class NetCommonsFrameComponent extends Component {
 				)
 			));
 
-		return $this->__setViewFrame($controller, $frame);
+		$this->__setViewFrame($controller, $frame);
 	}
 
 /**
@@ -97,7 +117,7 @@ class NetCommonsFrameComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param array $frame frame data
- * @return bool true is success, false is error.
+ * @return void
  * @throws InternalErrorException
  */
 	private function __setViewFrame(Controller $controller, $frame) {
@@ -113,8 +133,6 @@ class NetCommonsFrameComponent extends Component {
 		}
 		$controller->set('roomId', (int)$frame['Frame']['room_id']);
 		$controller->set('languageId', (int)$frame['Frame']['language_id']);
-
-		return true;
 	}
 
 }

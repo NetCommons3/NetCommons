@@ -48,13 +48,11 @@ class NetCommonsBlockComponent extends Component {
 	const STATUS_DISAPPROVED = '4';
 
 /**
- * use component
+ * startup setView
  *
- * @var array
+ * @var bool
  */
-	public $components = array(
-		'Auth',
-	);
+	public $setView = false;
 
 /**
  * Initialize component
@@ -80,6 +78,19 @@ class NetCommonsBlockComponent extends Component {
 	}
 
 /**
+ * Called after the Controller::beforeFilter() and before the controller action
+ *
+ * @param Controller $controller Controller with components to startup
+ * @return void
+ */
+	public function startup(Controller $controller) {
+		if ($this->setView) {
+			$blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
+			$this->setView($controller, $blockId);
+		}
+	}
+
+/**
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
@@ -97,7 +108,7 @@ class NetCommonsBlockComponent extends Component {
 		$blockId = (int)$blockId;
 		$block = $this->Block->findById($blockId);
 
-		return $this->__setViewBlock($controller, $block);
+		$this->__setViewBlock($controller, $block);
 	}
 
 /**
@@ -124,7 +135,7 @@ class NetCommonsBlockComponent extends Component {
 			)
 		));
 
-		return $this->__setViewBlock($controller, $block);
+		$this->__setViewBlock($controller, $block);
 	}
 
 /**
@@ -132,19 +143,18 @@ class NetCommonsBlockComponent extends Component {
  *
  * @param Controller $controller Instantiating controller
  * @param array $block blocks
- * @return bool true is success, false is error.
+ * @return void
+ * @throws InternalErrorException
  */
 	private function __setViewBlock(Controller $controller, $block) {
 		if (! $block || ! isset($block['Block']['id'])) {
-			return false;
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
 		$controller->set('blockId', (int)$block['Block']['id']);
 		$controller->set('blockKey', $block['Block']['key']);
 		$controller->set('roomId', (int)$block['Block']['room_id']);
 		$controller->set('languageId', (int)$block['Block']['language_id']);
-
-		return true;
 	}
 
 }

@@ -23,14 +23,14 @@ class NetCommonsAppController extends Controller {
  *
  * @var string
  */
-	public $layout = "NetCommons.default";
+	public $layout = 'NetCommons.default';
 
 /**
  * use theme
  *
  * @var string
  */
-	public $theme = "default";
+	public $theme = 'default';
 
 /**
  * use components
@@ -53,9 +53,9 @@ class NetCommonsAppController extends Controller {
 				'action' => 'index',
 			),
 			'logoutRedirect' => array(
-				'plugin' => 'auth',
-				'controller' => 'auth',
-				'action' => 'login',
+				'plugin' => 'pages',
+				'controller' => 'pages',
+				'action' => 'index',
 			)
 		),
 		'RequestHandler',
@@ -66,7 +66,7 @@ class NetCommonsAppController extends Controller {
  *
  * @var array
  */
-	public $uses = array("SiteSetting");
+	public $uses = array('SiteSetting');
 
 /**
  * View class name that is used for singleton helper

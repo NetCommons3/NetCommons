@@ -1,6 +1,6 @@
 <?php
 /**
- * status label template elements
+ * status_label element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

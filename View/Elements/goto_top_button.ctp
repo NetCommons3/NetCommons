@@ -1,6 +1,6 @@
 <?php
 /**
- * announcement button element template
+ * goto_top_button element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

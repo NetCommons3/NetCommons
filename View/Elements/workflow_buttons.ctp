@@ -1,6 +1,6 @@
 <?php
 /**
- * announcement button element template
+ * workflow_buttons element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

@@ -1,6 +1,6 @@
 <?php
 /**
- * setting_button element template
+ * status_label element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,9 +10,6 @@
  */
 ?>
 
-<button class="btn btn-primary"
-		tooltip="<?php echo __d('net_commons', 'Manage'); ?>"
-		ng-click="showSetting()">
-
-	<span class="glyphicon glyphicon-cog"> </span>
-</button>
+<span class="label label-danger">
+	<?php echo __d('net_commons', 'Required'); ?>
+</span>

@@ -48,6 +48,18 @@ class NetCommonsBlockComponent extends Component {
 	const STATUS_DISAPPROVED = '4';
 
 /**
+ * status list
+ *
+ * @var array
+ */
+	static public $STATUSES = array(
+		self::STATUS_PUBLISHED,
+		self::STATUS_APPROVED,
+		self::STATUS_DRAFTED,
+		self::STATUS_DISAPPROVED
+	);
+
+/**
  * startup setView
  *
  * @var bool

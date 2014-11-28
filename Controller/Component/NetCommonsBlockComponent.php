@@ -22,28 +22,28 @@ class NetCommonsBlockComponent extends Component {
 /**
  * status published
  *
- * @var int
+ * @var string
  */
 	const STATUS_PUBLISHED = '1';
 
 /**
  * status approved
  *
- * @var int
+ * @var string
  */
 	const STATUS_APPROVED = '2';
 
 /**
  * status drafted
  *
- * @var int
+ * @var string
  */
 	const STATUS_DRAFTED = '3';
 
 /**
  * status disaproved
  *
- * @var int
+ * @var string
  */
 	const STATUS_DISAPPROVED = '4';
 

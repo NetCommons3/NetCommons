@@ -10,56 +10,251 @@ var NetCommonsApp = angular.module('NetCommonsApp',
 //  }]);
 
 /**
+ * NetCommons factory
+ */
+NetCommonsApp.factory('NetCommons',
+    ['$http', '$q', '$modal', '$modalStack', '$location', '$anchorScroll',
+      function ($http, $q, $modal, $modalStack, $location, $anchorScroll) {
+
+      return {
+        /**
+         * status published
+         *
+         * @const
+         */
+        STATUS_PUBLISHED: '1',
+
+        /**
+         * status approved
+         *
+         * @const
+         */
+        STATUS_APPROVED: '2',
+
+        /**
+         * status drafted
+         *
+         * @const
+         */
+        STATUS_DRAFTED: '3',
+
+        /**
+         * status disaproved
+         *
+         * @const
+         */
+        STATUS_DISAPPROVED: '4',
+
+        /**
+         * show dialog method
+         *
+         * @param {object} scope
+         * @param {string} templateUrl
+         * @param {string} controller
+         * @return {string}
+         */
+        showDialog: function(scope, templateUrl, controller) {
+          $modalStack.dismissAll('canceled');
+
+          //ダイアログ表示
+          $modal.open({
+            templateUrl: templateUrl,
+            controller: controller,
+            backdrop: 'static',
+            scope: scope
+          }).result.then(
+              function(result) {},
+              function(reason) {
+                if (typeof reason.data === 'object') {
+                  //openによるエラー
+                  scope.flash.danger(reason.data.name);
+                } else if (reason === 'canceled') {
+                  //キャンセル
+                  scope.flash.close();
+                }
+              }
+          );
+        },
+
+        /**
+         * send get
+         *
+         * @param {string} url
+         * @return {void}
+         */
+        get: function(url) {
+          return $http.get(url, {cache: false});
+        },
+
+        /**
+         * send delete
+         *
+         * @param {string} url
+         * @return {void}
+         */
+        delete: function(url) {
+          return $http.delete(url, {cache: false});
+        },
+
+        /**
+         * send post
+         *
+         * @param {string} url
+         * @param {Object.<string>} postParams
+         * @return {void}
+         */
+        post: function(url, postParams) {
+          return $http.post(url, $.param(postParams),
+              {cache: false,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+        },
+
+        /**
+         * top method
+         *
+         * @return {void}
+         */
+        top: function() {
+          $location.hash('nc-modal-top');
+          $anchorScroll();
+        }
+      };
+  }]);
+
+
+/**
+ * NetCommonsFlush factory
+ */
+NetCommonsApp.factory('NetCommonsFlush', function () {
+
+    /**
+     * factory
+     *
+     * @type {Object.<string>}
+     */
+    var factory = {
+      scope: {},
+      message: '',
+      type: '',
+      close: function() {
+        factory.scope.flash.message = '';
+        factory.scope.flash.type = '';
+        $('#nc-flash-message').addClass('hidden');
+      },
+      success: function(message) {
+        factory.scope.flash.custom(message, 'alert-success', true);
+      },
+      info: function(message) {
+        factory.scope.flash.custom(message, 'alert-info', true);
+      },
+      warning: function(message) {
+        factory.scope.flash.custom(message, 'alert-warning', false);
+      },
+      danger: function(message) {
+        factory.scope.flash.custom(message, 'alert-danger', false);
+      },
+      custom: function(message, type, fadeOut) {
+        factory.scope.flash.message = message;
+        factory.scope.flash.type = type;
+        $('#nc-flash-message').removeClass('hidden');
+        if (fadeOut) {
+          $('#nc-flash-message').fadeIn(500).fadeTo(1000, 1).fadeOut(1500);
+        } else {
+          $('#nc-flash-message').fadeIn(500);
+        }
+      }
+    };
+
+    return {
+      init: function(scope) {
+        factory.scope = scope;
+        return factory;
+      }
+    };
+  });
+
+
+
+/**
+ * NetCommonsWysiwyg factory
+ */
+NetCommonsApp.factory('NetCommonsWysiwyg', function () {
+
+    /**
+     * tinymce optins
+     *
+     * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}
+     */
+    var options = {
+      mode: 'exact',
+      menubar: ' ',
+      plugins: 'textcolor advlist autolink autoresize charmap code link ',
+      toolbar: 'undo redo  |' +
+          ' forecolor |' +
+          ' styleselect |' +
+          ' bold italic |' +
+          ' alignleft aligncenter alignright alignjustify |' +
+          ' bullist numlist outdent indent |' +
+          ' link |'
+    };
+
+    return {
+      options: options
+    };
+  });
+
+
+/**
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    function($http, $scope, $modal, $modalStack, $location, $anchorScroll) {
+    function($http, $scope, $modal, $modalStack, $location, $anchorScroll, NetCommons, NetCommonsFlush) {
 
-      /**
-       * status published
-       *
-       * @const
-       */
-      $scope.STATUS_PUBLISHED = '1';
+//      /**
+//       * status published
+//       *
+//       * @const
+//       */
+//      $scope.STATUS_PUBLISHED = '1';
+//
+//      /**
+//       * status approved
+//       *
+//       * @const
+//       */
+//      $scope.STATUS_APPROVED = '2';
+//
+//      /**
+//       * status drafted
+//       *
+//       * @const
+//       */
+//      $scope.STATUS_DRAFTED = '3';
+//
+//      /**
+//       * status disaproved
+//       *
+//       * @const
+//       */
+//      $scope.STATUS_DISAPPROVED = '4';
 
-      /**
-       * status approved
-       *
-       * @const
-       */
-      $scope.STATUS_APPROVED = '2';
-
-      /**
-       * status drafted
-       *
-       * @const
-       */
-      $scope.STATUS_DRAFTED = '3';
-
-      /**
-       * status disaproved
-       *
-       * @const
-       */
-      $scope.STATUS_DISAPPROVED = '4';
-
-      /**
-       * tinymce optins
-       *
-       * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}
-       */
-      $scope.tinymceOptions = {
-        mode: 'exact',
-        menubar: ' ',
-        plugins: 'textcolor advlist autolink autoresize charmap code link ',
-        toolbar: 'undo redo  |' +
-            ' forecolor |' +
-            ' styleselect |' +
-            ' bold italic |' +
-            ' alignleft aligncenter alignright alignjustify |' +
-            ' bullist numlist outdent indent |' +
-            ' link |'
-      };
+//      /**
+//       * tinymce optins
+//       *
+//       * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}
+//       */
+//      $scope.tinymceOptions = {
+//        mode: 'exact',
+//        menubar: ' ',
+//        plugins: 'textcolor advlist autolink autoresize charmap code link ',
+//        toolbar: 'undo redo  |' +
+//            ' forecolor |' +
+//            ' styleselect |' +
+//            ' bold italic |' +
+//            ' alignleft aligncenter alignright alignjustify |' +
+//            ' bullist numlist outdent indent |' +
+//            ' link |'
+//      };
 
       /**
        * set flash
@@ -67,37 +262,38 @@ NetCommonsApp.controller('NetCommons.base',
        * @param {string} text message text
        * @param {string} type bootstrap css class name alert-xxx
        */
-      $scope.flash = {
-        message: '',
-        type: '',
-        close: function() {
-          $scope.flash.message = '';
-          $scope.flash.type = '';
-          $('#nc-flash-message').addClass('hidden');
-        },
-        success: function(message) {
-          $scope.flash.custom(message, 'alert-success', true);
-        },
-        info: function(message) {
-          $scope.flash.custom(message, 'alert-info', true);
-        },
-        warning: function(message) {
-          $scope.flash.custom(message, 'alert-warning', false);
-        },
-        danger: function(message) {
-          $scope.flash.custom(message, 'alert-danger', false);
-        },
-        custom: function(message, type, fadeOut) {
-          $scope.flash.message = message;
-          $scope.flash.type = type;
-          $('#nc-flash-message').removeClass('hidden');
-          if (fadeOut) {
-            $('#nc-flash-message').fadeIn(500).fadeTo(1000, 1).fadeOut(1500);
-          } else {
-            $('#nc-flash-message').fadeIn(500);
-          }
-        }
-      };
+      $scope.flash = NetCommonsFlush.init($scope);
+//      $scope.flash = {
+//        message: '',
+//        type: '',
+//        close: function() {
+//          $scope.flash.message = '';
+//          $scope.flash.type = '';
+//          $('#nc-flash-message').addClass('hidden');
+//        },
+//        success: function(message) {
+//          $scope.flash.custom(message, 'alert-success', true);
+//        },
+//        info: function(message) {
+//          $scope.flash.custom(message, 'alert-info', true);
+//        },
+//        warning: function(message) {
+//          $scope.flash.custom(message, 'alert-warning', false);
+//        },
+//        danger: function(message) {
+//          $scope.flash.custom(message, 'alert-danger', false);
+//        },
+//        custom: function(message, type, fadeOut) {
+//          $scope.flash.message = message;
+//          $scope.flash.type = type;
+//          $('#nc-flash-message').removeClass('hidden');
+//          if (fadeOut) {
+//            $('#nc-flash-message').fadeIn(500).fadeTo(1000, 1).fadeOut(1500);
+//          } else {
+//            $('#nc-flash-message').fadeIn(500);
+//          }
+//        }
+//      };
 
       /**
        * show user information method
@@ -117,71 +313,68 @@ NetCommonsApp.controller('NetCommons.base',
        * @param {string} controller
        * @return {string}
        */
-      $scope.showDialog = function(scope, templateUrl, controller) {
-        $modalStack.dismissAll('canceled');
+//      $scope.showDialog = function(scope, templateUrl, controller) {
+//        $modalStack.dismissAll('canceled');
+//
+//        //ダイアログ表示
+//        $modal.open({
+//          templateUrl: templateUrl,
+//          controller: controller,
+//          backdrop: 'static',
+//          scope: scope
+//        }).result.then(
+//            function(result) {},
+//            function(reason) {
+//              if (typeof reason.data === 'object') {
+//                //openによるエラー
+//                $scope.flash.danger(reason.data.name);
+//              } else if (reason === 'canceled') {
+//                //キャンセル
+//                $scope.flash.close();
+//              }
+//            }
+//        );
+//      };
 
-        //ダイアログ表示
-        $modal.open({
-          templateUrl: templateUrl,
-          controller: controller,
-          backdrop: 'static',
-          scope: scope
-        }).result.then(
-            function(result) {},
-            function(reason) {
-              if (typeof reason.data === 'object') {
-                //openによるエラー
-                $scope.flash.danger(reason.data.name);
-              } else if (reason === 'canceled') {
-                //キャンセル
-                $scope.flash.close();
-              }
-            }
-        );
-      };
-
-      /**
-       * send get
-       *
-       * @param {string} url
-       * @return {void}
-       */
-      $scope.get = function(url) {
-        return $http.get(url, {cache: false});
-      };
-
-      /**
-       * send delete
-       *
-       * @param {string} url
-       * @return {void}
-       */
-      $scope.delete = function(url) {
-        return $http.delete(url, {cache: false});
-      };
-
-      /**
-       * send post
-       *
-       * @param {string} url
-       * @param {Object.<string>} postParams
-       * @return {void}
-       */
-      $scope.post = function(url, postParams) {
-        return $http.post(url, $.param(postParams),
-            {cache: false,
-              headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
-      };
+//      /**
+//       * send get
+//       *
+//       * @param {string} url
+//       * @return {void}
+//       */
+//      $scope.get = function(url) {
+//        return $http.get(url, {cache: false});
+//      };
+//
+//      /**
+//       * send delete
+//       *
+//       * @param {string} url
+//       * @return {void}
+//       */
+//      $scope.delete = function(url) {
+//        return $http.delete(url, {cache: false});
+//      };
+//
+//      /**
+//       * send post
+//       *
+//       * @param {string} url
+//       * @param {Object.<string>} postParams
+//       * @return {void}
+//       */
+//      $scope.post = function(url, postParams) {
+//        return $http.post(url, $.param(postParams),
+//            {cache: false,
+//              headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+//      };
 
       /**
        * top method
        *
        * @return {void}
        */
-      $scope.top = function() {
-        $location.hash('nc-modal-top');
-        $anchorScroll();
-      };
+      $scope.top = NetCommons.top;
 
       /**
        * tab
@@ -254,7 +447,7 @@ NetCommonsApp.controller('NetCommons.base',
           },
           hasErrorTarget: function(statusModel, editStatusModel) {
             if (statusModel === editStatusModel ||
-                editStatusModel !== $scope.STATUS_DISAPPROVED) {
+                editStatusModel !== NetCommons.STATUS_DISAPPROVED) {
               return false;
             } else {
               return true;

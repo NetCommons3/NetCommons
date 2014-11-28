@@ -46,7 +46,7 @@ class NetCommonsRoomRoleComponent extends Component {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock', //Use Announcement model
+		'NetCommons.NetCommonsBlock'
 	);
 
 /**
@@ -54,7 +54,7 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @var bool
  */
-	public $setView = false;
+	public $setView = true;
 
 /**
  * Controller actions for which user validation is required.
@@ -86,7 +86,7 @@ class NetCommonsRoomRoleComponent extends Component {
 
 
 /**
- * Initialize component
+ * Called before the Controller::beforeFilter().
  *
  * @param Controller $controller Instantiating controller
  * @return void
@@ -101,7 +101,6 @@ class NetCommonsRoomRoleComponent extends Component {
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
 		}
-
 		//デフォルトロールパーミッションの設定
 		$controller->set('roomRoleKey', self::DEFAULT_ROOM_ROLE_KEY);
 		$controller->set('rolesRoomId', 0);
@@ -114,39 +113,27 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		//room_roleセット
-		if ($this->setView) {
-			$this->setView($controller);
-		}
-
-		//アクション許可チェック
+		//アクションセット
 		if (isset($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION])) {
 			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] =
 					array_merge($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION], $controller->Auth->allowedActions);
 		} else {
 			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] = $controller->Auth->allowedActions;
 		}
+
+		if ($this->allowedActions && count($this->allowedActions) > 0) {
+			$this->setView = true;
+		}
+		//room_roleセット
+		if ($this->setView) {
+			$this->setView($controller);
+		}
+
+		//アクション許可チェック
 		$this->_isAllowed($controller);
 
 		//ワークフロー公開権限チェック
 		$this->_isPublished($controller);
-	}
-
-/**
- * Takes a list of actions in the current controller for which authentication is not required
- *
- * `$this->NetCommonsRoomRole->allow(array('contentEditable' => array('edit', 'add')));`
- * default 'contentReadable' => $this->Auth->allowedActions
- *
- * @param array $actions  Controller action name or array of actions
- * @return void
- */
-	public function allow($actions = null) {
-		$this->setView = true;
-		if ($actions === null) {
-			return;
-		}
-		$this->allowedActions = array_merge($this->allowedActions, $actions);
 	}
 
 /**
@@ -159,10 +146,6 @@ class NetCommonsRoomRoleComponent extends Component {
 	protected function _isAllowed(Controller $controller) {
 		$action = strtolower($controller->request->params['action']);
 		foreach ($this->allowedActions as $permission => $allowedActions) {
-			//if ($permission !== self::ALLOW_DEFAULT_PERMISSION && ! $controller->Auth->user()) {
-			//	throw new UnauthorizedException(__d('net_commons', 'Unauthorized'));
-			//}
-
 			if (isset($controller->viewVars[$permission]) &&
 					$controller->viewVars[$permission] &&
 					in_array($action, array_map('strtolower', $allowedActions))) {

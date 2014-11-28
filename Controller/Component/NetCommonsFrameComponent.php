@@ -24,7 +24,7 @@ class NetCommonsFrameComponent extends Component {
  *
  * @var bool
  */
-	public $setView = false;
+	public $setView = true;
 
 /**
  * Initialize component

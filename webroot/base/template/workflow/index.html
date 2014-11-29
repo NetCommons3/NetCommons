@@ -1,0 +1,27 @@
+<div class="panel panel-default" ng-show="workflow.comments.visibility">
+	<div class="panel-body">
+		<div ng-repeat="comment in workflow.comments.data">
+			<div ng-hide="$first"><hr /></div>
+			<div>
+				<a href="" ng-click="user.showUser(comment.Comment.created_user)">
+					<b>{{comment.CreatedUser.value}}</b>
+				</a>
+
+				<small class="text-muted">{{comment.Comment.created}}</small>
+			</div>
+			<div>
+				{{comment.Comment.comment}}
+			</div>
+		</div>
+
+		<hr />
+
+		<button type="button" class="btn btn-default btn-block"
+				ng-show="workflow.comments.hasNext"
+				ng-click="workflow.get(workflow.current + 1)">
+
+			{{messages.more}}
+		</button>
+
+	</div>
+</div>

@@ -73,7 +73,7 @@ class NetCommonsAppController extends Controller {
  *
  * @var string
  */
-	public $viewClass = 'SingletonHelper';
+	public $viewClass = 'NetCommons.SingletonHelper';
 
 /**
  * beforeFilter

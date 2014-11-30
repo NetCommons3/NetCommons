@@ -20,7 +20,7 @@ NetCommonsApp.directive('ncWorkflowIndex', function(){
   var derective = {
     templateUrl:
         '/net_commons/base/template/workflow/index.html?' + Math.random(),
-    link: function (scope, element, attrs, ctrl) {
+    link: function (scope, element, attrs) {
       scope.messages['more'] = attrs.ncMessageMore;
     }
   };
@@ -45,7 +45,7 @@ NetCommonsApp.directive('ncWorkflowForm', function(){
   var derective = {
     templateUrl:
         '/net_commons/base/template/workflow/form.html?' + Math.random(),
-    link: function (scope, element, attrs, ctrl) {
+    link: function (scope, element, attrs) {
       scope.messages['error_required'] = attrs.ncMessageErrorRequired;
       scope.messages['workflow_placeholder'] = attrs.ncMessagePlaceholder;
       scope.messages['workflow_placeholder_approved'] =
@@ -64,14 +64,14 @@ NetCommonsApp.directive('ncWorkflowForm', function(){
  * NetCommonsWorkflow factory
  */
 NetCommonsApp.factory('NetCommonsWorkflow',
-    ['$http', 'NetCommonsBase', 'NetCommonsFlush',
-      function ($http, NetCommonsBase, NetCommonsFlush) {
+    ['$http', '$q', 'NetCommonsBase', 'NetCommonsFlush',
+      function ($http, $q, NetCommonsBase, NetCommonsFlush) {
 
-    /**
-     * comments
-     *
-     * @type {Object.<string>}
-     */
+   /**
+    * master
+    *
+    * @type {Object.<string>}
+    */
     var master = {
       comments: {
         data: {},
@@ -92,11 +92,11 @@ NetCommonsApp.factory('NetCommonsWorkflow',
     };
 
    /**
-     * factory
-     *
-     * @type {Object.<string>}
-     */
-    var factory = {
+    * variables
+    *
+    * @type {Object.<string>}
+    */
+    var variables = {
       scope: {},
       comments: {},
       form: {},
@@ -107,51 +107,51 @@ NetCommonsApp.factory('NetCommonsWorkflow',
       }
     };
 
-    /**
-     * functions
-     *
-     * @type {Object.<function>}
-     */
+   /**
+    * functions
+    *
+    * @type {Object.<function>}
+    */
     var functions = {
       clear: function () {
-        angular.copy(master.comments, factory.comments);
-        factory.currentStatus = master.currentStatus;
-        factory.editStatus = master.editStatus;
+        angular.copy(master.comments, variables.comments);
+        variables.currentStatus = master.currentStatus;
+        variables.editStatus = master.editStatus;
       },
       new: function (scope) {
         functions.clear();
-        factory.scope = scope;
-        return angular.extend(factory, functions);
+        variables.scope = scope;
+        return angular.extend(variables, functions);
       },
       init: function(comments) {
         if (typeof comments !== 'undefined') {
-          factory.comments.current = comments.current;
-          factory.comments.limit = comments.limit;
-          factory.comments.hasPrev = comments.hasPrev;
-          factory.comments.hasNext = comments.hasNext;
-          factory.comments.data = comments.data;
-          factory.comments.disabled =
+          variables.comments.current = comments.current;
+          variables.comments.limit = comments.limit;
+          variables.comments.hasPrev = comments.hasPrev;
+          variables.comments.hasNext = comments.hasNext;
+          variables.comments.data = comments.data;
+          variables.comments.disabled =
                             comments.data.length === 0 ? true : false;
-          factory.comments.visibility =
+          variables.comments.visibility =
                             comments.data.length === 0 ? false : true;
         }
       },
       get: function(page) {
         $http.get('/comments/comments/index/' +
-                  factory.comments.plugin_key + '/' +
-                  factory.comments.content_key + '/' +
+                  variables.comments.plugin_key + '/' +
+                  variables.comments.content_key + '/' +
                   'page:' + page + '.json', {cache: false})
             .success(function(data) {
               var comments = data.results.comments;
-              factory.comments.current = comments.current;
-              factory.comments.hasPrev = comments.hasPrev;
-              factory.comments.hasNext = comments.hasNext;
+              variables.comments.current = comments.current;
+              variables.comments.hasPrev = comments.hasPrev;
+              variables.comments.hasNext = comments.hasNext;
               if (page === 1 &&
-                      comments.limit > factory.comments.data.length) {
-                factory.comments.data = comments.data;
+                      comments.limit > variables.comments.data.length) {
+                variables.comments.data = comments.data;
               } else {
-                factory.comments.data =
-                    factory.comments.data.concat(comments.data);
+                variables.comments.data =
+                    variables.comments.data.concat(comments.data);
               }
             })
             .error(function(data) {
@@ -160,45 +160,45 @@ NetCommonsApp.factory('NetCommonsWorkflow',
       },
       input: {
         placeholder: function() {
-          if (factory.currentStatus === NetCommonsBase.STATUS_APPROVED) {
-            return factory.scope.messages.workflow_placeholder +
-                          factory.scope.messages.workflow_placeholder_approved;
+          if (variables.currentStatus === NetCommonsBase.STATUS_APPROVED) {
+            return variables.scope.messages.workflow_placeholder +
+                          variables.scope.messages.workflow_placeholder_approved;
           } else {
-            return factory.scope.messages.workflow_placeholder;
+            return variables.scope.messages.workflow_placeholder;
           }
         },
         invalid: function() {
-          return (! factory.form['comment']['$viewValue']);
+          return (! variables.form['comment']['$viewValue']);
         },
         hasErrorTarget: function() {
-          if (factory.currentStatus === factory.editStatus ||
-              factory.editStatus !== NetCommonsBase.STATUS_DISAPPROVED) {
+          if (variables.currentStatus === variables.editStatus ||
+              variables.editStatus !== NetCommonsBase.STATUS_DISAPPROVED) {
             return false;
           } else {
             return true;
           }
         },
         class: function() {
-          if (! factory.input.hasErrorTarget()) {
+          if (! variables.input.hasErrorTarget()) {
             return '';
           } else {
-            return (factory.input.invalid() ?
+            return (variables.input.invalid() ?
                     'has-error' : 'has-success');
           }
         },
         required: function() {
-          return (factory.editStatus === NetCommonsBase.STATUS_DISAPPROVED);
+          return (variables.editStatus === NetCommonsBase.STATUS_DISAPPROVED);
         },
         glyphicon: function() {
-          if (! factory.input.hasErrorTarget()) {
+          if (! variables.input.hasErrorTarget()) {
             return '';
           } else {
-            return (factory.input.invalid() ?
+            return (variables.input.invalid() ?
                     'glyphicon glyphicon-remove' : 'glyphicon glyphicon-ok');
           }
         },
         showMessage: function() {
-          return (factory.input.hasErrorTarget() && factory.input.invalid());
+          return (variables.input.hasErrorTarget() && variables.input.invalid());
         }
       }
     };

@@ -29,11 +29,11 @@ NetCommonsApp.factory('NetCommonsFlush', function () {
   var scope = element.scope();
 
   /**
-   * factory
+   * variables
    *
    * @type {Object.<string>}
    */
-  var factory = {
+  var variables = {
     message: '',
     type: ''
   };
@@ -44,26 +44,65 @@ NetCommonsApp.factory('NetCommonsFlush', function () {
    * @type {Object.<function>}
    */
   var functions = {
-    new: function () {
-      return angular.extend(factory, functions);
+    /**
+     * new method
+     */
+     new: function () {
+      return angular.extend(variables, functions);
     },
-    close: function() {
+
+    /**
+     * close method
+     */
+     close: function() {
       scope.flash.message = '';
       scope.flash.type = '';
       element.addClass('hidden');
     },
+
+    /**
+     * success method
+     *
+     * @param {string} message
+     */
     success: function(message) {
       functions.custom(message, 'alert-success', true);
     },
+
+    /**
+     * info method
+     *
+     * @param {string} message
+     */
     info: function(message) {
       functions.custom(message, 'alert-info', true);
     },
+
+    /**
+     * warning method
+     *
+     * @param {string} message
+     */
     warning: function(message) {
       functions.custom(message, 'alert-warning', false);
     },
+
+    /**
+     * danger method
+     *
+     * @param {string} message
+     */
     danger: function(message) {
       functions.custom(message, 'alert-danger', false);
     },
+
+    /**
+     * custom method
+     *
+     * @param {string} message
+     * @param {string} type
+     * @param {boolean} true is fadeOut, false is no fadeOut.
+     */
     custom: function(message, type, fadeOut) {
       scope.flash.message = message;
       scope.flash.type = type;
@@ -89,11 +128,11 @@ NetCommonsApp.factory('NetCommonsBase',
                 $anchorScroll, NetCommonsFlush) {
 
     /**
-     * factory
+     * variables
      *
      * @type {Object.<string>}
      */
-    var factory = {
+    var variables = {
       /**
        * status published
        *
@@ -133,7 +172,7 @@ NetCommonsApp.factory('NetCommonsBase',
        * new method
        */
       new: function () {
-        return angular.extend(factory, functions);
+        return angular.extend(variables, functions);
       },
 
       /**
@@ -201,6 +240,53 @@ NetCommonsApp.factory('NetCommonsBase',
       },
 
       /**
+       * save
+       *
+       * @param {string} tokenUrl
+       * @param {string} postUrl
+       * @param {Object.<string>} postParams
+       */
+      save: function(tokenUrl, postUrl, postParams) {
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        functions.get(tokenUrl)
+            .success(function(data) {
+              postParams.data._Token = data._Token;
+
+              //登録情報をPOST
+              functions.post(postUrl, postParams)
+                .success(function(data) {
+                      NetCommonsFlush.success(data.name);
+                      //success condition
+                      deferred.resolve(data);
+                    })
+                .error(function(data, status) {
+                      NetCommonsFlush.danger(data.name);
+                      //error condition
+                      deferred.reject(data, status);
+                    });
+            })
+            .error(function(data, status) {
+              //keyの取得に失敗
+              //error condition
+              deferred.reject(data, status);
+            });
+
+        promise.success = function (fn) {
+            promise.then(fn);
+            return promise;
+        }
+
+        promise.error = function (fn) {
+            promise.then(null, fn);
+            return promise;
+        }
+
+        return promise;
+      },
+
+      /**
        * top method
        */
       top: function() {
@@ -255,11 +341,11 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function () {
   };
 
   /**
-   * factory
+   * variables
    *
    * @type {Object.<string>}
    */
-  var factory = {
+  var variables = {
     options: options
   };
 
@@ -269,8 +355,11 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function () {
    * @type {Object.<function>}
    */
   var functions = {
-    new: function () {
-      return angular.extend(factory, functions);
+    /**
+     * new method
+     */
+     new: function () {
+      return angular.extend(variables, functions);
     }
   };
 
@@ -284,11 +373,11 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function () {
 NetCommonsApp.factory('NetCommonsUser', function () {
 
   /**
-   * factory
+   * variables
    *
    * @type {Object.<string>}
    */
-  var factory = {};
+  var variables = {};
 
   /**
    * functions
@@ -300,7 +389,7 @@ NetCommonsApp.factory('NetCommonsUser', function () {
      * new method
      */
     new: function () {
-      return angular.extend(factory, functions);
+      return angular.extend(variables, functions);
     },
 
     /**
@@ -323,11 +412,11 @@ NetCommonsApp.factory('NetCommonsUser', function () {
 NetCommonsApp.factory('NetCommonsTab', function () {
 
   /**
-   * factory
+   * variables
    *
-   * @type {Object.<string>}
+   * @type {Object.<string|number>}
    */
-  var factory = {
+  var variables = {
     tabId: 0
   };
 
@@ -337,18 +426,33 @@ NetCommonsApp.factory('NetCommonsTab', function () {
    * @type {Object.<function>}
    */
   var functions = {
+    /**
+     * new method
+     */
     new: function () {
-      return angular.extend(factory, functions);
+      return angular.extend(variables, functions);
     },
+
+    /**
+     * setTab method
+     *
+     * @param {number} tabId
+     */
     setTab: function(tabId) {
-      factory.tabId = tabId;
+      variables.tabId = tabId;
     },
+
+    /**
+     * isSet method
+     *
+     * @param {number} tabId
+     */
     isSet: function(tabId) {
-      return factory.tabId === tabId;
+      return variables.tabId === tabId;
     }
   };
 
-  return functions.new(true);
+  return functions.new();
 });
 
 
@@ -365,14 +469,17 @@ NetCommonsApp.controller('NetCommons.base', function($scope, NetCommonsBase) {
   $scope.messages = {};
 
   /**
-   * messages
+   * placeholder
    *
-   * @type {Object}
+   * @type {string}
    */
   $scope.placeholder = '';
 
   /**
    * top
+   *
+   * @type {function}
    */
   $scope.top = NetCommonsBase.top;
+
 });

@@ -64,8 +64,8 @@ NetCommonsApp.directive('ncWorkflowForm', function(){
  * NetCommonsWorkflow factory
  */
 NetCommonsApp.factory('NetCommonsWorkflow',
-    ['$http', '$q', 'NetCommonsBase', 'NetCommonsFlush',
-      function ($http, $q, NetCommonsBase, NetCommonsFlush) {
+    ['$http', 'NetCommonsBase', 'NetCommonsFlush',
+      function ($http, NetCommonsBase, NetCommonsFlush) {
 
    /**
     * master

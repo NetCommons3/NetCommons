@@ -64,8 +64,8 @@ NetCommonsApp.directive('ncWorkflowForm', function(){
  * NetCommonsWorkflow factory
  */
 NetCommonsApp.factory('NetCommonsWorkflow',
-    ['$http', 'NetCommonsBase', 'NetCommonsFlush',
-      function ($http, NetCommonsBase, NetCommonsFlush) {
+    ['$http', 'NetCommonsBase', 'NetCommonsFlash',
+      function ($http, NetCommonsBase, NetCommonsFlash) {
 
    /**
     * master
@@ -155,7 +155,7 @@ NetCommonsApp.factory('NetCommonsWorkflow',
               }
             })
             .error(function(data) {
-              NetCommonsFlush.danger(data.name);
+              NetCommonsFlash.danger(data.name);
             });
       },
       input: {
@@ -168,7 +168,12 @@ NetCommonsApp.factory('NetCommonsWorkflow',
           }
         },
         invalid: function() {
-          return (! variables.form['comment']['$viewValue']);
+          if (variables.form['comment']['$viewValue']) {
+            variables.form['comment'].$setValidity(NetCommonsBase.VALIDATE_KEY, true);
+          } else {
+            variables.form['comment'].$setValidity(NetCommonsBase.VALIDATE_KEY, false);
+          }
+          return variables.form['comment'].$invalid;
         },
         hasErrorTarget: function() {
           if (variables.currentStatus === variables.editStatus ||

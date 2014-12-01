@@ -9,10 +9,47 @@ var NetCommonsApp = angular.module('NetCommonsApp',
 // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 //}]);
 
+//
+///**
+// * ncSetForm directive Javascript
+// *
+// * @param {string} directive name
+// * @param {function()} directive
+// */
+//NetCommonsApp.directive('ncValidationClear', function(){
+//
+//  /**
+//   * derective
+//   *
+//   * @type {Object.<string>}
+//   */
+//  var derective = {
+//    require: 'ngModel',
+//    link: function (scope, element, attrs, ctrl) {
+////console.log('ncSetForm=' + scope.$id);
+//      console.log(scope);
+////      scope.form2 = scope[attrs.ncSetForm];
+//      console.log(element);
+//      console.log(attrs);
+//      console.log(ctrl);
+//
+//      element.on('change', function () {
+//        scope.$apply(function () {
+//          console.log(attrs.ncValidationClear);
+//        });
+//
+//      });
+//
+//    }
+//  };
+//
+//	return derective;
+//});
+
 /**
- * NetCommonsFlush factory
+ * NetCommonsFlash factory
  */
-NetCommonsApp.factory('NetCommonsFlush', function () {
+NetCommonsApp.factory('NetCommonsFlash', function () {
 
   /**
    * element
@@ -47,14 +84,14 @@ NetCommonsApp.factory('NetCommonsFlush', function () {
     /**
      * new method
      */
-     new: function () {
+    new: function () {
       return angular.extend(variables, functions);
     },
 
     /**
      * close method
      */
-     close: function() {
+    close: function() {
       scope.flash.message = '';
       scope.flash.type = '';
       element.addClass('hidden');
@@ -118,14 +155,66 @@ NetCommonsApp.factory('NetCommonsFlush', function () {
   return functions.new();
 });
 
+
+
 /**
  * NetCommonsBase factory
  */
 NetCommonsApp.factory('NetCommonsBase',
     ['$http', '$q', '$modal', '$modalStack', '$location',
-      '$anchorScroll', 'NetCommonsFlush',
+      '$anchorScroll', 'NetCommonsFlash',
       function ($http, $q, $modal, $modalStack, $location,
-                $anchorScroll, NetCommonsFlush) {
+                $anchorScroll, NetCommonsFlash) {
+
+    /**
+     * variables
+     *
+     * @type {Object.<string>}
+     */
+    var urlVariables = {
+      plugin: '',
+      controller: '',
+      action: '',
+    };
+
+  /**
+   * functions
+   *
+   * @type {Object.<function>}
+   */
+  var urlFunctions = {
+    initUrl: function (plugin, controller) {
+      urlFunctions.setPlugin(plugin);
+      urlFunctions.setController(controller);
+      return angular.extend(urlVariables, urlFunctions);
+    },
+    setPlugin: function(plugin) {
+      urlVariables.plugin = plugin;
+    },
+    setController: function(controller) {
+      urlVariables.controller = controller;
+    },
+    setAction: function(action) {
+      urlVariables.action = action;
+    },
+    getUrl: function(action, options) {
+      var url = '/' + urlVariables.plugin + '/' + urlVariables.controller;
+      if (! angular.isString(action)) {
+        url = url + '/' + urlVariables.action;
+      } else {
+        url = url + '/' + action;
+      }
+
+      if (angular.isArray(options)) {
+        for (var i = 0; i < options; i++) {
+          url = url + '/' + options[i];
+        }
+      } else if (angular.isString(options)) {
+         url = url + '/' + options;
+      }
+      return url;
+    }
+  };
 
     /**
      * variables
@@ -160,6 +249,21 @@ NetCommonsApp.factory('NetCommonsBase',
        * @const
        */
       STATUS_DISAPPROVED: '4',
+
+      /**
+       * SERVER_VALIDATE_KEY
+       *
+       * @const
+       */
+      VALIDATE_KEY: 'validation',
+
+      /**
+       * SERVER_VALIDATE_KEY
+       *
+       * @const
+       */
+      VALIDATE_MESSAGE_KEY: 'validationErrors',
+
     };
 
     /**
@@ -172,38 +276,67 @@ NetCommonsApp.factory('NetCommonsBase',
        * new method
        */
       new: function () {
-        return angular.extend(variables, functions);
+        return angular.extend(variables, urlVariables, functions, urlFunctions);
+      },
+
+      /**
+       * show setting method
+       *
+       * @param {string} editUrl
+       * @param {function} callback
+       * @param {Object.<string>}
+       *               modalOptions is {scope, templateUrl, controller, ...}
+       */
+      showSetting: function(editUrl, callback, modalOptions) {
+        functions.get(editUrl)
+            .success(function(data) {
+              //最新データセット
+              if (angular.isFunction(callback)) {
+                callback(data.results);
+              }
+               //ダイアログ呼び出し
+              functions.showDialog(modalOptions).result.then(
+                  function(result) {},
+                  function(reason) {
+                    if (typeof reason.data === 'object') {
+                      //openによるエラー
+                      NetCommonsFlash.danger(reason.data.name);
+                    } else if (reason === 'canceled') {
+                      //キャンセル
+                      NetCommonsFlash.close();
+                    }
+                  }
+              );
+            })
+            .error(function(data) {
+              NetCommonsFlash.danger(data.name);
+            });
       },
 
       /**
        * show dialog method
        *
-       * @param {string} scopeId
-       * @param {string} templateUrl
-       * @param {string} controller
+       * @param {Object.<string>} options is {scope, templateUrl, controller}
        */
-      showDialog: function(scopeId, templateUrl, controller) {
-        var scope = this.getElementByScopeId(scopeId).scope();
+      showDialog: function(options) {
+        if (! angular.isString(options['backdrop'])) {
+          options['backdrop'] = 'static';
+        }
+//        if (! angular.isString(options['resolve'])) {
+//          options['resolve'] = {
+//            parentScope: function () {
+//              return options['scope'];
+//            }
+//          };
+//        }
+
         $modalStack.dismissAll('canceled');
 
+
+console.log('NetCommonsBase->showDialog=' + options['scope'].$id);
+
         //ダイアログ表示
-        $modal.open({
-          templateUrl: templateUrl,
-          controller: controller,
-          backdrop: 'static',
-          scope: scope
-        }).result.then(
-            function(result) {},
-            function(reason) {
-              if (typeof reason.data === 'object') {
-                //openによるエラー
-                NetCommonsFlush.danger(reason.data.name);
-              } else if (reason === 'canceled') {
-                //キャンセル
-                NetCommonsFlush.close();
-              }
-            }
-        );
+        return $modal.open(options);
       },
 
       /**
@@ -212,7 +345,30 @@ NetCommonsApp.factory('NetCommonsBase',
        * @param {string} url
        */
       get: function(url) {
-        return $http.get(url, {cache: false});
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        $http.get(url, {cache: false})
+          .success(function(data) {
+                //success condition
+                deferred.resolve(data);
+              })
+          .error(function(data, status) {
+                //error condition
+                deferred.reject(data, status);
+              });
+
+        promise.success = function (fn) {
+            promise.then(fn);
+            return promise;
+        };
+
+        promise.error = function (fn) {
+            promise.then(null, fn);
+            return promise;
+        };
+
+        return promise;
       },
 
       /**
@@ -221,7 +377,30 @@ NetCommonsApp.factory('NetCommonsBase',
        * @param {string} url
        */
       delete: function(url) {
-        return $http.delete(url, {cache: false});
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        $http.delete(url, {cache: false})
+          .success(function(data) {
+                //success condition
+                deferred.resolve(data);
+              })
+          .error(function(data, status) {
+                //error condition
+                deferred.reject(data, status);
+              });
+
+        promise.success = function (fn) {
+            promise.then(fn);
+            return promise;
+        };
+
+        promise.error = function (fn) {
+            promise.then(null, fn);
+            return promise;
+        };
+
+        return promise;
       },
 
       /**
@@ -231,24 +410,55 @@ NetCommonsApp.factory('NetCommonsBase',
        * @param {Object.<string>} postParams
        */
       post: function(url, postParams) {
-        return $http.post(url, $.param(postParams),
+        var deferred = $q.defer();
+        var promise = deferred.promise;
+
+        $http.post(url, $.param(postParams),
             {cache: false,
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               }
-            });
+            })
+          .success(function(data) {
+                //success condition
+                deferred.resolve(data);
+              })
+          .error(function(data, status) {
+                //error condition
+                deferred.reject(data, status);
+              });
+
+        promise.success = function (fn) {
+            promise.then(fn);
+            return promise;
+        };
+
+        promise.error = function (fn) {
+            promise.then(null, fn);
+            return promise;
+        };
+
+        return promise;
       },
 
       /**
        * save
        *
+       * @param {Object} scope
+       * @param {Object} form
        * @param {string} tokenUrl
        * @param {string} postUrl
        * @param {Object.<string>} postParams
        */
-      save: function(tokenUrl, postUrl, postParams) {
+      save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
         var deferred = $q.defer();
         var promise = deferred.promise;
+
+        scope.sending = true;
+console.log('NetCommonsBase->save=' + scope.$id);
+console.log(scope);
+console.log(form);
+console.log(form.$invalid);
 
         functions.get(tokenUrl)
             .success(function(data) {
@@ -257,18 +467,58 @@ NetCommonsApp.factory('NetCommonsBase',
               //登録情報をPOST
               functions.post(postUrl, postParams)
                 .success(function(data) {
-                      NetCommonsFlush.success(data.name);
+                      if (angular.isFunction(callback)) {
+                        callback(data);
+                      }
+                      NetCommonsFlash.success(data.name);
+                      $modalStack.dismissAll('saved');
+
                       //success condition
                       deferred.resolve(data);
                     })
                 .error(function(data, status) {
-                      NetCommonsFlush.danger(data.name);
+                      if (angular.isObject(data['results']) &&
+                          angular.isObject(
+                            data['results'][variables.VALIDATE_MESSAGE_KEY])) {
+
+                        angular.forEach(
+                                data['results'][variables.VALIDATE_MESSAGE_KEY],
+                                function(value, key) {
+
+                          if (! angular.isUndefined(form[key])) {
+                            form[key].$setValidity(
+                                    variables.VALIDATE_KEY, false);
+                            form[key][variables.VALIDATE_MESSAGE_KEY] = value;
+                          }
+                        });
+                      }
+
+                      if (! form.$invalid) {
+                        NetCommonsFlash.danger(data.name);
+                      }
+//
+//
+//                      form.comment.$setValidity('aaaa', false);
+//                      form['comment']['errorMessage'] = {
+//                        aaaa: 'error message'
+//                      };
+//                      //form.comment.$setViewValue('aaaa message');
+console.log(form);
+console.log(form.$invalid);
+//console.log(form['comment']['$error']['aaaa']);
+//console.log(form['comment']['$error']['aaaa']);
+
+
                       //error condition
                       deferred.reject(data, status);
+                    })
+                .finally (function() {
+                      scope.sending = false;
                     });
-            })
+                })
             .error(function(data, status) {
               //keyの取得に失敗
+              scope.sending = false;
               //error condition
               deferred.reject(data, status);
             });
@@ -276,12 +526,12 @@ NetCommonsApp.factory('NetCommonsBase',
         promise.success = function (fn) {
             promise.then(fn);
             return promise;
-        }
+        };
 
         promise.error = function (fn) {
             promise.then(null, fn);
             return promise;
-        }
+        };
 
         return promise;
       },
@@ -309,62 +559,23 @@ NetCommonsApp.factory('NetCommonsBase',
           }
         }
         return null;
+      },
+
+      /**
+       * serverValidationClear
+       */
+      serverValidationClear: function(form, key) {
+        if (! angular.isUndefined(form[key].$error[variables.VALIDATE_KEY]) &&
+                form[key].$error[variables.VALIDATE_KEY]) {
+          form[key].$setValidity(variables.VALIDATE_KEY, true);
+          form[key][variables.VALIDATE_MESSAGE_KEY] = '';
+        }
       }
 
     };
 
     return functions.new();
   }]);
-
-
-/**
- * NetCommonsWysiwyg factory
- */
-NetCommonsApp.factory('NetCommonsWysiwyg', function () {
-
-  /**
-   * tinymce optins
-   *
-   * @type {{mode: string, menubar: string, plugins: string, toolbar: string}}
-   */
-  var options = {
-    mode: 'exact',
-    menubar: ' ',
-    plugins: 'textcolor advlist autolink autoresize charmap code link ',
-    toolbar: 'undo redo  |' +
-        ' forecolor |' +
-        ' styleselect |' +
-        ' bold italic |' +
-        ' alignleft aligncenter alignright alignjustify |' +
-        ' bullist numlist outdent indent |' +
-        ' link |'
-  };
-
-  /**
-   * variables
-   *
-   * @type {Object.<string>}
-   */
-  var variables = {
-    options: options
-  };
-
-  /**
-   * functions
-   *
-   * @type {Object.<function>}
-   */
-  var functions = {
-    /**
-     * new method
-     */
-     new: function () {
-      return angular.extend(variables, functions);
-    }
-  };
-
-  return functions.new();
-});
 
 
 /**
@@ -459,27 +670,44 @@ NetCommonsApp.factory('NetCommonsTab', function () {
 /**
  * base controller
  */
-NetCommonsApp.controller('NetCommons.base', function($scope, NetCommonsBase) {
+NetCommonsApp.controller('NetCommons.base', function(
+        $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
 
-  /**
-   * messages
-   *
-   * @type {Object}
-   */
-  $scope.messages = {};
+    /**
+     * messages
+     *
+     * @type {Object}
+     */
+    $scope.messages = {};
 
-  /**
-   * placeholder
-   *
-   * @type {string}
-   */
-  $scope.placeholder = '';
+    /**
+     * placeholder
+     *
+     * @type {string}
+     */
+    $scope.placeholder = '';
 
-  /**
-   * top
-   *
-   * @type {function}
-   */
-  $scope.top = NetCommonsBase.top;
+    /**
+     * top
+     *
+     * @type {function}
+     */
+    $scope.top = NetCommonsBase.top;
 
-});
+    /**
+     * dialog cancel
+     *
+     * @return {void}
+     */
+    $scope.cancel = function() {
+      $modalStack.dismissAll('canceled');
+    };
+
+    /**
+     * flash
+     *
+     * @type {object}
+     */
+    $scope.flash = NetCommonsFlash.new();
+
+  });

@@ -60,11 +60,11 @@ class NetCommonsBlockComponent extends Component {
 	);
 
 /**
- * startup setView
+ * startup actionSetView
  *
  * @var bool
  */
-	public $setView = false;
+	public $actionSetView = false;
 
 /**
  * Initialize component
@@ -96,7 +96,7 @@ class NetCommonsBlockComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->setView) {
+		if ($this->actionSetView) {
 			$blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
 			$this->setView($controller, $blockId);
 		}

@@ -3,53 +3,17 @@ var NetCommonsApp = angular.module('NetCommonsApp',
       'ui.bootstrap',
       'ui.tinymce'
     ]
-  );
+    );
 
 //NetCommonsApp.config(['$httpProvider', function($httpProvider) {
 // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 //}]);
 
-//
-///**
-// * ncSetForm directive Javascript
-// *
-// * @param {string} directive name
-// * @param {function()} directive
-// */
-//NetCommonsApp.directive('ncValidationClear', function(){
-//
-//  /**
-//   * derective
-//   *
-//   * @type {Object.<string>}
-//   */
-//  var derective = {
-//    require: 'ngModel',
-//    link: function (scope, element, attrs, ctrl) {
-////console.log('ncSetForm=' + scope.$id);
-//      console.log(scope);
-////      scope.form2 = scope[attrs.ncSetForm];
-//      console.log(element);
-//      console.log(attrs);
-//      console.log(ctrl);
-//
-//      element.on('change', function () {
-//        scope.$apply(function () {
-//          console.log(attrs.ncValidationClear);
-//        });
-//
-//      });
-//
-//    }
-//  };
-//
-//	return derective;
-//});
 
 /**
  * NetCommonsFlash factory
  */
-NetCommonsApp.factory('NetCommonsFlash', function () {
+NetCommonsApp.factory('NetCommonsFlash', function() {
 
   /**
    * element
@@ -83,13 +47,17 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
   var functions = {
     /**
      * new method
+     *
+     * @return {Object.<Object|string|function>}
      */
-    new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     },
 
     /**
      * close method
+     *
+     * @return {void}
      */
     close: function() {
       scope.flash.message = '';
@@ -101,6 +69,7 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
      * success method
      *
      * @param {string} message
+     * @return {void}
      */
     success: function(message) {
       functions.custom(message, 'alert-success', true);
@@ -119,6 +88,7 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
      * warning method
      *
      * @param {string} message
+     * @return {void}
      */
     warning: function(message) {
       functions.custom(message, 'alert-warning', false);
@@ -128,6 +98,7 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
      * danger method
      *
      * @param {string} message
+     * @return {void}
      */
     danger: function(message) {
       functions.custom(message, 'alert-danger', false);
@@ -139,6 +110,7 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
      * @param {string} message
      * @param {string} type
      * @param {boolean} true is fadeOut, false is no fadeOut.
+     * @return {void}
      */
     custom: function(message, type, fadeOut) {
       scope.flash.message = message;
@@ -156,432 +128,446 @@ NetCommonsApp.factory('NetCommonsFlash', function () {
 });
 
 
-
 /**
  * NetCommonsBase factory
  */
 NetCommonsApp.factory('NetCommonsBase',
     ['$http', '$q', '$modal', '$modalStack', '$location',
       '$anchorScroll', 'NetCommonsFlash',
-      function ($http, $q, $modal, $modalStack, $location,
-                $anchorScroll, NetCommonsFlash) {
+      function(
+         $http, $q, $modal, $modalStack, $location,
+         $anchorScroll, NetCommonsFlash) {
 
-    /**
-     * variables
-     *
-     * @type {Object.<string>}
-     */
-    var urlVariables = {
-      plugin: '',
-      controller: '',
-      action: '',
-    };
+        /**
+         * variables
+         *
+         * @type {Object.<string>}
+         */
+        var urlVariables = {
+          plugin: '',
+          controller: '',
+          action: ''
+        };
 
-  /**
-   * functions
-   *
-   * @type {Object.<function>}
-   */
-  var urlFunctions = {
-    initUrl: function (plugin, controller) {
-      urlFunctions.setPlugin(plugin);
-      urlFunctions.setController(controller);
-      return angular.extend(urlVariables, urlFunctions);
-    },
-    setPlugin: function(plugin) {
-      urlVariables.plugin = plugin;
-    },
-    setController: function(controller) {
-      urlVariables.controller = controller;
-    },
-    setAction: function(action) {
-      urlVariables.action = action;
-    },
-    getUrl: function(action, options) {
-      var url = '/' + urlVariables.plugin + '/' + urlVariables.controller;
-      if (! angular.isString(action)) {
-        url = url + '/' + urlVariables.action;
-      } else {
-        url = url + '/' + action;
-      }
+        /**
+         * functions
+         *
+         * @type {Object.<function>}
+         */
+        var urlFunctions = {
+          /**
+           * initUrl method
+           *
+           * @param {string} plugin name
+           * @param {string} controller name
+           * @return {Object.<Object|string|function>}
+           */
+          initUrl: function(plugin, controller) {
+            urlFunctions.setPlugin(plugin);
+            urlFunctions.setController(controller);
+            return angular.extend(urlVariables, urlFunctions);
+          },
 
-      if (angular.isArray(options)) {
-        for (var i = 0; i < options; i++) {
-          url = url + '/' + options[i];
-        }
-      } else if (angular.isString(options)) {
-         url = url + '/' + options;
-      }
-      return url;
-    }
-  };
+          /**
+           * setPlugin method
+           *
+           * @param {string} plugin name
+           * @return {void}
+           */
+          setPlugin: function(plugin) {
+            urlVariables.plugin = plugin;
+          },
 
-    /**
-     * variables
-     *
-     * @type {Object.<string>}
-     */
-    var variables = {
-      /**
-       * status published
-       *
-       * @const
-       */
-      STATUS_PUBLISHED: '1',
+          /**
+           * setController method
+           *
+           * @param {string} controller name
+           * @return {void}
+           */
+          setController: function(controller) {
+            urlVariables.controller = controller;
+          },
 
-      /**
-       * status approved
-       *
-       * @const
-       */
-      STATUS_APPROVED: '2',
-
-      /**
-       * status drafted
-       *
-       * @const
-       */
-      STATUS_DRAFTED: '3',
-
-      /**
-       * status disaproved
-       *
-       * @const
-       */
-      STATUS_DISAPPROVED: '4',
-
-      /**
-       * SERVER_VALIDATE_KEY
-       *
-       * @const
-       */
-      VALIDATE_KEY: 'validation',
-
-      /**
-       * SERVER_VALIDATE_KEY
-       *
-       * @const
-       */
-      VALIDATE_MESSAGE_KEY: 'validationErrors',
-
-    };
-
-    /**
-     * functions
-     *
-     * @type {Object.<function>}
-     */
-    var functions = {
-      /**
-       * new method
-       */
-      new: function () {
-        return angular.extend(variables, urlVariables, functions, urlFunctions);
-      },
-
-      /**
-       * show setting method
-       *
-       * @param {string} editUrl
-       * @param {function} callback
-       * @param {Object.<string>}
-       *               modalOptions is {scope, templateUrl, controller, ...}
-       */
-      showSetting: function(editUrl, callback, modalOptions) {
-        functions.get(editUrl)
-            .success(function(data) {
-              //最新データセット
-              if (angular.isFunction(callback)) {
-                callback(data.results);
+          /**
+           * getUrl method
+           *
+           * @param {string} action name
+           * @param {Object.<string>} options
+           * @return {string} url
+           */
+          getUrl: function(action, options) {
+            var url = '/' + urlVariables.plugin + '/' + urlVariables.controller;
+            if (! angular.isString(action)) {
+              url = url + '/' + urlVariables.action;
+            } else {
+              url = url + '/' + action;
+            }
+            if (angular.isArray(options)) {
+              for (var i = 0; i < options; i++) {
+                url = url + '/' + options[i];
               }
-               //ダイアログ呼び出し
-              functions.showDialog(modalOptions).result.then(
-                  function(result) {},
-                  function(reason) {
-                    if (typeof reason.data === 'object') {
-                      //openによるエラー
-                      NetCommonsFlash.danger(reason.data.name);
-                    } else if (reason === 'canceled') {
-                      //キャンセル
-                      NetCommonsFlash.close();
-                    }
-                  }
-              );
-            })
-            .error(function(data) {
-              NetCommonsFlash.danger(data.name);
-            });
-      },
-
-      /**
-       * show dialog method
-       *
-       * @param {Object.<string>} options is {scope, templateUrl, controller}
-       */
-      showDialog: function(options) {
-        if (! angular.isString(options['backdrop'])) {
-          options['backdrop'] = 'static';
-        }
-//        if (! angular.isString(options['resolve'])) {
-//          options['resolve'] = {
-//            parentScope: function () {
-//              return options['scope'];
-//            }
-//          };
-//        }
-
-        $modalStack.dismissAll('canceled');
-
-
-console.log('NetCommonsBase->showDialog=' + options['scope'].$id);
-
-        //ダイアログ表示
-        return $modal.open(options);
-      },
-
-      /**
-       * send get
-       *
-       * @param {string} url
-       */
-      get: function(url) {
-        var deferred = $q.defer();
-        var promise = deferred.promise;
-
-        $http.get(url, {cache: false})
-          .success(function(data) {
-                //success condition
-                deferred.resolve(data);
-              })
-          .error(function(data, status) {
-                //error condition
-                deferred.reject(data, status);
-              });
-
-        promise.success = function (fn) {
-            promise.then(fn);
-            return promise;
+            } else if (angular.isString(options)) {
+              url = url + '/' + options;
+            }
+            return url;
+          }
         };
 
-        promise.error = function (fn) {
-            promise.then(null, fn);
-            return promise;
+        /**
+         * variables
+         *
+         * @type {Object.<string>}
+         */
+        var variables = {
+          /**
+           * status published
+           *
+           * @const
+           */
+          STATUS_PUBLISHED: '1',
+
+          /**
+           * status approved
+           *
+           * @const
+           */
+          STATUS_APPROVED: '2',
+
+          /**
+           * status drafted
+           *
+           * @const
+           */
+          STATUS_DRAFTED: '3',
+
+          /**
+           * status disaproved
+           *
+           * @const
+           */
+          STATUS_DISAPPROVED: '4',
+
+          /**
+           * SERVER_VALIDATE_KEY
+           *
+           * @const
+           */
+          VALIDATE_KEY: 'validation',
+
+          /**
+           * SERVER_VALIDATE_KEY
+           *
+           * @const
+           */
+          VALIDATE_MESSAGE_KEY: 'validationErrors'
+
         };
 
-        return promise;
-      },
+        /**
+         * functions
+         *
+         * @type {Object.<function>}
+         */
+        var functions = {
+          /**
+           * new method
+           *
+           * @return {Object.<Object|string|function>}
+           */
+          new: function() {
+            return angular.extend(variables, urlVariables,
+                                  functions, urlFunctions);
+          },
 
-      /**
-       * send delete
-       *
-       * @param {string} url
-       */
-      delete: function(url) {
-        var deferred = $q.defer();
-        var promise = deferred.promise;
-
-        $http.delete(url, {cache: false})
-          .success(function(data) {
-                //success condition
-                deferred.resolve(data);
-              })
-          .error(function(data, status) {
-                //error condition
-                deferred.reject(data, status);
-              });
-
-        promise.success = function (fn) {
-            promise.then(fn);
-            return promise;
-        };
-
-        promise.error = function (fn) {
-            promise.then(null, fn);
-            return promise;
-        };
-
-        return promise;
-      },
-
-      /**
-       * send post
-       *
-       * @param {string} url
-       * @param {Object.<string>} postParams
-       */
-      post: function(url, postParams) {
-        var deferred = $q.defer();
-        var promise = deferred.promise;
-
-        $http.post(url, $.param(postParams),
-            {cache: false,
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              }
-            })
-          .success(function(data) {
-                //success condition
-                deferred.resolve(data);
-              })
-          .error(function(data, status) {
-                //error condition
-                deferred.reject(data, status);
-              });
-
-        promise.success = function (fn) {
-            promise.then(fn);
-            return promise;
-        };
-
-        promise.error = function (fn) {
-            promise.then(null, fn);
-            return promise;
-        };
-
-        return promise;
-      },
-
-      /**
-       * save
-       *
-       * @param {Object} scope
-       * @param {Object} form
-       * @param {string} tokenUrl
-       * @param {string} postUrl
-       * @param {Object.<string>} postParams
-       */
-      save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
-        var deferred = $q.defer();
-        var promise = deferred.promise;
-
-        scope.sending = true;
-console.log('NetCommonsBase->save=' + scope.$id);
-console.log(scope);
-console.log(form);
-console.log(form.$invalid);
-
-        functions.get(tokenUrl)
-            .success(function(data) {
-              postParams.data._Token = data._Token;
-
-              //登録情報をPOST
-              functions.post(postUrl, postParams)
+          /**
+           * show setting method
+           *
+           * @param {string} editUrl
+           * @param {function} callback
+           * @param {Object.<string>}
+           *               modalOptions is {scope, templateUrl, controller, ...}
+           * @return {void}
+           */
+          showSetting: function(editUrl, callback, modalOptions) {
+            functions.get(editUrl)
                 .success(function(data) {
-                      if (angular.isFunction(callback)) {
-                        callback(data);
+                  //最新データセット
+                  if (angular.isFunction(callback)) {
+                    callback(data.results);
+                  }
+                  //ダイアログ呼び出し
+                  functions.showDialog(modalOptions).result.then(
+                      function(result) {},
+                      function(reason) {
+                        if (typeof reason.data === 'object') {
+                          //openによるエラー
+                          NetCommonsFlash.danger(reason.data.name);
+                        } else if (reason === 'canceled') {
+                          //キャンセル
+                          NetCommonsFlash.close();
+                        }
                       }
-                      NetCommonsFlash.success(data.name);
-                      $modalStack.dismissAll('saved');
+                  );
+                })
+                .error(function(data) {
+                  NetCommonsFlash.danger(data.name);
+                });
+          },
 
-                      //success condition
-                      deferred.resolve(data);
-                    })
-                .error(function(data, status) {
-                      if (angular.isObject(data['results']) &&
-                          angular.isObject(
+          /**
+           * show dialog method
+           *
+           * @param {Object.<string>} options
+           * @return {Object.<*>}
+           */
+          showDialog: function(options) {
+            if (! angular.isString(options['backdrop'])) {
+              options['backdrop'] = 'static';
+            }
+            $modalStack.dismissAll('canceled');
+
+            //ダイアログ表示
+            return $modal.open(options);
+          },
+
+          /**
+           * send get
+           *
+           * @param {string} url
+           * @return {Object.<function>} promise
+           */
+          get: function(url) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            $http.get(url, {cache: false})
+              .success(function(data) {
+                  //success condition
+                  deferred.resolve(data);
+                })
+              .error(function(data, status) {
+                  //error condition
+                  deferred.reject(data, status);
+                });
+
+            promise.success = function(fn) {
+              promise.then(fn);
+              return promise;
+            };
+
+            promise.error = function(fn) {
+              promise.then(null, fn);
+              return promise;
+            };
+
+            return promise;
+          },
+
+          /**
+           * send delete
+           *
+           * @param {string} url
+           * @return {Object.<function>} promise
+           */
+          delete: function(url) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            $http.delete(url, {cache: false})
+              .success(function(data) {
+                  //success condition
+                  deferred.resolve(data);
+                })
+              .error(function(data, status) {
+                  //error condition
+                  deferred.reject(data, status);
+                });
+
+            promise.success = function(fn) {
+              promise.then(fn);
+              return promise;
+            };
+
+            promise.error = function(fn) {
+              promise.then(null, fn);
+              return promise;
+            };
+
+            return promise;
+          },
+
+          /**
+           * send post
+           *
+           * @param {string} url
+           * @param {Object.<string>} postParams
+           * @return {Object.<function>} promise
+           */
+          post: function(url, postParams) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            $http.post(url, $.param(postParams),
+                {cache: false,
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  }
+                })
+              .success(function(data) {
+                  //success condition
+                  deferred.resolve(data);
+                })
+              .error(function(data, status) {
+                  //error condition
+                  deferred.reject(data, status);
+                });
+
+            promise.success = function(fn) {
+              promise.then(fn);
+              return promise;
+            };
+
+            promise.error = function(fn) {
+              promise.then(null, fn);
+              return promise;
+            };
+
+            return promise;
+          },
+
+          /**
+           * save
+           *
+           * @param {Object} scope
+           * @param {Object} form
+           * @param {string} tokenUrl
+           * @param {string} postUrl
+           * @param {Object.<string>} postParams
+           * @param {function} callback
+           * @return {Object.<function>} promise
+           */
+          save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            scope.sending = true;
+            functions.get(tokenUrl)
+                .success(function(data) {
+                  postParams.data._Token = data._Token;
+
+                  //登録情報をPOST
+                  functions.post(postUrl, postParams)
+                    .success(function(data) {
+                        if (angular.isFunction(callback)) {
+                          callback(data);
+                        }
+                        NetCommonsFlash.success(data.name);
+                        $modalStack.dismissAll('saved');
+
+                        //success condition
+                        deferred.resolve(data);
+                      })
+                    .error(function(data, status) {
+                        if (angular.isObject(data['results']) &&
+                            angular.isObject(
                             data['results'][variables.VALIDATE_MESSAGE_KEY])) {
 
-                        angular.forEach(
-                                data['results'][variables.VALIDATE_MESSAGE_KEY],
-                                function(value, key) {
+                          angular.forEach(
+                              data['results'][variables.VALIDATE_MESSAGE_KEY],
+                              function(value, key) {
 
-                          if (! angular.isUndefined(form[key])) {
-                            form[key].$setValidity(
-                                    variables.VALIDATE_KEY, false);
-                            form[key][variables.VALIDATE_MESSAGE_KEY] = value;
-                          }
-                        });
-                      }
+                           if (! angular.isUndefined(form[key])) {
+                             form[key].$setValidity(
+                                      variables.VALIDATE_KEY, false);
+                             form[key][variables.VALIDATE_MESSAGE_KEY] = value;
+                           }
+                         });
+                        }
 
-                      if (! form.$invalid) {
-                        NetCommonsFlash.danger(data.name);
-                      }
-//
-//
-//                      form.comment.$setValidity('aaaa', false);
-//                      form['comment']['errorMessage'] = {
-//                        aaaa: 'error message'
-//                      };
-//                      //form.comment.$setViewValue('aaaa message');
-console.log(form);
-console.log(form.$invalid);
-//console.log(form['comment']['$error']['aaaa']);
-//console.log(form['comment']['$error']['aaaa']);
-
-
-                      //error condition
-                      deferred.reject(data, status);
-                    })
-                .finally (function() {
-                      scope.sending = false;
-                    });
+                        if (! form.$invalid) {
+                          NetCommonsFlash.danger(data.name);
+                        }
+                        //error condition
+                        deferred.reject(data, status);
+                      })
+                    .finally (function() {
+                        scope.sending = false;
+                      });
                 })
-            .error(function(data, status) {
-              //keyの取得に失敗
-              scope.sending = false;
-              //error condition
-              deferred.reject(data, status);
-            });
+                .error(function(data, status) {
+                  //keyの取得に失敗
+                  scope.sending = false;
+                  //error condition
+                  deferred.reject(data, status);
+                });
 
-        promise.success = function (fn) {
-            promise.then(fn);
+            promise.success = function(fn) {
+              promise.then(fn);
+              return promise;
+            };
+
+            promise.error = function(fn) {
+              promise.then(null, fn);
+              return promise;
+            };
+
             return promise;
-        };
+          },
 
-        promise.error = function (fn) {
-            promise.then(null, fn);
-            return promise;
-        };
+          /**
+           * top method
+           *
+           * @return {void}
+           */
+          top: function() {
+            $location.hash('nc-modal-top');
+            $anchorScroll();
+          },
 
-        return promise;
-      },
+          /**
+           * getScopeById method
+           *
+           * @param {string} scopeId is $scope.$id
+           * @return {Object | null}
+           */
+          getElementByScopeId: function(scopeId) {
+            var scopes = angular.element('.ng-scope');
+            var element = null;
+            for (var i = 0; i < scopes.length; i++) {
+              element = angular.element(scopes[i]);
+              if (element.scope().$id === scopeId) {
+                return element;
+              }
+            }
+            return null;
+          },
 
-      /**
-       * top method
-       */
-      top: function() {
-        $location.hash('nc-modal-top');
-        $anchorScroll();
-      },
-
-      /**
-       * getScopeById method
-       *
-       * @param {string} scopeId is $scope.$id
-       */
-      getElementByScopeId: function(scopeId) {
-        var scopes = angular.element('.ng-scope');
-        var element = null;
-        for (var i = 0; i < scopes.length; i++) {
-          element = angular.element(scopes[i]);
-          if (element.scope().$id === scopeId) {
-              return element;
+          /**
+           * serverValidationClear
+           *
+           * @param {Object} form
+           * @param {string} key
+           * @return {void}
+           */
+          serverValidationClear: function(form, key) {
+            if (! angular.isUndefined(
+                            form[key].$error[variables.VALIDATE_KEY]) &&
+                    form[key].$error[variables.VALIDATE_KEY]) {
+              form[key].$setValidity(variables.VALIDATE_KEY, true);
+              form[key][variables.VALIDATE_MESSAGE_KEY] = '';
+            }
           }
-        }
-        return null;
-      },
 
-      /**
-       * serverValidationClear
-       */
-      serverValidationClear: function(form, key) {
-        if (! angular.isUndefined(form[key].$error[variables.VALIDATE_KEY]) &&
-                form[key].$error[variables.VALIDATE_KEY]) {
-          form[key].$setValidity(variables.VALIDATE_KEY, true);
-          form[key][variables.VALIDATE_MESSAGE_KEY] = '';
-        }
-      }
+        };
 
-    };
-
-    return functions.new();
-  }]);
+        return functions.new();
+      }]);
 
 
 /**
  * NetCommonsUser factory
  */
-NetCommonsApp.factory('NetCommonsUser', function () {
+NetCommonsApp.factory('NetCommonsUser', function() {
 
   /**
    * variables
@@ -598,8 +584,10 @@ NetCommonsApp.factory('NetCommonsUser', function () {
   var functions = {
     /**
      * new method
+     *
+     * @return {Object.<Object|string|function>}
      */
-    new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     },
 
@@ -607,6 +595,7 @@ NetCommonsApp.factory('NetCommonsUser', function () {
      * show user information method
      *
      * @param {number} users.id
+     * @return {void}
      */
     showUser: function(user_id) {
       alert('user_id:' + user_id);
@@ -620,7 +609,7 @@ NetCommonsApp.factory('NetCommonsUser', function () {
 /**
  * NetCommonsTab factory
  */
-NetCommonsApp.factory('NetCommonsTab', function () {
+NetCommonsApp.factory('NetCommonsTab', function() {
 
   /**
    * variables
@@ -639,8 +628,10 @@ NetCommonsApp.factory('NetCommonsTab', function () {
   var functions = {
     /**
      * new method
+     *
+     * @return {Object.<Object|string|function>}
      */
-    new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     },
 
@@ -648,6 +639,7 @@ NetCommonsApp.factory('NetCommonsTab', function () {
      * setTab method
      *
      * @param {number} tabId
+     * @return {void}
      */
     setTab: function(tabId) {
       variables.tabId = tabId;
@@ -657,6 +649,7 @@ NetCommonsApp.factory('NetCommonsTab', function () {
      * isSet method
      *
      * @param {number} tabId
+     * @return {boolean}
      */
     isSet: function(tabId) {
       return variables.tabId === tabId;
@@ -671,43 +664,43 @@ NetCommonsApp.factory('NetCommonsTab', function () {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-        $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
+    $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
 
-    /**
-     * messages
-     *
-     * @type {Object}
-     */
-    $scope.messages = {};
+      /**
+       * messages
+       *
+       * @type {Object}
+       */
+      $scope.messages = {};
 
-    /**
-     * placeholder
-     *
-     * @type {string}
-     */
-    $scope.placeholder = '';
+      /**
+       * placeholder
+       *
+       * @type {string}
+       */
+      $scope.placeholder = '';
 
-    /**
-     * top
-     *
-     * @type {function}
-     */
-    $scope.top = NetCommonsBase.top;
+      /**
+       * top
+       *
+       * @type {function}
+       */
+      $scope.top = NetCommonsBase.top;
 
-    /**
-     * dialog cancel
-     *
-     * @return {void}
-     */
-    $scope.cancel = function() {
-      $modalStack.dismissAll('canceled');
-    };
+      /**
+       * dialog cancel
+       *
+       * @return {void}
+       */
+      $scope.cancel = function() {
+        $modalStack.dismissAll('canceled');
+      };
 
-    /**
-     * flash
-     *
-     * @type {object}
-     */
-    $scope.flash = NetCommonsFlash.new();
+      /**
+       * flash
+       *
+       * @type {Object}
+       */
+      $scope.flash = NetCommonsFlash.new();
 
-  });
+    });

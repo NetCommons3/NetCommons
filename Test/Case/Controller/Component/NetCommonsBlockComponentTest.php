@@ -60,7 +60,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  *
  * @var Controller Controller for NetCommonsBlock component test
  */
-	public $Controller = null;
+	public $BlockController = null;
 
 /**
  * setUp
@@ -74,11 +74,12 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		//テストコントローラ読み込み
 		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
-		$this->Controller = new TestNetCommonsBlockController($CakeRequest, $CakeResponse);
+		$this->BlockController = new TestNetCommonsBlockController($CakeRequest, $CakeResponse);
 		//コンポーネント読み込み
 		$Collection = new ComponentCollection();
 		$this->NetCommonsBlock = new NetCommonsBlockComponent($Collection);
-		$this->NetCommonsBlock->startup($this->Controller);
+		$this->NetCommonsBlock->actionSetView = false;
+		$this->NetCommonsBlock->startup($this->BlockController);
 	}
 
 /**
@@ -90,7 +91,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		parent::tearDown();
 
 		unset($this->NetCommonsBlock);
-		unset($this->Controller);
+		unset($this->BlockController);
 
 		Configure::write('Config.language', null);
 	}
@@ -101,14 +102,14 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testInitialize() {
-		$this->NetCommonsBlock->initialize($this->Controller);
+		$this->NetCommonsBlock->initialize($this->BlockController);
 		$expected = array(
 			'blockId' => 0,
 			'blockKey' => '',
 			'roomId' => 0,
 			'languageId' => 0
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->BlockController->viewVars);
 	}
 
 /**
@@ -120,8 +121,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		$this->testInitialize();
 
 		$blockId = 1;
-		$result = $this->NetCommonsBlock->setView($this->Controller, $blockId);
-		$this->assertTrue($result);
+		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
 
 		$expected = array(
 			'blockId' => 1,
@@ -129,7 +129,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 			'roomId' => 1,
 			'languageId' => 2
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->BlockController->viewVars);
 	}
 
 /**
@@ -141,8 +141,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		$this->testInitialize();
 
 		$blockKey = 'block_1';
-		$result = $this->NetCommonsBlock->setViewKey($this->Controller, $blockKey);
-		$this->assertTrue($result);
+		$this->NetCommonsBlock->setViewKey($this->BlockController, $blockKey);
 
 		$expected = array(
 			'blockId' => 1,
@@ -150,7 +149,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 			'roomId' => 1,
 			'languageId' => 2
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->BlockController->viewVars);
 
 		Configure::write('Config.language', null);
 	}
@@ -161,11 +160,11 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewNotExistBlockId() {
+		$this->setExpectedException('InternalErrorException');
+
 		$this->testInitialize();
 
 		$blockId = 999;
-		$result = $this->NetCommonsBlock->setView($this->Controller, $blockId);
-
-		$this->assertFalse($result);
+		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
 	}
 }

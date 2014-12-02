@@ -54,7 +54,7 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @var bool
  */
-	public $setView = true;
+	public $actionSetView = true;
 
 /**
  * Controller actions for which user validation is required.
@@ -84,7 +84,6 @@ class NetCommonsRoomRoleComponent extends Component {
  */
 	public $workflowActions = array();
 
-
 /**
  * Called before the Controller::beforeFilter().
  *
@@ -113,6 +112,10 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
+		if ($this->allowedActions && count($this->allowedActions) > 0) {
+			$this->actionSetView = true;
+		}
+
 		//アクションセット
 		if (isset($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION])) {
 			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] =
@@ -121,19 +124,16 @@ class NetCommonsRoomRoleComponent extends Component {
 			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] = $controller->Auth->allowedActions;
 		}
 
-		if ($this->allowedActions && count($this->allowedActions) > 0) {
-			$this->setView = true;
-		}
 		//room_roleセット
-		if ($this->setView) {
+		if ($this->actionSetView) {
 			$this->setView($controller);
+
+			//アクション許可チェック
+			$this->_isAllowed($controller);
+
+			//ワークフロー公開権限チェック
+			$this->_isPublished($controller);
 		}
-
-		//アクション許可チェック
-		$this->_isAllowed($controller);
-
-		//ワークフロー公開権限チェック
-		$this->_isPublished($controller);
 	}
 
 /**

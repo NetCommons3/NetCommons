@@ -7,7 +7,7 @@
 /**
  * NetCommonsWysiwyg factory
  */
-NetCommonsApp.factory('NetCommonsWysiwyg', function () {
+NetCommonsApp.factory('NetCommonsWysiwyg', function() {
 
   /**
    * tinymce optins
@@ -45,7 +45,7 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function () {
     /**
      * new method
      */
-     new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     }
   };
@@ -57,7 +57,7 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function () {
 /**
  * NetCommonsUser factory
  */
-NetCommonsApp.factory('NetCommonsUser', function () {
+NetCommonsApp.factory('NetCommonsUser', function() {
 
   /**
    * variables
@@ -75,7 +75,7 @@ NetCommonsApp.factory('NetCommonsUser', function () {
     /**
      * new method
      */
-    new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     },
 
@@ -96,7 +96,7 @@ NetCommonsApp.factory('NetCommonsUser', function () {
 /**
  * NetCommonsTab factory
  */
-NetCommonsApp.factory('NetCommonsTab', function () {
+NetCommonsApp.factory('NetCommonsTab', function() {
 
   /**
    * variables
@@ -116,7 +116,7 @@ NetCommonsApp.factory('NetCommonsTab', function () {
     /**
      * new method
      */
-    new: function () {
+    new: function() {
       return angular.extend(variables, functions);
     },
 
@@ -149,42 +149,42 @@ NetCommonsApp.factory('NetCommonsTab', function () {
 NetCommonsApp.controller('NetCommons.base', function(
         $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
 
-    /**
-     * messages
-     *
-     * @type {Object}
-     */
-    $scope.messages = {};
+      /**
+       * messages
+       *
+       * @type {Object}
+       */
+      $scope.messages = {};
 
-    /**
-     * placeholder
-     *
-     * @type {string}
-     */
-    $scope.placeholder = '';
+      /**
+       * placeholder
+       *
+       * @type {string}
+       */
+      $scope.placeholder = '';
 
-    /**
-     * top
-     *
-     * @type {function}
-     */
-    $scope.top = NetCommonsBase.top;
+      /**
+       * top
+       *
+       * @type {function}
+       */
+      $scope.top = NetCommonsBase.top;
 
-    /**
-     * dialog cancel
-     *
-     * @return {void}
-     */
-    $scope.cancel = function() {
-      $modalStack.dismissAll('canceled');
-    };
+      /**
+       * dialog cancel
+       *
+       * @return {void}
+       */
+      $scope.cancel = function() {
+        $modalStack.dismissAll('canceled');
+      };
 
-    /**
-     * flash
-     *
-     * @type {object}
-     */
-    $scope.flash = NetCommonsFlash.new();
+      /**
+       * flash
+       *
+       * @type {object}
+       */
+      $scope.flash = NetCommonsFlash.new();
 
       /**
        * sending
@@ -193,4 +193,4 @@ NetCommonsApp.controller('NetCommons.base', function(
        */
       $scope.sending = false;
 
-  });
+    });

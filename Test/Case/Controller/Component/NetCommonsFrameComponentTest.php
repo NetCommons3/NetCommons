@@ -58,7 +58,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
  *
  * @var Controller Controller for NetCommonsFrame component test
  */
-	public $Controller = null;
+	public $FrameController = null;
 
 /**
  * setUp
@@ -73,11 +73,12 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		//テストコントローラ読み込み
 		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
-		$this->Controller = new TestNetCommonsFrameController($CakeRequest, $CakeResponse);
+		$this->FrameController = new TestNetCommonsFrameController($CakeRequest, $CakeResponse);
 		//コンポーネント読み込み
 		$Collection = new ComponentCollection();
 		$this->NetCommonsFrame = new NetCommonsFrameComponent($Collection);
-		$this->NetCommonsFrame->startup($this->Controller);
+		$this->NetCommonsFrame->actionSetView = false;
+		$this->NetCommonsFrame->startup($this->FrameController);
 	}
 
 /**
@@ -89,7 +90,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		parent::tearDown();
 
 		unset($this->NetCommonsFrame);
-		unset($this->Controller);
+		unset($this->FrameController);
 
 		Configure::write('Config.language', null);
 	}
@@ -100,7 +101,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testInitialize() {
-		$this->NetCommonsFrame->initialize($this->Controller);
+		$this->NetCommonsFrame->initialize($this->FrameController);
 		$expected = array(
 			'frameId' => 0,
 			'frameKey' => '',
@@ -109,7 +110,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 			'roomId' => 0,
 			'languageId' => 0
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->FrameController->viewVars);
 	}
 
 /**
@@ -121,8 +122,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->testInitialize();
 
 		$frameId = 1;
-		$result = $this->NetCommonsFrame->setView($this->Controller, $frameId);
-		$this->assertTrue($result);
+		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
 
 		$expected = array(
 			'frameId' => 1,
@@ -132,7 +132,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 			'roomId' => 1,
 			'languageId' => 2
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->FrameController->viewVars);
 	}
 
 /**
@@ -146,8 +146,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		Configure::write('Config.language', 'ja');
 
 		$frameKey = 'frame_1';
-		$result = $this->NetCommonsFrame->setViewKey($this->Controller, $frameKey);
-		$this->assertTrue($result);
+		$this->NetCommonsFrame->setViewKey($this->FrameController, $frameKey);
 
 		$expected = array(
 			'frameId' => 1,
@@ -157,7 +156,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 			'roomId' => 1,
 			'languageId' => 2
 		);
-		$this->assertEquals($expected, $this->Controller->viewVars);
+		$this->assertEquals($expected, $this->FrameController->viewVars);
 
 		Configure::write('Config.language', null);
 	}
@@ -173,9 +172,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->testInitialize();
 
 		$frameId = 999;
-		$result = $this->NetCommonsFrame->setView($this->Controller, $frameId);
-
-		$this->assertFalse($result);
+		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
 	}
 
 }

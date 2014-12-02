@@ -125,7 +125,9 @@ class NetCommonsAppController extends Controller {
  *   false to stop redirection event,
  *   string controllers a new redirection URL or
  *   array with the keys url, status and exit to be used by the redirect method.
+ * @throws UnauthorizedException
  * @link http://book.cakephp.org/2.0/en/controllers.html#request-life-cycle-callbacks
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function beforeRedirect($url, $status = null, $exit = true) {
 		if ($this->Session->read('Auth.redirect')) {

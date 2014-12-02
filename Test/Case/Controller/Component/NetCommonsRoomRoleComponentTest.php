@@ -29,7 +29,7 @@ class TestAuthComponent {
  *
  * @var array
  */
-	public $allowedActions = null;
+	public $allowedActions = array('index', 'view');
 
 /**
  * login method
@@ -77,6 +77,12 @@ class TestNetCommonsRoomRoleController extends Controller {
  * @var AuthComponent
  */
 	public $Auth = null;
+
+/**
+ * request
+ *
+ * @var request
+ */
 }
 
 /**
@@ -133,13 +139,12 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		$CakeResponse = new CakeResponse();
 		$this->RoomRoleController = new TestNetCommonsRoomRoleController($CakeRequest, $CakeResponse);
 		$this->RoomRoleController->Auth = new TestAuthComponent();
+		$this->RoomRoleController->request->params['action'] = 'index';
 
 		//コンポーネント読み込み
 		$Collection = new ComponentCollection();
 
 		$this->NetCommonsRoomRole = new NetCommonsRoomRoleComponent($Collection);
-		$this->NetCommonsRoomRole->actionSetView = false;
-		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 	}
 
 /**
@@ -170,6 +175,28 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	}
 
 /**
+ * testInitialize method
+ *
+ * @return void
+ */
+	public function testStartup() {
+		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
+
+		$expected = array(
+			'rolesRoomId' => 0,
+			'roomRoleKey' => 'visitor',
+			'pageEditable' => false,
+			'blockEditable' => false,
+			'contentReadable' => true,
+			'contentCreatable' => false,
+			'contentEditable' => false,
+			'contentPublishable' => false,
+		);
+		$this->assertEquals($expected, $this->RoomRoleController->viewVars);
+	}
+
+/**
  * testSetView method
  *
  * @return void
@@ -178,7 +205,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', 1);
 
 		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
-
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
 
 		$expected = array(
@@ -188,7 +215,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => true,
 			'contentEditable' => true,
 			'contentPublishable' => true,
-			'rolesRoomId' => 1,
+			'rolesRoomId' => '1',
 			'roomRoleKey' => 'room_administrator',
 		);
 		$this->assertEquals($expected, $this->RoomRoleController->viewVars);
@@ -205,7 +232,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', null);
 
 		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
-
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
 
 		$expected = array(
@@ -234,7 +261,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', 999);
 
 		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
-
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
 
 		CakeSession::write('Auth.User.id', null);
@@ -258,7 +285,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', 1);
 
 		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
-
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
 
 		CakeSession::write('Auth.User.id', null);
@@ -281,11 +308,9 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 
 		CakeSession::write('Auth.User.id', 1);
 
-		$result = $this->NetCommonsRoomRole->initialize($this->RoomRoleController);
-		$this->assertNull($result);
-
-		$result = $this->NetCommonsRoomRole->setView($this->RoomRoleController);
-		$this->assertFalse($result);
+		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
+		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
+		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
 
 		CakeSession::write('Auth.User.id', null);
 	}

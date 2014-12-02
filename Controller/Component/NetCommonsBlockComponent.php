@@ -60,11 +60,11 @@ class NetCommonsBlockComponent extends Component {
 	);
 
 /**
- * startup actionSetView
+ * startup viewSetting
  *
  * @var bool
  */
-	public $actionSetView = false;
+	public $viewSetting = false;
 
 /**
  * Initialize component
@@ -96,7 +96,7 @@ class NetCommonsBlockComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->actionSetView) {
+		if ($this->viewSetting) {
 			$blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
 			$this->setView($controller, $blockId);
 		}
@@ -110,6 +110,10 @@ class NetCommonsBlockComponent extends Component {
  * @return bool true is success, false is error.
  */
 	public function setView(Controller $controller, $blockId) {
+		if (! $this->viewSetting) {
+			return;
+		}
+
 		//set language_id
 		if ($controller->viewVars['languageId'] === 0) {
 			$language = $this->Language->findByCode(Configure::read('Config.language'));
@@ -132,6 +136,10 @@ class NetCommonsBlockComponent extends Component {
  * @return bool true is success, false is error.
  */
 	public function setViewKey(Controller $controller, $blockKey, $languageCode = '') {
+		if (! $this->viewSetting) {
+			return;
+		}
+
 		//set language_id
 		if ($languageCode === '') {
 			$languageCode = Configure::read('Config.language');

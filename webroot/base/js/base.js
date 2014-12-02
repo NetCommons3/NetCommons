@@ -5,9 +5,10 @@ var NetCommonsApp = angular.module('NetCommonsApp',
     ]
     );
 
-//NetCommonsApp.config(['$httpProvider', function($httpProvider) {
-// $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-//}]);
+//CakePHPがX-Requested-Withで判断しているため
+NetCommonsApp.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+}]);
 
 
 /**

@@ -77,8 +77,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		//コンポーネント読み込み
 		$Collection = new ComponentCollection();
 		$this->NetCommonsFrame = new NetCommonsFrameComponent($Collection);
-		$this->NetCommonsFrame->actionSetView = false;
-		$this->NetCommonsFrame->startup($this->FrameController);
+		$this->NetCommonsFrame->viewSetting = false;
 	}
 
 /**
@@ -114,14 +113,35 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
+ * testInitialize method
+ *
+ * @return void
+ */
+	public function testStartup() {
+		$this->NetCommonsFrame->initialize($this->FrameController);
+		$this->NetCommonsFrame->startup($this->FrameController);
+		$expected = array(
+			'frameId' => 0,
+			'frameKey' => '',
+			'blockId' => 0,
+			'blockKey' => '',
+			'roomId' => 0,
+			'languageId' => 0
+		);
+		$this->assertEquals($expected, $this->FrameController->viewVars);
+	}
+
+/**
  * testSetView method
  *
  * @return void
  */
 	public function testSetView() {
-		$this->testInitialize();
-
 		$frameId = 1;
+
+		$this->NetCommonsFrame->initialize($this->FrameController);
+		$this->NetCommonsFrame->startup($this->FrameController);
+		$this->NetCommonsFrame->viewSetting = true;
 		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
 
 		$expected = array(
@@ -141,11 +161,12 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewKey() {
-		$this->testInitialize();
-
 		Configure::write('Config.language', 'ja');
 
 		$frameKey = 'frame_1';
+		$this->NetCommonsFrame->initialize($this->FrameController);
+		$this->NetCommonsFrame->startup($this->FrameController);
+		$this->NetCommonsFrame->viewSetting = true;
 		$this->NetCommonsFrame->setViewKey($this->FrameController, $frameKey);
 
 		$expected = array(
@@ -169,9 +190,11 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	public function testSetViewNotExistFrameId() {
 		$this->setExpectedException('InternalErrorException');
 
-		$this->testInitialize();
-
 		$frameId = 999;
+
+		$this->NetCommonsFrame->initialize($this->FrameController);
+		$this->NetCommonsFrame->startup($this->FrameController);
+		$this->NetCommonsFrame->viewSetting = true;
 		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
 	}
 

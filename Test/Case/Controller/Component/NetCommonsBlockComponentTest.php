@@ -78,8 +78,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		//コンポーネント読み込み
 		$Collection = new ComponentCollection();
 		$this->NetCommonsBlock = new NetCommonsBlockComponent($Collection);
-		$this->NetCommonsBlock->actionSetView = false;
-		$this->NetCommonsBlock->startup($this->BlockController);
+		$this->NetCommonsBlock->viewSetting = false;
 	}
 
 /**
@@ -113,14 +112,32 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 	}
 
 /**
+ * testInitialize method
+ *
+ * @return void
+ */
+	public function testStartup() {
+		$this->testInitialize();
+		$this->NetCommonsBlock->startup($this->BlockController);
+		$expected = array(
+			'blockId' => 0,
+			'blockKey' => '',
+			'roomId' => 0,
+			'languageId' => 0
+		);
+		$this->assertEquals($expected, $this->BlockController->viewVars);
+	}
+
+/**
  * testSetView method
  *
  * @return void
  */
 	public function testSetView() {
-		$this->testInitialize();
+		$this->testStartup();
 
 		$blockId = 1;
+		$this->NetCommonsBlock->viewSetting = true;
 		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
 
 		$expected = array(
@@ -138,9 +155,10 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSetViewKey() {
-		$this->testInitialize();
+		$this->testStartup();
 
 		$blockKey = 'block_1';
+		$this->NetCommonsBlock->viewSetting = true;
 		$this->NetCommonsBlock->setViewKey($this->BlockController, $blockKey);
 
 		$expected = array(
@@ -162,9 +180,10 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 	public function testSetViewNotExistBlockId() {
 		$this->setExpectedException('InternalErrorException');
 
-		$this->testInitialize();
+		$this->testStartup();
 
 		$blockId = 999;
+		$this->NetCommonsBlock->viewSetting = true;
 		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
 	}
 }

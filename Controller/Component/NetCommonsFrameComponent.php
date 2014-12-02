@@ -24,7 +24,7 @@ class NetCommonsFrameComponent extends Component {
  *
  * @var bool
  */
-	public $actionSetView = true;
+	public $viewSetting = true;
 
 /**
  * Initialize component
@@ -58,7 +58,7 @@ class NetCommonsFrameComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->actionSetView) {
+		if ($this->viewSetting) {
 			$frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
 			$this->setView($controller, $frameId);
 		}
@@ -72,6 +72,10 @@ class NetCommonsFrameComponent extends Component {
  * @return void
  */
 	public function setView(Controller $controller, $frameId) {
+		if (! $this->viewSetting) {
+			return;
+		}
+
 		//set language_id
 		if (isset($controller->viewVars['languageId']) && $controller->viewVars['languageId'] === 0) {
 			$language = $this->Language->findByCode(Configure::read('Config.language'));

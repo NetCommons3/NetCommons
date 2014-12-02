@@ -54,7 +54,7 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @var bool
  */
-	public $actionSetView = true;
+	public $viewSetting = true;
 
 /**
  * Controller actions for which user validation is required.
@@ -112,10 +112,6 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->allowedActions && count($this->allowedActions) > 0) {
-			$this->actionSetView = true;
-		}
-
 		//アクションセット
 		if (isset($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION])) {
 			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] =
@@ -125,15 +121,15 @@ class NetCommonsRoomRoleComponent extends Component {
 		}
 
 		//room_roleセット
-		if ($this->actionSetView) {
+		if ($this->viewSetting) {
 			$this->setView($controller);
-
-			//アクション許可チェック
-			$this->_isAllowed($controller);
-
-			//ワークフロー公開権限チェック
-			$this->_isPublished($controller);
 		}
+
+		//アクション許可チェック
+		$this->_isAllowed($controller);
+
+		//ワークフロー公開権限チェック
+		$this->_isPublished($controller);
 	}
 
 /**
@@ -194,18 +190,46 @@ class NetCommonsRoomRoleComponent extends Component {
  */
 	public function setView(Controller $controller) {
 		$userId = $controller->Auth->user('id');
-		if ($userId) {
-			$roleRoomUser =
-					$this->RolesRoomsUser->findByUserId($userId);
-			if (! $roleRoomUser) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
-			if (isset($roleRoomUser['RolesRoom'])) {
-				$controller->set('roomRoleKey', $roleRoomUser['RolesRoom']['role_key']);
-				$controller->set('rolesRoomId', $roleRoomUser['RolesRoom']['id']);
-			}
+
+		$this->__setViewRolesRoomsUser($controller, $userId);
+
+		$this->__setViewDefaultRolePermission($controller);
+
+		$this->__setViewRoomRolePermission($controller, $userId);
+	}
+
+/**
+ * __setViewRolesRoomsUser
+ *
+ * @param Controller $controller Instantiating controller
+ * @param int $userId users.id
+ * @return void
+ * @throws InternalErrorException
+ */
+	private function __setViewRolesRoomsUser($controller, $userId) {
+		if (! $userId) {
+			return;
 		}
 
+		$roleRoomUser =
+				$this->RolesRoomsUser->findByUserId($userId);
+		if (! $roleRoomUser) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+		if (isset($roleRoomUser['RolesRoom'])) {
+			$controller->set('roomRoleKey', $roleRoomUser['RolesRoom']['role_key']);
+			$controller->set('rolesRoomId', $roleRoomUser['RolesRoom']['id']);
+		}
+	}
+
+/**
+ * __setViewRoomRolePermission
+ *
+ * @param Controller $controller Instantiating controller
+ * @return void
+ * @throws InternalErrorException
+ */
+	private function __setViewDefaultRolePermission($controller) {
 		$defaultPermissions =
 				$this->DefaultRolePermission->findAllByRoleKey($controller->viewVars['roomRoleKey']);
 		if (! $defaultPermissions) {
@@ -217,20 +241,33 @@ class NetCommonsRoomRoleComponent extends Component {
 
 			$controller->set($key, $value);
 		}
+	}
 
-		if ($userId) {
-			$roomRolePermissions =
-					$this->RoomRolePermission->findAllByRolesRoomId($controller->viewVars['rolesRoomId']);
-			if (! $roomRolePermissions) {
-				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-			}
+/**
+ * __setViewRolesRoomsUser
+ *
+ * @param Controller $controller Instantiating controller
+ * @param int $userId users.id
+ * @return void
+ * @throws InternalErrorException
+ */
+	private function __setViewRoomRolePermission($controller, $userId) {
+		if (! $userId) {
+			return;
+		}
 
-			foreach ($roomRolePermissions as $roomRolePermission) {
-				$key = Inflector::variable($roomRolePermission['RoomRolePermission']['permission']);
-				$value = $roomRolePermission['RoomRolePermission']['value'];
+		$roomRolePermissions =
+				$this->RoomRolePermission->findAllByRolesRoomId($controller->viewVars['rolesRoomId']);
+		if (! $roomRolePermissions) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
 
-				$controller->set($key, $value);
-			}
+		foreach ($roomRolePermissions as $roomRolePermission) {
+			$key = Inflector::variable($roomRolePermission['RoomRolePermission']['permission']);
+			$value = $roomRolePermission['RoomRolePermission']['value'];
+
+			$controller->set($key, $value);
 		}
 	}
+
 }

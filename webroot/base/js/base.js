@@ -209,6 +209,8 @@ NetCommonsApp.factory('NetCommonsBase',
               }
             } else if (angular.isString(options)) {
               url = url + '/' + options;
+            } else if (angular.isNumber(options)) {
+              url = url + '/' + options.toString();
             }
             return url;
           }

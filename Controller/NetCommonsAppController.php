@@ -169,5 +169,4 @@ class NetCommonsAppController extends Controller {
 		$this->set(compact('result'));
 		$this->set('_serialize', 'result');
 	}
-
 }

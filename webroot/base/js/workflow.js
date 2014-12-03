@@ -75,8 +75,8 @@ NetCommonsApp.factory('NetCommonsWorkflow',
         var master = {
           comments: {
             data: {},
-            plugin_key: '',
-            content_key: '',
+            pluginKey: '',
+            contentKey: '',
             current: 0,
             hasPrev: false,
             hasNext: false,
@@ -123,7 +123,10 @@ NetCommonsApp.factory('NetCommonsWorkflow',
             variables.scope = scope;
             return angular.extend(variables, functions);
           },
-          init: function(comments) {
+          init: function(pluginKey, contentKey, comments) {
+            variables.comments.pluginKey = pluginKey;
+            variables.comments.contentKey = contentKey;
+
             if (typeof comments !== 'undefined') {
               variables.comments.current = comments.current;
               variables.comments.limit = comments.limit;
@@ -138,8 +141,8 @@ NetCommonsApp.factory('NetCommonsWorkflow',
           },
           get: function(page) {
             $http.get('/comments/comments/index/' +
-                      variables.comments.plugin_key + '/' +
-                      variables.comments.content_key + '/' +
+                      variables.comments.pluginKey + '/' +
+                      variables.comments.contentKey + '/' +
                       'page:' + page + '.json', {cache: false})
                 .success(function(data) {
                   var comments = data.results.comments;

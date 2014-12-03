@@ -471,7 +471,8 @@ NetCommonsApp.factory('NetCommonsBase',
                         deferred.resolve(data);
                       })
                     .error(function(data, status) {
-                        if (angular.isObject(data['results']) &&
+                        if (angular.isObject(form) &&
+                            angular.isObject(data['results']) &&
                             angular.isObject(
                             data['results'][variables.VALIDATE_MESSAGE_KEY])) {
 
@@ -487,7 +488,7 @@ NetCommonsApp.factory('NetCommonsBase',
                          });
                         }
 
-                        if (! form.$invalid) {
+                        if (! angular.isObject(form) || ! form.$invalid) {
                           NetCommonsFlash.danger(data.name);
                         }
                         //error condition

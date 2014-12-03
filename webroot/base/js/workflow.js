@@ -51,8 +51,6 @@ NetCommonsApp.directive('ncWorkflowForm', function() {
       scope.messages['workflow_placeholder_approved'] =
                       attrs.ncMessagePlaceholderApproved;
       scope.messages['workflow_label'] = attrs.ncMessageLabel;
-
-      scope.workflow.form = scope[attrs.ncWorkflowForm];
     }
   };
 
@@ -162,10 +160,12 @@ NetCommonsApp.factory('NetCommonsWorkflow',
                 });
           },
           input: {
+            init: function(form) {
+              variables.form = form;
+            },
             placeholder: function() {
               if (variables.currentStatus === NetCommonsBase.STATUS_APPROVED) {
-                return variables.scope.messages.workflow_placeholder +
-                    variables.scope.messages.workflow_placeholder_approved;
+                return variables.scope.messages.workflow_placeholder_approved;
               } else {
                 return variables.scope.messages.workflow_placeholder;
               }
@@ -197,7 +197,8 @@ NetCommonsApp.factory('NetCommonsWorkflow',
               }
             },
             required: function() {
-              return (variables.editStatus ===
+              return (variables.currentStatus !== variables.editStatus &&
+                      variables.editStatus ===
                                         NetCommonsBase.STATUS_DISAPPROVED);
             },
             glyphicon: function() {
@@ -211,6 +212,18 @@ NetCommonsApp.factory('NetCommonsWorkflow',
             showMessage: function() {
               return (variables.input.hasErrorTarget() &&
                       variables.input.invalid());
+            },
+            getMessage: function() {
+              var messages = [];
+              if (functions.input.showMessage()) {
+                if (variables.form['comment'][NetCommonsBase.VALIDATE_KEY]) {
+                  messages =
+                      variables.form['comment'][NetCommonsBase.VALIDATE_KEY];
+                } else {
+                  messages = [variables.scope.messages.error_required];
+                }
+              }
+              return messages;
             }
           }
         };

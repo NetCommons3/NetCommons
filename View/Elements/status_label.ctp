@@ -1,6 +1,6 @@
 <?php
 /**
- * status label template elements
+ * status_label element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,7 +10,7 @@
  */
 ?>
 
-<span class="ng-hide" ng-show="<?php echo h($statusModel) ?>" ng-switch="<?php echo h($statusModel) ?>">
+<span class="ng-hide" ng-show="<?php echo h($statusModel) ?>" ng-switch="<?php echo h($statusModel) ?>" ng-cloak>
 	<span class="label label-warning"
 			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>">
 		<?php echo __d('net_commons', 'Approving'); ?>

@@ -18,18 +18,30 @@
 			ng-click="cancel()">
 		<span class="glyphicon glyphicon-remove small"></span>
 	</button>
-
-	<?php echo $this->fetch('title_for_modal'); ?>
+	<?php $titleForModal = $this->fetch('titleForModal'); ?>
+	<?php if ($titleForModal) : ?>
+		<?php echo $titleForModal; ?>
+	<?php else : ?>
+		<br />
+	<?php endif; ?>
 </div>
 
 <div class="modal-body">
-	<?php echo $this->fetch('tablist'); ?>
-	<br />
+<?php $tabList = $this->fetch('tabList'); ?>
+	<?php if ($tabList) : ?>
+		<ul class="nav nav-tabs" role="tablist">
+			<?php echo $tabList; ?>
+		</ul>
+		<br />
+		<?php $tabId = $this->fetch('tabIndex'); ?>
+		<div class="tab-content" ng-init="tab.setTab(<?php echo (int)$tabId; ?>)">
+	<?php endif; ?>
 
-	<?php $tabId = $this->fetch('tabIndex'); ?>
-	<div class="tab-content" ng-init="tab.setTab(<?php echo (int)$tabId; ?>)">
-		<?php echo $this->fetch('content'); ?>
+	<?php echo $this->fetch('content'); ?>
+	<?php echo $this->element('NetCommons.goto_top_button'); ?>
 
-		<?php echo $this->element('goto_top_button', array(), array('plugin' => 'NetCommons')); ?>
-	</div>
+	<?php if ($tabList) : ?>
+		</div>
+	<?php endif; ?>
+
 </div>

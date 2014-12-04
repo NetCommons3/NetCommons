@@ -1,6 +1,6 @@
 <?php
 /**
- * announcement button element template
+ * workflow_buttons element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -17,27 +17,25 @@
 
 	<?php if ($contentPublishable) : ?>
 		<button type="button" name="status" class="btn btn-danger"
-				ng-disabled="sending"
-				ng-hide="<?php echo h($statusModel); ?> !==
-					  '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
-				ng-click="save(<?php echo (h($formName) . ", '" . NetCommonsBlockComponent::STATUS_DISAPPROVED . "'"); ?>)">
+				ng-disabled="(sending || form.$invalid)"
+				ng-hide="workflow.currentStatus !== '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_DISAPPROVED; ?>')">
 
 			<?php echo __d('net_commons', 'Disapproval'); ?>
 		</button>
 
 		<button type="button" class="btn btn-default ng-hide"
-				ng-disabled="sending"
-				ng-hide="<?php echo h($statusModel); ?> ===
-					  '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
-				ng-click="save(<?php echo (h($formName) . ", '" . NetCommonsBlockComponent::STATUS_DRAFTED . "'"); ?>)">
+				ng-disabled="(sending || form.$invalid)"
+				ng-hide="workflow.currentStatus === '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_DRAFTED; ?>')">
 
 			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>
 
 	<?php else : ?>
 		<button type="button" class="btn btn-default"
-				ng-disabled="sending"
-				ng-click="save(<?php echo (h($formName) . ", '" . NetCommonsBlockComponent::STATUS_DRAFTED . "'"); ?>)">
+				ng-disabled="(sending || form.$invalid)"
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_DRAFTED; ?>')">
 
 			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>
@@ -46,16 +44,16 @@
 
 	<?php if ($contentPublishable) : ?>
 		<button type="button" class="btn btn-primary"
-				ng-disabled="sending"
-				ng-click="save(<?php echo (h($formName) . ", '" . NetCommonsBlockComponent::STATUS_PUBLISHED . "'"); ?>)">
+				ng-disabled="(sending || form.$invalid)"
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_PUBLISHED; ?>')">
 
 			<?php echo __d('net_commons', 'OK'); ?>
 		</button>
 
 	<?php else : ?>
 		<button type="button" class="btn btn-primary"
-				ng-disabled="sending"
-				ng-click="save(<?php echo (h($formName) . ", '" . NetCommonsBlockComponent::STATUS_APPROVED . "'"); ?>)">
+				ng-disabled="(sending || form.$invalid)"
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_APPROVED; ?>')">
 
 			<?php echo __d('net_commons', 'OK'); ?>
 		</button>

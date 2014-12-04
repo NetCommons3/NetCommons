@@ -44,9 +44,6 @@ class NetCommonsAppControllerTest extends ControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		//$CakeRequest = new CakeRequest();
-		//$CakeResponse = new CakeResponse();
-		//$this->NetCommonsApp = new NetCommonsAppController($CakeRequest, $CakeResponse);
 		$this->NetCommonsApp = $this->generate('NetCommons.NetCommonsApp');
 	}
 

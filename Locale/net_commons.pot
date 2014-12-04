@@ -136,7 +136,7 @@ msgstr ""
 
 #: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18
 msgid "Required"
-msgstr ""
+msgstr "*"
 
 #: Announcements/View/Elements/Announcements/status_label.ctp:16
 #: Iframes/View/Elements/Iframes/status_label.ctp:16

@@ -119,7 +119,7 @@ class NetCommonsAppController extends Controller {
  *
  * @param string|array $url A string or array-based URL pointing to another location within the app,
  *     or an absolute URL
- * @param integer $status Optional HTTP status code (eg: 404)
+ * @param int $status Optional HTTP status code (eg: 404)
  * @param bool $exit If true, exit() will be called after the redirect
  * @return mixed
  *   false to stop redirection event,

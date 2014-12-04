@@ -10,6 +10,6 @@
  */
 ?>
 
-<span class="label label-danger">
+<strong class="text-danger h4">
 	<?php echo __d('net_commons', 'Required'); ?>
-</span>
+</strong>

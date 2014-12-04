@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2014-11-14 11:01+0000\n"
-"PO-Revision-Date: 2014-12-03 19:20+0900\n"
+"PO-Revision-Date: 2014-12-04 13:00+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "任意"
 
 #: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:33
 msgid "Please enter comments to the person in charge."
-msgstr "担当者へコメントがある場合、入力して下さい。"
+msgstr "担当者へコメントがあれば、入力して下さい。"
 
 #: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:35
 msgid "If it is not approved, input required."
@@ -136,7 +136,7 @@ msgstr "Topへ"
 
 #: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18
 msgid "Required"
-msgstr "必須"
+msgstr "*"
 
 #: Announcements/View/Elements/Announcements/status_label.ctp:16
 #: Iframes/View/Elements/Iframes/status_label.ctp:16

@@ -204,7 +204,7 @@ NetCommonsApp.factory('NetCommonsBase',
               url = url + '/' + action;
             }
             if (angular.isArray(options)) {
-              for (var i = 0; i < options; i++) {
+              for (var i = 0; i < options.length; i++) {
                 url = url + '/' + options[i];
               }
             } else if (angular.isString(options)) {

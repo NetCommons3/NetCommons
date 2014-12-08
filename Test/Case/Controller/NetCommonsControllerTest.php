@@ -30,6 +30,7 @@ class NetCommonsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testCsrfToken() {
+		CakeSession::write('Auth.User.id', '1');
 		Router::parseExtensions();
 		$this->testAction('/net_commons/net_commons/csrfToken.json', array('return' => 'contents'));
 
@@ -37,6 +38,7 @@ class NetCommonsControllerTest extends ControllerTestCase {
 		$this->assertTextContains('key', $this->contents);
 
 		$this->assertNotEmpty(CakeSession::read('_Token.csrfTokens'));
+		CakeSession::delete('Auth.User.id');
 	}
 
 }

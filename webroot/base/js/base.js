@@ -223,6 +223,20 @@ NetCommonsApp.factory('NetCommonsBase',
          */
         var variables = {
           /**
+           * Relative path to login form
+           *
+           * @const
+           */
+          LOGIN_URI: '/auth/login',
+
+          /**
+           * Relative path to login form
+           *
+           * @const
+           */
+          LOGOUT_URI: '/auth/logout',
+
+          /**
            * status published
            *
            * @const
@@ -313,7 +327,9 @@ NetCommonsApp.factory('NetCommonsBase',
                   );
                 })
                 .error(function(data) {
-                  NetCommonsFlash.danger(data.name);
+                  // TODO: translation
+                  var message = data.name || 'Network error. Please try again later.';
+                  NetCommonsFlash.danger(message);
                 });
           },
 
@@ -498,7 +514,12 @@ NetCommonsApp.factory('NetCommonsBase',
                         scope.sending = false;
                       });
                 })
-                .error(function(data, status) {
+                .error(function(data, status, test) {
+                  // TODO: use data.code instead
+                  if (data.name === 'Forbidden') location.href = variables.LOGIN_URI;
+                  // TODO: translation
+                  var message = data.name || 'Network error. Please try again later.';
+                  NetCommonsFlash.danger(message);
                   //keyの取得に失敗
                   scope.sending = false;
                   //error condition

@@ -689,7 +689,7 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
+    $scope, $modalStack, NetCommonsBase, NetCommonsFlash, NetCommonsTab) {
 
       /**
        * messages
@@ -727,5 +727,12 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {Object}
        */
       $scope.flash = NetCommonsFlash.new();
+
+      /**
+       * tab
+       *
+       * @type {object}
+       */
+      $scope.tab = NetCommonsTab.new();
 
     });

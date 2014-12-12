@@ -17,7 +17,7 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function() {
   var options = {
     mode: 'exact',
     menubar: ' ',
-    plugins: 'textcolor advlist autolink autoresize charmap code link ',
+    plugins: 'textcolor advlist autolink charmap code link ',
     toolbar: 'undo redo  |' +
         ' forecolor |' +
         ' styleselect |' +

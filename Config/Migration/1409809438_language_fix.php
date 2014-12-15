@@ -506,6 +506,49 @@ class LanguageFix extends CakeMigration {
 					),
 
 					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'page_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'block_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'content_readable',
+						'value' => 1,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'content_creatable',
+						'value' => 1,
+						'fixed' => 0,
+					),
+					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'content_editable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+					array(
+						'role_key' => 'general_user',
+						'type' => 'room_role',
+						'permission' => 'content_publishable',
+						'value' => 0,
+						'fixed' => 1,
+					),
+
+					array(
 						'role_key' => 'visitor',
 						'type' => 'room_role',
 						'permission' => 'page_editable',

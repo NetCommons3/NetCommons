@@ -465,11 +465,13 @@ NetCommonsApp.factory('NetCommonsBase',
            * @param {function} callback
            * @return {Object.<function>} promise
            */
-          save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
+          save: function(form, tokenUrl, postUrl, postParams, callback) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
+            var scope = angular.element('body').scope();
             scope.sending = true;
+
             functions.get(tokenUrl)
                 .success(function(data) {
                   postParams.data._Token = data._Token;
@@ -480,14 +482,11 @@ NetCommonsApp.factory('NetCommonsBase',
                         if (angular.isFunction(callback)) {
                           callback(data);
                         }
-                        NetCommonsFlash.success(data.name);
-                        $modalStack.dismissAll('saved');
-
                         //success condition
                         deferred.resolve(data);
                       })
                     .error(function(data, status) {
-                        if (angular.isObject(form) &&
+                       if (angular.isObject(form) &&
                             angular.isObject(data['results']) &&
                             angular.isObject(
                             data['results'][variables.VALIDATE_MESSAGE_KEY])) {
@@ -509,9 +508,6 @@ NetCommonsApp.factory('NetCommonsBase',
                         }
                         //error condition
                         deferred.reject(data, status);
-                      })
-                    .finally (function() {
-                        scope.sending = false;
                       });
                 })
                 .error(function(data, status, test) {
@@ -521,7 +517,6 @@ NetCommonsApp.factory('NetCommonsBase',
                   var message = data.name || 'Network error. Please try again later.';
                   NetCommonsFlash.danger(message);
                   //keyの取得に失敗
-                  scope.sending = false;
                   //error condition
                   deferred.reject(data, status);
                 });
@@ -535,6 +530,10 @@ NetCommonsApp.factory('NetCommonsBase',
               promise.then(null, fn);
               return promise;
             };
+
+            promise.finally (function() {
+              scope.sending = false;
+            });
 
             return promise;
           },
@@ -734,5 +733,12 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {object}
        */
       $scope.tab = NetCommonsTab.new();
+
+      /**
+       * sending
+       *
+       * @type {boolean}
+       */
+      $scope.sending = false;
 
     });

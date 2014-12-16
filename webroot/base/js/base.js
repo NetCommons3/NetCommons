@@ -457,24 +457,27 @@ NetCommonsApp.factory('NetCommonsBase',
           /**
            * save
            *
-           * @param {Object} scope
            * @param {Object} form
-           * @param {string} tokenUrl
            * @param {string} postUrl
            * @param {Object.<string>} postParams
            * @param {function} callback
            * @return {Object.<function>} promise
            */
-          save: function(form, tokenUrl, postUrl, postParams, callback) {
+          save: function(form, postUrl, postParams, callback) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
             var scope = angular.element('body').scope();
             scope.sending = true;
 
-            functions.get(tokenUrl)
+            //booleanの値をPOSTするとCakePHP側でbooleanの項目が
+            //文字列の'true', 'false'と判断されてしまい、エラーとなってしまう。
+            //そのため、true->1、false->0に変換してPOSTする。
+            postParams = functions.bool2intInArray(postParams);
+
+            functions.get('/net_commons/net_commons/csrfToken.json')
                 .success(function(data) {
-                  postParams.data._Token = data._Token;
+                  postParams.data._Token.key = data.data._Token.key;
 
                   //登録情報をPOST
                   functions.post(postUrl, postParams)
@@ -580,6 +583,23 @@ NetCommonsApp.factory('NetCommonsBase',
               form[key].$setValidity(variables.VALIDATE_KEY, true);
               form[key][variables.VALIDATE_MESSAGE_KEY] = '';
             }
+          },
+
+          /**
+           * bool2intInArray
+           *
+           * @param {Object|Array} arrayVar
+           * @return {Object}
+           */
+          bool2intInArray: function(arrayVar) {
+            angular.forEach(arrayVar, function(value, key) {
+              if (angular.isObject(arrayVar[key]) || angular.isArray(arrayVar[key])) {
+                functions.bool2intInArray(arrayVar[key]);
+              } else if (arrayVar[key] === true || arrayVar[key] === false) {
+                arrayVar[key] = Number(arrayVar[key]);
+              }
+            });
+            return arrayVar;
           }
 
         };

@@ -518,7 +518,7 @@ NetCommonsApp.factory('NetCommonsBase',
                 .error(function(data, status, test) {
                   // TODO: use data.code instead
                   if (data.name === 'Forbidden') {
-                      location.href = variables.LOGIN_URI;
+                    location.href = variables.LOGIN_URI;
                   }
                   // TODO: translation
                   var message = data.name ||

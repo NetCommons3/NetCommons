@@ -10,6 +10,18 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
+/**
+ * ncHtmlContent filter
+ *
+ * @param {string} filter name
+ * @param {Array} use service
+ */
+NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
+  return function(input) {
+    return $sce.trustAsHtml(input);
+  };
+}]);
+
 
 /**
  * NetCommonsFlash factory

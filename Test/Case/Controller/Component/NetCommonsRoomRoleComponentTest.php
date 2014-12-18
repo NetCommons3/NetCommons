@@ -109,7 +109,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.room_role_permission',
-		'plugin.rooms.user',
+		'plugin.net_commons.user',
 	);
 
 /**
@@ -157,6 +157,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 
 		unset($this->NetCommonsRoomRole);
 		unset($this->RoomRoleController);
+		CakeSession::delete('Auth.User');
 	}
 
 /**

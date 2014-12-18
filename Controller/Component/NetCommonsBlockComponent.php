@@ -34,11 +34,11 @@ class NetCommonsBlockComponent extends Component {
 	const STATUS_APPROVED = '2';
 
 /**
- * status drafted
+ * in draft status
  *
  * @var string
  */
-	const STATUS_DRAFTED = '3';
+	const STATUS_INDRAFT = '3';
 
 /**
  * status disaproved
@@ -55,7 +55,7 @@ class NetCommonsBlockComponent extends Component {
 	static public $STATUSES = array(
 		self::STATUS_PUBLISHED,
 		self::STATUS_APPROVED,
-		self::STATUS_DRAFTED,
+		self::STATUS_INDRAFT,
 		self::STATUS_DISAPPROVED
 	);
 

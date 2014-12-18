@@ -263,11 +263,11 @@ NetCommonsApp.factory('NetCommonsBase',
           STATUS_APPROVED: '2',
 
           /**
-           * status drafted
+           * in draft status
            *
            * @const
            */
-          STATUS_DRAFTED: '3',
+          STATUS_INDRAFT: '3',
 
           /**
            * status disaproved

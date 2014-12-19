@@ -47,6 +47,17 @@ class NetCommonsBlockComponent extends Component {
  */
 	const STATUS_DISAPPROVED = '4';
 
+
+/**
+ * status list for editor
+ *
+ * @var array
+ */
+	static public $STATUSES_FOR_EDITOR = array(
+		self::STATUS_APPROVED,
+		self::STATUS_INDRAFT
+	);
+
 /**
  * status list
  *

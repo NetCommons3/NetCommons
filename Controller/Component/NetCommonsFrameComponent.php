@@ -20,11 +20,25 @@ App::uses('Component', 'Controller');
 class NetCommonsFrameComponent extends Component {
 
 /**
- * startup setView
+ * frame id
  *
- * @var bool
+ * @var mixed false do not use the setView(). null to get frames.id from request parameter. ingerger is frames.id .
  */
-	public $viewSetting = true;
+	public $frameId = null;
+
+/**
+ * frame key
+ *
+ * @var mixed false do not use the setViewKey(). null to get frames.key from request parameter. string is frames.key .
+ */
+	public $frameKey = false;
+
+/**
+ * language code
+ *
+ * @var mixed null to get languages.id from Config.language. string is languages.id .
+ */
+	public $languageCode = null;
 
 /**
  * Initialize component
@@ -58,9 +72,16 @@ class NetCommonsFrameComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->viewSetting) {
-			$frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
-			$this->setView($controller, $frameId);
+		if ($this->frameId === null) {
+			$this->frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
+		} elseif ($this->frameKey === null) {
+			$this->frameKey = (isset($controller->params['pass'][0]) ? $controller->params['pass'][0] : false);
+		}
+
+		if ($this->frameId) {
+			$this->setView($controller);
+		} elseif ($this->frameKey) {
+			$this->setViewKey($controller);
 		}
 	}
 
@@ -68,14 +89,9 @@ class NetCommonsFrameComponent extends Component {
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
- * @param int $frameId frames.id
  * @return void
  */
-	public function setView(Controller $controller, $frameId) {
-		if (! $this->viewSetting) {
-			return;
-		}
-
+	public function setView(Controller $controller) {
 		//set language_id
 		if (isset($controller->viewVars['languageId']) && $controller->viewVars['languageId'] === 0) {
 			$language = $this->Language->findByCode(Configure::read('Config.language'));
@@ -83,8 +99,7 @@ class NetCommonsFrameComponent extends Component {
 		}
 
 		//set frame by id
-		$frameId = (int)$frameId;
-		$frame = $this->Frame->findById($frameId);
+		$frame = $this->Frame->findById($this->frameId);
 
 		$this->__setViewFrame($controller, $frame);
 	}
@@ -93,22 +108,20 @@ class NetCommonsFrameComponent extends Component {
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
- * @param string $frameKey frames.key
- * @param string $languageCode languages.code
  * @return void
  */
-	public function setViewKey(Controller $controller, $frameKey, $languageCode = '') {
+	public function setViewKey(Controller $controller) {
 		//set language_id
-		if ($languageCode === '') {
-			$languageCode = Configure::read('Config.language');
+		if ($this->languageCode === null) {
+			$this->languageCode = Configure::read('Config.language');
 		}
-		$language = $this->Language->findByCode($languageCode);
+		$language = $this->Language->findByCode($this->languageCode);
 		$controller->set('languageId', $language['Language']['id']);
 
 		//get frame by key and language_id
 		$frame = $this->Frame->find('first', array(
 				'conditions' => array(
-					'Frame.key' => $frameKey,
+					'Frame.key' => $this->frameKey,
 					'Frame.language_id' => $controller->viewVars['languageId']
 				)
 			));

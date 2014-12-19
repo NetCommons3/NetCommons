@@ -20,25 +20,32 @@ App::uses('Component', 'Controller');
 class NetCommonsRoomRoleComponent extends Component {
 
 /**
- * status published
+ * default room_role_key
  *
- * @var int
+ * @var string
  */
 	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
- * authallow published
+ * auth allow permission
  *
- * @var int
+ * @var string
  */
-	const ALLOW_DEFAULT_PERMISSION = 'contentReadable';
+	const AUTH_ALLOW_PERMISSION = 'contentReadable';
 
 /**
- * status published
+ * publishable permission
+ *
+ * @var string
+ */
+	const PUBLISHABLE_PERMISSION = 'contentPublishable';
+
+/**
+ * default permission
  *
  * @var int
  */
-	const PUBLISHABLE_PERMISSION = 'contentPublishable';
+	const DEFAULT_PERMISSION = 'contentPublishable';
 
 /**
  * use components
@@ -48,13 +55,6 @@ class NetCommonsRoomRoleComponent extends Component {
 	public $components = array(
 		'NetCommons.NetCommonsBlock'
 	);
-
-/**
- * startup setView
- *
- * @var bool
- */
-	public $viewSetting = true;
 
 /**
  * Controller actions for which user validation is required.
@@ -112,18 +112,16 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		//アクションセット
-		if (isset($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION])) {
-			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] =
-					array_merge($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION], $controller->Auth->allowedActions);
-		} else {
-			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] = $controller->Auth->allowedActions;
+		//ログインなしでもアクセスできるアクションをセット
+		$this->allowedActions[self::AUTH_ALLOW_PERMISSION] = $controller->Auth->allowedActions;
+
+		//デフォルト(コンテンツの公開あり)パーミッションでアクセスできるアクションをセット
+		if (! isset($this->allowedActions[self::DEFAULT_PERMISSION])) {
+			$this->allowedActions[self::DEFAULT_PERMISSION] = $controller->methods;
 		}
 
 		//room_roleセット
-		if ($this->viewSetting) {
-			$this->setView($controller);
-		}
+		$this->setView($controller);
 
 		//アクション許可チェック
 		$this->_isAllowed($controller);

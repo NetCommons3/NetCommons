@@ -95,7 +95,8 @@ class NetCommonsRoomRoleComponent extends Component {
 		$models = array(
 			'RolesRoomsUser' => 'Rooms.RolesRoomsUser',
 			'RoomRolePermission' => 'Rooms.RoomRolePermission',
-			'DefaultRolePermission' => 'Roles.DefaultRolePermission'
+			'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+			'BlockRolePermission' => 'Blocks.BlockRolePermission'
 		);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
@@ -194,6 +195,8 @@ class NetCommonsRoomRoleComponent extends Component {
 		$this->__setViewDefaultRolePermission($controller);
 
 		$this->__setViewRoomRolePermission($controller, $userId);
+
+		$this->__setViewBlockRolePermission($controller);
 	}
 
 /**
@@ -263,6 +266,35 @@ class NetCommonsRoomRoleComponent extends Component {
 		foreach ($roomRolePermissions as $roomRolePermission) {
 			$key = Inflector::variable($roomRolePermission['RoomRolePermission']['permission']);
 			$value = $roomRolePermission['RoomRolePermission']['value'];
+
+			$controller->set($key, $value);
+		}
+	}
+
+/**
+ * __setViewBlockRolePermission
+ *
+ * @param Controller $controller Instantiating controller
+ * @return void
+ */
+	private function __setViewBlockRolePermission($controller) {
+		if (empty($controller->viewVars['blockKey'])) {
+			return;
+		}
+
+		$options = array(
+			'conditions' => array(
+				'roles_room_id' => $controller->viewVars['rolesRoomId'],
+				'block_key' => $controller->viewVars['blockKey'],
+			));
+		$blockRolePermissions = $this->BlockRolePermission->find('all', $options);
+		if (! $blockRolePermissions) {
+			return;
+		}
+
+		foreach ($blockRolePermissions as $blockRolePermission) {
+			$key = Inflector::variable($blockRolePermission['BlockRolePermission']['permission']);
+			$value = $blockRolePermission['BlockRolePermission']['value'];
 
 			$controller->set($key, $value);
 		}

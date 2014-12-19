@@ -9,8 +9,6 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('AppController', 'Controller');
-App::uses('AssetComponent', 'Component');
 App::uses('NetCommonsAppController', 'NetCommons.Controller');
 
 /**

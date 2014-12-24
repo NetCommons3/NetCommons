@@ -10,6 +10,18 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
+/**
+ * ncHtmlContent filter
+ *
+ * @param {string} filter name
+ * @param {Array} use service
+ */
+NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
+  return function(input) {
+    return $sce.trustAsHtml(input);
+  };
+}]);
+
 
 /**
  * NetCommonsFlash factory
@@ -251,11 +263,11 @@ NetCommonsApp.factory('NetCommonsBase',
           STATUS_APPROVED: '2',
 
           /**
-           * status drafted
+           * in draft status
            *
            * @const
            */
-          STATUS_DRAFTED: '3',
+          STATUS_INDRAFT: '3',
 
           /**
            * status disaproved
@@ -458,22 +470,27 @@ NetCommonsApp.factory('NetCommonsBase',
           /**
            * save
            *
-           * @param {Object} scope
            * @param {Object} form
-           * @param {string} tokenUrl
            * @param {string} postUrl
            * @param {Object.<string>} postParams
            * @param {function} callback
            * @return {Object.<function>} promise
            */
-          save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
+          save: function(form, postUrl, postParams, callback) {
             var deferred = $q.defer();
             var promise = deferred.promise;
 
+            var scope = angular.element('body').scope();
             scope.sending = true;
-            functions.get(tokenUrl)
+
+            //booleanの値をPOSTするとCakePHP側でbooleanの項目が
+            //文字列の'true', 'false'と判断されてしまい、エラーとなってしまう。
+            //そのため、true->1、false->0に変換してPOSTする。
+            postParams = functions.bool2intInArray(postParams);
+
+            functions.get('/net_commons/net_commons/csrfToken.json')
                 .success(function(data) {
-                  postParams.data._Token = data._Token;
+                  postParams.data._Token.key = data.data._Token.key;
 
                   //登録情報をPOST
                   functions.post(postUrl, postParams)
@@ -481,14 +498,11 @@ NetCommonsApp.factory('NetCommonsBase',
                         if (angular.isFunction(callback)) {
                           callback(data);
                         }
-                        NetCommonsFlash.success(data.name);
-                        $modalStack.dismissAll('saved');
-
                         //success condition
                         deferred.resolve(data);
                       })
                     .error(function(data, status) {
-                        if (angular.isObject(form) &&
+                       if (angular.isObject(form) &&
                             angular.isObject(data['results']) &&
                             angular.isObject(
                             data['results'][variables.VALIDATE_MESSAGE_KEY])) {
@@ -510,9 +524,6 @@ NetCommonsApp.factory('NetCommonsBase',
                         }
                         //error condition
                         deferred.reject(data, status);
-                      })
-                    .finally (function() {
-                        scope.sending = false;
                       });
                 })
                 .error(function(data, status, test) {
@@ -525,7 +536,6 @@ NetCommonsApp.factory('NetCommonsBase',
                                 'Network error. Please try again later.';
                   NetCommonsFlash.danger(message);
                   //keyの取得に失敗
-                  scope.sending = false;
                   //error condition
                   deferred.reject(data, status);
                 });
@@ -539,6 +549,10 @@ NetCommonsApp.factory('NetCommonsBase',
               promise.then(null, fn);
               return promise;
             };
+
+            promise.finally (function() {
+              scope.sending = false;
+            });
 
             return promise;
           },
@@ -585,6 +599,23 @@ NetCommonsApp.factory('NetCommonsBase',
               form[key].$setValidity(variables.VALIDATE_KEY, true);
               form[key][variables.VALIDATE_MESSAGE_KEY] = '';
             }
+          },
+
+          /**
+           * bool2intInArray
+           *
+           * @param {Object|Array} arrayVar
+           * @return {Object}
+           */
+          bool2intInArray: function(arrayVar) {
+            angular.forEach(arrayVar, function(value, key) {
+              if (angular.isObject(arrayVar[key]) || angular.isArray(arrayVar[key])) {
+                functions.bool2intInArray(arrayVar[key]);
+              } else if (arrayVar[key] === true || arrayVar[key] === false) {
+                arrayVar[key] = Number(arrayVar[key]);
+              }
+            });
+            return arrayVar;
           }
 
         };
@@ -738,5 +769,12 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {object}
        */
       $scope.tab = NetCommonsTab.new();
+
+      /**
+       * sending
+       *
+       * @type {boolean}
+       */
+      $scope.sending = false;
 
     });

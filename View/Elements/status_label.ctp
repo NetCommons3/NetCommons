@@ -10,7 +10,9 @@
  */
 ?>
 
-<span class="ng-hide" ng-show="<?php echo h($statusModel) ?>" ng-switch="<?php echo h($statusModel) ?>" ng-cloak>
+<span class="ng-hide" ng-show="<?php echo h($status) ?>"
+	  ng-switch="<?php echo h($status) ?>" ng-cloak>
+
 	<span class="label label-warning"
 			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>">
 		<?php echo __d('net_commons', 'Approving'); ?>
@@ -22,7 +24,7 @@
 	</span>
 
 	<span class="label label-info"
-			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_DRAFTED ?>">
+			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_INDRAFT ?>">
 		<?php echo __d('net_commons', 'Temporary'); ?>
 	</span>
 

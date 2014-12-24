@@ -10,9 +10,11 @@
  */
 ?>
 
-<button class="btn btn-primary"
-		tooltip="<?php echo __d('net_commons', 'Manage'); ?>"
-		ng-click="showSetting()">
+<span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Manage'); ?>">
+	<button class="btn btn-primary"
+			ng-disabled="sending"
+			ng-click="showSetting()">
 
-	<span class="glyphicon glyphicon-cog"> </span>
-</button>
+		<span class="glyphicon glyphicon-cog"> </span>
+	</button>
+</span>

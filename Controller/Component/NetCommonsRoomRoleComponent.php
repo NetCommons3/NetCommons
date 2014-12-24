@@ -20,25 +20,46 @@ App::uses('Component', 'Controller');
 class NetCommonsRoomRoleComponent extends Component {
 
 /**
- * status published
+ * redable permission
  *
- * @var int
+ * @var string
+ */
+	const READABLE_PERMISSION = 'contentReadable';
+
+/**
+ * publishable permission
+ *
+ * @var string
+ */
+	const PUBLISHABLE_PERMISSION = 'contentPublishable';
+
+/**
+ * publishable behavior
+ *
+ * @var string
+ */
+	const PUBLISHABLE_BEHAVIOR = 'NetCommons.Publishable';
+
+/**
+ * default room_role_key
+ *
+ * @var string
  */
 	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
- * authallow published
+ * auth allow permission
  *
- * @var int
+ * @var string
  */
-	const ALLOW_DEFAULT_PERMISSION = 'contentReadable';
+	const AUTH_ALLOW_PERMISSION = self::READABLE_PERMISSION;
 
 /**
- * status published
+ * default permission
  *
  * @var int
  */
-	const PUBLISHABLE_PERMISSION = 'contentPublishable';
+	const DEFAULT_PERMISSION = self::PUBLISHABLE_PERMISSION;
 
 /**
  * use components
@@ -50,39 +71,11 @@ class NetCommonsRoomRoleComponent extends Component {
 	);
 
 /**
- * startup setView
- *
- * @var bool
- */
-	public $viewSetting = true;
-
-/**
  * Controller actions for which user validation is required.
  *
  * @var array
  */
 	public $allowedActions = array();
-
-/**
- * workflow model name
- *
- * @var string
- */
-	public $workflowModelName = '';
-
-/**
- * workflow model's column name
- *
- * @var string
- */
-	public $workflowColumnName = 'status';
-
-/**
- * workflow actions
- *
- * @var array
- */
-	public $workflowActions = array();
 
 /**
  * Called before the Controller::beforeFilter().
@@ -95,7 +88,8 @@ class NetCommonsRoomRoleComponent extends Component {
 		$models = array(
 			'RolesRoomsUser' => 'Rooms.RolesRoomsUser',
 			'RoomRolePermission' => 'Rooms.RoomRolePermission',
-			'DefaultRolePermission' => 'Roles.DefaultRolePermission'
+			'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+			'BlockRolePermission' => 'Blocks.BlockRolePermission'
 		);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
@@ -112,24 +106,34 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		//アクションセット
-		if (isset($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION])) {
-			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] =
-					array_merge($this->allowedActions[self::ALLOW_DEFAULT_PERMISSION], $controller->Auth->allowedActions);
-		} else {
-			$this->allowedActions[self::ALLOW_DEFAULT_PERMISSION] = $controller->Auth->allowedActions;
+		//ログインなしでもアクセスできるアクションをセット
+		$this->allowedActions[self::AUTH_ALLOW_PERMISSION] = $controller->Auth->allowedActions;
+
+		//デフォルト(コンテンツの公開あり)パーミッションでアクセスできるアクションをセット
+		if (! isset($this->allowedActions[self::DEFAULT_PERMISSION])) {
+			$this->allowedActions[self::DEFAULT_PERMISSION] = $controller->methods;
 		}
 
 		//room_roleセット
-		if ($this->viewSetting) {
-			$this->setView($controller);
+		$this->setView($controller);
+
+		//ModelにPublishableBehaviorがある場合、Behaviorに値をセットする
+		foreach ($controller->uses as $modelClass) {
+			list($plugin, $modelClass) = pluginSplit($modelClass, true);
+			if (! $controller->{$modelClass}->actsAs) {
+				continue;
+			}
+			if (in_array(self::PUBLISHABLE_BEHAVIOR, $controller->{$modelClass}->actsAs) ||
+					isset($controller->{$modelClass}->actsAs[self::PUBLISHABLE_BEHAVIOR])) {
+
+				$alias = $controller->{$modelClass}->alias;
+				$controller->{$modelClass}->Behaviors->Publishable
+						->settings[$alias][self::PUBLISHABLE_PERMISSION] = $controller->viewVars[self::PUBLISHABLE_PERMISSION];
+			}
 		}
 
 		//アクション許可チェック
 		$this->_isAllowed($controller);
-
-		//ワークフロー公開権限チェック
-		$this->_isPublished($controller);
 	}
 
 /**
@@ -154,34 +158,6 @@ class NetCommonsRoomRoleComponent extends Component {
 	}
 
 /**
- * Checks whether current action is publishable without authentication.
- *
- * @param Controller $controller A reference to the instantiating controller object
- * @return void
- * @throws ForbiddenException
- * @throws BadRequestException
- */
-	protected function _isPublished(Controller $controller) {
-		$method = strtolower($controller->request->method());
-		$action = strtolower($controller->request->params['action']);
-		if ($method === 'get' || ! $this->workflowModelName || ! in_array($action, $this->workflowActions)) {
-			return;
-		}
-
-		//公開権限チェック
-		if (! isset($controller->data[$this->workflowModelName][$this->workflowColumnName])) {
-			throw new BadRequestException(__d('net_commons', 'Invalid request'));
-		}
-
-		if (! $controller->viewVars[self::PUBLISHABLE_PERMISSION] && (
-				$controller->data[$this->workflowModelName][$this->workflowColumnName] === NetCommonsBlockComponent::STATUS_PUBLISHED ||
-				$controller->data[$this->workflowModelName][$this->workflowColumnName] === NetCommonsBlockComponent::STATUS_DISAPPROVED
-			)) {
-			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
-		}
-	}
-
-/**
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
@@ -196,6 +172,8 @@ class NetCommonsRoomRoleComponent extends Component {
 		$this->__setViewDefaultRolePermission($controller);
 
 		$this->__setViewRoomRolePermission($controller, $userId);
+
+		$this->__setViewBlockRolePermission($controller);
 	}
 
 /**
@@ -265,6 +243,36 @@ class NetCommonsRoomRoleComponent extends Component {
 		foreach ($roomRolePermissions as $roomRolePermission) {
 			$key = Inflector::variable($roomRolePermission['RoomRolePermission']['permission']);
 			$value = $roomRolePermission['RoomRolePermission']['value'];
+
+			$controller->set($key, $value);
+		}
+	}
+
+/**
+ * __setViewBlockRolePermission
+ *
+ * @param Controller $controller Instantiating controller
+ * @return void
+ */
+	private function __setViewBlockRolePermission($controller) {
+		if (! $controller->viewVars['blockKey']) {
+			return;
+		}
+
+		$options = array(
+			'conditions' => array(
+				'roles_room_id' => $controller->viewVars['rolesRoomId'],
+				'block_key' => $controller->viewVars['blockKey'],
+			)
+		);
+		$blockRolePermissions = $this->BlockRolePermission->find('all', $options);
+		if (! $blockRolePermissions) {
+			return;
+		}
+
+		foreach ($blockRolePermissions as $blockRolePermission) {
+			$key = Inflector::variable($blockRolePermission['BlockRolePermission']['permission']);
+			$value = $blockRolePermission['BlockRolePermission']['value'];
 
 			$controller->set($key, $value);
 		}

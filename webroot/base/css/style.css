@@ -68,3 +68,7 @@ input[type="checkbox"] {
 textarea.nc-noresize {
 	resize: none;
 }
+
+.nc-tooltip {
+	padding: 5px 0px;
+}

@@ -34,11 +34,11 @@ class NetCommonsBlockComponent extends Component {
 	const STATUS_APPROVED = '2';
 
 /**
- * status drafted
+ * in draft status
  *
  * @var string
  */
-	const STATUS_DRAFTED = '3';
+	const STATUS_INDRAFT = '3';
 
 /**
  * status disaproved
@@ -46,6 +46,17 @@ class NetCommonsBlockComponent extends Component {
  * @var string
  */
 	const STATUS_DISAPPROVED = '4';
+
+
+/**
+ * status list for editor
+ *
+ * @var array
+ */
+	static public $STATUSES_FOR_EDITOR = array(
+		self::STATUS_APPROVED,
+		self::STATUS_INDRAFT
+	);
 
 /**
  * status list
@@ -55,16 +66,30 @@ class NetCommonsBlockComponent extends Component {
 	static public $STATUSES = array(
 		self::STATUS_PUBLISHED,
 		self::STATUS_APPROVED,
-		self::STATUS_DRAFTED,
+		self::STATUS_INDRAFT,
 		self::STATUS_DISAPPROVED
 	);
 
 /**
- * startup viewSetting
+ * block id
  *
- * @var bool
+ * @var mixed false do not use the setView(). null to get blocks.id from request parameter. ingerger is blocks.id .
  */
-	public $viewSetting = false;
+	public $blockId = false;
+
+/**
+ * block key
+ *
+ * @var mixed false do not use the setViewKey(). null to get blocks.key from request parameter. string is blocks.key .
+ */
+	public $blockKey = false;
+
+/**
+ * language code
+ *
+ * @var mixed null to get languages.id from Config.language. string is languages.id .
+ */
+	public $languageCode = null;
 
 /**
  * Initialize component
@@ -96,9 +121,17 @@ class NetCommonsBlockComponent extends Component {
  * @return void
  */
 	public function startup(Controller $controller) {
-		if ($this->viewSetting) {
-			$blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
-			$this->setView($controller, $blockId);
+		if ($this->blockId === null) {
+			$this->blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
+			$this->blockId = (int)$this->blockId;
+		} elseif ($this->blockKey === null) {
+			$this->blockKey = (isset($controller->params['pass'][0]) ? $controller->params['pass'][0] : false);
+		}
+
+		if ($this->blockId) {
+			$this->setView($controller);
+		} elseif ($this->blockKey) {
+			$this->setViewKey($controller);
 		}
 	}
 
@@ -106,14 +139,9 @@ class NetCommonsBlockComponent extends Component {
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
- * @param int $blockId blocks.id
  * @return bool true is success, false is error.
  */
-	public function setView(Controller $controller, $blockId) {
-		if (! $this->viewSetting) {
-			return;
-		}
-
+	public function setView(Controller $controller) {
 		//set language_id
 		if ($controller->viewVars['languageId'] === 0) {
 			$language = $this->Language->findByCode(Configure::read('Config.language'));
@@ -121,8 +149,7 @@ class NetCommonsBlockComponent extends Component {
 		}
 
 		//get block by id
-		$blockId = (int)$blockId;
-		$block = $this->Block->findById($blockId);
+		$block = $this->Block->findById($this->blockId);
 
 		$this->__setViewBlock($controller, $block);
 	}
@@ -131,26 +158,20 @@ class NetCommonsBlockComponent extends Component {
  * Controller view set
  *
  * @param Controller $controller Instantiating controller
- * @param string $blockKey blocks.key
- * @param string $languageCode languages.code
  * @return bool true is success, false is error.
  */
-	public function setViewKey(Controller $controller, $blockKey, $languageCode = '') {
-		if (! $this->viewSetting) {
-			return;
-		}
-
+	public function setViewKey(Controller $controller) {
 		//set language_id
-		if ($languageCode === '') {
-			$languageCode = Configure::read('Config.language');
+		if ($this->languageCode === null) {
+			$this->languageCode = Configure::read('Config.language');
 		}
-		$language = $this->Language->findByCode($languageCode);
+		$language = $this->Language->findByCode($this->languageCode);
 		$controller->set('languageId', $language['Language']['id']);
 
 		//get block by key and language_id
 		$block = $this->Block->find('first', array(
 			'conditions' => array(
-				'Block.key' => $blockKey,
+				'Block.key' => $this->blockKey,
 				'Block.language_id' => $controller->viewVars['languageId'],
 			)
 		));

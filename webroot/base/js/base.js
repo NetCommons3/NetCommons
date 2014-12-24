@@ -490,7 +490,9 @@ NetCommonsApp.factory('NetCommonsBase',
 
             functions.get('/net_commons/net_commons/csrfToken.json')
                 .success(function(data) {
-                  postParams.data._Token.key = data.data._Token.key;
+                  if (angular.isObject(postParams.data._Token)) {
+                    postParams.data._Token.key = data.data._Token.key;
+                  }
 
                   //登録情報をPOST
                   functions.post(postUrl, postParams)

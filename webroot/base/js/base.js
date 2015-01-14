@@ -10,6 +10,7 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
+
 /**
  * ncHtmlContent filter
  *
@@ -267,7 +268,7 @@ NetCommonsApp.factory('NetCommonsBase',
            *
            * @const
            */
-          STATUS_INDRAFT: '3',
+          STATUS_IN_DRAFT: '3',
 
           /**
            * status disaproved
@@ -552,7 +553,7 @@ NetCommonsApp.factory('NetCommonsBase',
               return promise;
             };
 
-            promise.finally (function() {
+            promise.finally(function() {
               scope.sending = false;
             });
 
@@ -611,7 +612,8 @@ NetCommonsApp.factory('NetCommonsBase',
            */
           bool2intInArray: function(arrayVar) {
             angular.forEach(arrayVar, function(value, key) {
-              if (angular.isObject(arrayVar[key]) || angular.isArray(arrayVar[key])) {
+              if (angular.isObject(arrayVar[key]) ||
+                      angular.isArray(arrayVar[key])) {
                 functions.bool2intInArray(arrayVar[key]);
               } else if (arrayVar[key] === true || arrayVar[key] === false) {
                 arrayVar[key] = Number(arrayVar[key]);

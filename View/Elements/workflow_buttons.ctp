@@ -27,7 +27,7 @@
 		<button type="button" class="btn btn-default ng-hide"
 				ng-disabled="(sending || form.$invalid)"
 				ng-hide="workflow.currentStatus === '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_INDRAFT; ?>')">
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_IN_DRAFT; ?>')">
 
 			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>
@@ -35,7 +35,7 @@
 	<?php else : ?>
 		<button type="button" class="btn btn-default"
 				ng-disabled="(sending || form.$invalid)"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_INDRAFT; ?>')">
+				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_IN_DRAFT; ?>')">
 
 			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>

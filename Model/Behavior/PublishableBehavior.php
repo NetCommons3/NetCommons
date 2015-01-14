@@ -76,7 +76,7 @@ class PublishableBehavior extends ModelBehavior {
 		if ($this->settings[$model->alias][$permission]) {
 			$statuses = NetCommonsBlockComponent::$STATUSES;
 		} else {
-			$statuses = NetCommonsBlockComponent::$STATUSES_FOR_EDITOR;
+			$statuses = NetCommonsBlockComponent::$statusesForEditor;
 		}
 
 		$fields = $this->settings[$model->alias]['fields'];

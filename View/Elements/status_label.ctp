@@ -24,7 +24,7 @@
 	</span>
 
 	<span class="label label-info"
-			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_INDRAFT ?>">
+			ng-switch-when="<?php echo NetCommonsBlockComponent::STATUS_IN_DRAFT ?>">
 		<?php echo __d('net_commons', 'Temporary'); ?>
 	</span>
 

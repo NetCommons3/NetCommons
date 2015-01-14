@@ -138,7 +138,8 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 
 		$blockId = 1;
 		$this->NetCommonsBlock->viewSetting = true;
-		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
+		$this->NetCommonsBlock->blockId = $blockId;
+		$this->NetCommonsBlock->setView($this->BlockController);
 
 		$expected = array(
 			'blockId' => 1,
@@ -159,7 +160,8 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 
 		$blockKey = 'block_1';
 		$this->NetCommonsBlock->viewSetting = true;
-		$this->NetCommonsBlock->setViewKey($this->BlockController, $blockKey);
+		$this->NetCommonsBlock->blockKey = $blockKey;
+		$this->NetCommonsBlock->setViewKey($this->BlockController);
 
 		$expected = array(
 			'blockId' => 1,
@@ -184,6 +186,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 
 		$blockId = 999;
 		$this->NetCommonsBlock->viewSetting = true;
+		$this->NetCommonsBlock->blockId = $blockId;
 		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
 	}
 }

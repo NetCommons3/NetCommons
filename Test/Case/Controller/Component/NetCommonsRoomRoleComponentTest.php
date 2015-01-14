@@ -104,6 +104,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		'plugin.frames.plugin',
 		'plugin.boxes.box',
 		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
@@ -205,6 +206,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 	public function testSetView() {
 		CakeSession::write('Auth.User.id', 1);
 
+		$this->RoomRoleController->viewVars['blockKey'] = 'block_1';
 		$this->NetCommonsRoomRole->initialize($this->RoomRoleController);
 		$this->NetCommonsRoomRole->startup($this->RoomRoleController);
 		$this->NetCommonsRoomRole->setView($this->RoomRoleController);
@@ -218,6 +220,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentPublishable' => true,
 			'rolesRoomId' => '1',
 			'roomRoleKey' => 'room_administrator',
+			'blockKey' => 'block_1'
 		);
 		$this->assertEquals($expected, $this->RoomRoleController->viewVars);
 

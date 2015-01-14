@@ -54,7 +54,7 @@ class Initial extends CakeMigration {
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
- * @return boolean Should process continue
+ * @return bool Should process continue
  * @access public
  */
 	public function before($direction) {
@@ -65,7 +65,7 @@ class Initial extends CakeMigration {
  * After migration callback
  *
  * @param string $direction up or down direction of migration process
- * @return boolean Should process continue
+ * @return bool Should process continue
  * @access public
  */
 	public function after($direction) {
@@ -87,7 +87,7 @@ class Initial extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @return boolean Should process continue
+ * @return bool Should process continue
  */
 	public function updateRecords($model, $records) {
 		$Model = $this->generateModel($model);

@@ -38,7 +38,7 @@ class NetCommonsBlockComponent extends Component {
  *
  * @var string
  */
-	const STATUS_INDRAFT = '3';
+	const STATUS_IN_DRAFT = '3';
 
 /**
  * status disaproved
@@ -47,15 +47,14 @@ class NetCommonsBlockComponent extends Component {
  */
 	const STATUS_DISAPPROVED = '4';
 
-
 /**
  * status list for editor
  *
  * @var array
  */
-	static public $STATUSES_FOR_EDITOR = array(
+	static public $statusesForEditor = array(
 		self::STATUS_APPROVED,
-		self::STATUS_INDRAFT
+		self::STATUS_IN_DRAFT
 	);
 
 /**
@@ -66,7 +65,7 @@ class NetCommonsBlockComponent extends Component {
 	static public $STATUSES = array(
 		self::STATUS_PUBLISHED,
 		self::STATUS_APPROVED,
-		self::STATUS_INDRAFT,
+		self::STATUS_IN_DRAFT,
 		self::STATUS_DISAPPROVED
 	);
 

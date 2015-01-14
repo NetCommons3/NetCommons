@@ -142,7 +142,8 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->NetCommonsFrame->initialize($this->FrameController);
 		$this->NetCommonsFrame->startup($this->FrameController);
 		$this->NetCommonsFrame->viewSetting = true;
-		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
+		$this->NetCommonsFrame->frameId = $frameId;
+		$this->NetCommonsFrame->setView($this->FrameController);
 
 		$expected = array(
 			'frameId' => 1,
@@ -167,7 +168,8 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->NetCommonsFrame->initialize($this->FrameController);
 		$this->NetCommonsFrame->startup($this->FrameController);
 		$this->NetCommonsFrame->viewSetting = true;
-		$this->NetCommonsFrame->setViewKey($this->FrameController, $frameKey);
+		$this->NetCommonsFrame->frameKey = $frameKey;
+		$this->NetCommonsFrame->setViewKey($this->FrameController);
 
 		$expected = array(
 			'frameId' => 1,
@@ -195,7 +197,8 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$this->NetCommonsFrame->initialize($this->FrameController);
 		$this->NetCommonsFrame->startup($this->FrameController);
 		$this->NetCommonsFrame->viewSetting = true;
-		$this->NetCommonsFrame->setView($this->FrameController, $frameId);
+		$this->NetCommonsFrame->frameId = $frameId;
+		$this->NetCommonsFrame->setView($this->FrameController);
 	}
 
 }

@@ -118,17 +118,19 @@ class NetCommonsRoomRoleComponent extends Component {
 		$this->setView($controller);
 
 		//ModelにPublishableBehaviorがある場合、Behaviorに値をセットする
-		foreach ($controller->uses as $modelClass) {
-			list($plugin, $modelClass) = pluginSplit($modelClass, true);
-			if (! $controller->{$modelClass}->actsAs) {
-				continue;
-			}
-			if (in_array(self::PUBLISHABLE_BEHAVIOR, $controller->{$modelClass}->actsAs) ||
-					isset($controller->{$modelClass}->actsAs[self::PUBLISHABLE_BEHAVIOR])) {
+		if (is_array($controller->uses)) {
+			foreach ($controller->uses as $modelClass) {
+				list(, $modelClass) = pluginSplit($modelClass, true);
+				if (! $controller->{$modelClass}->actsAs) {
+					continue;
+				}
+				if (in_array(self::PUBLISHABLE_BEHAVIOR, $controller->{$modelClass}->actsAs) ||
+						isset($controller->{$modelClass}->actsAs[self::PUBLISHABLE_BEHAVIOR])) {
 
-				$alias = $controller->{$modelClass}->alias;
-				$controller->{$modelClass}->Behaviors->Publishable
-						->settings[$alias][self::PUBLISHABLE_PERMISSION] = $controller->viewVars[self::PUBLISHABLE_PERMISSION];
+					$alias = $controller->{$modelClass}->alias;
+					$controller->{$modelClass}->Behaviors->Publishable
+							->settings[$alias][self::PUBLISHABLE_PERMISSION] = $controller->viewVars[self::PUBLISHABLE_PERMISSION];
+				}
 			}
 		}
 
@@ -255,7 +257,7 @@ class NetCommonsRoomRoleComponent extends Component {
  * @return void
  */
 	private function __setViewBlockRolePermission($controller) {
-		if (! $controller->viewVars['blockKey']) {
+		if (! isset($controller->viewVars['blockKey'])) {
 			return;
 		}
 

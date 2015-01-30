@@ -9,6 +9,7 @@
  */
 
 App::uses('Controller', 'Controller');
+App::uses('Utility', 'Inflector');
 
 /**
  * NetCommonsApp Controller
@@ -96,6 +97,10 @@ class NetCommonsAppController extends Controller {
 		}
 		$this->Auth->allow('index', 'view');
 		Security::setHash('sha512');
+
+		if ($this->RequestHandler->accepts('json')) {
+			$this->renderJson($this->viewVars);
+		}
 	}
 
 /**
@@ -161,12 +166,32 @@ class NetCommonsAppController extends Controller {
 		$this->viewClass = 'Json';
 		$this->layout = false;
 		$this->response->statusCode($status);
-		$result = array(
+		$results = array_merge(array(
 			'code' => $status,
 			'name' => $name,
-			'results' => $results,
-		);
-		$this->set(compact('result'));
-		$this->set('_serialize', 'result');
+		), self::camelizeKeyRecursive($results));
+		$this->set(compact('results'));
+		$this->set('_serialize', 'results');
+	}
+
+/**
+ * camelizeKeyRecursive
+ *
+ * @param array $orig data to camelize
+ * @return array camelized data
+ */
+	public static function camelizeKeyRecursive($orig) {
+		$new = [];
+		$callback = ['Inflector', 'variable'];
+
+		foreach ($orig as $key => $value) {
+			if (is_array($value)) {
+				$new[call_user_func($callback, $key)] = self::camelizeKeyRecursive($value);
+			} else {
+				$new[call_user_func($callback, $key)] = $value;
+			}
+		}
+
+		return $new;
 	}
 }

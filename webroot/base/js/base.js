@@ -10,7 +10,6 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
-
 /**
  * ncHtmlContent filter
  *
@@ -22,7 +21,6 @@ NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
     return $sce.trustAsHtml(input);
   };
 }]);
-
 
 /**
  * NetCommonsFlash factory
@@ -145,9 +143,10 @@ NetCommonsApp.factory('NetCommonsFlash', function() {
 /**
  * NetCommonsBase factory
  */
-NetCommonsApp.factory('NetCommonsBase',
-    ['$http', '$q', '$modal', '$modalStack', '$location',
-      '$anchorScroll', 'NetCommonsFlash',
+NetCommonsApp.factory(
+  'NetCommonsBase',
+  ['$http', '$q', '$modal', '$modalStack', '$location',
+   '$anchorScroll', 'NetCommonsFlash',
       function(
          $http, $q, $modal, $modalStack, $location,
          $anchorScroll, NetCommonsFlash) {
@@ -264,7 +263,7 @@ NetCommonsApp.factory('NetCommonsBase',
           STATUS_APPROVED: '2',
 
           /**
-           * in draft status
+           * status drafted
            *
            * @const
            */
@@ -293,6 +292,8 @@ NetCommonsApp.factory('NetCommonsBase',
 
         };
 
+        var deferred = $q.defer();
+
         /**
          * functions
          *
@@ -307,6 +308,23 @@ NetCommonsApp.factory('NetCommonsBase',
           new: function() {
             return angular.extend(variables, urlVariables,
                                   functions, urlFunctions);
+          },
+
+          /**
+           * general ajax error handler
+           *
+           * @param {Object.<string>} data
+           * @param {string} status
+           * @return {void}
+           */
+          generalAjaxError: function(data, status) {
+            if (data.code === 403 && typeof data.results === 'undefined')
+              location.href = variables.LOGIN_URI;
+            // TODO: translation
+            var message = data.name || 'Network error. Please try again later.';
+            NetCommonsFlash.danger(message);
+            scope.sending = false;
+            deferred.reject(data, status);
           },
 
           /**
@@ -339,12 +357,12 @@ NetCommonsApp.factory('NetCommonsBase',
                       }
                   );
                 })
-                .error(function(data) {
-                  // TODO: translation
-                  var message = data.name ||
-                                'Network error. Please try again later.';
-                  NetCommonsFlash.danger(message);
-                });
+                // .error(function(data) {
+                //   // TODO: translation
+                //   var message = data.name || 'Network error. Please try again later.';
+                //   NetCommonsFlash.danger(message);
+                // });
+                .error(functions.generalAjaxError);
           },
 
           /**
@@ -471,29 +489,22 @@ NetCommonsApp.factory('NetCommonsBase',
           /**
            * save
            *
+           * @param {Object} scope
            * @param {Object} form
+           * @param {string} tokenUrl
            * @param {string} postUrl
            * @param {Object.<string>} postParams
            * @param {function} callback
            * @return {Object.<function>} promise
            */
-          save: function(form, postUrl, postParams, callback) {
-            var deferred = $q.defer();
+          save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
+            // var deferred = $q.defer();
             var promise = deferred.promise;
 
-            var scope = angular.element('body').scope();
             scope.sending = true;
-
-            //booleanの値をPOSTするとCakePHP側でbooleanの項目が
-            //文字列の'true', 'false'と判断されてしまい、エラーとなってしまう。
-            //そのため、true->1、false->0に変換してPOSTする。
-            postParams = functions.bool2intInArray(postParams);
-
-            functions.get('/net_commons/net_commons/csrfToken.json')
+            functions.get(tokenUrl)
                 .success(function(data) {
-                  if (angular.isObject(postParams.data._Token)) {
-                    postParams.data._Token.key = data.data._Token.key;
-                  }
+                  postParams.data._Token = data._Token;
 
                   //登録情報をPOST
                   functions.post(postUrl, postParams)
@@ -501,11 +512,14 @@ NetCommonsApp.factory('NetCommonsBase',
                         if (angular.isFunction(callback)) {
                           callback(data);
                         }
+                        NetCommonsFlash.success(data.name);
+                        $modalStack.dismissAll('saved');
+
                         //success condition
                         deferred.resolve(data);
                       })
                     .error(function(data, status) {
-                       if (angular.isObject(form) &&
+                        if (angular.isObject(form) &&
                             angular.isObject(data['results']) &&
                             angular.isObject(
                             data['results'][variables.VALIDATE_MESSAGE_KEY])) {
@@ -527,21 +541,12 @@ NetCommonsApp.factory('NetCommonsBase',
                         }
                         //error condition
                         deferred.reject(data, status);
+                      })
+                    .finally (function() {
+                        scope.sending = false;
                       });
                 })
-                .error(function(data, status, test) {
-                  // TODO: use data.code instead
-                  if (data.name === 'Forbidden') {
-                    location.href = variables.LOGIN_URI;
-                  }
-                  // TODO: translation
-                  var message = data.name ||
-                                'Network error. Please try again later.';
-                  NetCommonsFlash.danger(message);
-                  //keyの取得に失敗
-                  //error condition
-                  deferred.reject(data, status);
-                });
+                .error(functions.generalAjaxError);
 
             promise.success = function(fn) {
               promise.then(fn);
@@ -728,7 +733,7 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $modalStack, NetCommonsBase, NetCommonsFlash, NetCommonsTab) {
+    $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
 
       /**
        * messages
@@ -757,7 +762,7 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @return {void}
        */
       $scope.cancel = function() {
-        $modalStack.dismissAll('canceled');
+        history.back();
       };
 
       /**
@@ -766,19 +771,5 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {Object}
        */
       $scope.flash = NetCommonsFlash.new();
-
-      /**
-       * tab
-       *
-       * @type {object}
-       */
-      $scope.tab = NetCommonsTab.new();
-
-      /**
-       * sending
-       *
-       * @type {boolean}
-       */
-      $scope.sending = false;
 
     });

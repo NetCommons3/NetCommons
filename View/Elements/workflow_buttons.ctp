@@ -8,6 +8,13 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+		/* <button type="button" class="btn btn-default ng-hide" */
+		/* 		ng-disabled="(sending || form.$invalid)" */
+		/* 		ng-hide="workflow.currentStatus === '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'" */
+		/* 		ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_INDRAFT; ?>')"> */
+
+		/* 	<?php echo __d('net_commons', 'Save temporally'); ?> */
+		/* </button> */
 ?>
 
 	<button type="button" class="btn btn-default" ng-click="cancel()" ng-disabled="sending">
@@ -24,38 +31,35 @@
 			<?php echo __d('net_commons', 'Disapproval'); ?>
 		</button>
 
-		<button type="button" class="btn btn-default ng-hide"
-				ng-disabled="(sending || form.$invalid)"
-				ng-hide="workflow.currentStatus === '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_IN_DRAFT; ?>')">
-
-			<?php echo __d('net_commons', 'Save temporally'); ?>
-		</button>
-
+		<?php if ($contentStatus !== NetCommonsBlockComponent::STATUS_APPROVED) : ?>
+		<?php echo $this->Form->button(
+			__d('net_commons', 'Save temporally'),
+			array(
+				'class' => 'btn btn-default',
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_IN_DRAFT,
+			)) ?>
+		<?php endif; ?>
 	<?php else : ?>
-		<button type="button" class="btn btn-default"
-				ng-disabled="(sending || form.$invalid)"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_IN_DRAFT; ?>')">
-
-			<?php echo __d('net_commons', 'Save temporally'); ?>
-		</button>
-
+		<?php echo $this->Form->button(
+			__d('net_commons', 'Save temporally'),
+			array(
+				'class' => 'btn btn-default',
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_IN_DRAFT,
+			)) ?>
 	<?php endif; ?>
 
 	<?php if ($contentPublishable) : ?>
-		<button type="button" class="btn btn-primary"
-				ng-disabled="(sending || form.$invalid)"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_PUBLISHED; ?>')">
-
-			<?php echo __d('net_commons', 'OK'); ?>
-		</button>
-
+		<?php echo $this->Form->button(
+			__d('net_commons', 'OK'),
+			array(
+				'class' => 'btn btn-primary',
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_PUBLISHED,
+			)) ?>
 	<?php else : ?>
-		<button type="button" class="btn btn-primary"
-				ng-disabled="(sending || form.$invalid)"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_APPROVED; ?>')">
-
-			<?php echo __d('net_commons', 'OK'); ?>
-		</button>
-
+		<?php echo $this->Form->button(
+			__d('net_commons', 'OK'),
+			array(
+				'class' => 'btn btn-primary',
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_APPROVED,
+			)) ?>
 	<?php endif;

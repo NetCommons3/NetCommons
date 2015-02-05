@@ -125,7 +125,7 @@ class NetCommonsRoomRoleComponent extends Component {
 					continue;
 				}
 				if (in_array(self::PUBLISHABLE_BEHAVIOR, $controller->{$modelClass}->actsAs) ||
-						isset($controller->{$modelClass}->actsAs[self::PUBLISHABLE_BEHAVIOR])) {
+					array_key_exists(self::PUBLISHABLE_BEHAVIOR, $controller->{$modelClass}->actsAs)) {
 
 					$alias = $controller->{$modelClass}->alias;
 					$controller->{$modelClass}->Behaviors->Publishable

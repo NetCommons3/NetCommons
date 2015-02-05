@@ -15,7 +15,7 @@
 <span class="nc-tooltip" tooltip="<?php echo __d('net_commons', 'Manage'); ?>">
 	<a href="<?php echo $this->Html->url(
 		'/announcements/announcements/edit/' . $frameId .
-		'/?back_url=' . $_SERVER['REQUEST_URI']) ?>" class="btn btn-primary">
+		'/?back_url=' . (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/')) ?>" class="btn btn-primary">
 		<span class="glyphicon glyphicon-cog"> </span>
 	</a>
 </span>

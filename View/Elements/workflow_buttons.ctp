@@ -8,29 +8,21 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-		/* <button type="button" class="btn btn-default ng-hide" */
-		/* 		ng-disabled="(sending || form.$invalid)" */
-		/* 		ng-hide="workflow.currentStatus === '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'" */
-		/* 		ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_INDRAFT; ?>')"> */
-
-		/* 	<?php echo __d('net_commons', 'Save temporally'); ?> */
-		/* </button> */
 ?>
-
 	<button type="button" class="btn btn-default" ng-click="cancel()" ng-disabled="sending">
 		<span class="glyphicon glyphicon-remove"></span>
 		<?php echo __d('net_commons', 'Cancel'); ?>
 	</button>
 
 	<?php if ($contentPublishable) : ?>
-		<button type="button" name="status" class="btn btn-danger"
-				ng-disabled="(sending || form.$invalid)"
-				ng-hide="workflow.currentStatus !== '<?php echo (NetCommonsBlockComponent::STATUS_APPROVED); ?>'"
-				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_DISAPPROVED; ?>')">
-
-			<?php echo __d('net_commons', 'Disapproval'); ?>
-		</button>
-
+		<?php if ($contentStatus === NetCommonsBlockComponent::STATUS_APPROVED) : ?>
+		<?php echo $this->Form->button(
+			__d('net_commons', 'Disapproval'),
+			array(
+				'class' => 'btn btn-danger',
+				'name' => 'save_' . NetCommonsBlockComponent::STATUS_DISAPPROVED,
+			)) ?>
+		<?php endif; ?>
 		<?php if ($contentStatus !== NetCommonsBlockComponent::STATUS_APPROVED) : ?>
 		<?php echo $this->Form->button(
 			__d('net_commons', 'Save temporally'),

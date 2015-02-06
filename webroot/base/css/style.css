@@ -72,3 +72,12 @@ textarea.nc-noresize {
 .nc-tooltip {
 	padding: 5px 0px;
 }
+
+.workflow-comments > .comment {
+	border-top: 1px solid #ddd;
+	padding: .5em 1em;
+}
+
+.workflow-comments > .comment:first-child {
+	border: 0;
+}

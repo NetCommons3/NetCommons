@@ -73,8 +73,6 @@ class PublishableBehavior extends ModelBehavior {
 		}
 
 		$permission = NetCommonsRoomRoleComponent::PUBLISHABLE_PERMISSION;
-		var_dump($model->alias);
-		var_dump($this->settings[$model->alias]);
 		if ($this->settings[$model->alias][$permission]) {
 			$statuses = NetCommonsBlockComponent::$STATUSES;
 		} else {

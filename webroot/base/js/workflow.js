@@ -3,20 +3,21 @@
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
+
 /**
  * NetCommonsWorkflow factory
  */
 NetCommonsApp.factory(
-  'NetCommonsWorkflow',
-  ['$http', 'NetCommonsBase', 'NetCommonsFlash',
-   function($http, NetCommonsBase, NetCommonsFlash) {
+    'NetCommonsWorkflow',
+    ['$http', 'NetCommonsBase', 'NetCommonsFlash',
+     function($http, NetCommonsBase, NetCommonsFlash) {
 
-     /**
-      * functions
-      *
-      * @type {Object.<function>}
-      */
-     var functions = {
+       /**
+        * functions
+        *
+        * @type {Object.<function>}
+        */
+       var functions = {
          new: function(scope) {
            return angular.extend(functions);
          },
@@ -24,8 +25,8 @@ NetCommonsApp.factory(
            $('div.comment:hidden').removeClass('hidden');
            $('button.more').hide(0);
          }
-     };
+       };
 
-     return functions.new({});
-   }]
+       return functions.new({});
+     }]
 );

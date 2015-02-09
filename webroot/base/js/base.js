@@ -10,6 +10,7 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
 
+
 /**
  * ncHtmlContent filter
  *
@@ -21,6 +22,7 @@ NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
     return $sce.trustAsHtml(input);
   };
 }]);
+
 
 /**
  * NetCommonsFlash factory
@@ -144,9 +146,9 @@ NetCommonsApp.factory('NetCommonsFlash', function() {
  * NetCommonsBase factory
  */
 NetCommonsApp.factory(
-  'NetCommonsBase',
-  ['$http', '$q', '$modal', '$modalStack', '$location',
-   '$anchorScroll', 'NetCommonsFlash',
+    'NetCommonsBase',
+    ['$http', '$q', '$modal', '$modalStack', '$location',
+     '$anchorScroll', 'NetCommonsFlash',
       function(
          $http, $q, $modal, $modalStack, $location,
          $anchorScroll, NetCommonsFlash) {
@@ -310,260 +312,260 @@ NetCommonsApp.factory(
                                   functions, urlFunctions);
           },
 
-          /**
-           * general ajax error handler
-           *
-           * @param {Object.<string>} data
-           * @param {string} status
-           * @return {void}
-           */
-          generalAjaxError: function(data, status) {
-            if (data.code === 403 && typeof data.results === 'undefined')
-              location.href = variables.LOGIN_URI;
-            // TODO: translation
-            var message = data.name || 'Network error. Please try again later.';
-            NetCommonsFlash.danger(message);
-            scope.sending = false;
-            deferred.reject(data, status);
-          },
+          // /**
+          //  * general ajax error handler
+          //  *
+          //  * @param {Object.<string>} data
+          //  * @param {string} status
+          //  * @return {void}
+          //  */
+          // generalAjaxError: function(data, status) {
+          //   if (data.code === 403 && typeof data.results === 'undefined')
+          //     location.href = variables.LOGIN_URI;
+          //   // TODO: translation
+          //   var message = data.name || 'Network error. Please try again later.';
+          //   NetCommonsFlash.danger(message);
+          //   scope.sending = false;
+          //   deferred.reject(data, status);
+          // },
 
-          /**
-           * show setting method
-           *
-           * @param {string} editUrl
-           * @param {function} callback
-           * @param {Object.<string>}
-           *               modalOptions is {scope, templateUrl, controller, ...}
-           * @return {void}
-           */
-          showSetting: function(editUrl, callback, modalOptions) {
-            functions.get(editUrl)
-                .success(function(data) {
-                  //最新データセット
-                  if (angular.isFunction(callback)) {
-                    callback(data.results);
-                  }
-                  //ダイアログ呼び出し
-                  functions.showDialog(modalOptions).result.then(
-                      function(result) {},
-                      function(reason) {
-                        if (typeof reason.data === 'object') {
-                          //openによるエラー
-                          NetCommonsFlash.danger(reason.data.name);
-                        } else if (reason === 'canceled') {
-                          //キャンセル
-                          NetCommonsFlash.close();
-                        }
-                      }
-                  );
-                })
-                // .error(function(data) {
-                //   // TODO: translation
-                //   var message = data.name || 'Network error. Please try again later.';
-                //   NetCommonsFlash.danger(message);
-                // });
-                .error(functions.generalAjaxError);
-          },
+          // /**
+          //  * show setting method
+          //  *
+          //  * @param {string} editUrl
+          //  * @param {function} callback
+          //  * @param {Object.<string>}
+          //  *               modalOptions is {scope, templateUrl, controller, ...}
+          //  * @return {void}
+          //  */
+          // showSetting: function(editUrl, callback, modalOptions) {
+          //   functions.get(editUrl)
+          //       .success(function(data) {
+          //         //最新データセット
+          //         if (angular.isFunction(callback)) {
+          //           callback(data.results);
+          //         }
+          //         //ダイアログ呼び出し
+          //         functions.showDialog(modalOptions).result.then(
+          //             function(result) {},
+          //             function(reason) {
+          //               if (typeof reason.data === 'object') {
+          //                 //openによるエラー
+          //                 NetCommonsFlash.danger(reason.data.name);
+          //               } else if (reason === 'canceled') {
+          //                 //キャンセル
+          //                 NetCommonsFlash.close();
+          //               }
+          //             }
+          //         );
+          //       })
+          //       // .error(function(data) {
+          //       //   // TODO: translation
+          //       //   var message = data.name || 'Network error. Please try again later.';
+          //       //   NetCommonsFlash.danger(message);
+          //       // });
+          //       .error(functions.generalAjaxError);
+          // },
 
-          /**
-           * show dialog method
-           *
-           * @param {Object.<string>} options
-           * @return {Object.<*>}
-           */
-          showDialog: function(options) {
-            if (! angular.isString(options['backdrop'])) {
-              options['backdrop'] = 'static';
-            }
-            $modalStack.dismissAll('canceled');
+          // /**
+          //  * show dialog method
+          //  *
+          //  * @param {Object.<string>} options
+          //  * @return {Object.<*>}
+          //  */
+          // showDialog: function(options) {
+          //   if (! angular.isString(options['backdrop'])) {
+          //     options['backdrop'] = 'static';
+          //   }
+          //   $modalStack.dismissAll('canceled');
 
-            //ダイアログ表示
-            return $modal.open(options);
-          },
+          //   //ダイアログ表示
+          //   return $modal.open(options);
+          // },
 
-          /**
-           * send get
-           *
-           * @param {string} url
-           * @return {Object.<function>} promise
-           */
-          get: function(url) {
-            var deferred = $q.defer();
-            var promise = deferred.promise;
+          // /**
+          //  * send get
+          //  *
+          //  * @param {string} url
+          //  * @return {Object.<function>} promise
+          //  */
+          // get: function(url) {
+          //   var deferred = $q.defer();
+          //   var promise = deferred.promise;
 
-            $http.get(url, {cache: false})
-              .success(function(data) {
-                  //success condition
-                  deferred.resolve(data);
-                })
-              .error(function(data, status) {
-                  //error condition
-                  deferred.reject(data, status);
-                });
+          //   $http.get(url, {cache: false})
+          //     .success(function(data) {
+          //         //success condition
+          //         deferred.resolve(data);
+          //       })
+          //     .error(function(data, status) {
+          //         //error condition
+          //         deferred.reject(data, status);
+          //   });
 
-            promise.success = function(fn) {
-              promise.then(fn);
-              return promise;
-            };
+          //   promise.success = function(fn) {
+          //     promise.then(fn);
+          //     return promise;
+          //   };
 
-            promise.error = function(fn) {
-              promise.then(null, fn);
-              return promise;
-            };
+          //   promise.error = function(fn) {
+          //     promise.then(null, fn);
+          //     return promise;
+          //   };
 
-            return promise;
-          },
+          //   return promise;
+          // },
 
-          /**
-           * send delete
-           *
-           * @param {string} url
-           * @return {Object.<function>} promise
-           */
-          delete: function(url) {
-            var deferred = $q.defer();
-            var promise = deferred.promise;
+          // /**
+          //  * send delete
+          //  *
+          //  * @param {string} url
+          //  * @return {Object.<function>} promise
+          //  */
+          // delete: function(url) {
+          //   var deferred = $q.defer();
+          //   var promise = deferred.promise;
 
-            $http.delete(url, {cache: false})
-              .success(function(data) {
-                  //success condition
-                  deferred.resolve(data);
-                })
-              .error(function(data, status) {
-                  //error condition
-                  deferred.reject(data, status);
-                });
+          //   $http.delete(url, {cache: false})
+          //     .success(function(data) {
+          //         //success condition
+          //         deferred.resolve(data);
+          //       })
+          //     .error(function(data, status) {
+          //         //error condition
+          //         deferred.reject(data, status);
+          //       });
 
-            promise.success = function(fn) {
-              promise.then(fn);
-              return promise;
-            };
+          //   promise.success = function(fn) {
+          //     promise.then(fn);
+          //     return promise;
+          //   };
 
-            promise.error = function(fn) {
-              promise.then(null, fn);
-              return promise;
-            };
+          //   promise.error = function(fn) {
+          //     promise.then(null, fn);
+          //     return promise;
+          //   };
 
-            return promise;
-          },
+          //   return promise;
+          // },
 
-          /**
-           * send post
-           *
-           * @param {string} url
-           * @param {Object.<string>} postParams
-           * @return {Object.<function>} promise
-           */
-          post: function(url, postParams) {
-            var deferred = $q.defer();
-            var promise = deferred.promise;
+          // /**
+          //  * send post
+          //  *
+          //  * @param {string} url
+          //  * @param {Object.<string>} postParams
+          //  * @return {Object.<function>} promise
+          //  */
+          // post: function(url, postParams) {
+          //   var deferred = $q.defer();
+          //   var promise = deferred.promise;
 
-            $http.post(url, $.param(postParams),
-                {cache: false,
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  }
-                })
-              .success(function(data) {
-                  //success condition
-                  deferred.resolve(data);
-                })
-              .error(function(data, status) {
-                  //error condition
-                  deferred.reject(data, status);
-                });
+          //   $http.post(url, $.param(postParams),
+          //       {cache: false,
+          //         headers: {
+          //           'Content-Type': 'application/x-www-form-urlencoded'
+          //         }
+          //       })
+          //     .success(function(data) {
+          //         //success condition
+          //         deferred.resolve(data);
+          //       })
+          //     .error(function(data, status) {
+          //         //error condition
+          //         deferred.reject(data, status);
+          //       });
 
-            promise.success = function(fn) {
-              promise.then(fn);
-              return promise;
-            };
+          //   promise.success = function(fn) {
+          //     promise.then(fn);
+          //     return promise;
+          //   };
 
-            promise.error = function(fn) {
-              promise.then(null, fn);
-              return promise;
-            };
+          //   promise.error = function(fn) {
+          //     promise.then(null, fn);
+          //     return promise;
+          //   };
 
-            return promise;
-          },
+          //   return promise;
+          // },
 
-          /**
-           * save
-           *
-           * @param {Object} scope
-           * @param {Object} form
-           * @param {string} tokenUrl
-           * @param {string} postUrl
-           * @param {Object.<string>} postParams
-           * @param {function} callback
-           * @return {Object.<function>} promise
-           */
-          save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
-            // var deferred = $q.defer();
-            var promise = deferred.promise;
+          // /**
+          //  * save
+          //  *
+          //  * @param {Object} scope
+          //  * @param {Object} form
+          //  * @param {string} tokenUrl
+          //  * @param {string} postUrl
+          //  * @param {Object.<string>} postParams
+          //  * @param {function} callback
+          //  * @return {Object.<function>} promise
+          //  */
+          // save: function(scope, form, tokenUrl, postUrl, postParams, callback) {
+          //   // var deferred = $q.defer();
+          //   var promise = deferred.promise;
 
-            scope.sending = true;
-            functions.get(tokenUrl)
-                .success(function(data) {
-                  postParams.data._Token = data._Token;
+          //   scope.sending = true;
+          //   functions.get(tokenUrl)
+          //       .success(function(data) {
+          //         postParams.data._Token = data._Token;
 
-                  //登録情報をPOST
-                  functions.post(postUrl, postParams)
-                    .success(function(data) {
-                        if (angular.isFunction(callback)) {
-                          callback(data);
-                        }
-                        NetCommonsFlash.success(data.name);
-                        $modalStack.dismissAll('saved');
+          //         //登録情報をPOST
+          //         functions.post(postUrl, postParams)
+          //           .success(function(data) {
+          //               if (angular.isFunction(callback)) {
+          //                 callback(data);
+          //               }
+          //               NetCommonsFlash.success(data.name);
+          //               $modalStack.dismissAll('saved');
 
-                        //success condition
-                        deferred.resolve(data);
-                      })
-                    .error(function(data, status) {
-                        if (angular.isObject(form) &&
-                            angular.isObject(data['results']) &&
-                            angular.isObject(
-                            data['results'][variables.VALIDATE_MESSAGE_KEY])) {
+          //               //success condition
+          //               deferred.resolve(data);
+          //             })
+          //           .error(function(data, status) {
+          //               if (angular.isObject(form) &&
+          //                   angular.isObject(data['results']) &&
+          //                   angular.isObject(
+          //                   data['results'][variables.VALIDATE_MESSAGE_KEY])) {
 
-                          angular.forEach(
-                              data['results'][variables.VALIDATE_MESSAGE_KEY],
-                              function(value, key) {
+          //                 angular.forEach(
+          //                     data['results'][variables.VALIDATE_MESSAGE_KEY],
+          //                     function(value, key) {
 
-                           if (! angular.isUndefined(form[key])) {
-                             form[key].$setValidity(
-                                      variables.VALIDATE_KEY, false);
-                             form[key][variables.VALIDATE_MESSAGE_KEY] = value;
-                           }
-                         });
-                        }
+          //                  if (! angular.isUndefined(form[key])) {
+          //                    form[key].$setValidity(
+          //                             variables.VALIDATE_KEY, false);
+          //                    form[key][variables.VALIDATE_MESSAGE_KEY] = value;
+          //                  }
+          //                });
+          //               }
 
-                        if (! angular.isObject(form) || ! form.$invalid) {
-                          NetCommonsFlash.danger(data.name);
-                        }
-                        //error condition
-                        deferred.reject(data, status);
-                      })
-                    .finally (function() {
-                        scope.sending = false;
-                      });
-                })
-                .error(functions.generalAjaxError);
+          //               if (! angular.isObject(form) || ! form.$invalid) {
+          //                 NetCommonsFlash.danger(data.name);
+          //               }
+          //               //error condition
+          //               deferred.reject(data, status);
+          //             })
+          //           .finally (function() {
+          //               scope.sending = false;
+          //             });
+          //       })
+          //       .error(functions.generalAjaxError);
 
-            promise.success = function(fn) {
-              promise.then(fn);
-              return promise;
-            };
+          //   promise.success = function(fn) {
+          //     promise.then(fn);
+          //     return promise;
+          //   };
 
-            promise.error = function(fn) {
-              promise.then(null, fn);
-              return promise;
-            };
+          //   promise.error = function(fn) {
+          //     promise.then(null, fn);
+          //     return promise;
+          //   };
 
-            promise.finally(function() {
-              scope.sending = false;
-            });
+          //   promise.finally(function() {
+          //     scope.sending = false;
+          //   });
 
-            return promise;
-          },
+          //   return promise;
+          // },
 
           /**
            * top method
@@ -591,22 +593,6 @@ NetCommonsApp.factory(
               }
             }
             return null;
-          },
-
-          /**
-           * serverValidationClear
-           *
-           * @param {Object} form
-           * @param {string} key
-           * @return {void}
-           */
-          serverValidationClear: function(form, key) {
-            if (! angular.isUndefined(
-                            form[key].$error[variables.VALIDATE_KEY]) &&
-                    form[key].$error[variables.VALIDATE_KEY]) {
-              form[key].$setValidity(variables.VALIDATE_KEY, true);
-              form[key][variables.VALIDATE_MESSAGE_KEY] = '';
-            }
           },
 
           /**
@@ -771,5 +757,4 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {Object}
        */
       $scope.flash = NetCommonsFlash.new();
-
-    });
+});

@@ -21,6 +21,7 @@
         "cakephp/debug_kit":       "~2.2",
         "cakedc/migrations":       "~2.2",
         "chronon/mobile_detect":   "*",
+        "phpunit/phpunit":         "~3.7.38",
         "twbs/bootstrap":          "~3.1",
         "components/jquery":       "~2.1"
     },

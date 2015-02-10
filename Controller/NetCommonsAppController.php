@@ -162,7 +162,7 @@ class NetCommonsAppController extends Controller {
  * @param int $status status code
  * @return void
  */
-	public function renderJson(array $results, $name = 'OK', $status = 200) {
+	public function renderJson($results = [], $name = 'OK', $status = 200) {
 		$this->viewClass = 'Json';
 		$this->layout = false;
 		$this->response->statusCode($status);
@@ -170,7 +170,7 @@ class NetCommonsAppController extends Controller {
 			$results = $this->viewVars;
 //			var_dump('null results');
 		}
-//		var_dump($results);
+		/* var_dump($results); */
 		$results = array_merge(array(
 			'code' => $status,
 			'name' => $name,

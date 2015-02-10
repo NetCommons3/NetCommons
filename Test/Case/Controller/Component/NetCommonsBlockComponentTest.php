@@ -45,6 +45,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 		'plugin.frames.plugin',
 		'plugin.boxes.box',
 		'plugin.blocks.block',
+		'plugin.netcommons.user',
 		'plugin.rooms.room',
 	);
 

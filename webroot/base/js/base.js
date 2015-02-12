@@ -502,4 +502,4 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {Object}
        */
       $scope.flash = NetCommonsFlash.new();
-});
+    });

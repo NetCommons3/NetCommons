@@ -168,13 +168,12 @@ class NetCommonsAppController extends Controller {
 		$this->response->statusCode($status);
 		if (!$results) {
 			$results = $this->viewVars;
-//			var_dump('null results');
 		}
-		/* var_dump($results); */
-		$results = array_merge(array(
-			'code' => $status,
+		$results = array_merge([
 			'name' => $name,
-		), self::camelizeKeyRecursive($results));
+			'code' => $status,
+		], $results);
+		$results = self::camelizeKeyRecursive($results);
 		$this->set(compact('results'));
 		$this->set('_serialize', 'results');
 	}

@@ -14,7 +14,6 @@
  *
  * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link http://cakephp.org CakePHP(tm) Project
- * @package Cake.Error
  * @since CakePHP(tm) v 2.0
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
@@ -50,7 +49,7 @@ App::uses('Error', 'ExceptionRenderer');
  * can configure your class in your core.php, with `Configure::write('Exception.renderer', 'MyClass');`
  * You should place any custom exception renderers in `app/Lib/Error`.
  *
- * @package Cake.Error
+ * @package  NetCommons\NetCommons\Error
  */
 class YAExceptionRenderer extends ExceptionRenderer {
 /**

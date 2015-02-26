@@ -14,7 +14,6 @@
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\TestSuite
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class YAControllerTestCase extends ControllerTestCase {
 /**

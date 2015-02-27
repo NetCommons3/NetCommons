@@ -23,6 +23,7 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
 		/* 'plugin.net_commons.user', */
+		'plugin.users.user',
 		'plugin.net_commons.trackables_user'
 	);
 

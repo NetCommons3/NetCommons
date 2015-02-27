@@ -59,8 +59,6 @@ class NetCommonsFrameComponent extends Component {
 		//default
 		$controller->set('frameId', 0);
 		$controller->set('frameKey', '');
-		/* $controller->set('blockId', 0); */
-		/* $controller->set('blockKey', ''); */
 		$controller->set('roomId', 0);
 		$controller->set('languageId', 0);
 	}

@@ -65,7 +65,6 @@ class NetCommonsAppControllerTest extends ControllerTestCase {
 		$expected = array(
 			'code' => 400,
 			'name' => 'Error',
-			'results' => array('test' => 'renderJson test')
 		);
 		$this->assertEquals($expected, $this->NetCommonsApp->viewVars['result']);
 	}

@@ -107,8 +107,8 @@ class NetCommonsBlockComponent extends Component {
 		}
 
 		//default
-		$controller->set('blockId', 0);
-		$controller->set('blockKey', '');
+		/* $controller->set('blockId', 0); */
+		/* $controller->set('blockKey', ''); */
 		$controller->set('roomId', 0);
 		$controller->set('languageId', 0);
 	}
@@ -122,7 +122,6 @@ class NetCommonsBlockComponent extends Component {
 	public function startup(Controller $controller) {
 		if ($this->blockId === null) {
 			$this->blockId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
-			$this->blockId = (int)$this->blockId;
 		} elseif ($this->blockKey === null) {
 			$this->blockKey = (isset($controller->params['pass'][0]) ? $controller->params['pass'][0] : false);
 		}

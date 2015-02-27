@@ -52,10 +52,11 @@ App::uses('Error', 'ExceptionRenderer');
  * @package  NetCommons\NetCommons\Error
  */
 class YAExceptionRenderer extends ExceptionRenderer {
+
 /**
  * Convenience method to display a 400 series page.
  *
- * @param Exception $error
+ * @param Exception $error Exception
  * @return void
  */
 	public function error400($error) {
@@ -79,7 +80,7 @@ class YAExceptionRenderer extends ExceptionRenderer {
 /**
  * Convenience method to display a 500 page.
  *
- * @param Exception $error
+ * @param Exception $error Exception
  * @return void
  */
 	public function error500($error) {

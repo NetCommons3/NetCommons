@@ -16,6 +16,7 @@
  * @package NetCommons\TestSuite
  */
 class YAControllerTestCase extends ControllerTestCase {
+
 /**
  * Lets you do functional tests of a controller action.
  *
@@ -40,9 +41,13 @@ class YAControllerTestCase extends ControllerTestCase {
  */
 	protected function _testAction($url = '', $options = []) {
 		$options = array_merge(['type' => 'html'], $options);
-		if ($options['type'] === 'json') $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		if ($options['type'] === 'json') {
+			$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		}
 		$ret = parent::_testAction($url, $options);
-		if ($options['type'] === 'json') unset($_ENV['HTTP_X_REQUESTED_WITH']);
+		if ($options['type'] === 'json') {
+			unset($_ENV['HTTP_X_REQUESTED_WITH']);
+		}
 		return $ret;
 	}
 }

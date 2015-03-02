@@ -22,7 +22,6 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
  */
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
-		/* 'plugin.net_commons.user', */
 		'plugin.users.user',
 		'plugin.net_commons.trackables_user'
 	);
@@ -86,8 +85,8 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
  * @return void
  */
 	private function __assertHasMany($user) {
-		$this->assertEquals('2', $user['TrackableCreator']['created_user']);
-		$this->assertEquals('2', $user['TrackableUpdater']['modified_user']);
+		$this->assertEquals('1', $user['TrackableCreator']['created_user']);
+		$this->assertEquals('1', $user['TrackableUpdater']['modified_user']);
 		$this->assertEquals('1', $user['TestModel'][0]['id']);
 		$this->assertEquals('2', $user['TestModel'][0]['user_id']);
 		$this->assertEquals('5', $user['TestModel'][0]['created_user']);
@@ -117,11 +116,12 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 		$this->assertTrue(isset($trackables['TrackableUpdater']));
 		$this->assertTrue(isset($trackables['TrackableUserModel']));
 
+		/* var_dump($trackables['TrackableCreator']); */
 		$this->assertEquals('5', $trackables['TrackableCreator']['created_user']);
 		$this->assertEquals('5', $trackables['TrackableUpdater']['modified_user']);
 		$this->assertEquals('2', $trackables['TrackableUserModel']['id']);
 		$this->assertEquals('2', $trackables['TrackableUserModel']['id']);
-		$this->assertEquals('2', $trackables['TrackableUserModel']['modified_user']);
+		$this->assertEquals('1', $trackables['TrackableUserModel']['modified_user']);
 	}
 
 /**
@@ -130,8 +130,8 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 	public function testHasOne() {
 		$user = $this->__getUserBoundTestModel('hasOne');
 
-		$this->assertEquals('2', $user['TrackableCreator']['created_user']);
-		$this->assertEquals('2', $user['TrackableUpdater']['modified_user']);
+		$this->assertEquals('1', $user['TrackableCreator']['created_user']);
+		$this->assertEquals('1', $user['TrackableUpdater']['modified_user']);
 		$this->assertEquals('1', $user['TestModel']['id']);
 		$this->assertEquals('2', $user['TestModel']['user_id']);
 		$this->assertEquals('5', $user['TestModel']['created_user']);
@@ -153,5 +153,4 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 		$user = $this->__getUserBoundTestModel('hasAndBelongsToMany');
 		$this->__asserthasMany($user);
 	}
-
 }

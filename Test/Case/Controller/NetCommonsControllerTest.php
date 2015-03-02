@@ -21,7 +21,8 @@ class NetCommonsControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.net_commons.site_setting'
+		'plugin.net_commons.site_setting',
+		'plugin.pages.page',
 	);
 
 /**

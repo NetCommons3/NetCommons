@@ -75,6 +75,7 @@ class TrackableBehaviorTestBase extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
 		/* 'plugin.net_commons.user' */
+		'plugin.users.user'
 	);
 
 /**

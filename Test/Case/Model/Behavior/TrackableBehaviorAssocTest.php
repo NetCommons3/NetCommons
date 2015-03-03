@@ -22,8 +22,8 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
  */
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
+		'plugin.net_commons.trackables_user',
 		'plugin.users.user',
-		'plugin.net_commons.trackables_user'
 	);
 
 /**
@@ -116,6 +116,7 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 		$this->assertTrue(isset($trackables['TrackableUpdater']));
 		$this->assertTrue(isset($trackables['TrackableUserModel']));
 
+		var_dump($trackables);
 		var_dump($trackables['TrackableCreator']);
 		var_dump($trackables['TrackableUpdater']);
 		$this->assertEquals('5', $trackables['TrackableCreator']['created_user']);

@@ -74,7 +74,6 @@ class TrackableBehaviorTestBase extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
-		/* 'plugin.net_commons.user' */
 		'plugin.users.user'
 	);
 
@@ -85,11 +84,15 @@ class TrackableBehaviorTestBase extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+		ClassRegistry::flush();
 		$this->model = ClassRegistry::init(array(
 			'class' => 'TestModel',
 			'alias' => 'TestModel',
 			'table' => 'trackables',
 		));
+		if ($this->model->useDbConfig !== 'test') {
+			$this->model->setDataSource('master');
+		}
 		$this->model->Behaviors->load('NetCommons.Trackable');
 	}
 

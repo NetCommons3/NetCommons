@@ -84,18 +84,19 @@ class TrackableBehaviorTestBase extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		ClassRegistry::flush();
-		/* $this->model = ClassRegistry::init(array( */
-		/* 	'class' => 'TestModel', */
-		/* 	'alias' => 'TestModel', */
-		/* 	'table' => 'trackables', */
-		/* )); */
-		$this->model = ClassRegistry::init('Users.User', true);
-		if ($this->model->useDbConfig !== 'test') {
-			$this->model->setDataSource('master');
-		}
+		/* ClassRegistry::flush(); */
+		$this->model = ClassRegistry::init(array(
+			'class' => 'TestModel',
+			'alias' => 'TestModel',
+			'table' => 'trackables',
+		));
+		/* $this->model = ClassRegistry::init('Users.User', true); */
+		/* if ($this->model->useDbConfig !== 'test') { */
+		/* 	$this->model->setDataSource('master'); */
+		/* } */
 		/* $this->loadModels(['model' => 'Users.User']); */
-		/* $this->model->Behaviors->load('NetCommons.Trackable'); */
+		$this->model->setDataSource('test');
+		$this->model->Behaviors->load('NetCommons.Trackable');
 	}
 
 /**

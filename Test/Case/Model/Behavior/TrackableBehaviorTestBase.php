@@ -95,7 +95,7 @@ class TrackableBehaviorTestBase extends CakeTestCase {
 		/* 	$this->model->setDataSource('master'); */
 		/* } */
 		/* $this->loadModels(['model' => 'Users.User']); */
-		$this->model->setDataSource('test');
+		/* $this->model->setDataSource('test'); */
 		$this->model->Behaviors->load('NetCommons.Trackable');
 	}
 

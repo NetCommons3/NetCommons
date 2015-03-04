@@ -34,9 +34,6 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 	public function setUp() {
 		parent::setUp();
 
-		var_dump($this->model->useDbConfig);
-		$this->model->setDataSource('test');
-		var_dump($this->model->useDbConfig);
 		$this->_authTrackable('id', 5);
 		$trackables = array(
 			'id' => 1,

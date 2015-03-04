@@ -69,6 +69,7 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 				)
 			)
 		);
+		$User->setDataSource('test');
 		$user = $User->findById(2);
 
 		$this->assertTrue(isset($user['TrackableCreator']));
@@ -102,11 +103,20 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
  */
 	public function testBelongsTo() {
 		$this->model->bindModel(
-			array('belongsTo' => array(
+			array(
+				'belongsTo' => array(
 					'TrackableUserModel' => array(
 						'className' => 'TrackableUserModel',
 						'foreignKey' => 'user_id'
-					)
+					),
+					/* 'TrackableCreator' => array( */
+					/* 	'className' => 'Users.User', */
+					/* 	'foreignKey' => 'created_user', */
+					/* ), */
+					/* 'TrackableUpdater' => array( */
+					/* 	'className' => 'Users.User', */
+					/* 	'foreignKey' => 'updated_user', */
+					/* ), */
 				)
 			)
 		);
@@ -116,9 +126,9 @@ class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 		$this->assertTrue(isset($trackables['TrackableUpdater']));
 		$this->assertTrue(isset($trackables['TrackableUserModel']));
 
-		var_dump($trackables);
-		var_dump($trackables['TrackableCreator']);
-		var_dump($trackables['TrackableUpdater']);
+		/* var_dump($trackables); */
+		/* var_dump($trackables['TrackableCreator']); */
+		/* var_dump($trackables['TrackableUpdater']); */
 		$this->assertEquals('5', $trackables['TrackableCreator']['created_user']);
 		$this->assertEquals('5', $trackables['TrackableUpdater']['modified_user']);
 		$this->assertEquals('2', $trackables['TrackableUserModel']['id']);

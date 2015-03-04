@@ -82,6 +82,7 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
  */
 	public function testUncommonInheritedUserModel() {
 		$User = ClassRegistry::init('TrackableUserModel');
+		$User->setDataSource('test');
 
 		$user = $User->findById(1);
 		$this->assertTrue(isset($user['TrackableCreator']));
@@ -100,6 +101,7 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
  */
 	public function testTrackableSaveField() {
 		$User = ClassRegistry::init('TrackableUserModel');
+		$User->setDataSource('test');
 
 		$user = $User->findById(1);
 		$this->assertTrue(isset($user['TrackableCreator']));

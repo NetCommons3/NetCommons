@@ -1,4 +1,7 @@
 <?php
+/**
+ * Trackable Behavior
+ */
 
 App::uses('ModelBehavior', 'Model');
 App::uses('AuthComponent', 'Controller/Component');

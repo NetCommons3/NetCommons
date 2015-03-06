@@ -13,6 +13,11 @@
  */
 class TrackablesUserFixture extends CakeTestFixture {
 
+/**
+ * Fields
+ *
+ * @var array
+ */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'trackable_id' => array('type' => 'integer', 'null' => false, 'default' => null),

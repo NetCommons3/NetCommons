@@ -17,6 +17,9 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
 
 /**
  * testFieldPopulation
+ *
+ * @param string $authCallback authentication callback method name
+ * @return void
  */
 	protected function _testFieldPopulation($authCallback) {
 		$this->{$authCallback}();

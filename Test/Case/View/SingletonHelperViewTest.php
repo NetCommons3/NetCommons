@@ -17,6 +17,7 @@ App::uses('ControllerTestCase', 'TestSuite');
 /**
  * SingletonHelperViewTest
  *
+ * @SuppressWarnings(PHPMD.UnusedPrivateField)
  */
 class SingletonHelperViewTest extends CakeTestCase {
 

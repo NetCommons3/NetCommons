@@ -1,4 +1,7 @@
 <?php
+/**
+ * Trackable Behavior
+ */
 
 App::uses('ModelBehavior', 'Model');
 App::uses('AuthComponent', 'Controller/Component');
@@ -83,10 +86,18 @@ class TrackableBehavior extends ModelBehavior {
 				'TrackableCreator' => array(
 					'className' => $className,
 					'foreignKey' => $config['fields']['created_by'],
+					'fields' => array(
+						'TrackableCreator.id',
+						'TrackableCreator.username'
+					)
 				),
 				'TrackableUpdater' => array(
 					'className' => $className,
 					'foreignKey' => $config['fields']['updated_by'],
+					'fields' => array(
+						'TrackableUpdater.id',
+						'TrackableUpdater.username'
+					)
 				),
 			)
 		), false);

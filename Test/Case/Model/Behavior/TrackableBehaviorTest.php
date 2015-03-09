@@ -17,6 +17,9 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
 
 /**
  * testFieldPopulation
+ *
+ * @param string $authCallback authentication callback method name
+ * @return void
  */
 	protected function _testFieldPopulation($authCallback) {
 		$this->{$authCallback}();
@@ -82,7 +85,6 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
  */
 	public function testUncommonInheritedUserModel() {
 		$User = ClassRegistry::init('TrackableUserModel');
-		$User->setDataSource('test');
 
 		$user = $User->findById(1);
 		$this->assertTrue(isset($user['TrackableCreator']));
@@ -101,7 +103,6 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
  */
 	public function testTrackableSaveField() {
 		$User = ClassRegistry::init('TrackableUserModel');
-		$User->setDataSource('test');
 
 		$user = $User->findById(1);
 		$this->assertTrue(isset($user['TrackableCreator']));

@@ -110,7 +110,7 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.room_role_permission',
-		/* 'plugin.net_commons.user', */
+		'plugin.users.user',
 	);
 
 /**

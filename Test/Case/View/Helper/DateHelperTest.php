@@ -38,7 +38,7 @@ class DateHelperTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Token);
+		unset($this->Date);
 
 		parent::tearDown();
 	}

@@ -23,6 +23,9 @@ $labels = [
 		'message' => __d('net_commons', 'Disapproving'),
 	],
 ];
+$label = isset($labels[$status]) ? $labels[$status] : null;
 ?>
 
+<?php if ($label): ?>
 <span class="label <?php echo $labels[$status]['class'] ?>"><?php echo $labels[$status]['message'] ?></span>
+<?php endif ?>

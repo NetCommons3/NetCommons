@@ -17,6 +17,8 @@ App::uses('Model', 'Model');
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @codeCoverageIgnore
  */
 class NetCommonsAppModel extends Model {
 

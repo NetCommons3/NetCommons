@@ -198,4 +198,23 @@ class NetCommonsAppController extends Controller {
 
 		return $new;
 	}
+
+/**
+ * Handle validation error
+ *
+ * @param array $errors validation errors
+ * @return bool true on success, false on error
+ */
+	public function handleValidationError($errors) {
+		if ($errors) {
+			$this->validationErrors = $errors;
+			if ($this->request->is('ajax')) {
+				$results = ['error' => ['validationErrors' => $errors]];
+				$this->renderJson($results, __d('net_commons', 'Bad Request'), 400);
+			}
+			return false;
+		}
+
+		return true;
+	}
 }

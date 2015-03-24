@@ -41,6 +41,13 @@ class NetCommonsFrameComponent extends Component {
 	public $languageCode = null;
 
 /**
+ * Frame data w/ associations
+ *
+ * @var array
+ */
+	public $data = [];
+
+/**
  * Initialize component
  *
  * @param Controller $controller Instantiating controller
@@ -49,8 +56,9 @@ class NetCommonsFrameComponent extends Component {
 	public function initialize(Controller $controller) {
 		//model class registry
 		$models = array(
+			'Box' => 'Boxes.Box',
 			'Frame' => 'Frames.Frame',
-			'Language' => 'Language',
+			'Language' => 'M17n.Language',
 		);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
@@ -61,15 +69,7 @@ class NetCommonsFrameComponent extends Component {
 		$controller->set('frameKey', '');
 		$controller->set('roomId', 0);
 		$controller->set('languageId', 0);
-	}
 
-/**
- * Called after the Controller::beforeFilter() and before the controller action
- *
- * @param Controller $controller Controller with components to startup
- * @return void
- */
-	public function startup(Controller $controller) {
 		if ($this->frameId === null) {
 			$this->frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
 		} elseif ($this->frameKey === null) {
@@ -98,6 +98,7 @@ class NetCommonsFrameComponent extends Component {
 
 		//set frame by id
 		$frame = $this->Frame->findById($this->frameId);
+		$this->data = $frame;
 
 		$this->__setViewFrame($controller, $frame);
 	}

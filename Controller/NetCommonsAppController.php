@@ -67,7 +67,12 @@ class NetCommonsAppController extends Controller {
  *
  * @var array
  */
-	public $uses = array('SiteSetting');
+	public $uses = [
+		'Boxes.Box',
+		'SiteSetting',
+		'Pages.Page',
+		'Frames.Frame',
+	];
 
 /**
  * View class name that is used for singleton helper
@@ -75,6 +80,15 @@ class NetCommonsAppController extends Controller {
  * @var string
  */
 	public $viewClass = 'NetCommons.SingletonHelper';
+
+/**
+ * NetCommons specific data for current request
+ *
+ * @var array
+ */
+	public $current = [
+		'page' => null,
+	];
 
 /**
  * beforeFilter
@@ -100,6 +114,18 @@ class NetCommonsAppController extends Controller {
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->renderJson();
+		}
+
+		// Find page data from frame
+		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
+			$box = $this->Box->find('first', [
+				'conditions' => [
+					'Box.id' => $this->NetCommonsFrame->data['Box']['id'],
+				],
+			]);
+			if (isset($box['Page'][0])) {
+				$this->current['page'] = $box['Page'][0];
+			}
 		}
 	}
 
@@ -216,5 +242,16 @@ class NetCommonsAppController extends Controller {
 		}
 
 		return true;
+	}
+
+/**
+ * Redirect by frame id
+ *
+ * @return void
+ */
+	public function redirectByFrameId() {
+		if (!$this->request->is('ajax')) {
+			$this->redirect('/' . $this->current['page']['permalink']);
+		}
 	}
 }

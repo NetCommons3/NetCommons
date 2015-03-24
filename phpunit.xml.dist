@@ -22,6 +22,8 @@
             <directory suffix=".php">app/Plugin/Boxes</directory>
             <directory suffix=".php">app/Plugin/Frames</directory>
             <directory suffix=".php">app/Plugin/Pages</directory>
+            <directory suffix=".php">app/Plugin/Roles</directory>
+            <directory suffix=".php">app/Plugin/Rooms</directory>
             <directory suffix=".php">app/Plugin/Users</directory>
             <directory suffix=".php">lib/Cake</directory>
             <directory suffix=".php">vendors</directory>

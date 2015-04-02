@@ -31,6 +31,7 @@
         "netcommons/blocks":       "dev-master",
         "netcommons/boxes":        "dev-master",
         "netcommons/frames":       "dev-master",
+        "netcommons/m17n":         "dev-master",
         "netcommons/pages":        "dev-master",
         "netcommons/roles":        "dev-master",
         "netcommons/rooms":        "dev-master",

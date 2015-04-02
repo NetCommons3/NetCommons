@@ -70,6 +70,7 @@ class NetCommonsController extends NetCommonsAppController {
 /**
  * Stub method for unit test
  *
+ * @throws NotFoundException
  * @return void
  */
 	private function __stub() {

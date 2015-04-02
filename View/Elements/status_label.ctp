@@ -19,7 +19,7 @@ $labels = [
 		'message' => __d('net_commons', 'Approving'),
 	],
 	NetCommonsBlockComponent::STATUS_DISAPPROVED => [
-		'class' => 'label-danger',
+		'class' => 'label-warning',
 		'message' => __d('net_commons', 'Disapproving'),
 	],
 ];

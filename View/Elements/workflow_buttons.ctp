@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-	<button type="button" class="btn btn-default" ng-click="cancel()" ng-disabled="sending">
+	<button type="button" class="btn btn-default">
 		<span class="glyphicon glyphicon-remove"></span>
 		<?php echo __d('net_commons', 'Cancel'); ?>
 	</button>
@@ -19,7 +19,7 @@
 		<?php echo $this->Form->button(
 			__d('net_commons', 'Disapproval'),
 			array(
-				'class' => 'btn btn-danger',
+				'class' => 'btn btn-warning',
 				'name' => 'save_' . NetCommonsBlockComponent::STATUS_DISAPPROVED,
 			)) ?>
 		<?php endif; ?>
@@ -27,7 +27,7 @@
 		<?php echo $this->Form->button(
 			__d('net_commons', 'Save temporally'),
 			array(
-				'class' => 'btn btn-default',
+				'class' => 'btn btn-info',
 				'name' => 'save_' . NetCommonsBlockComponent::STATUS_IN_DRAFT,
 			)) ?>
 		<?php endif; ?>
@@ -35,7 +35,7 @@
 		<?php echo $this->Form->button(
 			__d('net_commons', 'Save temporally'),
 			array(
-				'class' => 'btn btn-default',
+				'class' => 'btn btn-info',
 				'name' => 'save_' . NetCommonsBlockComponent::STATUS_IN_DRAFT,
 			)) ?>
 	<?php endif; ?>

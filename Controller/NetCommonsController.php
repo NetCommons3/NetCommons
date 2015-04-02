@@ -21,6 +21,16 @@ App::uses('NetCommonsAppController', 'NetCommons.Controller');
 class NetCommonsController extends NetCommonsAppController {
 
 /**
+ * use components
+ *
+ * @var array
+ */
+	public $components = array(
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsWorkflow',
+	);
+
+/**
  * csrfToken method
  *
  * @return void
@@ -39,4 +49,35 @@ class NetCommonsController extends NetCommonsAppController {
 		$this->set('_serialize', array('data'));
 	}
 
+/**
+ * Index action
+ *
+ * @return void
+ */
+	public function index() {
+		$this->__stub();
+	}
+
+/**
+ * Edit action
+ *
+ * @return void
+ */
+	public function edit() {
+		$this->__stub();
+	}
+
+/**
+ * Stub method for unit test
+ *
+ * @return void
+ */
+	private function __stub() {
+		// @codeCoverageIgnoreStart
+		if (php_sapi_name() !== 'cli') {
+			throw new NotFoundException;
+		}
+		// @codeCoverageIgnoreEnd
+		$this->autoRender = false;
+	}
 }

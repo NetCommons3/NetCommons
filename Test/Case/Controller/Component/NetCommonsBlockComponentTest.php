@@ -41,7 +41,7 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.frames.frame',
-		'plugin.frames.language',
+		'plugin.m17n.language',
 		'plugin.frames.plugin',
 		'plugin.boxes.box',
 		'plugin.blocks.block',

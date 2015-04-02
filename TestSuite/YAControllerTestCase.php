@@ -45,9 +45,6 @@ class YAControllerTestCase extends ControllerTestCase {
 			$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		}
 		$ret = parent::_testAction($url, $options);
-		if ($options['type'] === 'json') {
-			unset($_ENV['HTTP_X_REQUESTED_WITH']);
-		}
 		return $ret;
 	}
 }

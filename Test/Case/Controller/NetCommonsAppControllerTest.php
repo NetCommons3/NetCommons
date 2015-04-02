@@ -153,6 +153,7 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
  * @return void
  */
 	public function testHandleValidationErrorSetsValidationErrors() {
+		$this->controller->handleValidationError(['error' => 'message']);
 		$this->assertEquals($this->controller->validationErrors, ['error' => 'message']);
 	}
 

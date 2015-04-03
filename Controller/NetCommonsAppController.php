@@ -69,7 +69,7 @@ class NetCommonsAppController extends Controller {
  */
 	public $uses = [
 		'Boxes.Box',
-		'SiteSetting',
+		'NetCommons.SiteSetting',
 		'Pages.Page',
 		'Frames.Frame',
 	];

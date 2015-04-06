@@ -20,6 +20,11 @@ input[type="checkbox"] {
     padding-right: 20px;
 }
 
+.btn-workflow {
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
 /* angulrJS hidden class */
 /*.ng-hide {
     display: none;

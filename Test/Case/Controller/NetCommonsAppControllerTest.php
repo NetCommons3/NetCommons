@@ -17,6 +17,7 @@ App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Controller
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class NetCommonsAppControllerTest extends YAControllerTestCase {
 

@@ -165,4 +165,15 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
 	public function testHandleValidationErrorReturnsTrueOnSuccess() {
 		$this->assertTrue($this->controller->handleValidationError([]));
 	}
+
+/**
+ * Expect NetCommonsAppController->throwBadRequest() to return true unless validation error given
+ *
+ * @return void
+ */
+	public function testThrowBadRequest() {
+		$this->setExpectedException('BadRequestException');
+		$this->controller->throwBadRequest();
+	}
+
 }

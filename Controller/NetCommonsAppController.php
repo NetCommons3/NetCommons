@@ -254,4 +254,22 @@ class NetCommonsAppController extends Controller {
 			$this->redirect('/' . $this->current['page']['permalink']);
 		}
 	}
+
+/**
+ * throw bad request
+ *
+ * @return void
+ * @throws BadRequestException
+ */
+	public function throwBadRequest() {
+		if ($this->request->is('ajax')) {
+			$this->renderJson(
+				['error' => __d('net_commons', 'Bad Request')],
+				__d('net_commons', 'Bad Request'), 400
+			);
+		} else {
+			throw new BadRequestException(__d('net_commons', 'Bad Request'));
+		}
+	}
+
 }

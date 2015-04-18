@@ -192,4 +192,18 @@ class NetCommonsControllerTest extends YAControllerTestCase {
 		]);
 		$this->assertEquals(Configure::read('Config.language'), 'en');
 	}
+
+/**
+ * Expect NetCommonsAppController->throwBadRequest() to handle ajax request correctly
+ *
+ * @return void
+ */
+	public function testThrowBadRequestAjax() {
+		$this->testAction('/net_commons/net_commons/index', [
+			'type' => 'json',
+			'return' => 'contents'
+		]);
+		$this->controller->throwBadRequest();
+	}
+
 }

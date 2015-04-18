@@ -27,20 +27,6 @@ class NetCommonsFrameComponent extends Component {
 	public $frameId = null;
 
 /**
- * frame key
- *
- * @var mixed false do not use the setViewKey(). null to get frames.key from request parameter. string is frames.key .
- */
-	public $frameKey = false;
-
-/**
- * language code
- *
- * @var mixed null to get languages.id from Config.language. string is languages.id .
- */
-	public $languageCode = null;
-
-/**
  * Frame data w/ associations
  *
  * @var array
@@ -72,14 +58,10 @@ class NetCommonsFrameComponent extends Component {
 
 		if ($this->frameId === null) {
 			$this->frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
-		} elseif ($this->frameKey === null) {
-			$this->frameKey = (isset($controller->params['pass'][0]) ? $controller->params['pass'][0] : false);
 		}
 
 		if ($this->frameId) {
 			$this->setView($controller);
-		} elseif ($this->frameKey) {
-			$this->setViewKey($controller);
 		}
 	}
 
@@ -99,31 +81,6 @@ class NetCommonsFrameComponent extends Component {
 		//set frame by id
 		$frame = $this->Frame->findById($this->frameId);
 		$this->data = $frame;
-
-		$this->__setViewFrame($controller, $frame);
-	}
-
-/**
- * Controller view set
- *
- * @param Controller $controller Instantiating controller
- * @return void
- */
-	public function setViewKey(Controller $controller) {
-		//set language_id
-		if ($this->languageCode === null) {
-			$this->languageCode = Configure::read('Config.language');
-		}
-		$language = $this->Language->findByCode($this->languageCode);
-		$controller->set('languageId', $language['Language']['id']);
-
-		//get frame by key and language_id
-		$frame = $this->Frame->find('first', array(
-				'conditions' => array(
-					'Frame.key' => $this->frameKey,
-					'Frame.language_id' => $controller->viewVars['languageId']
-				)
-			));
 
 		$this->__setViewFrame($controller, $frame);
 	}

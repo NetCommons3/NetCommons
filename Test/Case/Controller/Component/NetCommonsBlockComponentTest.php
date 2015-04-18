@@ -70,7 +70,6 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		Configure::write('Config.language', 'ja');
 
 		//テストコントローラ読み込み
 		$CakeRequest = new CakeRequest();
@@ -92,8 +91,6 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
 
 		unset($this->NetCommonsBlock);
 		unset($this->BlockController);
-
-		Configure::write('Config.language', null);
 	}
 
 /**
@@ -103,87 +100,6 @@ class NetCommonsBlockComponentTest extends CakeTestCase {
  */
 	public function testInitialize() {
 		$this->NetCommonsBlock->initialize($this->BlockController);
-		$expected = array(
-			'roomId' => 0,
-			'languageId' => 0
-		);
-		$this->assertEquals($expected, $this->BlockController->viewVars);
-	}
-
-/**
- * testInitialize method
- *
- * @return void
- */
-	public function testStartup() {
-		$this->testInitialize();
-		$this->NetCommonsBlock->startup($this->BlockController);
-		$expected = array(
-			'roomId' => 0,
-			'languageId' => 0
-		);
-		$this->assertEquals($expected, $this->BlockController->viewVars);
-	}
-
-/**
- * testSetView method
- *
- * @return void
- */
-	public function testSetView() {
-		$this->testStartup();
-
-		$blockId = 1;
-		$this->NetCommonsBlock->viewSetting = true;
-		$this->NetCommonsBlock->blockId = $blockId;
-		$this->NetCommonsBlock->setView($this->BlockController);
-
-		$expected = array(
-			'blockId' => 1,
-			'blockKey' => 'block_1',
-			'roomId' => 1,
-			'languageId' => 2
-		);
-		$this->assertEquals($expected, $this->BlockController->viewVars);
-	}
-
-/**
- * testSetViewKey method
- *
- * @return void
- */
-	public function testSetViewKey() {
-		$this->testStartup();
-
-		$blockKey = 'block_1';
-		$this->NetCommonsBlock->viewSetting = true;
-		$this->NetCommonsBlock->blockKey = $blockKey;
-		$this->NetCommonsBlock->setViewKey($this->BlockController);
-
-		$expected = array(
-			'blockId' => 1,
-			'blockKey' => 'block_1',
-			'roomId' => 1,
-			'languageId' => 2
-		);
-		$this->assertEquals($expected, $this->BlockController->viewVars);
-
-		Configure::write('Config.language', null);
-	}
-
-/**
- * testSetViewNotExistBlockId method
- *
- * @return void
- */
-	public function testSetViewNotExistBlockId() {
-		$this->setExpectedException('InternalErrorException');
-
-		$this->testStartup();
-
-		$blockId = 999;
-		$this->NetCommonsBlock->viewSetting = true;
-		$this->NetCommonsBlock->blockId = $blockId;
-		$this->NetCommonsBlock->setView($this->BlockController, $blockId);
+		$this->assertEquals($this->BlockController, $this->NetCommonsBlock->controller);
 	}
 }

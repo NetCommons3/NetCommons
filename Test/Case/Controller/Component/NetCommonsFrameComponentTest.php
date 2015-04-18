@@ -154,34 +154,6 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	}
 
 /**
- * testSetViewKey method
- *
- * @return void
- */
-	public function testSetViewKey() {
-		Configure::write('Config.language', 'ja');
-
-		$frameKey = 'frame_1';
-		$this->NetCommonsFrame->initialize($this->FrameController);
-		$this->NetCommonsFrame->startup($this->FrameController);
-		$this->NetCommonsFrame->viewSetting = true;
-		$this->NetCommonsFrame->frameKey = $frameKey;
-		$this->NetCommonsFrame->setViewKey($this->FrameController);
-
-		$expected = array(
-			'frameId' => 1,
-			'frameKey' => 'frame_1',
-			'blockId' => 5,
-			'blockKey' => 'block_5',
-			'roomId' => 1,
-			'languageId' => 2
-		);
-		$this->assertEquals($expected, $this->FrameController->viewVars);
-
-		Configure::write('Config.language', null);
-	}
-
-/**
  * testSetViewNotExistFrameId method
  *
  * @return void

@@ -8,6 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+App::uses('Model', 'Model');
+
 /**
  * TrackableUserModel for test case
  */

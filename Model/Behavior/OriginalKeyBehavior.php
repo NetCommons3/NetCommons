@@ -32,6 +32,11 @@ class OriginalKeyBehavior extends ModelBehavior {
 		if (! $model->hasField('key')) {
 			return true;
 		}
+		//  beforeSave はupdateAllでも呼び出される。
+		if (isset($model->data[$model->name]['id']) && ($model->data[$model->name]['id'] > 0)) {
+			// updateのときは何もしない
+			return true;
+		}
 		if (! isset($model->data[$model->name]['key']) || $model->data[$model->name]['key'] === '') {
 			$model->data[$model->name]['key'] = Security::hash($model->name . mt_rand() . microtime(), 'md5');
 		}

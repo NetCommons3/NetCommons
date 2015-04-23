@@ -1,15 +1,30 @@
 var NetCommonsApp = angular.module('NetCommonsApp',
     [
       'ui.bootstrap',
-      'ui.tinymce'
+      'ui.tinymce',
+      'datetimepicker'
     ]
     );
 
 //CakePHPがX-Requested-Withで判断しているため
 NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-}]);
+}]
+);
 
+NetCommonsApp.config(
+  [
+    'datetimepickerProvider',
+    function (datetimepickerProvider) {
+      datetimepickerProvider.setOptions({
+        locale: moment.locale('ja'),  // ε(　　　　 v ﾟωﾟ)　＜ 多言語対応時は書き換えてね
+        format: 'YYYY-MM-DD HH:mm',
+        sideBySide: true,
+        stepping: 5
+      });
+    }
+  ]
+);
 
 /**
  * ncHtmlContent filter

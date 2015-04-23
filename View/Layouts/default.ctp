@@ -40,6 +40,16 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<?php
+		// datetimepicker
+		echo $this->Html->script('/net_commons/moment/min/moment.min.js');
+		echo $this->Html->script('/net_commons/moment/min/moment-with-locales.min.js');
+		echo $this->Html->script('/net_commons/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
+
+		echo $this->Html->css('/net_commons/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
+
+		echo $this->Html->script('/net_commons/angular-bootstrap-datetimepicker-directive/angular-bootstrap-datetimepicker-directive.js');
+	?>
 </head>
 	<body ng-controller="NetCommons.base">
 

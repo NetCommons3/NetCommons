@@ -1,4 +1,20 @@
 <?php
+/**
+ * Add translation stuff to blocks
+ *
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+/**
+ * Add translation stuff to blocks
+ *
+ * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
+ * @package NetCommons\NetCommons\Config\Migration
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
+ */
 class AddTranslationStuffToBlocks extends CakeMigration {
 
 /**

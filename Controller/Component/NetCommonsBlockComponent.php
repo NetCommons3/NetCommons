@@ -112,11 +112,13 @@ class NetCommonsBlockComponent extends Component {
 			$this->$model = ClassRegistry::init($class, true);
 		}
 
+		//RoomRole取得
 		$roomRoles = $this->RoomRole->find('all', array(
 			'recursive' => -1,
 		));
 		$roomRoles = Hash::combine($roomRoles, '{n}.RoomRole.role_key', '{n}.RoomRole');
 
+		//Role取得
 		$roles = $this->Role->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
@@ -133,14 +135,12 @@ class NetCommonsBlockComponent extends Component {
 				'DefaultRolePermission.permission' => $permissions,
 			),
 		));
-
 		$defaultPermissions = Hash::combine(
 			$defaultPermissions,
 			'{n}.DefaultRolePermission.role_key',
 			'{n}.DefaultRolePermission',
 			'{n}.DefaultRolePermission.permission'
 		);
-
 		$defaultPermissions = Hash::remove($defaultPermissions, '{s}.{s}.id');
 
 		//RolesRoomのIDリストを取得
@@ -159,14 +159,12 @@ class NetCommonsBlockComponent extends Component {
 				'RoomRolePermission.permission' => $permissions,
 			),
 		));
-
 		$roomRolePermissions = Hash::combine(
 			$roomRolePermissions,
 			'{n}.RolesRoom.role_key',
 			'{n}.RoomRolePermission',
 			'{n}.RoomRolePermission.permission'
 		);
-
 		$roomRolePermissions = Hash::remove($roomRolePermissions, '{s}.{s}.id');
 
 		//BlockRolePermission取得
@@ -180,11 +178,12 @@ class NetCommonsBlockComponent extends Component {
 		));
 		$blockPermissions = Hash::combine(
 			$blockPermissions,
-			'{n}.BlockRolePermission.roles_room_id',
+			'{n}.RolesRoom.role_key',
 			'{n}.BlockRolePermission',
 			'{n}.BlockRolePermission.permission'
 		);
 
+		//戻り値の設定
 		$results = array(
 			'BlockRolePermissions' => Hash::merge($defaultPermissions, $roomRolePermissions, $blockPermissions),
 			'Roles' => Hash::merge($roomRoles, $roles)

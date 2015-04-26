@@ -29,9 +29,6 @@ class PublishableBehavior extends ModelBehavior {
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 	protected $_defaults = array(
-		'fields' => array(
-			'status_by' => 'status'
-		),
 		'contentPublishable' => false
 	);
 
@@ -47,14 +44,66 @@ class PublishableBehavior extends ModelBehavior {
 	}
 
 /**
- * Checks wether model has the required fields
+ * beforeSave is called before a model is saved. Returning false from a beforeSave callback
+ * will abort the save operation.
  *
- * @param Model $model instance of model
- * @return bool True if $model has the required fields
+ * @param Model $model Model using this behavior
+ * @param array $options Options passed from Model::save().
+ * @return mixed False if the operation should abort. Any other result will continue.
+ * @see Model::save()
  */
-	protected function _hasStatusField(Model $model) {
-		$fields = $this->settings[$model->alias]['fields'];
-		return $model->hasField($fields['status_by']);
+	public function beforeSave(Model $model, $options = array()) {
+		//  beforeSave はupdateAllでも呼び出される。
+		if (isset($model->data[$model->name]['id']) && $model->data[$model->name]['id'] > 0) {
+			// updateのときは何もしない
+			return true;
+		}
+
+		$needFields = ['status', 'is_active', 'is_latest'];
+		if ($this->__hasSaveField($model, $needFields, false)) {
+			if ($this->__hasSaveField($model, ['origin_id', 'language_id'], true)) {
+				$originalField = 'origin_id';
+			} elseif ($this->__hasSaveField($model, ['key', 'language_id'], true)) {
+				$originalField = 'key';
+			} else {
+				return true;
+			}
+
+			//is_activeのセット
+			if ($model->data[$model->name]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) {
+				//statusが公開ならis_activeを付け替える
+				$model->data[$model->name]['is_active'] = true;
+
+				//現状のis_activeを外す
+				if ($model->data[$model->name][$originalField]) {
+					$model->updateAll(
+						array($model->name . '.is_active' => false),
+						array(
+							$model->name . '.' . $originalField => $model->data[$model->name][$originalField],
+							$model->name . '.language_id' => (int)$model->data[$model->name]['language_id'],
+							$model->name . '.is_active' => true,
+						)
+					);
+				}
+			}
+
+			//is_latestのセット
+			$model->data[$model->name]['is_latest'] = true;
+
+			//現状のis_latestを外す
+			if ($model->data[$model->name][$originalField]) {
+				$model->updateAll(
+					array($model->name . '.is_latest' => false),
+					array(
+						$model->name . '.' . $originalField => $model->data[$model->name][$originalField],
+						$model->name . '.language_id' => (int)$model->data[$model->name]['language_id'],
+						$model->name . '.is_latest' => true,
+					)
+				);
+			}
+		}
+
+		return true;
 	}
 
 /**
@@ -68,7 +117,7 @@ class PublishableBehavior extends ModelBehavior {
  * @see Model::save()
  */
 	public function beforeValidate(Model $model, $options = array()) {
-		if (! $this->_hasStatusField($model)) {
+		if (! $model->hasField('status')) {
 			return parent::beforeValidate($model, $options);
 		}
 
@@ -79,9 +128,8 @@ class PublishableBehavior extends ModelBehavior {
 			$statuses = NetCommonsBlockComponent::$statusesForEditor;
 		}
 
-		$fields = $this->settings[$model->alias]['fields'];
 		$model->validate = Hash::merge($model->validate, array(
-			$fields['status_by'] => array(
+			'status' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
@@ -96,6 +144,28 @@ class PublishableBehavior extends ModelBehavior {
 		));
 
 		return parent::beforeValidate($model, $options);
+	}
+
+/**
+ * Checks wether model has the required fields
+ *
+ * @param Model $model instance of model
+ * @param mixed $needle The searched value.
+ * @param bool $validateData True on validate data.
+ * @return bool True if $model has the required fields
+ */
+	private function __hasSaveField(Model $model, $needle, $validateData) {
+		$fields = is_string($needle) ? array($needle) : $needle;
+
+		foreach ($fields as $key) {
+			if (! $model->hasField($key)) {
+				return false;
+			}
+			if ($validateData && ! array_key_exists($key, $model->data[$model->name])) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

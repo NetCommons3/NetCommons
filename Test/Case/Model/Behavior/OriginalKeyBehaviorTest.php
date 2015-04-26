@@ -11,7 +11,10 @@
 App::uses('OriginalKeyBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior');
 
 /**
- * TrackableBehaviorTest
+ * OriginalKeyBehavior test case
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Model\Behavior
  */
 class OriginalKeyBehaviorTest extends OriginalKeyBehaviorTestBase {
 

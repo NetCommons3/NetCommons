@@ -1,6 +1,6 @@
 <?php
 /**
- * TrackableBehavior test case base
+ * OriginalKeyModel test case base
  *
  * @copyright Copyright 2014, NetCommons Project
  * @author Kohei Teraguchi <kteraguchi@commonsnet.org>
@@ -11,7 +11,10 @@
 App::uses('Model', 'Model');
 
 /**
- * TrackableUserModel for test case
+ * OriginalKeyModel for test case
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Model\Behavior
  */
 class OriginalKeyModel extends Model {
 
@@ -31,7 +34,10 @@ class OriginalKeyModel extends Model {
 }
 
 /**
- * TrackableUserModel for test case
+ * OriginalWithoutKeyModel for test case
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Model\Behavior
  */
 class OriginalWithoutKeyModel extends Model {
 
@@ -51,7 +57,10 @@ class OriginalWithoutKeyModel extends Model {
 }
 
 /**
- * Base class of TrackableBehavior test case
+ * Base class of OriginalWithoutKeyModel test case
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Model\Behavior
  */
 class OriginalKeyBehaviorTestBase extends CakeTestCase {
 

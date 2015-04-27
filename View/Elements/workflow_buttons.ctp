@@ -9,10 +9,10 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-	<button type="button" class="btn btn-default btn-workflow">
+	<a href="<?php echo $this->Html->url('/' . $cancelUrl) ?>" class="btn btn-default btn-workflow">
 		<span class="glyphicon glyphicon-remove"></span>
-		<?php echo __d('net_commons', 'Cancel'); ?>
-	</button>
+		<?php echo __d('net_commons', 'Cancel') ?>
+	</a>
 
 	<?php if ($contentPublishable) : ?>
 		<?php if ($contentStatus === NetCommonsBlockComponent::STATUS_APPROVED) : ?>

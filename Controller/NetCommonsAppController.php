@@ -125,6 +125,7 @@ class NetCommonsAppController extends Controller {
 			]);
 			if (isset($box['Page'][0])) {
 				$this->current['page'] = $box['Page'][0];
+				$this->set('cancelUrl', $this->current['page']['permalink']);
 			}
 		}
 	}

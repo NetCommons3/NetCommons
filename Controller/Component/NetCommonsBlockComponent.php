@@ -64,7 +64,7 @@ class NetCommonsBlockComponent extends Component {
  */
 	static public $STATUSES = array(
 		self::STATUS_PUBLISHED,
-		self::STATUS_APPROVED,
+		//self::STATUS_APPROVED,
 		self::STATUS_IN_DRAFT,
 		self::STATUS_DISAPPROVED
 	);

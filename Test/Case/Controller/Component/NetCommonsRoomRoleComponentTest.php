@@ -194,6 +194,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => false,
 			'contentEditable' => false,
 			'contentPublishable' => false,
+			'permissionEditable' => false,
+			'commentPublishable' => false,
+			'commentEditable' => false,
+			'commentCreatable' => false,
 		);
 		$this->assertEquals($expected, $this->RoomRoleController->viewVars);
 	}
@@ -218,6 +222,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => true,
 			'contentEditable' => true,
 			'contentPublishable' => true,
+			'permissionEditable' => true,
+			'commentPublishable' => true,
+			'commentEditable' => true,
+			'commentCreatable' => true,
 			'rolesRoomId' => '1',
 			'roomRoleKey' => 'room_administrator',
 			'blockKey' => 'block_1'
@@ -246,6 +254,10 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
 			'contentCreatable' => false,
 			'contentEditable' => false,
 			'contentPublishable' => false,
+			'permissionEditable' => false,
+			'commentPublishable' => false,
+			'commentEditable' => false,
+			'commentCreatable' => false,
 			'rolesRoomId' => 0,
 			'roomRoleKey' => 'visitor',
 		);

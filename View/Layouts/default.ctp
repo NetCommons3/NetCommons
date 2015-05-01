@@ -7,37 +7,40 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="/net_commons/jquery/jquery.js"></script>
-	<script src="/net_commons/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<title><?php
-		if (isset($pageTitle)) {
-			echo h($pageTitle);
-		}
-		?></title>
+	<title>
+		<?php
+			if (isset($pageTitle)) {
+				echo h($pageTitle);
+			}
+		?>
+	</title>
 
-	<!-- Bootstrap -->
 	<?php
-	if (isset($bootstrapMinCss) && $bootstrapMinCss) {
-		echo $this->Html->css('bootstrap.min.css');
-	} else {
-		?><link href="/net_commons/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"><?php
-	}?>
-
-	<link href="/net_commons/twbs/bootstrap/assets/css/docs.min.css" rel="stylesheet">
-	<!-- base  -->
-	<link href="/net_commons/base/css/style.css" rel="stylesheet">
-
-	<!-- themed  -->
-	<?php echo $this->Html->css("style"); ?>
-	<?php
-		echo $this->Html->script('/tinymce/tinymce.min.js');
-		echo $this->Html->script('/net_commons/angular/angular.min.js');
-		echo $this->Html->script('/net_commons/angular-bootstrap/ui-bootstrap-tpls.min.js');
-		echo $this->Html->script('/net_commons/angular-ui-tinymce/src/tinymce.js');
-		echo $this->Html->script('/net_commons/base/js/base.js');
 		echo $this->fetch('meta');
+
+		echo $this->Html->css(
+			array(
+				'/components/bootstrap/dist/css/bootstrap.min.css',
+				'/net_commons/css/style.css',
+				'style'
+			),
+			array('plugin' => false)
+		);
 		echo $this->fetch('css');
+
+		echo $this->Html->script(
+			array(
+				'/components/jquery/dist/jquery.min.js',
+				'/components/bootstrap/dist/js/bootstrap.min.js',
+				'/components/tinymce/tinymce.min.js',
+				'/components/angular/angular.min.js',
+				'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+				'/components/angular-ui-tinymce/src/tinymce.js',
+				'/net_commons/js/base.js'
+			),
+			array('plugin' => false)
+		);
 		echo $this->fetch('script');
 	?>
 </head>

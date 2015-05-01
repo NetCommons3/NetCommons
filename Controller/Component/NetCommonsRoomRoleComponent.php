@@ -111,6 +111,7 @@ class NetCommonsRoomRoleComponent extends Component {
 
 		//デフォルト(コンテンツの公開あり)パーミッションでアクセスできるアクションをセット
 		if (! isset($this->allowedActions[self::DEFAULT_PERMISSION])) {
+			//CakeLog::debug(print_r($controller->methods, true));
 			$this->allowedActions[self::DEFAULT_PERMISSION] = $controller->methods;
 		}
 
@@ -147,10 +148,19 @@ class NetCommonsRoomRoleComponent extends Component {
  */
 	protected function _isAllowed(Controller $controller) {
 		$action = strtolower($controller->request->params['action']);
+		//CakeLog::debug($action);
+		//CakeLog::debug('$this->allowedActions=' . print_r($this->allowedActions, true));
+
 		foreach ($this->allowedActions as $permission => $allowedActions) {
+			//CakeLog::debug($permission);
+			//CakeLog::debug(print_r($allowedActions, true));
+			//CakeLog::debug('isset($controller->viewVars[$permission])=' . print_r(isset($controller->viewVars[$permission]), true));
+			//CakeLog::debug('$controller->viewVars[$permission]=' . print_r($controller->viewVars[$permission], true));
+			//CakeLog::debug('in_array($action, array_map(\'strtolower\', $allowedActions), true)=' . print_r(in_array($action, array_map('strtolower', $allowedActions), true), true));
+
 			if (isset($controller->viewVars[$permission]) &&
 					$controller->viewVars[$permission] &&
-					in_array($action, array_map('strtolower', $allowedActions))) {
+					in_array($action, array_map('strtolower', $allowedActions), true)) {
 
 				return;
 			}

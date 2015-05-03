@@ -38,8 +38,14 @@ class BackToPageHelper extends AppHelper {
 
 		$frames = $Frame->find('first',
 			array('conditions' => array('Frame.id' => $frameId)));
+		if (!$frames || !isset($frames['Box']['page_id'])) {
+			return '';
+		}
 		$pages = $Page->find('first',
 			array('conditions' => array('Page.id' => $frames['Box']['page_id'])));
+		if (!$pages || !isset($pages['Page']['permalink'])) {
+			return '';
+		}
 
 		$topUrl = $pages['Page']['permalink'];
 		$iconElement = '';

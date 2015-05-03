@@ -190,4 +190,28 @@ class NetCommonsBlockComponent extends Component {
 		);
 		return $results;
 	}
+
+/**
+ * Validate blockId on request data
+ *
+ * @return mixed true on success, false on failure
+ */
+	public function validateBlockId() {
+		if (! isset($this->controller->params['pass'][1]) || (int)$this->controller->params['pass'][1] === 0) {
+			return false;
+		}
+		if ($this->controller->request->isGet()) {
+			return true;
+		}
+
+		if (! isset($this->controller->data['Block']['id']) || (int)$this->controller->data['Block']['id'] === 0) {
+			return false;
+		}
+		//POSTのblockIdとGETのblockIdのチェック
+		if ((int)$this->controller->data['Block']['id'] !== (int)$this->controller->params['pass'][1]) {
+			return false;
+		}
+		return true;
+	}
+
 }

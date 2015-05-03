@@ -273,27 +273,4 @@ class NetCommonsAppController extends Controller {
 		}
 	}
 
-/**
- * Validate blockId on request data
- *
- * @return mixed true on success, false on failure
- */
-	public function validateBlockId() {
-		if (! isset($this->params['pass'][1]) || (int)$this->params['pass'][1] === 0) {
-			return false;
-		}
-		if ($this->request->isGet()) {
-			return true;
-		}
-
-		if (! isset($this->data['Block']['id']) || (int)$this->data['Block']['id'] === 0) {
-			return false;
-		}
-		//POSTのblockIdとGETのblockIdのチェック
-		if ((int)$this->data['Block']['id'] !== (int)$this->params['pass'][1]) {
-			return false;
-		}
-		return true;
-	}
-
 }

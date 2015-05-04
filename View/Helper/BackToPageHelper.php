@@ -22,7 +22,6 @@ class BackToPageHelper extends AppHelper {
 /**
  * getPageTopButton 最初のページに戻る
  *
- * @param int $frameId フレームID
  * @param string $title ボタンに表示するタイトル文字列
  * @param string $icon ボタンに表示するアイコン(bootstrap componentsのgliphsの最後のキーワードのみ指定する)
  * @param string $size  '' デフォルトサイズ : xs / sm / xs

@@ -36,7 +36,6 @@ class BackToPageHelper extends AppHelper {
 		if ($icon != '') {
 			$iconElement = '<span class="glyphicon glyphicon-' . $icon . '"></span>';
 		}
-		var_dump($iconElement);
 		$sizeAttr = '';
 		if ($size != '') {
 			$sizeAttr = 'btn-' . $size;
@@ -45,5 +44,4 @@ class BackToPageHelper extends AppHelper {
 
 		return $html;
 	}
-
 }

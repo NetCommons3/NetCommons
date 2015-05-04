@@ -20,7 +20,7 @@ App::uses('AppHelper', 'View/Helper');
 class BackToPageHelper extends AppHelper {
 
 /**
- * getPageTopButton Go back to the page where the plugin has been first displayed
+ * backToPageButton Go back to the page where the plugin has been first displayed
  *
  * @param string $title Title string to be displayed on the button
  * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
@@ -40,7 +40,7 @@ class BackToPageHelper extends AppHelper {
 		if ($size != '') {
 			$sizeAttr = 'btn-' . $size;
 		}
-		$html = '<a class="btn btn-default' . $sizeAttr . '" href="/' . $topUrl . '">' . $iconElement . $title . '</a>';
+		$html = '<a class="btn btn-default ' . $sizeAttr . '" href="/' . $topUrl . '">' . $iconElement . $title . '</a>';
 
 		return $html;
 	}

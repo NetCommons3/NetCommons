@@ -20,11 +20,11 @@ App::uses('AppHelper', 'View/Helper');
 class BackToPageHelper extends AppHelper {
 
 /**
- * getPageTopButton 最初のページに戻る
+ * getPageTopButton Go back to the page where the plugin has been first displayed
  *
- * @param string $title ボタンに表示するタイトル文字列
- * @param string $icon ボタンに表示するアイコン(bootstrap componentsのgliphsの最後のキーワードのみ指定する)
- * @param string $size  '' デフォルトサイズ : xs / sm / xs
+ * @param string $title Title string to be displayed on the button
+ * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
+ * @param string $size  '' is the default size : lg / sm / xs
  * @return string
  */
 	public function backToPageButton($title, $icon = '', $size = '') {

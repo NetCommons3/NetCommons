@@ -28,30 +28,16 @@ class BackToPageHelper extends AppHelper {
  * @param string $size  '' デフォルトサイズ : xs / sm / xs
  * @return string
  */
-	public function backToPageButton($frameId, $title, $icon = '', $size = '') {
+	public function backToPageButton($title, $icon = '', $size = '') {
 		if (isset($this->request->params['requested'])) {
 			return '';
 		}
-
-		$Frame = Classregistry::init('Frames.Frame');
-		$Page = Classregistry::init('Pages.Page');
-
-		$frames = $Frame->find('first',
-			array('conditions' => array('Frame.id' => $frameId)));
-		if (!$frames || !isset($frames['Box']['page_id'])) {
-			return '';
-		}
-		$pages = $Page->find('first',
-			array('conditions' => array('Page.id' => $frames['Box']['page_id'])));
-		if (!$pages || !isset($pages['Page']['permalink'])) {
-			return '';
-		}
-
-		$topUrl = $pages['Page']['permalink'];
+		$topUrl = $this->_View->viewVars['cancelUrl'];
 		$iconElement = '';
 		if ($icon != '') {
 			$iconElement = '<span class="glyphicon glyphicon-' . $icon . '"></span>';
 		}
+		var_dump($iconElement);
 		$sizeAttr = '';
 		if ($size != '') {
 			$sizeAttr = 'btn-' . $size;

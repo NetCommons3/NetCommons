@@ -4,189 +4,334 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-14 11:01+0000\n"
-"PO-Revision-Date: 2014-12-04 13:00+0900\n"
+"POT-Creation-Date: 2015-05-05 15:27+0000\n"
+"PO-Revision-Date: 2015-05-06 00:56+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.5\n"
 
-#: AccessCounters/Controller/AccessCounterEditController.php:124
-#: Iframes/Controller/IframeDisplayChangeController.php:128
-#: Iframes/Controller/IframeEditController.php:142
-#: RssReaders/Controller/RssReaderEditController.php:121
-#: RssReaders/Test/Case/Controller/RssReaderEditControllerErrorTest.php:108
-msgid "Failed to register data."
-msgstr "データの登録に失敗しました。"
-
-#: AccessCounters/Controller/AccessCounterEditController.php:131
-#: AccessCounters/Test/Case/Controller/AccessCounterEditControllerTest.php:209
-#: Announcements/Controller/AnnouncementEditController.php:222
-#: Announcements/Test/Case/Controller/AnnouncementEditControllerTest.php:305
-#: Iframes/Controller/IframeDisplayChangeController.php:136
-#: Iframes/Controller/IframeEditController.php:150
-#: Iframes/Test/Case/Controller/IframeDisplayChangeControllerLoginUserTest.php:211
-#: Iframes/Test/Case/Controller/IframeEditControllerLoginUserTest.php:212
-#: RssReaders/Controller/RssReaderEditController.php:114
-#: RssReaders/Controller/RssReaderFrameSettingsController.php:100
-#: RssReaders/Controller/RssReadersController.php:134
-msgid "Successfully finished."
-msgstr "正常に登録しました。"
-
-#: AccessCounters/View/AccessCounters/view.ctp:25
-#: Announcements/View/Announcements/view.ctp:32
-#: Iframes/View/Iframes/view.ctp:35
-msgid "Manage"
-msgstr "管理"
-
-#: AccessCounters/View/Elements/AccessCounterEdit/button.ctp:16
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:16
-#: Iframes/View/Elements/IframeDisplayChange/button.ctp:16
-#: Iframes/View/Elements/IframeEdit/button.ctp:16
-#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:160
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:91
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: AccessCounters/View/Elements/AccessCounterEdit/button.ctp:19
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:48;55
-#: Iframes/View/Elements/IframeDisplayChange/button.ctp:22
-#: Iframes/View/Elements/IframeEdit/button.ctp:37
-#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:182;188
-#: RssReaders/View/Elements/RssReaderFrameSettings/edit_form.ctp:95
-msgid "OK"
-msgstr "決定"
-
-#: AccessCounters/View/Elements/AccessCounterEdit/tab_header.ctp:14
-#: Announcements/View/Elements/AnnouncementEdit/tab_header.ctp:15
-#: Iframes/View/Elements/manage_tab_header.ctp:15
-#: Pages/View/Elements/setting_menu.ctp:88
-#: RssReaders/View/Elements/manage_tab_header.ctp:3
-msgid "Close"
-msgstr "閉じる"
-
-#: Announcements/Controller/AnnouncementEditController.php:58;63;68;195;200;206;212
-#: Announcements/Controller/AnnouncementsController.php:55;59
-msgid "Security Error! Unauthorized input."
-msgstr "不正にアクセスされた可能性があります。"
-
-#: Announcements/Model/Announcement.php:72;80;87;93;99
-#: Blocks/Model/Comment.php:79;86;93
-#: NetCommons/Controller/Component/NetCommonsFrameComponent.php:135
-#: NetCommons/Test/Case/Controller/Component/NetCommonsFrameComponentTest.php:191
+#: AccessCounters/Model/AccessCounter.php:60;66;70;74;80;84
+#: AccessCounters/Model/AccessCounterFrameSetting.php:49;55;59;65;69
+#: Announcements/Model/Announcement.php:71;79;89 Bbses/Model/Bbs.php:97
+#: Bbses/Model/BbsFrameSetting.php:60;67;74 Bbses/Model/BbsPost.php:93;100
+#: Bbses/Model/BbsPostI18n.php:110 Bbses/Model/BbsPostsUser.php:66;73
+#: Blocks/Model/Block.php:111;121
+#: Blocks/Model/BlockRolePermission.php:71;81;91;101
+#: Categories/Model/Category.php:84;92
+#: Categories/Model/CategoryOrder.php:43;51;60
+#: Categories/Test/Case/Model/CategoryOrderTestValidateCategoryOrder.php:96;125;153;181
+#: Categories/Test/Case/Model/CategoryTestValidateCategory.php:93;122;179;207
+#: Comments/Model/Comment.php:43
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:128
+#: ContentComments/Model/ContentComment.php:65;72;79;86
+#: Edumap/Controller/VisibilitySettingsController.php:95
+#: Edumap/Model/Edumap.php:115;123;130;141;177
+#: Edumap/Model/EdumapSocialMedium.php:56;62;68
+#: Edumap/Model/EdumapStudent.php:52;60;68
+#: Edumap/Model/EdumapVisibilitySetting.php:74
+#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:107;234
+#: Faqs/Model/Faq.php:93;102;118 Faqs/Model/FaqQuestion.php:94;103
+#: Faqs/Model/FaqQuestionOrder.php:43;52;61 Faqs/Model/FaqSetting.php:43;52
+#: Faqs/Test/Case/Model/FaqQuestionOrderTestValidateFaqQuestionOrder.php:81;109;137
+#: Faqs/Test/Case/Model/FaqQuestionTestSaveFaqQuestion.php:326;357;493
+#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:139;170;239;295;324;423
+#: Faqs/Test/Case/Model/FaqSettingTestValidateFaqSetting.php:80;108
+#: Faqs/Test/Case/Model/FaqTestValidateFaq.php:121;206;228
+#: Files/Model/FileModel.php:77;85;93;102;110;118;126;134;140
+#: Iframes/Model/Iframe.php:121;128 Likes/Model/Like.php:56;63;70;77
+#: Links/Model/Link.php:94;103;115
+#: Links/Model/LinkFrameSetting.php:173;182;192;198;204;212;221
+#: Links/Model/LinkOrder.php:43;52;61 Links/Model/LinkSetting.php:43;52
+#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:44
+#: NetCommons/Model/Behavior/PublishableBehavior.php:135;141
+#: RssReaders/Model/RssReader.php:101;109
+#: RssReaders/Model/RssReaderFrameSetting.php:52;60
+#: RssReaders/Model/RssReaderItem.php:61
+#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:62
 msgid "Invalid request."
 msgstr "入力値が不正です。"
 
-#: Announcements/Model/Announcement.php:105
-#: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:31
-msgid "Please input %s."
-msgstr "%sを入力してください"
-
-#: Announcements/Model/Announcement.php:183;202;207
+#: AccessCounters/Model/AccessCounterFrameSetting.php:116;125;161;168
+#: Announcements/Model/Announcement.php:162;167
+#: Bbses/Model/Bbs.php:144;149;153;233;237;241
+#: Bbses/Model/BbsFrameSetting.php:106
+#: Bbses/Model/BbsPost.php:155;163;171;212;220;260;354
+#: Bbses/Model/BbsPostsUser.php:178 Bbses/Model/BbsSetting.php:61;67
+#: Blocks/Model/Block.php:171;185;192;236;241;250
+#: Blogs/Controller/BlogEntriesController.php:283;353
+#: Categories/Model/Category.php:175;178;252;257;290;295
+#: ContentComments/Model/ContentComment.php:142;176
+#: Edumap/Model/Edumap.php:335;446;451;467;472;497;506;515;523
+#: Edumap/Model/EdumapVisibilitySetting.php:108
+#: Faqs/Model/Faq.php:180;185;266;270;274;278
+#: Faqs/Model/FaqQuestion.php:196;205;211;277;288
+#: Faqs/Model/FaqQuestionOrder.php:166 Faqs/Model/FaqSetting.php:110;114
+#: Files/Model/FileModel.php:178;245;281;344
+#: Frames/Controller/FramesController.php:128;133
+#: Iframes/Model/Iframe.php:188;251 Likes/Model/Like.php:157
+#: Links/Model/Link.php:215;224;230;296;307
+#: Links/Model/LinkBlock.php:110;182;186;190
+#: Links/Model/LinkFrameSetting.php:309 Links/Model/LinkOrder.php:213
+#: Links/Model/LinkSetting.php:110;114
+#: NetCommons/Controller/Component/NetCommonsFrameComponent.php:98
+#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:207;226;252
+#: RssReaders/Model/RssReader.php:215;279;289
+#: RssReaders/Model/RssReaderFrameSetting.php:94
+#: RssReaders/Model/RssReaderItem.php:200;206;212
+#: Videos/Model/Video.php:302;309;419;424;453;458
+#: Videos/Model/VideoBlockSetting.php:273
+#: Videos/Model/VideoFrameSetting.php:162
 msgid "Internal Server Error"
 msgstr "Internal Server Error"
 
-#: Announcements/View/Announcements/view.ctp:22
-#: Iframes/View/Iframes/view.ctp:25
-msgid "Accept"
-msgstr "承認する"
+#: AccessCounters/View/AccessCounters/edit.ctp:62
+#: Blocks/View/Elements/edit_form.ctp:32
+#: Categories/View/Elements/edit_form.ctp:81
+#: Edumap/View/VisibilitySettings/edit.ctp:63
+#: Faqs/View/FaqQuestionOrders/edit.ctp:88 Links/View/LinkOrders/edit.ctp:84
+#: NetCommons/View/Elements/workflow_buttons.ctp:14
+#: RssReaders/View/FrameSettings/edit.ctp:68
+#: Videos/View/VideoBlockSettings/authority.ctp:82
+#: Videos/View/VideoBlockSettings/edit.ctp:194
+#: Videos/View/VideoFrameSettings/edit.ctp:71
+msgid "Cancel"
+msgstr "キャンセル"
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:25
-#: Iframes/View/Elements/IframeEdit/button.ctp:23
-#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:168
-msgid "Disapproval"
-msgstr "差し戻し"
+#: AccessCounters/View/AccessCounters/edit.ctp:65
+#: Blocks/View/Elements/edit_form.ctp:35
+#: Categories/View/Elements/edit_form.ctp:84
+#: Edumap/View/VisibilitySettings/edit.ctp:67
+#: Faqs/View/FaqQuestionOrders/edit.ctp:91
+#: Frames/View/Elements/setting_header.ctp:101
+#: Links/View/LinkOrders/edit.ctp:87
+#: NetCommons/View/Elements/workflow_buttons.ctp:45;52
+#: RssReaders/View/FrameSettings/edit.ctp:72
+#: Videos/View/VideoBlockSettings/authority.ctp:84
+#: Videos/View/VideoBlockSettings/edit.ctp:196
+#: Videos/View/VideoFrameSettings/edit.ctp:73
+msgid "OK"
+msgstr "決定"
 
-#: Announcements/View/Elements/AnnouncementEdit/button.ctp:32;39
-#: Iframes/View/Elements/IframeEdit/button.ctp:29
-#: RssReaders/View/Elements/RssReaderEdit/common_form.ctp:174
-msgid "Save temporally"
-msgstr "一時保存"
+#: AccessCounters/View/AccessCounters/view.ctp:17
+#: Announcements/View/Announcements/viewForEditor.ctp:15
+#: Blogs/View/BlogEntries/view.ctp:24 Edumap/View/Edumap/viewForEditor.ctp:20
+#: Faqs/View/Elements/FaqQuestions/article.ctp:70
+#: RssReaders/View/RssReaders/viewForEditor.ctp:25
+#: Videos/View/Videos/view.ctp:57
+msgid "Edit"
+msgstr "編集"
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:20
-msgid "Comments to the person in charge."
-msgstr "担当者へのコメント"
+#: Announcements/Model/Announcement.php:95 Bbses/Model/Bbs.php:103
+#: Bbses/Model/BbsPostI18n.php:92;100 Categories/Model/Category.php:101
+#: Categories/Test/Case/Model/CategoryTestValidateCategory.php:150
+#: ContentComments/Model/ContentComment.php:92
+#: Edumap/Model/Edumap.php:147;154;161;172;183;190;208
+#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:133;134;135;136;137;138;139
+#: Faqs/Model/Faq.php:110 Faqs/Model/FaqQuestion.php:115;123
+#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:357;390
+#: Faqs/Test/Case/Model/FaqTestValidateFaq.php:149;178
+#: Iframes/Model/Iframe.php:101
+#: Iframes/Test/Case/Model/IframeValidateTest.php:80
+#: Links/Model/Link.php:125;139 RssReaders/Model/RssReader.php:119;132
+#: RssReaders/Model/RssReaderItem.php:70;77
+#: RssReaders/Test/Case/Model/RssReaderItemValidateErrorTest.php:40;41
+#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:89;90
+msgid "Please input %s."
+msgstr "%sを入力してください"
 
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:24
-msgid "Optional"
-msgstr "任意"
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:33
-msgid "Please enter comments to the person in charge."
-msgstr "担当者へコメントがあれば、入力して下さい。"
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:35
-msgid "If it is not approved, input required."
-msgstr "担当者へのコメントを入力してください。差し戻す場合は、必須項目です。"
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_form.ctp:51
-msgid "If it is not approved, comment is a required input."
-msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:33
-msgid "More"
-msgstr "もっと見る"
-
-#: Announcements/View/Elements/AnnouncementEdit/comment_list.ctp:38
-msgid "Top"
-msgstr "Topへ"
-
-#: Announcements/View/Elements/AnnouncementEdit/edit_form.ctp:18
-msgid "Required"
-msgstr "*"
-
-#: Announcements/View/Elements/Announcements/status_label.ctp:16
-#: Iframes/View/Elements/Iframes/status_label.ctp:16
-msgid "Approving"
-msgstr "承認待ち"
-
-#: Announcements/View/Elements/Announcements/status_label.ctp:22
-#: Iframes/View/Elements/Iframes/status_label.ctp:22
-msgid "Disapproving"
-msgstr "差し戻し"
-
-#: Announcements/View/Elements/Announcements/status_label.ctp:28
-#: Iframes/View/Elements/Iframes/status_label.ctp:28
-msgid "Temporary"
-msgstr "一時保存"
-
-#: Auth/View/Auth/login.ctp:26 NetCommons/View/Layouts/default.ctp:79
-#: Pages/View/Pages/index.ctp:59
+#: Auth/View/Auth/login.ctp:26 NetCommons/View/Layouts/default.ctp:82
+#: NetCommons/View/Layouts/setting.ctp:92 Pages/View/Pages/index.ctp:59
 msgid "Login"
 msgstr "ログイン"
 
-#: Iframes/View/Elements/manage_tab_header.ctp:29
-msgid "Display change"
-msgstr "表示方法変更"
+#: Bbses/View/BbsPosts/edit.ctp:53
+#: Bbses/View/Elements/Blocks/delete_form.ctp:28
+#: Faqs/View/Elements/Blocks/delete_form.ctp:28
+#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
+#: Iframes/View/Elements/Blocks/delete_form.ctp:28
+#: Links/View/Elements/Blocks/delete_form.ctp:25
+#: Links/View/Elements/Links/delete_form.ctp:38
+msgid "Deleting the %s. Are you sure to proceed?"
+msgstr "%sを削除します。本当によろしいですか。"
 
-#: Iframes/View/Elements/IframeDisplayChange/display_change_form.ctp:41
-#: Iframes/View/Elements/IframeEdit/edit_form.ctp:44
-msgid "Required field."
+#: Bbses/View/Blocks/index.ctp:49 Faqs/View/Blocks/index.ctp:43
+#: Iframes/View/Blocks/index.ctp:48 Links/View/Blocks/index.ctp:43
+msgid "Updated date"
+msgstr "更新日"
+
+#: Bbses/View/Blocks/not_found.ctp:30 Faqs/View/Blocks/not_found.ctp:24
+#: Iframes/View/Blocks/not_found.ctp:29 Links/View/Blocks/not_found.ctp:24
+msgid "Not found."
+msgstr "登録されていません。"
+
+#: Bbses/View/Elements/BbsPosts/comment_status_label.ctp:15
+#: Bbses/View/Elements/BbsPosts/select_status.ctp:33
+#: Blogs/View/BlogEntries/index.ctp:36
+#: NetCommons/View/Elements/status_label.ctp:15
+msgid "Temporary"
+msgstr "一時保存"
+
+#: Bbses/View/Elements/BbsPosts/select_status.ctp:37
+#: Blogs/View/BlogEntries/index.ctp:35
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:33
+#: NetCommons/View/Elements/status_label.ctp:19
+msgid "Approving"
+msgstr "承認待ち"
+
+#: Bbses/View/Elements/BbsPosts/select_status.ctp:41
+#: Blogs/View/BlogEntries/index.ctp:37
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:37
+#: NetCommons/View/Elements/status_label.ctp:23
+msgid "Disapproving"
+msgstr "差し戻し"
+
+#: Bbses/View/Elements/Blocks/delete_form.ctp:14
+#: Faqs/View/Elements/Blocks/delete_form.ctp:14
+#: Iframes/View/Elements/Blocks/delete_form.ctp:14
+#: Links/View/Elements/Blocks/delete_form.ctp:14
+msgid "Delete all data associated with the %s."
+msgstr "%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
+
+#: Bbses/View/Elements/Blocks/delete_form.ctp:25
+#: Blogs/View/BlogEntries/form.ctp:154
+#: Categories/View/Elements/edit_form.ctp:69
+#: Faqs/View/Elements/Blocks/delete_form.ctp:25
+#: Iframes/View/Elements/Blocks/delete_form.ctp:25
+#: Links/View/Elements/Blocks/delete_form.ctp:22
+msgid "Delete"
+msgstr "削除"
+
+#: Blocks/View/Elements/delete_form.ctp:28
+msgid "Danger Zone"
 msgstr ""
 
-#: Iframes/View/Elements/IframeEdit/button.ctp:43
-msgid "Approval"
-msgstr ""
+#: Blocks/View/Elements/setting_tabs.ctp:19
+msgid "Block settings"
+msgstr "コンテンツ"
 
-#: Iframes/View/Elements/IframeEdit/edit_form.ctp:15
+#: Blocks/View/Elements/setting_tabs.ctp:27
+#: NetCommons/View/Elements/setting_tabs.ctp:35
+msgid "Role permission settings"
+msgstr "権限設定"
+
+#: Blogs/View/BlogEntries/index.ctp:34
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:25
+msgid "Published"
+msgstr "公開"
+
+#: Comments/Model/Comment.php:57 Comments/View/Elements/form.ctp:28
+#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:458
+#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:214
+msgid "If it is not approved, comment is a required input."
+msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
+
+#: Comments/View/Elements/form.ctp:19;27
+msgid "Comments to the person in charge."
+msgstr "担当者へのコメント"
+
+#: Comments/View/Elements/form.ctp:28
+msgid "Please enter comments to the person in charge."
+msgstr "担当者へコメントがあれば、入力して下さい。"
+
+#: Comments/View/Elements/index.ctp:35
+#: ContentComments/View/Elements/index.ctp:153
+msgid "More"
+msgstr "もっと見る"
+
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:129;132
+#: Edumap/Controller/VisibilitySettingsController.php:96;100
+#: NetCommons/Controller/NetCommonsAppController.php:240;268;274
+#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
+msgid "Bad Request"
+msgstr "不正なリクエストの可能性があります"
+
+#: Edumap/Model/Edumap.php:166;195;201;213;219;226;233;240;247
+#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:188;280;281;330;331;379;380;429;430
+#: Iframes/Model/Iframe.php:106
+#: Iframes/Test/Case/Model/IframeValidateTest.php:126 Links/Model/Link.php:131
+#: RssReaders/Model/RssReader.php:124;139
+#: RssReaders/Model/RssReaderItem.php:82
+#: RssReaders/Test/Case/Model/RssReaderItemValidateErrorTest.php:96
+#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:142;143
+msgid "Unauthorized pattern for %s. Please input the data in %s format."
+msgstr "%sの書式が不正です。%s形式で入力してください。"
+
+#: Edumap/Model/EdumapSocialMedium.php:74
+msgid "Only alphabets and numbers are allowed."
+msgstr "半角英数字または記号で入力してください。"
+
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
+msgid "Display all"
+msgstr "全て表示"
+
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:29
+msgid "In draft"
+msgstr "一時保存"
+
+#: Frames/View/Elements/setting_header.ctp:23
+msgid "Quit"
+msgstr "終了"
+
+#: Iframes/Model/Iframe.php:106
 msgid "URL"
 msgstr ""
 
-#: Iframes/View/Elements/IframeEdit/edit_form.ctp:48
-msgid "Invalid input."
-msgstr ""
+#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:169
+msgid "Permission denied"
+msgstr "アクセスができません。"
 
-#: NetCommons/View/Layouts/default.ctp:73 Pages/View/Pages/index.ctp:30
+#: NetCommons/View/Elements/goto_top_button.ctp:15
+msgid "Go to Top"
+msgstr "トップへ"
+
+#: NetCommons/View/Elements/publish_button.ctp:14
+msgid "Accept"
+msgstr "承認する"
+
+#: NetCommons/View/Elements/required.ctp:14
+msgid "Required"
+msgstr "*"
+
+#: NetCommons/View/Elements/setting_tabs.ctp:19
+msgid "List"
+msgstr "一覧表示"
+
+#: NetCommons/View/Elements/setting_tabs.ctp:27
+msgid "Frame settings"
+msgstr "表示方法変更"
+
+#: NetCommons/View/Elements/workflow_buttons.ctp:20
+msgid "Disapproval"
+msgstr "差し戻し"
+
+#: NetCommons/View/Elements/workflow_buttons.ctp:28;36
+msgid "Save temporally"
+msgstr "一時保存"
+
+#: NetCommons/View/Layouts/default.ctp:76
+#: NetCommons/View/Layouts/setting.ctp:87 Pages/View/Pages/index.ctp:30
 msgid "Home"
 msgstr "ホーム"
 
-#: NetCommons/View/Layouts/default.ctp:77 Pages/View/Pages/index.ctp:35
+#: NetCommons/View/Layouts/default.ctp:80
+#: NetCommons/View/Layouts/setting.ctp:90 Pages/View/Pages/index.ctp:35
 msgid "Logout"
 msgstr "ログアウト"
 
-#: NetCommons/View/Layouts/default.ctp:88 Pages/View/Pages/index.ctp:43
+#: NetCommons/View/Layouts/default.ctp:91
+#: NetCommons/View/Layouts/setting.ctp:101 Pages/View/Pages/index.ctp:43
 msgid "Theme setting"
 msgstr "テーマ設定"
+
+#: NetCommons/View/Layouts/modal.ctp:17
+#: Pages/View/Elements/setting_menu.ctp:88
+msgid "Close"
+msgstr "閉じる"
+
+#: Videos/View/VideoBlockSettings/index.ctp:43 Videos/View/Videos/index.ctp:55
+msgid "Add"
+msgstr "追加"

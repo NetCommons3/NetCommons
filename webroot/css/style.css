@@ -25,6 +25,21 @@ input[type="checkbox"] {
 	margin-right: 6px;
 }
 
+.nc-input-dropdown,
+.nc-input-dropdown > .dropdown-toggle,
+.nc-input-dropdown > .dropdown-menu {
+	width: 100%;
+}
+.nc-input-dropdown > .dropdown-menu > .nc-dropdown-block,
+.nc-input-dropdown > .dropdown-menu > li > .nc-dropdown-block {
+	display: block;
+    font-weight: 400;
+    line-height: 1.42857;
+    padding: 3px 20px;
+    /*white-space: nowrap;*/
+	/*overflow: hidden;*/
+}
+
 /* angulrJS hidden class */
 /*.ng-hide {
     display: none;

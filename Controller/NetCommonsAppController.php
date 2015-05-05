@@ -259,17 +259,22 @@ class NetCommonsAppController extends Controller {
 /**
  * throw bad request
  *
+ * @param string $message Error message
  * @return void
  * @throws BadRequestException
  */
-	public function throwBadRequest() {
+	public function throwBadRequest($message = null) {
+		if (! isset($message)) {
+			$message = __d('net_commons', 'Bad Request');
+		}
+
 		if ($this->request->is('ajax')) {
 			$this->renderJson(
-				['error' => __d('net_commons', 'Bad Request')],
+				['error' => $message],
 				__d('net_commons', 'Bad Request'), 400
 			);
 		} else {
-			throw new BadRequestException(__d('net_commons', 'Bad Request'));
+			throw new BadRequestException($message);
 		}
 	}
 

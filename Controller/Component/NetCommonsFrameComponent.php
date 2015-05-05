@@ -40,6 +40,8 @@ class NetCommonsFrameComponent extends Component {
  * @return void
  */
 	public function initialize(Controller $controller) {
+		$this->controller = $controller;
+
 		//model class registry
 		$models = array(
 			'Box' => 'Boxes.Box',
@@ -51,61 +53,82 @@ class NetCommonsFrameComponent extends Component {
 		}
 
 		//default
-		$controller->set('frameId', 0);
-		$controller->set('frameKey', '');
-		$controller->set('roomId', 0);
-		$controller->set('languageId', 0);
+		$this->controller->set('frameId', 0);
+		$this->controller->set('frameKey', '');
+		$this->controller->set('roomId', 0);
+		$this->controller->set('languageId', 0);
 
 		if ($this->frameId === null) {
-			$this->frameId = (isset($controller->params['pass'][0]) ? (int)$controller->params['pass'][0] : 0);
+			$this->frameId = (isset($this->controller->params['pass'][0]) ? (int)$this->controller->params['pass'][0] : 0);
 		}
 
 		if ($this->frameId) {
-			$this->setView($controller);
+			$this->setView();
 		}
 	}
 
 /**
  * Controller view set
  *
- * @param Controller $controller Instantiating controller
  * @return void
  */
-	public function setView(Controller $controller) {
+	public function setView() {
 		//set language_id
-		if (isset($controller->viewVars['languageId']) && $controller->viewVars['languageId'] === 0) {
+		if (isset($this->controller->viewVars['languageId']) && $this->controller->viewVars['languageId'] === 0) {
 			$language = $this->Language->findByCode(Configure::read('Config.language'));
-			$controller->set('languageId', $language['Language']['id']);
+			$this->controller->set('languageId', $language['Language']['id']);
 		}
 
 		//set frame by id
 		$frame = $this->Frame->findById($this->frameId);
 		$this->data = $frame;
 
-		$this->__setViewFrame($controller, $frame);
+		$this->__setViewFrame($frame);
 	}
 
 /**
  * Controller frame data set
  *
- * @param Controller $controller Instantiating controller
  * @param array $frame frame data
  * @return void
  * @throws InternalErrorException
  */
-	private function __setViewFrame(Controller $controller, $frame) {
+	private function __setViewFrame($frame) {
 		if (! $frame || ! isset($frame['Frame']['id'])) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
 
-		$controller->set('frameId', (int)$frame['Frame']['id']);
-		$controller->set('frameKey', $frame['Frame']['key']);
-		$controller->set('blockId', (is_int($frame['Frame']['block_id']) ? (int)$frame['Frame']['block_id'] : $frame['Frame']['block_id']));
+		$this->controller->set('frameId', (int)$frame['Frame']['id']);
+		$this->controller->set('frameKey', $frame['Frame']['key']);
+		$this->controller->set('blockId', (is_int($frame['Frame']['block_id']) ? (int)$frame['Frame']['block_id'] : $frame['Frame']['block_id']));
 		if (isset($frame['Block'])) {
-			$controller->set('blockKey', $frame['Block']['key']);
+			$this->controller->set('blockKey', $frame['Block']['key']);
 		}
-		$controller->set('roomId', (int)$frame['Frame']['room_id']);
-		$controller->set('languageId', (int)$frame['Frame']['language_id']);
+		$this->controller->set('roomId', (int)$frame['Frame']['room_id']);
+		$this->controller->set('languageId', (int)$frame['Frame']['language_id']);
+	}
+
+/**
+ * Validate frameId on request data
+ *
+ * @return mixed true on success, false on failure
+ */
+	public function validateFrameId() {
+		if (! isset($this->controller->viewVars['frameId']) || (int)$this->controller->viewVars['frameId'] === 0) {
+			return false;
+		}
+		if ($this->controller->request->isGet()) {
+			return true;
+		}
+
+		if (! isset($this->controller->data['Frame']['id']) || (int)$this->controller->data['Frame']['id'] === 0) {
+			return false;
+		}
+		//POSTのframeIdとGETのframeIdのチェック
+		if ((int)$this->controller->data['Frame']['id'] !== (int)$this->controller->viewVars['frameId']) {
+			return false;
+		}
+		return true;
 	}
 
 }

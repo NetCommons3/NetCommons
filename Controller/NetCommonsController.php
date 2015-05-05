@@ -1,7 +1,7 @@
 <?php
 /**
  * NetCommons Controller
- * 
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
@@ -29,6 +29,16 @@ class NetCommonsController extends NetCommonsAppController {
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsWorkflow',
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('csrfToken');
+	}
 
 /**
  * csrfToken method

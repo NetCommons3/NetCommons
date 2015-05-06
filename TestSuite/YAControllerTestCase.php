@@ -9,6 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+CakeLog::drop('stdout');
+CakeLog::drop('stderr');
+
 /**
  * YAControllerTestCase
  *

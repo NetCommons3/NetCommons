@@ -104,16 +104,17 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @param Controller $controller Controller with components to startup
  * @return void
+ * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
 		//ログインなしでもアクセスできるアクションをセット
 		$this->allowedActions[self::AUTH_ALLOW_PERMISSION] = $controller->Auth->allowedActions;
 
 		//デフォルト(コンテンツの公開あり)パーミッションでアクセスできるアクションをセット
-		if (! isset($this->allowedActions[self::DEFAULT_PERMISSION])) {
+		//if (! isset($this->allowedActions[self::DEFAULT_PERMISSION])) {
 			//CakeLog::debug(print_r($controller->methods, true));
-			$this->allowedActions[self::DEFAULT_PERMISSION] = $controller->methods;
-		}
+			//$this->allowedActions[self::DEFAULT_PERMISSION] = $controller->methods;
+		//}
 
 		//room_roleセット
 		$this->setView($controller);
@@ -136,37 +137,33 @@ class NetCommonsRoomRoleComponent extends Component {
 		}
 
 		//アクション許可チェック
-		$this->_isAllowed($controller);
+		if (! $this->_isAllowed($controller)) {
+			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+		}
 	}
 
 /**
  * Checks whether current action is accessible without authentication.
  *
  * @param Controller $controller A reference to the instantiating controller object
- * @return void
- * @throws ForbiddenException
+ * @return bool True on success, false on permission denied
  */
 	protected function _isAllowed(Controller $controller) {
 		$action = strtolower($controller->request->params['action']);
-		//CakeLog::debug($action);
-		//CakeLog::debug('$this->allowedActions=' . print_r($this->allowedActions, true));
 
+		//チェックしやすいようにarray(action => [permission1, permission2, …])に変換
+		$actionPermissions = array();
 		foreach ($this->allowedActions as $permission => $allowedActions) {
-			//CakeLog::debug($permission);
-			//CakeLog::debug(print_r($allowedActions, true));
-			//CakeLog::debug('isset($controller->viewVars[$permission])=' . print_r(isset($controller->viewVars[$permission]), true));
-			//CakeLog::debug('$controller->viewVars[$permission]=' . print_r($controller->viewVars[$permission], true));
-			//CakeLog::debug('in_array($action, array_map(\'strtolower\', $allowedActions), true)=' . print_r(in_array($action, array_map('strtolower', $allowedActions), true), true));
-
-			if (isset($controller->viewVars[$permission]) &&
-					$controller->viewVars[$permission] &&
-					in_array($action, array_map('strtolower', $allowedActions), true)) {
-
-				return;
+			$actionPermissions = Hash::merge($actionPermissions, array_fill_keys($allowedActions, [$permission]));
+		}
+		if (array_key_exists($action, $actionPermissions) && is_array($actionPermissions[$action])) {
+			foreach ($actionPermissions[$action] as $permission) {
+				if (isset($controller->viewVars[$permission]) && $controller->viewVars[$permission]) {
+					return true;
+				}
 			}
 		}
-
-		throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+		return false;
 	}
 
 /**

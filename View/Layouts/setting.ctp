@@ -117,7 +117,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 					<div class="panel-heading clearfix">
 						<?php echo $this->element('Frames.setting_header'); ?>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body frame">
 						<?php echo $this->fetch('content'); ?>
 					</div>
 				</div>

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2015-05-05 15:27+0000\n"
-"PO-Revision-Date: 2015-05-06 00:56+0900\n"
+"PO-Revision-Date: 2015-05-09 22:28+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -211,7 +211,7 @@ msgstr ""
 
 #: Blocks/View/Elements/setting_tabs.ctp:19
 msgid "Block settings"
-msgstr "コンテンツ"
+msgstr "ブロック設定"
 
 #: Blocks/View/Elements/setting_tabs.ctp:27
 #: NetCommons/View/Elements/setting_tabs.ctp:35

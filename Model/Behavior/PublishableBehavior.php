@@ -135,6 +135,7 @@ class PublishableBehavior extends ModelBehavior {
 					'message' => __d('net_commons', 'Invalid request.'),
 					'allowEmpty' => false,
 					'required' => true,
+					'on' => 'create', // Limit validation to 'create' or 'update' operations
 				),
 				'inList' => array(
 					'rule' => array('inList', $statuses),

@@ -39,6 +39,21 @@ class OriginalKeyBehaviorTest extends OriginalKeyBehaviorTestBase {
 	}
 
 /**
+ * Expect return value array on OriginalKeyBehavior
+ */
+	public function testAfterSave() {
+		$data = array(
+			'title' => 'test1',
+			'origin_id' => 0
+		);
+
+		$result = $this->OriginalKey->save($data, false);
+
+		//チェック
+		$this->assertNotEmpty($result[$this->OriginalKey->alias]['origin_id']);
+	}
+
+/**
  * Expect OriginalKeyBehavior on without key field
  */
 	public function testSaveWithoutKey() {

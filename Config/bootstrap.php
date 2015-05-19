@@ -13,9 +13,9 @@
 /* $author = 'Noriko Arai, Ryuji Masukawa'; */
 $author = 'Jun Nishikawa <topaz2@m0n0m0n0.com>';
 $header = <<<EOF
- * @author   $author
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author $author
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
 EOF;
 
 Configure::write('PhpDocumentor.classHeader', $header);

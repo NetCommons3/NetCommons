@@ -111,6 +111,16 @@ e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理
  * @return bool Should process continue
  */
 	public function after($direction) {
+		if ($direction === 'down') {
+			return true;
+		}
+
+		foreach ($this->records as $model => $records) {
+			if (!$this->updateRecords($model, $records)) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 

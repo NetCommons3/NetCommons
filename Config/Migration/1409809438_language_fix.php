@@ -216,23 +216,6 @@ class LanguageFix extends CakeMigration {
 					),
 				),
 
-				'Block' => array(
-					array(
-						'id' => '1',
-						'language_id' => '2',
-						'room_id' => '1',
-						'plugin_key' => 'announcements',
-						'key' => 'block_1',
-					),
-					array(
-						'id' => '2',
-						'language_id' => '2',
-						'room_id' => '1',
-						'plugin_key' => 'menus',
-						'key' => 'block_2',
-					),
-				),
-
 				'Language' => array(
 					array(
 						'id' => '1',

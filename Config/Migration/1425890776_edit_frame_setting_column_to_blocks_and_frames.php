@@ -71,6 +71,30 @@ e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理
 	);
 
 /**
+ * Records keyed by model name.
+ *
+ * @var array $records
+ */
+	public $records = array(
+		'Block' => array(
+			array(
+				'id' => '1',
+				'language_id' => '2',
+				'room_id' => '1',
+				'plugin_key' => 'announcements',
+				'key' => 'block_1',
+			),
+			array(
+				'id' => '2',
+				'language_id' => '2',
+				'room_id' => '1',
+				'plugin_key' => 'menus',
+				'key' => 'block_2',
+			),
+		),
+	);
+
+/**
  * Before migration callback
  *
  * @param string $direction Direction of migration process (up or down)
@@ -89,4 +113,24 @@ e.g.) ルーム管理者、またはそれに準ずるユーザ: ルーム管理
 	public function after($direction) {
 		return true;
 	}
+
+/**
+ * Update model records
+ *
+ * @param string $model model name to update
+ * @param string $records records to be stored
+ * @return bool Should process continue
+ */
+	public function updateRecords($model, $records) {
+		$Model = $this->generateModel($model);
+		foreach ($records as $record) {
+			$Model->create();
+			if (!$Model->save($record, false)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

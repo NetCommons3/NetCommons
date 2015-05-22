@@ -20,6 +20,11 @@ App::uses('AppController', 'Controller');
  */
 class TestHelperController extends AppController {
 
+/**
+ * An array containing the names of helpers
+ *
+ * @var array
+ */
 	public $helpers = array('Html');
 
 }

@@ -75,11 +75,15 @@ class NetCommonsAppController extends Controller {
 	];
 
 /**
- * View class name that is used for singleton helper
+ * use helpers
  *
- * @var string
+ * @var array
  */
-	public $viewClass = 'NetCommons.SingletonHelper';
+	public $helpers = array(
+		'Html' => array(
+			'className' => 'NetCommons.SingletonViewBlockHtml'
+		)
+	);
 
 /**
  * NetCommons specific data for current request
@@ -89,6 +93,22 @@ class NetCommonsAppController extends Controller {
 	public $current = [
 		'page' => null,
 	];
+
+/**
+ * Constructor.
+ *
+ * @param CakeRequest $request Request object for this controller. Can be null for testing,
+ *  but expect that features that use the request parameters will not work.
+ * @param CakeResponse $response Response object for this controller.
+ */
+	public function __construct($request = null, $response = null) {
+		parent::__construct($request, $response);
+
+		if (in_array('Html', $this->helpers, true) &&
+				!isset($this->helpers['Html']['className'])) {
+			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';
+		}
+	}
 
 /**
  * beforeFilter

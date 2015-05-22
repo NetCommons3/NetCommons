@@ -177,4 +177,19 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
 		$this->controller->throwBadRequest();
 	}
 
+/**
+ * Expect HtmlHelper use NetCommons.SingletonViewBlockHtmlHelper class
+ *
+ * @return void
+ */
+	public function testSingletonViewBlockHtmlHelper() {
+		App::build(array(
+			'Controller' => array(CakePlugin::path('NetCommons') . 'Test' . DS . 'test_app' . DS . 'Controller' . DS)
+		));
+		App::uses('TestHelperController', 'Controller');
+
+		$helperController = new TestHelperController();
+		$this->assertEquals('NetCommons.SingletonViewBlockHtml', $helperController->helpers['Html']['className']);
+	}
+
 }

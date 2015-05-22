@@ -22,7 +22,7 @@ class SingletonViewBlockHtmlHelperTest extends SingletonViewBlockHtmlHelperTestB
  * @return void
  */
 	public function testSameViewInstance() {
-		$this->assertSame(self::$_View->Blocks, PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock'));
+		$this->assertSame(self::$_ViewBlock, PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock'));
 	}
 
 /**
@@ -34,7 +34,7 @@ class SingletonViewBlockHtmlHelperTest extends SingletonViewBlockHtmlHelperTestB
 		$view = new View();
 		$svbhHelper = new SingletonViewBlockHtmlHelper($view);
 
-		$this->assertNotSame(self::$_View->Blocks, PHPUnit_Framework_Assert::readAttribute($svbhHelper, '__staticViewBlock'));
+		$this->assertNotSame($view->Blocks, PHPUnit_Framework_Assert::readAttribute($svbhHelper, '__staticViewBlock'));
 	}
 
 /**

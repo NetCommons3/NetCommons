@@ -18,11 +18,11 @@ App::uses('SingletonViewBlockHtmlHelper', 'NetCommons.View/Helper');
 class SingletonViewBlockHtmlHelperTestBase extends CakeTestCase {
 
 /**
- * View for test
+ * ViewBlock for test
  *
- * @var View
+ * @var ViewBlock
  */
-	protected static $_View = null;
+	protected static $_ViewBlock = null;
 
 /**
  * setUp method
@@ -32,11 +32,15 @@ class SingletonViewBlockHtmlHelperTestBase extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		self::$_View = new View();
-		self::$_View->append('appendTest', 'appendTestValue');
-		self::$_View->request = new CakeRequest(null, false);
-		self::$_View->request->params['requested'] = 1;
-		$this->SingletonViewBlockHtml = new SingletonViewBlockHtmlHelper(self::$_View);
+		$view = new View();
+		$view->append('appendTest', 'appendTestValue');
+		$view->request = new CakeRequest(null, false);
+		$view->request->params['requested'] = 1;
+		$this->SingletonViewBlockHtml = new SingletonViewBlockHtmlHelper($view);
+
+		if (!isset(self::$_ViewBlock)) {
+			self::$_ViewBlock = $view->Blocks;
+		}
 	}
 
 /**

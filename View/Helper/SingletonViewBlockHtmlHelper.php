@@ -13,7 +13,7 @@ App::uses('HtmlHelper', 'View/Helper');
 /**
  * SingletonViewBlockHtmlHelper
  *
- * @SuppressWarnings(PHPMD.UnusedPrivateField)
+ *
  */
 class SingletonViewBlockHtmlHelper extends HtmlHelper {
 

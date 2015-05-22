@@ -30,7 +30,7 @@ class AllNetCommonsTest extends CakeTestSuite {
 		$Folder = new Folder($directory);
 		$exceptions = array(
 			'TrackableBehaviorTestBase.php',
-			'SingletonViewBlockHtmlHelperTestBase'
+			'SingletonViewBlockHtmlHelperTestBase.php'
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 

@@ -82,7 +82,8 @@ class NetCommonsAppController extends Controller {
 	public $helpers = array(
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
-		)
+		),
+		'Pages.Layout'
 	);
 
 /**
@@ -135,6 +136,8 @@ class NetCommonsAppController extends Controller {
 		if ($this->RequestHandler->accepts('json')) {
 			$this->renderJson();
 		}
+
+		$this->set('userId', (int)$this->Auth->user('id'));
 
 		// Find page data from frame
 		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {

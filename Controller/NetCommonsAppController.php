@@ -24,7 +24,7 @@ class NetCommonsAppController extends Controller {
  *
  * @var string
  */
-	public $layout = 'NetCommons.default';
+	public $layout = 'Pages.default';
 
 /**
  * use theme
@@ -141,14 +141,21 @@ class NetCommonsAppController extends Controller {
 
 		// Find page data from frame
 		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
+			$this->request->data['current'] = $this->NetCommonsFrame->data;
+
+			//CakeLog::debug('NetCommonsAppController::beforeFilter');
+			//CakeLog::debug(print_r($this->NetCommonsFrame->data, true));
+
 			$box = $this->Box->find('first', [
 				'conditions' => [
 					'Box.id' => $this->NetCommonsFrame->data['Box']['id'],
 				],
 			]);
 			if (isset($box['Page'][0])) {
-				$this->current['page'] = $box['Page'][0];
-				$this->set('cancelUrl', $this->current['page']['permalink']);
+//				$this->current['page'] = $box['Page'][0];
+				$this->request->data['current']['Page'] = $box['Page'][0];
+
+				$this->set('cancelUrl', $box['Page'][0]['permalink']);
 			}
 		}
 	}

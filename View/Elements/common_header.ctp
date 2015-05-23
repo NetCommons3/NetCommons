@@ -39,13 +39,16 @@
 					?>>
 						<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
 					</li>
-					<li>
-						<?php if (!Page::isSetting()): ?>
-							<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
-						<?php else: ?>
-							<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>
-						<?php endif; ?>
-					</li>
+
+					<?php if (AuthComponent::user('id')): ?>
+						<li>
+							<?php if (! Page::isSetting()): ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . (isset($path) ? $path : $cancelUrl)) ?>
+							<?php else: ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . (isset($path) ? $path : $cancelUrl)) ?>
+							<?php endif; ?>
+						</li>
+					<?php endif; ?>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>

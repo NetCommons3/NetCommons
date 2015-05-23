@@ -24,7 +24,7 @@ class NetCommonsAppController extends Controller {
  *
  * @var string
  */
-	public $layout = 'Pages.default';
+	public $layout = 'NetCommons.default';
 
 /**
  * use theme
@@ -152,7 +152,7 @@ class NetCommonsAppController extends Controller {
 				],
 			]);
 			if (isset($box['Page'][0])) {
-//				$this->current['page'] = $box['Page'][0];
+				$this->current['page'] = $box['Page'][0];
 				$this->request->data['current']['Page'] = $box['Page'][0];
 
 				$this->set('cancelUrl', $box['Page'][0]['permalink']);

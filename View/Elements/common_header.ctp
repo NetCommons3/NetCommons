@@ -10,7 +10,7 @@
 ?>
 <header id="nc-system-header">
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
+		<div class="<?php echo $this->Layout->getContainerFluid(); ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -31,16 +31,10 @@
 							<?php echo $this->Html->link(__d('net_commons', 'Login'), '/auth/login') ?>
 						<?php endif; ?>
 					</li>
-					<li <?php
-						if (isset($this->request->params['plugin'])
-							&& $this->request->params['plugin'] == 'ThemeSettings') {
-						echo 'class="active"';
-						}
-					?>>
-						<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
-					</li>
-
 					<?php if (AuthComponent::user('id')): ?>
+						<li<?php echo $this->request->params['plugin'] === 'ThemeSettings' ? ' class="active"' : ''; ?>>
+							<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
+						</li>
 						<li>
 							<?php if (! Page::isSetting()): ?>
 								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . (isset($path) ? $path : $cancelUrl)) ?>
@@ -50,7 +44,7 @@
 						</li>
 					<?php endif; ?>
 				</ul>
-			</div><!--/.nav-collapse -->
+			</div>
 		</div>
 	</div>
 </header>

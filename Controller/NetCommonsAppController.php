@@ -141,10 +141,7 @@ class NetCommonsAppController extends Controller {
 
 		// Find page data from frame
 		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
-			$this->request->data['current'] = $this->NetCommonsFrame->data;
-
-			//CakeLog::debug('NetCommonsAppController::beforeFilter');
-			//CakeLog::debug(print_r($this->NetCommonsFrame->data, true));
+			$this->current = $this->NetCommonsFrame->data;
 
 			$box = $this->Box->find('first', [
 				'conditions' => [
@@ -153,10 +150,11 @@ class NetCommonsAppController extends Controller {
 			]);
 			if (isset($box['Page'][0])) {
 				$this->current['page'] = $box['Page'][0];
-				$this->request->data['current']['Page'] = $box['Page'][0];
-
-				$this->set('cancelUrl', $box['Page'][0]['permalink']);
+				$this->set('cancelUrl', $this->current['page']['permalink']);
 			}
+
+			$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+			$this->set($results);
 		}
 	}
 

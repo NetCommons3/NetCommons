@@ -12,6 +12,10 @@ if (! isset($path)) {
 	$path = isset($cancelUrl) ? $cancelUrl : '';
 }
 $pageEditable = isset($pageEditable) ? $pageEditable : null;
+if (! isset($isPageSetting)) {
+	$isPageSetting = Page::isSetting();
+}
+
 ?>
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -30,16 +34,24 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 					<li>
 						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
 					</li>
-					<li>
-						<?php if ($User = AuthComponent::user()): ?>
-							<?php /*echo h($User['handle'])*/ ?>
+					<?php if ($user = AuthComponent::user()): ?>
+						<!--
+						<li>
+							<a href="#">
+								<?php //echo h($user['handle']); ?>
+							</a>
+						</li>
+						-->
+						<li>
 							<?php echo $this->Html->link(__d('net_commons', 'Logout'), '/auth/logout') ?>
-						<?php else: ?>
+						</li>
+					<?php else: ?>
+						<li>
 							<?php echo $this->Html->link(__d('net_commons', 'Login'), '/auth/login') ?>
-						<?php endif; ?>
-					</li>
+						</li>
+					<?php endif; ?>
 
-					<?php if (Page::isSetting() && $pageEditable): ?>
+					<?php if ($isPageSetting && $pageEditable): ?>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#dropdown-page-menu" aria-expanded="false">
 								<?php echo __d('pages', 'Page Setting'); ?> <span class="caret"></span>
@@ -75,7 +87,7 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 
 					<?php if (AuthComponent::user('id') && isset($pageEditable)): ?>
 						<li>
-							<?php if (! Page::isSetting()): ?>
+							<?php if (! $isPageSetting): ?>
 								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
 							<?php else: ?>
 								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>

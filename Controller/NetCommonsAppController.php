@@ -83,7 +83,7 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
-		'Pages.Layout'
+		//'Pages.Layout' //TODO:各プラグインに移動
 	);
 
 /**

@@ -10,7 +10,7 @@
 ?>
 <header id="nc-system-header">
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo $this->Layout->getContainerFluid(); ?>">
+		<div class="<?php echo is_object($this->Layout) ? $this->Layout->getContainerFluid() : 'container'; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>

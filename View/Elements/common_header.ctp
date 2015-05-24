@@ -39,25 +39,12 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 						<?php endif; ?>
 					</li>
 
-					<?php if (AuthComponent::user('id')): ?>
-						<li<?php echo $this->request->params['plugin'] === 'ThemeSettings' ? ' class="active"' : ''; ?>>
-							<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
-						</li>
-						<li>
-							<?php if (! Page::isSetting()): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
-							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>
-							<?php endif; ?>
-						</li>
-					<?php endif; ?>
-
 					<?php if (Page::isSetting() && $pageEditable): ?>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#dropdown-page" aria-expanded="false">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#dropdown-page-menu" aria-expanded="false">
 								<?php echo __d('pages', 'Page Setting'); ?> <span class="caret"></span>
 							</a>
-							<ul id="dropdown-page" class="dropdown-menu" role="menu">
+							<ul id="dropdown-page-menu" class="dropdown-menu" role="menu">
 								<li>
 									<a href="#" data-toggle="modal" data-target="#page-setting">
 										<?php echo __d('pages', 'Add page')?>
@@ -79,7 +66,20 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 										<?php echo __d('pages', 'Edit layout')?>
 									</a>
 								</li>
+								<li>
+									<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
+								</li>
 							</ul>
+						</li>
+					<?php endif; ?>
+
+					<?php if (AuthComponent::user('id') && isset($pageEditable)): ?>
+						<li>
+							<?php if (! Page::isSetting()): ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
+							<?php else: ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>
+							<?php endif; ?>
 						</li>
 					<?php endif; ?>
 				</ul>

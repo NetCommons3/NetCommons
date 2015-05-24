@@ -365,7 +365,7 @@ Only user w/ administrator role can edit this flag whether it\'s true or false.'
 		'is_published' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'from' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'Datetime display page from.'),
 		'to' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'Datetime display page to.'),
-		'is_container_fluid' => array('type' => 'boolean', 'null' => true, 'default' => '1'),
+		'is_container_fluid' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
 		'created_user' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => null),

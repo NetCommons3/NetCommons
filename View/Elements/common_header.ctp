@@ -7,10 +7,15 @@
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
+
+if (! isset($path)) {
+	$path = isset($cancelUrl) ? $cancelUrl : '';
+}
+$pageEditable = isset($pageEditable) ? $pageEditable : null;
 ?>
 <header id="nc-system-header">
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo is_object($this->Layout) ? $this->Layout->getContainerFluid() : 'container'; ?>">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="<?php echo ! empty($this->Layout) ? $this->Layout->getContainerFluid() : 'container'; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -22,7 +27,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/"><?php echo __d('net_commons', 'Home'); ?></a></li>
+					<li>
+						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
+					</li>
 					<li>
 						<?php if ($User = AuthComponent::user()): ?>
 							<?php /*echo h($User['handle'])*/ ?>
@@ -31,20 +38,52 @@
 							<?php echo $this->Html->link(__d('net_commons', 'Login'), '/auth/login') ?>
 						<?php endif; ?>
 					</li>
+
 					<?php if (AuthComponent::user('id')): ?>
 						<li<?php echo $this->request->params['plugin'] === 'ThemeSettings' ? ' class="active"' : ''; ?>>
 							<?php echo $this->Html->link(__d('net_commons', 'Theme setting'), '/theme_settings/site/') ?>
 						</li>
 						<li>
 							<?php if (! Page::isSetting()): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . (isset($path) ? $path : $cancelUrl)) ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . (isset($path) ? $path : $cancelUrl)) ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>
 							<?php endif; ?>
+						</li>
+					<?php endif; ?>
+
+					<?php if (Page::isSetting() && $pageEditable): ?>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#dropdown-page" aria-expanded="false">
+								<?php echo __d('pages', 'Page Setting'); ?> <span class="caret"></span>
+							</a>
+							<ul id="dropdown-page" class="dropdown-menu" role="menu">
+								<li>
+									<a href="#" data-toggle="modal" data-target="#page-setting">
+										<?php echo __d('pages', 'Add page')?>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<?php echo __d('pages', 'Edit page')?>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<?php echo __d('pages', 'Delete page')?>
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="#">
+										<?php echo __d('pages', 'Edit layout')?>
+									</a>
+								</li>
+							</ul>
 						</li>
 					<?php endif; ?>
 				</ul>
 			</div>
 		</div>
-	</div>
+	</nav>
 </header>

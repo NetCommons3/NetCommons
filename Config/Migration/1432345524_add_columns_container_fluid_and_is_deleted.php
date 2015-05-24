@@ -37,7 +37,7 @@ class AddColumnsContainerFluidAndIsDeleted extends CakeMigration {
 					'is_deleted' => array('type' => 'boolean', 'null' => false, 'default' => null, 'after' => 'weight'),
 				),
 				'pages' => array(
-					'is_container_fluid' => array('type' => 'boolean', 'null' => true, 'default' => '1', 'after' => 'to'),
+					'is_container_fluid' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'after' => 'to'),
 				),
 			),
 		),

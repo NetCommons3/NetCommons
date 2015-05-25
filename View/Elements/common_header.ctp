@@ -11,6 +11,7 @@
 if (! isset($path)) {
 	$path = isset($cancelUrl) ? $cancelUrl : '';
 }
+
 $pageEditable = isset($pageEditable) ? $pageEditable : null;
 if (! isset($isPageSetting)) {
 	$isPageSetting = Page::isSetting();
@@ -60,9 +61,9 @@ if (! isset($isPageSetting)) {
 					<?php if (AuthComponent::user('id') && isset($pageEditable)): ?>
 						<li>
 							<?php if (! $isPageSetting): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . $path) ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path) ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), $path) ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

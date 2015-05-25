@@ -134,7 +134,11 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 		$out = parent::script($url, $options);
 
 		//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedScripts);
+		if (version_compare(Configure::version(), '2.6.0') >= 0) {
+			self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
+		} else {
+			self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedScripts);
+		}
 
 		if (strlen($out) > 0) {
 			return $out;

@@ -49,9 +49,7 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 
 		if (!empty($this->request->params['requested'])) {
 			$this->__copyBlockValue(self::$__staticViewBlock, $this->_View->Blocks);
-
-			//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-			$this->_includedScripts = self::$__staticIncludedAssets;
+			$this->_includedAssets = self::$__staticIncludedAssets;
 		}
 	}
 
@@ -112,8 +110,7 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 	public function css($path, $options = array()) {
 		$out = parent::css($path, $options);
 
-		//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-		//self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
+		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
 
 		if (strlen($out) > 0) {
 			return $out;
@@ -133,8 +130,7 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 	public function script($url, $options = array()) {
 		$out = parent::script($url, $options);
 
-		//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedScripts);
+		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
 
 		if (strlen($out) > 0) {
 			return $out;

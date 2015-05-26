@@ -60,9 +60,10 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
 		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
 		$this->assertNotContains($needle, $viewBlock->get('css'));
 
-		//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-		//$expected = array('cssFile' => true);
-		//$this->assertEquals($expected, PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets'));
+		$expected = array('cssFile' => true);
+		$actual = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets');
+		$actual = $actual['HtmlHelper::css'];
+		$this->assertEquals($expected, $actual);
 	}
 
 /**
@@ -71,15 +72,16 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
  * @return void
  */
 	public function testCssWithBlockSamePath() {
-		$options = array('inline' => false);
+		$options = array(
+			'inline' => false,
+			'once' => true
+		);
 		$actual = $this->SingletonViewBlockHtml->css('cssFile', $options);
 		$this->assertNull($actual);
 
 		$needle = '/css/cssFile.css';
 		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
-		$this->assertContains($needle, $viewBlock->get('css'));
-		//If CakePHP version is over 2.6.0, the _includedScripts name chenge to _includedAssets
-		//$this->assertNotContains($needle, $viewBlock->get('css'));
+		$this->assertNotContains($needle, $viewBlock->get('css'));
 	}
 
 /**
@@ -114,7 +116,9 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
 		$this->assertNotContains($needle, $viewBlock->get('script'));
 
 		$expected = array('scriptFile' => true);
-		$this->assertEquals($expected, PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets'));
+		$actual = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets');
+		$actual = $actual['HtmlHelper::script'];
+		$this->assertEquals($expected, $actual);
 	}
 
 /**

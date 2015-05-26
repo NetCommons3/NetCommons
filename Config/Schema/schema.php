@@ -17,7 +17,7 @@
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class AppSchema extends CakeSchema {
+class NetCommonsSchema extends CakeSchema {
 
 /**
  * Database connection
@@ -223,7 +223,7 @@ e.g.) create_page, edit_other_content, post_top_article', 'charset' => 'utf8'),
 	public $frames = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'language_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 6),
-		'room_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'room_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'box_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'plugin_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'block_id' => array('type' => 'integer', 'null' => true, 'default' => null),

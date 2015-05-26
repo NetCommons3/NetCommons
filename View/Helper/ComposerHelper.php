@@ -86,7 +86,6 @@ class ComposerHelper extends AppHelper {
 		}
 
 		$html = '<ul class="list-inline">';
-		$html .= $this->Html->tag('li', __d('pages', 'Author(s) : '));
 		foreach ($authors as $author) {
 			if (isset($author['homepage'])) {
 				$name = $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank'));

@@ -32,13 +32,14 @@ class AddDefaultAction extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'plugins' => array(
-					'default_action' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Default action called from render_frames.ctp', 'charset' => 'utf8', 'after' => 'type'),
+					'default_action' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Default action for content rendering', 'charset' => 'utf8', 'after' => 'type'),
+					'default_setting_action' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Default action for frame settings', 'charset' => 'utf8', 'after' => 'default_action'),
 				),
 			),
 		),
 		'down' => array(
 			'drop_field' => array(
-				'plugins' => array('default_action'),
+				'plugins' => array('default_action', 'default_setting_action'),
 			),
 		),
 	);

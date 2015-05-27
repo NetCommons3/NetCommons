@@ -12,6 +12,7 @@ echo $this->Html->css(
 	array(
 		'/components/bootstrap/dist/css/bootstrap.min.css',
 		'/net_commons/css/style.css',
+		'/frames/css/style.css'
 	),
 	array('plugin' => false)
 );

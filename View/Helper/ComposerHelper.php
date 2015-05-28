@@ -85,27 +85,36 @@ class ComposerHelper extends AppHelper {
 			return $authors;
 		}
 
-		$html = '<ul class="list-inline small frame-add-plugin">';
-		$html .= $this->Html->tag('li', __d('pages', 'Author(s) : '));
+		//$html = '<ul class="list-inline small frame-add-plugin">';
+		$html = '';
+		$html .= $this->Html->tag('li', '<strong class="h4">' . __d('pages', 'Author(s)') . '</strong>', array('class' => 'dropdown-header'));
+		//$html .= $this->Html->tag('li', '', array('class' => 'divider'));
 		$tags = array();
 		foreach ($authors as $i => $author) {
 			$name = '';
 			if (isset($author['role']) && strtolower($author['role']) === 'developer') {
-				$name .= '<span class="text-danger">*</span>';
+				$author['name'] = h($author['name']) . ' <small><span class="text-danger">[' . __d('net_commons', 'Developer') . ']</span></small>';
 			}
 			if (isset($author['homepage'])) {
-				$name .= $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank'));
+				$name .= $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank', 'escapeTitle' => false));
 			} else {
-				$name .= $author['name'];
+				$name .= h($author['name']);
 			}
-
-			if ($i !== count($authors) - 1) {
-				$name .= ' , ';
-		}
-			$html .= $this->Html->tag('li', $name, array('class' => 'list-unstyled'));
+			$html .= $this->Html->tag('li', $name);
 		}
 		$html .= '</ul>';
 		return $html;
+	}
+
+/**
+ * Get the container size for layout
+ *
+ * @param string $plugin Plugin path
+ * @return string|array Composer value
+ */
+	public function getDescription($plugin) {
+		$description = $this->getComposer($plugin, 'description');
+		return h(__d($plugin, $description));
 	}
 
 }

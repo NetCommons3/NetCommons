@@ -70,6 +70,7 @@ class PublishableBehavior extends ModelBehavior {
 			}
 
 			//is_activeのセット
+			$model->data[$model->name]['is_active'] = false;
 			if ($model->data[$model->name]['status'] === NetCommonsBlockComponent::STATUS_PUBLISHED) {
 				//statusが公開ならis_activeを付け替える
 				$model->data[$model->name]['is_active'] = true;

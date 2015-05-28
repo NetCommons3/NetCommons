@@ -70,11 +70,4 @@ class PublishableBehaviorTestBase extends CakeTestCase {
 		parent::tearDown();
 	}
 
-/**
- * testTrue
- *
- * @return void
- */
-	public function testTrue() {
-	}
 }

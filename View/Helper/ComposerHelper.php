@@ -85,14 +85,24 @@ class ComposerHelper extends AppHelper {
 			return $authors;
 		}
 
-		$html = '<ul class="list-inline">';
-		foreach ($authors as $author) {
-			if (isset($author['homepage'])) {
-				$name = $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank'));
-			} else {
-				$name = $author['name'];
+		$html = '<ul class="list-inline small frame-add-plugin">';
+		$html .= $this->Html->tag('li', __d('pages', 'Author(s) : '));
+		$tags = array();
+		foreach ($authors as $i => $author) {
+			$name = '';
+			if (isset($author['role']) && strtolower($author['role']) === 'developer') {
+				$name .= '<span class="text-danger">*</span>';
 			}
-			$html .= $this->Html->tag('li', $name);
+			if (isset($author['homepage'])) {
+				$name .= $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank'));
+			} else {
+				$name .= $author['name'];
+			}
+
+			if ($i !== count($authors) - 1) {
+				$name .= ' , ';
+		}
+			$html .= $this->Html->tag('li', $name, array('class' => 'list-unstyled'));
 		}
 		$html .= '</ul>';
 		return $html;

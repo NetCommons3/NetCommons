@@ -20,7 +20,7 @@ if (! isset($isPageSetting)) {
 ?>
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo ! empty($this->Layout) ? $this->Layout->getContainerFluid() : 'container'; ?>">
+		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : 'container'; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -61,7 +61,7 @@ if (! isset($isPageSetting)) {
 					<?php if (AuthComponent::user('id') && isset($pageEditable)): ?>
 						<li>
 							<?php if (! $isPageSetting): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . $path) ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path) ?>
 							<?php else: ?>
 								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), $path) ?>
 							<?php endif; ?>

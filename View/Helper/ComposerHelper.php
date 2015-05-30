@@ -10,6 +10,7 @@
 
 App::uses('AppHelper', 'View/Helper');
 App::uses('File', 'Utility');
+App::uses('CakePlugin', 'Core');
 
 /**
  * LayoutHelper
@@ -42,7 +43,7 @@ class ComposerHelper extends AppHelper {
  */
 	private function __getComposer($plugin) {
 		try {
-			$filePath = App::pluginPath(Inflector::camelize($plugin)) . 'composer.json';
+			$filePath = CakePlugin::path(Inflector::camelize($plugin)) . 'composer.json';
 			$file = new File($filePath);
 			$contents = $file->read();
 			$file->close();
@@ -50,6 +51,7 @@ class ComposerHelper extends AppHelper {
 			$this->__plugins[$plugin] = json_decode($contents, true);
 //var_dump($this->__plugins[$plugin]);
 		} catch (Exception $ex) {
+			//var_dump($ex);
 		}
 	}
 
@@ -93,7 +95,7 @@ class ComposerHelper extends AppHelper {
 		foreach ($authors as $i => $author) {
 			$name = '';
 			if (isset($author['role']) && strtolower($author['role']) === 'developer') {
-				$author['name'] = h($author['name']) . ' <small><span class="text-danger">[' . __d('net_commons', 'Developer') . ']</span></small>';
+				$author['name'] = h($author['name']) . ' <span class="text-danger">[' . __d('net_commons', 'Developer') . ']</span>';
 			}
 			if (isset($author['homepage'])) {
 				$name .= $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank', 'escapeTitle' => false));

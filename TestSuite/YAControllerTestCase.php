@@ -11,6 +11,7 @@
 
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
+App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * YAControllerTestCase

@@ -82,7 +82,8 @@ class NetCommonsAppController extends Controller {
 	public $helpers = array(
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
-		)
+		),
+		//'Pages.Layout' //TODO:各プラグインに移動
 	);
 
 /**
@@ -136,8 +137,12 @@ class NetCommonsAppController extends Controller {
 			$this->renderJson();
 		}
 
+		$this->set('userId', (int)$this->Auth->user('id'));
+
 		// Find page data from frame
 		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
+			$this->current = $this->NetCommonsFrame->data;
+
 			$box = $this->Box->find('first', [
 				'conditions' => [
 					'Box.id' => $this->NetCommonsFrame->data['Box']['id'],
@@ -147,6 +152,9 @@ class NetCommonsAppController extends Controller {
 				$this->current['page'] = $box['Page'][0];
 				$this->set('cancelUrl', $this->current['page']['permalink']);
 			}
+
+			$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+			$this->set($results);
 		}
 	}
 

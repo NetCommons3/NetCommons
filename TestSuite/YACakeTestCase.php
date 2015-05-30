@@ -17,6 +17,7 @@
 
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
+App::uses('CakePlugin', 'Core');
 
 /**
  * YACakeTestCase class
@@ -24,4 +25,23 @@ CakeLog::drop('stderr');
  * @package NetCommons\TestSuite
  */
 class YACakeTestCase extends CakeTestCase {
+
+/**
+ * Load TestPlugin
+ *
+ * @param string $plugin Plugin name
+ * @param string $testPlugin Test plugin name
+ * @return void
+ */
+	public static function loadTestPlugin($plugin, $testPlugin) {
+		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
+		if (empty($pluginPath) || ! file_exists($pluginPath)) {
+			$this->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
+		}
+
+		App::build(array(
+			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		));
+		CakePlugin::load($testPlugin);
+	}
 }

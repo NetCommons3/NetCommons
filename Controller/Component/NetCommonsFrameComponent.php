@@ -122,7 +122,7 @@ class NetCommonsFrameComponent extends Component {
 		}
 
 		if (! isset($this->controller->data['Frame']['id']) || (int)$this->controller->data['Frame']['id'] === 0) {
-			return false;
+			return true;
 		}
 		//POSTのframeIdとGETのframeIdのチェック
 		if ((int)$this->controller->data['Frame']['id'] !== (int)$this->controller->viewVars['frameId']) {

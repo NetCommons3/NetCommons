@@ -205,7 +205,7 @@ class NetCommonsBlockComponent extends Component {
 		}
 
 		if (! isset($this->controller->data['Block']['id']) || (int)$this->controller->data['Block']['id'] === 0) {
-			return false;
+			return true;
 		}
 		//POSTのblockIdとGETのblockIdのチェック
 		if ((int)$this->controller->data['Block']['id'] !== (int)$this->controller->params['pass'][1]) {

@@ -18,4 +18,12 @@ App::uses('AppController', 'Controller');
  */
 class TestPluginController extends AppController {
 
+/**
+ * index
+ *
+ * @return void
+ */
+	public function index() {
+	}
+
 }

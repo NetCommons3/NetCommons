@@ -1,6 +1,6 @@
 <?php
 /**
- * LayoutHelper
+ * Composer helper
  *
  * @copyright Copyright 2014, NetCommons Project
  * @author Kohei Teraguchi <kteraguchi@commonsnet.org>
@@ -13,8 +13,10 @@ App::uses('File', 'Utility');
 App::uses('CakePlugin', 'Core');
 
 /**
- * LayoutHelper
+ * Composer helper
  *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\View\Helper
  */
 class ComposerHelper extends AppHelper {
 
@@ -35,28 +37,21 @@ class ComposerHelper extends AppHelper {
 	private $__plugins;
 
 /**
- * Get the container size for layout
+ * Get the composer.json
  *
  * @param string $plugin Plugin path
- * @param string $key composer key
  * @return string|array Composer value
  */
 	private function __getComposer($plugin) {
-		try {
-			$filePath = CakePlugin::path(Inflector::camelize($plugin)) . 'composer.json';
-			$file = new File($filePath);
-			$contents = $file->read();
-			$file->close();
-//var_dump($contents);
-			$this->__plugins[$plugin] = json_decode($contents, true);
-//var_dump($this->__plugins[$plugin]);
-		} catch (Exception $ex) {
-			//var_dump($ex);
-		}
+		$filePath = CakePlugin::path(Inflector::camelize($plugin)) . 'composer.json';
+		$file = new File($filePath);
+		$contents = $file->read();
+		$file->close();
+		$this->__plugins[$plugin] = json_decode($contents, true);
 	}
 
 /**
- * Get the container size for layout
+ * Get the composer.json init function
  *
  * @param string $plugin Plugin path
  * @param string $key composer key
@@ -78,6 +73,7 @@ class ComposerHelper extends AppHelper {
  * Get the container size for layout
  *
  * @param string $plugin Plugin path
+ * @param array $options Option data
  * @return string|array Composer value
  */
 	public function getAuthors($plugin, $options = array()) {
@@ -91,8 +87,7 @@ class ComposerHelper extends AppHelper {
 		$html = '';
 		$html .= $this->Html->tag('li', '<strong class="h4">' . __d('pages', 'Author(s)') . '</strong>', array('class' => 'dropdown-header'));
 		//$html .= $this->Html->tag('li', '', array('class' => 'divider'));
-		$tags = array();
-		foreach ($authors as $i => $author) {
+		foreach ($authors as $author) {
 			$name = '';
 			if (isset($author['role']) && strtolower($author['role']) === 'developer') {
 				$author['name'] = h($author['name']) . ' <span class="text-danger">[' . __d('net_commons', 'Developer') . ']</span>';

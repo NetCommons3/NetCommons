@@ -99,17 +99,17 @@ class NetCommonsRoomRoleComponentTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.frames.plugin',
-		'plugin.boxes.box',
 		'plugin.blocks.block',
 		'plugin.blocks.block_role_permission',
-		'plugin.rooms.room',
-		'plugin.rooms.roles_rooms_user',
+		'plugin.boxes.box',
+		'plugin.frames.frame',
+		'plugin.m17n.language',
+		'plugin.net_commons.plugin',
 		'plugin.roles.default_role_permission',
 		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room_role_permission',
+		'plugin.rooms.room',
 		'plugin.users.user',
 	);
 

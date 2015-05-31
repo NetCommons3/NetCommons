@@ -43,7 +43,7 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		'plugin.boxes.box',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
-		'plugin.net_commons.plugin',
+		'plugin.plugin_manager.plugin',
 		'plugin.users.user',
 	);
 

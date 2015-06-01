@@ -37,6 +37,14 @@ class NetCommonsVisualCaptchaComponent extends Component {
 	public $controller = null;
 
 /**
+ * assetPath /r associations
+ *
+ * @var string
+ */
+	public $assetPath = null;
+
+
+/**
  * imageField Answer /r associations
  *
  * @var string
@@ -80,6 +88,8 @@ class NetCommonsVisualCaptchaComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
+		//$assetsPath = VENDORS . 'emotionloop' . DS . 'visualcaptcha' . DS . 'src' . DS . 'visualCaptcha' . DS . 'assets';
+		$this->assetPath = App::pluginPath('NetCommons') . 'Vendor' . DS . 'visual_captcha';
 	}
 
 /**
@@ -90,12 +100,10 @@ class NetCommonsVisualCaptchaComponent extends Component {
  */
 	public function generate($count = 5) {
 		$session = new Session();
-		//$assetsPath = VENDORS . 'emotionloop' . DS . 'visualcaptcha' . DS . 'src' . DS . 'visualCaptcha' . DS . 'assets';
 		$lang = Configure::read('Config.language');
-		$assetsPath = App::pluginPath('NetCommons') . 'Vendor' . DS . 'visual_captcha';
-		$imageJsonPath =$assetsPath . DS . $lang . DS . 'images.json';
-		$audioJsonPath = $assetsPath . DS . $lang . DS . 'audios.json';
-		$captcha = new Captcha($session, $assetsPath, $this->__utilReadJSON($imageJsonPath), $this->__utilReadJSON($audioJsonPath));
+		$imageJsonPath =$this->assetPath . DS . $lang . DS . 'images.json';
+		$audioJsonPath = $this->assetPath . DS . $lang . DS . 'audios.json';
+		$captcha = new Captcha($session, $this->assetPath, $this->__utilReadJSON($imageJsonPath), $this->__utilReadJSON($audioJsonPath));
 		$captcha->generate($count);
 		return json_encode($captcha->getFrontEndData());
 	}
@@ -108,7 +116,7 @@ class NetCommonsVisualCaptchaComponent extends Component {
  */
 	public function image($index) {
 		$session = new Session();
-		$captcha = new Captcha($session);
+		$captcha = new Captcha($session, $this->assetPath);
 		return $captcha->streamImage(array(), $index, 0);
 	}
 
@@ -119,7 +127,7 @@ class NetCommonsVisualCaptchaComponent extends Component {
  */
 	public function audio() {
 		$session = new Session();
-		$captcha = new Captcha($session);
+		$captcha = new Captcha($session, $this->assetPath);
 		return $captcha->streamAudio(array(), 'mp3');
 	}
 
@@ -131,7 +139,7 @@ class NetCommonsVisualCaptchaComponent extends Component {
 	public function check() {
 		$reqData = $this->controller->request->data;
 		$session = new Session();
-		$captcha = new Captcha($session);
+		$captcha = new Captcha($session, $this->assetPath);
 
 		if (isset($reqData[$this->imageField])) {
 			return $captcha->validateImage($reqData[$this->imageField]);

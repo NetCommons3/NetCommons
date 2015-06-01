@@ -336,7 +336,6 @@ msgstr "閉じる"
 msgid "Add"
 msgstr "追加"
 
-
 #: View/Elements/visual_captcha.ctp:34
 msgid "Sound icon"
 msgstr "音声"
@@ -346,12 +345,16 @@ msgid "Accessibility option: listen to a question and answer it!"
 msgstr "アクセシビリティ対応：音声を聞いて答える"
 
 #: View/Elements/visual_captcha.ctp:36
-msgid "Type below the <strong>answer</strong> to what you hear. Numbers or words:"
-msgstr "質問の音声を聞いて、下の回答欄に<strong>答え</strong>の数字・または言葉を入力してください。"
+msgid ""
+"Type below the <strong>answer</strong> to what you hear. Numbers or words:"
+msgstr ""
+"質問の音声を聞いて、下の回答欄に<strong>答え</strong>の数字・または言葉を入力"
+"してください。"
 
 #: View/Elements/visual_captcha.ctp:37
 msgid "Click or touch the <strong>ANSWER</strong>"
-msgstr "<strong>ANSWER</strong>のアイコンをクリックまたはタッチして、決定してください"
+msgstr ""
+"<strong>ANSWER</strong>のアイコンをクリックまたはタッチして、決定してください"
 
 #: View/Elements/visual_captcha.ctp:38
 msgid "Refresh/reload icon"

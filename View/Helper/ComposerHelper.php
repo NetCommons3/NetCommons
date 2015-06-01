@@ -85,7 +85,7 @@ class ComposerHelper extends AppHelper {
 
 		//$html = '<ul class="list-inline small frame-add-plugin">';
 		$html = '';
-		$html .= $this->Html->tag('li', '<strong class="h4">' . __d('pages', 'Author(s)') . '</strong>', array('class' => 'dropdown-header'));
+		$html .= $this->Html->tag('li', '<strong class="h4">' . __d('net_commons', 'Author(s)') . '</strong>', array('class' => 'dropdown-header'));
 		//$html .= $this->Html->tag('li', '', array('class' => 'divider'));
 		foreach ($authors as $author) {
 			$name = '';

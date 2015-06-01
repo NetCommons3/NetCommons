@@ -5,7 +5,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:27+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,38 +13,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: AccessCounters/Model/AccessCounter.php:60;66;70;74;80;84
-#: AccessCounters/Model/AccessCounterFrameSetting.php:49;55;59;65;69
-#: Announcements/Model/Announcement.php:71;79;89
+#: AccessCounters/Model/AccessCounter.php:60;68;75
+#: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
+#: Announcements/Model/Announcement.php:80;94;100
 #: Bbses/Model/Bbs.php:97
-#: Bbses/Model/BbsFrameSetting.php:60;67;74
-#: Bbses/Model/BbsPost.php:93;100
-#: Bbses/Model/BbsPostI18n.php:110
-#: Bbses/Model/BbsPostsUser.php:66;73
-#: Blocks/Model/Block.php:111;121
+#: Bbses/Model/BbsArticleTree.php:114;121;128;134;140
+#: Bbses/Model/BbsArticlesUser.php:63;70
+#: Bbses/Model/BbsFrameSetting.php:90;97;104
+#: Blocks/Model/Block.php:121;131
 #: Blocks/Model/BlockRolePermission.php:71;81;91;101
-#: Categories/Model/Category.php:84;92
-#: Categories/Model/CategoryOrder.php:43;51;60
-#: Categories/Test/Case/Model/CategoryOrderTestValidateCategoryOrder.php:96;125;153;181
-#: Categories/Test/Case/Model/CategoryTestValidateCategory.php:93;122;179;207
+#: Blogs/Model/Blog.php:93;102;118
+#: Blogs/Model/BlogFrameSetting.php:84;91
+#: Categories/Model/Category.php:84;93
+#: Categories/Model/CategoryOrder.php:43;52;61
+#: Categories/Test/Case/Model/CategoryOrderValidateCategoryOrderTest.php:96;124;152
+#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:93;150;178
 #: Comments/Model/Comment.php:43
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:128
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:137
 #: ContentComments/Model/ContentComment.php:65;72;79;86
-#: Edumap/Controller/VisibilitySettingsController.php:95
-#: Edumap/Model/Edumap.php:115;123;130;141;177
+#: Edumap/Model/Edumap.php:116;125;137;173
 #: Edumap/Model/EdumapSocialMedium.php:56;62;68
 #: Edumap/Model/EdumapStudent.php:52;60;68
-#: Edumap/Model/EdumapVisibilitySetting.php:74
-#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:107;234
+#: Edumap/Model/EdumapVisibilitySetting.php:62
+#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:101;421
 #: Faqs/Model/Faq.php:93;102;118
 #: Faqs/Model/FaqQuestion.php:94;103
 #: Faqs/Model/FaqQuestionOrder.php:43;52;61
 #: Faqs/Model/FaqSetting.php:43;52
-#: Faqs/Test/Case/Model/FaqQuestionOrderTestValidateFaqQuestionOrder.php:81;109;137
-#: Faqs/Test/Case/Model/FaqQuestionTestSaveFaqQuestion.php:326;357;493
-#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:139;170;239;295;324;423
-#: Faqs/Test/Case/Model/FaqSettingTestValidateFaqSetting.php:80;108
-#: Faqs/Test/Case/Model/FaqTestValidateFaq.php:121;206;228
+#: Faqs/Test/Case/Model/FaqQuestionOrderValidateFaqQuestionOrderTest.php:81;109;137
+#: Faqs/Test/Case/Model/FaqQuestionSaveFaqQuestionTest.php:333;364;502
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:139;170;239;295;324;423
+#: Faqs/Test/Case/Model/FaqSettingValidateFaqSettingTest.php:80;108
+#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:121;206;228
 #: Files/Model/FileModel.php:77;85;93;102;110;118;126;134;140
 #: Iframes/Model/Iframe.php:121;128
 #: Likes/Model/Like.php:56;63;70;77
@@ -54,202 +53,245 @@ msgstr ""
 #: Links/Model/LinkOrder.php:43;52;61
 #: Links/Model/LinkSetting.php:43;52
 #: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:44
-#: NetCommons/Model/Behavior/PublishableBehavior.php:135;141
-#: RssReaders/Model/RssReader.php:101;109
+#: NetCommons/Model/Behavior/PublishableBehavior.php:136;143
+#: Pages/Model/LanguagesPage.php:73;83
+#: Pages/Model/Page.php:172
+#: Questionnaires/Model/Questionnaire.php:120;128;141;173;179;185;195;201;207
+#: Questionnaires/Model/QuestionnaireQuestion.php:91;97;103;115;121;127;133;137;143
+#: RssReaders/Model/RssReader.php:102
 #: RssReaders/Model/RssReaderFrameSetting.php:52;60
 #: RssReaders/Model/RssReaderItem.php:61
-#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:62
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:67
 msgid "Invalid request."
 msgstr ""
 
-#: AccessCounters/Model/AccessCounterFrameSetting.php:116;125;161;168
-#: Announcements/Model/Announcement.php:162;167
-#: Bbses/Model/Bbs.php:144;149;153;233;237;241
-#: Bbses/Model/BbsFrameSetting.php:106
-#: Bbses/Model/BbsPost.php:155;163;171;212;220;260;354
-#: Bbses/Model/BbsPostsUser.php:178
-#: Bbses/Model/BbsSetting.php:61;67
-#: Blocks/Model/Block.php:171;185;192;236;241;250
-#: Blogs/Controller/BlogEntriesController.php:283;353
-#: Categories/Model/Category.php:175;178;252;257;290;295
-#: ContentComments/Model/ContentComment.php:142;176
-#: Edumap/Model/Edumap.php:335;446;451;467;472;497;506;515;523
-#: Edumap/Model/EdumapVisibilitySetting.php:108
-#: Faqs/Model/Faq.php:180;185;266;270;274;278
-#: Faqs/Model/FaqQuestion.php:196;205;211;277;288
+#: AccessCounters/Model/AccessCounter.php:136;141;207;248
+#: AccessCounters/Model/AccessCounterFrameSetting.php:150
+#: Announcements/Model/Announcement.php:175;182;270
+#: Bbses/Model/Bbs.php:172;177;181;270;274;278;282;329;339;350
+#: Bbses/Model/BbsArticle.php:230;236;244;320;326;373;376
+#: Bbses/Model/BbsArticleTree.php:218
+#: Bbses/Model/BbsArticlesUser.php:102
+#: Bbses/Model/BbsFrameSetting.php:156
+#: Bbses/Model/BbsSetting.php:81;85
+#: Blocks/Model/Block.php:181;195;202;249;254;263
+#: Blogs/Controller/BlogEntriesEditController.php:83;149
+#: Blogs/Model/Blog.php:181;186;280;284;288
+#: Blogs/Model/BlogEntry.php:263
+#: Blogs/Model/BlogFrameSetting.php:130
+#: Blogs/Model/BlogSetting.php:79;83
+#: Categories/Model/Category.php:166;169;178;184;263;268
+#: Comments/Model/Comment.php:114;129
+#: ContentComments/Model/ContentComment.php:143;177
+#: Edumap/Model/Edumap.php:344;464;467;490;497;506;513;560;564;568;572
+#: Edumap/Model/EdumapVisibilitySetting.php:117
+#: Faqs/Model/Faq.php:181;186;281;285;289;293
+#: Faqs/Model/FaqQuestion.php:196;205;212;278;289
 #: Faqs/Model/FaqQuestionOrder.php:166
 #: Faqs/Model/FaqSetting.php:110;114
-#: Files/Model/FileModel.php:178;245;281;344
-#: Frames/Controller/FramesController.php:128;133
+#: Files/Model/FileModel.php:178;258;290;342
+#: Frames/Model/Frame.php:151;193;234;253
 #: Iframes/Model/Iframe.php:188;251
 #: Likes/Model/Like.php:157
-#: Links/Model/Link.php:215;224;230;296;307
-#: Links/Model/LinkBlock.php:110;182;186;190
+#: Links/Model/Link.php:215;224;231;297;308
+#: Links/Model/LinkBlock.php:110;206;210;214
 #: Links/Model/LinkFrameSetting.php:309
 #: Links/Model/LinkOrder.php:213
 #: Links/Model/LinkSetting.php:110;114
 #: NetCommons/Controller/Component/NetCommonsFrameComponent.php:98
-#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:207;226;252
-#: RssReaders/Model/RssReader.php:215;279;289
-#: RssReaders/Model/RssReaderFrameSetting.php:94
-#: RssReaders/Model/RssReaderItem.php:200;206;212
-#: Videos/Model/Video.php:302;309;419;424;453;458
-#: Videos/Model/VideoBlockSetting.php:273
+#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:204;223;249
+#: Pages/Model/Page.php:323;328;333;336;358;363;446;449
+#: Pages/Model/Behavior/PageBehavior.php:217;221;239;243
+#: Questionnaires/Model/Questionnaire.php:503;513;519;551
+#: Questionnaires/Model/QuestionnaireBlocksSetting.php:69;73
+#: Questionnaires/Model/QuestionnaireChoice.php:160
+#: Questionnaires/Model/QuestionnaireFrameSetting.php:137;286;299
+#: Questionnaires/Model/QuestionnairePage.php:230
+#: Questionnaires/Model/QuestionnaireQuestion.php:239
+#: RssReaders/Model/RssReader.php:238;245;249;258;330;334
+#: RssReaders/Model/RssReaderFrameSetting.php:112
+#: RssReaders/Model/RssReaderItem.php:203;207;211
+#: SearchBoxes/Model/SearchBox.php:130
+#: Videos/Model/Video.php:304;309;384;389;451;457;518
+#: Videos/Model/VideoBlockSetting.php:256;298;317;328;380;385
 #: Videos/Model/VideoFrameSetting.php:162
+#: Videos/Model/VideosAppModel.php:118;121;148;151
 msgid "Internal Server Error"
 msgstr ""
 
-#: AccessCounters/View/AccessCounters/edit.ctp:62
-#: Blocks/View/Elements/edit_form.ctp:32
-#: Categories/View/Elements/edit_form.ctp:81
-#: Edumap/View/VisibilitySettings/edit.ctp:63
-#: Faqs/View/FaqQuestionOrders/edit.ctp:88
-#: Links/View/LinkOrders/edit.ctp:84
-#: NetCommons/View/Elements/workflow_buttons.ctp:14
-#: RssReaders/View/FrameSettings/edit.ctp:68
-#: Videos/View/VideoBlockSettings/authority.ctp:82
-#: Videos/View/VideoBlockSettings/edit.ctp:194
-#: Videos/View/VideoFrameSettings/edit.ctp:71
-msgid "Cancel"
+#: AccessCounters/View/AccessCounterBlocks/index.ctp:43
+msgid "Created datetime"
 msgstr ""
 
-#: AccessCounters/View/AccessCounters/edit.ctp:65
-#: Blocks/View/Elements/edit_form.ctp:35
-#: Categories/View/Elements/edit_form.ctp:84
-#: Edumap/View/VisibilitySettings/edit.ctp:67
-#: Faqs/View/FaqQuestionOrders/edit.ctp:91
-#: Frames/View/Elements/setting_header.ctp:101
-#: Links/View/LinkOrders/edit.ctp:87
-#: NetCommons/View/Elements/workflow_buttons.ctp:45;52
-#: RssReaders/View/FrameSettings/edit.ctp:72
-#: Videos/View/VideoBlockSettings/authority.ctp:84
-#: Videos/View/VideoBlockSettings/edit.ctp:196
-#: Videos/View/VideoFrameSettings/edit.ctp:73
-msgid "OK"
-msgstr ""
-
-#: AccessCounters/View/AccessCounters/view.ctp:17
-#: Announcements/View/Announcements/viewForEditor.ctp:15
-#: Blogs/View/BlogEntries/view.ctp:24
-#: Edumap/View/Edumap/viewForEditor.ctp:20
-#: Faqs/View/Elements/FaqQuestions/article.ctp:70
-#: RssReaders/View/RssReaders/viewForEditor.ctp:25
-#: Videos/View/Videos/view.ctp:57
-msgid "Edit"
-msgstr ""
-
-#: Announcements/Model/Announcement.php:95
-#: Bbses/Model/Bbs.php:103
-#: Bbses/Model/BbsPostI18n.php:92;100
-#: Categories/Model/Category.php:101
-#: Categories/Test/Case/Model/CategoryTestValidateCategory.php:150
-#: ContentComments/Model/ContentComment.php:92
-#: Edumap/Model/Edumap.php:147;154;161;172;183;190;208
-#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:133;134;135;136;137;138;139
-#: Faqs/Model/Faq.php:110
-#: Faqs/Model/FaqQuestion.php:115;123
-#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:357;390
-#: Faqs/Test/Case/Model/FaqTestValidateFaq.php:149;178
-#: Iframes/Model/Iframe.php:101
-#: Iframes/Test/Case/Model/IframeValidateTest.php:80
-#: Links/Model/Link.php:125;139
-#: RssReaders/Model/RssReader.php:119;132
-#: RssReaders/Model/RssReaderItem.php:70;77
-#: RssReaders/Test/Case/Model/RssReaderItemValidateErrorTest.php:40;41
-#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:89;90
-msgid "Please input %s."
-msgstr ""
-
-#: Auth/View/Auth/login.ctp:26
-#: NetCommons/View/Layouts/default.ctp:82
-#: NetCommons/View/Layouts/setting.ctp:92
-#: Pages/View/Pages/index.ctp:59
-msgid "Login"
-msgstr ""
-
-#: Bbses/View/BbsPosts/edit.ctp:53
-#: Bbses/View/Elements/Blocks/delete_form.ctp:28
-#: Faqs/View/Elements/Blocks/delete_form.ctp:28
-#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
-#: Iframes/View/Elements/Blocks/delete_form.ctp:28
-#: Links/View/Elements/Blocks/delete_form.ctp:25
-#: Links/View/Elements/Links/delete_form.ctp:38
-msgid "Deleting the %s. Are you sure to proceed?"
-msgstr ""
-
-#: Bbses/View/Blocks/index.ctp:49
-#: Faqs/View/Blocks/index.ctp:43
-#: Iframes/View/Blocks/index.ctp:48
-#: Links/View/Blocks/index.ctp:43
-msgid "Updated date"
-msgstr ""
-
-#: Bbses/View/Blocks/not_found.ctp:30
-#: Faqs/View/Blocks/not_found.ctp:24
-#: Iframes/View/Blocks/not_found.ctp:29
-#: Links/View/Blocks/not_found.ctp:24
+#: AccessCounters/View/AccessCounterBlocks/not_found.ctp:24
+#: Announcements/View/AnnouncementBlocks/not_found.ctp:24
+#: Bbses/View/BbsBlocks/not_found.ctp:24
+#: Blogs/View/Blocks/not_found.ctp:24
+#: Edumap/View/EdumapBlocks/not_found.ctp:24
+#: Faqs/View/FaqBlocks/not_found.ctp:24
+#: Faqs/View/FaqQuestionOrders/edit.ctp:43
+#: Iframes/View/IframeBlocks/not_found.ctp:24
+#: Links/View/LinkBlocks/not_found.ctp:24
+#: Questionnaires/View/QuestionnaireBlocks/not_found.ctp:24
+#: RssReaders/View/RssReaderBlocks/not_found.ctp:24
+#: Videos/View/VideoBlockSettings/not_found.ctp:25
 msgid "Not found."
 msgstr ""
 
-#: Bbses/View/Elements/BbsPosts/comment_status_label.ctp:15
-#: Bbses/View/Elements/BbsPosts/select_status.ctp:33
-#: Blogs/View/BlogEntries/index.ctp:36
-#: NetCommons/View/Elements/status_label.ctp:15
-msgid "Temporary"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/select_status.ctp:37
-#: Blogs/View/BlogEntries/index.ctp:35
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:33
-#: NetCommons/View/Elements/status_label.ctp:19
-msgid "Approving"
-msgstr ""
-
-#: Bbses/View/Elements/BbsPosts/select_status.ctp:41
-#: Blogs/View/BlogEntries/index.ctp:37
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:37
-#: NetCommons/View/Elements/status_label.ctp:23
-msgid "Disapproving"
-msgstr ""
-
-#: Bbses/View/Elements/Blocks/delete_form.ctp:14
-#: Faqs/View/Elements/Blocks/delete_form.ctp:14
-#: Iframes/View/Elements/Blocks/delete_form.ctp:14
-#: Links/View/Elements/Blocks/delete_form.ctp:14
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
+#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:14
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
+#: Blogs/View/Elements/Blocks/delete_form.ctp:14
+#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:14
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:14
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:14
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:14
+#: Pages/View/Elements/Pages/delete_form.ctp:28
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14
 msgid "Delete all data associated with the %s."
 msgstr ""
 
-#: Bbses/View/Elements/Blocks/delete_form.ctp:25
-#: Blogs/View/BlogEntries/form.ctp:154
-#: Categories/View/Elements/edit_form.ctp:69
-#: Faqs/View/Elements/Blocks/delete_form.ctp:25
-#: Iframes/View/Elements/Blocks/delete_form.ctp:25
-#: Links/View/Elements/Blocks/delete_form.ctp:22
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
+#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:25
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:25
+#: Blogs/View/BlogEntriesEdit/form.ctp:227
+#: Blogs/View/Elements/Blocks/delete_form.ctp:25
+#: Categories/View/Elements/edit_form.ctp:59
+#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:25
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:25
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:25
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:22
+#: Pages/View/Elements/Pages/delete_form.ctp:35
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:25
+#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:23
 msgid "Delete"
 msgstr ""
 
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:25
+#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:28
+#: Bbses/View/Elements/BbsArticles/delete_form.ctp:35
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:28
+#: Blogs/View/BlogEntriesEdit/form.ctp:228
+#: Blogs/View/Elements/Blocks/delete_form.ctp:28
+#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:28
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:28
+#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:28
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:25
+#: Links/View/Elements/Links/delete_form.ctp:38
+#: Pages/View/Elements/Pages/delete_form.ctp:38
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:28
+msgid "Deleting the %s. Are you sure to proceed?"
+msgstr ""
+
+#: Announcements/Model/Announcement.php:106
+#: Bbses/Model/Bbs.php:109
+#: Bbses/Model/BbsArticle.php:113;120
+#: Blogs/Model/Blog.php:110
+#: Categories/Model/Category.php:102
+#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:121
+#: ContentComments/Model/ContentComment.php:92
+#: Edumap/Model/Edumap.php:143;150;157;168;179;186;204
+#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:125;162;199;236;273;310;347
+#: Faqs/Model/Faq.php:110
+#: Faqs/Model/FaqQuestion.php:115;123
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:357;390
+#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:149;178
+#: Iframes/Model/Iframe.php:101
+#: Iframes/Test/Case/Model/IframeValidateTest.php:80
+#: Links/Model/Link.php:125;139
+#: Links/Model/LinkBlock.php:142
+#: Pages/Model/LanguagesPage.php:66
+#: Pages/Model/Page.php:165
+#: Questionnaires/Model/Questionnaire.php:134
+#: RssReaders/Model/RssReader.php:116;129
+#: RssReaders/Model/RssReaderItem.php:70;77
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:34;80
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:92;133
+#: Videos/Model/Video.php:109
+#: Videos/Model/VideoBlockSetting.php:232
+msgid "Please input %s."
+msgstr ""
+
+#: Announcements/View/AnnouncementBlocks/index.ctp:43
+#: Blogs/View/Blocks/index.ctp:43
+#: Edumap/View/EdumapBlocks/index.ctp:40
+#: Faqs/View/FaqBlocks/index.ctp:40
+#: Iframes/View/IframeBlocks/index.ctp:40
+#: Links/View/LinkBlocks/index.ctp:40
+#: Questionnaires/View/Elements/FrameSettings/edit_display_questionnaire.ctp:36
+#: Questionnaires/View/QuestionnaireBlocks/index.ctp:41
+#: RssReaders/View/RssReaderBlocks/index.ctp:40
+msgid "Updated date"
+msgstr ""
+
+#: Announcements/View/Announcements/view.ctp:16
+#: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:63
+#: Bbses/View/Elements/BbsArticles/edit_link.ctp:26
+#: Blogs/View/BlogEntries/view.ctp:47
+#: Edumap/View/Edumap/view.ctp:23
+#: Faqs/View/Elements/FaqQuestions/article.ctp:59
+#: RssReaders/View/RssReaders/view.ctp:36
+#: Videos/View/Videos/view.ctp:40
+msgid "Edit"
+msgstr ""
+
+#: Auth/View/Auth/login.ctp:26
+#: NetCommons/View/Elements/common_header.ctp:51
+msgid "Login"
+msgstr ""
+
+#: Bbses/View/Elements/BbsArticles/comment_status_label.ctp:15
+#: NetCommons/View/Elements/status_label.ctp:15
+#: Questionnaires/View/Elements/edit_status_selector.ctp:19
+#: Questionnaires/View/Elements/questionnaire_status_label.ctp:19
+#: Questionnaires/View/Elements/status_label.ctp:13
+#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:36
+msgid "Temporary"
+msgstr ""
+
 #: Blocks/View/Elements/delete_form.ctp:28
+#: Pages/View/Elements/Pages/delete_form.ctp:22
 msgid "Danger Zone"
 msgstr ""
 
-#: Blocks/View/Elements/setting_tabs.ctp:19
-msgid "Block settings"
+#: Blocks/View/Elements/edit_form.ctp:32
+#: Faqs/View/FaqQuestionOrders/edit.ctp:89
+#: Links/View/LinkOrders/edit.ctp:84
+#: NetCommons/View/Elements/workflow_buttons.ctp:14
+#: Pages/View/Pages/edit.ctp:36
+#: Questionnaires/View/Elements/FrameSettings/edit_form.ctp:47
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:12
+#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:83
+#: Questionnaires/View/QuestionnaireBlocksSettings/edit.ctp:66
+#: Questionnaires/View/QuestionnairePage/setting.ctp:31
+#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:320
+#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:204
+#: Questionnaires/View/Questionnaires/add.ctp:129
+msgid "Cancel"
 msgstr ""
 
-#: Blocks/View/Elements/setting_tabs.ctp:27
-#: NetCommons/View/Elements/setting_tabs.ctp:35
+#: Blocks/View/Elements/edit_form.ctp:35
+#: Faqs/View/FaqQuestionOrders/edit.ctp:92
+#: Frames/View/Elements/setting_header.ctp:100
+#: Links/View/LinkOrders/edit.ctp:87
+#: NetCommons/View/Elements/workflow_buttons.ctp:45;52
+#: Pages/View/Pages/edit.ctp:39
+#: Questionnaires/View/Elements/FrameSettings/edit_form.ctp:50
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:47;54
+#: Questionnaires/View/QuestionnaireBlocksSettings/edit.ctp:76
+msgid "OK"
+msgstr ""
+
+#: Blocks/View/Elements/setting_tabs.ctp:32
+#: NetCommons/View/Elements/setting_tabs.ctp:42
 msgid "Role permission settings"
-msgstr ""
-
-#: Blogs/View/BlogEntries/index.ctp:34
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:25
-msgid "Published"
 msgstr ""
 
 #: Comments/Model/Comment.php:57
 #: Comments/View/Elements/form.ctp:28
-#: Faqs/Test/Case/Model/FaqQuestionTestValidateFaqQuestion.php:458
-#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:214
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:271
 msgid "If it is not approved, comment is a required input."
 msgstr ""
 
@@ -261,27 +303,29 @@ msgstr ""
 msgid "Please enter comments to the person in charge."
 msgstr ""
 
-#: Comments/View/Elements/index.ctp:35
-#: ContentComments/View/Elements/index.ctp:153
+#: Comments/View/Elements/index.ctp:48
+#: ContentComments/View/Elements/index.ctp:217
+#: Videos/View/Videos/view.ctp:248
 msgid "More"
 msgstr ""
 
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:129;132
-#: Edumap/Controller/VisibilitySettingsController.php:96;100
-#: NetCommons/Controller/NetCommonsAppController.php:240;268;274
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
+#: NetCommons/Controller/NetCommonsAppController.php:267;295;301
 #: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
+#: Questionnaires/Controller/QuestionnaireQuestionsController.php:79;114;139;169
+#: Questionnaires/Controller/QuestionnairesController.php:258;305
 msgid "Bad Request"
 msgstr ""
 
-#: Edumap/Model/Edumap.php:166;195;201;213;219;226;233;240;247
-#: Edumap/Test/Case/Model/EdumapValidateErrorTest.php:188;280;281;330;331;379;380;429;430
+#: Edumap/Model/Edumap.php:162;191;197;209;215;222;229;236;243
+#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:384;458;495;532;569;606;643;680;683;720
 #: Iframes/Model/Iframe.php:106
 #: Iframes/Test/Case/Model/IframeValidateTest.php:126
 #: Links/Model/Link.php:131
-#: RssReaders/Model/RssReader.php:124;139
+#: RssReaders/Model/RssReader.php:121;136
 #: RssReaders/Model/RssReaderItem.php:82
-#: RssReaders/Test/Case/Model/RssReaderItemValidateErrorTest.php:96
-#: RssReaders/Test/Case/Model/RssReaderValidateErrorTest.php:142;143
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
 msgstr ""
 
@@ -293,8 +337,32 @@ msgstr ""
 msgid "Display all"
 msgstr ""
 
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:25
+#: Questionnaires/View/Elements/edit_status_selector.ctp:17
+#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:73
+msgid "Published"
+msgstr ""
+
 #: Faqs/View/Elements/FaqQuestions/select_status.ctp:29
 msgid "In draft"
+msgstr ""
+
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:33
+#: NetCommons/View/Elements/status_label.ctp:19
+#: Questionnaires/View/Elements/edit_status_selector.ctp:18
+#: Questionnaires/View/Elements/questionnaire_status_label.ctp:23
+#: Questionnaires/View/Elements/status_label.ctp:14
+#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:40
+msgid "Approving"
+msgstr ""
+
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:37
+#: NetCommons/View/Elements/status_label.ctp:23
+#: Questionnaires/View/Elements/edit_status_selector.ctp:20
+#: Questionnaires/View/Elements/questionnaire_status_label.ctp:27
+#: Questionnaires/View/Elements/status_label.ctp:15
+#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:44
+msgid "Disapproving"
 msgstr ""
 
 #: Frames/View/Elements/setting_header.ctp:23
@@ -302,11 +370,23 @@ msgid "Quit"
 msgstr ""
 
 #: Iframes/Model/Iframe.php:106
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "URL"
 msgstr ""
 
-#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:169
+#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
+#: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:99
+#: Questionnaires/Controller/QuestionnairesController.php:163
 msgid "Permission denied"
+msgstr ""
+
+#: NetCommons/View/Elements/common_header.ctp:36
+msgid "Home"
+msgstr ""
+
+#: NetCommons/View/Elements/common_header.ctp:47
+msgid "Logout"
 msgstr ""
 
 #: NetCommons/View/Elements/goto_top_button.ctp:15
@@ -321,47 +401,64 @@ msgstr ""
 msgid "Required"
 msgstr ""
 
-#: NetCommons/View/Elements/setting_tabs.ctp:19
+#: NetCommons/View/Elements/setting_tabs.ctp:20
 msgid "List"
 msgstr ""
 
-#: NetCommons/View/Elements/setting_tabs.ctp:27
+#: NetCommons/View/Elements/setting_tabs.ctp:31
 msgid "Frame settings"
 msgstr ""
 
 #: NetCommons/View/Elements/workflow_buttons.ctp:20
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:22
 msgid "Disapproval"
 msgstr ""
 
 #: NetCommons/View/Elements/workflow_buttons.ctp:28;36
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:30;38
 msgid "Save temporally"
 msgstr ""
 
-#: NetCommons/View/Layouts/default.ctp:76
-#: NetCommons/View/Layouts/setting.ctp:87
-#: Pages/View/Pages/index.ctp:30
-msgid "Home"
+#: NetCommons/View/Helper/ComposerHelper.php:88
+msgid "Author(s)"
 msgstr ""
 
-#: NetCommons/View/Layouts/default.ctp:80
-#: NetCommons/View/Layouts/setting.ctp:90
-#: Pages/View/Pages/index.ctp:35
-msgid "Logout"
+#: NetCommons/View/Helper/ComposerHelper.php:93
+msgid "Developer"
 msgstr ""
 
-#: NetCommons/View/Layouts/default.ctp:91
-#: NetCommons/View/Layouts/setting.ctp:101
-#: Pages/View/Pages/index.ctp:43
+#: Pages/Model/Page.php:177
+msgid "%s is already in use."
+msgstr ""
+
+#: Pages/View/Elements/add_plugin.ctp:60
+#: Questionnaires/View/Elements/Questionnaires/add_button.ctp:14
+#: Videos/View/Videos/index.ctp:38
+msgid "Add"
+msgstr ""
+
+#: Pages/View/Elements/dropdown_menu.ctp:28
 msgid "Theme setting"
 msgstr ""
 
-#: NetCommons/View/Layouts/modal.ctp:17
-#: Pages/View/Elements/setting_menu.ctp:88
-msgid "Close"
+#: Questionnaires/View/Elements/edit_status_selector.ctp:28
+msgid "All Display"
 msgstr ""
 
-#: Videos/View/VideoBlockSettings/index.ctp:43
-#: Videos/View/Videos/index.ctp:55
-msgid "Add"
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
+#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:207
+msgid "BACK"
+msgstr ""
+
+#: Questionnaires/View/QuestionnaireAnswers/answer.ctp:134
+#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:85
+#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:322
+#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:210
+#: Questionnaires/View/Questionnaires/add.ctp:131
+msgid "NEXT"
+msgstr ""
+
+#: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:99
+msgid "Confirm"
 msgstr ""
 

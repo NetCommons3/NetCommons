@@ -22,9 +22,6 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			echo $this->fetch('meta');
 
 			echo $this->element('NetCommons.common_css');
-			echo $this->Html->css(array('style'),
-				array('plugin' => false)
-			);
 			echo $this->fetch('css');
 
 			echo $this->element('NetCommons.common_js');

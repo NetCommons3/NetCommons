@@ -1,0 +1,150 @@
+[
+    {
+        "name": "ひこうき",
+        "path": "airplane.png"
+    },
+    {
+        "name": "ふうせん",
+        "path": "balloons.png"
+    },
+    {
+        "name": "カメラ",
+        "path": "camera.png"
+    },
+    {
+        "name": "車",
+        "path": "car.png"
+    },
+    {
+        "name": "ねこ",
+        "path": "cat.png"
+    },
+    {
+        "name": "いす",
+        "path": "chair.png"
+    },
+    {
+        "name": "クリップ",
+        "path": "clip.png"
+    },
+    {
+        "name": "とけい",
+        "path": "clock.png"
+    },
+    {
+        "name": "くも",
+        "path": "cloud.png"
+    },
+    {
+        "name": "コンピューター",
+        "path": "computer.png"
+    },
+    {
+        "name": "ふうとう",
+        "path": "envelope.png"
+    },
+    {
+        "name": "目",
+        "path": "eye.png"
+    },
+    {
+        "name": "はた",
+        "path": "flag.png"
+    },
+    {
+        "name": "フォルダー",
+        "path": "folder.png"
+    },
+    {
+        "name": "足",
+        "path": "foot.png"
+    },
+    {
+        "name": "グラフ",
+        "path": "graph.png"
+    },
+    {
+        "name": "家",
+        "path": "house.png"
+    },
+    {
+        "name": "かぎ",
+        "path": "key.png"
+    },
+    {
+        "name": "葉っぱ",
+        "path": "leaf.png"
+    },
+    {
+        "name": "電球",
+        "path": "light-bulb.png"
+    },
+    {
+        "name": "南京錠",
+        "path": "lock.png"
+    },
+    {
+        "name": "むしめがね",
+        "path": "magnifying-glass.png"
+    },
+    {
+        "name": "男の人",
+        "path": "man.png"
+    },
+    {
+        "name": "ト音記号",
+        "path": "music-note.png"
+    },
+    {
+        "name": "ズボン",
+        "path": "pants.png"
+    },
+    {
+        "name": "鉛筆",
+        "path": "pencil.png"
+    },
+    {
+        "name": "プリンター",
+        "path": "printer.png"
+    },
+    {
+        "name": "ロボット",
+        "path": "robot.png"
+    },
+    {
+        "name": "はさみ",
+        "path": "scissors.png"
+    },
+    {
+        "name": "サングラス",
+        "path": "sunglasses.png"
+    },
+    {
+        "name": "タグ",
+        "path": "tag.png"
+    },
+    {
+        "name": "木",
+        "path": "tree.png"
+    },
+    {
+        "name": "トラック",
+        "path": "truck.png"
+    },
+    {
+        "name": "Tシャツ",
+        "path": "t-shirt.png"
+    },
+    {
+        "name": "かさ",
+        "path": "umbrella.png"
+    },
+    {
+        "name": "女の人",
+        "path": "woman.png"
+    },
+    {
+        "name": "地球",
+        "path": "world.png"
+    }
+]

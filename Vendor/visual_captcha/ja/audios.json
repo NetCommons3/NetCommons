@@ -1,0 +1,26 @@
+[
+    {
+        "path": "2times10_ja.mp3",
+        "value": "20"
+    },
+    {
+        "path": "5times2.mp3",
+        "value": "10"
+    },
+    {
+        "path": "5plus1.mp3",
+        "value": "6"
+    },
+    {
+        "path": "4plus1.mp3",
+        "value": "5"
+    },
+    {
+        "path": "4plus3.mp3",
+        "value": "7"
+    },
+    {
+        "path": "6plus6.mp3",
+        "value": "12"
+    }
+]

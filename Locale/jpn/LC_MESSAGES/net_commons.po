@@ -335,3 +335,28 @@ msgstr "閉じる"
 #: Videos/View/VideoBlockSettings/index.ctp:43 Videos/View/Videos/index.ctp:55
 msgid "Add"
 msgstr "追加"
+
+
+#: View/Elements/visual_captcha.ctp:34
+msgid "Sound icon"
+msgstr "音声"
+
+#: View/Elements/visual_captcha.ctp:35
+msgid "Accessibility option: listen to a question and answer it!"
+msgstr "アクセシビリティ対応：音声を聞いて答える"
+
+#: View/Elements/visual_captcha.ctp:36
+msgid "Type below the <strong>answer</strong> to what you hear. Numbers or words:"
+msgstr "質問の音声を聞いて、下の回答欄に<strong>答え</strong>の数字・または言葉を入力してください。"
+
+#: View/Elements/visual_captcha.ctp:37
+msgid "Click or touch the <strong>ANSWER</strong>"
+msgstr "<strong>ANSWER</strong>のアイコンをクリックまたはタッチして、決定してください"
+
+#: View/Elements/visual_captcha.ctp:38
+msgid "Refresh/reload icon"
+msgstr "再読み込み"
+
+#: View/Elements/visual_captcha.ctp:39
+msgid "Refresh/reload: get new images and accessibility option!"
+msgstr "再読み込み：新しい絵や音声に変えます"

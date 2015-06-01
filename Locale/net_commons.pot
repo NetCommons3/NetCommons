@@ -365,3 +365,26 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+#: View/Elements/visual_captcha.ctp:34
+msgid "Sound icon"
+msgstr ""
+
+#: View/Elements/visual_captcha.ctp:35
+msgid "Accessibility option: listen to a question and answer it!"
+msgstr ""
+
+#: View/Elements/visual_captcha.ctp:36
+msgid "Type below the <strong>answer</strong> to what you hear. Numbers or words:"
+msgstr ""
+
+#: View/Elements/visual_captcha.ctp:37
+msgid "Click or touch the <strong>ANSWER</strong>"
+msgstr ""
+
+#: View/Elements/visual_captcha.ctp:38
+msgid "Refresh/reload icon"
+msgstr ""
+
+#: View/Elements/visual_captcha.ctp:39
+msgid "Refresh/reload: get new images and accessibility option!"
+msgstr ""

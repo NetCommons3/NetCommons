@@ -43,7 +43,6 @@ class NetCommonsVisualCaptchaComponent extends Component {
  */
 	public $assetPath = null;
 
-
 /**
  * imageField Answer /r associations
  *
@@ -101,7 +100,7 @@ class NetCommonsVisualCaptchaComponent extends Component {
 	public function generate($count = 5) {
 		$session = new Session();
 		$lang = Configure::read('Config.language');
-		$imageJsonPath =$this->assetPath . DS . $lang . DS . 'images.json';
+		$imageJsonPath = $this->assetPath . DS . $lang . DS . 'images.json';
 		$audioJsonPath = $this->assetPath . DS . $lang . DS . 'audios.json';
 		$captcha = new Captcha($session, $this->assetPath, $this->__utilReadJSON($imageJsonPath), $this->__utilReadJSON($audioJsonPath));
 		$captcha->generate($count);
@@ -150,11 +149,16 @@ class NetCommonsVisualCaptchaComponent extends Component {
 		return false;
 	}
 
-	// Read input file as JSON
-	private function __utilReadJSON( $filePath ) {
-		if ( !file_exists( $filePath ) ) {
+/**
+ * Read input file as JSON
+ *
+ * @param string $filePath json file path
+ * @return object
+ */
+	private function __utilReadJSON($filePath) {
+		if (!file_exists($filePath)) {
 			return null;
 		}
-		return json_decode( file_get_contents( $filePath ), true );
+		return json_decode(file_get_contents($filePath), true);
 	}
 }

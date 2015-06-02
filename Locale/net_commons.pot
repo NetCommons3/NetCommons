@@ -112,8 +112,8 @@ msgstr ""
 #: RssReaders/Model/RssReaderFrameSetting.php:112
 #: RssReaders/Model/RssReaderItem.php:203;207;211
 #: SearchBoxes/Model/SearchBox.php:130
-#: Videos/Model/Video.php:304;309;384;389;451;457;518
-#: Videos/Model/VideoBlockSetting.php:256;298;317;328;380;385
+#: Videos/Model/Video.php:304;312;387;395;457;463;524
+#: Videos/Model/VideoBlockSetting.php:256;298;317;325;330;382;387
 #: Videos/Model/VideoFrameSetting.php:162
 #: Videos/Model/VideosAppModel.php:118;121;148;151
 msgid "Internal Server Error"
@@ -163,7 +163,7 @@ msgstr ""
 #: Links/View/Elements/LinkBlocks/delete_form.ctp:22
 #: Pages/View/Elements/Pages/delete_form.ctp:35
 #: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:25
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:23
+#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:19
 msgid "Delete"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 #: Edumap/View/Edumap/view.ctp:23
 #: Faqs/View/Elements/FaqQuestions/article.ctp:59
 #: RssReaders/View/RssReaders/view.ctp:36
-#: Videos/View/Videos/view.ctp:40
+#: Videos/View/Videos/view.ctp:37
 msgid "Edit"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 #: Pages/View/Pages/edit.ctp:36
 #: Questionnaires/View/Elements/FrameSettings/edit_form.ctp:47
 #: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:12
-#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:83
+#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:97
 #: Questionnaires/View/QuestionnaireBlocksSettings/edit.ctp:66
 #: Questionnaires/View/QuestionnairePage/setting.ctp:31
 #: Questionnaires/View/QuestionnaireQuestions/edit.ctp:320
@@ -305,12 +305,12 @@ msgstr ""
 
 #: Comments/View/Elements/index.ctp:48
 #: ContentComments/View/Elements/index.ctp:217
-#: Videos/View/Videos/view.ctp:248
+#: Videos/View/Videos/view.ctp:252
 msgid "More"
 msgstr ""
 
 #: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
-#: NetCommons/Controller/NetCommonsAppController.php:267;295;301
+#: NetCommons/Controller/NetCommonsAppController.php:270;304;310
 #: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
 #: Questionnaires/Controller/QuestionnaireQuestionsController.php:79;114;139;169
 #: Questionnaires/Controller/QuestionnairesController.php:258;305
@@ -365,6 +365,10 @@ msgstr ""
 msgid "Disapproving"
 msgstr ""
 
+#: Frames/Controller/FramesController.php:169
+msgid "Successfully saved."
+msgstr ""
+
 #: Frames/View/Elements/setting_header.ctp:23
 msgid "Quit"
 msgstr ""
@@ -373,6 +377,10 @@ msgstr ""
 #: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "URL"
+msgstr ""
+
+#: NetCommons/Controller/NetCommonsAppController.php:272
+msgid "Failed on validation errors. Please check the input data."
 msgstr ""
 
 #: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
@@ -433,7 +441,7 @@ msgstr ""
 
 #: Pages/View/Elements/add_plugin.ctp:60
 #: Questionnaires/View/Elements/Questionnaires/add_button.ctp:14
-#: Videos/View/Videos/index.ctp:38
+#: Videos/View/Videos/index.ctp:36
 msgid "Add"
 msgstr ""
 
@@ -451,7 +459,7 @@ msgid "BACK"
 msgstr ""
 
 #: Questionnaires/View/QuestionnaireAnswers/answer.ctp:134
-#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:85
+#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:99
 #: Questionnaires/View/QuestionnaireQuestions/edit.ctp:322
 #: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:210
 #: Questionnaires/View/Questionnaires/add.ctp:131

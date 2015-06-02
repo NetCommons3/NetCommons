@@ -9,8 +9,8 @@
  */
 NetCommonsApp.factory(
     'NetCommonsWorkflow',
-    ['$http', 'NetCommonsBase', 'NetCommonsFlash',
-     function($http, NetCommonsBase, NetCommonsFlash) {
+    ['$http', 'NetCommonsBase',
+     function($http, NetCommonsBase) {
 
        /**
         * functions

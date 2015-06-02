@@ -28,117 +28,7 @@ NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
  * NetCommonsFlash factory
  */
 NetCommonsApp.factory('NetCommonsFlash', function() {
-
-  /**
-   * element
-   *
-   * @type {Object.<string>}
-   */
-  var element = angular.element('#nc-flash-message');
-
-  /**
-   * scope
-   *
-   * @type {Object.<string>}
-   */
-  var scope = element.scope();
-
-  /**
-   * variables
-   *
-   * @type {Object.<string>}
-   */
-  var variables = {
-    message: '',
-    type: ''
-  };
-
-  /**
-   * functions
-   *
-   * @type {Object.<function>}
-   */
-  var functions = {
-    /**
-     * new method
-     *
-     * @return {Object.<Object|string|function>}
-     */
-    new: function() {
-      return angular.extend(variables, functions);
-    },
-
-    /**
-     * close method
-     *
-     * @return {void}
-     */
-    close: function() {
-      scope.flash.message = '';
-      scope.flash.type = '';
-      element.addClass('hidden');
-    },
-
-    /**
-     * success method
-     *
-     * @param {string} message
-     * @return {void}
-     */
-    success: function(message) {
-      functions.custom(message, 'alert-success', true);
-    },
-
-    /**
-     * info method
-     *
-     * @param {string} message
-     */
-    info: function(message) {
-      functions.custom(message, 'alert-info', true);
-    },
-
-    /**
-     * warning method
-     *
-     * @param {string} message
-     * @return {void}
-     */
-    warning: function(message) {
-      functions.custom(message, 'alert-warning', false);
-    },
-
-    /**
-     * danger method
-     *
-     * @param {string} message
-     * @return {void}
-     */
-    danger: function(message) {
-      functions.custom(message, 'alert-danger', false);
-    },
-
-    /**
-     * custom method
-     *
-     * @param {string} message
-     * @param {string} type
-     * @param {boolean} true is fadeOut, false is no fadeOut.
-     * @return {void}
-     */
-    custom: function(message, type, fadeOut) {
-      scope.flash.message = message;
-      scope.flash.type = type;
-      element.removeClass('hidden');
-      if (fadeOut) {
-        element.fadeIn(500).fadeTo(1000, 1).fadeOut(1500);
-      } else {
-        element.fadeIn(500);
-      }
-    }
-  };
-
-  return functions.new();
+  return true;
 });
 
 
@@ -147,11 +37,9 @@ NetCommonsApp.factory('NetCommonsFlash', function() {
  */
 NetCommonsApp.factory(
     'NetCommonsBase',
-    ['$http', '$q', '$modal', '$modalStack', '$location',
-     '$anchorScroll', 'NetCommonsFlash',
+    ['$http', '$q', '$modal', '$modalStack', '$location', '$anchorScroll',
       function(
-         $http, $q, $modal, $modalStack, $location,
-         $anchorScroll, NetCommonsFlash) {
+         $http, $q, $modal, $modalStack, $location, $anchorScroll) {
 
         /**
          * variables
@@ -464,7 +352,7 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $modalStack, NetCommonsBase, NetCommonsFlash) {
+    $scope, $modalStack, NetCommonsBase) {
 
       /**
        * messages
@@ -495,11 +383,4 @@ NetCommonsApp.controller('NetCommons.base', function(
       $scope.cancel = function() {
         history.back();
       };
-
-      /**
-       * flash
-       *
-       * @type {Object}
-       */
-      $scope.flash = NetCommonsFlash.new();
     });

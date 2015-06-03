@@ -30,3 +30,21 @@ echo $this->Html->css(
 		'inline' => false
 	)
 );
+?>
+
+<?php echo $this->Html->scriptStart(array('inline' => false)); ?>
+NetCommonsApp.requires.push('datetimepicker');
+NetCommonsApp.config(
+    [
+      'datetimepickerProvider',
+      function(datetimepickerProvider) {
+        datetimepickerProvider.setOptions({
+          locale: moment.locale('<?php echo Configure::read('Config.language') ?>'),
+          format: 'YYYY-MM-DD HH:mm',
+          sideBySide: true,
+          stepping: 5
+        });
+      }
+    ]
+);
+<?php echo $this->Html->scriptEnd();

@@ -58,7 +58,7 @@ if (! isset($isPageSetting)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (AuthComponent::user('id') && isset($pageEditable)): ?>
+					<?php if (AuthComponent::user('id') && isset($pageEditable) && $pageEditable): ?>
 						<li>
 							<?php if (! $isPageSetting): ?>
 								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path); ?>

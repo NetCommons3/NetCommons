@@ -20,6 +20,14 @@ App::uses('Utility', 'Inflector');
 class NetCommonsAppController extends Controller {
 
 /**
+ * alert
+ *
+ * @var string
+ */
+	const ALERT_SUCCESS_INTERVAL = 1500,
+		ALERT_VALIDATE_ERROR_INTERVAL = 4000;
+
+/**
  * use layout
  *
  * @var string
@@ -276,7 +284,10 @@ class NetCommonsAppController extends Controller {
 				//CakeLog::info(print_r($this->request->data, true));
 			}
 
-			$this->setFlashNotification($message, 'danger', 3000);
+			$this->setFlashNotification($message, array(
+				'class' => 'danger',
+				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL
+			));
 		}
 		return false;
 	}
@@ -315,23 +326,35 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * Set session setFlash notification
+ * Used to set a session variable that can be used to output messages in the view.
  *
  * @param string $message message
- * @param string $alertClass alert class
- * @param int $interval display interval of message
+ * @param array $params Parameters to be sent to layout as view variables
  * @return void
  */
-	public function setFlashNotification($message, $alertClass = 'danger', $interval = null) {
-		if ($interval === null && $alertClass !== 'danger') {
-			$interval = 1500;
+	public function setFlashNotification($message, $params = array()) {
+		if (is_string($params)) {
+			$params = array('class' => $params);
 		}
 
-		$this->Session->setFlash($message, 'common_alert', array(
-			'class' => $alertClass,
-			'plugin' => 'NetCommons',
-			'interval' => $interval
-		));
+		if (isset($params['element'])) {
+			$element = $params['element'];
+			unset($params['element']);
+		} else {
+			$element = 'common_alert';
+		}
+
+		$params = Hash::merge(array(
+			'class' => 'danger',
+			'interval' => null,
+			'plugin' => 'NetCommons'
+		), $params);
+
+		if ($params['interval'] === null && $params['class'] !== 'danger') {
+			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
+		}
+
+		$this->Session->setFlash($message, $element, $params);
 	}
 
 }

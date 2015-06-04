@@ -1,0 +1,54 @@
+[
+    {
+        "path": "5times2_ja.mp3",
+        "value": "10"
+    },
+    {
+        "path": "2times10_ja.mp3",
+        "value": "20"
+    },
+    {
+        "path": "5plus1_ja.mp3",
+        "value": "6"
+    },
+    {
+        "path": "4plus1_ja.mp3",
+        "value": "5"
+    },
+    {
+        "path": "4plus3_ja.mp3",
+        "value": "7"
+    },
+    {
+        "path": "6plus6_ja.mp3",
+        "value": "12"
+    },
+    {
+        "path": "12times2_ja.mp3",
+        "value": "24"
+    },
+    {
+        "path": "99plus1_ja.mp3",
+        "value": "100"
+    },
+    {
+        "path": "add3to1_ja.mp3",
+        "value": "4"
+    },
+    {
+        "path": "addblueandyellow_ja.mp3",
+        "value": "みどり"
+    },
+    {
+        "path": "after2_ja.mp3",
+        "value": "3"
+    },
+    {
+        "path": "divide4by2_ja.mp3",
+        "value": "2"
+    },
+    {
+        "path": "firstletteralphabet_ja.mp3",
+        "value": "あ"
+    }
+]

@@ -30,7 +30,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	</head>
 
 	<body ng-controller="NetCommons.base">
-		<?php echo $this->Session->flash(); ?>
+		<?php if ($message = $this->Session->flash()) : ?>
+			<?php echo $this->element('NetCommons.common_alert', array(
+				'message' => $message,
+				'class' =>'danger',
+				'interval' => 0
+			)); ?>
+		<?php endif; ?>
 
 		<?php echo $this->element('NetCommons.common_header'); ?>
 

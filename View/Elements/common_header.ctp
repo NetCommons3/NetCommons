@@ -74,4 +74,4 @@ if (! isset($isPageSetting)) {
 
 <?php if ($isPageSetting && $pageEditable): ?>
 	<?php echo $this->element('Pages.edit_layout'); ?>
-<?php endif; 
+<?php endif;

@@ -16,7 +16,6 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 if (! isset($isPageSetting)) {
 	$isPageSetting = Page::isSetting();
 }
-
 ?>
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -72,3 +71,7 @@ if (! isset($isPageSetting)) {
 		</div>
 	</nav>
 </header>
+
+<?php if ($isPageSetting && $pageEditable): ?>
+	<?php echo $this->element('Pages.edit_layout'); ?>
+<?php endif;

@@ -15,6 +15,7 @@ echo $this->Html->css(
 		'/frames/css/style.css',
 		'bootstrap.min.css',
 		'style',
+		'/pages/css/style.css'
 	),
 	array('plugin' => false)
 );

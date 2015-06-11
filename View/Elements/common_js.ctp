@@ -16,7 +16,9 @@ echo $this->Html->script(
 		'/components/angular/angular.min.js',
 		'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		'/components/angular-ui-tinymce/src/tinymce.js',
-		'/net_commons/js/base.js'
+		'/net_commons/js/base.js',
+		'/frames/js/frames.js',
+		'/pages/js/pages.js',
 	),
 	array('plugin' => false)
 );

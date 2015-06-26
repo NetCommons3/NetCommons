@@ -9,20 +9,22 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-$labels = [
-	NetCommonsBlockComponent::STATUS_IN_DRAFT => [
-		'class' => 'label-info',
-		'message' => __d('net_commons', 'Temporary'),
-	],
-	NetCommonsBlockComponent::STATUS_APPROVED => [
-		'class' => 'label-warning',
-		'message' => __d('net_commons', 'Approving'),
-	],
-	NetCommonsBlockComponent::STATUS_DISAPPROVED => [
-		'class' => 'label-warning',
-		'message' => __d('net_commons', 'Disapproving'),
-	],
-];
+if (!isset($labels)) {
+	$labels = [
+		NetCommonsBlockComponent::STATUS_IN_DRAFT => [
+			'class' => 'label-info',
+			'message' => __d('net_commons', 'Temporary'),
+		],
+		NetCommonsBlockComponent::STATUS_APPROVED => [
+			'class' => 'label-warning',
+			'message' => __d('net_commons', 'Approving'),
+		],
+		NetCommonsBlockComponent::STATUS_DISAPPROVED => [
+			'class' => 'label-warning',
+			'message' => __d('net_commons', 'Disapproving'),
+		],
+	];
+}
 $label = isset($labels[$status]) ? $labels[$status] : null;
 ?>
 

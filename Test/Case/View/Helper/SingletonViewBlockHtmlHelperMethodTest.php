@@ -22,7 +22,7 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
  * @return void
  */
 	public function testMeta() {
-		$expected = '<meta name="keywords" content="these, are, some, meta, keywords" />';
+		$expected = '<meta name="keywords" content="these, are, some, meta, keywords"/>';
 		$actual = $this->SingletonViewBlockHtml->meta('keywords', 'these, are, some, meta, keywords');
 		$this->assertEquals($expected, $actual);
 
@@ -41,7 +41,7 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
 		$actual = $this->SingletonViewBlockHtml->meta(array('name' => 'ROBOTS', 'content' => 'ALL'), null, $options);
 		$this->assertNull($actual);
 
-		$needle = '<meta name="ROBOTS" content="ALL" />';
+		$needle = '<meta name="ROBOTS" content="ALL"/>';
 		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
 		$this->assertContains($needle, $viewBlock->get('meta'));
 	}
@@ -52,7 +52,7 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
  * @return void
  */
 	public function testCss() {
-		$expected = '/<link rel="stylesheet" type="text\/css" href=".*\/css\/cssFile\.css" \/>/';
+		$expected = '/<link rel="stylesheet" type="text\/css" href=".*\/css\/cssFile\.css"\/>/';
 		$actual = $this->SingletonViewBlockHtml->css('cssFile');
 		$this->assertRegExp($expected, $actual);
 

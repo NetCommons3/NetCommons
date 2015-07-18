@@ -17,25 +17,25 @@
         }
     },
     "require": {
-        "cakephp/cakephp":         "~2.4",
-        "cakephp/debug_kit":       "~2.2",
-        "cakedc/migrations":       "~2.2",
-        "chronon/mobile_detect":   "*",
-        "phpunit/phpunit":         "~3.7.38"
+        "cakedc/migrations":            "~2.2",
+        "cakephp/cakephp":              "~2.6.9",
+        "cakephp/debug_kit":            "~2.2",
+        "chronon/mobile_detect":        "*",
+        "phpunit/phpunit":              "~3.7.38"
     },
     "require-dev": {
-        "mustangostang/spyc":        "dev-master",
-        "satooshi/php-coveralls":    "dev-master",
-        "netcommons/blocks":         "dev-master",
-        "netcommons/boxes":          "dev-master",
-        "netcommons/containers":     "dev-master",
-        "netcommons/frames":         "dev-master",
-        "netcommons/m17n":           "dev-master",
-        "netcommons/pages":          "dev-master",
-        "netcommons/plugin-manager": "dev-master",
-        "netcommons/roles":          "dev-master",
-        "netcommons/rooms":          "dev-master",
-        "netcommons/users":          "dev-master"
+        "mustangostang/spyc":           "dev-master",
+        "satooshi/php-coveralls":       "dev-master",
+        "netcommons/blocks":            "dev-master",
+        "netcommons/boxes":             "dev-master",
+        "netcommons/containers":        "dev-master",
+        "netcommons/frames":            "dev-master",
+        "netcommons/m17n":              "dev-master",
+        "netcommons/pages":             "dev-master",
+        "netcommons/plugin-manager":    "dev-master",
+        "netcommons/roles":             "dev-master",
+        "netcommons/rooms":             "dev-master",
+        "netcommons/users":             "dev-master"
     },
     "config": {
         "vendor-dir": "vendors",

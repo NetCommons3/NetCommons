@@ -33,6 +33,7 @@
         "netcommons/m17n":              "dev-master",
         "netcommons/pages":             "dev-master",
         "netcommons/plugin-manager":    "dev-master",
+        "netcommons/public-space":      "dev-master",
         "netcommons/roles":             "dev-master",
         "netcommons/rooms":             "dev-master",
         "netcommons/users":             "dev-master"

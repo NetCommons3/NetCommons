@@ -26,13 +26,13 @@ class NetCommonsControllerTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = [
-		'plugin.boxes.box',
 		'plugin.blocks.block',
+		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		'plugin.net_commons.site_setting',
-		'plugin.pages.boxes_page',
 		'plugin.pages.page',
 		'plugin.pages.space',
 		'plugin.plugin_manager.plugin',

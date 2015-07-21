@@ -21,6 +21,7 @@
         "cakephp/cakephp":              "~2.6.9",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
+        "netcommons/public-space":      "dev-master",
         "phpunit/phpunit":              "~3.7.38"
     },
     "require-dev": {
@@ -33,7 +34,6 @@
         "netcommons/m17n":              "dev-master",
         "netcommons/pages":             "dev-master",
         "netcommons/plugin-manager":    "dev-master",
-        "netcommons/public-space":      "dev-master",
         "netcommons/roles":             "dev-master",
         "netcommons/rooms":             "dev-master",
         "netcommons/users":             "dev-master"

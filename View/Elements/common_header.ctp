@@ -66,6 +66,13 @@ if (! isset($isPageSetting)) {
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
+
+					<?php if ($isControlPanel): ?>
+						<li>
+							<?php echo $this->Html->link(__d('control_panel', 'Control Panel'), '/control_panel/control_panel') ?>
+						</li>
+					<?php endif; ?>
+
 				</ul>
 			</div>
 		</div>

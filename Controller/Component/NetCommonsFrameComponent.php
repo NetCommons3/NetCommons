@@ -46,7 +46,7 @@ class NetCommonsFrameComponent extends Component {
 		$models = array(
 			'Box' => 'Boxes.Box',
 			'Frame' => 'Frames.Frame',
-			'Language' => 'M17n.Language',
+			//'Language' => 'M17n.Language',
 		);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
@@ -74,16 +74,29 @@ class NetCommonsFrameComponent extends Component {
  */
 	public function setView() {
 		//set language_id
-		if (isset($this->controller->viewVars['languageId']) && $this->controller->viewVars['languageId'] === 0) {
-			$language = $this->Language->findByCode(Configure::read('Config.language'));
-			$this->controller->set('languageId', $language['Language']['id']);
-		}
+		//if (isset($this->controller->viewVars['languageId']) && $this->controller->viewVars['languageId'] === 0) {
+		//	$language = $this->Language->findByCode(Configure::read('Config.language'));
+		//	$this->controller->set('languageId', $language['Language']['id']);
+		//}
 
 		//set frame by id
 		$frame = $this->Frame->findById($this->frameId);
 		$this->data = $frame;
 
 		$this->__setViewFrame($frame);
+
+		// Find page data from frame
+		$this->controller->current = $this->data;
+
+		$box = $this->Box->find('first', [
+			'conditions' => [
+				'Box.id' => $this->data['Box']['id'],
+			],
+		]);
+		if (isset($box['Page'][0])) {
+			$this->controller->current['page'] = $box['Page'][0];
+			$this->controller->set('cancelUrl', $this->controller->current['page']['permalink']);
+		}
 	}
 
 /**

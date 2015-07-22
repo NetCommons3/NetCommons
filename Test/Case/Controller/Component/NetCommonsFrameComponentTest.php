@@ -23,6 +23,16 @@ App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
  */
 class TestNetCommonsFrameController extends Controller {
 
+/**
+ * camelizeKeyRecursive
+ *
+ * @param array $orig data to camelize
+ * @return array camelized data
+ */
+	public static function camelizeKeyRecursive($orig) {
+		return $orig;
+	}
+
 }
 
 /**
@@ -41,9 +51,13 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.blocks.block',
 		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
+		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
+		'plugin.public_space.space',
 		'plugin.users.user',
 	);
 
@@ -145,11 +159,13 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$expected = array(
 			'frameId' => 1,
 			'frameKey' => 'frame_1',
-			'blockId' => 5,
+			'blockId' => '5',
 			'blockKey' => 'block_5',
 			'roomId' => 1,
-			'languageId' => 2
+			'languageId' => 2,
+			'cancelUrl' => '',
 		);
+
 		$this->assertEquals($expected, $this->FrameController->viewVars);
 	}
 

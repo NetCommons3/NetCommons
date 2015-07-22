@@ -16,10 +16,14 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 if (! isset($isPageSetting)) {
 	$isPageSetting = Page::isSetting();
 }
+
+if (! isset($container)) {
+	$container = 'container';
+}
 ?>
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : 'container'; ?>">
+		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : $container; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>

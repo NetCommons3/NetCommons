@@ -125,12 +125,14 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
-		if (Configure::read('NetCommons.installed')) {
-			//現在のテーマを取得
-			$theme = $this->Asset->getSiteTheme($this);
-			if ($theme) {
-				$this->theme = $theme;
-			}
+		if (! Configure::read('NetCommons.installed')) {
+			return;
+		}
+
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
 		}
 		if (isset($this->request->query['language'])) {
 			Configure::write('Config.language', $this->request->query['language']);

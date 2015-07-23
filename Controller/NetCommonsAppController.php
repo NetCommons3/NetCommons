@@ -125,6 +125,8 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
+		Security::setHash('sha512');
+
 		if (! Configure::read('NetCommons.installed')) {
 			return;
 		}
@@ -146,7 +148,6 @@ class NetCommonsAppController extends Controller {
 		$this->set('languageId', $language['Language']['id']);
 
 		$this->Auth->allow('index', 'view');
-		Security::setHash('sha512');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->renderJson();

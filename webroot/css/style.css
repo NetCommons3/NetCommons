@@ -97,3 +97,7 @@ textarea.nc-noresize {
 .workflow-comments > .comment:first-child {
 	border: 0;
 }
+
+.nav > li > a.nc-switch-language {
+	padding: 5px 10px;
+}

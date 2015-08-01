@@ -21,6 +21,11 @@ input[type="checkbox"] {
 	margin-right: 6px;
 }
 
+.radio-separator {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .nc-input-dropdown,
 .nc-input-dropdown > .dropdown-toggle,
 .nc-input-dropdown > .dropdown-menu {

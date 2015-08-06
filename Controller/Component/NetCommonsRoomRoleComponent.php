@@ -159,7 +159,7 @@ class NetCommonsRoomRoleComponent extends Component {
 	public function getRoomRolePermissions($roomId, $permissions, $type) {
 		//戻り値の設定
 		$results = array(
-			'DefaultPermissions' => null,
+			'DefaultRolePermission' => null,
 			'Roles' => null,
 			'RolesRooms' => null,
 			'RoomRolePermissions' => null,
@@ -208,7 +208,7 @@ class NetCommonsRoomRoleComponent extends Component {
 			'{n}.DefaultRolePermission',
 			'{n}.DefaultRolePermission.permission'
 		);
-		$results['DefaultPermissions'] = Hash::remove($defaultPermissions, '{s}.{s}.id');
+		$results['DefaultRolePermission'] = Hash::remove($defaultPermissions, '{s}.{s}.id');
 
 		if (! isset($roomId)) {
 			return $results;

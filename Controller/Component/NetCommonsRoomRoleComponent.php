@@ -202,13 +202,12 @@ class NetCommonsRoomRoleComponent extends Component {
 				'DefaultRolePermission.permission' => $permissions,
 			),
 		));
-		$defaultPermissions = Hash::combine(
+		$results['DefaultRolePermission'] = Hash::combine(
 			$defaultPermissions,
 			'{n}.DefaultRolePermission.role_key',
 			'{n}.DefaultRolePermission',
 			'{n}.DefaultRolePermission.permission'
 		);
-		$results['DefaultRolePermission'] = Hash::remove($defaultPermissions, '{s}.{s}.id');
 
 		if (! isset($roomId)) {
 			return $results;

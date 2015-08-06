@@ -120,7 +120,7 @@ class NetCommonsBlockComponent extends Component {
 		$defaultPermissions = Hash::remove($results['DefaultRolePermission'], '{s}.{s}.id');
 		$roles = $results['Role'];
 		$rolesRooms = $results['RolesRoom'];
-		$roomRolePermissions = $results['RoomRolePermission'];
+		$roomRolePermissions = Hash::remove($results['RoomRolePermission'], '{s}.{s}.id');
 		$roomRoles = $results['RoomRole'];
 
 		//BlockRolePermission取得

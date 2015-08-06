@@ -235,7 +235,7 @@ class NetCommonsRoomRoleComponent extends Component {
 			'{n}.RoomRolePermission',
 			'{n}.RoomRolePermission.permission'
 		);
-		$results['RoomRolePermission'] = Hash::remove($roomRolePermissions, '{s}.{s}.id');
+		//$results['RoomRolePermission'] = Hash::remove($roomRolePermissions, '{s}.{s}.id');
 
 		//戻り値の設定
 		return $results;

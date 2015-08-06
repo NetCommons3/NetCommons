@@ -143,6 +143,106 @@ class NetCommonsRoomRoleComponent extends Component {
 	}
 
 /**
+ * Function to get the data of RoomRolePermmissions.
+ *    e.g.) RoomRolePermmissions controller
+ *
+ * @param int $roomId rooms.id
+ * @param array $permissions permissions
+ * @return array Role and Permissions and Rooms data
+ *   - The `DefaultPermissions` data.
+ *   - The `Roles` data.
+ *   - The `RolesRooms` data.
+ *   - The `RoomRolePermissions` data.
+ *   - The `RoomRoles` data.
+ * @param string $type default_role_permissions.type
+ */
+	public function getRoomRolePermissions($roomId, $permissions, $type) {
+		//戻り値の設定
+		$results = array(
+			'DefaultPermissions' => null,
+			'Roles' => null,
+			'RolesRooms' => null,
+			'RoomRolePermissions' => null,
+			'RoomRoles' => null,
+		);
+
+		//modelのロード
+		$models = array(
+			'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+			'Role' => 'Roles.Role',
+			'RolesRoom' => 'Rooms.RolesRoom',
+			'RoomRole' => 'Rooms.RoomRole',
+			'RoomRolePermission' => 'Rooms.RoomRolePermission',
+		);
+		foreach ($models as $model => $class) {
+			$this->$model = ClassRegistry::init($class, true);
+		}
+
+		//RoomRole取得
+		$roomRoles = $this->RoomRole->find('all', array(
+			'recursive' => -1,
+		));
+		$results['RoomRoles'] = Hash::combine($roomRoles, '{n}.RoomRole.role_key', '{n}.RoomRole');
+
+		//Role取得
+		$roles = $this->Role->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Role.type' => Role::ROLE_TYPE_ROOM,
+				'Role.language_id' => Configure::read('Config.languageId'),
+			),
+		));
+		$results['Roles'] = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
+
+		//DefaultRolePermission取得
+		$defaultPermissions = $this->DefaultRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'DefaultRolePermission.type' => $type,
+				'DefaultRolePermission.permission' => $permissions,
+			),
+		));
+		$defaultPermissions = Hash::combine(
+			$defaultPermissions,
+			'{n}.DefaultRolePermission.role_key',
+			'{n}.DefaultRolePermission',
+			'{n}.DefaultRolePermission.permission'
+		);
+		$results['DefaultPermissions'] = Hash::remove($defaultPermissions, '{s}.{s}.id');
+
+		if (! isset($roomId)) {
+			return $results;
+		}
+
+		//RolesRoomのIDリストを取得
+		$results['RolesRooms'] = $this->RolesRoom->find('list', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'RolesRoom.room_id' => $roomId,
+			),
+		));
+
+		//RoomRolePermission取得
+		$roomRolePermissions = $this->RoomRolePermission->find('all', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'RoomRolePermission.roles_room_id' => $results['RolesRooms'],
+				'RoomRolePermission.permission' => $permissions,
+			),
+		));
+		$roomRolePermissions = Hash::combine(
+			$roomRolePermissions,
+			'{n}.RolesRoom.role_key',
+			'{n}.RoomRolePermission',
+			'{n}.RoomRolePermission.permission'
+		);
+		$results['RoomRolePermissions'] = Hash::remove($roomRolePermissions, '{s}.{s}.id');
+
+		//戻り値の設定
+		return $results;
+	}
+
+/**
  * Checks whether current action is accessible without authentication.
  *
  * @param Controller $controller A reference to the instantiating controller object

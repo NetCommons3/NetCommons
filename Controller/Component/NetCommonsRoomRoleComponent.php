@@ -160,10 +160,10 @@ class NetCommonsRoomRoleComponent extends Component {
 		//戻り値の設定
 		$results = array(
 			'DefaultRolePermission' => null,
-			'Roles' => null,
-			'RolesRooms' => null,
-			'RoomRolePermissions' => null,
-			'RoomRoles' => null,
+			'Role' => null,
+			'RolesRoom' => null,
+			'RoomRolePermission' => null,
+			'RoomRole' => null,
 		);
 
 		//modelのロード
@@ -182,7 +182,7 @@ class NetCommonsRoomRoleComponent extends Component {
 		$roomRoles = $this->RoomRole->find('all', array(
 			'recursive' => -1,
 		));
-		$results['RoomRoles'] = Hash::combine($roomRoles, '{n}.RoomRole.role_key', '{n}.RoomRole');
+		$results['RoomRole'] = Hash::combine($roomRoles, '{n}.RoomRole.role_key', '{n}.RoomRole');
 
 		//Role取得
 		$roles = $this->Role->find('all', array(
@@ -192,7 +192,7 @@ class NetCommonsRoomRoleComponent extends Component {
 				'Role.language_id' => Configure::read('Config.languageId'),
 			),
 		));
-		$results['Roles'] = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
+		$results['Role'] = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
 
 		//DefaultRolePermission取得
 		$defaultPermissions = $this->DefaultRolePermission->find('all', array(
@@ -214,7 +214,7 @@ class NetCommonsRoomRoleComponent extends Component {
 		}
 
 		//RolesRoomのIDリストを取得
-		$results['RolesRooms'] = $this->RolesRoom->find('list', array(
+		$results['RolesRoom'] = $this->RolesRoom->find('list', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'RolesRoom.room_id' => $roomId,
@@ -225,7 +225,7 @@ class NetCommonsRoomRoleComponent extends Component {
 		$roomRolePermissions = $this->RoomRolePermission->find('all', array(
 			'recursive' => 0,
 			'conditions' => array(
-				'RoomRolePermission.roles_room_id' => $results['RolesRooms'],
+				'RoomRolePermission.roles_room_id' => $results['RolesRoom'],
 				'RoomRolePermission.permission' => $permissions,
 			),
 		));
@@ -235,7 +235,7 @@ class NetCommonsRoomRoleComponent extends Component {
 			'{n}.RoomRolePermission',
 			'{n}.RoomRolePermission.permission'
 		);
-		$results['RoomRolePermissions'] = Hash::remove($roomRolePermissions, '{s}.{s}.id');
+		$results['RoomRolePermission'] = Hash::remove($roomRolePermissions, '{s}.{s}.id');
 
 		//戻り値の設定
 		return $results;

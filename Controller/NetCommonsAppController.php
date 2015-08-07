@@ -153,7 +153,7 @@ class NetCommonsAppController extends Controller {
 			$this->renderJson();
 		}
 
-		$this->set('userId', (int)$this->Auth->user('id'));
+		$this->set('userId', $this->Auth->user('id'));
 
 		// Find page data from frame
 		//if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {

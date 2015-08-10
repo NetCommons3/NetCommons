@@ -22,3 +22,4 @@ echo $this->Html->script(
 	),
 	array('plugin' => false)
 );
+echo $this->element('NetCommons.datetimepicker');

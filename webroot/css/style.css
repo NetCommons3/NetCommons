@@ -107,3 +107,20 @@ textarea.nc-noresize {
 .nav > li > a.nc-switch-language {
 	padding: 5px 10px;
 }
+.input-range {
+  padding-right: 5px;
+}
+
+.form-text {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  margin: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}

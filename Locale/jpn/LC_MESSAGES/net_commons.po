@@ -510,3 +510,16 @@ msgstr ""
 #: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:92
 msgid "Confirm"
 msgstr ""
+
+msgid "All Plugins"
+msgstr "全てのプラグイン"
+
+msgid "All Statuses"
+msgstr "全てのステータス"
+
+msgid "All Duration"
+msgstr "全ての期間"
+
+msgid "No results found."
+msgstr "条件に一致するデータはありませんでした。"
+

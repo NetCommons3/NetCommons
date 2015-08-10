@@ -170,4 +170,17 @@ class NetCommonsBlockComponent extends Component {
 		return true;
 	}
 
+/**
+ * Return all statuses
+ *
+ * @return array status on success, false on error
+ */
+	public static function getStatuses() {
+		return [
+			self::STATUS_PUBLISHED => __d('net_commons', 'Published'),
+			self::STATUS_APPROVED => __d('net_commons', 'Approving'),
+			self::STATUS_IN_DRAFT => __d('net_commons', 'Temporary'),
+			self::STATUS_DISAPPROVED => __d('net_commons', 'Disapproving'),
+		];
+	}
 }

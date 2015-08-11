@@ -22,6 +22,45 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 class YAControllerTestCase extends ControllerTestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	protected $_fixtures = array(
+		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
+		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
+		'plugin.containers.containers_page',
+		'plugin.frames.frame',
+		'plugin.m17n.language',
+		'plugin.net_commons.site_setting',
+		'plugin.pages.languages_page',
+		'plugin.pages.page',
+		'plugin.plugin_manager.plugin',
+		'plugin.plugin_manager.plugins_room',
+		'plugin.roles.default_role_permission',
+		'plugin.roles.role',
+		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
+		'plugin.rooms.room',
+		'plugin.rooms.room_role_permission',
+		'plugin.rooms.space',
+		'plugin.users.user',
+		//'plugin.users.users_language',
+	);
+
+/**
+ * Fixtures load
+ *
+ * @return void
+ */
+	public function __construct() {
+		$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+	}
+
+/**
  * Lets you do functional tests of a controller action.
  *
  * ### Options:

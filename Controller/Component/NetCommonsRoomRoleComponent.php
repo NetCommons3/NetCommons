@@ -229,7 +229,7 @@ class NetCommonsRoomRoleComponent extends Component {
 				'RoomRolePermission.permission' => $permissions,
 			),
 		));
-		$roomRolePermissions = Hash::combine(
+		$results['RoomRolePermission'] = Hash::combine(
 			$roomRolePermissions,
 			'{n}.RolesRoom.role_key',
 			'{n}.RoomRolePermission',

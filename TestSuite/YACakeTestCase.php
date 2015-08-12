@@ -42,6 +42,7 @@ class YACakeTestCase extends CakeTestCase {
 		'plugin.m17n.language',
 		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
+		'plugin.roles.role',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_room',
 		'plugin.users.user',

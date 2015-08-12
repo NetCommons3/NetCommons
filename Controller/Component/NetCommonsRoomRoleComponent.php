@@ -148,13 +148,13 @@ class NetCommonsRoomRoleComponent extends Component {
  *
  * @param int $roomId rooms.id
  * @param array $permissions permissions
+ * @param string $type default_role_permissions.type
  * @return array Role and Permissions and Rooms data
  *   - The `DefaultPermissions` data.
  *   - The `Roles` data.
  *   - The `RolesRooms` data.
  *   - The `RoomRolePermissions` data.
  *   - The `RoomRoles` data.
- * @param string $type default_role_permissions.type
  */
 	public function getRoomRolePermissions($roomId, $permissions, $type) {
 		//戻り値の設定

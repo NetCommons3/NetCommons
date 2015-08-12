@@ -73,12 +73,6 @@ class NetCommonsFrameComponent extends Component {
  * @return void
  */
 	public function setView() {
-		//set language_id
-		//if (isset($this->controller->viewVars['languageId']) && $this->controller->viewVars['languageId'] === 0) {
-		//	$language = $this->Language->findByCode(Configure::read('Config.language'));
-		//	$this->controller->set('languageId', $language['Language']['id']);
-		//}
-
 		//set frame by id
 		$frame = $this->Frame->findById($this->frameId);
 		$this->data = $frame;

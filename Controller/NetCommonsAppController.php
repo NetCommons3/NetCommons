@@ -76,10 +76,7 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $uses = [
-		//'Boxes.Box',
 		'NetCommons.SiteSetting',
-		//'Pages.Page',
-		//'Frames.Frame',
 		'M17n.Language',
 	];
 
@@ -155,23 +152,8 @@ class NetCommonsAppController extends Controller {
 
 		$this->set('userId', $this->Auth->user('id'));
 
-		// Find page data from frame
-		//if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
-		//	$this->current = $this->NetCommonsFrame->data;
-		//
-		//	$box = $this->Box->find('first', [
-		//		'conditions' => [
-		//			'Box.id' => $this->NetCommonsFrame->data['Box']['id'],
-		//		],
-		//	]);
-		//	if (isset($box['Page'][0])) {
-		//		$this->current['page'] = $box['Page'][0];
-		//		$this->set('cancelUrl', $this->current['page']['permalink']);
-		//	}
-		//
-			$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-			$this->set($results);
-		//}
+		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		$this->set($results);
 	}
 
 /**

@@ -36,6 +36,8 @@ class YACakeTestCase extends CakeTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
 		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
+		'plugin.containers.containers_page',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		'plugin.pages.page',

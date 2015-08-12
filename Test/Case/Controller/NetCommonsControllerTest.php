@@ -26,22 +26,22 @@ class NetCommonsControllerTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = [
-		'plugin.blocks.block',
-		'plugin.boxes.box',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.net_commons.site_setting',
-		'plugin.pages.page',
-		'plugin.plugin_manager.plugin',
-		'plugin.public_space.space',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.room',
-		'plugin.rooms.room_role_permission',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.roles_room',
-		'plugin.users.user',
+		//'plugin.blocks.block',
+		//'plugin.boxes.box',
+		//'plugin.boxes.boxes_page',
+		//'plugin.containers.container',
+		//'plugin.frames.frame',
+		//'plugin.m17n.language',
+		//'plugin.net_commons.site_setting',
+		//'plugin.pages.page',
+		//'plugin.plugin_manager.plugin',
+		//'plugin.public_space.space',
+		//'plugin.roles.default_role_permission',
+		//'plugin.rooms.room',
+		//'plugin.rooms.room_role_permission',
+		//'plugin.rooms.roles_rooms_user',
+		//'plugin.rooms.roles_room',
+		//'plugin.users.user',
 	];
 
 /**

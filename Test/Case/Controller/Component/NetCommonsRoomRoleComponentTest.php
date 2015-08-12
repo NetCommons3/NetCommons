@@ -15,6 +15,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
+App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * AuthComponent for NetCommonsRoomRole component test
@@ -91,7 +92,7 @@ class TestNetCommonsRoomRoleController extends Controller {
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Controller
  */
-class NetCommonsRoomRoleComponentTest extends CakeTestCase {
+class NetCommonsRoomRoleComponentTest extends ControllerTestCase {
 
 /**
  * Fixtures

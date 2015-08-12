@@ -33,11 +33,15 @@ class YACakeTestCase extends CakeTestCase {
  */
 	protected $_fixtures = array(
 		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
+		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
 		'plugin.rooms.room',
+		'plugin.rooms.roles_room',
 		'plugin.users.user',
 		//'plugin.users.users_language',
 	);

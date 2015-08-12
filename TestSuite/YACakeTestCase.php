@@ -27,6 +27,38 @@ App::uses('CakePlugin', 'Core');
 class YACakeTestCase extends CakeTestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	protected $_fixtures = array(
+		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
+		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
+		'plugin.containers.containers_page',
+		'plugin.frames.frame',
+		'plugin.m17n.language',
+		'plugin.pages.page',
+		'plugin.plugin_manager.plugin',
+		'plugin.roles.role',
+		'plugin.rooms.room',
+		'plugin.rooms.roles_room',
+		'plugin.users.user',
+		//'plugin.users.users_language',
+	);
+
+/**
+ * Fixtures load
+ *
+ * @return void
+ */
+	public function __construct() {
+		$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+	}
+
+/**
  * Load TestPlugin
  *
  * @param CakeTestCase $test CakeTestCase

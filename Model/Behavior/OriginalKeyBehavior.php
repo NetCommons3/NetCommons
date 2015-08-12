@@ -38,7 +38,7 @@ class OriginalKeyBehavior extends ModelBehavior {
 			return true;
 		}
 		if (! isset($model->data[$model->name]['key']) || $model->data[$model->name]['key'] === '') {
-			$model->data[$model->name]['key'] = Security::hash($model->name . mt_rand() . microtime(), 'md5');
+			$model->data[$model->name]['key'] = $this->generateKey($model);
 		}
 		return true;
 	}
@@ -65,6 +65,16 @@ class OriginalKeyBehavior extends ModelBehavior {
 				//$model->saveField('origin_id', $model->data[$model->name]['id']);
 			}
 		}
+	}
+
+/**
+ * Generate key
+ *
+ * @param Model $model Model using this behavior
+ * @return string Hash key
+ */
+	public function generateKey(Model $model) {
+		return Security::hash($model->name . mt_rand() . microtime(), 'md5');
 	}
 
 }

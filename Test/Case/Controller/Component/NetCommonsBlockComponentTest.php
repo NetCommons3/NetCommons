@@ -15,6 +15,7 @@ App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('Block', 'Blocks.Model');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
+App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * Controller for NetCommonsBlock component test
@@ -32,7 +33,7 @@ class TestNetCommonsBlockController extends Controller {
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Controller
  */
-class NetCommonsBlockComponentTest extends CakeTestCase {
+class NetCommonsBlockComponentTest extends ControllerTestCase {
 
 /**
  * Fixtures

@@ -26,25 +26,7 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
  *
  * @var array
  */
-	public $fixtures = array(
-		//'app.session',
-		'plugin.blocks.block',
-		'plugin.boxes.box',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.frames.frame',
-		'plugin.m17n.language',
-		'plugin.net_commons.site_setting',
-		'plugin.pages.page',
-		'plugin.pages.space',
-		'plugin.plugin_manager.plugin',
-		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.room',
-		'plugin.rooms.room_role_permission',
-		'plugin.users.user',
-	);
+	public $fixtures = array();
 
 /**
  * setUp

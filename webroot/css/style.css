@@ -21,6 +21,12 @@ input[type="checkbox"] {
 	margin-right: 6px;
 }
 
+.radio-separator,
+.checkbox-separator {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .nc-input-dropdown,
 .nc-input-dropdown > .dropdown-toggle,
 .nc-input-dropdown > .dropdown-menu {
@@ -96,6 +102,10 @@ textarea.nc-noresize {
 
 .workflow-comments > .comment:first-child {
 	border: 0;
+}
+
+.nav > li > a.nc-switch-language {
+	padding: 5px 10px;
 }
 
 .input-range {

@@ -16,10 +16,14 @@ $pageEditable = isset($pageEditable) ? $pageEditable : null;
 if (! isset($isPageSetting)) {
 	$isPageSetting = Page::isSetting();
 }
+
+if (! isset($container)) {
+	$container = 'container';
+}
 ?>
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : 'container'; ?>">
+		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : $container; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -66,6 +70,17 @@ if (! isset($isPageSetting)) {
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
+
+					<?php if (isset($hasControlPanel) && $hasControlPanel): ?>
+						<li>
+							<?php if (! $isControlPanel): ?>
+								<?php echo $this->Html->link(__d('control_panel', 'Control Panel'), '/control_panel/control_panel'); ?>
+							<?php else : ?>
+								<?php echo $this->Html->link(__d('control_panel', 'Back to the Rooms'), $cancelUrl); ?>
+							<?php endif; ?>
+						</li>
+					<?php endif; ?>
+
 				</ul>
 			</div>
 		</div>

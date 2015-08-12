@@ -76,10 +76,8 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $uses = [
-		'Boxes.Box',
 		'NetCommons.SiteSetting',
-		'Pages.Page',
-		'Frames.Frame',
+		'M17n.Language',
 	];
 
 /**
@@ -124,12 +122,16 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
-		if (Configure::read('NetCommons.installed')) {
-			//現在のテーマを取得
-			$theme = $this->Asset->getSiteTheme($this);
-			if ($theme) {
-				$this->theme = $theme;
-			}
+		Security::setHash('sha512');
+
+		if (! Configure::read('NetCommons.installed')) {
+			return;
+		}
+
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
 		}
 		if (isset($this->request->query['language'])) {
 			Configure::write('Config.language', $this->request->query['language']);
@@ -137,32 +139,21 @@ class NetCommonsAppController extends Controller {
 		} elseif ($this->Session->check('Config.language')) {
 			Configure::write('Config.language', $this->Session->read('Config.language'));
 		}
+		//set language_id
+		$language = $this->Language->findByCode(Configure::read('Config.language'));
+		Configure::write('Config.languageId', $language['Language']['id']);
+		$this->set('languageId', $language['Language']['id']);
+
 		$this->Auth->allow('index', 'view');
-		Security::setHash('sha512');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->renderJson();
 		}
 
-		$this->set('userId', (int)$this->Auth->user('id'));
+		$this->set('userId', $this->Auth->user('id'));
 
-		// Find page data from frame
-		if ($this->NetCommonsFrame && $this->NetCommonsFrame->data) {
-			$this->current = $this->NetCommonsFrame->data;
-
-			$box = $this->Box->find('first', [
-				'conditions' => [
-					'Box.id' => $this->NetCommonsFrame->data['Box']['id'],
-				],
-			]);
-			if (isset($box['Page'][0])) {
-				$this->current['page'] = $box['Page'][0];
-				$this->set('cancelUrl', $this->current['page']['permalink']);
-			}
-
-			$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-			$this->set($results);
-		}
+		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		$this->set($results);
 	}
 
 /**

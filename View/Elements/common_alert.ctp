@@ -9,7 +9,7 @@
  */
 ?>
 
-<div id="nc-flash-message"class=" alert alert-<?php echo h($class); ?> alert-dismissable">
+<div id="nc-flash-message" class="alert alert-<?php echo h($class); ?> alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<div>
 		<?php echo $message; ?>

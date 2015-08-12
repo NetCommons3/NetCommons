@@ -14,6 +14,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('ComponentCollection', 'Controller');
 App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
+App::uses('YAControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * Controller for NetCommonsFrame component test
@@ -23,6 +24,16 @@ App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
  */
 class TestNetCommonsFrameController extends Controller {
 
+/**
+ * camelizeKeyRecursive
+ *
+ * @param array $orig data to camelize
+ * @return array camelized data
+ */
+	public static function camelizeKeyRecursive($orig) {
+		return $orig;
+	}
+
 }
 
 /**
@@ -31,7 +42,7 @@ class TestNetCommonsFrameController extends Controller {
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Controller
  */
-class NetCommonsFrameComponentTest extends CakeTestCase {
+class NetCommonsFrameComponentTest extends ControllerTestCase {
 
 /**
  * Fixtures
@@ -41,9 +52,13 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.blocks.block',
 		'plugin.boxes.box',
+		'plugin.boxes.boxes_page',
+		'plugin.containers.container',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
+		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
+		'plugin.rooms.space',
 		'plugin.users.user',
 	);
 
@@ -145,11 +160,13 @@ class NetCommonsFrameComponentTest extends CakeTestCase {
 		$expected = array(
 			'frameId' => 1,
 			'frameKey' => 'frame_1',
-			'blockId' => 5,
+			'blockId' => '5',
 			'blockKey' => 'block_5',
 			'roomId' => 1,
-			'languageId' => 2
+			'languageId' => 2,
+			'cancelUrl' => '',
 		);
+
 		$this->assertEquals($expected, $this->FrameController->viewVars);
 	}
 

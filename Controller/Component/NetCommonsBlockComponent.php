@@ -75,7 +75,8 @@ class NetCommonsBlockComponent extends Component {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame'
+		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsRoomRole'
 	);
 
 /**
@@ -112,60 +113,15 @@ class NetCommonsBlockComponent extends Component {
 			$this->$model = ClassRegistry::init($class, true);
 		}
 
-		//RoomRole取得
-		$roomRoles = $this->RoomRole->find('all', array(
-			'recursive' => -1,
-		));
-		$roomRoles = Hash::combine($roomRoles, '{n}.RoomRole.role_key', '{n}.RoomRole');
+		//RoomRolePermissions取得
+		$roomId = $this->controller->viewVars['roomId'];
 
-		//Role取得
-		$roles = $this->Role->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'Role.type' => Role::ROLE_TYPE_ROOM,
-				'Role.language_id' => $this->controller->viewVars['languageId'],
-			),
-		));
-		$roles = Hash::combine($roles, '{n}.Role.key', '{n}.Role');
-
-		//DefaultRolePermission取得
-		$defaultPermissions = $this->DefaultRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'DefaultRolePermission.permission' => $permissions,
-			),
-		));
-		$defaultPermissions = Hash::combine(
-			$defaultPermissions,
-			'{n}.DefaultRolePermission.role_key',
-			'{n}.DefaultRolePermission',
-			'{n}.DefaultRolePermission.permission'
-		);
-		$defaultPermissions = Hash::remove($defaultPermissions, '{s}.{s}.id');
-
-		//RolesRoomのIDリストを取得
-		$rolesRooms = $this->RolesRoom->find('list', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'RolesRoom.room_id' => $this->controller->viewVars['roomId'],
-			),
-		));
-
-		//RoomRolePermission取得
-		$roomRolePermissions = $this->RoomRolePermission->find('all', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'RoomRolePermission.roles_room_id' => $rolesRooms,
-				'RoomRolePermission.permission' => $permissions,
-			),
-		));
-		$roomRolePermissions = Hash::combine(
-			$roomRolePermissions,
-			'{n}.RolesRoom.role_key',
-			'{n}.RoomRolePermission',
-			'{n}.RoomRolePermission.permission'
-		);
-		$roomRolePermissions = Hash::remove($roomRolePermissions, '{s}.{s}.id');
+		$results = $this->NetCommonsRoomRole->getRoomRolePermissions($roomId, $permissions, DefaultRolePermission::TYPE_ROOM_ROLE);
+		$defaultPermissions = Hash::remove($results['DefaultRolePermission'], '{s}.{s}.id');
+		$roles = $results['Role'];
+		$rolesRooms = $results['RolesRoom'];
+		$roomRolePermissions = Hash::remove($results['RoomRolePermission'], '{s}.{s}.id');
+		$roomRoles = $results['RoomRole'];
 
 		//BlockRolePermission取得
 		$blockPermissions = $this->BlockRolePermission->find('all', array(

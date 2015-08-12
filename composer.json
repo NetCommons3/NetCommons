@@ -30,7 +30,7 @@
         "netcommons/boxes":             "dev-master",
         "netcommons/blocks":            "dev-master",
         "netcommons/containers":        "dev-master",
-		"netcommons/control-panel":     "dev-master",
+        "netcommons/control-panel":     "dev-master",
         "netcommons/frames":            "dev-master",
         "netcommons/install":           "dev-master",
         "netcommons/m17n":              "dev-master",

@@ -15,7 +15,8 @@ echo $this->Html->css(
 		'/frames/css/style.css',
 		'bootstrap.min.css',
 		'style',
-		'/pages/css/style.css'
+		'/pages/css/style.css',
+		'/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 	),
 	array('plugin' => false)
 );

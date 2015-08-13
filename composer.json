@@ -34,7 +34,6 @@
         "netcommons/frames":            "dev-master",
         "netcommons/install":           "dev-master",
         "netcommons/m17n":              "dev-master",
-        "netcommons/net-commons":       "dev-master",
         "netcommons/pages":             "dev-master",
         "netcommons/plugin-manager":    "dev-master",
         "netcommons/private-space":     "dev-master",

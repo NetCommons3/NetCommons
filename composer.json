@@ -21,10 +21,6 @@
         "cakephp/cakephp":              "~2.6.9",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
-        "phpunit/phpunit":              "~3.7.38"
-    },
-    "require-dev": {
-        "mustangostang/spyc":           "dev-master",
         "netcommons/auth":              "dev-master",
         "netcommons/auth-general":      "dev-master",
         "netcommons/boxes":             "dev-master",
@@ -45,6 +41,10 @@
         "netcommons/user-attributes":   "dev-master",
         "netcommons/user-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",
+        "phpunit/phpunit":              "~3.7.38"
+    },
+    "require-dev": {
+        "mustangostang/spyc":           "dev-master",
         "satooshi/php-coveralls":       "dev-master"
     },
     "config": {

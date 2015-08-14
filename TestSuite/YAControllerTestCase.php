@@ -62,6 +62,26 @@ class YAControllerTestCase extends ControllerTestCase {
 	}
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		Configure::write('Config.language', 'ja');
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		Configure::write('Config.language', null);
+		parent::tearDown();
+	}
+
+/**
  * Lets you do functional tests of a controller action.
  *
  * ### Options:

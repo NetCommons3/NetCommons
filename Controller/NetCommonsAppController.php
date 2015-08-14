@@ -124,7 +124,7 @@ class NetCommonsAppController extends Controller {
 	public function beforeFilter() {
 		Security::setHash('sha512');
 
-		if (! Configure::read('NetCommons.installed')) {
+		if (! Configure::read('NetCommons.installed') && $this->params['plugin'] === 'Install') {
 			return;
 		}
 

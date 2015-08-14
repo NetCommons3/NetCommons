@@ -27,6 +27,13 @@ App::uses('CakePlugin', 'Core');
 class YACakeTestCase extends CakeTestCase {
 
 /**
+ * Fixture merge
+ *
+ * @var array
+ */
+	protected $_isFixtureMerged = true;
+
+/**
  * Fixtures
  *
  * @var array
@@ -58,7 +65,9 @@ class YACakeTestCase extends CakeTestCase {
  * @return void
  */
 	public function __construct() {
-		$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+		if ($this->_isFixturesMerged) {
+			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+		}
 	}
 
 /**

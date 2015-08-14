@@ -22,6 +22,13 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 class YAControllerTestCase extends ControllerTestCase {
 
 /**
+ * Fixture merge
+ *
+ * @var array
+ */
+	protected $_isFixtureMerged = true;
+
+/**
  * Fixtures
  *
  * @var array
@@ -58,7 +65,9 @@ class YAControllerTestCase extends ControllerTestCase {
  * @return void
  */
 	public function __construct() {
-		$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+		if ($this->_isFixtureMerged) {
+			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+		}
 	}
 
 /**

@@ -64,7 +64,8 @@ class YACakeTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function __construct() {
+	public function __construct($name = NULL, array $data = array(), $dataName = '') {
+		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
 			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
 		}

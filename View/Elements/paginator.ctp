@@ -45,7 +45,6 @@ if (isset($url)) {
 		<?php echo $this->Paginator->numbers($numbersOption); ?>
 
 		<?php echo $this->Paginator->last('»', $lastOption); ?>
-		</li>
 	</ul>
 
 <?php endif;

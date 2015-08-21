@@ -8,12 +8,12 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('User', 'Users.Model');
+App::uses('Model', 'Model');
 
 /**
  * TrackableUserModel for test case
  */
-class TrackableUserModel extends User {
+class TrackableUserModel extends Model {
 
 /**
  * Table name
@@ -74,7 +74,8 @@ class TrackableBehaviorTestBase extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.net_commons.trackable',
-		'plugin.users.user'
+		'plugin.net_commons.trackables_user',
+		'plugin.users.user',
 	);
 
 /**

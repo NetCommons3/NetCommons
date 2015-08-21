@@ -16,17 +16,6 @@ App::uses('TrackableBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior');
 class TrackableBehaviorAssocTest extends TrackableBehaviorTestBase {
 
 /**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'plugin.net_commons.trackable',
-		'plugin.net_commons.trackables_user',
-		'plugin.users.user',
-	);
-
-/**
  * setUp
  *
  * @return void

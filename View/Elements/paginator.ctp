@@ -38,13 +38,13 @@ if (isset($url)) {
 ?>
 
 <?php if ((int)$this->Paginator->param('count') > 0) : ?>
+	<div class="text-center">
+		<ul class="pagination">
+			<?php echo $this->Paginator->first('«', $firstOption); ?>
 
-	<ul class="pagination">
-		<?php echo $this->Paginator->first('«', $firstOption); ?>
+			<?php echo $this->Paginator->numbers($numbersOption); ?>
 
-		<?php echo $this->Paginator->numbers($numbersOption); ?>
-
-		<?php echo $this->Paginator->last('»', $lastOption); ?>
-	</ul>
-
+			<?php echo $this->Paginator->last('»', $lastOption); ?>
+		</ul>
+	</div>
 <?php endif;

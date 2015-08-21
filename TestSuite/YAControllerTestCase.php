@@ -61,10 +61,13 @@ class YAControllerTestCase extends ControllerTestCase {
 
 /**
  * Fixtures load
- *
+ * @param string $name The name parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param array  $data The date parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param string $dataName The dataName parameter on PHPUnit_Framework_TestCase::__construct()
  * @return void
  */
-	public function __construct() {
+	public function __construct($name = null, array $data = array(), $dataName = '') {
+		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
 			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
 		}

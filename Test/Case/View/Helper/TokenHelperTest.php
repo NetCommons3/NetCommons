@@ -62,7 +62,7 @@ class TokenHelperTest extends CakeTestCase {
 		$tokenFields = Hash::flatten($this->Token->request->data);
 		$hiddenFields = array('TestModel.email');
 
-		$tokens = $this->Token->getToken($tokenFields, $hiddenFields);
+		$tokens = $this->Token->getToken('TestModel', 'test', $tokenFields, $hiddenFields);
 
 		$this->assertEquals('testKey', $tokens['_Token']['key']);
 		$this->assertTextContains('TestModel.email', $tokens['_Token']['fields']);
@@ -79,7 +79,7 @@ class TokenHelperTest extends CakeTestCase {
 		$hiddenFields = array('TestModel.email');
 		$this->Token->request['_Token'] += array('unlockedFields' => 'TestModel.email');
 
-		$tokens = $this->Token->getToken($tokenFields, $hiddenFields);
+		$tokens = $this->Token->getToken('TestModel', 'test', $tokenFields, $hiddenFields);
 
 		$this->assertEquals('testKey', $tokens['_Token']['key']);
 		$this->assertNotContains('TestModel.email', $tokens['_Token']['fields']);
@@ -101,7 +101,7 @@ class TokenHelperTest extends CakeTestCase {
 			'TestModel.modified_user'
 		);
 
-		$tokens = $this->Token->getToken($tokenFields, $hiddenFields);
+		$tokens = $this->Token->getToken('TestModel', 'test', $tokenFields, $hiddenFields);
 
 		$this->assertEquals('testKey', $tokens['_Token']['key']);
 		$this->assertContains('TestModel.email', $tokens['_Token']['fields']);
@@ -122,7 +122,7 @@ class TokenHelperTest extends CakeTestCase {
 		$hiddenFields = array('TestModel.email', 'TestModel.created');
 		$blackLists = array('TestModel.email');
 
-		$tokens = $this->Token->getToken($tokenFields, $hiddenFields, $blackLists);
+		$tokens = $this->Token->getToken('TestModel', 'test', $tokenFields, $hiddenFields, $blackLists);
 
 		$this->assertEquals('testKey', $tokens['_Token']['key']);
 		$this->assertNotContains('TestModel.email', $tokens['_Token']['fields']);

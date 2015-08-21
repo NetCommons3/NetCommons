@@ -20,13 +20,18 @@ class TokenHelper extends FormHelper {
 /**
  * Return _Token array.
  *
+ * @param mixed $model The model name for which the form is being defined. Should
+ *   include the plugin name for plugin models. e.g. `ContactManager.Contact`.
+ *   If an array is passed and $options argument is empty, the array will be used as options.
+ *   If `false` no model is used.
+ * @param array|string $actionUrl Action url.
  * @param array $tokenFields An array of fields to generate inputs for, or null.
  * @param array $hiddenFields An array of fields that exist in $tokenFields to generate inputs hidden for, or null.
  * @param array $blacklist  A array of fields to not create inputs for.
  * @return array _Token
  */
-	public function getToken($tokenFields = null, $hiddenFields = array(), $blacklist = null) {
-		if (empty($blacklist)) {
+	public function getToken($model = null, $actionUrl = null, $tokenFields = null, $hiddenFields = array(), $blacklist = null) {
+		if (! isset($blacklist)) {
 			$blacklist = array();
 			$blacklist += array(
 				'created',
@@ -45,7 +50,7 @@ class TokenHelper extends FormHelper {
 			$fields = $this->_getInputsFields($tokenFields, $hiddenFields);
 		}
 
-		$formHtml = $this->create();
+		$formHtml = $this->create($model, array('url' => $actionUrl));
 		$this->inputs($fields, $blacklist, $options);
 		$formHtml .= $this->end();
 

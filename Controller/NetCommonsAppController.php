@@ -273,7 +273,7 @@ class NetCommonsAppController extends Controller {
 		}
 
 		$this->setFlashNotification($message, array(
-			'type' => 'danger',
+			'class' => 'danger',
 			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
 			'error' => ['validationErrors' => $errors]
 		), 400);
@@ -305,7 +305,7 @@ class NetCommonsAppController extends Controller {
 
 		if ($this->request->is('ajax')) {
 			$this->setFlashNotification(__d('net_commons', 'Bad Request'), array(
-				'type' => 'danger',
+				'class' => 'danger',
 				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
 				'error' => $message
 			), 400);
@@ -323,7 +323,7 @@ class NetCommonsAppController extends Controller {
  */
 	public function setFlashNotification($message, $params = array(), $status = 200) {
 		if (is_string($params)) {
-			$params = array('type' => $params);
+			$params = array('class' => $params);
 		}
 
 		if (isset($params['element'])) {
@@ -334,12 +334,12 @@ class NetCommonsAppController extends Controller {
 		}
 
 		$params = Hash::merge(array(
-			'type' => 'danger',
+			'class' => 'danger',
 			'interval' => null,
 			'plugin' => 'NetCommons',
 		), $params);
 
-		if ($params['interval'] === null && $params['type'] !== 'danger') {
+		if ($params['interval'] === null && $params['class'] !== 'danger') {
 			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
 		}
 

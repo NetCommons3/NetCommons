@@ -355,6 +355,13 @@ NetCommonsApp.controller('NetCommons.base', function(
     $scope, $modalStack, NetCommonsBase) {
 
       /**
+       * sending
+       *
+       * @type {boolean}
+       */
+      $scope.sending = false;
+
+      /**
        * messages
        *
        * @type {Object}
@@ -383,4 +390,26 @@ NetCommonsApp.controller('NetCommons.base', function(
       $scope.cancel = function() {
         history.back();
       };
+
+      /**
+       * flash message method
+       *
+       * @param {string} message
+       * @param {string} type
+       * @param {int} interval
+       * @return {void}
+       */
+      $scope.flashMessage = function(message, type, interval) {
+        $scope.flash = {
+          message: message,
+          type: type
+        };
+        $('#nc-flash-message').removeClass('hidden');
+        if (interval > 0) {
+          $('#nc-flash-message').fadeIn(500).fadeTo(interval, 1).fadeOut(1500);
+        } else {
+          $('#nc-flash-message').fadeIn(500);
+        }
+      }
+
     });

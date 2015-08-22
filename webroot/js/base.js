@@ -395,14 +395,14 @@ NetCommonsApp.controller('NetCommons.base', function(
        * flash message method
        *
        * @param {string} message
-       * @param {string} type
+       * @param {string} messageClass
        * @param {int} interval
        * @return {void}
        */
-      $scope.flashMessage = function(message, type, interval) {
+      $scope.flashMessage = function(message, messageClass, interval) {
         $scope.flash = {
           message: message,
-          type: type
+          class: messageClass
         };
         $('#nc-flash-message').removeClass('hidden');
         if (interval > 0) {

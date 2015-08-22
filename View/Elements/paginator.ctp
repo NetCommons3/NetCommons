@@ -34,10 +34,9 @@ if (isset($url)) {
 	$numbersOption['url'] = $url;
 	$lastOption['url'] = $url;
 }
-
 ?>
 
-<?php if ((int)$this->Paginator->param('count') > 0) : ?>
+<?php if ((int)$this->Paginator->counter('{:pages}') > 1) : ?>
 	<div class="text-center">
 		<ul class="pagination">
 			<?php echo $this->Paginator->first('«', $firstOption); ?>
@@ -47,4 +46,7 @@ if (isset($url)) {
 			<?php echo $this->Paginator->last('»', $lastOption); ?>
 		</ul>
 	</div>
+
+<?php else : ?>
+	<br>
 <?php endif;

@@ -319,6 +319,7 @@ class NetCommonsAppController extends Controller {
  *
  * @param string $message message
  * @param array $params Parameters to be sent to layout as view variables
+ * @param int $status status code
  * @return void
  */
 	public function setFlashNotification($message, $params = array(), $status = 200) {

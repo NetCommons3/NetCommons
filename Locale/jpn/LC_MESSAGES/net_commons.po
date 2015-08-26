@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2015-07-24 06:51+0900\n"
+"PO-Revision-Date: 2015-08-23 10:05+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -497,7 +497,7 @@ msgstr ""
 #: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
 #: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201
 msgid "BACK"
-msgstr ""
+msgstr "戻る"
 
 #: Questionnaires/View/QuestionnaireAnswers/answer.ctp:129
 #: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:95
@@ -505,11 +505,11 @@ msgstr ""
 #: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:204
 #: Questionnaires/View/Questionnaires/add.ctp:119
 msgid "NEXT"
-msgstr ""
+msgstr "次へ"
 
 #: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:92
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 msgid "All Plugins"
 msgstr "全てのプラグイン"
@@ -522,4 +522,3 @@ msgstr "全ての期間"
 
 msgid "No results found."
 msgstr "条件に一致するデータはありませんでした。"
-

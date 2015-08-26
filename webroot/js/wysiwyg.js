@@ -17,14 +17,14 @@ NetCommonsApp.factory('NetCommonsWysiwyg', function() {
   var options = {
     mode: 'exact',
     menubar: ' ',
-    plugins: 'textcolor advlist autolink charmap code link ',
+    plugins: 'textcolor advlist autolink charmap code link image',
     toolbar: 'undo redo  |' +
         ' forecolor |' +
         ' styleselect |' +
         ' bold italic |' +
         ' alignleft aligncenter alignright alignjustify |' +
         ' bullist numlist outdent indent |' +
-        ' link |'
+        ' link image | code'
   };
 
   /**

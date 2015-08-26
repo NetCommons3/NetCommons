@@ -264,22 +264,19 @@ class NetCommonsAppController extends Controller {
 		}
 
 		$this->validationErrors = $errors;
-		if ($this->request->is('ajax')) {
-			$results = ['error' => ['validationErrors' => $errors]];
-			$this->renderJson($results, __d('net_commons', 'Bad Request'), 400);
-		} else {
-			$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
-			CakeLog::info('[ValidationErrors] ' . $this->request->here());
-			if (Configure::read('debug')) {
-				CakeLog::info(print_r($errors, true));
-				//CakeLog::info(print_r($this->request->data, true));
-			}
 
-			$this->setFlashNotification($message, array(
-				'class' => 'danger',
-				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL
-			));
+		$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
+		CakeLog::info('[ValidationErrors] ' . $this->request->here());
+		if (Configure::read('debug')) {
+			CakeLog::info(print_r($errors, true));
+			//CakeLog::info(print_r($this->request->data, true));
 		}
+
+		$this->setFlashNotification($message, array(
+			'class' => 'danger',
+			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
+			'error' => ['validationErrors' => $errors]
+		), 400);
 		return false;
 	}
 
@@ -307,10 +304,11 @@ class NetCommonsAppController extends Controller {
 		}
 
 		if ($this->request->is('ajax')) {
-			$this->renderJson(
-				['error' => $message],
-				__d('net_commons', 'Bad Request'), 400
-			);
+			$this->setFlashNotification(__d('net_commons', 'Bad Request'), array(
+				'class' => 'danger',
+				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
+				'error' => $message
+			), 400);
 		} else {
 			throw new BadRequestException($message);
 		}
@@ -321,9 +319,10 @@ class NetCommonsAppController extends Controller {
  *
  * @param string $message message
  * @param array $params Parameters to be sent to layout as view variables
+ * @param int $status status code
  * @return void
  */
-	public function setFlashNotification($message, $params = array()) {
+	public function setFlashNotification($message, $params = array(), $status = 200) {
 		if (is_string($params)) {
 			$params = array('class' => $params);
 		}
@@ -338,14 +337,18 @@ class NetCommonsAppController extends Controller {
 		$params = Hash::merge(array(
 			'class' => 'danger',
 			'interval' => null,
-			'plugin' => 'NetCommons'
+			'plugin' => 'NetCommons',
 		), $params);
 
 		if ($params['interval'] === null && $params['class'] !== 'danger') {
 			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
 		}
 
-		$this->Session->setFlash($message, $element, $params);
+		if ($this->request->is('ajax')) {
+			$this->renderJson($params, $message, $status);
+		} else {
+			$this->Session->setFlash($message, $element, $params);
+		}
 	}
 
 }

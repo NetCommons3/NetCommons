@@ -21,6 +21,12 @@ if (! isset($container)) {
 	$container = 'container';
 }
 ?>
+
+<?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
+	<?php echo $flashMessage; ?>
+<?php endif; ?>
+
+
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : $container; ?>">

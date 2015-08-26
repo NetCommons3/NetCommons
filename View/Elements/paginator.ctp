@@ -46,7 +46,4 @@ if (isset($url)) {
 			<?php echo $this->Paginator->last('»', $lastOption); ?>
 		</ul>
 	</div>
-
-<?php else : ?>
-	<br>
 <?php endif;

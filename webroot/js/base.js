@@ -410,6 +410,6 @@ NetCommonsApp.controller('NetCommons.base', function(
         } else {
           $('#nc-flash-message').fadeIn(500);
         }
-      }
+      };
 
     });

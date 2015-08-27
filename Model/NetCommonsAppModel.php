@@ -122,6 +122,8 @@ class NetCommonsAppModel extends Model {
 		if (! method_exists('Validation', 'notBlank')) {
 			//version 2.7以前
 			return Validation::notEmpty($check);
+		} elseif (is_array($check)) {
+			return Validation::notBlank(array_shift($check));
 		} else {
 			return Validation::notBlank($check);
 		}

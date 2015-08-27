@@ -297,8 +297,15 @@ class NetCommonsRoomRoleComponent extends Component {
 			return;
 		}
 
+		//var_dump($controller->viewVars);
+		//$roleRoomUser =
+		//		$this->RolesRoomsUser->getRolesRoomsUsers(array(
+		//			'RolesRoomsUser.user_id' => $userId,
+		//			'Room.id' => $controller->viewVars['roomId']
+		//		));
 		$roleRoomUser =
 				$this->RolesRoomsUser->findByUserId($userId);
+
 		if (! $roleRoomUser) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}

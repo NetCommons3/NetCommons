@@ -97,7 +97,7 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $current = [
-		'page' => null,
+		'Page' => null,
 	];
 
 /**
@@ -152,8 +152,8 @@ class NetCommonsAppController extends Controller {
 
 		$this->set('userId', $this->Auth->user('id'));
 
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
+//		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		$this->set(['current' => $this->current]);
 	}
 
 /**

@@ -88,8 +88,8 @@ class NetCommonsFrameComponent extends Component {
 			],
 		]);
 		if (isset($box['Page'][0])) {
-			$this->controller->current['page'] = $box['Page'][0];
-			$this->controller->set('cancelUrl', $this->controller->current['page']['permalink']);
+			$this->controller->current['Page'] = $box['Page'][0];
+			$this->controller->set('cancelUrl', $this->controller->current['Page']['permalink']);
 		}
 	}
 

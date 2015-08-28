@@ -64,4 +64,26 @@ class NetCommonsHtmlHelper extends HtmlHelper {
 		return $this->Html->css($path, Hash::merge($defaultOptions, $options));
 	}
 
+/**
+ * render json
+ *
+ * @param array $results results data
+ * @param string $name message
+ * @param int $status status code
+ * @return string json format data
+ */
+	public function json($results = [], $name = 'OK', $status = 200) {
+		//if (! $results) {
+		//	$results = $this->_View->viewVars;
+		//}
+		$results = array_merge([
+			'name' => $name,
+			'code' => $status,
+		], $results);
+
+		$camelizeData = NetCommonsAppController::camelizeKeyRecursive($results);
+
+		return json_encode($camelizeData);
+	}
+
 }

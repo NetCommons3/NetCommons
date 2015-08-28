@@ -89,6 +89,8 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
+		'NetCommons.NetCommonsForm',
+		'NetCommons.NetCommonsHtml'
 	);
 
 /**

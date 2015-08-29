@@ -88,7 +88,8 @@ class TrackableBehavior extends ModelBehavior {
 					'foreignKey' => $config['fields']['created_by'],
 					'fields' => array(
 						'TrackableCreator.id',
-						'TrackableCreator.username'
+						'TrackableCreator.username',
+						'TrackableCreator.handlename'
 					)
 				),
 				'TrackableUpdater' => array(
@@ -96,7 +97,8 @@ class TrackableBehavior extends ModelBehavior {
 					'foreignKey' => $config['fields']['updated_by'],
 					'fields' => array(
 						'TrackableUpdater.id',
-						'TrackableUpdater.username'
+						'TrackableUpdater.username',
+						'TrackableUpdater.handlename'
 					)
 				),
 			)

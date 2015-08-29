@@ -297,18 +297,17 @@ class NetCommonsRoomRoleComponent extends Component {
 			return;
 		}
 
-		//var_dump($controller->viewVars);
-		//$roleRoomUser =
-		//		$this->RolesRoomsUser->getRolesRoomsUsers(array(
-		//			'RolesRoomsUser.user_id' => $userId,
-		//			'Room.id' => $controller->viewVars['roomId']
-		//		));
-		$roleRoomUser =
-				$this->RolesRoomsUser->findByUserId($userId);
+		$roleRoomUser = $this->RolesRoomsUser->getRolesRoomsUsers(array(
+			'RolesRoomsUser.user_id' => $userId,
+			//'Room.id' => $controller->viewVars['roomId']
+			'Room.id' => 1 //とりあえず1固定
+		));
 
 		if (! $roleRoomUser) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}
+		$roleRoomUser = $roleRoomUser[0];
+
 		if (isset($roleRoomUser['RolesRoom'])) {
 			$controller->set('roomRoleKey', $roleRoomUser['RolesRoom']['role_key']);
 			$controller->set('rolesRoomId', $roleRoomUser['RolesRoom']['id']);

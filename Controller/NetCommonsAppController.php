@@ -289,7 +289,7 @@ class NetCommonsAppController extends Controller {
  */
 	public function redirectByFrameId() {
 		if (!$this->request->is('ajax')) {
-			$this->redirect('/' . $this->current['page']['permalink']);
+			$this->redirect('/' . $this->current['Page']['permalink']);
 		}
 	}
 

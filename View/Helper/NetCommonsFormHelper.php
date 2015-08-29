@@ -23,7 +23,7 @@ class NetCommonsFormHelper extends FormHelper {
  *
  * @var array
  */
-	public $helpers = array('Form');
+	public $helpers = array('Form', 'Html');
 
 /**
  * Overwrite FormHelper::input()
@@ -103,6 +103,50 @@ class NetCommonsFormHelper extends FormHelper {
 	}
 
 /**
+ * Overwrite FormHelper::radio()
+ *
+ * ### Options
+ *
+ * $options = array(
+ *  array('name' => 'United states', 'value' => 'US', 'title' => 'My title'),
+ *  array('name' => 'Germany', 'value' => 'DE', 'class' => 'de-de', 'title' => 'Another title'),
+ * );
+ *
+ * ### Attributes:
+ *
+ * - `separator` - define the string in between the radio buttons
+ * - `between` - the string between legend and input set or array of strings to insert
+ *    strings between each input block
+ * - `legend` - control whether or not the widget set has a fieldset & legend
+ * - `value` - indicate a value that is should be checked
+ * - `label` - boolean to indicate whether or not labels for widgets show be displayed
+ * - `hiddenField` - boolean to indicate if you want the results of radio() to include
+ *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
+ * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
+ * - `empty` - Set to `true` to create an input with the value '' as the first option. When `true`
+ *   the radio label will be 'empty'. Set this option to a string to control the label value.
+ *
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $options Radio button options array.
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ */
+	public function radio($fieldName, $options = array(), $attributes = array()) {
+		$defaultAttributes = array(
+			'error' => false,
+			'div' => false,
+			'label' => false,
+			'legend' => false,
+		);
+
+		$attributes = Hash::merge($defaultAttributes, $attributes);
+
+		$output = $this->Form->radio($fieldName, $options, $attributes);
+		return $output;
+	}
+
+/**
  * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
  * You can change it to a different value by using `$options['type']`.
  *
@@ -126,7 +170,75 @@ class NetCommonsFormHelper extends FormHelper {
 		$defaultOptions = array(
 			'name' => 'delete',
 			'class' => 'btn btn-danger pull-right',
-			'onclick' => 'return confirm(\'' . $confirm . '\')'
+			'onclick' => 'return confirm(\'' . $confirm . '\')',
+			'ng-click' => 'sending=true',
+			'ng-disabled' => 'sending'
+		);
+		$inputOptions = Hash::merge($defaultOptions, $options);
+
+		$output .= $this->Form->button($title, $inputOptions);
+		return $output;
+	}
+
+/**
+ * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
+ * You can change it to a different value by using `$options['type']`.
+ *
+ * ### Options:
+ *
+ * - `escape` - HTML entity encode the $title of the button. Defaults to false.
+ *
+ * ### Original options
+ * - `confirm` - Add javascript confirm in onclick attribute
+ *
+ * @param string $title The button's caption. Not automatically HTML encoded
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function saveButton($title, $options = array()) {
+		$output = '';
+
+		$defaultOptions = array(
+			'name' => 'save',
+			'class' => 'btn btn-primary btn-workflow',
+			'ng-click' => 'sending=true',
+			'ng-disabled' => 'sending'
+		);
+		$inputOptions = Hash::merge($defaultOptions, $options);
+
+		$output .= $this->Form->button($title, $inputOptions);
+		return $output;
+	}
+
+/**
+ * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
+ * You can change it to a different value by using `$options['type']`.
+ *
+ * ### Options:
+ *
+ * - `escape` - HTML entity encode the $title of the button. Defaults to false.
+ *
+ * ### Original options
+ * - `confirm` - Add javascript confirm in onclick attribute
+ *
+ * @param string $title The button's caption. Not automatically HTML encoded
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function cancelButton($title, $url, $options = array()) {
+		$output = '';
+
+		$title = '<span class="glyphicon glyphicon-remove"></span> ' . $title;
+
+		$defaultOptions = array(
+			'name' => 'cancel',
+			'type' => 'button',
+			'class' => 'btn btn-default btn-workflow',
+			'ng-click' => 'sending=true',
+			'ng-disabled' => 'sending',
+			'onclick' => 'location.href = \'' . $this->Html->url($url) . '\''
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 

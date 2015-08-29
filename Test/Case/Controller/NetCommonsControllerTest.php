@@ -77,7 +77,7 @@ class NetCommonsControllerTest extends YAControllerTestCase {
  */
 	public function testPageDataExistsWhenFrameIdSpecified() {
 		$this->testAction('/net_commons/net_commons/edit/1', ['return' => 'contents']);
-		$this->assertNotNull($this->controller->current['page']);
+		$this->assertNotNull($this->controller->current['Page']);
 	}
 
 /**

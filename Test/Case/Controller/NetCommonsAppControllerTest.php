@@ -104,7 +104,7 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
 	public function testRedirectByFrameId() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		$permalink = 'test';
-		$this->controller->current['page']['permalink'] = $permalink;
+		$this->controller->current['Page']['permalink'] = $permalink;
 		$this->controller->redirectByFrameId();
 		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
 

@@ -154,7 +154,7 @@ class NetCommonsAppController extends Controller {
 
 		$this->set('userId', $this->Auth->user('id'));
 
-//		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		//$results = $this->camelizeKeyRecursive(['current' => $this->current]);
 		$this->set(['current' => $this->current]);
 	}
 

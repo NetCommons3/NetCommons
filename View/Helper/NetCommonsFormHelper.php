@@ -158,6 +158,7 @@ class NetCommonsFormHelper extends FormHelper {
  * - `confirm` - Add javascript confirm in onclick attribute
  *
  * @param string $title The button's caption. Not automatically HTML encoded
+ * @param string $confirm Confirm message by button click
  * @param array $options Array of options and HTML attributes.
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
@@ -220,9 +221,10 @@ class NetCommonsFormHelper extends FormHelper {
  * - `escape` - HTML entity encode the $title of the button. Defaults to false.
  *
  * ### Original options
- * - `confirm` - Add javascript confirm in onclick attribute
+ * - `url` - The url in onclick attribute
  *
  * @param string $title The button's caption. Not automatically HTML encoded
+ * @param string $url The url in onclick attribute
  * @param array $options Array of options and HTML attributes.
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button

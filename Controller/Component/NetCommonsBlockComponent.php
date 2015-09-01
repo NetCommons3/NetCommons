@@ -144,6 +144,10 @@ class NetCommonsBlockComponent extends Component {
 			'BlockRolePermissions' => Hash::merge($defaultPermissions, $roomRolePermissions, $blockPermissions),
 			'Roles' => Hash::merge($roomRoles, $roles)
 		);
+
+		//block_keyのセット
+		$results['BlockRolePermissions'] = Hash::insert($results['BlockRolePermissions'], '{s}.{s}.block_key', $blockKey);
+
 		return $results;
 	}
 

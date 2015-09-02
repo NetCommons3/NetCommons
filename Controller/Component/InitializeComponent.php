@@ -41,13 +41,13 @@ class InitializeComponent extends Component {
 			list($pluginName, $modelClass) = pluginSplit($this->modelClass);
 		}
 
-CakeLog::debug('InitializeComponent::startup $pluginName . \'.\' . $modelClass=' . $pluginName . '.' . $modelClass);
+		try {
+			$model = ClassRegistry::init($pluginName . '.' . $modelClass);
+			$model->prepareCurrent($controller->request);
 
-		$model = ClassRegistry::init($pluginName . '.' . $modelClass);
-		if ($model) {
-CakeLog::debug(print_r($model, true));
-			//$controller->$modelClass = $model;
-			$controller->$modelClass->Current->aaaaa($controller->params);
+//			CakeLog::debug(print_r(CurrentBehavior::$current, true));
+		} catch (Exception $ex) {
+
 		}
 	}
 }

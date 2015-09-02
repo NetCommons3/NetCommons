@@ -20,26 +20,30 @@ App::uses('ModelBehavior', 'Model');
 class CurrentBehavior extends ModelBehavior {
 
 /**
- * layout
+ * constant value
+ */
+	const SETTING_MODE_WORD = 'setting';
+
+/**
+ * is setting mode true
+ *
+ * @var bool
+ */
+	private static $__isSettingMode = null;
+
+/**
+ * Current data
  *
  * @var array
  */
-	public $aaaa = '';
+	private $__current = array();
 
 /**
- * Setup this behavior with the specified configuration settings.
+ * Request object
  *
- * @param Model $model Model using this behavior
- * @param array $config Configuration settings for $model
- * @return void
+ * @var mixed
  */
-	public function prepare() {
-		//$this->settings = Hash::merge($this->settings, $config);
-
-CakeLog::debug('CurrentBehavior::prepare');
-//CakeLog::debug('CurrentBehavior::setup $model->table = ' . $model->table);
-CakeLog::debug(print_r($params, true));
-	}
+	public $request;
 
 /**
  * Setup this behavior with the specified configuration settings.
@@ -49,13 +53,58 @@ CakeLog::debug(print_r($params, true));
  * @return void
  */
 	public function setup(Model $model, $config = array()) {
+		$models = array(
+			'Box' => 'Boxes.Box',
+			'BlockRolePermission' => 'Blocks.BlockRolePermission',
+			'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+			'Frame' => 'Frames.Frame',
+			'RolesRoomsUser' => 'Rooms.RolesRoomsUser',
+			'RoomRolePermission' => 'Rooms.RoomRolePermission',
+			'Plugin' => 'PluginManager.Plugin',
+		);
+		foreach ($models as $key => $class) {
+			$this->$key = ClassRegistry::init($class);
+		}
+	}
+
+/**
+ * setup current data
+ *
+ * @param Model $model Model using this behavior
+ * @param array $config Configuration settings for $model
+ * @return void
+ */
+	public function prepareCurrent(Model $model, $request) {
+		$this->request = $request;
+
 		//$this->settings = Hash::merge($this->settings, $config);
 
-CakeLog::debug('CurrentBehavior::setup');
-CakeLog::debug('CurrentBehavior::setup $model->table = ' . $model->table);
-CakeLog::debug($this->aaaa);
+CakeLog::debug('CurrentBehavior::prepareCurrent');
 
-$this->aaaa = 'aaaa';
+		$this->__current = array('aaaa');
+
+//CakeLog::debug('CurrentBehavior::setup $model->table = ' . $model->table);
+CakeLog::debug(print_r($request, true));
+	}
+
+/**
+ * Check setting mode
+ *
+ * @return bool
+ */
+	public static function isSettingMode() {
+		if (isset(self::$__isSettingMode)) {
+			return self::$__isSettingMode;
+		}
+
+		$pattern = preg_quote('/' . self::SETTING_MODE_WORD . '/', '/');
+		if (preg_match('/' . $pattern . '/', Router::url())) {
+			self::$__isSettingMode = true;
+		} else {
+			self::$__isSettingMode = false;
+		}
+
+		return self::$__isSettingMode;
 	}
 
 }

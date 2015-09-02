@@ -47,6 +47,9 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
+		'NetCommons.Initialize' => array(
+			'modelClass' => 'aaaaa'
+		),
 		'DebugKit.Toolbar',
 		'Session',
 		'Asset',
@@ -110,12 +113,16 @@ class NetCommonsAppController extends Controller {
  * @param CakeResponse $response Response object for this controller.
  */
 	public function __construct($request = null, $response = null) {
+CakeLog::debug('NetCommonsAppController::__construct');
 		parent::__construct($request, $response);
 
 		if (in_array('Html', $this->helpers, true) &&
 				!isset($this->helpers['Html']['className'])) {
 			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';
 		}
+
+App::uses('CurrentBehavior', 'NetCommons.Model/Behavior');
+		CurrentBehavior::initialize($request->params);
 	}
 
 /**
@@ -125,6 +132,7 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
+CakeLog::debug('NetCommonsAppController::beforeFilter');
 
 		if (! Configure::read('NetCommons.installed') && $this->params['plugin'] === 'install') {
 			return;

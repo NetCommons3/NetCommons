@@ -29,6 +29,7 @@ class NetCommonsAppModel extends Model {
  */
 	public $actsAs = array(
 		'NetCommons.Trackable',
+		'NetCommons.Current',
 	);
 
 /**

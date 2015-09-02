@@ -47,9 +47,7 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
-		'NetCommons.Initialize' => array(
-			'modelClass' => 'aaaaa'
-		),
+		'NetCommons.Initialize',
 		'DebugKit.Toolbar',
 		'Session',
 		'Asset',
@@ -120,9 +118,6 @@ CakeLog::debug('NetCommonsAppController::__construct');
 				!isset($this->helpers['Html']['className'])) {
 			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';
 		}
-
-App::uses('CurrentBehavior', 'NetCommons.Model/Behavior');
-		CurrentBehavior::initialize($request->params);
 	}
 
 /**

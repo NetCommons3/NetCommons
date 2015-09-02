@@ -27,13 +27,6 @@ class InitializeComponent extends Component {
 	public $modelClass;
 
 /**
- * Model class
- *
- * @var array
- */
-	public $pluginName;
-
-/**
  * Called after the Controller::beforeFilter() and before the controller action
  *
  * @param Controller $controller Controller with components to startup
@@ -41,17 +34,20 @@ class InitializeComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
-		//$this->controller = $controller;
-
 		if (! isset($this->modelClass)) {
-			$this->modelClass = Inflector::classify($controller->params['controller']);
-			$this->pluginName = Inflector::pluralize($controller->params['plugin']);
+			$pluginName = ucfirst(Inflector::pluralize($controller->params['plugin']));
+			$modelClass = Inflector::classify($controller->params['controller']);
 		} else {
-
+			list($pluginName, $modelClass) = pluginSplit($this->modelClass);
 		}
 
-CakeLog::debug('InitialaizeComponent::setup $this->modelClass = ' . $this->modelClass);
-CakeLog::debug('InitialaizeComponent::setup $controller->params[\'plugin\'] = ' . $controller->params['plugin']);
-		//var_dump($this->modelClass);
+CakeLog::debug('InitializeComponent::startup $pluginName . \'.\' . $modelClass=' . $pluginName . '.' . $modelClass);
+
+		$model = ClassRegistry::init($pluginName . '.' . $modelClass);
+		if ($model) {
+CakeLog::debug(print_r($model, true));
+			//$controller->$modelClass = $model;
+			$controller->$modelClass->Current->aaaaa($controller->params);
+		}
 	}
 }

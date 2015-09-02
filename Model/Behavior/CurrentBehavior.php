@@ -33,20 +33,12 @@ class CurrentBehavior extends ModelBehavior {
  * @param array $config Configuration settings for $model
  * @return void
  */
-	public static function initialize($params = array()) {
-		static $requestParams = null;
-
+	public function prepare() {
 		//$this->settings = Hash::merge($this->settings, $config);
 
-CakeLog::debug('CurrentBehavior::initialize');
-//CakeLog::debug('CurrentBehavior::initialize $model->model' . $model->table);
+CakeLog::debug('CurrentBehavior::prepare');
+//CakeLog::debug('CurrentBehavior::setup $model->table = ' . $model->table);
 CakeLog::debug(print_r($params, true));
-
-		if (! $requestParams) {
-			$requestParams = $params;
-		}
-
-		return $requestParams;
 	}
 
 /**
@@ -60,8 +52,7 @@ CakeLog::debug(print_r($params, true));
 		//$this->settings = Hash::merge($this->settings, $config);
 
 CakeLog::debug('CurrentBehavior::setup');
-CakeLog::debug('CurrentBehavior::setup $model->model = ' . $model->table);
-CakeLog::debug($model->table);
+CakeLog::debug('CurrentBehavior::setup $model->table = ' . $model->table);
 CakeLog::debug($this->aaaa);
 
 $this->aaaa = 'aaaa';

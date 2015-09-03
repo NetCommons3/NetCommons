@@ -10,6 +10,7 @@
 
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
+App::uses('CurrentUtility', 'NetCommons.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -47,7 +48,6 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
-		'NetCommons.Initialize',
 		'DebugKit.Toolbar',
 		'Session',
 		'Asset',
@@ -77,8 +77,8 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $uses = [
-		'NetCommons.SiteSetting',
 		'M17n.Language',
+		'NetCommons.SiteSetting',
 	];
 
 /**
@@ -133,17 +133,31 @@ CakeLog::debug('NetCommonsAppController::beforeFilter');
 			return;
 		}
 
-		//現在のテーマを取得
-		$theme = $this->Asset->getSiteTheme($this);
-		if ($theme) {
-			$this->theme = $theme;
-		}
+		//言語の取得
 		if (isset($this->request->query['language'])) {
 			Configure::write('Config.language', $this->request->query['language']);
 			$this->Session->write('Config.language', $this->request->query['language']);
 		} elseif ($this->Session->check('Config.language')) {
 			Configure::write('Config.language', $this->Session->read('Config.language'));
 		}
+
+		//カレントデータセット
+		CurrentUtility::initialize($this->request);
+
+
+
+
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
+		}
+//		if (isset($this->request->query['language'])) {
+//			Configure::write('Config.language', $this->request->query['language']);
+//			$this->Session->write('Config.language', $this->request->query['language']);
+//		} elseif ($this->Session->check('Config.language')) {
+//			Configure::write('Config.language', $this->Session->read('Config.language'));
+//		}
 		//set language_id
 		$language = $this->Language->findByCode(Configure::read('Config.language'));
 		Configure::write('Config.languageId', $language['Language']['id']);

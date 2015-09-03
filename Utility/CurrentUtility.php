@@ -340,8 +340,10 @@ CakeLog::debug('CurrentUtility::initialize() self::$current ' . print_r(self::$c
 
 		if (isset(self::$current['RolesRoom'])) {
 			$roomRoleKey = self::$current['RolesRoom']['role_key'];
+			$rolesRoomid = self::$current['RolesRoom']['id'];
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
+			$rolesRoomid = 0;
 		}
 
 		if (! isset(self::$current['DefaultRolePermission'])) {
@@ -352,7 +354,10 @@ CakeLog::debug('CurrentUtility::initialize() self::$current ' . print_r(self::$c
 		}
 
 		if (self::$current['User']['id'] && ! isset(self::$current['RoomRolePermission'])) {
+			$result = self::$__instance->RoomRolePermission->findAllByRolesRoomId($rolesRoomid);
+			if ($result) {
 
+			}
 		}
 	}
 

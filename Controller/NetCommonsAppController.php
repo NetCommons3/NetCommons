@@ -111,7 +111,6 @@ class NetCommonsAppController extends Controller {
  * @param CakeResponse $response Response object for this controller.
  */
 	public function __construct($request = null, $response = null) {
-CakeLog::debug('NetCommonsAppController::__construct');
 		parent::__construct($request, $response);
 
 		if (in_array('Html', $this->helpers, true) &&
@@ -127,8 +126,6 @@ CakeLog::debug('NetCommonsAppController::__construct');
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
-CakeLog::debug('NetCommonsAppController::beforeFilter');
-
 		if (! Configure::read('NetCommons.installed') && $this->params['plugin'] === 'install') {
 			return;
 		}
@@ -144,24 +141,21 @@ CakeLog::debug('NetCommonsAppController::beforeFilter');
 		//カレントデータセット
 		CurrentUtility::initialize($this->request);
 
-
-
-
 		//現在のテーマを取得
 		$theme = $this->Asset->getSiteTheme($this);
 		if ($theme) {
 			$this->theme = $theme;
 		}
-//		if (isset($this->request->query['language'])) {
-//			Configure::write('Config.language', $this->request->query['language']);
-//			$this->Session->write('Config.language', $this->request->query['language']);
-//		} elseif ($this->Session->check('Config.language')) {
-//			Configure::write('Config.language', $this->Session->read('Config.language'));
-//		}
-		//set language_id
-		$language = $this->Language->findByCode(Configure::read('Config.language'));
-		Configure::write('Config.languageId', $language['Language']['id']);
-		$this->set('languageId', $language['Language']['id']);
+		//if (isset($this->request->query['language'])) {
+		//	Configure::write('Config.language', $this->request->query['language']);
+		//	$this->Session->write('Config.language', $this->request->query['language']);
+		//} elseif ($this->Session->check('Config.language')) {
+		//	Configure::write('Config.language', $this->Session->read('Config.language'));
+		//}
+		////set language_id
+		//$language = $this->Language->findByCode(Configure::read('Config.language'));
+		Configure::write('Config.languageId', CurrentUtility::current('Language.id'));
+		$this->set('languageId', CurrentUtility::current('Language.id'));
 
 		$this->Auth->allow('index', 'view');
 

@@ -116,18 +116,19 @@ class CurrentFrameUtility {
 			return;
 		}
 		self::$__current = Hash::merge(self::$__current, $result);
-
-		if (! isset(self::$__current['Page'])) {
-			$result = self::$__instance->Box->find('first', array(
-				'conditions' => array(
-					'Box.id' => self::$__current['Box']['id'],
-				),
-			));
-			if (! $result) {
-				return;
-			}
-			self::$__current['Page'] = $result['Page'][0];
+		if (isset(self::$__current['Page'])) {
+			return;
 		}
+
+		$result = self::$__instance->Box->find('first', array(
+			'conditions' => array(
+				'Box.id' => self::$__current['Box']['id'],
+			),
+		));
+		if (! $result) {
+			return;
+		}
+		self::$__current['Page'] = $result['Page'][0];
 	}
 
 /**
@@ -186,22 +187,22 @@ class CurrentFrameUtility {
 	public function setDefaultRolePermissions() {
 		self::$__instance->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 
+		if (isset(self::$__current['DefaultRolePermission'])) {
+			return;
+		}
 		if (isset(self::$__current['RolesRoom'])) {
 			$roomRoleKey = self::$__current['RolesRoom']['role_key'];
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
 		}
-
-		if (! isset(self::$__current['DefaultRolePermission'])) {
-			$result = self::$__instance->DefaultRolePermission->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'role_key' => $roomRoleKey,
-				)
-			));
-			if ($result) {
-				self::$__current['DefaultRolePermission'] = Hash::combine($result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission');
-			}
+		$result = self::$__instance->DefaultRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'role_key' => $roomRoleKey,
+			)
+		));
+		if ($result) {
+			self::$__current['DefaultRolePermission'] = Hash::combine($result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission');
 		}
 	}
 
@@ -213,16 +214,17 @@ class CurrentFrameUtility {
 	public function setRoomRolePermissions() {
 		self::$__instance->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
 
-		if (isset(self::$__current['RolesRoom']) && ! isset(self::$__current['RoomRolePermission'])) {
-			$result = self::$__instance->RoomRolePermission->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'roles_room_id' => self::$__current['RolesRoom']['id'],
-				)
-			));
-			if ($result) {
-				self::$__current['RoomRolePermission'] = Hash::combine($result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission');
-			}
+		if (isset(self::$__current['RoomRolePermission']) || ! isset(self::$__current['RolesRoom'])) {
+			return;
+		}
+		$result = self::$__instance->RoomRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'roles_room_id' => self::$__current['RolesRoom']['id'],
+			)
+		));
+		if ($result) {
+			self::$__current['RoomRolePermission'] = Hash::combine($result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission');
 		}
 	}
 
@@ -234,7 +236,11 @@ class CurrentFrameUtility {
 	public function setBlockRolePermissions() {
 		self::$__instance->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
 
-		if (isset(self::$__current['RolesRoom']) && isset(self::$__current['Block']) && ! isset(self::$__current['BlockRolePermission'])) {
+		if (isset(self::$__current['BlockRolePermission'])) {
+			return;
+		}
+
+		if (isset(self::$__current['RolesRoom']) && isset(self::$__current['Block'])) {
 			$result = self::$__instance->BlockRolePermission->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
@@ -246,6 +252,20 @@ class CurrentFrameUtility {
 				self::$__current['BlockRolePermission'] = Hash::combine($result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission');
 			}
 		}
+
+		$permission = array();
+		if (isset(self::$__current['DefaultRolePermission'])) {
+			$permission = Hash::merge($permission, self::$__current['DefaultRolePermission']);
+		}
+		if (isset(self::$__current['RoomRolePermission'])) {
+			$permission = Hash::merge($permission, self::$__current['RoomRolePermission']);
+		}
+		if (isset(self::$__current['BlockRolePermission'])) {
+			$permission = Hash::merge($permission, self::$__current['BlockRolePermission']);
+		}
+
+		self::$__current['Permission'] = $permission;
+
 	}
 
 /**

@@ -58,7 +58,7 @@ class CurrentUtility {
  *
  * @var array
  */
-	public static $current = array();
+	private static $__current = array();
 
 /**
  * setup current data
@@ -67,27 +67,33 @@ class CurrentUtility {
  * @return void
  */
 	public static function initialize(CakeRequest $request) {
-		CakeLog::debug('CurrentUtility::initialize()');
-
 		if (! self::$__instance) {
 			self::$__instance = new CurrentUtility();
 		}
 
 		self::$__request = $request;
 
-		self::$current['User'] = AuthComponent::user();
+		self::$__current['User'] = AuthComponent::user();
 
 		self::$__instance->setLanguage();
 		self::$__instance->setPlugin();
 
-		if (self::isControlPanel()) {
-			self::$current = CurrentControlPanelUtility::current(self::$__request, self::$current);
-		} else {
-			self::$current = CurrentFrameUtility::current(self::$__request, self::$current);
+		self::$__current = CurrentControlPanelUtility::current(self::$__request, self::$__current);
+		if (! self::isControlPanel()) {
+			self::$__current = CurrentFrameUtility::current(self::$__request, self::$__current);
 		}
 
-		//CakeLog::debug('CurrentUtility::initialize() self::$__request ' . print_r(self::$__request, true));
-		CakeLog::debug('CurrentUtility::initialize() self::$current ' . print_r(self::$current, true));
+		//CakeLog::debug('CurrentUtility::initialize() self::$__current ' . print_r(self::$__current, true));
+	}
+
+/**
+ * Get the current data.
+ *
+ * @param string $key field to retrieve. Leave null to get entire Current data
+ * @return array|null Current data.
+ */
+	public static function current($key = null) {
+		return Hash::get(CurrentUtility::$__current, $key);
 	}
 
 /**
@@ -111,7 +117,16 @@ class CurrentUtility {
 	}
 
 /**
- * Check Control panel
+ * Has setting mode
+ *
+ * @return bool
+ */
+	public static function hasSettingMode() {
+		return (bool)self::$__current['Permission']['page_editable']['value'];
+	}
+
+/**
+ * Check control panel
  *
  * @return bool
  */
@@ -120,15 +135,24 @@ class CurrentUtility {
 			return true;
 		}
 
-		if (! isset(self::$current['Plugin'])) {
+		if (! isset(self::$__current['Plugin'])) {
 			return false;
 		}
 
-		if (self::$current['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL) {
+		if (self::$__current['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+/**
+ * Has Control panel
+ *
+ * @return bool
+ */
+	public static function hasControlPanel() {
+		return (bool)count(self::$__current['PluginsRole']);
 	}
 
 /**
@@ -137,7 +161,7 @@ class CurrentUtility {
  * @return void
  */
 	public function setLanguage() {
-		if (isset(self::$current['Language'])) {
+		if (isset(self::$__current['Language'])) {
 			return;
 		}
 
@@ -151,7 +175,7 @@ class CurrentUtility {
 		if (! $result) {
 			return;
 		}
-		self::$current = Hash::merge(self::$current, $result);
+		self::$__current = Hash::merge(self::$__current, $result);
 	}
 
 /**
@@ -160,8 +184,8 @@ class CurrentUtility {
  * @return void
  */
 	public function setPlugin() {
-		if (isset(self::$current['Plugin'])) {
-			unset(self::$current['Plugin']);
+		if (isset(self::$__current['Plugin'])) {
+			unset(self::$__current['Plugin']);
 		}
 
 		if (self::$__request->params['plugin'] === CurrentFrameUtility::PLUGIN_PAGES ||
@@ -175,13 +199,12 @@ class CurrentUtility {
 			'recursive' => -1,
 			'conditions' => array(
 				'key' => self::$__request->params['plugin'],
-				'language_id' => self::$current['Language']['id']
+				'language_id' => self::$__current['Language']['id']
 			),
 		));
 		if (! $result) {
 			return;
 		}
-		self::$current = Hash::merge(self::$current, $result);
+		self::$__current = Hash::merge(self::$__current, $result);
 	}
-
 }

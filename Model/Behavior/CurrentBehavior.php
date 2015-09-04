@@ -28,7 +28,6 @@ class CurrentBehavior extends ModelBehavior {
  * @return void
  */
 	public function current(Model $model, $key = null) {
-CakeLog::debug('CurrentBehavior::current');
-		return Hash::get(CurrentUtility::$current, $key);
+		return CurrentUtility::current($key);
 	}
 }

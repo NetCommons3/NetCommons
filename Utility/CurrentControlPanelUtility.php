@@ -84,16 +84,16 @@ class CurrentControlPanelUtility {
 
 		//PluginsRoleデータ取得
 		self::$__instance->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
-		$result = self::$__instance->PluginsRole->find('first', array(
+		$result = self::$__instance->PluginsRole->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'role_key' => self::$__current['User']['role_key'],
-				'plugin_key' => self::$__current['Plugin']['key']
+				'plugin_key' => array('user_manager', 'rooms')
 			),
 		));
 		if (! $result) {
 			return;
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
+		self::$__current['PluginsRole'] = Hash::combine($result, '{n}.PluginsRole.id', '{n}.PluginsRole');
 	}
 }

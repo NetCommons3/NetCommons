@@ -23,13 +23,19 @@ App::uses('Model', 'Model');
 class NetCommonsAppModel extends Model {
 
 /**
+ * use useDbConfig
+ *
+ * @var array
+ */
+//	public static $__useDbConfig;
+
+/**
  * use behaviors
  *
  * @var array
  */
 	public $actsAs = array(
 		'NetCommons.Trackable',
-		'NetCommons.Current',
 	);
 
 /**
@@ -76,9 +82,43 @@ class NetCommonsAppModel extends Model {
 			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
 		}
 		$this->useDbConfig = $_useDbConfig;
+//		self::$__useDbConfig = $_useDbConfig;
 
 		parent::__construct($id, $table, $ds);
 	}
+
+/**
+ * Gets the DataSource to which this model is bound.
+ *
+ * @return DataSource A DataSource object
+ */
+//	public function getDataSource() {
+//CakeLog::debug('NetCommonsAppModel::getDataSource() $this->useDbConfig = ' . $this->useDbConfig);
+//CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this) = ' . get_class($this));
+//		if ($this->useDbConfig !== 'test') {
+//			$this->useDbConfig = self::$__useDbConfig;
+//CakeLog::debug('NetCommonsAppModel::getDataSource() $this->_associations = ' . print_r($this->associations(), true));
+////			foreach ($this->_associations as $assoc) {
+////				if (!empty($this->{$assoc})) {
+////					$models = array_keys($this->{$assoc});
+////					foreach ($models as $m) {
+////CakeLog::debug('NetCommonsAppModel::getDataSource() $this->$m = ' . print_r(get_class($this->$m), true));
+//////						$this->{$m}->useDbConfig = self::$__useDbConfig;
+////					}
+////				}
+////			}
+//
+////			foreach ($this->_associations as $association) {
+////				$this->{$association}->useDbConfig = self::$__useDbConfig;
+////CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this->{$association}) = ' . get_class($this->{$association}));
+////			}
+//		}
+//		if (!$this->_sourceConfigured && $this->useTable !== false) {
+//			$this->_sourceConfigured = true;
+//			$this->setSource($this->useTable);
+//		}
+//		return parent::getDataSource();
+//	}
 
 /**
  * Sets the DataSource to which this model is bound.
@@ -88,7 +128,42 @@ class NetCommonsAppModel extends Model {
  * @throws MissingConnectionException
  */
 	public function setDataSource($dataSource = null) {
-		$this->useDbConfig !== 'test' && parent::setDataSource($dataSource);
+		if ($this->useDbConfig !== 'test') {
+//			self::$__useDbConfig = $dataSource;
+			parent::setDataSource(self::$__useDbConfig);
+		}
+	}
+
+/**
+ * transaction begin
+ *
+ * @return void
+ */
+	public function begin() {
+//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->useDbConfig);
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+	}
+
+/**
+ * transaction commit
+ *
+ * @return void
+ */
+	public function commit() {
+		$dataSource = $this->getDataSource();
+		$dataSource->commit();
+	}
+
+/**
+ * transaction rollback
+ *
+ * @return void
+ */
+	public function rollback() {
+		$dataSource = $this->getDataSource();
+		$dataSource->rollback();
 	}
 
 /**

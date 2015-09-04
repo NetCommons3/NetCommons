@@ -97,6 +97,17 @@ class CurrentUtility {
 	}
 
 /**
+ * Get the permission value.
+ *
+ * @param string $key field to retrieve. Leave null to get entire Current data
+ * @return bool permission value
+ */
+	public static function permission($key) {
+		$path = 'Pemission.' . $key . '.value';
+		return (bool)Hash::get(CurrentUtility::$__current, $path);
+	}
+
+/**
  * Check setting mode
  *
  * @return bool

@@ -38,7 +38,7 @@ class OriginalKeyBehavior extends ModelBehavior {
 			return true;
 		}
 		if (! isset($model->data[$model->name]['key']) || $model->data[$model->name]['key'] === '') {
-			$model->data[$model->name]['key'] = $this->generateKey($model);
+			$model->data[$model->name]['key'] = self::generateKey($model->name);
 		}
 		return true;
 	}
@@ -73,8 +73,8 @@ class OriginalKeyBehavior extends ModelBehavior {
  * @param Model $model Model using this behavior
  * @return string Hash key
  */
-	public function generateKey(Model $model) {
-		return Security::hash($model->name . mt_rand() . microtime(), 'md5');
+	public static function generateKey($plugin) {
+		return Security::hash($plugin . mt_rand() . microtime(), 'md5');
 	}
 
 }

@@ -165,8 +165,8 @@ class NetCommonsAppController extends Controller {
 		//}
 		////set language_id
 		//$language = $this->Language->findByCode(Configure::read('Config.language'));
-		Configure::write('Config.languageId', Current::read('Language.id'));
-		//$this->set('languageId', Current::read('Language.id'));
+		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除
+		$this->set('languageId', Current::read('Language.id')); //後で削除
 
 		$this->Auth->allow('index', 'view');
 

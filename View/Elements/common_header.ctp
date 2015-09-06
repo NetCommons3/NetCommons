@@ -54,7 +54,7 @@ if (! isset($container)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasSettingMode() && Current::permission('page_editable')): ?>
+					<?php if (Current::hasSettingMode() && Current::isSettingMode() && Current::permission('page_editable')): ?>
 						<li class="dropdown">
 							<?php echo $this->element('Pages.dropdown_menu'); ?>
 						</li>

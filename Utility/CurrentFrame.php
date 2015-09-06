@@ -81,6 +81,8 @@ class CurrentFrame {
 
 		self::$__instance->setPage();
 
+		self::$__instance->setPageByRoomPageTopId();
+
 		self::$__instance->setRolesRoomsUser();
 
 		self::$__instance->setDefaultRolePermissions();
@@ -297,14 +299,25 @@ class CurrentFrame {
 			);
 
 		} elseif (self::$__request->params['plugin'] === self::PLUGIN_PAGES) {
-			if (isset(self::$__request->params['pass'][0])) {
-				$permalink = self::$__request->params['pass'][0];
+			if (self::$__request->params['action'] === 'index') {
+				if (isset(self::$__request->params['pass'][0])) {
+					$permalink = self::$__request->params['pass'][0];
+				} else {
+					$permalink = '';
+				}
+				$conditions = array(
+					'Page.permalink' => $permalink
+				);
 			} else {
-				$permalink = '';
+				if (isset(self::$__request->params['pass'][0])) {
+					$pageId = self::$__request->params['pass'][0];
+				} else {
+					$pageId = 0;
+				}
+				$conditions = array(
+					'Page.id' => $pageId
+				);
 			}
-			$conditions = array(
-				'Page.permalink' => $permalink
-			);
 
 		} else {
 			return;
@@ -316,10 +329,47 @@ class CurrentFrame {
 			'conditions' => $conditions,
 		));
 
-		if (! $result) {
+		if ($result) {
+			self::$__current = Hash::merge(self::$__current, $result);
+		}
+		if (isset(self::$__current['Page'])) {
 			return;
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
+
+		if (isset(self::$__current['Room'])) {
+			$conditions = array(
+				'Page.id' => self::$__current['Room']['page_id_top']
+			);
+			$result = self::$__instance->Page->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			));
+		}
+		if ($result) {
+			self::$__current = Hash::merge(self::$__current, $result);
+		}
+	}
+
+/**
+ * Set Page
+ *
+ * @return bool
+ */
+	public function setPageByRoomPageTopId() {
+		if (isset(self::$__current['Page']) || ! isset(self::$__current['Room'])) {
+			return;
+		}
+
+		$conditions = array(
+			'Page.id' => self::$__current['Room']['page_id_top']
+		);
+		$result = self::$__instance->Page->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		if ($result) {
+			self::$__current = Hash::merge(self::$__current, $result);
+		}
 	}
 
 }

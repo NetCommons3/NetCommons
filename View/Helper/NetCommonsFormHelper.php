@@ -238,10 +238,15 @@ class NetCommonsFormHelper extends FormHelper {
 			'name' => 'cancel',
 			'type' => 'button',
 			'class' => 'btn btn-default btn-workflow',
-			'ng-click' => 'sending=true',
 			'ng-disabled' => 'sending',
-			'onclick' => 'location.href = \'' . $this->Html->url($url) . '\''
 		);
+		if ($url) {
+			$defaultOptions = Hash::merge($defaultOptions, array(
+				'ng-click' => 'sending=true',
+				'onclick' => 'location.href = \'' . $this->Html->url($url) . '\''
+			));
+		}
+
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
 		$output .= $this->Form->button($title, $inputOptions);

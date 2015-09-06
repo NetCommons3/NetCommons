@@ -1,5 +1,7 @@
 <?php
 /**
+ * 後で削除
+ *
  * NetCommonsBlock Component
  *
  * @author Noriko Arai <arai@nii.ac.jp>
@@ -24,60 +26,60 @@ class NetCommonsBlockComponent extends Component {
  *
  * @var string
  */
-	const STATUS_PUBLISHED = '1';
+	//const STATUS_PUBLISHED = '1';
 
 /**
  * status approved
  *
  * @var string
  */
-	const STATUS_APPROVED = '2';
+	//const STATUS_APPROVED = '2';
 
 /**
  * in draft status
  *
  * @var string
  */
-	const STATUS_IN_DRAFT = '3';
+	//const STATUS_IN_DRAFT = '3';
 
 /**
  * status disaproved
  *
  * @var string
  */
-	const STATUS_DISAPPROVED = '4';
+	//const STATUS_DISAPPROVED = '4';
 
 /**
  * status list for editor
  *
  * @var array
  */
-	static public $statusesForEditor = array(
-		self::STATUS_APPROVED,
-		self::STATUS_IN_DRAFT
-	);
+	//static public $statusesForEditor = array(
+	//	self::STATUS_APPROVED,
+	//	self::STATUS_IN_DRAFT
+	//);
 
 /**
  * status list
  *
  * @var array
  */
-	static public $STATUSES = array(
-		self::STATUS_PUBLISHED,
-		//self::STATUS_APPROVED,
-		self::STATUS_IN_DRAFT,
-		self::STATUS_DISAPPROVED
-	);
+	//static public $STATUSES = array(
+	//	self::STATUS_PUBLISHED,
+	//	//self::STATUS_APPROVED,
+	//	self::STATUS_IN_DRAFT,
+	//	self::STATUS_DISAPPROVED
+	//);
 
 /**
  * use components
  *
  * @var array
  */
-	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsRoomRole'
-	);
+	//public $components = array(
+	//	'NetCommons.NetCommonsFrame',
+	//	'NetCommons.NetCommonsRoomRole'
+	//);
 
 /**
  * Called before the Controller::beforeFilter().
@@ -156,35 +158,35 @@ class NetCommonsBlockComponent extends Component {
  *
  * @return mixed true on success, false on failure
  */
-	public function validateBlockId() {
-		if (! isset($this->controller->params['pass'][1]) || (int)$this->controller->params['pass'][1] === 0) {
-			return false;
-		}
-		if ($this->controller->request->isGet()) {
-			return true;
-		}
-
-		if (! isset($this->controller->data['Block']['id']) || (int)$this->controller->data['Block']['id'] === 0) {
-			return true;
-		}
-		//POSTのblockIdとGETのblockIdのチェック
-		if ((int)$this->controller->data['Block']['id'] !== (int)$this->controller->params['pass'][1]) {
-			return false;
-		}
-		return true;
-	}
+	//public function validateBlockId() {
+	//	if (! isset($this->controller->params['pass'][1]) || (int)$this->controller->params['pass'][1] === 0) {
+	//		return false;
+	//	}
+	//	if ($this->controller->request->isGet()) {
+	//		return true;
+	//	}
+	//
+	//	if (! isset($this->controller->data['Block']['id']) || (int)$this->controller->data['Block']['id'] === 0) {
+	//		return true;
+	//	}
+	//	//POSTのblockIdとGETのblockIdのチェック
+	//	if ((int)$this->controller->data['Block']['id'] !== (int)$this->controller->params['pass'][1]) {
+	//		return false;
+	//	}
+	//	return true;
+	//}
 
 /**
  * Return all statuses
  *
  * @return array status on success, false on error
  */
-	public static function getStatuses() {
-		return [
-			self::STATUS_PUBLISHED => __d('net_commons', 'Published'),
-			self::STATUS_APPROVED => __d('net_commons', 'Approving'),
-			self::STATUS_IN_DRAFT => __d('net_commons', 'Temporary'),
-			self::STATUS_DISAPPROVED => __d('net_commons', 'Disapproving'),
-		];
-	}
+	//public static function getStatuses() {
+	//	return [
+	//		self::STATUS_PUBLISHED => __d('net_commons', 'Published'),
+	//		self::STATUS_APPROVED => __d('net_commons', 'Approving'),
+	//		self::STATUS_IN_DRAFT => __d('net_commons', 'Temporary'),
+	//		self::STATUS_DISAPPROVED => __d('net_commons', 'Disapproving'),
+	//	];
+	//}
 }

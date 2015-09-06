@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentControlPanelUtility', 'NetCommons.Utility');
-App::uses('CurrentFrameUtility', 'NetCommons.Utility');
+App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentFrame', 'NetCommons.Utility');
 
 /**
  * Current Utility
@@ -18,7 +18,7 @@ App::uses('CurrentFrameUtility', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentUtility {
+class Current {
 
 /**
  * Constant setting mode value
@@ -68,7 +68,7 @@ class CurrentUtility {
  */
 	public static function initialize(CakeRequest $request) {
 		if (! self::$__instance) {
-			self::$__instance = new CurrentUtility();
+			self::$__instance = new Current();
 		}
 
 		self::$__request = $request;
@@ -78,33 +78,52 @@ class CurrentUtility {
 		self::$__instance->setLanguage();
 		self::$__instance->setPlugin();
 
-		self::$__current = CurrentControlPanelUtility::current(self::$__request, self::$__current);
+		self::$__current = CurrentControlPanel::initialize(self::$__request, self::$__current);
 		if (! self::isControlPanel()) {
-			self::$__current = CurrentFrameUtility::current(self::$__request, self::$__current);
+			self::$__current = CurrentFrame::initialize(self::$__request, self::$__current);
 		}
-
-		//CakeLog::debug('CurrentUtility::initialize() self::$__current ' . print_r(self::$__current, true));
 	}
 
 /**
  * Get the current data.
  *
- * @param string $key field to retrieve. Leave null to get entire Current data
+ * @param string|null $key field to retrieve. Leave null to get entire Current data
  * @return array|null Current data.
  */
-	public static function current($key = null) {
-		return Hash::get(CurrentUtility::$__current, $key);
+	public static function read($key = null) {
+		if (! isset($key)) {
+			return self::$__current;
+		}
+		return Hash::get(self::$__current, $key);
 	}
 
 /**
  * Get the permission value.
  *
- * @param string $key field to retrieve. Leave null to get entire Current data
+ * @param string|array $key field to retrieve. Leave null to get entire Current data
  * @return bool permission value
  */
 	public static function permission($key) {
-		$path = 'Pemission.' . $key . '.value';
-		return (bool)Hash::get(CurrentUtility::$__current, $path);
+		if (is_array($key)) {
+			foreach ($key as $k) {
+				if (self::permission($k)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		$path = 'Permission.' . $key . '.value';
+
+		return (bool)Hash::get(self::$__current, $path);
+	}
+
+/**
+ * Is login
+ *
+ * @return bool
+ */
+	public static function isLogin() {
+		return (bool)AuthComponent::user('id');
 	}
 
 /**
@@ -133,7 +152,11 @@ class CurrentUtility {
  * @return bool
  */
 	public static function hasSettingMode() {
-		return (bool)self::$__current['Permission']['page_editable']['value'];
+		$pattern = preg_quote('/' . self::$__request->params['plugin'] . '/', '/');
+		if (preg_match('/' . $pattern . '/', Router::url())) {
+			return false;
+		}
+		return self::permission('page_editable');
 	}
 
 /**
@@ -142,7 +165,7 @@ class CurrentUtility {
  * @return bool
  */
 	public static function isControlPanel() {
-		if (self::$__request->params['plugin'] === CurrentControlPanelUtility::PLUGIN_CONTROL_PANEL) {
+		if (self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}
 
@@ -163,7 +186,11 @@ class CurrentUtility {
  * @return bool
  */
 	public static function hasControlPanel() {
-		return (bool)count(self::$__current['PluginsRole']);
+		if (! isset(self::$__current['PluginsRole'])) {
+			return false;
+		} else {
+			return (bool)count(self::$__current['PluginsRole']);
+		}
 	}
 
 /**
@@ -199,8 +226,8 @@ class CurrentUtility {
 			unset(self::$__current['Plugin']);
 		}
 
-		if (self::$__request->params['plugin'] === CurrentFrameUtility::PLUGIN_PAGES ||
-				self::$__request->params['plugin'] === CurrentControlPanelUtility::PLUGIN_CONTROL_PANEL) {
+		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
+				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return;
 		}
 

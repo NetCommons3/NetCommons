@@ -10,7 +10,7 @@
 
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
-App::uses('CurrentUtility', 'NetCommons.Utility');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -48,8 +48,6 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
-		'DebugKit.Toolbar',
-		'Session',
 		'Asset',
 		'Auth' => array(
 			'loginAction' => array(
@@ -68,7 +66,17 @@ class NetCommonsAppController extends Controller {
 				'action' => 'index',
 			)
 		),
+		'DebugKit.Toolbar',
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index' => null,
+				'view' => null,
+			),
+		),
 		'RequestHandler',
+		'Session',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -95,13 +103,15 @@ class NetCommonsAppController extends Controller {
 	);
 
 /**
+ * 後で削除
+ *
  * NetCommons specific data for current request
  *
  * @var array
  */
-	public $current = [
-		'Page' => null,
-	];
+	//public $current = [
+	//	'Page' => null,
+	//];
 
 /**
  * Constructor.
@@ -139,13 +149,14 @@ class NetCommonsAppController extends Controller {
 		}
 
 		//カレントデータセット
-		CurrentUtility::initialize($this->request);
+		Current::initialize($this->request);
 
 		//現在のテーマを取得
 		$theme = $this->Asset->getSiteTheme($this);
 		if ($theme) {
 			$this->theme = $theme;
 		}
+		//後で削除
 		//if (isset($this->request->query['language'])) {
 		//	Configure::write('Config.language', $this->request->query['language']);
 		//	$this->Session->write('Config.language', $this->request->query['language']);
@@ -154,8 +165,8 @@ class NetCommonsAppController extends Controller {
 		//}
 		////set language_id
 		//$language = $this->Language->findByCode(Configure::read('Config.language'));
-		Configure::write('Config.languageId', CurrentUtility::current('Language.id'));
-		$this->set('languageId', CurrentUtility::current('Language.id'));
+		Configure::write('Config.languageId', Current::read('Language.id'));
+		//$this->set('languageId', Current::read('Language.id'));
 
 		$this->Auth->allow('index', 'view');
 
@@ -165,8 +176,9 @@ class NetCommonsAppController extends Controller {
 
 		$this->set('userId', $this->Auth->user('id'));
 
+		//後で削除
 		//$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set(['current' => $this->current]);
+		//$this->set(['current' => $this->current]);
 	}
 
 /**
@@ -299,8 +311,8 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function redirectByFrameId() {
-		if (!$this->request->is('ajax')) {
-			$this->redirect('/' . $this->current['Page']['permalink']);
+		if (! $this->request->is('ajax')) {
+			$this->redirect('/' . Current::read('Page.permalink'));
 		}
 	}
 

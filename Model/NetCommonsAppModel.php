@@ -18,16 +18,8 @@ App::uses('Model', 'Model');
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @codeCoverageIgnore
  */
 class NetCommonsAppModel extends Model {
-
-/**
- * use useDbConfig
- *
- * @var array
- */
-//	public static $__useDbConfig;
 
 /**
  * use behaviors
@@ -82,43 +74,9 @@ class NetCommonsAppModel extends Model {
 			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
 		}
 		$this->useDbConfig = $_useDbConfig;
-//		self::$__useDbConfig = $_useDbConfig;
 
 		parent::__construct($id, $table, $ds);
 	}
-
-/**
- * Gets the DataSource to which this model is bound.
- *
- * @return DataSource A DataSource object
- */
-//	public function getDataSource() {
-//CakeLog::debug('NetCommonsAppModel::getDataSource() $this->useDbConfig = ' . $this->useDbConfig);
-//CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this) = ' . get_class($this));
-//		if ($this->useDbConfig !== 'test') {
-//			$this->useDbConfig = self::$__useDbConfig;
-//CakeLog::debug('NetCommonsAppModel::getDataSource() $this->_associations = ' . print_r($this->associations(), true));
-////			foreach ($this->_associations as $assoc) {
-////				if (!empty($this->{$assoc})) {
-////					$models = array_keys($this->{$assoc});
-////					foreach ($models as $m) {
-////CakeLog::debug('NetCommonsAppModel::getDataSource() $this->$m = ' . print_r(get_class($this->$m), true));
-//////						$this->{$m}->useDbConfig = self::$__useDbConfig;
-////					}
-////				}
-////			}
-//
-////			foreach ($this->_associations as $association) {
-////				$this->{$association}->useDbConfig = self::$__useDbConfig;
-////CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this->{$association}) = ' . get_class($this->{$association}));
-////			}
-//		}
-//		if (!$this->_sourceConfigured && $this->useTable !== false) {
-//			$this->_sourceConfigured = true;
-//			$this->setSource($this->useTable);
-//		}
-//		return parent::getDataSource();
-//	}
 
 /**
  * Sets the DataSource to which this model is bound.
@@ -129,9 +87,78 @@ class NetCommonsAppModel extends Model {
  */
 	public function setDataSource($dataSource = null) {
 		if ($this->useDbConfig !== 'test') {
-//			self::$__useDbConfig = $dataSource;
-			parent::setDataSource(self::$__useDbConfig);
+			parent::setDataSource($dataSource);
 		}
+	}
+
+/**
+ * Initializes the model for writing a new record, loading the default values
+ * for those fields that are not defined in $data, and clearing previous validation errors.
+ * Especially helpful for saving data in loops.
+ *
+ * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
+ *   schema data defaults are not merged.
+ * @param bool $filterKey If true, overwrites any primary key input with an empty value
+ * @return array The current Model::data; after merging $data and/or defaults from database
+ * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ */
+	public function create($data = array(), $filterKey = false) {
+		$options = array();
+
+		foreach ($this->_schema as $fieldName => $fieldDetail) {
+			if ($fieldName != $this->primaryKey) {
+				$options[$fieldName] = $fieldDetail['default'];
+			}
+		}
+
+		$data = Hash::merge($options, $data);
+
+		return parent::create($data, $filterKey);
+	}
+
+/**
+ * Initializes the model for writing a new record, loading the default values
+ * for those fields that are not defined in $data, and clearing previous validation errors.
+ * Especially helpful for saving data in loops.
+ *
+ * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
+ *   schema data defaults are not merged.
+ * @param bool $filterKey If true, overwrites any primary key input with an empty value
+ *
+ * @return array The current Model::data; after merging $data and/or defaults from database
+ * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ */
+	public function createAll($data = array(), $filterKey = false) {
+		$newRecord = $data;
+
+		if (isset($data[$this->alias])) {
+			$options = $data[$this->alias];
+		} else {
+			$options = array();
+		}
+		$newRecord = Hash::merge($newRecord, $this->create($options));
+
+		foreach ($this->_associations as $type) {
+			if (! in_array($type, array('belongsTo', 'hasOne'), true)) {
+				continue;
+			}
+
+			$models = array_keys($this->$type);
+			foreach ($models as $model) {
+				if ($model === 'TrackableCreator' || $model === 'TrackableUpdater') {
+					continue;
+				}
+
+				if (isset($data[$model])) {
+					$options = $data[$model];
+				} else {
+					$options = array();
+				}
+				$newRecord = Hash::merge($newRecord, $this->$model->create($options));
+			}
+		}
+
+		return $newRecord;
 	}
 
 /**
@@ -140,7 +167,6 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function begin() {
-//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->useDbConfig);
 		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
@@ -161,9 +187,13 @@ class NetCommonsAppModel extends Model {
  *
  * @return void
  */
-	public function rollback() {
+	public function rollback($ex = null) {
 		$dataSource = $this->getDataSource();
 		$dataSource->rollback();
+		if ($ex) {
+			CakeLog::error($ex);
+			throw $ex;
+		}
 	}
 
 /**

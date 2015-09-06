@@ -15,7 +15,7 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentFrameUtility {
+class CurrentFrame {
 
 /**
  * Constant default room_role_key
@@ -56,11 +56,9 @@ class CurrentFrameUtility {
  * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function current(CakeRequest $request, $current) {
-		CakeLog::debug('CurrentFrameUtility::initialize()');
-
+	public static function initialize(CakeRequest $request, $current) {
 		if (! self::$__instance) {
-			self::$__instance = new CurrentFrameUtility();
+			self::$__instance = new CurrentFrame();
 		}
 
 		self::$__request = $request;
@@ -100,35 +98,49 @@ class CurrentFrameUtility {
  * @return void
  */
 	public function setFrame() {
-		if (isset(self::$__request->data['Frame']) && self::$__request->data['Frame']['id']) {
+		if (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['id'])) {
 			$frameId = self::$__request->data['Frame']['id'];
 		} elseif (isset(self::$__request->params['pass'][0])) {
 			$frameId = self::$__request->params['pass'][0];
-		} else {
-			return;
 		}
 
 		self::$__instance->Frame = ClassRegistry::init('Frames.Frame');
 		self::$__instance->Box = ClassRegistry::init('Boxes.Box');
 
-		$result = self::$__instance->Frame->findById($frameId);
-		if (! $result) {
-			return;
+		if (isset($frameId)) {
+			$result = self::$__instance->Frame->findById($frameId);
+			if (! $result) {
+				return;
+			}
+			self::$__current = Hash::merge(self::$__current, $result);
+			if (isset(self::$__current['Page'])) {
+				return;
+			}
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
-		if (isset(self::$__current['Page'])) {
+
+		if (isset(self::$__current['Box']['id'])) {
+			$boxId = self::$__current['Box']['id'];
+		} elseif (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['box_id'])) {
+			$boxId = self::$__request->data['Frame']['box_id'];
+		} elseif (isset(self::$__request->data['Box']) && isset(self::$__request->data['Box']['id'])) {
+			$boxId = self::$__request->data['Box']['id'];
+		} else {
 			return;
 		}
 
 		$result = self::$__instance->Box->find('first', array(
 			'conditions' => array(
-				'Box.id' => self::$__current['Box']['id'],
+				'Box.id' => $boxId,
 			),
 		));
 		if (! $result) {
 			return;
 		}
 		self::$__current['Page'] = $result['Page'][0];
+
+		if (! isset(self::$__current['Room'])) {
+			self::$__current['Room'] = $result['Room'];
+		}
 	}
 
 /**
@@ -168,7 +180,7 @@ class CurrentFrameUtility {
 	public function setRolesRoomsUser() {
 		self::$__instance->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 
-		if (self::$__current['User']['id'] && ! isset(self::$__current['RolesRoomsUser'])) {
+		if (isset(self::$__current['User']['id']) && isset(self::$__current['Room']['id']) && ! isset(self::$__current['RolesRoomsUser'])) {
 			$result = self::$__instance->RolesRoomsUser->getRolesRoomsUsers(array(
 				'RolesRoomsUser.user_id' => self::$__current['User']['id'],
 				'Room.id' => self::$__current['Room']['id']
@@ -240,7 +252,7 @@ class CurrentFrameUtility {
 			return;
 		}
 
-		if (isset(self::$__current['RolesRoom']) && isset(self::$__current['Block'])) {
+		if (isset(self::$__current['RolesRoom']) && isset(self::$__current['Block']['key'])) {
 			$result = self::$__instance->BlockRolePermission->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(

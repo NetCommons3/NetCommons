@@ -15,7 +15,7 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentControlPanelUtility {
+class CurrentControlPanel {
 
 /**
  * Constant Plugin value
@@ -49,11 +49,9 @@ class CurrentControlPanelUtility {
  * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function current(CakeRequest $request, $current) {
-		CakeLog::debug('CurrentControlPanelUtility::current()');
-
+	public static function initialize(CakeRequest $request, $current) {
 		if (! self::$__instance) {
-			self::$__instance = new CurrentControlPanelUtility();
+			self::$__instance = new CurrentControlPanel();
 		}
 
 		self::$__request = $request;
@@ -73,13 +71,6 @@ class CurrentControlPanelUtility {
 	public function setPluginRole() {
 		if (isset(self::$__current['PluginsRole'])) {
 			unset(self::$__current['PluginsRole']);
-		}
-
-		if (self::$__request->params['plugin'] === self::PLUGIN_CONTROL_PANEL) {
-			return;
-		}
-		if (! isset(self::$__current['Plugin'])) {
-			return;
 		}
 
 		//PluginsRoleデータ取得

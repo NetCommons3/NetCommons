@@ -75,10 +75,8 @@ class Current {
 
 		self::$__current['User'] = AuthComponent::user();
 
-		self::$__instance->setLanguage();
-		self::$__instance->setPlugin();
-
 		self::$__current = CurrentControlPanel::initialize(self::$__request, self::$__current);
+
 		if (! self::isControlPanel()) {
 			self::$__current = CurrentFrame::initialize(self::$__request, self::$__current);
 		}
@@ -118,6 +116,42 @@ class Current {
 	}
 
 /**
+ * Back to page url
+ *
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
+ * @return string Full translated URL with base path.
+ */
+	public static function backToPageUrl($settingMode = false, $full = false) {
+		$url = '/';
+		if (! Current::isControlPanel()) {
+			if ($settingMode) {
+				$url .= self::SETTING_MODE_WORD . '/';
+			}
+
+			if (Current::read('Page.permalink')) {
+				$url .= Current::read('Page.permalink') . '/';
+			}
+		}
+		return h(Router::url($url, $full));
+	}
+
+/**
+ * Back to default action url
+ *
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
+ * @return string Full translated URL with base path.
+ */
+	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
+		$url = '/' . self::read('Plugin.key') . '/' . self::read('Plugin.' . $defaultField);
+		if (self::read('Plugin.' . $defaultField) && ! Current::isControlPanel()) {
+			if (Current::read('Frame.id')) {
+				$url .= '/' . Current::read('Frame.id');
+			}
+		}
+		return h(Router::url($url, $full));
+	}
+
+/**
  * Is login
  *
  * @return bool
@@ -152,10 +186,6 @@ class Current {
  * @return bool
  */
 	public static function hasSettingMode() {
-		$pattern = preg_quote('/' . self::$__request->params['plugin'] . '/', '/');
-		if (preg_match('/' . $pattern . '/', Router::url())) {
-			return false;
-		}
 		return self::permission('page_editable');
 	}
 
@@ -193,56 +223,4 @@ class Current {
 		}
 	}
 
-/**
- * Set Language
- *
- * @return void
- */
-	public function setLanguage() {
-		if (isset(self::$__current['Language'])) {
-			return;
-		}
-
-		self::$__instance->Language = ClassRegistry::init('M17n.Language');
-		$result = self::$__instance->Language->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'code' => Configure::read('Config.language')
-			),
-		));
-		if (! $result) {
-			return;
-		}
-		self::$__current = Hash::merge(self::$__current, $result);
-	}
-
-/**
- * Set Plugin
- *
- * @return void
- */
-	public function setPlugin() {
-		if (isset(self::$__current['Plugin'])) {
-			unset(self::$__current['Plugin']);
-		}
-
-		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
-				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
-			return;
-		}
-
-		//Pluginデータ取得
-		self::$__instance->Plugin = ClassRegistry::init('PluginManager.Plugin');
-		$result = self::$__instance->Plugin->find('first', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'key' => self::$__request->params['plugin'],
-				'language_id' => self::$__current['Language']['id']
-			),
-		));
-		if (! $result) {
-			return;
-		}
-		self::$__current = Hash::merge(self::$__current, $result);
-	}
 }

@@ -23,7 +23,12 @@ class NetCommonsFormHelper extends FormHelper {
  *
  * @var array
  */
-	public $helpers = array('Form', 'Html');
+	public $helpers = array(
+		'Form',
+		'Html',
+		'NetCommons.BackHtml',
+		'NetCommons.Button'
+	);
 
 /**
  * Overwrite FormHelper::input()
@@ -147,110 +152,85 @@ class NetCommonsFormHelper extends FormHelper {
 	}
 
 /**
- * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
- * You can change it to a different value by using `$options['type']`.
- *
- * ### Options:
- *
- * - `escape` - HTML entity encode the $title of the button. Defaults to false.
- *
- * ### Original options
- * - `confirm` - Add javascript confirm in onclick attribute
+ * Creates a `<a>` tag for add link. The type attribute defaults
  *
  * @param string $title The button's caption. Not automatically HTML encoded
- * @param string $confirm Confirm message by button click
+ * @param mixed $url Link url
  * @param array $options Array of options and HTML attributes.
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function deleteButton($title, $confirm, $options = array()) {
-		$output = '';
-
-		$title = '<span class="glyphicon glyphicon-trash"> </span> ' . $title;
-
-		$defaultOptions = array(
-			'name' => 'delete',
-			'class' => 'btn btn-danger pull-right',
-			'onclick' => 'return confirm(\'' . $confirm . '\')',
-			'ng-click' => 'sending=true',
-			'ng-disabled' => 'sending'
-		);
-		$inputOptions = Hash::merge($defaultOptions, $options);
-
-		$output .= $this->Form->button($title, $inputOptions);
-		return $output;
-	}
-
-/**
- * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
- * You can change it to a different value by using `$options['type']`.
- *
- * ### Options:
- *
- * - `escape` - HTML entity encode the $title of the button. Defaults to false.
- *
- * ### Original options
- * - `confirm` - Add javascript confirm in onclick attribute
- *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	public function saveButton($title, $options = array()) {
-		$output = '';
-
-		$defaultOptions = array(
-			'name' => 'save',
-			'class' => 'btn btn-primary btn-workflow',
-			'ng-click' => 'sending=true',
-			'ng-disabled' => 'sending'
-		);
-		$inputOptions = Hash::merge($defaultOptions, $options);
-
-		$output .= $this->Form->button($title, $inputOptions);
-		return $output;
-	}
-
-/**
- * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
- * You can change it to a different value by using `$options['type']`.
- *
- * ### Options:
- *
- * - `escape` - HTML entity encode the $title of the button. Defaults to false.
- *
- * ### Original options
- * - `url` - The url in onclick attribute
- *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param string $url The url in onclick attribute
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	public function cancelButton($title, $url, $options = array()) {
-		$output = '';
-
-		$title = '<span class="glyphicon glyphicon-remove"></span> ' . $title;
-
-		$defaultOptions = array(
-			'name' => 'cancel',
-			'type' => 'button',
-			'class' => 'btn btn-default btn-workflow',
-			'ng-disabled' => 'sending',
-		);
-		if ($url) {
-			$defaultOptions = Hash::merge($defaultOptions, array(
-				'ng-click' => 'sending=true',
-				'onclick' => 'location.href = \'' . $this->Html->url($url) . '\''
-			));
+	public function addLink($title = '', $url = null, $options = array()) {
+		//URLの設定
+		if (! isset($url)) {
+			$url = '/' . $this->_View->request->params['plugin'] . '/';
+			if (! isset($this->_View->viewVars['addActionController'])) {
+				$url .= $this->_View->request->params['controller'] . '/';
+			} else {
+				$url .= $this->_View->viewVars['addActionController'] . '/';
+			}
+			$url .= 'add/';
+			if (Current::read('Frame.id')) {
+				$url .= Current::read('Frame.id') . '/';
+			}
+		}
+		//iconの有無
+		$iconElement = '';
+		if (! isset($options['icon'])) {
+			$options['icon'] = 'plus';
+		}
+		if ($options['icon'] !== '') {
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			unset($options['icon']);
+		}
+		//ボタンサイズ
+		$sizeAttr = '';
+		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
+			$sizeAttr = h('btn-' . $options['iconSize']);
+			unset($options['iconSize']);
 		}
 
-		$inputOptions = Hash::merge($defaultOptions, $options);
+		//Linkオプションの設定
+		$inputOptions = Hash::merge(array(
+			'escapeTitle' => false,
+			'class' => 'btn btn-success ' . $sizeAttr
+		), $options);
+		if (! $inputOptions['escapeTitle']) {
+			$title = h($title);
+		}
 
-		$output .= $this->Form->button($title, $inputOptions);
-		return $output;
+		return $this->Html->link($iconElement . $title, $url, $inputOptions);
+	}
+
+/**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param string $value The content key
+ * @param string $title The anchor's caption. Not automatically HTML encoded
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function editLink($value, $title = '', $url = null, $options = array()) {
+		//URLの設定
+		if (! isset($url)) {
+			$url = '/' . $this->_View->request->params['plugin'] . '/';
+			if (! isset($this->_View->viewVars['editActionController'])) {
+				$url .= $this->_View->request->params['controller'] . '/';
+			} else {
+				$url .= $this->_View->viewVars['editActionController'] . '/';
+			}
+			$url .= 'edit/';
+			if (Current::read('Frame.id')) {
+				$url .= Current::read('Frame.id') . '/';
+			}
+		}
+		if ($value) {
+			$url .= h($value) . '/';
+		}
+
+		return $this->Html->link($title, $url, $options);
 	}
 
 }

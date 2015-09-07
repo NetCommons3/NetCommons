@@ -65,7 +65,8 @@ class NetCommonsHtmlHelper extends HtmlHelper {
 	}
 
 /**
- * render json
+ * Json CakePHP template.
+ * It is better reference Google JSON Style Guid
  *
  * @param array $results results data
  * @param string $name message

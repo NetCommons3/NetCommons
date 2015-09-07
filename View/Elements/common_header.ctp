@@ -8,13 +8,13 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-if (! isset($path)) {
-	$path = isset($cancelUrl) ? $cancelUrl : '';
-}
-
 if (! isset($container)) {
 	$container = 'container';
 }
+if (! isset($isSettingMode)) {
+	$isSettingMode = Current::isSettingMode();
+}
+
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
@@ -54,7 +54,7 @@ if (! isset($container)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasSettingMode() && Current::isSettingMode() && Current::permission('page_editable')): ?>
+					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')): ?>
 						<li class="dropdown">
 							<?php echo $this->element('Pages.dropdown_menu'); ?>
 						</li>
@@ -62,10 +62,10 @@ if (! isset($container)) {
 
 					<?php if (Current::hasSettingMode()): ?>
 						<li>
-							<?php if (! Current::isSettingMode()): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . '/' . $path); ?>
+							<?php if (! $isSettingMode): ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . Current::backToPageUrl()); ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path); ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), Current::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

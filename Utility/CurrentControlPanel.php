@@ -58,9 +58,66 @@ class CurrentControlPanel {
 
 		self::$__current = $current;
 
+		self::$__instance->setLanguage();
+
+		self::$__instance->setPlugin();
+
 		self::$__instance->setPluginRole();
 
 		return self::$__current;
+	}
+
+/**
+ * Set Language
+ *
+ * @return void
+ */
+	public function setLanguage() {
+		if (isset(self::$__current['Language'])) {
+			return;
+		}
+
+		self::$__instance->Language = ClassRegistry::init('M17n.Language');
+		$result = self::$__instance->Language->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'code' => Configure::read('Config.language')
+			),
+		));
+		if (! $result) {
+			return;
+		}
+		self::$__current = Hash::merge(self::$__current, $result);
+	}
+
+/**
+ * Set Plugin
+ *
+ * @return void
+ */
+	public function setPlugin() {
+		if (isset(self::$__current['Plugin'])) {
+			unset(self::$__current['Plugin']);
+		}
+
+		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
+				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+			return;
+		}
+
+		//Pluginデータ取得
+		self::$__instance->Plugin = ClassRegistry::init('PluginManager.Plugin');
+		$result = self::$__instance->Plugin->find('first', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'key' => self::$__request->params['plugin'],
+				'language_id' => self::$__current['Language']['id']
+			),
+		));
+		if (! $result) {
+			return;
+		}
+		self::$__current = Hash::merge(self::$__current, $result);
 	}
 
 /**

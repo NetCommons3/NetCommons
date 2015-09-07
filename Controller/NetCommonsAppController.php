@@ -98,8 +98,11 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
+		'NetCommons.BackHtml',
+		'NetCommons.Button',
+		'NetCommons.Date',
 		'NetCommons.NetCommonsForm',
-		'NetCommons.NetCommonsHtml'
+		'NetCommons.NetCommonsHtml',
 	);
 
 /**
@@ -306,15 +309,16 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
+ * 後で削除
  * Redirect by frame id
  *
  * @return void
  */
-	public function redirectByFrameId() {
-		if (! $this->request->is('ajax')) {
-			$this->redirect('/' . Current::read('Page.permalink'));
-		}
-	}
+	//public function redirectByFrameId() {
+	//	if (! $this->request->is('ajax')) {
+	//		$this->redirect('/' . Current::read('Page.permalink'));
+	//	}
+	//}
 
 /**
  * throw bad request

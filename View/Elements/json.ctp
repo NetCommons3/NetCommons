@@ -1,5 +1,7 @@
 <?php
 /**
+ * 後で削除※消したい
+ *
  * Json CakePHP template.
  *
  * @copyright Copyright 2014, NetCommons Project

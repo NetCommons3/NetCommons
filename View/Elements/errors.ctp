@@ -1,5 +1,7 @@
 <?php
 /**
+ * 後で削除
+ *
  * errors element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>

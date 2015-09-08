@@ -31,6 +31,73 @@ class ButtonHelper extends FormHelper {
 	);
 
 /**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param string $title The button's caption. Not automatically HTML encoded
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function addLink($title = '', $url = null, $options = array()) {
+		$output = '';
+
+		//URLの設定
+		if (! isset($url)) {
+			$url = '/' . $this->_View->request->params['plugin'] . '/';
+			if (! isset($this->_View->viewVars['addActionController'])) {
+				$url .= $this->_View->request->params['controller'] . '/';
+			} else {
+				$url .= $this->_View->viewVars['addActionController'] . '/';
+			}
+			$url .= 'add/';
+			if (Current::read('Frame.id')) {
+				$url .= Current::read('Frame.id') . '/';
+			}
+		}
+		//iconの有無
+		$iconElement = '';
+		if (! isset($options['icon'])) {
+			$options['icon'] = 'plus';
+		}
+		if ($options['icon'] !== '') {
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			unset($options['icon']);
+		}
+		//ボタンサイズ
+		$sizeAttr = '';
+		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
+			$sizeAttr = h('btn-' . $options['iconSize']);
+			unset($options['iconSize']);
+		}
+
+		//Linkオプションの設定
+		$inputOptions = Hash::merge(array(
+			'escapeTitle' => false,
+			'class' => 'btn btn-success ' . $sizeAttr
+		), $options);
+		if (! $inputOptions['escapeTitle']) {
+			$title = h($title);
+		}
+
+		//span tooltipタグの出力
+		if (isset($options['tooltip']) && $options['tooltip']) {
+			if (is_string($options['tooltip'])) {
+				$tooltip = $options['tooltip'];
+			} else {
+				$tooltip = __d('net_commons', 'Add');
+			}
+			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
+			unset($inputOptions['tooltip']);
+		}
+		$output .= $this->Html->link($iconElement . $title, $url, $inputOptions);
+		if (isset($options['tooltip']) && $options['tooltip']) {
+			$output .= '</span>';
+		}
+		return $output;
+	}
+
+/**
  * Creates a `<a>` tag for edit link link. The type attribute defaults
  *
  * @param string $title The button's caption. Not automatically HTML encoded
@@ -54,7 +121,7 @@ class ButtonHelper extends FormHelper {
 		//ボタンサイズ
 		$sizeAttr = '';
 		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
+			$sizeAttr = 'btn-' . $options['iconSize'];
 			unset($options['iconSize']);
 		}
 
@@ -69,7 +136,12 @@ class ButtonHelper extends FormHelper {
 
 		//span tooltipタグの出力
 		if (isset($options['tooltip']) && $options['tooltip']) {
-			$output .= '<span class="nc-tooltip" tooltip="' . __d('net_commons', 'Edit') . '">';
+			if (is_string($options['tooltip'])) {
+				$tooltip = $options['tooltip'];
+			} else {
+				$tooltip = __d('net_commons', 'Edit');
+			}
+			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
 		$output .= $this->NetCommonsForm->editLink($value, $iconElement . $title, $url, $inputOptions);
@@ -103,11 +175,22 @@ class ButtonHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'name' => 'delete',
-			'class' => 'btn btn-danger pull-right',
+			'class' => 'btn btn-danger',
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
 			'ng-click' => 'sending=true',
 			'ng-disabled' => 'sending'
 		);
+
+		if (isset($options['addClass'])) {
+			if (is_string($options['addClass'])) {
+				$options['addClass'] = array($options['addClass']);
+			}
+			foreach ($options['addClass'] as $class) {
+				$defaultOptions['class'] .= ' ' . $class;
+			}
+			unset($options['addClass']);
+		}
+
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
 		$output .= $this->Form->button($title, $inputOptions);

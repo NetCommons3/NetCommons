@@ -154,7 +154,7 @@ class NetCommonsAppController extends Controller {
 		//カレントデータセット
 		Current::initialize($this->request);
 
-		//現在のテーマを取得
+		//現在のテーマを取得(後で、見直しが必要)
 		$theme = $this->Asset->getSiteTheme($this);
 		if ($theme) {
 			$this->theme = $theme;

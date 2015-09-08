@@ -101,57 +101,57 @@ class NetCommonsBlockComponent extends Component {
  *   - The `Role` merged of Role and RoomRole
  *   - The `Permission` sets in priority of BlockRolePermission and RoomRolePermission and DefaultRolePermission.
  */
-	public function getBlockRolePermissions($blockKey, $permissions) {
-		//modelのロード
-		$models = array(
-			'BlockRolePermission' => 'Blocks.BlockRolePermission',
-			'DefaultRolePermission' => 'Roles.DefaultRolePermission',
-			'Role' => 'Roles.Role',
-			'RolesRoom' => 'Rooms.RolesRoom',
-			'RoomRole' => 'Rooms.RoomRole',
-			'RoomRolePermission' => 'Rooms.RoomRolePermission',
-		);
-		foreach ($models as $model => $class) {
-			$this->$model = ClassRegistry::init($class, true);
-		}
-
-		//RoomRolePermissions取得
-		$roomId = $this->controller->viewVars['roomId'];
-
-		$results = $this->NetCommonsRoomRole->getRoomRolePermissions($roomId, $permissions, DefaultRolePermission::TYPE_ROOM_ROLE);
-		$defaultPermissions = Hash::remove($results['DefaultRolePermission'], '{s}.{s}.id');
-		$roles = $results['Role'];
-		$rolesRooms = $results['RolesRoom'];
-		$roomRolePermissions = Hash::remove($results['RoomRolePermission'], '{s}.{s}.id');
-		$roomRoles = $results['RoomRole'];
-
-		//BlockRolePermission取得
-		$blockPermissions = $this->BlockRolePermission->find('all', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'BlockRolePermission.roles_room_id' => $rolesRooms,
-				'BlockRolePermission.block_key' => $blockKey,
-				'BlockRolePermission.permission' => $permissions,
-			),
-		));
-		$blockPermissions = Hash::combine(
-			$blockPermissions,
-			'{n}.RolesRoom.role_key',
-			'{n}.BlockRolePermission',
-			'{n}.BlockRolePermission.permission'
-		);
-
-		//戻り値の設定
-		$results = array(
-			'BlockRolePermissions' => Hash::merge($defaultPermissions, $roomRolePermissions, $blockPermissions),
-			'Roles' => Hash::merge($roomRoles, $roles)
-		);
-
-		//block_keyのセット
-		$results['BlockRolePermissions'] = Hash::insert($results['BlockRolePermissions'], '{s}.{s}.block_key', $blockKey);
-
-		return $results;
-	}
+	//public function getBlockRolePermissions($blockKey, $permissions) {
+	//	//modelのロード
+	//	$models = array(
+	//		'BlockRolePermission' => 'Blocks.BlockRolePermission',
+	//		'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+	//		'Role' => 'Roles.Role',
+	//		'RolesRoom' => 'Rooms.RolesRoom',
+	//		'RoomRole' => 'Rooms.RoomRole',
+	//		'RoomRolePermission' => 'Rooms.RoomRolePermission',
+	//	);
+	//	foreach ($models as $model => $class) {
+	//		$this->$model = ClassRegistry::init($class, true);
+	//	}
+	//
+	//	//RoomRolePermissions取得
+	//	$roomId = $this->controller->viewVars['roomId'];
+	//
+	//	$results = $this->NetCommonsRoomRole->getRoomRolePermissions($roomId, $permissions, DefaultRolePermission::TYPE_ROOM_ROLE);
+	//	$defaultPermissions = Hash::remove($results['DefaultRolePermission'], '{s}.{s}.id');
+	//	$roles = $results['Role'];
+	//	$rolesRooms = $results['RolesRoom'];
+	//	$roomRolePermissions = Hash::remove($results['RoomRolePermission'], '{s}.{s}.id');
+	//	$roomRoles = $results['RoomRole'];
+	//
+	//	//BlockRolePermission取得
+	//	$blockPermissions = $this->BlockRolePermission->find('all', array(
+	//		'recursive' => 0,
+	//		'conditions' => array(
+	//			'BlockRolePermission.roles_room_id' => $rolesRooms,
+	//			'BlockRolePermission.block_key' => $blockKey,
+	//			'BlockRolePermission.permission' => $permissions,
+	//		),
+	//	));
+	//	$blockPermissions = Hash::combine(
+	//		$blockPermissions,
+	//		'{n}.RolesRoom.role_key',
+	//		'{n}.BlockRolePermission',
+	//		'{n}.BlockRolePermission.permission'
+	//	);
+	//
+	//	//戻り値の設定
+	//	$results = array(
+	//		'BlockRolePermissions' => Hash::merge($defaultPermissions, $roomRolePermissions, $blockPermissions),
+	//		'Roles' => Hash::merge($roomRoles, $roles)
+	//	);
+	//
+	//	//block_keyのセット
+	//	$results['BlockRolePermissions'] = Hash::insert($results['BlockRolePermissions'], '{s}.{s}.block_key', $blockKey);
+	//
+	//	return $results;
+	//}
 
 /**
  * Validate blockId on request data

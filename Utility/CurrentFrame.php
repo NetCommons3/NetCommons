@@ -48,7 +48,7 @@ class CurrentFrame {
  *
  * @var array
  */
-	private static $__current = array();
+	public static $current = array();
 
 /**
  * setup current data
@@ -56,27 +56,25 @@ class CurrentFrame {
  * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function initialize(CakeRequest $request, $current) {
+	public static function initialize(CakeRequest $request) {
 		if (! self::$__instance) {
 			self::$__instance = new CurrentFrame();
 		}
 
 		self::$__request = $request;
 
-		self::$__current = $current;
-
-		if (isset(self::$__current['Frame'])) {
-			unset(self::$__current['Frame']);
+		if (isset(Current::$current['Frame'])) {
+			unset(Current::$current['Frame']);
 		}
-		if (isset(self::$__current['Block'])) {
-			unset(self::$__current['Block']);
+		if (isset(Current::$current['Block'])) {
+			unset(Current::$current['Block']);
 		}
-		if (isset(self::$__current['BlockRolePermission'])) {
-			unset(self::$__current['BlockRolePermission']);
+		if (isset(Current::$current['BlockRolePermission'])) {
+			unset(Current::$current['BlockRolePermission']);
 		}
 		if (self::$__request->params['plugin'] !== self::PLUGIN_PAGES) {
 			self::$__instance->setFrame();
-			self::$__instance->setBlock();
+			self::setBlock();
 		}
 
 		self::$__instance->setPage();
@@ -90,8 +88,6 @@ class CurrentFrame {
 		self::$__instance->setRoomRolePermissions();
 
 		self::$__instance->setBlockRolePermissions();
-
-		return self::$__current;
 	}
 
 /**
@@ -114,14 +110,14 @@ class CurrentFrame {
 			if (! $result) {
 				return;
 			}
-			self::$__current = Hash::merge(self::$__current, $result);
-			if (isset(self::$__current['Page'])) {
+			Current::$current = Hash::merge(Current::$current, $result);
+			if (isset(Current::$current['Page'])) {
 				return;
 			}
 		}
 
-		if (isset(self::$__current['Box']['id'])) {
-			$boxId = self::$__current['Box']['id'];
+		if (isset(Current::$current['Box']['id'])) {
+			$boxId = Current::$current['Box']['id'];
 		} elseif (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['box_id'])) {
 			$boxId = self::$__request->data['Frame']['box_id'];
 		} elseif (isset(self::$__request->data['Box']) && isset(self::$__request->data['Box']['id'])) {
@@ -138,10 +134,10 @@ class CurrentFrame {
 		if (! $result) {
 			return;
 		}
-		self::$__current['Page'] = $result['Page'][0];
+		Current::$current['Page'] = $result['Page'][0];
 
-		if (! isset(self::$__current['Room'])) {
-			self::$__current['Room'] = $result['Room'];
+		if (! isset(Current::$current['Room'])) {
+			Current::$current['Room'] = $result['Room'];
 		}
 	}
 
@@ -150,13 +146,13 @@ class CurrentFrame {
  *
  * @return void
  */
-	public function setBlock() {
+	public static function setBlock($blockId = null) {
 		if (isset(self::$__request->data['Block']) && self::$__request->data['Block']['id']) {
 			$blockId = self::$__request->data['Block']['id'];
-		} elseif (isset(self::$__request->params['pass'][1])) {
-			$blockId = self::$__request->params['pass'][1];
-		} elseif (isset(self::$__current['Frame'])) {
-			$blockId = self::$__current['Frame']['block_id'];
+		} elseif (isset($blockId)) {
+			//何もしない
+		} elseif (isset(Current::$current['Frame'])) {
+			$blockId = Current::$current['Frame']['block_id'];
 		} else {
 			return;
 		}
@@ -171,7 +167,7 @@ class CurrentFrame {
 		if (! $result) {
 			return;
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 /**
@@ -182,13 +178,13 @@ class CurrentFrame {
 	public function setRolesRoomsUser() {
 		self::$__instance->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 
-		if (isset(self::$__current['User']['id']) && isset(self::$__current['Room']['id']) && ! isset(self::$__current['RolesRoomsUser'])) {
+		if (isset(Current::$current['User']['id']) && isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
 			$result = self::$__instance->RolesRoomsUser->getRolesRoomsUsers(array(
-				'RolesRoomsUser.user_id' => self::$__current['User']['id'],
-				'Room.id' => self::$__current['Room']['id']
+				'RolesRoomsUser.user_id' => Current::$current['User']['id'],
+				'Room.id' => Current::$current['Room']['id']
 			));
 			if ($result) {
-				self::$__current = Hash::merge(self::$__current, $result[0]);
+				Current::$current = Hash::merge(Current::$current, $result[0]);
 			}
 		}
 	}
@@ -201,11 +197,11 @@ class CurrentFrame {
 	public function setDefaultRolePermissions() {
 		self::$__instance->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 
-		if (isset(self::$__current['DefaultRolePermission'])) {
+		if (isset(Current::$current['DefaultRolePermission'])) {
 			return;
 		}
-		if (isset(self::$__current['RolesRoom'])) {
-			$roomRoleKey = self::$__current['RolesRoom']['role_key'];
+		if (isset(Current::$current['RolesRoom'])) {
+			$roomRoleKey = Current::$current['RolesRoom']['role_key'];
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
 		}
@@ -216,7 +212,7 @@ class CurrentFrame {
 			)
 		));
 		if ($result) {
-			self::$__current['DefaultRolePermission'] = Hash::combine($result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission');
+			Current::$current['DefaultRolePermission'] = Hash::combine($result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission');
 		}
 	}
 
@@ -228,17 +224,17 @@ class CurrentFrame {
 	public function setRoomRolePermissions() {
 		self::$__instance->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
 
-		if (isset(self::$__current['RoomRolePermission']) || ! isset(self::$__current['RolesRoom'])) {
+		if (isset(Current::$current['RoomRolePermission']) || ! isset(Current::$current['RolesRoom'])) {
 			return;
 		}
 		$result = self::$__instance->RoomRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'roles_room_id' => self::$__current['RolesRoom']['id'],
+				'roles_room_id' => Current::$current['RolesRoom']['id'],
 			)
 		));
 		if ($result) {
-			self::$__current['RoomRolePermission'] = Hash::combine($result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission');
+			Current::$current['RoomRolePermission'] = Hash::combine($result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission');
 		}
 	}
 
@@ -250,35 +246,35 @@ class CurrentFrame {
 	public function setBlockRolePermissions() {
 		self::$__instance->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
 
-		if (isset(self::$__current['BlockRolePermission'])) {
+		if (isset(Current::$current['BlockRolePermission'])) {
 			return;
 		}
 
-		if (isset(self::$__current['RolesRoom']) && isset(self::$__current['Block']['key'])) {
+		if (isset(Current::$current['RolesRoom']) && isset(Current::$current['Block']['key'])) {
 			$result = self::$__instance->BlockRolePermission->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
-					'roles_room_id' => self::$__current['RolesRoom']['id'],
-					'block_key' => self::$__current['Block']['key'],
+					'roles_room_id' => Current::$current['RolesRoom']['id'],
+					'block_key' => Current::$current['Block']['key'],
 				)
 			));
 			if ($result) {
-				self::$__current['BlockRolePermission'] = Hash::combine($result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission');
+				Current::$current['BlockRolePermission'] = Hash::combine($result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission');
 			}
 		}
 
 		$permission = array();
-		if (isset(self::$__current['DefaultRolePermission'])) {
-			$permission = Hash::merge($permission, self::$__current['DefaultRolePermission']);
+		if (isset(Current::$current['DefaultRolePermission'])) {
+			$permission = Hash::merge($permission, Current::$current['DefaultRolePermission']);
 		}
-		if (isset(self::$__current['RoomRolePermission'])) {
-			$permission = Hash::merge($permission, self::$__current['RoomRolePermission']);
+		if (isset(Current::$current['RoomRolePermission'])) {
+			$permission = Hash::merge($permission, Current::$current['RoomRolePermission']);
 		}
-		if (isset(self::$__current['BlockRolePermission'])) {
-			$permission = Hash::merge($permission, self::$__current['BlockRolePermission']);
+		if (isset(Current::$current['BlockRolePermission'])) {
+			$permission = Hash::merge($permission, Current::$current['BlockRolePermission']);
 		}
 
-		self::$__current['Permission'] = $permission;
+		Current::$current['Permission'] = $permission;
 
 	}
 
@@ -288,7 +284,7 @@ class CurrentFrame {
  * @return bool
  */
 	public function setPage() {
-		if (isset(self::$__current['Page'])) {
+		if (isset(Current::$current['Page'])) {
 			return;
 		}
 
@@ -330,15 +326,15 @@ class CurrentFrame {
 		));
 
 		if ($result) {
-			self::$__current = Hash::merge(self::$__current, $result);
+			Current::$current = Hash::merge(Current::$current, $result);
 		}
-		if (isset(self::$__current['Page'])) {
+		if (isset(Current::$current['Page'])) {
 			return;
 		}
 
-		if (isset(self::$__current['Room'])) {
+		if (isset(Current::$current['Room'])) {
 			$conditions = array(
-				'Page.id' => self::$__current['Room']['page_id_top']
+				'Page.id' => Current::$current['Room']['page_id_top']
 			);
 			$result = self::$__instance->Page->find('first', array(
 				'recursive' => 0,
@@ -346,7 +342,7 @@ class CurrentFrame {
 			));
 		}
 		if ($result) {
-			self::$__current = Hash::merge(self::$__current, $result);
+			Current::$current = Hash::merge(Current::$current, $result);
 		}
 	}
 
@@ -356,19 +352,19 @@ class CurrentFrame {
  * @return bool
  */
 	public function setPageByRoomPageTopId() {
-		if (isset(self::$__current['Page']) || ! isset(self::$__current['Room'])) {
+		if (isset(Current::$current['Page']) || ! isset(Current::$current['Room'])) {
 			return;
 		}
 
 		$conditions = array(
-			'Page.id' => self::$__current['Room']['page_id_top']
+			'Page.id' => Current::$current['Room']['page_id_top']
 		);
 		$result = self::$__instance->Page->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
 		if ($result) {
-			self::$__current = Hash::merge(self::$__current, $result);
+			Current::$current = Hash::merge(Current::$current, $result);
 		}
 	}
 

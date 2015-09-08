@@ -152,54 +152,27 @@ class NetCommonsFormHelper extends FormHelper {
 	}
 
 /**
- * Creates a `<a>` tag for add link. The type attribute defaults
+ * Overwrite FormHelper::input($fieldName, array('type' => 'textarea'))
  *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
-	public function addLink($title = '', $url = null, $options = array()) {
-		//URLの設定
-		if (! isset($url)) {
-			$url = '/' . $this->_View->request->params['plugin'] . '/';
-			if (! isset($this->_View->viewVars['addActionController'])) {
-				$url .= $this->_View->request->params['controller'] . '/';
-			} else {
-				$url .= $this->_View->viewVars['addActionController'] . '/';
-			}
-			$url .= 'add/';
-			if (Current::read('Frame.id')) {
-				$url .= Current::read('Frame.id') . '/';
-			}
-		}
-		//iconの有無
-		$iconElement = '';
-		if (! isset($options['icon'])) {
-			$options['icon'] = 'plus';
-		}
-		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
-			unset($options['icon']);
-		}
-		//ボタンサイズ
-		$sizeAttr = '';
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
-			unset($options['iconSize']);
-		}
+	public function wysiwyg($fieldName, $attributes = array()) {
+		$ngModel = Hash::expand(array($fieldName => 0));
+		$ngModel = NetCommonsAppController::camelizeKeyRecursive($ngModel);
+		$ngModel = Hash::flatten($ngModel);
+		$ngModel = array_flip($ngModel);
 
-		//Linkオプションの設定
-		$inputOptions = Hash::merge(array(
-			'escapeTitle' => false,
-			'class' => 'btn btn-success ' . $sizeAttr
-		), $options);
-		if (! $inputOptions['escapeTitle']) {
-			$title = h($title);
-		}
-
-		return $this->Html->link($iconElement . $title, $url, $inputOptions);
+		$defaultAttributes = array(
+			'type' => 'textarea',
+			'ui-tinymce' => 'tinymce.options',
+			'ng-model' => $ngModel[0],
+			'rows' => 5,
+		);
+		$attributes = Hash::merge($defaultAttributes, $attributes);
+		return $this->input($fieldName, $attributes);
 	}
 
 /**

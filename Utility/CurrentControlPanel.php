@@ -41,7 +41,7 @@ class CurrentControlPanel {
  *
  * @var array
  */
-	private static $__current = array();
+	public static $current = array();
 
 /**
  * setup current data
@@ -49,22 +49,18 @@ class CurrentControlPanel {
  * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function initialize(CakeRequest $request, $current) {
+	public static function initialize(CakeRequest $request) {
 		if (! self::$__instance) {
 			self::$__instance = new CurrentControlPanel();
 		}
 
 		self::$__request = $request;
 
-		self::$__current = $current;
-
 		self::$__instance->setLanguage();
 
 		self::$__instance->setPlugin();
 
 		self::$__instance->setPluginRole();
-
-		return self::$__current;
 	}
 
 /**
@@ -73,7 +69,7 @@ class CurrentControlPanel {
  * @return void
  */
 	public function setLanguage() {
-		if (isset(self::$__current['Language'])) {
+		if (isset(Current::$current['Language'])) {
 			return;
 		}
 
@@ -87,7 +83,7 @@ class CurrentControlPanel {
 		if (! $result) {
 			return;
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 /**
@@ -96,8 +92,8 @@ class CurrentControlPanel {
  * @return void
  */
 	public function setPlugin() {
-		if (isset(self::$__current['Plugin'])) {
-			unset(self::$__current['Plugin']);
+		if (isset(Current::$current['Plugin'])) {
+			unset(Current::$current['Plugin']);
 		}
 
 		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
@@ -111,13 +107,13 @@ class CurrentControlPanel {
 			'recursive' => -1,
 			'conditions' => array(
 				'key' => self::$__request->params['plugin'],
-				'language_id' => self::$__current['Language']['id']
+				'language_id' => Current::$current['Language']['id']
 			),
 		));
 		if (! $result) {
 			return;
 		}
-		self::$__current = Hash::merge(self::$__current, $result);
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 /**
@@ -126,22 +122,26 @@ class CurrentControlPanel {
  * @return void
  */
 	public function setPluginRole() {
-		if (isset(self::$__current['PluginsRole'])) {
-			unset(self::$__current['PluginsRole']);
+		if (isset(Current::$current['PluginsRole'])) {
+			unset(Current::$current['PluginsRole']);
 		}
 
 		//PluginsRoleデータ取得
 		self::$__instance->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
-		$result = self::$__instance->PluginsRole->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'role_key' => self::$__current['User']['role_key'],
-				'plugin_key' => array('user_manager', 'rooms')
-			),
-		));
+		if (Current::$current['User']['role_key']) {
+			$result = self::$__instance->PluginsRole->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'role_key' => Current::$current['User']['role_key'],
+					'plugin_key' => array('user_manager', 'rooms')
+				),
+			));
+		} else {
+			$result = false;
+		}
 		if (! $result) {
 			return;
 		}
-		self::$__current['PluginsRole'] = Hash::combine($result, '{n}.PluginsRole.id', '{n}.PluginsRole');
+		Current::$current['PluginsRole'] = Hash::combine($result, '{n}.PluginsRole.id', '{n}.PluginsRole');
 	}
 }

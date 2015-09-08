@@ -58,7 +58,7 @@ class Current {
  *
  * @var array
  */
-	private static $__current = array();
+	public static $current = array();
 
 /**
  * setup current data
@@ -73,12 +73,12 @@ class Current {
 
 		self::$__request = $request;
 
-		self::$__current['User'] = AuthComponent::user();
+		self::$current['User'] = AuthComponent::user();
 
-		self::$__current = CurrentControlPanel::initialize(self::$__request, self::$__current);
+		CurrentControlPanel::initialize(self::$__request);
 
 		if (! self::isControlPanel()) {
-			self::$__current = CurrentFrame::initialize(self::$__request, self::$__current);
+			CurrentFrame::initialize(self::$__request);
 		}
 	}
 
@@ -90,9 +90,9 @@ class Current {
  */
 	public static function read($key = null) {
 		if (! isset($key)) {
-			return self::$__current;
+			return self::$current;
 		}
-		return Hash::get(self::$__current, $key);
+		return Hash::get(self::$current, $key);
 	}
 
 /**
@@ -112,7 +112,7 @@ class Current {
 		}
 		$path = 'Permission.' . $key . '.value';
 
-		return (bool)Hash::get(self::$__current, $path);
+		return (bool)Hash::get(self::$current, $path);
 	}
 
 /**
@@ -199,11 +199,11 @@ class Current {
 			return true;
 		}
 
-		if (! isset(self::$__current['Plugin'])) {
+		if (! isset(self::$current['Plugin'])) {
 			return false;
 		}
 
-		if (self::$__current['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL) {
+		if (self::$current['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL) {
 			return true;
 		} else {
 			return false;
@@ -216,10 +216,10 @@ class Current {
  * @return bool
  */
 	public static function hasControlPanel() {
-		if (! isset(self::$__current['PluginsRole'])) {
+		if (! isset(self::$current['PluginsRole'])) {
 			return false;
 		} else {
-			return (bool)count(self::$__current['PluginsRole']);
+			return (bool)count(self::$current['PluginsRole']);
 		}
 	}
 

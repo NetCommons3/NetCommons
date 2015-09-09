@@ -155,10 +155,13 @@ class NetCommonsAppController extends Controller {
 		Current::initialize($this->request);
 
 		//現在のテーマを取得(後で、見直しが必要)
-		$theme = $this->Asset->getSiteTheme($this);
-		if ($theme) {
-			$this->theme = $theme;
+		if (empty($this->request->params['requested'])) {
+			$theme = $this->Asset->getSiteTheme($this);
+			if ($theme) {
+				$this->theme = $theme;
+			}
 		}
+
 		//後で削除
 		//if (isset($this->request->query['language'])) {
 		//	Configure::write('Config.language', $this->request->query['language']);

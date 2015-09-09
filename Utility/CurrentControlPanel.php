@@ -123,7 +123,8 @@ class CurrentControlPanel {
  */
 	public function setPluginRole() {
 		if (isset(Current::$current['PluginsRole'])) {
-			unset(Current::$current['PluginsRole']);
+			//unset(Current::$current['PluginsRole']);
+			return;
 		}
 
 		//PluginsRoleデータ取得

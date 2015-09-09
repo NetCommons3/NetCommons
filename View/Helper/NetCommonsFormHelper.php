@@ -152,6 +152,58 @@ class NetCommonsFormHelper extends FormHelper {
 	}
 
 /**
+ * Overwrite FormHelper::checkbox()
+ *
+ * ### Options
+ *
+ * $options = array(
+ *  array('name' => 'United states', 'value' => 'US', 'title' => 'My title'),
+ *  array('name' => 'Germany', 'value' => 'DE', 'class' => 'de-de', 'title' => 'Another title'),
+ * );
+ *
+ * ### Attributes:
+ *
+ * - `separator` - define the string in between the radio buttons
+ * - `between` - the string between legend and input set or array of strings to insert
+ *    strings between each input block
+ * - `legend` - control whether or not the widget set has a fieldset & legend
+ * - `value` - indicate a value that is should be checked
+ * - `label` - boolean to indicate whether or not labels for widgets show be displayed
+ * - `hiddenField` - boolean to indicate if you want the results of radio() to include
+ *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
+ * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
+ * - `empty` - Set to `true` to create an input with the value '' as the first option. When `true`
+ *   the radio label will be 'empty'. Set this option to a string to control the label value.
+ *
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ */
+	public function inlineCheckbox($fieldName, $attributes = array()) {
+		$defaultAttributes = array(
+			'error' => false,
+			'div' => array('class' => 'form-inline'),
+			'label' => false,
+			'legend' => false,
+		);
+
+		$inputAttributes = Hash::merge($defaultAttributes, $attributes);
+
+		$output = '<div class="form-group">';
+		$output .= $this->Form->input($fieldName, $inputAttributes);
+
+		if (! isset($attributes['error']) || $attributes['error']) {
+			$output .= '<div class="has-error">';
+			$output .= $this->Form->error($fieldName, null, array('class' => 'help-block'));
+			$output .= '</div>';
+		}
+
+		$output .= '</div>';
+		return $output;
+	}
+
+/**
  * Overwrite FormHelper::input($fieldName, array('type' => 'textarea'))
  *
  * @param string $fieldName Name of a field, like this "Modelname.fieldname"
@@ -204,6 +256,46 @@ class NetCommonsFormHelper extends FormHelper {
 		}
 
 		return $this->Html->link($title, $url, $options);
+	}
+
+/**
+ * Setting display number
+ *
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ */
+	public function selectDisplayNumber($fieldName, $attributes = array()) {
+		if (! isset($attributes['options'])) {
+			if (! isset($attributes['unit'])) {
+				$attributes['unit']['single'] = __d('net_commons', '%s item');
+				$attributes['unit']['multiple'] = __d('net_commons', '%s items');
+			} elseif (is_string($attributes['unit'])) {
+				$unit = $attributes['unit'];
+				$attributes['unit'] = array();
+				$attributes['unit']['single'] = $unit;
+				$attributes['unit']['multiple'] = $unit;
+			}
+
+			$attributes['options'] = array();
+			foreach (array(1, 5, 10, 20, 50, 100) as $value) {
+				if ($value === 1) {
+					$unitLabel = $attributes['unit']['single'];
+				} else {
+					$unitLabel = $attributes['unit']['multiple'];
+				}
+				$attributes['options'][$value] = sprintf($unitLabel, $value);
+			}
+
+			unset($attributes['unit']);
+		}
+
+		$defaultAttributes = array(
+			'type' => 'select',
+		);
+		$attributes = Hash::merge($defaultAttributes, $attributes);
+
+		return $this->input($fieldName, $attributes);
 	}
 
 }

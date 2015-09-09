@@ -213,64 +213,6 @@ class NetCommonsAppModel extends Model {
 	}
 
 /**
- * Checks that a string contains something other than whitespace
- *
- * Returns true if string contains something other than whitespace
- *
- * $check can be passed as an array:
- * array('check' => 'valueToCheck');
- *
- * @param string|array $check Value to check
- * @return bool Success
- */
-	public static function notBlank($check) {
-		//暫定、version 2.7対応。ただし、2.7にバージョンアップした際に削除する
-		if (! method_exists('Validation', 'notBlank')) {
-			//version 2.7以前
-			return Validation::notEmpty($check);
-		} elseif (is_array($check)) {
-			return Validation::notBlank(array_shift($check));
-		} else {
-			return Validation::notBlank($check);
-		}
-	}
-
-/**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
- */
-	public function beforeValidate($options = array()) {
-		//暫定、version 2.7対応。ただし、2.7にバージョンアップした際に削除する
-		if (method_exists('Validation', 'notBlank')) {
-			$repValidate = 'notBlank';
-			$setValidate = 'notEmpty';
-		} else {
-			$repValidate = 'notEmpty';
-			$setValidate = 'notBlank';
-		}
-
-		foreach (array_keys($this->validate) as $field) {
-			if (isset($this->validate[$field]['rule'])) {
-				continue;
-			}
-
-			foreach ($this->validate[$field] as $rule => $validate) {
-				if ($rule === $setValidate) {
-					$this->validate[$field][$repValidate] = $validate;
-					$this->validate[$field][$repValidate]['rule'] = array($repValidate);
-					unset($this->validate[$field][$rule]);
-				}
-			}
-		}
-		return parent::beforeValidate($options);
-	}
-
-/**
  * Check field1 matches field2
  *
  * @param array $field1 field1 parameters

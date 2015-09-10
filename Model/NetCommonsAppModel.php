@@ -105,9 +105,25 @@ class NetCommonsAppModel extends Model {
 	public function create($data = array(), $filterKey = false) {
 		$options = array();
 
+		$currents = array(
+			'room_id' => Current::read('Room.id'),
+			'language_id' => Current::read('Language.id'),
+			'block_id' => Current::read('Block.id'),
+			'block_key' => Current::read('Block.key'),
+			'frame_id' => Current::read('Frame.id'),
+			'frame_key' => Current::read('Frame.key'),
+			'plugin_key' => Inflector::underscore($this->plugin),
+		);
+
 		foreach ($this->_schema as $fieldName => $fieldDetail) {
-			if ($fieldName != $this->primaryKey) {
+			if ($fieldName !== $this->primaryKey) {
 				$options[$fieldName] = $fieldDetail['default'];
+			}
+
+			foreach ($currents as $key => $current) {
+				if ($this->hasField($key) && $fieldName === $key &&  ! isset($data[$fieldName])) {
+					$options[$fieldName] = $current;
+				}
 			}
 		}
 

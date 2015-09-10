@@ -110,9 +110,8 @@ class DisplayNumberHelper extends AppHelper {
 
 		if (! isset($attributes['url'])) {
 			$attributes['url'] = Hash::merge(array(
-				'plugin' => $this->_View->params['plugin'],
 				'controller' => $this->_View->params['controller'],
-				'action' => $this->_View->params['controller']
+				'action' => $this->_View->params['action']
 			), $this->_View->params->pass);
 		}
 

@@ -108,21 +108,14 @@ class DisplayNumberHelper extends AppHelper {
 			$attributes['currentLimit'] = $this->_View->Paginator->param('limit');
 		}
 
-		if (! isset($attributes['url'])) {
-			$attributes['url'] = Hash::merge(array(
-				'controller' => $this->_View->params['controller'],
-				'action' => $this->_View->params['action']
-			), $this->_View->params->pass);
-		}
-
 		$named = $this->_View->Paginator->params['named'];
 		$named['page'] = '1';
-		$attributes['url'] = Hash::merge((array)$attributes['url'], $named);
+		$attributes['url'] = $named;
 
 		return $this->_View->element('NetCommons.limit_dropdown_toggle', array(
 			'displayNumberOptions' => $attributes['options'],
 			'currentLimit' => $attributes['currentLimit'],
-			'url' => $attributes['url'],
+			'url' => $named,
 		));
 	}
 

@@ -105,6 +105,10 @@ class NetCommonsAppModel extends Model {
 	public function create($data = array(), $filterKey = false) {
 		$options = array();
 
+		if (! Configure::read('NetCommons.installed') || ! class_exists('Current')) {
+			return parent::create($data, $filterKey);
+		}
+
 		$currents = array(
 			'room_id' => Current::read('Room.id'),
 			'language_id' => Current::read('Language.id'),

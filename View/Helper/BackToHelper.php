@@ -1,6 +1,6 @@
 <?php
 /**
- * BackHtml Helper
+ * BackTo Helper
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,12 +12,12 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * BackHtml Helper
+ * BackTo Helper
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\View\Helper
  */
-class BackHtmlHelper extends AppHelper {
+class BackToHelper extends AppHelper {
 
 /**
  * Other helpers used by HtmlHelper

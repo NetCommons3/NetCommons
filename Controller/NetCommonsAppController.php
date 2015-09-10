@@ -67,6 +67,7 @@ class NetCommonsAppController extends Controller {
 			)
 		),
 		'DebugKit.Toolbar',
+		'Flash',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -98,7 +99,7 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
-		'NetCommons.BackHtml',
+		'NetCommons.BackTo',
 		'NetCommons.Button',
 		'NetCommons.Date',
 		'NetCommons.NetCommonsForm',

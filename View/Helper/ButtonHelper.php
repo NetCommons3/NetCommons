@@ -26,7 +26,7 @@ class ButtonHelper extends FormHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
-		'NetCommons.BackHtml',
+		'NetCommons.BackTo',
 		'NetCommons.NetCommonsForm',
 	);
 
@@ -250,7 +250,7 @@ class ButtonHelper extends FormHelper {
 			'name' => 'cancel',
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
-		return $this->BackHtml->button($title, $url, $inputOptions);
+		return $this->BackTo->button($title, $url, $inputOptions);
 	}
 
 /**

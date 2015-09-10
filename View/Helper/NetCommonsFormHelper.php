@@ -26,7 +26,6 @@ class NetCommonsFormHelper extends FormHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
-		'NetCommons.BackHtml',
 		'NetCommons.Button'
 	);
 
@@ -256,46 +255,6 @@ class NetCommonsFormHelper extends FormHelper {
 		}
 
 		return $this->Html->link($title, $url, $options);
-	}
-
-/**
- * Setting display number
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
- */
-	public function selectDisplayNumber($fieldName, $attributes = array()) {
-		if (! isset($attributes['options'])) {
-			if (! isset($attributes['unit'])) {
-				$attributes['unit']['single'] = __d('net_commons', '%s item');
-				$attributes['unit']['multiple'] = __d('net_commons', '%s items');
-			} elseif (is_string($attributes['unit'])) {
-				$unit = $attributes['unit'];
-				$attributes['unit'] = array();
-				$attributes['unit']['single'] = $unit;
-				$attributes['unit']['multiple'] = $unit;
-			}
-
-			$attributes['options'] = array();
-			foreach (array(1, 5, 10, 20, 50, 100) as $value) {
-				if ($value === 1) {
-					$unitLabel = $attributes['unit']['single'];
-				} else {
-					$unitLabel = $attributes['unit']['multiple'];
-				}
-				$attributes['options'][$value] = sprintf($unitLabel, $value);
-			}
-
-			unset($attributes['unit']);
-		}
-
-		$defaultAttributes = array(
-			'type' => 'select',
-		);
-		$attributes = Hash::merge($defaultAttributes, $attributes);
-
-		return $this->input($fieldName, $attributes);
 	}
 
 }

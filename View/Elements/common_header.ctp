@@ -63,9 +63,9 @@ if (! isset($isSettingMode)) {
 					<?php if (Current::hasSettingMode()): ?>
 						<li>
 							<?php if (! $isSettingMode): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . Current::backToPageUrl()); ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . NetCommonsUrl::backToPageUrl()); ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), Current::backToPageUrl()); ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

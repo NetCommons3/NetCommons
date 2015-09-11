@@ -87,7 +87,7 @@ class BackToHelper extends AppHelper {
  * @return string
  */
 	public function pageButton($title, $options = array()) {
-		$url = Current::backToPageUrl();
+		$url = NetCommonsUrl::backToPageUrl();
 		return $this->Button($title, $url, $options);
 	}
 
@@ -100,7 +100,7 @@ class BackToHelper extends AppHelper {
  * @return string
  */
 	public function indexButton($title, $defaultField = 'default_action', $options = array()) {
-		$url = Current::backToIndexUrl($defaultField);
+		$url = NetCommonsUrl::backToIndexUrl($defaultField);
 		return $this->linkButton($title, $url, $options);
 	}
 
@@ -152,7 +152,7 @@ class BackToHelper extends AppHelper {
  * @return string
  */
 	public function pageLinkButton($title, $options = array()) {
-		$url = Current::backToPageUrl();
+		$url = NetCommonsUrl::backToPageUrl();
 		return $this->linkButton($title, $url, $options);
 	}
 
@@ -165,7 +165,7 @@ class BackToHelper extends AppHelper {
  * @return string
  */
 	public function indexLinkButton($title, $defaultField = 'default_action', $options = array()) {
-		$url = Current::backToIndexUrl($defaultField);
+		$url = NetCommonsUrl::backToIndexUrl($defaultField);
 		return $this->linkButton($title, $url, $options);
 	}
 

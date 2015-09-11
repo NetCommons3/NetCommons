@@ -11,6 +11,7 @@
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsUrl', 'NetCommons.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -19,14 +20,6 @@ App::uses('Current', 'NetCommons.Utility');
  * @package NetCommons\NetCommons\Controller
  */
 class NetCommonsAppController extends Controller {
-
-/**
- * alert
- *
- * @var string
- */
-	const ALERT_SUCCESS_INTERVAL = 1500,
-		ALERT_VALIDATE_ERROR_INTERVAL = 4000;
 
 /**
  * use layout
@@ -68,6 +61,7 @@ class NetCommonsAppController extends Controller {
 		),
 		'DebugKit.Toolbar',
 		'Flash',
+		'NetCommons.NetCommons',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -178,7 +172,7 @@ class NetCommonsAppController extends Controller {
 		$this->Auth->allow('index', 'view');
 
 		if ($this->RequestHandler->accepts('json')) {
-			$this->renderJson();
+			$this->NetCommons->renderJson();
 		}
 
 		$this->set('userId', $this->Auth->user('id'));
@@ -240,30 +234,6 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * render json
- *
- * @param array $results results data
- * @param string $name message
- * @param int $status status code
- * @return void
- */
-	public function renderJson($results = [], $name = 'OK', $status = 200) {
-		$this->viewClass = 'Json';
-		$this->layout = false;
-		$this->response->statusCode($status);
-		if (!$results) {
-			$results = $this->viewVars;
-		}
-		$results = array_merge([
-			'name' => $name,
-			'code' => $status,
-		], $results);
-		$results = self::camelizeKeyRecursive($results);
-		$this->set(compact('results'));
-		$this->set('_serialize', 'results');
-	}
-
-/**
  * camelizeKeyRecursive
  *
  * @param array $orig data to camelize
@@ -285,46 +255,6 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * Handle validation error
- *
- * @param array $errors validation errors
- * @return bool true on success, false on error
- */
-	public function handleValidationError($errors) {
-		if (! $errors) {
-			return true;
-		}
-
-		$this->validationErrors = $errors;
-
-		$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
-		CakeLog::info('[ValidationErrors] ' . $this->request->here());
-		if (Configure::read('debug')) {
-			CakeLog::info(print_r($errors, true));
-			//CakeLog::info(print_r($this->request->data, true));
-		}
-
-		$this->setFlashNotification($message, array(
-			'class' => 'danger',
-			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
-			'error' => ['validationErrors' => $errors]
-		), 400);
-		return false;
-	}
-
-/**
- * 後で削除
- * Redirect by frame id
- *
- * @return void
- */
-	//public function redirectByFrameId() {
-	//	if (! $this->request->is('ajax')) {
-	//		$this->redirect('/' . Current::read('Page.permalink'));
-	//	}
-	//}
-
-/**
  * throw bad request
  *
  * @param string $message Error message
@@ -335,9 +265,10 @@ class NetCommonsAppController extends Controller {
 		if (! isset($message)) {
 			$message = __d('net_commons', 'Bad Request');
 		}
+		$this->autoRender = false;
 
 		if ($this->request->is('ajax')) {
-			$this->setFlashNotification(__d('net_commons', 'Bad Request'), array(
+			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
 				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
 				'error' => $message
@@ -348,40 +279,12 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * Used to set a session variable that can be used to output messages in the view.
+ * Empty render
  *
- * @param string $message message
- * @param array $params Parameters to be sent to layout as view variables
- * @param int $status status code
  * @return void
  */
-	public function setFlashNotification($message, $params = array(), $status = 200) {
-		if (is_string($params)) {
-			$params = array('class' => $params);
-		}
-
-		if (isset($params['element'])) {
-			$element = $params['element'];
-			unset($params['element']);
-		} else {
-			$element = 'common_alert';
-		}
-
-		$params = Hash::merge(array(
-			'class' => 'danger',
-			'interval' => null,
-			'plugin' => 'NetCommons',
-		), $params);
-
-		if ($params['interval'] === null && $params['class'] !== 'danger') {
-			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
-		}
-
-		if ($this->request->is('ajax')) {
-			$this->renderJson($params, $message, $status);
-		} else {
-			$this->Session->setFlash($message, $element, $params);
-		}
+	public function emptyRender() {
+		$this->autoRender = false;
 	}
 
 }

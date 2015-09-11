@@ -116,42 +116,6 @@ class Current {
 	}
 
 /**
- * Back to page url
- *
- * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
- * @return string Full translated URL with base path.
- */
-	public static function backToPageUrl($settingMode = false, $full = false) {
-		$url = '/';
-		if (! Current::isControlPanel()) {
-			if ($settingMode) {
-				$url .= self::SETTING_MODE_WORD . '/';
-			}
-
-			if (Current::read('Page.permalink')) {
-				$url .= Current::read('Page.permalink') . '/';
-			}
-		}
-		return h(Router::url($url, $full));
-	}
-
-/**
- * Back to default action url
- *
- * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
- * @return string Full translated URL with base path.
- */
-	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
-		$url = '/' . self::read('Plugin.key') . '/' . self::read('Plugin.' . $defaultField);
-		if (self::read('Plugin.' . $defaultField) && ! Current::isControlPanel()) {
-			if (Current::read('Frame.id')) {
-				$url .= '/' . Current::read('Frame.id');
-			}
-		}
-		return h(Router::url($url, $full));
-	}
-
-/**
  * Is login
  *
  * @return bool

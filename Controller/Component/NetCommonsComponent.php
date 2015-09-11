@@ -1,0 +1,127 @@
+<?php
+/**
+ * 後で削除
+ *
+ * NetCommonsBlock Component
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+App::uses('Component', 'Controller');
+
+/**
+ * NetCommonsBlock Component
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Controller\Component
+ */
+class NetCommonsComponent extends Component {
+
+/**
+ * alert
+ *
+ * @var string
+ */
+	const ALERT_SUCCESS_INTERVAL = 1500,
+		ALERT_VALIDATE_ERROR_INTERVAL = 4000;
+
+/**
+ * Called before the Controller::beforeFilter().
+ *
+ * @param Controller $controller Instantiating controller
+ * @return void
+ */
+	public function initialize(Controller $controller) {
+		$this->controller = $controller;
+	}
+
+/**
+ * render json
+ *
+ * @param array $results results data
+ * @param string $name message
+ * @param int $status status code
+ * @return void
+ */
+	public function renderJson($results = [], $name = 'OK', $status = 200) {
+		$this->controller->viewClass = 'Json';
+		$this->controller->layout = false;
+		$this->controller->response->statusCode($status);
+		$results = array_merge([
+			'name' => $name,
+			'code' => $status,
+		], $results);
+		$results = NetCommonsAppController::camelizeKeyRecursive($results);
+		$this->controller->set(compact('results'));
+		$this->controller->set('_serialize', 'results');
+	}
+
+/**
+ * Handle validation error
+ *
+ * @param array $errors validation errors
+ * @return bool true on success, false on error
+ */
+	public function handleValidationError($errors) {
+		if (! $errors) {
+			return true;
+		}
+
+		$this->controller->validationErrors = $errors;
+
+		$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
+		CakeLog::info('[ValidationErrors] ' . $this->controller->request->here());
+		if (Configure::read('debug')) {
+			CakeLog::info(print_r($errors, true));
+			//CakeLog::info(print_r($this->request->data, true));
+		}
+
+		$this->setFlashNotification($message, array(
+			'class' => 'danger',
+			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
+			'error' => ['validationErrors' => $errors]
+		), 400);
+		return false;
+	}
+
+/**
+ * Used to set a session variable that can be used to output messages in the view.
+ *
+ * @param string $message message
+ * @param array $params Parameters to be sent to layout as view variables
+ * @param int $status status code
+ * @return void
+ */
+	public function setFlashNotification($message, $params = array(), $status = 200) {
+		if (is_string($params)) {
+			$params = array('class' => $params);
+		}
+
+		if (isset($params['element'])) {
+			$element = $params['element'];
+			unset($params['element']);
+		} else {
+			$element = 'common_alert';
+		}
+
+		$params = Hash::merge(array(
+			'class' => 'danger',
+			'interval' => null,
+			'plugin' => 'NetCommons',
+		), $params);
+
+		if ($params['interval'] === null && $params['class'] !== 'danger') {
+			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
+		}
+
+		if ($this->controller->request->is('ajax')) {
+			$this->renderJson($params, $message, $status);
+		} else {
+			$this->controller->Session->setFlash($message, $element, $params);
+		}
+	}
+}

@@ -106,7 +106,7 @@ class ButtonHelper extends FormHelper {
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function editLink($value, $title = '', $url = null, $options = array()) {
+	public function editLink($title = '', $url = null, $options = array()) {
 		$output = '';
 
 		//iconの有無
@@ -144,7 +144,7 @@ class ButtonHelper extends FormHelper {
 			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
-		$output .= $this->NetCommonsForm->editLink($value, $iconElement . $title, $url, $inputOptions);
+		$output .= $this->NetCommonsForm->editLink($iconElement . $title, $url, $inputOptions);
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';
 		}
@@ -265,7 +265,7 @@ class ButtonHelper extends FormHelper {
  */
 	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null, $options = array()) {
 		if (! isset($cancelUrl)) {
-			$cancelUrl = Current::backToPageUrl();
+			$cancelUrl = NetCommonsUrl::backToPageUrl();
 		}
 
 		$output = '';

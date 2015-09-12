@@ -27,7 +27,7 @@ class ButtonHelper extends FormHelper {
 		'Form',
 		'Html',
 		'NetCommons.BackTo',
-		'NetCommons.NetCommonsForm',
+		'NetCommons.NetCommonsHtml',
 	);
 
 /**
@@ -144,7 +144,7 @@ class ButtonHelper extends FormHelper {
 			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
-		$output .= $this->NetCommonsForm->editLink($iconElement . $title, $url, $inputOptions);
+		$output .= $this->NetCommonsHtml->editLink($iconElement . $title, $url, $inputOptions);
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';
 		}

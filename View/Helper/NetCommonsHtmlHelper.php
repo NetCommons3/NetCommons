@@ -9,14 +9,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('HtmlHelper', 'View/Helper');
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * NetCommonsFormHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
-class NetCommonsHtmlHelper extends HtmlHelper {
+class NetCommonsHtmlHelper extends AppHelper {
 
 /**
  * Other helpers used by HtmlHelper
@@ -85,6 +85,103 @@ class NetCommonsHtmlHelper extends HtmlHelper {
 		$camelizeData = NetCommonsAppController::camelizeKeyRecursive($results);
 
 		return json_encode($camelizeData);
+	}
+
+/**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param string $key The content key
+ * @param string $title The anchor's caption. Not automatically HTML encoded
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function editLink($title = '', $url = null, $options = array()) {
+		//URLの設定
+		if (! isset($url['plugin'])) {
+			$url['plugin'] = $this->_View->request->params['plugin'];
+		}
+		if (! isset($url['controller'])) {
+			if (! isset($this->_View->viewVars['editActionController'])) {
+				$url['controller'] = $this->_View->request->params['controller'];
+			} else {
+				$url['controller'] = $this->_View->viewVars['editActionController'];
+			}
+		}
+		if (! isset($url['action'])) {
+			$url['action'] = 'edit';
+		}
+		if (Current::read('Frame.id')) {
+			$url['frame_id'] = Current::read('Frame.id');
+		}
+		$url = NetCommonsUrl::actionUrl($url);
+
+		return $this->Html->link($title, $url, $options);
+	}
+
+/**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param string $key The content key
+ * @param string $title The anchor's caption. Not automatically HTML encoded
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function url($url = null, $options = array()) {
+		//URLの設定
+		if (isset($url) && is_array($url)) {
+			if (! isset($url['plugin'])) {
+				$url['plugin'] = $this->_View->request->params['plugin'];
+			}
+			if (! isset($url['controller'])) {
+				$url['controller'] = $this->_View->request->params['controller'];
+			}
+			if (! isset($url['action'])) {
+				$url['action'] = $this->_View->request->params['action'];
+			}
+			if (Current::read('Frame.id')) {
+				$url['frame_id'] = Current::read('Frame.id');
+			}
+			$url = NetCommonsUrl::actionUrl($url);
+		}
+
+		$output = $this->Html->url($url, $options);
+		return $output;
+	}
+
+/**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param string $key The content key
+ * @param string $title The anchor's caption. Not automatically HTML encoded
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function link($title = '', $url = null, $options = array()) {
+		//URLの設定
+		if (isset($url) && is_array($url)) {
+			if (! isset($url['plugin'])) {
+				$url['plugin'] = $this->_View->request->params['plugin'];
+			}
+			if (! isset($url['controller'])) {
+				$url['controller'] = $this->_View->request->params['controller'];
+			}
+			if (! isset($url['action'])) {
+				$url['action'] = $this->_View->request->params['action'];
+			}
+			if (Current::read('Frame.id')) {
+				$url['frame_id'] = Current::read('Frame.id');
+			}
+			$url = NetCommonsUrl::actionUrl($url);
+		}
+
+		$output = $this->Html->link($title, $url, $options);
+		return $output;
 	}
 
 }

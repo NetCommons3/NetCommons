@@ -261,20 +261,15 @@ class NetCommonsAppController extends Controller {
  * @return void
  * @throws BadRequestException
  */
-	public function throwBadRequest($message = null) {
-		if (! isset($message)) {
-			$message = __d('net_commons', 'Bad Request');
-		}
-		$this->autoRender = false;
-
+	public function throwBadRequest() {
 		if ($this->request->is('ajax')) {
 			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
 				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
-				'error' => $message
+				'error' => __d('net_commons', 'Bad Request')
 			), 400);
 		} else {
-			throw new BadRequestException($message);
+			throw new BadRequestException(__d('net_commons', 'Bad Request'));
 		}
 	}
 

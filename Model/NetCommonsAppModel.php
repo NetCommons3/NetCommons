@@ -146,6 +146,15 @@ class NetCommonsAppModel extends Model {
 		if ($this->useDbConfig !== 'test') {
 			//self::$__useDbConfig = $dataSource;
 			parent::setDataSource($dataSource);
+			//foreach ($this->tableToModel as $table => $model) {
+			//	//CakeLog::debug('NetCommonsAppModel::setDataSource() ' . $this->plugin . ' $model = ' . print_r($model, true));
+			//	//CakeLog::debug('NetCommonsAppModel::setDataSource() ' . $this->plugin . ' $this->{$model} = ' . print_r($this->{$model}, true));
+			//
+			//	if (!empty($this->{$model})) {
+			//		//$this->{$model}->setDataSource(self::$__useDbConfig);
+			//		$this->{$model}->useDbConfig = self::$__useDbConfig;
+			//	}
+			//}
 		}
 	}
 

@@ -26,7 +26,14 @@ class NetCommonsAppModel extends Model {
  *
  * @var array
  */
-	//private static $__useDbConfig; //後で
+	//private static $__useDbConfig;
+
+/**
+ * use useDbConfig
+ *
+ * @var array
+ */
+	//private static $__originUseDbConfig;
 
 /**
  * use behaviors
@@ -81,32 +88,39 @@ class NetCommonsAppModel extends Model {
 			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
 		}
 		$this->useDbConfig = $_useDbConfig;
-		//self::$__useDbConfig = $_useDbConfig; //後で
+		//self::$__useDbConfig = $_useDbConfig;
+		//if (! self::$__originUseDbConfig) {
+		//	self::$__originUseDbConfig = $_useDbConfig;
+		//}
 
 		parent::__construct($id, $table, $ds);
 	}
 
 /**
- * 後で
  * Gets the DataSource to which this model is bound.
  *
  * @return DataSource A DataSource object
  */
 	//public function getDataSource() {
-	//	CakeLog::debug('NetCommonsAppModel::getDataSource() $this->useDbConfig = ' . $this->useDbConfig);
-	//	CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this) = ' . get_class($this));
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' self::$__useDbConfig = ' . self::$__useDbConfig);
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' get_class($this) = ' . get_class($this));
 	//	if ($this->useDbConfig !== 'test') {
-	//		$this->useDbConfig = self::$__useDbConfig;
-	//		CakeLog::debug('NetCommonsAppModel::getDataSource() $this->_associations = ' . print_r($this->associations(), true));
-	//		//foreach ($this->_associations as $assoc) {
-	//		//	if (!empty($this->{$assoc})) {
-	//		//		$models = array_keys($this->{$assoc});
-	//		//		foreach ($models as $m) {
-	//		//			CakeLog::debug('NetCommonsAppModel::getDataSource() $this->$m = ' . print_r(get_class($this->$m), true));
-	//		//			//$this->{$m}->useDbConfig = self::$__useDbConfig;
-	//		//		}
-	//		//	}
-	//		//}
+	//		if ($this->useDbConfig !== self::$__useDbConfig) {
+	//			$this->setDataSource(self::$__useDbConfig);
+	//			$this->useDbConfig = self::$__useDbConfig;
+	//		}
+	//
+	//		//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->tableToModel = ' . print_r($this->tableToModel, true));
+	//		foreach ($this->tableToModel as $table => $model) {
+	//			//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $model = ' . print_r($model, true));
+	//			//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->{$model} = ' . print_r($this->{$model}, true));
+	//
+	//			if (!empty($this->{$model})) {
+	//				$this->{$model}->setDataSource(self::$__useDbConfig);
+	//				//$this->{$model}->useDbConfig = self::$__useDbConfig;
+	//			}
+	//		}
 	//
 	//		//foreach ($this->_associations as $association) {
 	//		//	$this->{$association}->useDbConfig = self::$__useDbConfig;
@@ -117,6 +131,7 @@ class NetCommonsAppModel extends Model {
 	//		$this->_sourceConfigured = true;
 	//		$this->setSource($this->useTable);
 	//	}
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
 	//	return parent::getDataSource();
 	//}
 
@@ -129,8 +144,7 @@ class NetCommonsAppModel extends Model {
  */
 	public function setDataSource($dataSource = null) {
 		if ($this->useDbConfig !== 'test') {
-			//self::$__useDbConfig = $dataSource; //後で
-			//parent::setDataSource(self::$__useDbConfig);
+			//self::$__useDbConfig = $dataSource;
 			parent::setDataSource($dataSource);
 		}
 	}
@@ -234,10 +248,11 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function begin() {
-		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->useDbConfig); //後で
+		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig1 = ' . $this->useDbConfig);
 		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
+		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig2 = ' . $this->useDbConfig);
 	}
 
 /**

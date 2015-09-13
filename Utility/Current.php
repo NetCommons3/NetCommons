@@ -11,6 +11,7 @@
 
 App::uses('CurrentControlPanel', 'NetCommons.Utility');
 App::uses('CurrentFrame', 'NetCommons.Utility');
+App::uses('CurrentPage', 'NetCommons.Utility');
 
 /**
  * Current Utility
@@ -24,13 +25,6 @@ class Current {
  * Constant setting mode value
  */
 	const SETTING_MODE_WORD = 'setting';
-
-/**
- * Constant default room_role_key
- *
- * @var string
- */
-	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
  * is setting mode true

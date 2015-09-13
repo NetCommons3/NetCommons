@@ -37,13 +37,6 @@ class CurrentControlPanel {
 	private static $__instance;
 
 /**
- * Current data
- *
- * @var array
- */
-	public static $current = array();
-
-/**
  * setup current data
  *
  * @param CakeRequest $request CakeRequest

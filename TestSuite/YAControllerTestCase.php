@@ -12,6 +12,7 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 App::uses('YACakeTestCase', 'NetCommons.TestSuite');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * YAControllerTestCase
@@ -46,6 +47,7 @@ class YAControllerTestCase extends ControllerTestCase {
 		'plugin.pages.languages_page',
 		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
+		'plugin.plugin_manager.plugins_role',
 		'plugin.plugin_manager.plugins_room',
 		'plugin.roles.default_role_permission',
 		'plugin.roles.role',
@@ -61,7 +63,7 @@ class YAControllerTestCase extends ControllerTestCase {
 
 /**
  * Fixtures load
- * 
+ *
  * @param string $name The name parameter on PHPUnit_Framework_TestCase::__construct()
  * @param array  $data The date parameter on PHPUnit_Framework_TestCase::__construct()
  * @param string $dataName The dataName parameter on PHPUnit_Framework_TestCase::__construct()

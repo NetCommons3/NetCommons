@@ -139,8 +139,10 @@ class NetCommonsAppModel extends Model {
  * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
  *   schema data defaults are not merged.
  * @param bool $filterKey If true, overwrites any primary key input with an empty value
+ *
  * @return array The current Model::data; after merging $data and/or defaults from database
  * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
 		$options = array();
@@ -165,7 +167,7 @@ class NetCommonsAppModel extends Model {
 			}
 
 			foreach ($currents as $key => $current) {
-				if ($this->hasField($key) && $fieldName === $key &&  ! isset($data[$fieldName])) {
+				if ($this->hasField($key) && $fieldName === $key && ! isset($data[$fieldName])) {
 					$options[$fieldName] = $current;
 				}
 			}
@@ -187,6 +189,7 @@ class NetCommonsAppModel extends Model {
  *
  * @return array The current Model::data; after merging $data and/or defaults from database
  * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function createAll($data = array(), $filterKey = false) {
 		$newRecord = $data;
@@ -245,7 +248,9 @@ class NetCommonsAppModel extends Model {
 /**
  * transaction rollback
  *
+ * @param mixed $ex Exception
  * @return void
+ * @throws Exception
  */
 	public function rollback($ex = null) {
 		$dataSource = $this->getDataSource();

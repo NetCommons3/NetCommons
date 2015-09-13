@@ -71,17 +71,21 @@ class PermissionComponent extends Component {
 					$allowActions[$action] = array();
 				}
 				$allowActions[$action] = Hash::merge($allowActions[$action], $permission);
+
+				if (count($allowActions[$action]) === 0) {
+					$allowActions[$action] = array(self::READABLE_PERMISSION);
+				}
 			}
 		}
-		$allowActionKeys = array_keys($allowActions);
-		foreach ($allowActionKeys as $action) {
-			if (! isset($allowActions[$action])) {
-				break;
-			}
-			if (count($allowActions[$action]) === 0) {
-				$allowActions[$action] = array(self::READABLE_PERMISSION);
-			}
-		}
+		//$allowActionKeys = array_keys($allowActions);
+		//foreach ($allowActionKeys as $action) {
+		//	if (! isset($allowActions[$action])) {
+		//		break;
+		//	}
+		//	if (count($allowActions[$action]) === 0) {
+		//		$allowActions[$action] = array(self::READABLE_PERMISSION);
+		//	}
+		//}
 		$this->allow = $allowActions;
 	}
 

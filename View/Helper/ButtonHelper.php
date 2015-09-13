@@ -44,41 +44,37 @@ class ButtonHelper extends FormHelper {
 
 		//URLの設定
 		if (! isset($url)) {
-			$url = '/' . $this->_View->request->params['plugin'] . '/';
-			if (! isset($this->_View->viewVars['addActionController'])) {
-				$url .= $this->_View->request->params['controller'] . '/';
-			} else {
-				$url .= $this->_View->viewVars['addActionController'] . '/';
+			$url = array(
+				'plugin' => $this->_View->request->params['plugin'],
+				'controller' => $this->_View->request->params['controller'],
+				'action' => 'add',
+				'frame_id' => Current::read('Frame.id'),
+			);
+			if (isset($this->_View->viewVars['addActionController'])) {
+				$url['controller'] = $this->_View->viewVars['addActionController'];
 			}
-			$url .= 'add/';
-			if (Current::read('Frame.id')) {
-				$url .= Current::read('Frame.id') . '/';
-			}
-		}
-		//iconの有無
-		$iconElement = '';
-		if (! isset($options['icon'])) {
-			$options['icon'] = 'plus';
-		}
-		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
-			unset($options['icon']);
-		}
-		//ボタンサイズ
-		$sizeAttr = '';
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
-			unset($options['iconSize']);
+			$url = NetCommonsUrl::actionUrl($url);
 		}
 
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
+			'icon' => 'plus',
+			'iconSize' => '',
 			'escapeTitle' => false,
-			'class' => 'btn btn-success ' . $sizeAttr
+			'class' => 'btn btn-success',
 		), $options);
 		if (! $inputOptions['escapeTitle']) {
 			$title = h($title);
 		}
+
+		//iconの有無
+		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
+		unset($inputOptions['icon']);
+		//ボタンサイズ
+		$sizeAttr = '';
+		$sizeAttr = h($inputOptions['iconSize']);
+		$inputOptions['class'] .= ' ' . $sizeAttr;
+		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
 		if (isset($options['tooltip']) && $options['tooltip']) {
@@ -109,30 +105,27 @@ class ButtonHelper extends FormHelper {
 	public function editLink($title = '', $url = null, $options = array()) {
 		$output = '';
 
-		//iconの有無
-		$iconElement = '';
-		if (! isset($options['icon'])) {
-			$options['icon'] = 'edit';
-		}
-		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
-			unset($options['icon']);
-		}
-		//ボタンサイズ
-		$sizeAttr = '';
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = 'btn-' . $options['iconSize'];
-			unset($options['iconSize']);
-		}
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
+			'icon' => 'edit',
+			'iconSize' => '',
 			'escapeTitle' => false,
-			'class' => 'btn btn-primary ' . $sizeAttr
+			'class' => 'btn btn-primary'
 		), $options);
+
 		if (! $inputOptions['escapeTitle']) {
 			$title = h($title);
 		}
+
+		//iconの有無
+		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
+		unset($inputOptions['icon']);
+
+		//ボタンサイズ
+		$sizeAttr = '';
+		$sizeAttr = h($inputOptions['iconSize']);
+		$inputOptions['class'] .= ' ' . $sizeAttr;
+		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
 		if (isset($options['tooltip']) && $options['tooltip']) {

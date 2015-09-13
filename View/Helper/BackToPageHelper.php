@@ -1,5 +1,6 @@
 <?php
 /**
+ * 後で削除
  * BackToPageHelper Helper
  *
  * @author Noriko Arai <arai@nii.ac.jp>

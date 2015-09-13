@@ -20,8 +20,10 @@ class NetCommonsUrl {
 /**
  * Back to page url
  *
+ * @param bool $settingMode Setting mode
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return string Full translated URL with base path.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function backToPageUrl($settingMode = false, $full = false) {
 		$url = '/';
@@ -40,8 +42,10 @@ class NetCommonsUrl {
 /**
  * Back to default action url
  *
+ * @param string $defaultField Plugin table's default action field. The value is "default_action" or "default_setting_action"
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return string Full translated URL with base path.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
 		$url = '/' . Current::read('Plugin.key') . '/' . Current::read('Plugin.' . $defaultField);
@@ -56,8 +60,10 @@ class NetCommonsUrl {
 /**
  * Back to default action url
  *
+ * @param array $params Action url array
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return string Full translated URL with base path.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function actionUrl($params = array(), $full = false) {
 		$url = array();

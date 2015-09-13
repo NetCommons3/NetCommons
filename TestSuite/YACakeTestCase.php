@@ -18,6 +18,7 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 App::uses('CakePlugin', 'Core');
+App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
 /**
  * YACakeTestCase class
@@ -49,6 +50,7 @@ class YACakeTestCase extends CakeTestCase {
 		'plugin.m17n.language',
 		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
+		'plugin.plugin_manager.plugins_role',
 		'plugin.roles.default_role_permission',
 		'plugin.roles.role',
 		'plugin.rooms.roles_room',

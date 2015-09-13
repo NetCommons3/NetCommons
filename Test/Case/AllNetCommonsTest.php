@@ -32,7 +32,17 @@ class AllNetCommonsTest extends CakeTestSuite {
 			'TrackableBehaviorTestBase.php',
 			'SingletonViewBlockHtmlHelperTestBase.php',
 			'OriginalKeyBehaviorTestBase.php',
-			'PublishableBehaviorTestBase.php'
+			'PublishableBehaviorTestBase.php',
+			//後で削除
+			'NetCommonsBlockComponentTest.php',
+			'NetCommonsFrameComponentTest.php',
+			'NetCommonsRoomRoleComponentTest.php',
+			'NetCommonsAppControllerTest.php',
+			'NetCommonsControllerTest.php',
+			'TrackableBehaviorTest.php',
+			'SingletonViewBlockHtmlHelperTest.php',
+			'OriginalKeyBehaviorTest.php',
+			'PublishableBehaviorTest.php',
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 

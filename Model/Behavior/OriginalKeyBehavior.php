@@ -70,7 +70,7 @@ class OriginalKeyBehavior extends ModelBehavior {
 /**
  * Generate key
  *
- * @param Model $model Model using this behavior
+ * @param string $plugin Plugin name
  * @return string Hash key
  */
 	public static function generateKey($plugin) {

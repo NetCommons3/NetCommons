@@ -82,8 +82,7 @@ class BackToHelper extends AppHelper {
  * backToPageButton Go back to the page where the plugin has been first displayed
  *
  * @param string $title Title string to be displayed on the button
- * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
- * @param string $size  '' is the default size : lg / sm / xs
+ * @param array $options Array of options and HTML attributes.
  * @return string
  */
 	public function pageButton($title, $options = array()) {
@@ -95,8 +94,8 @@ class BackToHelper extends AppHelper {
  * backToPageButton Go back to the page where the plugin has been first displayed
  *
  * @param string $title Title string to be displayed on the button
- * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
- * @param string $size  '' is the default size : lg / sm / xs
+ * @param string $defaultField Plugin table's default action field. The value is "default_action" or "default_setting_action"
+ * @param array $options Array of options and HTML attributes.
  * @return string
  */
 	public function indexButton($title, $defaultField = 'default_action', $options = array()) {
@@ -147,8 +146,7 @@ class BackToHelper extends AppHelper {
  * backToPageButton Go back to the page where the plugin has been first displayed
  *
  * @param string $title Title string to be displayed on the button
- * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
- * @param string $size  '' is the default size : lg / sm / xs
+ * @param array $options Array of options and HTML arguments.
  * @return string
  */
 	public function pageLinkButton($title, $options = array()) {
@@ -160,8 +158,8 @@ class BackToHelper extends AppHelper {
  * backToPageButton Go back to the page where the plugin has been first displayed
  *
  * @param string $title Title string to be displayed on the button
- * @param string $icon Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
- * @param string $size  '' is the default size : lg / sm / xs
+ * @param string $defaultField Plugin table's default action field. The value is "default_action" or "default_setting_action"
+ * @param array $options Array of options and HTML attributes.
  * @return string
  */
 	public function indexLinkButton($title, $defaultField = 'default_action', $options = array()) {

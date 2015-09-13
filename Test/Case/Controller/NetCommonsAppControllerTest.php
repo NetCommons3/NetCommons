@@ -97,29 +97,31 @@ class NetCommonsAppControllerTest extends YAControllerTestCase {
 	}
 
 /**
+ * 後で削除
  * Expect NetCommonsAppController->redirectByFrameId() to redirect to pages.permalink
  *
  * @return void
  */
-	public function testRedirectByFrameId() {
-		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-		$permalink = 'test';
-		$this->controller->current['page']['permalink'] = $permalink;
-		$this->controller->redirectByFrameId();
-		unset($_SERVER['HTTP_X_REQUESTED_WITH']);
-
-		$this->assertEquals(Router::url('/' . $permalink, true), $this->controller->response->header()['Location']);
-	}
+	//public function testRedirectByFrameId() {
+	//	$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+	//	$permalink = 'test';
+	//	$this->controller->current['Page']['permalink'] = $permalink;
+	//	$this->controller->redirectByFrameId();
+	//	unset($_SERVER['HTTP_X_REQUESTED_WITH']);
+	//
+	//	$this->assertEquals(Router::url('/' . $permalink, true), $this->controller->response->header()['Location']);
+	//}
 
 /**
+ * 後で削除
  * Expect NetCommonsAppController->redirectByFrameId() to ignore redirect for ajax request
  *
  * @return void
  */
-	public function testRedirectByFrameIdIgnoredIfAjax() {
-		$this->controller->redirectByFrameId();
-		$this->assertEquals(Router::url('/', true), $this->controller->response->header()['Location']);
-	}
+	//public function testRedirectByFrameIdIgnoredIfAjax() {
+	//	$this->controller->redirectByFrameId();
+	//	$this->assertEquals(Router::url('/', true), $this->controller->response->header()['Location']);
+	//}
 
 /**
  * Expect NetCommonsAppController->handleValidationError() to return false if validation error given

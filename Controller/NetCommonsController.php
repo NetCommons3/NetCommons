@@ -21,16 +21,6 @@ App::uses('NetCommonsAppController', 'NetCommons.Controller');
 class NetCommonsController extends NetCommonsAppController {
 
 /**
- * use components
- *
- * @var array
- */
-	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsWorkflow',
-	);
-
-/**
  * beforeFilter
  *
  * @return void

@@ -18,9 +18,15 @@ App::uses('Model', 'Model');
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @codeCoverageIgnore
  */
 class NetCommonsAppModel extends Model {
+
+/**
+ * use useDbConfig
+ *
+ * @var array
+ */
+	//private static $__useDbConfig; //後で
 
 /**
  * use behaviors
@@ -75,9 +81,44 @@ class NetCommonsAppModel extends Model {
 			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
 		}
 		$this->useDbConfig = $_useDbConfig;
+		//self::$__useDbConfig = $_useDbConfig; //後で
 
 		parent::__construct($id, $table, $ds);
 	}
+
+/**
+ * 後で
+ * Gets the DataSource to which this model is bound.
+ *
+ * @return DataSource A DataSource object
+ */
+	//public function getDataSource() {
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() $this->useDbConfig = ' . $this->useDbConfig);
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this) = ' . get_class($this));
+	//	if ($this->useDbConfig !== 'test') {
+	//		$this->useDbConfig = self::$__useDbConfig;
+	//		CakeLog::debug('NetCommonsAppModel::getDataSource() $this->_associations = ' . print_r($this->associations(), true));
+	//		//foreach ($this->_associations as $assoc) {
+	//		//	if (!empty($this->{$assoc})) {
+	//		//		$models = array_keys($this->{$assoc});
+	//		//		foreach ($models as $m) {
+	//		//			CakeLog::debug('NetCommonsAppModel::getDataSource() $this->$m = ' . print_r(get_class($this->$m), true));
+	//		//			//$this->{$m}->useDbConfig = self::$__useDbConfig;
+	//		//		}
+	//		//	}
+	//		//}
+	//
+	//		//foreach ($this->_associations as $association) {
+	//		//	$this->{$association}->useDbConfig = self::$__useDbConfig;
+	//		//	//CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this->{$association}) = ' . get_class($this->{$association}));
+	//		//}
+	//	}
+	//	if (!$this->_sourceConfigured && $this->useTable !== false) {
+	//		$this->_sourceConfigured = true;
+	//		$this->setSource($this->useTable);
+	//	}
+	//	return parent::getDataSource();
+	//}
 
 /**
  * Sets the DataSource to which this model is bound.
@@ -87,7 +128,142 @@ class NetCommonsAppModel extends Model {
  * @throws MissingConnectionException
  */
 	public function setDataSource($dataSource = null) {
-		$this->useDbConfig !== 'test' && parent::setDataSource($dataSource);
+		if ($this->useDbConfig !== 'test') {
+			//self::$__useDbConfig = $dataSource; //後で
+			//parent::setDataSource(self::$__useDbConfig);
+			parent::setDataSource($dataSource);
+		}
+	}
+
+/**
+ * Initializes the model for writing a new record, loading the default values
+ * for those fields that are not defined in $data, and clearing previous validation errors.
+ * Especially helpful for saving data in loops.
+ *
+ * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
+ *   schema data defaults are not merged.
+ * @param bool $filterKey If true, overwrites any primary key input with an empty value
+ *
+ * @return array The current Model::data; after merging $data and/or defaults from database
+ * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function create($data = array(), $filterKey = false) {
+		$options = array();
+
+		if (! Configure::read('NetCommons.installed') || ! class_exists('Current')) {
+			return parent::create($data, $filterKey);
+		}
+
+		$currents = array(
+			'room_id' => Current::read('Room.id'),
+			'language_id' => Current::read('Language.id'),
+			'block_id' => Current::read('Block.id'),
+			'block_key' => Current::read('Block.key'),
+			'frame_id' => Current::read('Frame.id'),
+			'frame_key' => Current::read('Frame.key'),
+			'plugin_key' => Inflector::underscore($this->plugin),
+		);
+
+		foreach ($this->_schema as $fieldName => $fieldDetail) {
+			if ($fieldName !== $this->primaryKey) {
+				$options[$fieldName] = $fieldDetail['default'];
+			}
+
+			foreach ($currents as $key => $current) {
+				if ($this->hasField($key) && $fieldName === $key && ! isset($data[$fieldName])) {
+					$options[$fieldName] = $current;
+				}
+			}
+		}
+
+		$data = Hash::merge($options, $data);
+
+		return parent::create($data, $filterKey);
+	}
+
+/**
+ * Initializes the model for writing a new record, loading the default values
+ * for those fields that are not defined in $data, and clearing previous validation errors.
+ * Especially helpful for saving data in loops.
+ *
+ * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
+ *   schema data defaults are not merged.
+ * @param bool $filterKey If true, overwrites any primary key input with an empty value
+ *
+ * @return array The current Model::data; after merging $data and/or defaults from database
+ * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#model-create-array-data-array
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function createAll($data = array(), $filterKey = false) {
+		$newRecord = $data;
+
+		if (isset($data[$this->alias])) {
+			$options = $data[$this->alias];
+		} else {
+			$options = array();
+		}
+		$newRecord = Hash::merge($newRecord, $this->create($options));
+
+		foreach ($this->_associations as $type) {
+			if (! in_array($type, array('belongsTo', 'hasOne'), true)) {
+				continue;
+			}
+
+			$models = array_keys($this->$type);
+			foreach ($models as $model) {
+				if ($model === 'TrackableCreator' || $model === 'TrackableUpdater') {
+					continue;
+				}
+
+				if (isset($data[$model])) {
+					$options = $data[$model];
+				} else {
+					$options = array();
+				}
+				$newRecord = Hash::merge($newRecord, $this->$model->create($options));
+			}
+		}
+
+		return $newRecord;
+	}
+
+/**
+ * transaction begin
+ *
+ * @return void
+ */
+	public function begin() {
+		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->useDbConfig); //後で
+		$this->setDataSource('master');
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+	}
+
+/**
+ * transaction commit
+ *
+ * @return void
+ */
+	public function commit() {
+		$dataSource = $this->getDataSource();
+		$dataSource->commit();
+	}
+
+/**
+ * transaction rollback
+ *
+ * @param mixed $ex Exception
+ * @return void
+ * @throws Exception
+ */
+	public function rollback($ex = null) {
+		$dataSource = $this->getDataSource();
+		$dataSource->rollback();
+		if ($ex) {
+			CakeLog::error($ex);
+			throw $ex;
+		}
 	}
 
 /**
@@ -104,64 +280,6 @@ class NetCommonsAppModel extends Model {
 				$this->$model->setDataSource($source);
 			}
 		}
-	}
-
-/**
- * Checks that a string contains something other than whitespace
- *
- * Returns true if string contains something other than whitespace
- *
- * $check can be passed as an array:
- * array('check' => 'valueToCheck');
- *
- * @param string|array $check Value to check
- * @return bool Success
- */
-	public static function notBlank($check) {
-		//暫定、version 2.7対応。ただし、2.7にバージョンアップした際に削除する
-		if (! method_exists('Validation', 'notBlank')) {
-			//version 2.7以前
-			return Validation::notEmpty($check);
-		} elseif (is_array($check)) {
-			return Validation::notBlank(array_shift($check));
-		} else {
-			return Validation::notBlank($check);
-		}
-	}
-
-/**
- * Called during validation operations, before validation. Please note that custom
- * validation rules can be defined in $validate.
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if validate operation should continue, false to abort
- * @link http://book.cakephp.org/2.0/en/models/callback-methods.html#beforevalidate
- * @see Model::save()
- */
-	public function beforeValidate($options = array()) {
-		//暫定、version 2.7対応。ただし、2.7にバージョンアップした際に削除する
-		if (method_exists('Validation', 'notBlank')) {
-			$repValidate = 'notBlank';
-			$setValidate = 'notEmpty';
-		} else {
-			$repValidate = 'notEmpty';
-			$setValidate = 'notBlank';
-		}
-
-		foreach (array_keys($this->validate) as $field) {
-			if (isset($this->validate[$field]['rule'])) {
-				continue;
-			}
-
-			foreach ($this->validate[$field] as $rule => $validate) {
-				if ($rule === $setValidate) {
-					$this->validate[$field][$repValidate] = $validate;
-					$this->validate[$field][$repValidate]['rule'] = array($repValidate);
-					unset($this->validate[$field][$rule]);
-				}
-			}
-		}
-		return parent::beforeValidate($options);
 	}
 
 /**

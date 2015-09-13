@@ -13,7 +13,6 @@ input[type="checkbox"] {
 
 .inline-block {
     display: inline-block;
-    padding-right: 20px;
 }
 
 .btn-workflow {
@@ -46,6 +45,12 @@ input[type="checkbox"] {
 /*.ng-hide {
     display: none;
 }*/
+
+.display-number-dropdown-toggle {
+	min-width: 125px;
+	max-width: 300px;
+	text-align: left;
+}
 
 /* netcommons */
 /* flash message */
@@ -93,15 +98,6 @@ textarea.nc-noresize {
 
 .nc-tooltip {
 	padding: 5px 0px;
-}
-
-.workflow-comments > .comment {
-	border-top: 1px solid #ddd;
-	padding: .5em 1em;
-}
-
-.workflow-comments > .comment:first-child {
-	border: 0;
 }
 
 .nav > li > a.nc-switch-language {

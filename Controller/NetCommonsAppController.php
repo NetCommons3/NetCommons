@@ -10,6 +10,8 @@
 
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
+App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsUrl', 'NetCommons.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -18,14 +20,6 @@ App::uses('Utility', 'Inflector');
  * @package NetCommons\NetCommons\Controller
  */
 class NetCommonsAppController extends Controller {
-
-/**
- * alert
- *
- * @var string
- */
-	const ALERT_SUCCESS_INTERVAL = 1500,
-		ALERT_VALIDATE_ERROR_INTERVAL = 4000;
 
 /**
  * use layout
@@ -47,8 +41,6 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
-		'DebugKit.Toolbar',
-		'Session',
 		'Asset',
 		'Auth' => array(
 			'loginAction' => array(
@@ -67,7 +59,19 @@ class NetCommonsAppController extends Controller {
 				'action' => 'index',
 			)
 		),
+		'DebugKit.Toolbar',
+		'Flash',
+		'NetCommons.NetCommons',
+		'NetCommons.Permission' => array(
+			//アクセスの権限
+			'allow' => array(
+				'index' => null,
+				'view' => null,
+			),
+		),
 		'RequestHandler',
+		'Session',
+		'Workflow.Workflow',
 	);
 
 /**
@@ -76,8 +80,8 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $uses = [
-		'NetCommons.SiteSetting',
 		'M17n.Language',
+		'NetCommons.SiteSetting',
 	];
 
 /**
@@ -89,16 +93,23 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
+		'NetCommons.BackTo',
+		'NetCommons.Button',
+		'NetCommons.Date',
+		'NetCommons.NetCommonsForm',
+		'NetCommons.NetCommonsHtml',
 	);
 
 /**
+ * 後で削除
+ *
  * NetCommons specific data for current request
  *
  * @var array
  */
-	public $current = [
-		'page' => null,
-	];
+	//public $current = [
+	//	'Page' => null,
+	//];
 
 /**
  * Constructor.
@@ -123,37 +134,52 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
-
 		if (! Configure::read('NetCommons.installed') && $this->params['plugin'] === 'install') {
 			return;
 		}
 
-		//現在のテーマを取得
-		$theme = $this->Asset->getSiteTheme($this);
-		if ($theme) {
-			$this->theme = $theme;
-		}
+		//言語の取得
 		if (isset($this->request->query['language'])) {
 			Configure::write('Config.language', $this->request->query['language']);
 			$this->Session->write('Config.language', $this->request->query['language']);
 		} elseif ($this->Session->check('Config.language')) {
 			Configure::write('Config.language', $this->Session->read('Config.language'));
 		}
-		//set language_id
-		$language = $this->Language->findByCode(Configure::read('Config.language'));
-		Configure::write('Config.languageId', $language['Language']['id']);
-		$this->set('languageId', $language['Language']['id']);
+
+		//カレントデータセット
+		Current::initialize($this->request);
+
+		//現在のテーマを取得(後で、見直しが必要)
+		if (empty($this->request->params['requested'])) {
+			$theme = $this->Asset->getSiteTheme($this);
+			if ($theme) {
+				$this->theme = $theme;
+			}
+		}
+
+		//後で削除
+		//if (isset($this->request->query['language'])) {
+		//	Configure::write('Config.language', $this->request->query['language']);
+		//	$this->Session->write('Config.language', $this->request->query['language']);
+		//} elseif ($this->Session->check('Config.language')) {
+		//	Configure::write('Config.language', $this->Session->read('Config.language'));
+		//}
+		////set language_id
+		//$language = $this->Language->findByCode(Configure::read('Config.language'));
+		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除
+		$this->set('languageId', Current::read('Language.id')); //後で削除
 
 		$this->Auth->allow('index', 'view');
 
 		if ($this->RequestHandler->accepts('json')) {
-			$this->renderJson();
+			$this->NetCommons->renderJson();
 		}
 
 		$this->set('userId', $this->Auth->user('id'));
 
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
+		//後で削除
+		//$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		//$this->set(['current' => $this->current]);
 	}
 
 /**
@@ -208,30 +234,6 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * render json
- *
- * @param array $results results data
- * @param string $name message
- * @param int $status status code
- * @return void
- */
-	public function renderJson($results = [], $name = 'OK', $status = 200) {
-		$this->viewClass = 'Json';
-		$this->layout = false;
-		$this->response->statusCode($status);
-		if (!$results) {
-			$results = $this->viewVars;
-		}
-		$results = array_merge([
-			'name' => $name,
-			'code' => $status,
-		], $results);
-		$results = self::camelizeKeyRecursive($results);
-		$this->set(compact('results'));
-		$this->set('_serialize', 'results');
-	}
-
-/**
  * camelizeKeyRecursive
  *
  * @param array $orig data to camelize
@@ -253,102 +255,30 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * Handle validation error
- *
- * @param array $errors validation errors
- * @return bool true on success, false on error
- */
-	public function handleValidationError($errors) {
-		if (! $errors) {
-			return true;
-		}
-
-		$this->validationErrors = $errors;
-
-		$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
-		CakeLog::info('[ValidationErrors] ' . $this->request->here());
-		if (Configure::read('debug')) {
-			CakeLog::info(print_r($errors, true));
-			//CakeLog::info(print_r($this->request->data, true));
-		}
-
-		$this->setFlashNotification($message, array(
-			'class' => 'danger',
-			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
-			'error' => ['validationErrors' => $errors]
-		), 400);
-		return false;
-	}
-
-/**
- * Redirect by frame id
- *
- * @return void
- */
-	public function redirectByFrameId() {
-		if (!$this->request->is('ajax')) {
-			$this->redirect('/' . $this->current['page']['permalink']);
-		}
-	}
-
-/**
  * throw bad request
  *
- * @param string $message Error message
  * @return void
  * @throws BadRequestException
  */
-	public function throwBadRequest($message = null) {
-		if (! isset($message)) {
-			$message = __d('net_commons', 'Bad Request');
-		}
-
+	public function throwBadRequest() {
 		if ($this->request->is('ajax')) {
-			$this->setFlashNotification(__d('net_commons', 'Bad Request'), array(
+			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
-				'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
-				'error' => $message
+				'interval' => $this->NetCommons->ALERT_VALIDATE_ERROR_INTERVAL,
+				'error' => __d('net_commons', 'Bad Request')
 			), 400);
 		} else {
-			throw new BadRequestException($message);
+			throw new BadRequestException(__d('net_commons', 'Bad Request'));
 		}
 	}
 
 /**
- * Used to set a session variable that can be used to output messages in the view.
+ * Empty render
  *
- * @param string $message message
- * @param array $params Parameters to be sent to layout as view variables
- * @param int $status status code
  * @return void
  */
-	public function setFlashNotification($message, $params = array(), $status = 200) {
-		if (is_string($params)) {
-			$params = array('class' => $params);
-		}
-
-		if (isset($params['element'])) {
-			$element = $params['element'];
-			unset($params['element']);
-		} else {
-			$element = 'common_alert';
-		}
-
-		$params = Hash::merge(array(
-			'class' => 'danger',
-			'interval' => null,
-			'plugin' => 'NetCommons',
-		), $params);
-
-		if ($params['interval'] === null && $params['class'] !== 'danger') {
-			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
-		}
-
-		if ($this->request->is('ajax')) {
-			$this->renderJson($params, $message, $status);
-		} else {
-			$this->Session->setFlash($message, $element, $params);
-		}
+	public function emptyRender() {
+		$this->autoRender = false;
 	}
 
 }

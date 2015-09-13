@@ -8,18 +8,13 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-if (! isset($path)) {
-	$path = isset($cancelUrl) ? $cancelUrl : '';
-}
-
-$pageEditable = isset($pageEditable) ? $pageEditable : null;
-if (! isset($isPageSetting)) {
-	$isPageSetting = Page::isSetting();
-}
-
 if (! isset($container)) {
 	$container = 'container';
 }
+if (! isset($isSettingMode)) {
+	$isSettingMode = Current::isSettingMode();
+}
+
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
@@ -45,13 +40,11 @@ if (! isset($container)) {
 						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
 					</li>
 					<?php if ($user = AuthComponent::user()): ?>
-						<!--
 						<li>
 							<a href="#">
-								<?php //echo h($user['handle']); ?>
+								<?php echo h($user['handlename']); ?>
 							</a>
 						</li>
-						-->
 						<li>
 							<?php echo $this->Html->link(__d('net_commons', 'Logout'), '/auth/logout') ?>
 						</li>
@@ -61,25 +54,25 @@ if (! isset($container)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if ($isPageSetting && $pageEditable): ?>
+					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')): ?>
 						<li class="dropdown">
 							<?php echo $this->element('Pages.dropdown_menu'); ?>
 						</li>
 					<?php endif; ?>
 
-					<?php if (AuthComponent::user('id') && isset($pageEditable) && $pageEditable): ?>
+					<?php if (Current::hasSettingMode()): ?>
 						<li>
-							<?php if (! $isPageSetting): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Page::SETTING_MODE_WORD . '/' . $path); ?>
+							<?php if (! $isSettingMode): ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . NetCommonsUrl::backToPageUrl()); ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), '/' . $path); ?>
+								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
 
-					<?php if (isset($hasControlPanel) && $hasControlPanel): ?>
+					<?php if (Current::hasControlPanel()): ?>
 						<li>
-							<?php if (! $isControlPanel): ?>
+							<?php if (! Current::isControlPanel()): ?>
 								<?php echo $this->Html->link(__d('control_panel', 'Control Panel'), '/control_panel/control_panel'); ?>
 							<?php else : ?>
 								<?php echo $this->Html->link(__d('control_panel', 'Back to the Rooms'), $cancelUrl); ?>
@@ -93,6 +86,6 @@ if (! isset($container)) {
 	</nav>
 </header>
 
-<?php if ($isPageSetting && $pageEditable): ?>
+<?php if (Current::permission('page_editable')): ?>
 	<?php echo $this->element('Pages.edit_layout'); ?>
 <?php endif;

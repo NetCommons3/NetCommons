@@ -1,8 +1,6 @@
 <?php
 /**
- * 後で削除
- *
- * NetCommonsBlock Component
+ * NetCommons Component
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -14,7 +12,7 @@
 App::uses('Component', 'Controller');
 
 /**
- * NetCommonsBlock Component
+ * NetCommons Component
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Controller\Component

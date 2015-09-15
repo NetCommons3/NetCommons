@@ -87,7 +87,7 @@ class BackToHelper extends AppHelper {
  */
 	public function pageButton($title, $options = array()) {
 		$url = NetCommonsUrl::backToPageUrl();
-		return $this->Button($title, $url, $options);
+		return $this->button($title, $url, $options);
 	}
 
 /**

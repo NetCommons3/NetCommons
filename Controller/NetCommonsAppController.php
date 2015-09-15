@@ -101,17 +101,6 @@ class NetCommonsAppController extends Controller {
 	);
 
 /**
- * 後で削除
- *
- * NetCommons specific data for current request
- *
- * @var array
- */
-	//public $current = [
-	//	'Page' => null,
-	//];
-
-/**
  * Constructor.
  *
  * @param CakeRequest $request Request object for this controller. Can be null for testing,

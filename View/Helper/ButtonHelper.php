@@ -170,7 +170,6 @@ class ButtonHelper extends FormHelper {
 			'name' => 'delete',
 			'class' => 'btn btn-danger',
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
-			'ng-click' => 'sending=true',
 			'ng-disabled' => 'sending'
 		);
 
@@ -212,7 +211,6 @@ class ButtonHelper extends FormHelper {
 		$defaultOptions = array(
 			'name' => 'save',
 			'class' => 'btn btn-primary btn-workflow',
-			'ng-click' => 'sending=true',
 			'ng-disabled' => 'sending'
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);

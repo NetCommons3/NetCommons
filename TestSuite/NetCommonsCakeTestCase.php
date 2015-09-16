@@ -12,6 +12,8 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
+App::uses('Current', 'NetCommons.Utility');
+
 /**
  * NetCommonsCakeTestCase class
  *
@@ -39,7 +41,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  * @var array
  */
 	protected $_defaultFixtures = array(
-//		'plugin.blocks.block',
+		'plugin.blocks.block',
 //		'plugin.blocks.block_role_permission',
 //		'plugin.boxes.box',
 //		'plugin.boxes.boxes_page',
@@ -74,16 +76,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		if ($this->_isFixtureMerged) {
 			$this->fixtures = array_merge($this->fixtures, $this->_defaultFixtures);
 		}
-	}
-
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-
 		foreach ($this->fixtures as $fixture) {
 			$split = pluginSplit($fixture);
 			if (! isset($split[0]) || ! isset($split[1]) || isset($split[0]) && strtolower($split[0]) !== 'plugin') {
@@ -95,6 +87,15 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 
 			$this->models[$model] = $plugin . '.' . $model;
 		}
+	}
+
+/**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
 
 		foreach ($this->models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);

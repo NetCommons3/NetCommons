@@ -16,7 +16,7 @@ App::uses('FormHelper', 'View/Helper');
  *
  * @package NetCommons\NetCommons\View\Helper
  */
-class NetCommonsFormHelper extends FormHelper {
+class NetCommonsFormHelper extends Helper {
 
 /**
  * Other helpers used by FormHelper
@@ -56,10 +56,10 @@ class NetCommonsFormHelper extends FormHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-create
  */
 	public function create($model = null, $options = array()) {
-		if (! isset($options['ng-submit'])) {
+		if (!isset($options['ng-submit'])) {
 			$options['ng-submit'] = 'sending=true;';
 		}
-		if (! isset($options['novalidate'])) {
+		if (!isset($options['novalidate'])) {
 			$options['novalidate'] = true;
 		}
 		return $this->Form->create($model, $options);
@@ -79,7 +79,7 @@ class NetCommonsFormHelper extends FormHelper {
  * - `type` - Force the type of widget you want. e.g. `type => 'select'`
  * - `label` - Either a string label, or an array of options for the label. See FormHelper::label().
  * - `div` - Either `false` to disable the div, or an array of options for the div.
- *	See HtmlHelper::div() for more options.
+ *    See HtmlHelper::div() for more options.
  * - `options` - For widgets that take options e.g. radio, select.
  * - `error` - Control the error message that is produced. Set to `false` to disable any kind of error reporting (field
  *    error and error messages).
@@ -89,10 +89,10 @@ class NetCommonsFormHelper extends FormHelper {
  * - `after` - Content to place after the label + input.
  * - `between` - Content to place between the label + input.
  * - `format` - Format template for element order. Any element that is not in the array, will not be in the output.
- *	- Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- *	- Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- *	- Hidden input will not be formatted
- *	- Radio buttons cannot have the order of input and label elements controlled with these settings.
+ *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
+ *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
+ *    - Hidden input will not be formatted
+ *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
  *
  * @param string $fieldName This should be "Modelname.fieldname"
  * @param array $options Each type of input takes different options.
@@ -123,19 +123,19 @@ class NetCommonsFormHelper extends FormHelper {
 
 		$output = '';
 
-		if (! isset($inputOptions['div'])) {
+		if (!isset($inputOptions['div'])) {
 			$output .= '<div class="form-group">';
 		}
 
 		$output .= $this->Form->input($fieldName, $inputOptions);
 
-		if (! isset($options['error']) || $options['error']) {
+		if (!isset($options['error']) || $options['error']) {
 			$output .= '<div class="has-error">';
 			$output .= $this->Form->error($fieldName, null, array('class' => 'help-block'));
 			$output .= '</div>';
 		}
 
-		if (! isset($inputOptions['div'])) {
+		if (!isset($inputOptions['div'])) {
 			$output .= '</div>';
 		}
 
@@ -228,7 +228,7 @@ class NetCommonsFormHelper extends FormHelper {
 		$output = '<div class="form-group">';
 		$output .= $this->Form->input($fieldName, $inputAttributes);
 
-		if (! isset($attributes['error']) || $attributes['error']) {
+		if (!isset($attributes['error']) || $attributes['error']) {
 			$output .= '<div class="has-error">';
 			$output .= $this->Form->error($fieldName, null, array('class' => 'help-block'));
 			$output .= '</div>';
@@ -262,4 +262,14 @@ class NetCommonsFormHelper extends FormHelper {
 		return $this->input($fieldName, $attributes);
 	}
 
+/**
+ * FormHelperラップ用マジックメソッド。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
+ */
+	public function __call($method, $params) {
+		return call_user_func_array(array(& $this->Form, $method), $params);
+	}
 }

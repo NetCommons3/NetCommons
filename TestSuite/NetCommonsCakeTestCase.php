@@ -24,9 +24,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 /**
  * Plugin name
  *
- * @var array
+ * @var string
  */
-	//public $plugin = null;
+	public static $plugin = null;
 
 /**
  * Fixture merge
@@ -43,14 +43,14 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 	protected $_defaultFixtures = array(
 		'plugin.blocks.block',
 //		'plugin.blocks.block_role_permission',
-//		'plugin.boxes.box',
+		'plugin.boxes.box',
 //		'plugin.boxes.boxes_page',
 //		'plugin.containers.container',
 //		'plugin.containers.containers_page',
-//		'plugin.frames.frame',
-//		'plugin.m17n.language',
+		'plugin.frames.frame',
+		'plugin.m17n.language',
 //		'plugin.pages.page',
-//		'plugin.plugin_manager.plugin',
+		'plugin.plugin_manager.plugin',
 //		'plugin.plugin_manager.plugins_role',
 //		'plugin.roles.default_role_permission',
 //		'plugin.roles.role',

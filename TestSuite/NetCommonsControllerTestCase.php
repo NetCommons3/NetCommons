@@ -13,12 +13,13 @@ CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
 App::uses('Current', 'NetCommons.Utility');
+App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
 
 /**
  * NetCommonsControllerTestCase
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\TestSuite
+ * @package NetCommons\NetCommons\TestSuite
  */
 class NetCommonsControllerTestCase extends ControllerTestCase {
 
@@ -51,7 +52,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.plugin_manager.plugins_room',
 		'plugin.roles.default_role_permission',
 //		'plugin.roles.role',
-//		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
 //		'plugin.rooms.room_role',
@@ -94,6 +95,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function tearDown() {
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
+
+		Current::$current = null;
 		parent::tearDown();
 	}
 

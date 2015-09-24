@@ -29,6 +29,13 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 	public static $plugin;
 
 /**
+ * Set plugin name
+ *
+ * @var array
+ */
+	protected $_plugin = null;
+
+/**
  * Fixture merge
  *
  * @var array
@@ -86,6 +93,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 			$model = Inflector::camelize($model);
 
 			$this->models[$model] = $plugin . '.' . $model;
+		}
+		if ($this->_plugin) {
+			self::$plugin = $this->_plugin;
 		}
 	}
 

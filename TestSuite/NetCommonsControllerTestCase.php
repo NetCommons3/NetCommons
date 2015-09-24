@@ -25,6 +25,20 @@ App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
 class NetCommonsControllerTestCase extends ControllerTestCase {
 
 /**
+ * Plugin name
+ *
+ * @var array
+ */
+	protected $_plugin = null;
+
+/**
+ * Controller name
+ *
+ * @var array
+ */
+	protected $_controller = null;
+
+/**
  * Fixture merge
  *
  * @var array
@@ -74,8 +88,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function __construct($name = null, array $data = array(), $dataName = '') {
 		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
-			//var_dump($this->fixtures, $this->_fixtures);
 			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+		}
+		if ($this->_plugin) {
+			NetCommonsCakeTestCase::$plugin = $this->_plugin;
 		}
 	}
 

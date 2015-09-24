@@ -26,7 +26,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  *
  * @var string
  */
-	public static $plugin = null;
+	public static $plugin;
 
 /**
  * Fixture merge

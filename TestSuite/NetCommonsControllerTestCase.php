@@ -12,6 +12,7 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
 
@@ -47,7 +48,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.net_commons.site_setting',
 		'plugin.pages.languages_page',
 		'plugin.pages.page',
-//		'plugin.plugin_manager.plugin',
+		'plugin.plugin_manager.plugin',
 		'plugin.plugin_manager.plugins_role',
 		'plugin.plugin_manager.plugins_room',
 		'plugin.roles.default_role_permission',
@@ -73,6 +74,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function __construct($name = null, array $data = array(), $dataName = '') {
 		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
+			//var_dump($this->fixtures, $this->_fixtures);
 			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
 		}
 	}

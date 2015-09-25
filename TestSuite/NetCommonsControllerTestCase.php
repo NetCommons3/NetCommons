@@ -27,21 +27,21 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 /**
  * Plugin name
  *
- * @var array
+ * @var string
  */
 	protected $_plugin = null;
 
 /**
  * Controller name
  *
- * @var array
+ * @var string
  */
 	protected $_controller = null;
 
 /**
  * Fixture merge
  *
- * @var array
+ * @var bool
  */
 	protected $_isFixtureMerged = true;
 

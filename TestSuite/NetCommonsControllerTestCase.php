@@ -84,11 +84,11 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.rooms.roles_room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
-//		'plugin.rooms.room_role',
+		//'plugin.rooms.room_role',
 		'plugin.rooms.room_role_permission',
 		'plugin.rooms.space',
 		'plugin.users.user',
-//		//'plugin.users.users_language',
+		//'plugin.users.users_language',
 	);
 
 /**
@@ -117,13 +117,15 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->generate(Inflector::camelize($this->_plugin) . '.' . Inflector::camelize($this->_controller), array(
-			'components' => array(
-				'Auth' => array('user'),
-				'Session',
-				'Security',
-			)
-		));
+		if ($this->_plugin && $this->_controller) {
+			$this->generate(Inflector::camelize($this->_plugin) . '.' . Inflector::camelize($this->_controller), array(
+				'components' => array(
+					'Auth' => array('user'),
+					'Session',
+					'Security',
+				)
+			));
+		}
 		Configure::write('Config.language', 'ja');
 	}
 
@@ -226,6 +228,27 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		}
 
 		return $this->testAction($url, $params);
+	}
+
+/**
+ * Load TestPlugin
+ *
+ * @param CakeTestCase $test CakeTestCase
+ * @param string $plugin Plugin name
+ * @param string $testPlugin Test plugin name
+ * @return void
+ */
+	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
+		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
+		if (empty($pluginPath) || ! file_exists($pluginPath)) {
+			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
+			return;
+		}
+
+		App::build(array(
+			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		));
+		CakePlugin::load($testPlugin);
 	}
 
 }

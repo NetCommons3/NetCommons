@@ -44,11 +44,11 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 	);
 
 /**
- * Test case of boolean
+ * Test case of numeric
  *
  * @var array
  */
-	public $validateNumber = array(
+	public $validateNumeric = array(
 		null, '', 'abcde', false, true, '123abcd', 'false', 'true'
 	);
 
@@ -57,7 +57,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  *
  * @var array
  */
-	public $validateStatus = array(
+	public $validateWorkflowStatus = array(
 		null, '', -1, 0, 5, 9999, 'abcde', false,
 	);
 
@@ -199,7 +199,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		}
 
 		//テスト実施
-		if ($type === 'status') {
+		if ($type === 'workflowStatus') {
 			Current::$current['Permission']['content_publishable']['value'] = false;
 			$this->$validateName = Hash::merge($this->$validateName, array(
 				WorkflowComponent::STATUS_PUBLISHED,
@@ -213,6 +213,16 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 			//validate処理実行
 			$this->__assertValidation($model, $field, $data);
 		}
+
+		if ($type === 'workflowStatus') {
+			$currentData = $this->data;
+
+			Current::$current['Permission']['content_publishable']['value'] = true;
+			$this->data[$alias][$field] = WorkflowComponent::STATUS_DISAPPROVED;
+			$this->_assertValidation('notBlank', $model, 'Comment.comment', true);
+
+			$this->data = $currentData;
+		}
 	}
 
 /**
@@ -223,6 +233,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $field Field name
  * @param array $data Target data
  * @return void
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	private function __assertValidation($model, $field, $data) {
 		//初期処理

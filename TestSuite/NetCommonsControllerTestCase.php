@@ -39,6 +39,20 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	protected $_controller = null;
 
 /**
+ * Action name
+ *
+ * @var string
+ */
+	protected $_action = null;
+
+/**
+ * Post data
+ *
+ * @var array
+ */
+	public $data = null;
+
+/**
  * Fixture merge
  *
  * @var bool
@@ -66,7 +80,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.plugin_manager.plugins_role',
 		'plugin.plugin_manager.plugins_room',
 		'plugin.roles.default_role_permission',
-//		'plugin.roles.role',
+		'plugin.roles.role',
 		'plugin.rooms.roles_room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
@@ -102,6 +116,14 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		$this->generate(Inflector::camelize($this->_plugin) . '.' . Inflector::camelize($this->_controller), array(
+			'components' => array(
+				'Auth' => array('user'),
+				'Session',
+				'Security',
+			)
+		));
 		Configure::write('Config.language', 'ja');
 	}
 
@@ -148,4 +170,62 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		$ret = parent::_testAction($url, $options);
 		return $ret;
 	}
+
+/**
+ * testActionのURL取得
+ *
+ * @param array $options See options
+ * @return string url
+ */
+	protected function _getActionUrl($options = array()) {
+		$url = NetCommonsUrl::actionUrl(Hash::merge(array(
+			'plugin' => $this->_plugin,
+			'controller' => $this->_controller,
+			'action' => $this->_action,
+		), $options));
+
+		return $url;
+	}
+
+/**
+ * Functional tests of a controller action.
+ *
+ * @param array $options See options
+ * @param array $params Request params
+ * @return mixed
+ */
+	protected function _testNcAction($options = array(), $params = array()) {
+		if (is_string($options)) {
+			$url = $options;
+			$action = $this->_action;
+		} else {
+			if (isset($options['action'])) {
+				$action = $options['action'];
+			} else {
+				$action = $this->_action;
+			}
+			$url = $this->_getActionUrl($options);
+		}
+		if ($action === 'add') {
+			$defaultMethod = 'post';
+		} elseif ($action === 'edit') {
+			$defaultMethod = 'put';
+		} elseif ($action === 'delete') {
+			$defaultMethod = 'delete';
+		} else {
+			$defaultMethod = 'get';
+		}
+
+		$params = Hash::merge(array(
+			'method' => $defaultMethod,
+			'return' => 'view'
+		), $params);
+
+		if ($params['method'] !== 'get' && ! isset($params['data'])) {
+			$params['data'] = $this->data;
+		}
+
+		return $this->testAction($url, $params);
+	}
+
 }

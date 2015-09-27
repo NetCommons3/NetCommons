@@ -49,7 +49,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  */
 	protected $_defaultFixtures = array(
 		'plugin.blocks.block',
-//		'plugin.blocks.block_role_permission',
+		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
 //		'plugin.boxes.boxes_page',
 //		'plugin.containers.container',
@@ -61,12 +61,12 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 //		'plugin.plugin_manager.plugins_role',
 //		'plugin.roles.default_role_permission',
 //		'plugin.roles.role',
-//		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_room',
 //		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
 //		'plugin.rooms.room_role',
 //		'plugin.rooms.room_role_permission',
-//		'plugin.users.user',
+		'plugin.users.user',
 //		//'plugin.users.users_language',
 	);
 
@@ -83,17 +83,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		if ($this->_isFixtureMerged) {
 			$this->fixtures = array_merge($this->fixtures, $this->_defaultFixtures);
 		}
-		foreach ($this->fixtures as $fixture) {
-			$split = pluginSplit($fixture);
-			if (! isset($split[0]) || ! isset($split[1]) || isset($split[0]) && strtolower($split[0]) !== 'plugin') {
-				continue;
-			}
-			list($plugin, $model) = pluginSplit($split[1]);
-			$plugin = Inflector::camelize($plugin);
-			$model = Inflector::camelize($model);
-
-			$this->models[$model] = $plugin . '.' . $model;
-		}
 		if ($this->_plugin) {
 			self::$plugin = $this->_plugin;
 		}
@@ -106,6 +95,22 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		foreach ($this->fixtures as $fixture) {
+			$split = pluginSplit($fixture);
+			if (! isset($split[0]) || ! isset($split[1]) || isset($split[0]) && strtolower($split[0]) !== 'plugin') {
+				continue;
+			}
+			list($plugin, $model) = pluginSplit($split[1]);
+			$plugin = Inflector::camelize($plugin);
+			$model = Inflector::camelize($model);
+
+			$classModel = ClassRegistry::init($plugin . '.' . $model, true);
+			if ($classModel) {
+				$model = $classModel->name;
+				$this->models[$model] = $plugin . '.' . $model;
+			}
+		}
 
 		foreach ($this->models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);

@@ -53,11 +53,11 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 	);
 
 /**
- * Test case of status
+ * Test case of workflow status
  *
  * @var array
  */
-	public $validateWorkflowStatus = array(
+	public $validateWfStatus = array(
 		null, '', -1, 0, 5, 9999, 'abcde', false,
 	);
 
@@ -192,8 +192,13 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $field Field name
  * @param bool $unset Field unset
  * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	protected function _assertValidation($type, $model, $field, $unset = false) {
+		if ($type === 'workflowStatus') {
+			$type = 'wfStatus';
+		}
+
 		$validateName = 'validate' . Inflector::classify($type);
 
 		list($alias, $field) = pluginSplit($field);
@@ -210,7 +215,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		}
 
 		//テスト実施
-		if ($type === 'workflowStatus') {
+		if ($type === 'wfStatus') {
 			Current::$current['Permission']['content_publishable']['value'] = false;
 			$this->$validateName = Hash::merge($this->$validateName, array(
 				WorkflowComponent::STATUS_PUBLISHED,
@@ -225,7 +230,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 			$this->__assertValidation($model, $field, $data);
 		}
 
-		if ($type === 'workflowStatus') {
+		if ($type === 'wfStatus') {
 			$currentData = $this->data;
 
 			Current::$current['Permission']['content_publishable']['value'] = true;
@@ -239,7 +244,6 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 /**
  * Assert validation
  *
- * @param string $type Validation type
  * @param string $model Model name
  * @param string $field Field name
  * @param array $data Target data

@@ -16,7 +16,8 @@ App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 
 /**
  * Summary for NetCommonsController Test Case
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class NetCommonsControllerTest extends YAControllerTestCase {
 

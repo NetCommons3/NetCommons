@@ -71,6 +71,7 @@ class OriginalKeyBehavior extends ModelBehavior {
  * Generate key
  *
  * @param string $plugin Plugin name
+ * @param string $dataSource The name of the DataSource, as defined in app/Config/database.php
  * @return string Hash key
  */
 	public static function generateKey($plugin, $dataSource) {

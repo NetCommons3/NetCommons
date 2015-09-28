@@ -123,7 +123,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		$models = array_keys($this->models);
 		foreach ($this->models as $model) {
 			unset($this->$model);
 		}

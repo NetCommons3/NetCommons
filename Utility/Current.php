@@ -121,9 +121,14 @@ class Current {
 /**
  * Check setting mode
  *
+ * @param bool|null $settingMode Setting mode
  * @return bool
  */
-	public static function isSettingMode() {
+	public static function isSettingMode($settingMode = null) {
+		if (isset($settingMode)) {
+			self::$__isSettingMode = $settingMode;
+		}
+
 		if (isset(self::$__isSettingMode)) {
 			return self::$__isSettingMode;
 		}

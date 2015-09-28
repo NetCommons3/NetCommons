@@ -126,7 +126,9 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 				)
 			));
 		}
+
 		Configure::write('Config.language', 'ja');
+		Current::$current['Language']['id'] = '2';
 	}
 
 /**

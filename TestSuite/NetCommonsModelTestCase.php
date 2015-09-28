@@ -130,6 +130,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+		Current::$current['Language']['id'] = '2';
 
 		$models = array_keys($this->models);
 		foreach ($models as $model) {
@@ -137,6 +138,16 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 			$this->$model->Behaviors->unload('NetCommons.Trackable');
 			$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
 		}
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
+		Current::$current = null;
+		parent::tearDown();
 	}
 
 /**

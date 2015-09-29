@@ -19,6 +19,14 @@ App::uses('AppController', 'Controller');
 class TestNetCommonsController extends AppController {
 
 /**
+ * index
+ *
+ * @return void
+ */
+	public function index() {
+	}
+
+/**
  * throw bad request
  *
  * @return void

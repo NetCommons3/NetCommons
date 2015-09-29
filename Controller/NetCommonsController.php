@@ -48,37 +48,4 @@ class NetCommonsController extends NetCommonsAppController {
 		$this->set(compact('data'));
 		$this->set('_serialize', array('data'));
 	}
-
-/**
- * Index action
- *
- * @return void
- */
-	public function index() {
-		$this->__stub();
-	}
-
-/**
- * Edit action
- *
- * @return void
- */
-	public function edit() {
-		$this->__stub();
-	}
-
-/**
- * Stub method for unit test
- *
- * @throws NotFoundException
- * @return void
- */
-	private function __stub() {
-		// @codeCoverageIgnoreStart
-		if (php_sapi_name() !== 'cli') {
-			throw new NotFoundException;
-		}
-		// @codeCoverageIgnoreEnd
-		$this->autoRender = false;
-	}
 }

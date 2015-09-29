@@ -21,6 +21,7 @@ App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite
+ * @codeCoverageIgnore
  */
 class NetCommonsControllerTestCase extends ControllerTestCase {
 

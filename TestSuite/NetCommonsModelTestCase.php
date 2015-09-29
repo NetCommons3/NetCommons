@@ -15,6 +15,7 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
  * NetCommonsModelTestCase class
  *
  * @package NetCommons\NetCommons\TestSuite
+ * @codeCoverageIgnore
  */
 class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 

@@ -8,7 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('PublishableBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior');
+App::uses('PublishableBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior/Publishable');
 
 /**
  * Test of PublishableBehavior

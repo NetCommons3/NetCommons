@@ -43,8 +43,9 @@ class NetCommonsAppControllerPingTest extends NetCommonsControllerTestCase {
  * @return void
  */
 	public function testPing() {
+		Router::parseExtensions();
 		$this->testAction(
-			'/test_net_commons/test_net_commons/ping',
+			'/test_net_commons/test_net_commons/ping.json',
 			array('return' => 'view')
 		);
 		$this->assertEquals(array('message' => 'OK'),

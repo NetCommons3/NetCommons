@@ -56,11 +56,10 @@ class NetCommonsAppControllerThrowBadRequestTest extends NetCommonsControllerTes
  * @return void
  */
 	public function testThrowBadRequestAjax() {
-		$_SERVER['HTTP_ACCEPT'] = 'application/json';
-
+		Router::parseExtensions();
 		$this->testAction(
-			'/test_net_commons/test_net_commons/throwBadRequestAjax',
-			array('return' => 'view')
+			'/test_net_commons/test_net_commons/throwBadRequestAjax.json',
+			array('return' => 'contents')
 		);
 
 		$this->assertEquals(__d('net_commons', 'Bad Request'), $this->controller->viewVars['results']['name']);

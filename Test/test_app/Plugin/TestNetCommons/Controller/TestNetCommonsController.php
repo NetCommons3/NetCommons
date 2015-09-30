@@ -19,11 +19,35 @@ App::uses('AppController', 'Controller');
 class TestNetCommonsController extends AppController {
 
 /**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		if ($this->params['action'] === 'install') {
+			Configure::write('NetCommons.installed', false);
+			$this->params['plugin'] = 'install';
+		}
+		parent::beforeFilter();
+		$this->Auth->allow();
+	}
+
+/**
  * index
  *
  * @return void
  */
 	public function index() {
+	}
+
+/**
+ * indexJson
+ *
+ * @return void
+ */
+	public function indexJson() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->setAction('index');
 	}
 
 /**
@@ -34,6 +58,14 @@ class TestNetCommonsController extends AppController {
 	public function throwBadRequestAjax() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		parent::throwBadRequest();
+	}
+
+/**
+ * install
+ *
+ * @return void
+ */
+	public function install() {
 	}
 
 }

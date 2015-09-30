@@ -1,6 +1,6 @@
 <?php
 /**
- * TestNetCommons index
+ * TestNetCommons install
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,4 +9,4 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
-TestNetCommonsIndex
+TestNetCommonsInstall

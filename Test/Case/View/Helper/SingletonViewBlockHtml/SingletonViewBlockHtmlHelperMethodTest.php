@@ -60,10 +60,10 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
 		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
 		$this->assertNotContains($needle, $viewBlock->get('css'));
 
-		$expected = array('cssFile' => true);
 		$actual = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets');
 		$actual = $actual['HtmlHelper::css'];
-		$this->assertEquals($expected, $actual);
+		$this->assertArrayHasKey('cssFile', $actual);
+		$this->assertTrue($actual['cssFile']);
 	}
 
 /**
@@ -115,10 +115,10 @@ class SingletonViewBlockHtmlHelperMethodTest extends SingletonViewBlockHtmlHelpe
 		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
 		$this->assertNotContains($needle, $viewBlock->get('script'));
 
-		$expected = array('scriptFile' => true);
 		$actual = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticIncludedAssets');
 		$actual = $actual['HtmlHelper::script'];
-		$this->assertEquals($expected, $actual);
+		$this->assertArrayHasKey('scriptFile', $actual);
+		$this->assertTrue($actual['scriptFile']);
 	}
 
 /**

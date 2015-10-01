@@ -132,7 +132,7 @@ class CurrentFrame {
  * @return void
  */
 	public static function setBlock($blockId = null) {
-		if (isset(self::$__request->data['Block']) && self::$__request->data['Block']['id']) {
+		if (isset(self::$__request->data['Block']['id']) && self::$__request->data['Block']['id']) {
 			$blockId = self::$__request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない

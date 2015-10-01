@@ -116,6 +116,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @return void
  */
 	public function setUp() {
+		self::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+
 		parent::setUp();
 
 		if ($this->_plugin && $this->_controller) {

@@ -172,38 +172,11 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
-		$options = array();
-
 		if (! Configure::read('NetCommons.installed') || ! class_exists('Current')) {
 			return parent::create($data, $filterKey);
 		}
 
-		$currents = array(
-			'room_id' => Current::read('Room.id'),
-			'language_id' => Current::read('Language.id'),
-			'block_id' => Current::read('Block.id'),
-			'block_key' => Current::read('Block.key'),
-			'frame_id' => Current::read('Frame.id'),
-			'frame_key' => Current::read('Frame.key'),
-			'plugin_key' => Inflector::underscore($this->plugin),
-		);
-
-		foreach ($this->_schema as $fieldName => $fieldDetail) {
-			if ($fieldName !== $this->primaryKey) {
-				if (($fieldDetail['null'] === false) && ($fieldDetail['default'] === null)) {
-					// not nullカラムのdefault指定がなかったら空文字にしておく。 @see https://github.com/NetCommons3/NetCommons3/issues/7
-					$options[$fieldName] = '';
-				} else {
-					$options[$fieldName] = $fieldDetail['default'];
-				}
-			}
-
-			foreach ($currents as $key => $current) {
-				if ($this->hasField($key) && $fieldName === $key && ! isset($data[$fieldName])) {
-					$options[$fieldName] = $current;
-				}
-			}
-		}
+		$options = $this->_getDefaultValue($data);
 		$data = Hash::merge($options, $data);
 
 		return parent::create($data, $filterKey);
@@ -320,6 +293,43 @@ class NetCommonsAppModel extends Model {
 	public function equalToField($field1, $field2) {
 		$keys = array_keys($field1);
 		return $this->data[$this->name][$field2] === $this->data[$this->name][array_pop($keys)];
+	}
+
+/**
+ * 全カラムのデフォルト値をセットした配列を返す。
+ *
+ * @param array $data デフォルトを上書きするカラム配列
+ * @return array デフォルト値をセットした配列
+ */
+	protected function _getDefaultValue($data) {
+		$options = array();
+		$currents = array(
+			'room_id' => Current::read('Room.id'),
+			'language_id' => Current::read('Language.id'),
+			'block_id' => Current::read('Block.id'),
+			'block_key' => Current::read('Block.key'),
+			'frame_id' => Current::read('Frame.id'),
+			'frame_key' => Current::read('Frame.key'),
+			'plugin_key' => Inflector::underscore($this->plugin),
+		);
+
+		foreach ($this->_schema as $fieldName => $fieldDetail) {
+			if ($fieldName !== $this->primaryKey) {
+				if (($fieldDetail['null'] === false) && ($fieldDetail['default'] === null)) {
+					// not nullカラムのdefault指定がなかったら空文字にしておく。 @see https://github.com/NetCommons3/NetCommons3/issues/7
+					$options[$fieldName] = '';
+				} else {
+					$options[$fieldName] = $fieldDetail['default'];
+				}
+			}
+
+			foreach ($currents as $key => $current) {
+				if ($this->hasField($key) && $fieldName === $key && !isset($data[$fieldName])) {
+					$options[$fieldName] = $current;
+				}
+			}
+		}
+		return $options;
 	}
 
 }

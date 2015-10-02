@@ -190,7 +190,12 @@ class NetCommonsAppModel extends Model {
 
 		foreach ($this->_schema as $fieldName => $fieldDetail) {
 			if ($fieldName !== $this->primaryKey) {
-				$options[$fieldName] = $fieldDetail['default'];
+				if (($fieldDetail['null'] === false) && ($fieldDetail['default'] === null)) {
+					// not nullカラムのdefault指定がなかったら空文字にしておく。 @see https://github.com/NetCommons3/NetCommons3/issues/7
+					$options[$fieldName] = '';
+				} else {
+					$options[$fieldName] = $fieldDetail['default'];
+				}
 			}
 
 			foreach ($currents as $key => $current) {
@@ -199,7 +204,6 @@ class NetCommonsAppModel extends Model {
 				}
 			}
 		}
-
 		$data = Hash::merge($options, $data);
 
 		return parent::create($data, $filterKey);

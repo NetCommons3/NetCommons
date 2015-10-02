@@ -236,7 +236,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 
 			Current::$current['Permission']['content_publishable']['value'] = true;
 			$this->data[$alias][$field] = WorkflowComponent::STATUS_DISAPPROVED;
-			$this->_assertValidation('notBlank', $model, 'Comment.comment', true);
+			$this->_assertValidation('notBlank', $model, 'WorkflowComment.comment', true);
 
 			$this->data = $currentData;
 		}

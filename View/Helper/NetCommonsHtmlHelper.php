@@ -132,7 +132,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function url($url = null, $options = array()) {
 		//URLの設定
-		if (isset($url) && is_array($url)) {
+		if (is_array($url)) {
 			if (! isset($url['plugin'])) {
 				$url['plugin'] = $this->_View->request->params['plugin'];
 			}

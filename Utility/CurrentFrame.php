@@ -166,7 +166,6 @@ class CurrentFrame {
 				Current::$current = Hash::merge(Current::$current, $result);
 			}
 		}
-
 	}
 
 /**

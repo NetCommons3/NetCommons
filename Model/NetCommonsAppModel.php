@@ -313,7 +313,7 @@ class NetCommonsAppModel extends Model {
 			'plugin_key' => Inflector::underscore($this->plugin),
 		);
 
-		foreach ($this->_schema as $fieldName => $fieldDetail) {
+		foreach ($this->schema() as $fieldName => $fieldDetail) {
 			if ($fieldName !== $this->primaryKey) {
 				if (($fieldDetail['null'] === false) && ($fieldDetail['default'] === null)) {
 					// not nullカラムのdefault指定がなかったら空文字にしておく。 @see https://github.com/NetCommons3/NetCommons3/issues/7

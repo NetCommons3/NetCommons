@@ -64,7 +64,7 @@ class BackToHelper extends AppHelper {
 
 		$defaultOptions = array(
 			'type' => 'button',
-			'class' => 'btn btn-default btn-workflow',
+			'class' => 'btn btn-default btn-workflow ' . $sizeAttr,
 			'ng-disabled' => 'sending',
 		);
 		if ($url) {

@@ -76,8 +76,8 @@ class CurrentFrame {
 	public function setFrame() {
 		if (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['id'])) {
 			$frameId = self::$__request->data['Frame']['id'];
-		} elseif (isset(self::$__request->params['pass'][0])) {
-			$frameId = self::$__request->params['pass'][0];
+		} elseif (isset(self::$__request->query['frame_id'])) {
+			$frameId = self::$__request->query['frame_id'];
 		}
 
 		self::$__instance->Frame = ClassRegistry::init('Frames.Frame');
@@ -132,24 +132,41 @@ class CurrentFrame {
  * @return void
  */
 	public static function setBlock($blockId = null) {
-		if (isset(self::$__request->data['Block']) && self::$__request->data['Block']['id']) {
+		self::$__instance->Block = ClassRegistry::init('Blocks.Block');
+
+		if (isset(self::$__request->data['Block']['id']) && self::$__request->data['Block']['id']) {
 			$blockId = self::$__request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない
-		} elseif (isset(Current::$current['Frame'])) {
-			$blockId = Current::$current['Frame']['block_id'];
+		} elseif (isset(self::$__request->params['pass'][0])) {
+			$blockId = self::$__request->params['pass'][0];
 		} else {
 			return;
 		}
 
-		self::$__instance->Block = ClassRegistry::init('Blocks.Block');
 		$result = self::$__instance->Block->find('first', array(
 			'recursive' => 0,
 			'conditions' => array(
 				'Block.id' => $blockId,
 			),
 		));
-		Current::$current = Hash::merge(Current::$current, $result);
+		if ($result) {
+			Current::$current = Hash::merge(Current::$current, $result);
+			return;
+		}
+
+		if (isset(Current::$current['Frame']['block_id'])) {
+			$result = self::$__instance->Block->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'Block.id' => Current::$current['Frame']['block_id'],
+				),
+			));
+			if ($result) {
+				Current::$current = Hash::merge(Current::$current, $result);
+			}
+		}
+
 	}
 
 /**

@@ -18,6 +18,13 @@
 class NetCommonsTestSuite extends CakeTestSuite {
 
 /**
+ * Plugin name
+ *
+ * @var string
+ */
+	public static $plugin;
+
+/**
  * Recursively adds all the files in a directory to the test suite.
  *
  * @param string $directory The directory subtree to add tests from.

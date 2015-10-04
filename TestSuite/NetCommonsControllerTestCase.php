@@ -12,9 +12,9 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
-App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('Current', 'NetCommons.Utility');
 App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
+App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 
 /**
  * NetCommonsControllerTestCase
@@ -30,7 +30,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  *
  * @var string
  */
-	protected $_plugin = null;
+	public $plugin = null;
 
 /**
  * Controller name
@@ -105,8 +105,9 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		if ($this->_isFixtureMerged) {
 			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
 		}
-		if ($this->_plugin) {
-			NetCommonsCakeTestCase::$plugin = $this->_plugin;
+
+		if ($this->plugin) {
+			NetCommonsTestSuite::$plugin = $this->plugin;
 		}
 	}
 
@@ -120,8 +121,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		parent::setUp();
 
-		if ($this->_plugin && $this->_controller) {
-			$this->generate(Inflector::camelize($this->_plugin) . '.' . Inflector::camelize($this->_controller), array(
+		if ($this->plugin && $this->_controller) {
+			$this->generate(Inflector::camelize($this->plugin) . '.' . Inflector::camelize($this->_controller), array(
 				'components' => array(
 					'Auth' => array('user'),
 					'Session',
@@ -179,6 +180,27 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	}
 
 /**
+ * Load TestPlugin
+ *
+ * @param CakeTestCase $test CakeTestCase
+ * @param string $plugin Plugin name
+ * @param string $testPlugin Test plugin name
+ * @return void
+ */
+	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
+		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
+		if (empty($pluginPath) || ! file_exists($pluginPath)) {
+			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
+			return;
+		}
+
+		App::build(array(
+			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		));
+		CakePlugin::load($testPlugin);
+	}
+
+/**
  * testActionのURL取得
  *
  * @param array $options See options
@@ -186,7 +208,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  */
 	protected function _getActionUrl($options = array()) {
 		$url = NetCommonsUrl::actionUrl(Hash::merge(array(
-			'plugin' => $this->_plugin,
+			'plugin' => $this->plugin,
 			'controller' => $this->_controller,
 			'action' => $this->_action,
 		), $options));
@@ -233,27 +255,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		}
 
 		return $this->testAction($url, $params);
-	}
-
-/**
- * Load TestPlugin
- *
- * @param CakeTestCase $test CakeTestCase
- * @param string $plugin Plugin name
- * @param string $testPlugin Test plugin name
- * @return void
- */
-	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
-		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
-		if (empty($pluginPath) || ! file_exists($pluginPath)) {
-			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
-			return;
-		}
-
-		App::build(array(
-			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		));
-		CakePlugin::load($testPlugin);
 	}
 
 }

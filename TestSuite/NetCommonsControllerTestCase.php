@@ -15,6 +15,7 @@ CakeLog::drop('stderr');
 App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+App::uses('Role', 'Roles.Model');
 
 /**
  * NetCommonsControllerTestCase
@@ -31,20 +32,20 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @var string
  */
 	public $plugin = null;
-
-/**
- * Controller name
- *
- * @var string
- */
-	protected $_controller = null;
-
-/**
- * Action name
- *
- * @var string
- */
-	protected $_action = null;
+//
+///**
+// * Controller name
+// *
+// * @var string
+// */
+//	protected $_controller = null;
+//
+///**
+// * Action name
+// *
+// * @var string
+// */
+//	protected $_action = null;
 
 /**
  * Post data
@@ -121,15 +122,15 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		parent::setUp();
 
-		if ($this->plugin && $this->_controller) {
-			$this->generate(Inflector::camelize($this->plugin) . '.' . Inflector::camelize($this->_controller), array(
-				'components' => array(
-					'Auth' => array('user'),
-					'Session',
-					'Security',
-				)
-			));
-		}
+//		if ($this->plugin && $this->_controller) {
+//			$this->generate(Inflector::camelize($this->plugin) . '.' . Inflector::camelize($this->_controller), array(
+//				'components' => array(
+//					'Auth' => array('user'),
+//					'Session',
+//					'Security',
+//				)
+//			));
+//		}
 
 		Configure::write('Config.language', 'ja');
 		Current::$current['Language']['id'] = '2';
@@ -206,55 +207,89 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @param array $options See options
  * @return string url
  */
-	protected function _getActionUrl($options = array()) {
-		$url = NetCommonsUrl::actionUrl(Hash::merge(array(
-			'plugin' => $this->plugin,
-			'controller' => $this->_controller,
-			'action' => $this->_action,
-		), $options));
-
-		return $url;
-	}
+//	protected function _getActionUrl($options = array()) {
+//		$url = NetCommonsUrl::actionUrl(Hash::merge(array(
+//			'plugin' => $this->plugin,
+//			'controller' => $this->_controller,
+//			'action' => $this->_action,
+//		), $options));
+//
+//		return $url;
+//	}
+//
+///**
+// * Functional tests of a controller action.
+// *
+// * @param array $options See options
+// * @param array $params Request params
+// * @return mixed
+// */
+//	protected function _testNcAction($options = array(), $params = array()) {
+//		if (is_string($options)) {
+//			$url = $options;
+//			$action = $this->_action;
+//		} else {
+//			if (isset($options['action'])) {
+//				$action = $options['action'];
+//			} else {
+//				$action = $this->_action;
+//			}
+//			$url = $this->_getActionUrl($options);
+//		}
+//		if ($action === 'add') {
+//			$defaultMethod = 'post';
+//		} elseif ($action === 'edit') {
+//			$defaultMethod = 'put';
+//		} elseif ($action === 'delete') {
+//			$defaultMethod = 'delete';
+//		} else {
+//			$defaultMethod = 'get';
+//		}
+//
+//		$params = Hash::merge(array(
+//			'method' => $defaultMethod,
+//			'return' => 'view'
+//		), $params);
+//
+//		if ($params['method'] !== 'get' && ! isset($params['data'])) {
+//			$params['data'] = $this->data;
+//		}
+//
+//		return $this->testAction($url, $params);
+//	}
 
 /**
- * Functional tests of a controller action.
+ * Generates a mocked controller and mocks any classes passed to `$mocks`. By
+ * default, `_stop()` is stubbed as is sending the response headers, so to not
+ * interfere with testing.
  *
- * @param array $options See options
- * @param array $params Request params
- * @return mixed
+ * ### Mocks:
+ *
+ * - `methods` Methods to mock on the controller. `_stop()` is mocked by default
+ * - `models` Models to mock. Models are added to the ClassRegistry so any
+ *   time they are instantiated the mock will be created. Pass as key value pairs
+ *   with the value being specific methods on the model to mock. If `true` or
+ *   no value is passed, the entire model will be mocked.
+ * - `components` Components to mock. Components are only mocked on this controller
+ *   and not within each other (i.e., components on components)
+ *
+ * @param string $controller Controller name
+ * @param array $mocks List of classes and methods to mock
+ * @return Controller Mocked controller
  */
-	protected function _testNcAction($options = array(), $params = array()) {
-		if (is_string($options)) {
-			$url = $options;
-			$action = $this->_action;
-		} else {
-			if (isset($options['action'])) {
-				$action = $options['action'];
-			} else {
-				$action = $this->_action;
-			}
-			$url = $this->_getActionUrl($options);
-		}
-		if ($action === 'add') {
-			$defaultMethod = 'post';
-		} elseif ($action === 'edit') {
-			$defaultMethod = 'put';
-		} elseif ($action === 'delete') {
-			$defaultMethod = 'delete';
-		} else {
-			$defaultMethod = 'get';
+	public function generateNc($controller, $mocks = array()) {
+		list($plugin, $controller) = pluginSplit($controller);
+		if (! $plugin) {
+			$plugin = Inflector::camelize($this->plugin);
 		}
 
-		$params = Hash::merge(array(
-			'method' => $defaultMethod,
-			'return' => 'view'
-		), $params);
-
-		if ($params['method'] !== 'get' && ! isset($params['data'])) {
-			$params['data'] = $this->data;
-		}
-
-		return $this->testAction($url, $params);
+		$this->generate($plugin . '.' . $controller, Hash::merge(array(
+			'components' => array(
+				'Auth' => array('user'),
+				'Session',
+				'Security',
+			)
+		), $mocks));
 	}
 
 }

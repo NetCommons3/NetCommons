@@ -12,7 +12,7 @@
 CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
-App::uses('AuthGeneralTestSuite', 'AuthGeneral.TestSuite');
+App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 

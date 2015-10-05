@@ -48,7 +48,6 @@ class ButtonHelper extends FormHelper {
 				'plugin' => $this->_View->request->params['plugin'],
 				'controller' => $this->_View->request->params['controller'],
 				'action' => 'add',
-				'block_id' => Current::read('Block.id'),
 				'frame_id' => Current::read('Frame.id'),
 			);
 			if (isset($this->_View->viewVars['addActionController'])) {

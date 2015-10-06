@@ -20,111 +20,6 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 
 /**
- * data
- *
- * @var array
- */
-	public $data = null;
-
-/**
- * Test case of notBlank
- *
- * @var array
- */
-	public $validateNotBlank = array(
-		null, '', false,
-	);
-
-/**
- * Test case of boolean
- *
- * @var array
- */
-	public $validateBoolean = array(
-		null, '', 'a', '99', 'false', 'true'
-	);
-
-/**
- * Test case of numeric
- *
- * @var array
- */
-	public $validateNumeric = array(
-		null, '', 'abcde', false, true, '123abcd', 'false', 'true'
-	);
-
-/**
- * Test case of workflow status
- *
- * @var array
- */
-	public $validateWfStatus = array(
-		null, '', -1, 0, 5, 9999, 'abcde', false,
-	);
-
-/**
- * Test case of postal
- *
- * @var array
- */
-	public $validatePostal = array(
-		'9999-999', 'abc-defg', 'abcdefg', '9999999'
-	);
-
-/**
- * Test case of prefecture
- *
- * @var array
- */
-	public $validatePrefecture = array(
-		'00', '48', '9999', 'ab', 'abcd', '--'
-	);
-
-/**
- * Test case of phone
- *
- * @var array
- */
-	public $validatePhone = array(
-		'0123456789', 'abcdefghij',
-		'99-9999-9999', 'ab-cdef-ghij',
-		'99(9999)9999', 'ab(cdef)ghij', '01(2345)6789', '  (    )    ',
-		'+08-01-2345-6789',
-	);
-
-/**
- * Test case of email
- *
- * @var array
- */
-	public $validateEmail = array(
-		'abcdefghij', '9999999',
-		'@example.com', 'test@',
-		'  @example.com', 'test@    ', 'test@    .com',
-	);
-
-/**
- * Test case of url
- *
- * @var array
- */
-	public $validateUrl = array(
-		'http:', 'https:', 'ftp:', 'javascript:',
-		'http:/', 'https:/', 'ftp:/', 'javascript:/',
-		'http://', 'https://', 'ftp://', 'javascript://',
-		'http://test', 'https://test', 'ftp://test', 'javascript:test', 'abc://exapmle.com',
-	);
-
-/**
- * Test case of date
- *
- * @var array
- */
-	public $validateDate = array(
-		'201405', 'abcdef', '20140512', '2014/05/12', '0000/00', '9999/99',
-	);
-
-/**
  * setUp method
  *
  * @return void
@@ -152,86 +47,26 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 	}
 
 /**
- * Assert validation
+ * ExceptionErrorのMockセット
  *
- * @param string $type Validation type
- * @param string $model Model name
- * @param string $field Field name
- * @param bool $unset Field unset
+ * @param string $model モデル名
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
  * @return void
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	protected function _assertValidation($type, $model, $field, $unset = false) {
-		if ($type === 'workflowStatus') {
-			$type = 'wfStatus';
+	protected function _mockForReturnFalse($model, $mockModel, $mockMethod) {
+		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
+		if ($mockModel === $model) {
+			$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			$this->$model->expects($this->once())
+				->method($mockMethod)
+				->will($this->returnValue(false));
+		} else {
+			$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			$this->$model->$mockModel->expects($this->once())
+				->method($mockMethod)
+				->will($this->returnValue(false));
 		}
-
-		$validateName = 'validate' . Inflector::classify($type);
-
-		list($alias, $field) = pluginSplit($field);
-		if (! $alias) {
-			$alias = $model;
-		}
-
-		if ($unset) {
-			$data = $this->data;
-			unset($data[$alias][$field]);
-
-			//validate処理実行
-			$this->__assertValidation($model, $field, $data);
-		}
-
-		//テスト実施
-		if ($type === 'wfStatus') {
-			Current::$current['Permission']['content_publishable']['value'] = false;
-			$this->$validateName = Hash::merge($this->$validateName, array(
-				WorkflowComponent::STATUS_PUBLISHED,
-				WorkflowComponent::STATUS_DISAPPROVED
-			));
-		}
-		foreach ($this->$validateName as $check) {
-			$data = $this->data;
-			$data[$alias][$field] = $check;
-
-			//validate処理実行
-			$this->__assertValidation($model, $field, $data);
-		}
-
-		if ($type === 'wfStatus') {
-			$currentData = $this->data;
-
-			Current::$current['Permission']['content_publishable']['value'] = true;
-			$this->data[$alias][$field] = WorkflowComponent::STATUS_DISAPPROVED;
-			$this->_assertValidation('notBlank', $model, 'WorkflowComment.comment', true);
-
-			$this->data = $currentData;
-		}
-	}
-
-/**
- * Assert validation
- *
- * @param string $model Model name
- * @param string $field Field name
- * @param array $data Target data
- * @return void
- * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
- */
-	private function __assertValidation($model, $field, $data) {
-		//初期処理
-		$this->setUp();
-
-		//validate処理実行
-		$this->$model->set($data);
-		$result = $this->$model->validates();
-
-		//戻り値チェック
-		$expectMessage = '`' . $field . '` validation error: ' . print_r($data, true);
-		$this->assertFalse($result, $expectMessage);
-		$this->assertTrue(isset($this->$model->validationErrors[$field][0]), $expectMessage);
-
-		//終了処理
-		$this->tearDown();
 	}
 
 }

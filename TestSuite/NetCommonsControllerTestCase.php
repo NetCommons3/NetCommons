@@ -14,6 +14,7 @@ CakeLog::drop('stderr');
 
 App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
 
@@ -32,20 +33,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @var string
  */
 	public $plugin = null;
-//
-///**
-// * Controller name
-// *
-// * @var string
-// */
-//	protected $_controller = null;
-//
-///**
-// * Action name
-// *
-// * @var string
-// */
-//	protected $_action = null;
 
 /**
  * Post data
@@ -122,16 +109,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		parent::setUp();
 
-//		if ($this->plugin && $this->_controller) {
-//			$this->generate(Inflector::camelize($this->plugin) . '.' . Inflector::camelize($this->_controller), array(
-//				'components' => array(
-//					'Auth' => array('user'),
-//					'Session',
-//					'Security',
-//				)
-//			));
-//		}
-
 		Configure::write('Config.language', 'ja');
 		Current::$current['Language']['id'] = '2';
 	}
@@ -202,63 +179,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	}
 
 /**
- * testActionのURL取得
- *
- * @param array $options See options
- * @return string url
- */
-//	protected function _getActionUrl($options = array()) {
-//		$url = NetCommonsUrl::actionUrl(Hash::merge(array(
-//			'plugin' => $this->plugin,
-//			'controller' => $this->_controller,
-//			'action' => $this->_action,
-//		), $options));
-//
-//		return $url;
-//	}
-//
-///**
-// * Functional tests of a controller action.
-// *
-// * @param array $options See options
-// * @param array $params Request params
-// * @return mixed
-// */
-//	protected function _testNcAction($options = array(), $params = array()) {
-//		if (is_string($options)) {
-//			$url = $options;
-//			$action = $this->_action;
-//		} else {
-//			if (isset($options['action'])) {
-//				$action = $options['action'];
-//			} else {
-//				$action = $this->_action;
-//			}
-//			$url = $this->_getActionUrl($options);
-//		}
-//		if ($action === 'add') {
-//			$defaultMethod = 'post';
-//		} elseif ($action === 'edit') {
-//			$defaultMethod = 'put';
-//		} elseif ($action === 'delete') {
-//			$defaultMethod = 'delete';
-//		} else {
-//			$defaultMethod = 'get';
-//		}
-//
-//		$params = Hash::merge(array(
-//			'method' => $defaultMethod,
-//			'return' => 'view'
-//		), $params);
-//
-//		if ($params['method'] !== 'get' && ! isset($params['data'])) {
-//			$params['data'] = $this->data;
-//		}
-//
-//		return $this->testAction($url, $params);
-//	}
-
-/**
  * Generates a mocked controller and mocks any classes passed to `$mocks`. By
  * default, `_stop()` is stubbed as is sending the response headers, so to not
  * interfere with testing.
@@ -292,4 +212,69 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		), $mocks));
 	}
 
+/**
+ * Asserts
+ *
+ * @param array $asserts テストAssert
+ * @param string $result Result data
+ * @return void
+ */
+	public function asserts($asserts, $result) {
+		//チェック
+		if (isset($asserts)) {
+			foreach ($asserts as $assert) {
+				$assertMethod = $assert['method'];
+
+				if ($assertMethod === 'assertInput') {
+					$this->$assertMethod($assert['type'], $assert['name'], $assert['value'], $result);
+					continue;
+				}
+
+				if (! isset($assert['value'])) {
+					$assert['value'] = $result;
+				}
+				if (isset($assert['expected'])) {
+					$this->$assertMethod($assert['expected'], $assert['value']);
+				} else {
+					$this->$assertMethod($assert['value']);
+				}
+			}
+		}
+	}
+
+/**
+ * Assert input tag
+ *
+ * @param string $tagType タグタイプ(input or textearea or button)
+ * @param string $name inputタグのname属性
+ * @param string $value inputタグのvalue値
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertInput($tagType, $name, $value, $result, $message = null) {
+		if ($tagType === 'input') {
+			if ($value) {
+				$this->assertRegExp(
+					'/<input.*?name="' . preg_quote($name, '/') . '".*?value="' . $value . '".*?>/', $result, $message
+				);
+			} else {
+				$this->assertRegExp(
+					'/<input.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+				);
+			}
+		} elseif ($tagType === 'textarea') {
+			$this->assertRegExp(
+				'/<textarea.*?name="' . preg_quote($name, '/') . '".*?>.*?<\/textarea>/', $result, $message
+			);
+		} elseif ($tagType === 'button') {
+			$this->assertRegExp(
+				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+			);
+		} elseif ($tagType === 'form') {
+			$this->assertRegExp(
+				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message
+			);
+		}
+	}
 }

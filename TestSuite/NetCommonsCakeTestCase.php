@@ -125,38 +125,4 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		parent::tearDown();
 	}
 
-/**
- * Assert data
- *
- * @param array $expected Expected data
- * @param array $result Result data
- * @param array $fields Out of target fields
- * @return void
- */
-	protected function _assertData($expected, $result, $fields = ['created', 'created_user', 'modified', 'modified_user']) {
-		foreach ($fields as $field) {
-			if (is_array($result)) {
-				$result = Hash::remove($result, $field);
-				$result = Hash::remove($result, '{n}.' . $field);
-				$result = Hash::remove($result, '{s}.' . $field);
-				$result = Hash::remove($result, '{n}.{n}.' . $field);
-				$result = Hash::remove($result, '{n}.{s}.' . $field);
-				$result = Hash::remove($result, '{s}.{n}.' . $field);
-				$result = Hash::remove($result, '{s}.{s}.' . $field);
-			}
-
-			if (is_array($expected)) {
-				$expected = Hash::remove($expected, $field);
-				$expected = Hash::remove($expected, '{n}.' . $field);
-				$expected = Hash::remove($expected, '{s}.' . $field);
-				$expected = Hash::remove($expected, '{n}.{n}.' . $field);
-				$expected = Hash::remove($expected, '{n}.{s}.' . $field);
-				$expected = Hash::remove($expected, '{s}.{n}.' . $field);
-				$expected = Hash::remove($expected, '{s}.{s}.' . $field);
-			}
-		}
-
-		$this->assertEquals($expected, $result);
-	}
-
 }

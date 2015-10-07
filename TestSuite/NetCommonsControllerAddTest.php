@@ -11,12 +11,12 @@
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
- * NetCommonsControllerEditTest
+ * NetCommonsControllerAddTest
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite
  */
-class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
+class NetCommonsControllerAddTest extends NetCommonsControllerTestCase {
 
 /**
  * setUp method
@@ -29,20 +29,21 @@ class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
 	}
 
 /**
- * editアクションのGETテスト
+ * addアクションのGETテスト
  *
  * @param array $urlOptions URLオプション
  * @param array $assert テストの期待値
+ * @param bool $hasDelete 削除ボタン(リンク)の有無
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
  * @return array テスト結果
  */
-	protected function _testEditGet($urlOptions, $assert, $exception = null, $return = 'view') {
+	protected function _testAddGet($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実施
 		$url = Hash::merge(array(
 			'plugin' => $this->plugin,
 			'controller' => $this->_controller,
-			'action' => 'edit',
+			'action' => 'add',
 		), $urlOptions);
 		$result = $this->_testNcAction($url, array('method' => 'get'), $exception, $return);
 
@@ -54,7 +55,7 @@ class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
 	}
 
 /**
- * editアクションのPOSTテスト
+ * addアクションのPOSTテスト
  *
  * @param array $data POSTデータ
  * @param array $urlOptions URLオプション
@@ -62,20 +63,20 @@ class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
  * @param string $return testActionの実行後の結果
  * @return array テスト結果
  */
-	protected function _testEditPost($data, $urlOptions, $exception = null, $return = 'view') {
+	protected function _testAddPost($data, $urlOptions, $exception = null, $return = 'view') {
 		//テスト実施
 		$url = Hash::merge(array(
 			'plugin' => $this->plugin,
 			'controller' => $this->_controller,
-			'action' => 'edit',
+			'action' => 'add',
 		), $urlOptions);
-		$result = $this->_testNcAction($url, array('method' => 'put', 'data' => $data), $exception, $return);
+		$result = $this->_testNcAction($url, array('method' => 'post', 'data' => $data), $exception, $return);
 
 		return $result;
 	}
 
 /**
- * editアクションのValidateionErrorテスト
+ * addアクションのValidateionErrorテスト
  *
  * @param array $data POSTデータ
  * @param string $role ロール
@@ -83,7 +84,7 @@ class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
  * @param string|null $validationError ValidationError
  * @return array テスト結果
  */
-	protected function _testEditValidationError($data, $urlOptions, $validationError = null) {
+	protected function _testAddValidationError($data, $urlOptions, $validationError = null) {
 		$data = Hash::remove($data, $validationError['field']);
 		$data = Hash::insert($data, $validationError['field'], $validationError['value']);
 
@@ -91,9 +92,9 @@ class NetCommonsControllerEditTest extends NetCommonsControllerTestCase {
 		$url = Hash::merge(array(
 			'plugin' => $this->plugin,
 			'controller' => $this->_controller,
-			'action' => 'edit',
+			'action' => 'add',
 		), $urlOptions);
-		$result = $this->_testNcAction($url, array('method' => 'put', 'data' => $data));
+		$result = $this->_testNcAction($url, array('method' => 'post', 'data' => $data));
 
 		//バリデーションエラー
 		$asserts = array(

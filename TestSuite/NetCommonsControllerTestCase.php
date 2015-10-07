@@ -277,4 +277,56 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 			);
 		}
 	}
+
+/**
+ * Assert input tag
+ *
+ * @param string $tagType タグタイプ(input or textearea or button)
+ * @param string $name inputタグのname属性
+ * @param string $value inputタグのvalue値
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	protected function _testNcAction($url = array(), $paramsOptions = array(), $exception = null, $return = 'view') {
+		if ($exception && $return !== 'json') {
+			$this->setExpectedException($exception);
+		}
+
+		//URL設定
+		$params = array();
+		if ($return === 'viewFile') {
+			$params['return'] = 'view';
+		} elseif ($return === 'json') {
+			$params['return'] = 'view';
+			$params['type'] = 'json';
+		} else {
+			$params['return'] = $return;
+		}
+		$params = Hash::merge($params, $paramsOptions);
+
+		//テスト実施
+		$view = $this->testAction(NetCommonsUrl::actionUrl($url), $params);
+		if ($return === 'viewFile') {
+			$result = $this->controller->view;
+		} elseif ($return === 'json') {
+			$result = json_decode($this->contents, true);
+		} else {
+			$result = $view;
+		}
+		if ($return === 'json') {
+			if ($exception === 'BadRequestException') {
+				$status = 400;
+			} elseif ($exception === 'ForbiddenException') {
+				$status = 403;
+			} else {
+				$status = 200;
+			}
+			$this->assertArrayHasKey('code', $result);
+			$this->assertEquals($status, $result['code']);
+		}
+
+		return $result;
+	}
+
 }

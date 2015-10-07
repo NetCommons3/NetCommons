@@ -127,6 +127,27 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	}
 
 /**
+ * Load TestPlugin
+ *
+ * @param CakeTestCase $test CakeTestCase
+ * @param string $plugin Plugin name
+ * @param string $testPlugin Test plugin name
+ * @return void
+ */
+	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
+		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
+		if (empty($pluginPath) || ! file_exists($pluginPath)) {
+			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
+			return;
+		}
+
+		App::build(array(
+			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		));
+		CakePlugin::load($testPlugin);
+	}
+
+/**
  * Lets you do functional tests of a controller action.
  *
  * ### Options:
@@ -155,127 +176,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		}
 		$ret = parent::_testAction($url, $options);
 		return $ret;
-	}
-
-/**
- * Load TestPlugin
- *
- * @param CakeTestCase $test CakeTestCase
- * @param string $plugin Plugin name
- * @param string $testPlugin Test plugin name
- * @return void
- */
-	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
-		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
-		if (empty($pluginPath) || ! file_exists($pluginPath)) {
-			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
-			return;
-		}
-
-		App::build(array(
-			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		));
-		CakePlugin::load($testPlugin);
-	}
-
-/**
- * Generates a mocked controller and mocks any classes passed to `$mocks`. By
- * default, `_stop()` is stubbed as is sending the response headers, so to not
- * interfere with testing.
- *
- * ### Mocks:
- *
- * - `methods` Methods to mock on the controller. `_stop()` is mocked by default
- * - `models` Models to mock. Models are added to the ClassRegistry so any
- *   time they are instantiated the mock will be created. Pass as key value pairs
- *   with the value being specific methods on the model to mock. If `true` or
- *   no value is passed, the entire model will be mocked.
- * - `components` Components to mock. Components are only mocked on this controller
- *   and not within each other (i.e., components on components)
- *
- * @param string $controller Controller name
- * @param array $mocks List of classes and methods to mock
- * @return Controller Mocked controller
- */
-	public function generateNc($controller, $mocks = array()) {
-		list($plugin, $controller) = pluginSplit($controller);
-		if (! $plugin) {
-			$plugin = Inflector::camelize($this->plugin);
-		}
-
-		$this->generate($plugin . '.' . $controller, Hash::merge(array(
-			'components' => array(
-				'Auth' => array('user'),
-				'Session',
-				'Security',
-			)
-		), $mocks));
-	}
-
-/**
- * Asserts
- *
- * @param array $asserts テストAssert
- * @param string $result Result data
- * @return void
- */
-	public function asserts($asserts, $result) {
-		//チェック
-		if (isset($asserts)) {
-			foreach ($asserts as $assert) {
-				$assertMethod = $assert['method'];
-
-				if ($assertMethod === 'assertInput') {
-					$this->$assertMethod($assert['type'], $assert['name'], $assert['value'], $result);
-					continue;
-				}
-
-				if (! isset($assert['value'])) {
-					$assert['value'] = $result;
-				}
-				if (isset($assert['expected'])) {
-					$this->$assertMethod($assert['expected'], $assert['value']);
-				} else {
-					$this->$assertMethod($assert['value']);
-				}
-			}
-		}
-	}
-
-/**
- * Assert input tag
- *
- * @param string $tagType タグタイプ(input or textearea or button)
- * @param string $name inputタグのname属性
- * @param string $value inputタグのvalue値
- * @param string $result Result data
- * @param string $message メッセージ
- * @return void
- */
-	public function assertInput($tagType, $name, $value, $result, $message = null) {
-		if ($tagType === 'input') {
-			if ($value) {
-				$this->assertRegExp(
-					'/<input.*?name="' . preg_quote($name, '/') . '".*?value="' . $value . '".*?>/', $result, $message
-				);
-			} else {
-				$this->assertRegExp(
-					'/<input.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
-				);
-			}
-		} elseif ($tagType === 'textarea') {
-			$this->assertRegExp(
-				'/<textarea.*?name="' . preg_quote($name, '/') . '".*?>.*?<\/textarea>/', $result, $message
-			);
-		} elseif ($tagType === 'button') {
-			$this->assertRegExp(
-				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
-			);
-		} elseif ($tagType === 'form') {
-			$this->assertRegExp(
-				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message
-			);
-		}
 	}
 
 /**
@@ -347,6 +247,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		$result = $this->_testNcAction($url, array('method' => 'get'), $exception, $return);
 
 		if (! $exception && $assert) {
+			if ($assert['method'] === 'assertActionLink') {
+				$assert['url'] = Hash::merge($url, $assert['url']);
+			}
+
 			$this->asserts(array($assert), $result);
 		}
 
@@ -403,6 +307,147 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		$this->asserts($asserts, $result);
 
 		return $result;
+	}
+
+/**
+ * Generates a mocked controller and mocks any classes passed to `$mocks`. By
+ * default, `_stop()` is stubbed as is sending the response headers, so to not
+ * interfere with testing.
+ *
+ * ### Mocks:
+ *
+ * - `methods` Methods to mock on the controller. `_stop()` is mocked by default
+ * - `models` Models to mock. Models are added to the ClassRegistry so any
+ *   time they are instantiated the mock will be created. Pass as key value pairs
+ *   with the value being specific methods on the model to mock. If `true` or
+ *   no value is passed, the entire model will be mocked.
+ * - `components` Components to mock. Components are only mocked on this controller
+ *   and not within each other (i.e., components on components)
+ *
+ * @param string $controller Controller name
+ * @param array $mocks List of classes and methods to mock
+ * @return Controller Mocked controller
+ */
+	public function generateNc($controller, $mocks = array()) {
+		list($plugin, $controller) = pluginSplit($controller);
+		if (! $plugin) {
+			$plugin = Inflector::camelize($this->plugin);
+		}
+
+		$this->generate($plugin . '.' . $controller, Hash::merge(array(
+			'components' => array(
+				'Auth' => array('user'),
+				'Session',
+				'Security',
+			)
+		), $mocks));
+	}
+
+/**
+ * Asserts
+ *
+ * @param array $asserts テストAssert
+ * @param string $result Result data
+ * @return void
+ */
+	public function asserts($asserts, $result) {
+		//チェック
+		if (isset($asserts)) {
+			foreach ($asserts as $assert) {
+				$assertMethod = $assert['method'];
+
+				if ($assertMethod === 'assertInput') {
+					$this->$assertMethod($assert['type'], $assert['name'], $assert['value'], $result);
+					continue;
+				}
+
+				if ($assertMethod === 'assertActionLink') {
+					$this->$assertMethod($assert['action'], $assert['url'], $assert['linkExist'], $result);
+					continue;
+				}
+
+				if (! isset($assert['value'])) {
+					$assert['value'] = $result;
+				}
+				if (isset($assert['expected'])) {
+					$this->$assertMethod($assert['expected'], $assert['value']);
+				} else {
+					$this->$assertMethod($assert['value']);
+				}
+			}
+		}
+	}
+
+/**
+ * Assert input tag
+ *
+ * @param string $tagType タグタイプ(input or textearea or button)
+ * @param string $name inputタグのname属性
+ * @param string $value inputタグのvalue値
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertInput($tagType, $name, $value, $result, $message = null) {
+		if ($tagType === 'input') {
+			if ($value) {
+				$this->assertRegExp(
+					'/<input.*?name="' . preg_quote($name, '/') . '".*?value="' . $value . '".*?>/', $result, $message
+				);
+			} else {
+				$this->assertRegExp(
+					'/<input.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+				);
+			}
+		} elseif ($tagType === 'textarea') {
+			$this->assertRegExp(
+				'/<textarea.*?name="' . preg_quote($name, '/') . '".*?>.*?<\/textarea>/', $result, $message
+			);
+		} elseif ($tagType === 'button') {
+			$this->assertRegExp(
+				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+			);
+		} elseif ($tagType === 'form') {
+			$this->assertRegExp(
+				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message
+			);
+		}
+	}
+
+/**
+ * Assert アクションリンク
+ *
+ * @param string $action アクション
+ * @param array $urlOptions URLオプション
+ * @param bool $linkExist リンクの有無
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertActionLink($action, $urlOptions, $linkExist, $result, $message = null) {
+		$url = Hash::merge(array(
+			'plugin' => $this->plugin,
+			'controller' => $this->_controller,
+		), $urlOptions);
+
+		$url['action'] = $action;
+
+		if (isset($url['frame_id']) && ! Current::read('Frame.id')) {
+			unset($url['frame_id']);
+		}
+		if (isset($url['block_id']) && ! Current::read('Block.id')) {
+			unset($url['block_id']);
+		}
+
+		if ($linkExist) {
+			$method = 'assertRegExp';
+		} else {
+			$method = 'assertNotRegExp';
+		}
+		$expected = '/' . preg_quote(NetCommonsUrl::actionUrl($url), '/') . '/';
+
+		//チェック
+		$this->$method($expected, $result, $message);
 	}
 
 }

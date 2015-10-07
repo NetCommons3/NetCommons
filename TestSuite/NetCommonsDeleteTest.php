@@ -24,16 +24,27 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
  * @param array $data 削除データ
  * @param string $model モデル名
  * @param string $method メソッド
+ * @param array $associationModels 削除確認の関連モデル array(model => conditions)
  * @dataProvider dataProviderDelete
  * @return void
  */
-	public function testDelete($data, $model, $method) {
+	public function testDelete($data, $model, $method, $associationModels = null) {
 		//テスト実行前のチェック
 		$count = $this->$model->find('count', array(
 			'recursive' => -1,
 			'conditions' => array('key' => $data[$this->$model->alias]['key']),
 		));
 		$this->assertNotEquals(0, $count);
+
+		if ($associationModels) {
+			foreach ($associationModels as $assocModel => $conditions) {
+				$count = $this->$assocModel->find('count', array(
+					'recursive' => -1,
+					'conditions' => $conditions,
+				));
+				$this->assertNotEquals(0, $count);
+			}
+		}
 
 		//テスト実行
 		$result = $this->$model->$method($data);
@@ -45,6 +56,16 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 			'conditions' => array('key' => $data[$this->$model->alias]['key']),
 		));
 		$this->assertEquals(0, $count);
+
+		if ($associationModels) {
+			foreach ($associationModels as $assocModel => $conditions) {
+				$count = $this->$assocModel->find('count', array(
+					'recursive' => -1,
+					'conditions' => $conditions,
+				));
+				$this->assertEquals(0, $count);
+			}
+		}
 	}
 
 /**

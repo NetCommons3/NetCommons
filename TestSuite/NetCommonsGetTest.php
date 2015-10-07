@@ -1,6 +1,6 @@
 <?php
 /**
- * WorkflowSaveTest
+ * NetCommonsGetTest
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
@@ -11,7 +11,7 @@
 App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 
 /**
- * WorkflowSaveTest
+ * NetCommonsGetTest
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite

@@ -72,14 +72,15 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  *
  * @param array $data 登録データ
  * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
  * @dataProvider dataProviderSaveOnValidationError
  * @return void
  */
-	public function testSaveOnValidationError($data, $mockModel) {
+	public function testSaveOnValidationError($data, $mockModel, $mockMethod = 'validates') {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
 
-		$this->_mockForReturnFalse($model, $mockModel, 'validates');
+		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
 		$result = $this->$model->$method($data);
 		$this->assertFalse($result);
 	}

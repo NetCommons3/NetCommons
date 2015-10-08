@@ -19,16 +19,31 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 
 /**
+ * Model name
+ *
+ * @var array
+ */
+	public $_modelName = '';
+
+/**
+ * Method name
+ *
+ * @var array
+ */
+	public $_methodName = '';
+
+/**
  * Deleteのテスト
  *
  * @param array $data 削除データ
- * @param string $model モデル名
- * @param string $method メソッド
  * @param array $associationModels 削除確認の関連モデル array(model => conditions)
  * @dataProvider dataProviderDelete
  * @return void
  */
-	public function testDelete($data, $model, $method, $associationModels = null) {
+	public function testDelete($data, $associationModels = null) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
 		//テスト実行前のチェック
 		$count = $this->$model->find('count', array(
 			'recursive' => -1,
@@ -72,14 +87,15 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
  * DeleteのExceptionErrorテスト
  *
  * @param array $data 登録データ
- * @param string $model モデル名
- * @param string $method メソッド
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @dataProvider dataProviderDeleteOnExceptionError
  * @return void
  */
-	public function testDeleteOnExceptionError($data, $model, $method, $mockModel, $mockMethod) {
+	public function testDeleteOnExceptionError($data, $mockModel, $mockMethod) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
 
 		$this->setExpectedException('InternalErrorException');

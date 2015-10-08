@@ -19,15 +19,30 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
 class NetCommonsSaveTest extends NetCommonsModelTestCase {
 
 /**
+ * Model name
+ *
+ * @var array
+ */
+	public $_modelName = '';
+
+/**
+ * Method name
+ *
+ * @var array
+ */
+	public $_methodName = '';
+
+/**
  * Saveのテスト
  *
  * @param array $data 登録データ
- * @param string $model モデル名
- * @param string $method メソッド
  * @dataProvider dataProviderSave
  * @return void
  */
-	public function testSave($data, $model, $method) {
+	public function testSave($data) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
 		//テスト実行
 		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
@@ -37,14 +52,15 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  * SaveのExceptionErrorテスト
  *
  * @param array $data 登録データ
- * @param string $model モデル名
- * @param string $method メソッド
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @dataProvider dataProviderSaveOnExceptionError
  * @return void
  */
-	public function testSaveOnExceptionError($data, $model, $method, $mockModel, $mockMethod) {
+	public function testSaveOnExceptionError($data, $mockModel, $mockMethod) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
 		$this->_mockForReturnFalse($model, $mockModel, $mockMethod);
 
 		$this->setExpectedException('InternalErrorException');
@@ -55,12 +71,14 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  * SaveのValidationErrorテスト
  *
  * @param array $data 登録データ
- * @param string $model モデル名
- * @param string $method メソッド
+ * @param string $mockModel Mockのモデル
  * @dataProvider dataProviderSaveOnValidationError
  * @return void
  */
-	public function testSaveOnValidationError($data, $model, $method, $mockModel) {
+	public function testSaveOnValidationError($data, $mockModel) {
+		$model = $this->_modelName;
+		$method = $this->_methodName;
+
 		$this->_mockForReturnFalse($model, $mockModel, 'validates');
 		$result = $this->$model->$method($data);
 		$this->assertFalse($result);
@@ -70,7 +88,6 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  * Validatesのテスト
  *
  * @param array $data 登録データ
- * @param string $model モデル名
  * @param string $field フィールド名
  * @param string $value セットする値
  * @param string $message エラーメッセージ
@@ -78,7 +95,9 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  * @dataProvider dataProviderValidationError
  * @return void
  */
-	public function testValidationError($data, $model, $field, $value, $message, $overwrite = array()) {
+	public function testValidationError($data, $field, $value, $message, $overwrite = array()) {
+		$model = $this->_modelName;
+
 		if (is_null($value)) {
 			unset($data[$model][$field]);
 		} else {

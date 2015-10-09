@@ -172,10 +172,6 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
-		if (! Configure::read('NetCommons.installed') || ! class_exists('Current')) {
-			return parent::create($data, $filterKey);
-		}
-
 		$options = $this->_getDefaultValue($data);
 		$data = Hash::merge($options, $data);
 
@@ -303,15 +299,7 @@ class NetCommonsAppModel extends Model {
  */
 	protected function _getDefaultValue($data) {
 		$options = array();
-		$currents = array(
-			'room_id' => Current::read('Room.id'),
-			'language_id' => Current::read('Language.id'),
-			'block_id' => Current::read('Block.id'),
-			'block_key' => Current::read('Block.key'),
-			'frame_id' => Current::read('Frame.id'),
-			'frame_key' => Current::read('Frame.key'),
-			'plugin_key' => Inflector::underscore($this->plugin),
-		);
+		$currents = $this->_getCurrentValue();
 
 		foreach ($this->schema() as $fieldName => $fieldDetail) {
 			if ($fieldName !== $this->primaryKey) {
@@ -322,14 +310,32 @@ class NetCommonsAppModel extends Model {
 					$options[$fieldName] = $fieldDetail['default'];
 				}
 			}
-
-			foreach ($currents as $key => $current) {
-				if ($this->hasField($key) && $fieldName === $key && !isset($data[$fieldName])) {
-					$options[$fieldName] = $current;
-				}
+			// Currentの値をセット
+			if (isset($currents[$fieldName])) {
+				$options[$fieldName] = $currents[$fieldName];
 			}
 		}
 		return $options;
 	}
 
+/**
+ * Currentで取れる値を返す。
+ *
+ * @return array
+ */
+	protected function _getCurrentValue() {
+		$currents = array();
+		if (class_exists('Current')) {
+			$currents = array(
+				'room_id' => Current::read('Room.id'),
+				'language_id' => Current::read('Language.id'),
+				'block_id' => Current::read('Block.id'),
+				'block_key' => Current::read('Block.key'),
+				'frame_id' => Current::read('Frame.id'),
+				'frame_key' => Current::read('Frame.key'),
+				'plugin_key' => Inflector::underscore($this->plugin),
+			);
+		}
+		return $currents;
+	}
 }

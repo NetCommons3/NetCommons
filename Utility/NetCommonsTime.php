@@ -19,8 +19,12 @@ class NetCommonsTime {
  */
 	protected $_engine = null;
 
-	public function __construct() {
-		$this->_engine = new CakeTime();
+	//public function __construct() {
+	//	$this->_engine = new CakeTime();
+	//}
+
+	protected function _getSiteTimezone() {
+
 	}
 
 	public function toUserDatetime($serverDatetime) {

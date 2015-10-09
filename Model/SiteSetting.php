@@ -11,6 +11,7 @@
  */
 
 App::uses('AppModel', 'Model');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Summary for SiteSetting Model
@@ -46,6 +47,18 @@ class SiteSetting extends AppModel {
 			return $row['SiteSetting']['value'];
 		}
 		return null;
+	}
+
+/**
+ * サイトのデフォルトタイムゾーン（未ログインのゲスト用）を返す
+ *
+ * @return string timezone
+ */
+	public function getSiteTimezone() {
+		$languageId = Current::read('Language.id');
+		$setting = $this->findByLanguageIdAndKey($languageId, 'site_timezone');
+		$timezone = $setting['SiteSetting']['value'];
+		return $timezone;
 	}
 }
 

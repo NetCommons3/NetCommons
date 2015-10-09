@@ -81,6 +81,8 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		if ($this->plugin) {
 			NetCommonsTestSuite::$plugin = $this->plugin;
 		}
+		Configure::write('NetCommons.installed', true);
+		Configure::write('Config.language', 'ja');
 	}
 
 /**
@@ -92,6 +94,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		parent::setUp();
 
 		Configure::write('NetCommons.installed', true);
+		Configure::write('Config.language', 'ja');
 
 		foreach ($this->fixtures as $fixture) {
 			$split = pluginSplit($fixture);
@@ -123,6 +126,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		foreach ($this->models as $model) {
 			unset($this->$model);
 		}
+
+		Configure::write('NetCommons.installed', false);
+		Configure::write('Config.language', null);
 
 		parent::tearDown();
 	}

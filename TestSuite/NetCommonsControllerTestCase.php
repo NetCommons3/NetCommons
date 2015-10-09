@@ -181,11 +181,15 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 /**
  * Assert input tag
  *
- * @param string $tagType タグタイプ(input or textearea or button)
- * @param string $name inputタグのname属性
- * @param string $value inputタグのvalue値
- * @param string $result Result data
- * @param string $message メッセージ
+ * ### $returnについて
+ *  - viewFile: viewファイル名を戻す
+ *  - json: JSONをでコードした配列を戻す
+ *  - 上記以外: $this->testActionのreturnで指定した内容を戻す
+ *
+ * @param array $url URL配列
+ * @param array $paramsOptions リクエストパラメータオプション
+ * @param string|null $exception Exception
+ * @param string $return testActionの実行後の結果
  * @return void
  */
 	protected function _testNcAction($url = array(), $paramsOptions = array(), $exception = null, $return = 'view') {
@@ -200,6 +204,13 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		} elseif ($return === 'json') {
 			$params['return'] = 'view';
 			$params['type'] = 'json';
+			if ($exception === 'BadRequestException') {
+				$status = 400;
+			} elseif ($exception === 'ForbiddenException') {
+				$status = 403;
+			} else {
+				$status = 200;
+			}
 		} else {
 			$params['return'] = $return;
 		}
@@ -211,19 +222,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 			$result = $this->controller->view;
 		} elseif ($return === 'json') {
 			$result = json_decode($this->contents, true);
-		} else {
-			$result = $view;
-		}
-		if ($return === 'json') {
-			if ($exception === 'BadRequestException') {
-				$status = 400;
-			} elseif ($exception === 'ForbiddenException') {
-				$status = 403;
-			} else {
-				$status = 200;
-			}
 			$this->assertArrayHasKey('code', $result);
 			$this->assertEquals($status, $result['code']);
+		} else {
+			$result = $view;
 		}
 
 		return $result;
@@ -260,6 +262,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 /**
  * addアクションのPOSTテスト
  *
+ * @param array $method リクエストのmethod(post put delete)
  * @param array $data POSTデータ
  * @param array $urlOptions URLオプション
  * @param string|null $exception Exception
@@ -280,8 +283,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 /**
  * addアクションのValidateionErrorテスト
  *
+ * @param array $method リクエストのmethod(post put delete)
  * @param array $data POSTデータ
- * @param string $role ロール
  * @param array $urlOptions URLオプション
  * @param string|null $validationError ValidationError
  * @return array テスト結果

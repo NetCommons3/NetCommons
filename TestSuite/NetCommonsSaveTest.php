@@ -23,14 +23,14 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  *
  * @var array
  */
-	public $_modelName = '';
+	protected $_modelName = '';
 
 /**
  * Method name
  *
  * @var array
  */
-	public $_methodName = '';
+	protected $_methodName = '';
 
 /**
  * Saveのテスト

@@ -10,6 +10,7 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('NetCommonsTimeHelper', 'NetCommons.View/Helper');
 
 /**
  * DateHelper Helper
@@ -25,7 +26,8 @@ class DateHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array(
-		'Time'
+		'NetCommons.NetCommonsTime',
+		'Time',
 	);
 
 /**
@@ -38,6 +40,8 @@ class DateHelper extends AppHelper {
 		if (! Validation::datetime($date)) {
 			return null;
 		}
+		// ユーザタイムゾーンに変換
+		$date = $this->NetCommonsTime->toUserDatetime($date);
 
 		if ($this->Time->isToday($date)) {
 			return date('G:i', strtotime($date));

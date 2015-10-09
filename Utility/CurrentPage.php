@@ -141,6 +141,8 @@ class CurrentPage {
  * @return bool
  */
 	public function setPage() {
+		self::$__instance->Page = ClassRegistry::init('Pages.Page');
+
 		if (isset(Current::$current['Page'])) {
 			return;
 		}
@@ -166,7 +168,6 @@ class CurrentPage {
 			return;
 		}
 
-		self::$__instance->Page = ClassRegistry::init('Pages.Page');
 		$result = self::$__instance->Page->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,

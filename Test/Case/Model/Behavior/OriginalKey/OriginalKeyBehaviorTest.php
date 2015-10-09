@@ -8,7 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('OriginalKeyBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior');
+App::uses('OriginalKeyBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior/OriginalKey');
 
 /**
  * OriginalKeyBehavior test case

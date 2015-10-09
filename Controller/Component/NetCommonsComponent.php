@@ -63,6 +63,7 @@ class NetCommonsComponent extends Component {
  *
  * @param array $errors validation errors
  * @return bool true on success, false on error
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
 	public function handleValidationError($errors) {
 		if (! $errors) {

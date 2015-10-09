@@ -97,6 +97,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		if ($this->plugin) {
 			NetCommonsTestSuite::$plugin = $this->plugin;
 		}
+		Configure::write('NetCommons.installed', true);
+		Configure::write('Config.language', 'ja');
 	}
 
 /**
@@ -120,6 +122,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @return void
  */
 	public function tearDown() {
+		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 

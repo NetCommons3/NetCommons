@@ -32,7 +32,6 @@ class SiteSettingTest extends CakeTestCase {
 		$this->SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
 		Configure::write('Config.language', 'ja');
 		Current::$current['Language']['id'] = 2; // ja
-
 	}
 
 /**
@@ -67,7 +66,7 @@ class SiteSettingTest extends CakeTestCase {
 		$this->assertEquals(null, $ck);
 	}
 
-	/**
+/**
  * test getTimezone
  *
  * @return void

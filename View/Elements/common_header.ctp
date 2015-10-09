@@ -14,13 +14,11 @@ if (! isset($container)) {
 if (! isset($isSettingMode)) {
 	$isSettingMode = Current::isSettingMode();
 }
-
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
 	<?php echo $flashMessage; ?>
 <?php endif; ?>
-
 
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -85,7 +83,3 @@ if (! isset($isSettingMode)) {
 		</div>
 	</nav>
 </header>
-
-<?php if (Current::permission('page_editable')): ?>
-	<?php echo $this->element('Pages.edit_layout'); ?>
-<?php endif;

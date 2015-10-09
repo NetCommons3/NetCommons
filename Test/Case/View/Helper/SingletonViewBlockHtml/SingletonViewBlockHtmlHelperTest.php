@@ -8,7 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('SingletonViewBlockHtmlHelperTestBase', 'NetCommons.Test/Case/View/Helper');
+App::uses('SingletonViewBlockHtmlHelperTestBase', 'NetCommons.Test/Case/View/Helper/SingletonViewBlockHtml');
 
 /**
  * Summary for TokenHelper Test Case
@@ -22,7 +22,8 @@ class SingletonViewBlockHtmlHelperTest extends SingletonViewBlockHtmlHelperTestB
  * @return void
  */
 	public function testSameViewInstance() {
-		$this->assertSame(self::$_ViewBlock, PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock'));
+		$viewBlock = PHPUnit_Framework_Assert::readAttribute($this->SingletonViewBlockHtml, '__staticViewBlock');
+		$this->assertEquals(get_class(self::$_ViewBlock), get_class($viewBlock));
 	}
 
 /**
@@ -33,8 +34,9 @@ class SingletonViewBlockHtmlHelperTest extends SingletonViewBlockHtmlHelperTestB
 	public function testAnotherViewInstance() {
 		$view = new View();
 		$svbhHelper = new SingletonViewBlockHtmlHelper($view);
+		$viewBlock = PHPUnit_Framework_Assert::readAttribute($svbhHelper, '__staticViewBlock');
 
-		$this->assertNotSame($view->Blocks, PHPUnit_Framework_Assert::readAttribute($svbhHelper, '__staticViewBlock'));
+		$this->assertEquals(get_class($view->Blocks), get_class($viewBlock));
 	}
 
 /**

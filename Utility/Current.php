@@ -83,6 +83,10 @@ class Current {
  * @return array|null Current data.
  */
 	public static function read($key = null) {
+		if (! isset(self::$current)) {
+			return self::$current;
+		}
+
 		if (! isset($key)) {
 			return self::$current;
 		}
@@ -96,6 +100,10 @@ class Current {
  * @return bool permission value
  */
 	public static function permission($key) {
+		if (! isset(self::$current)) {
+			return false;
+		}
+
 		if (is_array($key)) {
 			foreach ($key as $k) {
 				if (self::permission($k)) {
@@ -121,9 +129,14 @@ class Current {
 /**
  * Check setting mode
  *
+ * @param bool|null $settingMode Setting mode
  * @return bool
  */
-	public static function isSettingMode() {
+	public static function isSettingMode($settingMode = null) {
+		if (isset($settingMode)) {
+			self::$__isSettingMode = $settingMode;
+		}
+
 		if (isset(self::$__isSettingMode)) {
 			return self::$__isSettingMode;
 		}

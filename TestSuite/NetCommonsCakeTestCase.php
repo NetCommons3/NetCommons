@@ -91,6 +91,8 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('NetCommons.installed', true);
+
 		foreach ($this->fixtures as $fixture) {
 			$split = pluginSplit($fixture);
 			if (! isset($split[0]) || ! isset($split[1]) || isset($split[0]) && strtolower($split[0]) !== 'plugin') {

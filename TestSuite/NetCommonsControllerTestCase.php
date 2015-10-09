@@ -109,6 +109,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		parent::setUp();
 
+		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
 		Current::$current['Language']['id'] = '2';
 	}

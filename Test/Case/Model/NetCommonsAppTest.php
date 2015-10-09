@@ -9,11 +9,12 @@
 
 App::uses('NetCommonsApp', 'NetCommons.Model');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * Summary for NetCommonsApp Test Case
  */
-class NetCommonsAppTest extends CakeTestCase {
+class NetCommonsAppTest extends NetCommonsCakeTestCase {
 
 /**
  * @var array fixture

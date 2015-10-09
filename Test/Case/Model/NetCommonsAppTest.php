@@ -57,6 +57,18 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
 		// Tableでnot null なカラムにnullがセットされちゃダメ
 		$this->assertNotNull($newData['SiteSetting']['key']);
 		$this->assertNotNull($newData['SiteSetting']['label']);
+
+		// CurrentがあればCurrentで上書きされる
+		App::uses('Current', 'NetCommons.Utility');
+		Current::$current['Language']['id'] = 5;
+		$newDataWithCurrent = $SiteSetting->create();
+		$this->assertEquals(5, $newDataWithCurrent['SiteSetting']['language_id']);
+
+		// $data が渡れれば$dataを優先する
+		$data = array();
+		$data['SiteSetting']['language_id'] = 10;
+		$newDataWithCurrent = $SiteSetting->create($data);
+		$this->assertEquals(10, $newDataWithCurrent['SiteSetting']['language_id']);
 	}
 
 }

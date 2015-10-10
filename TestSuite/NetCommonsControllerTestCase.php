@@ -319,7 +319,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 /**
  * ExceptionErrorのMockセット
  *
- * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @return void
@@ -376,7 +375,6 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function asserts($asserts, $result) {
 		//チェック
 		if (isset($asserts)) {
-			CakeLog::debug(print_r($asserts, true));
 			foreach ($asserts as $assert) {
 				$assertMethod = $assert['method'];
 

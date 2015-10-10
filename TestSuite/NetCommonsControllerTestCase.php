@@ -317,6 +317,22 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	}
 
 /**
+ * ExceptionErrorのMockセット
+ *
+ * @param string $model モデル名
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
+ * @return void
+ */
+	protected function _mockForReturnFalse($mockModel, $mockMethod) {
+		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
+		$Mock = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+		$Mock->expects($this->once())
+			->method($mockMethod)
+			->will($this->returnValue(false));
+	}
+
+/**
  * Generates a mocked controller and mocks any classes passed to `$mocks`. By
  * default, `_stop()` is stubbed as is sending the response headers, so to not
  * interfere with testing.
@@ -360,6 +376,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function asserts($asserts, $result) {
 		//チェック
 		if (isset($asserts)) {
+			CakeLog::debug(print_r($asserts, true));
 			foreach ($asserts as $assert) {
 				$assertMethod = $assert['method'];
 

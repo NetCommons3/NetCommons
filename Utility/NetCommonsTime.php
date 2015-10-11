@@ -12,26 +12,18 @@
  * Class NetCommonsTime
  */
 class NetCommonsTime {
-/**
- * CakeTime instance
- *
- * @var CakeTime
- */
-	protected $_engine = null;
-
-	//public function __construct() {
-	//	$this->_engine = new CakeTime();
-	//}
 
 	protected function _getSiteTimezone() {
-
+		$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+		$siteTimezone = $SiteSetting->getSiteTimezone();
+		return $siteTimezone;
 	}
 
 	public function toUserDatetime($serverDatetime) {
 		$userTimezone = Current::read('User.timezone');
 
 		if ($userTimezone === null) {
-			$userTimezone = 'Asia/Tokyo'; // TODO Siteのデフォルトタイムゾーンを参照するように
+			$userTimezone = $this->_getSiteTimezone();
 		}
 		$date = new DateTime($serverDatetime, new DateTimeZone('UTC'));
 
@@ -43,7 +35,7 @@ class NetCommonsTime {
 		$userTimezone = Current::read('User.timezone');
 
 		if ($userTimezone === null) {
-			$userTimezone = 'Asia/Tokyo'; // TODO Siteのデフォルトタイムゾーンを参照するように
+			$userTimezone = $this->_getSiteTimezone();
 		}
 		$date = new DateTime($userDatetime, new DateTimeZone($userTimezone));
 

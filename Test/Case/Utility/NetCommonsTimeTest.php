@@ -10,11 +10,11 @@
 App::uses('NetCommonsTime', 'NetCommons.Utility');
 App::uses('CakeTime', 'Utility');
 class NetCommonsTimeTest extends CakeTestCase {
-	/**
-	 * setUp method
-	 *
-	 * @return void
-	 */
+/**
+ * setUp method
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->Time = new CakeTime();
@@ -22,23 +22,23 @@ class NetCommonsTimeTest extends CakeTestCase {
 		Configure::write('Config.language', 'eng');
 	}
 
-	/**
-	 * tearDown method
-	 *
-	 * @return void
-	 */
+/**
+ * tearDown method
+ *
+ * @return void
+ */
 	public function tearDown() {
 		parent::tearDown();
 		unset($this->Time);
 		$this->_restoreSystemTimezone();
 	}
 
-	/**
-	 * Restored the original system timezone
-	 *
-	 * @param string $timezoneIdentifier Timezone string
-	 * @return void
-	 */
+/**
+ * Restored the original system timezone
+ *
+ * @param string $timezoneIdentifier Timezone string
+ * @return void
+ */
 	protected function _restoreSystemTimezone() {
 		date_default_timezone_set($this->_systemTimezoneIdentifier);
 	}

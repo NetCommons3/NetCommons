@@ -53,13 +53,20 @@ class NetCommonsTimeHelperTest extends CakeTestCase {
 		$methods = [
 			'toUserDatetime',
 		];
+
+		// NetCommonsTimeHelperで使うNetCommonsTimeをモックにさしかえる
 		$netCommonsTimeMock = $this->getMock('NetCommonsTime', $methods);
-		$netCommonsTimeHelperTesting = new NetCommonsTimeHelperTesting(new View());
-		$netCommonsTimeHelperTesting->attach($netCommonsTimeMock);
+
+		$property = new ReflectionProperty($this->NetCommonsTime, 'NetCommonsTime');
+		$property->setAccessible(true);
+		$property->setValue($this->NetCommonsTime, $netCommonsTimeMock);
+
+		// NetCommonsTimeMockで同じ名前のメソッドが呼び出されているかテスト
 		foreach($methods as $method){
 			$netCommonsTimeMock->expects($this->at(0))->method($method);
-			$netCommonsTimeHelperTesting->{$method}('who', 'what', 'when', 'where', 'how');
+			$this->NetCommonsTime->{$method}('who', 'what', 'when', 'where', 'how');
 		}
+
 	}
 
 }

@@ -25,13 +25,10 @@ class NetCommonsTimeHelper extends AppHelper {
  * @return void
  */
 	public function __construct(View $View, $settings = array()) {
-		$this->NetCommonsTime = $this->_getNetCommonsTime();
+		$this->NetCommonsTime = new NetCommonsTime();
 		parent::__construct($View, $settings);
 	}
 
-	protected function _getNetCommonsTime() {
-		return new NetCommonsTime();
-	}
 /**
  * サーバタイムゾーンの日時をユーザタイムゾーンに変換して返す
  *

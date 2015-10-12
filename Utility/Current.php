@@ -55,6 +55,13 @@ class Current {
 	public static $current = array();
 
 /**
+ * M17n data
+ *
+ * @var array
+ */
+	public static $m17n = array();
+
+/**
  * setup current data
  *
  * @param CakeRequest $request CakeRequest
@@ -91,6 +98,42 @@ class Current {
 			return self::$current;
 		}
 		return Hash::get(self::$current, $key);
+	}
+
+/**
+ * Get the current data.
+ *
+ * @param string|null $languageId 言語ID
+ * @param string|null $model モデル名
+ * @param string|null $field フィールド名
+ * @return mixed Current data.
+ */
+	public static function readM17n($languageId, $model = null, $field = null) {
+		if (! isset(self::$m17n)) {
+			return self::$m17n;
+		}
+
+		if (! isset($model)) {
+			return self::$m17n;
+		}
+
+		if (! isset(self::$m17n[$model])) {
+			return null;
+		}
+		if (! isset($languageId)) {
+			return self::$m17n[$model];
+		}
+
+		$result = Hash::extract(self::$m17n, $model . '.{n}.' . $model . '[language_id=' . $languageId . ']');
+		if (! $result) {
+			return null;
+		}
+
+		if (! isset($field)) {
+			return array($model => $result[0]);
+		} else {
+			return $result[0][$field];
+		}
 	}
 
 /**

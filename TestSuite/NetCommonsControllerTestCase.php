@@ -14,6 +14,7 @@ CakeLog::drop('stderr');
 
 App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('CurrentControlPanel', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
@@ -113,7 +114,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
-		Current::$current['Language']['id'] = '2';
+		CurrentControlPanel::setLanguage();
 	}
 
 /**
@@ -126,7 +127,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 
-		Current::$current = null;
+		Current::$current = array();
 		parent::tearDown();
 	}
 

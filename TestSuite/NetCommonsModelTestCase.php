@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
+App::uses('CurrentControlPanel', 'NetCommons.Utility');
 
 /**
  * NetCommonsModelTestCase class
@@ -26,7 +27,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		Current::$current['Language']['id'] = '2';
+		CurrentControlPanel::setLanguage();
 
 		$models = array_keys($this->models);
 		foreach ($models as $model) {
@@ -42,7 +43,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = null;
+		Current::$current = array();
 		parent::tearDown();
 	}
 

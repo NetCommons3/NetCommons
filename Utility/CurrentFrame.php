@@ -58,9 +58,17 @@ class CurrentFrame {
 		if (isset(Current::$current['BlockRolePermission'])) {
 			unset(Current::$current['BlockRolePermission']);
 		}
+		if (isset(Current::$m17n['Frame'])) {
+			unset(Current::$m17n['Frame']);
+		}
+		if (isset(Current::$m17n['Block'])) {
+			unset(Current::$m17n['Block']);
+		}
+
 		if (self::$__request->params['plugin'] !== self::PLUGIN_PAGES) {
 			self::$__instance->setFrame();
 			self::$__instance->setBlock();
+			self::$__instance->setM17n();
 		}
 
 		CurrentPage::initialize(self::$__request);
@@ -205,6 +213,36 @@ class CurrentFrame {
 		}
 
 		Current::$current['Permission'] = $permission;
+	}
+
+/**
+ * 多言語化のデータ取得
+ *
+ * @return void
+ */
+	public static function setM17n() {
+		if (! self::$__instance) {
+			self::$__instance = new CurrentFrame();
+		}
+
+		if (isset(Current::$current['Frame'])) {
+			Current::$m17n['Frame'] = self::$__instance->Frame->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'key' => Current::$current['Frame']['key']
+				),
+			));
+		}
+
+		if (isset(Current::$current['Block'])) {
+			self::$__instance->Block = ClassRegistry::init('Blocks.Block');
+			Current::$m17n['Block'] = self::$__instance->Block->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'key' => Current::$current['Block']['key']
+				),
+			));
+		}
 	}
 
 }

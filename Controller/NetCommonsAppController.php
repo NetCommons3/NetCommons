@@ -12,6 +12,7 @@ App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
+App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 
 /**
  * NetCommonsApp Controller
@@ -240,7 +241,7 @@ class NetCommonsAppController extends Controller {
 		if ($this->request->is('ajax')) {
 			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
-				'interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL,
+				'interval' => $this->NetCommons->ALERT_VALIDATE_ERROR_INTERVAL,
 				'error' => __d('net_commons', 'Bad Request')
 			), 400);
 		} else {

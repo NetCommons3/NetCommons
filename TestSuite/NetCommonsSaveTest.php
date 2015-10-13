@@ -43,9 +43,53 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
 
+		//チェック用データ取得
+		if (isset($data[$this->$model->alias]['id'])) {
+			$before = $this->$model->find('first', array(
+				'recursive' => -1,
+				'conditions' => array('id' => $data[$this->$model->alias]['id']),
+			));
+		}
+
 		//テスト実行
 		$result = $this->$model->$method($data);
 		$this->assertNotEmpty($result);
+
+		//idのチェック
+		if (isset($data[$this->$model->alias]['id'])) {
+			$id = $data[$this->$model->alias]['id'];
+		} else {
+			$id = $this->$model->getLastInsertID();
+		}
+
+		//登録データ取得
+		$actual = $this->$model->find('first', array(
+			'recursive' => -1,
+			'conditions' => array('id' => $id),
+		));
+
+		if (isset($data[$this->$model->alias]['id'])) {
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
+		} else {
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created_user');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
+
+			if ($this->$model->hasField('key')) {
+				$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey($this->$model->name, $this->$model->useDbConfig);
+			}
+			$before[$this->$model->alias] = array();
+		}
+		$expected[$this->$model->alias] = Hash::merge(
+			$before[$this->$model->alias],
+			$data[$this->$model->alias]
+		);
+		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
+		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');
+
+		$this->assertEquals($expected, $actual);
 	}
 
 /**

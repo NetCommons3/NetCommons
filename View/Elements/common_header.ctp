@@ -73,7 +73,7 @@ if (! isset($isSettingMode)) {
 							<?php if (! Current::isControlPanel()): ?>
 								<?php echo $this->Html->link(__d('control_panel', 'Control Panel'), '/control_panel/control_panel'); ?>
 							<?php else : ?>
-								<?php echo $this->Html->link(__d('control_panel', 'Back to the Rooms'), $cancelUrl); ?>
+								<?php echo $this->Html->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

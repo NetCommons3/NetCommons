@@ -245,23 +245,24 @@ class ButtonHelper extends FormHelper {
 	}
 
 /**
- * Creates a `<button>` tag for cacnel and save.
+ * キャンセル、決定ボタン
  *
- * @param string $cancelTitle The button's caption. Not automatically HTML encoded
- * @param string $saveTitle The button's caption. Not automatically HTML encoded
- * @param string $cancelUrl The url in onclick attribute
- * @param array $options Array of options and HTML attributes.
+ * @param string $cancelTitle キャンセルボタンのラベル
+ * @param string $saveTitle 決定ボタンのラベル
+ * @param string $cancelUrl キャンセルボタン押下のURL
+ * @param array $cancelOptions キャンセルボタンのオプション
+ * @param array $saveOptions 決定ボタンのオプション
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null, $options = array()) {
+	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null, $cancelOptions = array(), $saveOptions = array()) {
 		if (! isset($cancelUrl)) {
 			$cancelUrl = NetCommonsUrl::backToPageUrl();
 		}
 
 		$output = '';
-		$output .= $this->cancel($cancelTitle, $cancelUrl, $options);
-		$output .= $this->save($saveTitle, $options);
+		$output .= $this->cancel($cancelTitle, $cancelUrl, $cancelOptions);
+		$output .= $this->save($saveTitle, $saveOptions);
 		return $output;
 	}
 

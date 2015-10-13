@@ -137,7 +137,6 @@ class CurrentControlPanel {
 				'recursive' => -1,
 				'conditions' => array(
 					'role_key' => Current::$current['User']['role_key'],
-					'plugin_key' => array('user_manager', 'rooms')
 				),
 			));
 		} else {

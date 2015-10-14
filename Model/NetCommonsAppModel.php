@@ -216,11 +216,9 @@ class NetCommonsAppModel extends Model {
  */
 	public function begin() {
 		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
-
 		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
-
 		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
 	}
 

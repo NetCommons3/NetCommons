@@ -26,14 +26,7 @@ class NetCommonsAppModel extends Model {
  *
  * @var array
  */
-	//private static $__useDbConfig;
-
-/**
- * use useDbConfig
- *
- * @var array
- */
-	//private static $__originUseDbConfig;
+	private static $__useDbConfig;
 
 /**
  * use behaviors
@@ -89,10 +82,7 @@ class NetCommonsAppModel extends Model {
 			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
 		}
 		$this->useDbConfig = $_useDbConfig;
-		//self::$__useDbConfig = $_useDbConfig;
-		//if (! self::$__originUseDbConfig) {
-		//	self::$__originUseDbConfig = $_useDbConfig;
-		//}
+		self::$__useDbConfig = $_useDbConfig;
 
 		parent::__construct($id, $table, $ds);
 	}
@@ -104,36 +94,40 @@ class NetCommonsAppModel extends Model {
  */
 	//public function getDataSource() {
 	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
-	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' self::$__useDbConfig = ' . self::$__useDbConfig);
-	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' get_class($this) = ' . get_class($this));
-	//	if ($this->useDbConfig !== 'test') {
-	//		if ($this->useDbConfig !== self::$__useDbConfig) {
-	//			$this->setDataSource(self::$__useDbConfig);
-	//			$this->useDbConfig = self::$__useDbConfig;
-	//		}
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' self::$__useDbConfig 1 = ' . self::$__useDbConfig);
 	//
-	//		//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->tableToModel = ' . print_r($this->tableToModel, true));
-	//		foreach ($this->tableToModel as $table => $model) {
-	//			//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $model = ' . print_r($model, true));
-	//			//CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->{$model} = ' . print_r($this->{$model}, true));
-	//
-	//			if (!empty($this->{$model})) {
-	//				$this->{$model}->setDataSource(self::$__useDbConfig);
-	//				//$this->{$model}->useDbConfig = self::$__useDbConfig;
-	//			}
-	//		}
-	//
-	//		//foreach ($this->_associations as $association) {
-	//		//	$this->{$association}->useDbConfig = self::$__useDbConfig;
-	//		//	//CakeLog::debug('NetCommonsAppModel::getDataSource() get_class($this->{$association}) = ' . get_class($this->{$association}));
+	//	if ((!$this->_sourceConfigured && $this->useTable !== false) ||
+	//		($this->useDbConfig !== 'test' && $this->useDbConfig !== self::$__useDbConfig)) {
+	//		//if ($this->useDbConfig !== self::$__useDbConfig) {
+	//		//	//$this->setDataSource(self::$__useDbConfig);
+	//		//	$this->useDbConfig = self::$__useDbConfig;
 	//		//}
-	//	}
-	//	if (!$this->_sourceConfigured && $this->useTable !== false) {
+	//
 	//		$this->_sourceConfigured = true;
 	//		$this->setSource($this->useTable);
+	//
+	//		if ($this->useDbConfig !== self::$__useDbConfig) {
+	//			foreach($this->hasOne as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->hasMany as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->belongsTo as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->hasAndBelongsToMany as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//		}
 	//	}
+	//
 	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
-	//	return parent::getDataSource();
+	//	return ConnectionManager::getDataSource($this->useDbConfig);
 	//}
 
 /**
@@ -145,17 +139,8 @@ class NetCommonsAppModel extends Model {
  */
 	public function setDataSource($dataSource = null) {
 		if ($this->useDbConfig !== 'test') {
-			//self::$__useDbConfig = $dataSource;
+			self::$__useDbConfig = $dataSource;
 			parent::setDataSource($dataSource);
-			//foreach ($this->tableToModel as $table => $model) {
-			//	//CakeLog::debug('NetCommonsAppModel::setDataSource() ' . $this->plugin . ' $model = ' . print_r($model, true));
-			//	//CakeLog::debug('NetCommonsAppModel::setDataSource() ' . $this->plugin . ' $this->{$model} = ' . print_r($this->{$model}, true));
-			//
-			//	if (!empty($this->{$model})) {
-			//		//$this->{$model}->setDataSource(self::$__useDbConfig);
-			//		$this->{$model}->useDbConfig = self::$__useDbConfig;
-			//	}
-			//}
 		}
 	}
 
@@ -231,11 +216,13 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function begin() {
-		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig1 = ' . $this->useDbConfig);
+		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
+
 		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
-		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig2 = ' . $this->useDbConfig);
+
+		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
 	}
 
 /**

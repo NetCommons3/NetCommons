@@ -34,7 +34,6 @@ class NetCommonsAppModel extends Model {
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.DateTime',
 		'NetCommons.Trackable',
 	);
 

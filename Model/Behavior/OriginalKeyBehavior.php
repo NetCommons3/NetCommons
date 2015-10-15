@@ -38,7 +38,7 @@ class OriginalKeyBehavior extends ModelBehavior {
 			return true;
 		}
 		if (! isset($model->data[$model->name]['key']) || $model->data[$model->name]['key'] === '') {
-			$model->data[$model->name]['key'] = self::generateKey($model->name);
+			$model->data[$model->name]['key'] = self::generateKey($model->name, $model->useDbConfig);
 		}
 		return true;
 	}
@@ -71,10 +71,15 @@ class OriginalKeyBehavior extends ModelBehavior {
  * Generate key
  *
  * @param string $plugin Plugin name
+ * @param string $dataSource The name of the DataSource, as defined in app/Config/database.php
  * @return string Hash key
  */
-	public static function generateKey($plugin) {
-		return Security::hash($plugin . mt_rand() . microtime(), 'md5');
+	public static function generateKey($plugin, $dataSource) {
+		if ($dataSource !== 'test') {
+			return Security::hash($plugin . mt_rand() . microtime(), 'md5');
+		} else {
+			return Security::hash($plugin, 'md5');
+		}
 	}
 
 }

@@ -20,23 +20,41 @@ App::uses('Component', 'Controller');
 class PermissionComponent extends Component {
 
 /**
- * redable permission
+ * コンテンツReadableの定数
  *
  * @var string
  */
 	const READABLE_PERMISSION = 'content_readable';
 
 /**
- * Controller actions for which user validation is required.
+ * チェックタイプの定数
  *
- * ####
+ * @var string
+ */
+	const CHECK_TYEP_GENERAL_PLUGIN = 'general_plugin',
+			CHECK_TYEP_CONTROL_PANEL = 'control_panel',
+			CHECK_TYEP_USER_PLUGIN = 'user_plugin',
+			CHECK_TYEP_ROOM_PLUGIN = 'room_plugin',
+			CHECK_TYEP_SYSTEM_PLUGIN = 'system_plugin';
+
+/**
+ * チェックタイプ
+ *
+ * @var string
+ */
+	public $type = self::CHECK_TYEP_GENERAL_PLUGIN;
+
+/**
+ * コントローラのアクセス許可リスト
+ *
+ * #### 設定方法
  *   array('action1' => 'permission', 'action2' => 'permission', 'action3' => 'permission' ...)
  *     or
  *   array('action1,action2,action3 ...' => 'permission')
  *     or
  *   array('*' => 'permission')
  *
- *   Null, it without a login
+ *   Null: ログインなし
  *
  * @var array
  */
@@ -49,15 +67,13 @@ class PermissionComponent extends Component {
  * @return void
  */
 	public function initialize(Controller $controller) {
-		$this->controller = $controller;
-
 		foreach ($this->allow as $allow => $permission) {
 			if (isset($permission) && ! is_array($permission)) {
 				$permission = array($permission);
 			}
 
 			if ($allow === '*') {
-				$allow = implode(',', $this->controller->methods);
+				$allow = implode(',', $controller->methods);
 			}
 
 			$actions = explode(',', $allow);
@@ -97,12 +113,25 @@ class PermissionComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
-		if (! isset($this->allow[$this->controller->params['action']])) {
-			return;
-		}
-
-		if (Current::permission($this->allow[$this->controller->params['action']])) {
-			return;
+		switch ($this->type) {
+			case self::CHECK_TYEP_SYSTEM_PLUGIN:
+				if (Current::allowSystemPlugin($controller->params['plugin'])) {
+					return;
+				}
+				break;
+			case self::CHECK_TYEP_CONTROL_PANEL:
+				if (Current::hasControlPanel()) {
+					return;
+				}
+				break;
+			case self::CHECK_TYEP_GENERAL_PLUGIN:
+				if (! isset($this->allow[$controller->params['action']])) {
+					return;
+				}
+				if (Current::permission($this->allow[$controller->params['action']])) {
+					return;
+				}
+				break;
 		}
 
 		throw new ForbiddenException(__d('net_commons', 'Permission denied'));

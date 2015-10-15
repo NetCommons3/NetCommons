@@ -57,26 +57,36 @@ class CurrentControlPanel {
 	}
 
 /**
- * Set Language
+ * 言語データをCurrentにセット
  *
  * @return void
  */
-	public function setLanguage() {
+	public static function setLanguage() {
+		if (! self::$__instance) {
+			self::$__instance = new CurrentControlPanel();
+		}
+
 		if (isset(Current::$current['Language'])) {
 			return;
 		}
-
 		self::$__instance->Language = ClassRegistry::init('M17n.Language');
-		$result = self::$__instance->Language->find('first', array(
+
+		Current::$m17n['Language'] = self::$__instance->Language->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'code' => Configure::read('Config.language')
+				'is_active' => true
 			),
+			'order' => array('weight' => 'asc')
 		));
-		if (! $result) {
+		if (! Current::$m17n['Language']) {
 			return;
 		}
-		Current::$current = Hash::merge(Current::$current, $result);
+
+		foreach (Current::$m17n['Language'] as $language) {
+			if ($language['Language']['code'] === Configure::read('Config.language')) {
+				Current::$current = Hash::merge(Current::$current, $language);
+			}
+		}
 	}
 
 /**
@@ -127,7 +137,6 @@ class CurrentControlPanel {
 				'recursive' => -1,
 				'conditions' => array(
 					'role_key' => Current::$current['User']['role_key'],
-					'plugin_key' => array('user_manager', 'rooms')
 				),
 			));
 		} else {

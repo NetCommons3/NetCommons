@@ -12,6 +12,7 @@ App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
+App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 
 /**
  * NetCommonsApp Controller
@@ -146,15 +147,6 @@ class NetCommonsAppController extends Controller {
 			}
 		}
 
-		//後で削除
-		//if (isset($this->request->query['language'])) {
-		//	Configure::write('Config.language', $this->request->query['language']);
-		//	$this->Session->write('Config.language', $this->request->query['language']);
-		//} elseif ($this->Session->check('Config.language')) {
-		//	Configure::write('Config.language', $this->Session->read('Config.language'));
-		//}
-		////set language_id
-		//$language = $this->Language->findByCode(Configure::read('Config.language'));
 		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除
 		$this->set('languageId', Current::read('Language.id')); //後で削除
 
@@ -164,11 +156,7 @@ class NetCommonsAppController extends Controller {
 			$this->NetCommons->renderJson();
 		}
 
-		$this->set('userId', $this->Auth->user('id'));
-
-		//後で削除
-		//$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		//$this->set(['current' => $this->current]);
+		$this->set('userId', $this->Auth->user('id')); //後で削除
 	}
 
 /**
@@ -253,7 +241,7 @@ class NetCommonsAppController extends Controller {
 		if ($this->request->is('ajax')) {
 			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
-				'interval' => $this->NetCommons->ALERT_VALIDATE_ERROR_INTERVAL,
+				'interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL,
 				'error' => __d('net_commons', 'Bad Request')
 			), 400);
 		} else {

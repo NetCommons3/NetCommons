@@ -176,7 +176,7 @@ class NetCommonsFormHelper extends Helper {
 		$defaultAttributes = array(
 			'error' => false,
 			'div' => false,
-			'label' => false,
+			//'label' => false,
 			'legend' => false,
 		);
 

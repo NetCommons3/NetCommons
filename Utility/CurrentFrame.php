@@ -58,9 +58,17 @@ class CurrentFrame {
 		if (isset(Current::$current['BlockRolePermission'])) {
 			unset(Current::$current['BlockRolePermission']);
 		}
+		if (isset(Current::$m17n['Frame'])) {
+			unset(Current::$m17n['Frame']);
+		}
+		if (isset(Current::$m17n['Block'])) {
+			unset(Current::$m17n['Block']);
+		}
+
 		if (self::$__request->params['plugin'] !== self::PLUGIN_PAGES) {
 			self::$__instance->setFrame();
 			self::$__instance->setBlock();
+			self::$__instance->setM17n();
 		}
 
 		CurrentPage::initialize(self::$__request);
@@ -76,8 +84,8 @@ class CurrentFrame {
 	public function setFrame() {
 		if (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['id'])) {
 			$frameId = self::$__request->data['Frame']['id'];
-		} elseif (isset(self::$__request->params['pass'][0])) {
-			$frameId = self::$__request->params['pass'][0];
+		} elseif (isset(self::$__request->query['frame_id'])) {
+			$frameId = self::$__request->query['frame_id'];
 		}
 
 		self::$__instance->Frame = ClassRegistry::init('Frames.Frame');
@@ -132,24 +140,40 @@ class CurrentFrame {
  * @return void
  */
 	public static function setBlock($blockId = null) {
+		self::$__instance->Block = ClassRegistry::init('Blocks.Block');
+
 		if (isset(self::$__request->data['Block']['id']) && self::$__request->data['Block']['id']) {
 			$blockId = self::$__request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない
-		} elseif (isset(Current::$current['Frame'])) {
-			$blockId = Current::$current['Frame']['block_id'];
+		} elseif (isset(self::$__request->params['pass'][0])) {
+			$blockId = self::$__request->params['pass'][0];
 		} else {
 			return;
 		}
 
-		self::$__instance->Block = ClassRegistry::init('Blocks.Block');
 		$result = self::$__instance->Block->find('first', array(
 			'recursive' => 0,
 			'conditions' => array(
 				'Block.id' => $blockId,
 			),
 		));
-		Current::$current = Hash::merge(Current::$current, $result);
+		if ($result) {
+			Current::$current = Hash::merge(Current::$current, $result);
+			return;
+		}
+
+		if (isset(Current::$current['Frame']['block_id'])) {
+			$result = self::$__instance->Block->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'Block.id' => Current::$current['Frame']['block_id'],
+				),
+			));
+			if ($result) {
+				Current::$current = Hash::merge(Current::$current, $result);
+			}
+		}
 	}
 
 /**
@@ -189,6 +213,36 @@ class CurrentFrame {
 		}
 
 		Current::$current['Permission'] = $permission;
+	}
+
+/**
+ * 多言語化のデータ取得
+ *
+ * @return void
+ */
+	public static function setM17n() {
+		if (! self::$__instance) {
+			self::$__instance = new CurrentFrame();
+		}
+
+		if (isset(Current::$current['Frame'])) {
+			Current::$m17n['Frame'] = self::$__instance->Frame->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'key' => Current::$current['Frame']['key']
+				),
+			));
+		}
+
+		if (isset(Current::$current['Block'])) {
+			self::$__instance->Block = ClassRegistry::init('Blocks.Block');
+			Current::$m17n['Block'] = self::$__instance->Block->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'key' => Current::$current['Block']['key']
+				),
+			));
+		}
 	}
 
 }

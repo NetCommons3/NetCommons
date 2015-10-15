@@ -12,6 +12,7 @@
 App::uses('CurrentControlPanel', 'NetCommons.Utility');
 App::uses('CurrentFrame', 'NetCommons.Utility');
 App::uses('CurrentPage', 'NetCommons.Utility');
+App::uses('UserRole', 'UserRoles.Model');
 
 /**
  * Current Utility
@@ -55,6 +56,13 @@ class Current {
 	public static $current = array();
 
 /**
+ * M17n data
+ *
+ * @var array
+ */
+	public static $m17n = array();
+
+/**
  * setup current data
  *
  * @param CakeRequest $request CakeRequest
@@ -77,12 +85,16 @@ class Current {
 	}
 
 /**
- * Get the current data.
+ * 現在のデータ取得
  *
- * @param string|null $key field to retrieve. Leave null to get entire Current data
+ * @param string|null $key Hashクラスのpath
  * @return array|null Current data.
  */
 	public static function read($key = null) {
+		if (! isset(self::$current)) {
+			return self::$current;
+		}
+
 		if (! isset($key)) {
 			return self::$current;
 		}
@@ -90,12 +102,52 @@ class Current {
 	}
 
 /**
- * Get the permission value.
+ * 多言語のデータ取得
  *
- * @param string|array $key field to retrieve. Leave null to get entire Current data
+ * @param string|null $languageId 言語ID
+ * @param string|null $model モデル名
+ * @param string|null $field フィールド名
+ * @return mixed Current data.
+ */
+	public static function readM17n($languageId, $model = null, $field = null) {
+		if (! isset(self::$m17n)) {
+			return self::$m17n;
+		}
+
+		if (! isset($model)) {
+			return self::$m17n;
+		}
+
+		if (! isset(self::$m17n[$model])) {
+			return null;
+		}
+		if (! isset($languageId)) {
+			return self::$m17n[$model];
+		}
+
+		$result = Hash::extract(self::$m17n, $model . '.{n}.' . $model . '[language_id=' . $languageId . ']');
+		if (! $result) {
+			return null;
+		}
+
+		if (! isset($field)) {
+			return array($model => $result[0]);
+		} else {
+			return $result[0][$field];
+		}
+	}
+
+/**
+ * 権限チェック
+ *
+ * @param string|array $key Hashクラスのpath
  * @return bool permission value
  */
 	public static function permission($key) {
+		if (! isset(self::$current)) {
+			return false;
+		}
+
 		if (is_array($key)) {
 			foreach ($key as $k) {
 				if (self::permission($k)) {
@@ -110,7 +162,7 @@ class Current {
 	}
 
 /**
- * Is login
+ * ログインチェック
  *
  * @return bool
  */
@@ -119,11 +171,16 @@ class Current {
 	}
 
 /**
- * Check setting mode
+ * セッティングモードチェック
  *
+ * @param bool|null $settingMode セッティングモードの状態変更
  * @return bool
  */
-	public static function isSettingMode() {
+	public static function isSettingMode($settingMode = null) {
+		if (isset($settingMode)) {
+			self::$__isSettingMode = $settingMode;
+		}
+
 		if (isset(self::$__isSettingMode)) {
 			return self::$__isSettingMode;
 		}
@@ -139,7 +196,7 @@ class Current {
 	}
 
 /**
- * Has setting mode
+ * セッティングモードの有無
  *
  * @return bool
  */
@@ -148,7 +205,7 @@ class Current {
 	}
 
 /**
- * Check control panel
+ * コントロールパネルチェック
  *
  * @return bool
  */
@@ -169,7 +226,7 @@ class Current {
 	}
 
 /**
- * Has Control panel
+ * コントロールパネルの有無
  *
  * @return bool
  */
@@ -179,6 +236,23 @@ class Current {
 		} else {
 			return (bool)count(self::$current['PluginsRole']);
 		}
+	}
+
+/**
+ * 管理系プラグインの許可
+ *
+ * @param string $pluginKey プラグインkey
+ * @return bool
+ */
+	public static function allowSystemPlugin($pluginKey) {
+		if (! isset(self::$current['PluginsRole'])) {
+			return false;
+		}
+		if (self::read('User.role_key') === UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR) {
+			return true;
+		}
+
+		return Hash::check(Current::$current['PluginsRole'], '{n}[plugin_key=' . $pluginKey . ']');
 	}
 
 }

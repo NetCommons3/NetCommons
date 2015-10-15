@@ -80,31 +80,6 @@ class BackToHelper extends AppHelper {
 
 /**
  * backToPageButton Go back to the page where the plugin has been first displayed
- *
- * @param string $title Title string to be displayed on the button
- * @param array $options Array of options and HTML attributes.
- * @return string
- */
-	public function pageButton($title, $options = array()) {
-		$url = NetCommonsUrl::backToPageUrl();
-		return $this->button($title, $url, $options);
-	}
-
-/**
- * backToPageButton Go back to the page where the plugin has been first displayed
- *
- * @param string $title Title string to be displayed on the button
- * @param string $defaultField Plugin table's default action field. The value is "default_action" or "default_setting_action"
- * @param array $options Array of options and HTML attributes.
- * @return string
- */
-	public function indexButton($title, $defaultField = 'default_action', $options = array()) {
-		$url = NetCommonsUrl::backToIndexUrl($defaultField);
-		return $this->linkButton($title, $url, $options);
-	}
-
-/**
- * backToPageButton Go back to the page where the plugin has been first displayed
  *   #### Original options
  *	   `icon` - Icon to be displayed on the button (only to specify the last keyword of gliphs of bootstrap components)
  *	   `iconSize` - '' is the default size : lg / sm / xs

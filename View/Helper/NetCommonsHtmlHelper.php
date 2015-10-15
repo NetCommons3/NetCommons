@@ -111,7 +111,10 @@ class NetCommonsHtmlHelper extends AppHelper {
 		if (! isset($url['action'])) {
 			$url['action'] = 'edit';
 		}
-		if (Current::read('Frame.id')) {
+		if (! isset($url['block_id']) && Current::read('Block.id')) {
+			$url['block_id'] = Current::read('Block.id');
+		}
+		if (! isset($url['frame_id']) && Current::read('Frame.id')) {
 			$url['frame_id'] = Current::read('Frame.id');
 		}
 		$url = NetCommonsUrl::actionUrl($url);
@@ -129,7 +132,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function url($url = null, $options = array()) {
 		//URLの設定
-		if (isset($url) && is_array($url)) {
+		if (is_array($url)) {
 			if (! isset($url['plugin'])) {
 				$url['plugin'] = $this->_View->request->params['plugin'];
 			}
@@ -139,7 +142,10 @@ class NetCommonsHtmlHelper extends AppHelper {
 			if (! isset($url['action'])) {
 				$url['action'] = $this->_View->request->params['action'];
 			}
-			if (Current::read('Frame.id')) {
+			if (! isset($url['block_id']) && Current::read('Block.id')) {
+				$url['block_id'] = Current::read('Block.id');
+			}
+			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
 				$url['frame_id'] = Current::read('Frame.id');
 			}
 			$url = NetCommonsUrl::actionUrl($url);

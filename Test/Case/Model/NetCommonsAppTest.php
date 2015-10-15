@@ -69,6 +69,13 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
 		$data['SiteSetting']['language_id'] = 10;
 		$newDataWithCurrent = $SiteSetting->create($data);
 		$this->assertEquals(10, $newDataWithCurrent['SiteSetting']['language_id']);
-	}
 
+		// nullを渡すと空が返る
+		$newDataWithCurrent = $SiteSetting->create(null);
+		$this->assertEmpty($newDataWithCurrent);
+
+		// falseを渡すと空が返る
+		$newDataWithCurrent = $SiteSetting->create(false);
+		$this->assertEmpty($newDataWithCurrent);
+	}
 }

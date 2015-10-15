@@ -157,8 +157,10 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
-		$options = $this->_getDefaultValue($data);
-		$data = Hash::merge($options, $data);
+		if ($data !== null && $data !== false) {
+			$options = $this->_getDefaultValue($data);
+			$data = Hash::merge($options, $data);
+		}
 
 		return parent::create($data, $filterKey);
 	}

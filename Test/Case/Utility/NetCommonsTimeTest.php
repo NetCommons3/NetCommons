@@ -56,9 +56,9 @@ class NetCommonsTimeTest extends CakeTestCase {
 	public function testNow() {
 		$netCommonsTime = new NetCommonsTime();
 		$start = $netCommonsTime->getNowDatetime();
-		sleep(3);
-		$after3secNow = $netCommonsTime->getNowDatetime();
-		$this->assertEquals($start, $after3secNow);
+		sleep(1);
+		$after1secNow = $netCommonsTime->getNowDatetime();
+		$this->assertEquals($start, $after1secNow);
 
 		$netCommonsTime2 = new NetCommonsTime();
 		$secondInstanceNow = $netCommonsTime2->getNowDatetime();
@@ -78,6 +78,20 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$sasikaeNowDatetime = $time->getNowDatetime();
 		$this->assertEquals('2000-01-01 00:00:00', $sasikaeNowDatetime);
 		// new NetCommonsTime()->getNowDatetime() が差し替えた時刻になることを確認
+	}
 
+	public function testToUserDatetimeArray() {
+		$netCommonsTime = new NetCommonsTime();
+		$data = [
+			'BlogEntry' => [
+				'title' => 'Title',
+				'body1' => 'Body',
+				'published_datetime' => '2000-01-01 00:00:00',
+			]
+		];
+		Current::$current['User']['timezone'] = 'Asia/Tokyo';
+
+		$userData = $netCommonsTime->toUserDatetimeArray($data, array('published_datetime'));
+		$this->assertEquals('2000-01-01 09:00:00', $userData['BlogEntry']['published_datetime']);
 	}
 }

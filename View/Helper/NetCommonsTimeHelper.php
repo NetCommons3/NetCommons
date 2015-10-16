@@ -29,14 +29,25 @@ class NetCommonsTimeHelper extends AppHelper {
 		parent::__construct($View, $settings);
 	}
 
+///**
+// * サーバタイムゾーンの日時をユーザタイムゾーンに変換して返す
+// *
+// * @param string $serverDatetime datetime
+// * @return string
+// */
+//	public function toUserDatetime($serverDatetime) {
+//		return $this->NetCommonsTime->toUserDatetime($serverDatetime);
+//	}
+
 /**
- * サーバタイムゾーンの日時をユーザタイムゾーンに変換して返す
+ * NetCommonsTime ラップ用マジックメソッド。
  *
- * @param string $serverDatetime datetime
- * @return string
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
  */
-	public function toUserDatetime($serverDatetime) {
-		return $this->NetCommonsTime->toUserDatetime($serverDatetime);
+	public function __call($method, $params) {
+		return call_user_func_array(array(& $this->NetCommonsTime, $method), $params);
 	}
 
 }

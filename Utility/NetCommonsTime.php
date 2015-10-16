@@ -7,6 +7,7 @@
  */
 
 //App::uses('CakeTime', 'Utility');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Class NetCommonsTime
@@ -61,5 +62,19 @@ class NetCommonsTime {
 			self::$_now = time();
 		}
 		return date('Y-m-d H:i:s', self::$_now);
+	}
+
+	public function toUserDatetimeArray($data, array $convertKeyNameList) {
+		$userDatetimeData = $data;
+		foreach($userDatetimeData as $key => $value){
+			if (is_array($value)){
+				$userDatetimeData[$key] = $this->toUserDatetimeArray($value, $convertKeyNameList);
+			}else{
+				if (in_array($key, $convertKeyNameList)) {
+					$userDatetimeData[$key] = $this->toUserDatetime($value);
+				}
+			}
+		}
+		return $userDatetimeData;
 	}
 }

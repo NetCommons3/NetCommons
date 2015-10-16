@@ -45,13 +45,14 @@ class NetCommonsTimeHelperTest extends CakeTestCase {
 	}
 
 /**
- * testToUserDatetime method
+ * NetCommonsTimeHelperでNetCommonsTimeをwrapできてるかのテスト
  *
  * @return void
  */
 	public function testWrapMethods() {
 		$methods = [
 			'toUserDatetime',
+			'toServerDatetime',
 		];
 
 		// NetCommonsTimeHelperで使うNetCommonsTimeをモックにさしかえる

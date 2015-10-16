@@ -94,4 +94,20 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$userData = $netCommonsTime->toUserDatetimeArray($data, array('published_datetime'));
 		$this->assertEquals('2000-01-01 09:00:00', $userData['BlogEntry']['published_datetime']);
 	}
+
+	public function testToServerDatetimeArray() {
+		$netCommonsTime = new NetCommonsTime();
+		$data = [
+			'BlogEntry' => [
+				'title' => 'Title',
+				'body1' => 'Body',
+				'published_datetime' => '2000-01-01 09:00:00',
+			]
+		];
+		Current::$current['User']['timezone'] = 'Asia/Tokyo';
+
+		$userData = $netCommonsTime->toServerDatetimeArray($data, array('published_datetime'));
+		$this->assertEquals('2000-01-01 00:00:00', $userData['BlogEntry']['published_datetime']);
+	}
+
 }

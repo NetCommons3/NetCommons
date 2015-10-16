@@ -14,9 +14,9 @@ App::uses('Current', 'NetCommons.Utility');
  *
  * ## テストで時刻を差し替えたいときのサンプルコード
  * ```
- *	$nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
- *	$nowProperty->setAccessible(true);
- *	$nowProperty->setValue(strtotime('2000-01-01 00:00:00'));
+ *    $nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
+ *    $nowProperty->setAccessible(true);
+ *    $nowProperty->setValue(strtotime('2000-01-01 00:00:00'));
  * ```
  */
 class NetCommonsTime {
@@ -25,7 +25,7 @@ class NetCommonsTime {
 
 	protected function _getSiteTimezone() {
 		static $siteTimezone = null;
-		if ( $siteTimezone === null) {
+		if ($siteTimezone === null) {
 			$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
 			$siteTimezone = $SiteSetting->getSiteTimezone();
 		}
@@ -45,6 +45,20 @@ class NetCommonsTime {
 		return $date->format('Y-m-d H:i:s');
 	}
 
+	public function toUserDatetimeArray($data, array $convertKeyNameList) {
+		$userDatetimeData = $data;
+		foreach ($userDatetimeData as $key => $value) {
+			if (is_array($value)) {
+				$userDatetimeData[$key] = $this->toUserDatetimeArray($value, $convertKeyNameList);
+			} else {
+				if (in_array($key, $convertKeyNameList)) {
+					$userDatetimeData[$key] = $this->toUserDatetime($value);
+				}
+			}
+		}
+		return $userDatetimeData;
+	}
+
 	public function toServerDatetime($userDatetime) {
 		$userTimezone = Current::read('User.timezone');
 
@@ -57,6 +71,20 @@ class NetCommonsTime {
 		return $date->format('Y-m-d H:i:s');
 	}
 
+	public function toServerDatetimeArray($data, array $convertKeyNameList) {
+		$serverDatetimeData = $data;
+		foreach ($serverDatetimeData as $key => $value) {
+			if (is_array($value)) {
+				$serverDatetimeData[$key] = $this->toServerDatetimeArray($value, $convertKeyNameList);
+			} else {
+				if (in_array($key, $convertKeyNameList)) {
+					$serverDatetimeData[$key] = $this->toServerDatetime($value);
+				}
+			}
+		}
+		return $serverDatetimeData;
+	}
+
 	public function getNowDatetime() {
 		if (self::$_now === null) {
 			self::$_now = time();
@@ -64,17 +92,4 @@ class NetCommonsTime {
 		return date('Y-m-d H:i:s', self::$_now);
 	}
 
-	public function toUserDatetimeArray($data, array $convertKeyNameList) {
-		$userDatetimeData = $data;
-		foreach($userDatetimeData as $key => $value){
-			if (is_array($value)){
-				$userDatetimeData[$key] = $this->toUserDatetimeArray($value, $convertKeyNameList);
-			}else{
-				if (in_array($key, $convertKeyNameList)) {
-					$userDatetimeData[$key] = $this->toUserDatetime($value);
-				}
-			}
-		}
-		return $userDatetimeData;
-	}
 }

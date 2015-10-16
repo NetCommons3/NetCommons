@@ -9,6 +9,7 @@
 
 App::uses('NetCommonsTime', 'NetCommons.Utility');
 App::uses('CakeTime', 'Utility');
+
 class NetCommonsTimeTest extends CakeTestCase {
 /**
  * setUp method

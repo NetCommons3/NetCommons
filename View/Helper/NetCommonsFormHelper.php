@@ -30,6 +30,16 @@ class NetCommonsFormHelper extends Helper {
 	);
 
 /**
+ * @var array タイムゾーン変換対象フィールド
+ */
+	protected $_convertFields = array();
+
+/**
+ * @var null デフォルトモデル名
+ */
+	protected $_model = null;
+
+/**
  * Returns an HTML FORM element.
  *
  * ### Options:
@@ -56,6 +66,7 @@ class NetCommonsFormHelper extends Helper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-create
  */
 	public function create($model = null, $options = array()) {
+		$this->_model = $model;
 		if (!isset($options['ng-submit'])) {
 			$options['ng-submit'] = 'sending=true;';
 		}
@@ -100,16 +111,20 @@ class NetCommonsFormHelper extends Helper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#creating-form-elements
  */
 	public function input($fieldName, $options = array()) {
+		if (Hash::get($options, 'type') === 'datetime') {
+			$options = $this->_makeDatetimeOptions($fieldName, $options);
+		}
+		if (Hash::get($options, 'convert_timezone') === true) {
+			$this->_convertFields[] = $fieldName;
+		}
 		$defaultOptions = array(
 			'error' => false,
 			'class' => 'form-control',
 			'required' => null,
 			'label' => null,
 		);
-		if (isset($options['type'])) {
-			if ($options['type'] === 'number') {
-				$defaultOptions['min'] = 0;
-			}
+		if (Hash::get($options, 'type') === 'number') {
+			$defaultOptions['min'] = 0;
 		}
 
 		$inputOptions = Hash::merge($defaultOptions, $options);
@@ -122,10 +137,15 @@ class NetCommonsFormHelper extends Helper {
 		}
 
 		$output = '';
+		$outputStart = '';
+		$outputEnd = '';
 
 		if (!isset($inputOptions['div'])) {
-			$output .= '<div class="form-group">';
+			$outputStart = '<div class="form-group">';
+			$outputEnd = '</div>';
 		}
+
+		$output .= $outputStart;
 
 		$output .= $this->Form->input($fieldName, $inputOptions);
 
@@ -135,9 +155,7 @@ class NetCommonsFormHelper extends Helper {
 			$output .= '</div>';
 		}
 
-		if (!isset($inputOptions['div'])) {
-			$output .= '</div>';
-		}
+		$output .= $outputEnd;
 
 		return $output;
 	}
@@ -271,5 +289,57 @@ class NetCommonsFormHelper extends Helper {
  */
 	public function __call($method, $params) {
 		return call_user_func_array(array(& $this->Form, $method), $params);
+	}
+
+/**
+ * Timezone変換の準備を組み込んだForm::end
+ *
+ * @param null|array $options オプション
+ * @param array $secureAttributes secureAttributes
+ * @return string
+ */
+	public function end($options = null, $secureAttributes = array()) {
+		// modelをみてdatetime
+		$out = $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
+		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
+		$out .= $this->Form->end($options, $secureAttributes);
+		return $out;
+	}
+
+/**
+ * datimepicker用オプション指定
+ *
+ * @param string $fieldName フィールド名
+ * @param array $options オプション
+ * @return mixed
+ */
+	protected function _makeDatetimeOptions($fieldName, $options) {
+		$options['type'] = 'text';
+		$options['datetimepicker'] = true;
+		$options['convert_timezone'] = true;
+		if (!isset($options['ng-model'])) {
+			$options['ng-model'] = 'NetCommonsFormDatimePickerModel_' . $fieldName;
+			//'ng-init' => 'hoge=\'2011-01-01\'',
+			// value > request->data > default
+			$value = '';
+			if (isset($options['value'])) {
+				$value = $options['value'];
+			} elseif (isset($this->request->data[$this->_model][$fieldName])) {
+				$value = $this->request->data[$this->_model][$fieldName];
+			} elseif (isset($options['default'])) {
+				$value = $options['default'];
+			}
+			$netCommonsTime = new NetCommonsTime();
+
+			$value = $netCommonsTime->toUserDatetime($value);
+
+			$options['ng-init'] = sprintf(
+				'%s=\'%s\'',
+				$options['ng-model'],
+				$value
+			);
+			return $options;
+		}
+		return $options;
 	}
 }

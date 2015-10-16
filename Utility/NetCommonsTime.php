@@ -59,11 +59,12 @@ class NetCommonsTime {
 		return $userDatetimeData;
 	}
 
-	public function toServerDatetime($userDatetime) {
-		$userTimezone = Current::read('User.timezone');
-
-		if ($userTimezone === null) {
-			$userTimezone = $this->_getSiteTimezone();
+	public function toServerDatetime($userDatetime, $userTimezone = null) {
+		if($userTimezone === null){
+			$userTimezone = Current::read('User.timezone');
+			if ($userTimezone === null) {
+				$userTimezone = $this->_getSiteTimezone();
+			}
 		}
 		$date = new DateTime($userDatetime, new DateTimeZone($userTimezone));
 
@@ -71,14 +72,14 @@ class NetCommonsTime {
 		return $date->format('Y-m-d H:i:s');
 	}
 
-	public function toServerDatetimeArray($data, array $convertKeyNameList) {
+	public function toServerDatetimeArray($data, array $convertKeyNameList, $userTimezone = null) {
 		$serverDatetimeData = $data;
 		foreach ($serverDatetimeData as $key => $value) {
 			if (is_array($value)) {
-				$serverDatetimeData[$key] = $this->toServerDatetimeArray($value, $convertKeyNameList);
+				$serverDatetimeData[$key] = $this->toServerDatetimeArray($value, $convertKeyNameList, $userTimezone);
 			} else {
 				if (in_array($key, $convertKeyNameList)) {
-					$serverDatetimeData[$key] = $this->toServerDatetime($value);
+					$serverDatetimeData[$key] = $this->toServerDatetime($value, $userTimezone);
 				}
 			}
 		}

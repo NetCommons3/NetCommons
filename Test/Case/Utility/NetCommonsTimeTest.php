@@ -52,4 +52,32 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$serverDatetime = $this->Time->toServer('3000-01-01 00:00:00', 'Asia/Tokyo');
 		debug($serverDatetime);
 	}
+
+	public function testNow() {
+		$netCommonsTime = new NetCommonsTime();
+		$start = $netCommonsTime->getNowDatetime();
+		sleep(3);
+		$after3secNow = $netCommonsTime->getNowDatetime();
+		$this->assertEquals($start, $after3secNow);
+
+		$netCommonsTime2 = new NetCommonsTime();
+		$secondInstanceNow = $netCommonsTime2->getNowDatetime();
+
+		$this->assertEquals($start, $secondInstanceNow);
+	}
+
+	public function testNowInjection() {
+		$netCommonsTime = new NetCommonsTime();
+		$now = $netCommonsTime->getNowDatetime();
+		// NetCommonsTimeの現在時刻を差し替える
+		$nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
+		$nowProperty->setAccessible(true);
+		$nowProperty->setValue(strtotime('2000-01-01 00:00:00'));
+
+		$time = new NetCommonsTime();
+		$sasikaeNowDatetime = $time->getNowDatetime();
+		$this->assertEquals('2000-01-01 00:00:00', $sasikaeNowDatetime);
+		// new NetCommonsTime()->getNowDatetime() が差し替えた時刻になることを確認
+
+	}
 }

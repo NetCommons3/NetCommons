@@ -87,6 +87,49 @@ class NetCommonsAppModel extends Model {
 	}
 
 /**
+ * Gets the DataSource to which this model is bound.
+ *
+ * @return DataSource A DataSource object
+ */
+	//public function getDataSource() {
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' self::$__useDbConfig 1 = ' . self::$__useDbConfig);
+	//
+	//	if ((!$this->_sourceConfigured && $this->useTable !== false) ||
+	//		($this->useDbConfig !== 'test' && $this->useDbConfig !== self::$__useDbConfig)) {
+	//		//if ($this->useDbConfig !== self::$__useDbConfig) {
+	//		//	//$this->setDataSource(self::$__useDbConfig);
+	//		//	$this->useDbConfig = self::$__useDbConfig;
+	//		//}
+	//
+	//		$this->_sourceConfigured = true;
+	//		$this->setSource($this->useTable);
+	//
+	//		if ($this->useDbConfig !== self::$__useDbConfig) {
+	//			foreach($this->hasOne as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->hasMany as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->belongsTo as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//			foreach($this->hasAndBelongsToMany as $btModelName => $btModelData) {
+	//				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+	//				$this->{$btModelName}->getDataSource();
+	//			}
+	//		}
+	//	}
+	//
+	//	CakeLog::debug('NetCommonsAppModel::getDataSource() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
+	//	return ConnectionManager::getDataSource($this->useDbConfig);
+	//}
+
+/**
  * Sets the DataSource to which this model is bound.
  *
  * @param string $dataSource The name of the DataSource, as defined in app/Config/database.php
@@ -94,47 +137,10 @@ class NetCommonsAppModel extends Model {
  * @throws MissingConnectionException
  */
 	public function setDataSource($dataSource = null) {
-		$oldConfig = $this->useDbConfig;
-		if ($dataSource) {
-			$this->useDbConfig = $dataSource;
-			if (Configure::read('useDbConfig') === 'master' && $this->useDbConfig !== 'test') {
-				if ($this->useDbConfig !== 'master') {
-					$this->useDbConfig = 'master';
-				}
-
-				foreach ($this->hasOne as $btModelName => $btModelData) {
-					$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-				}
-				foreach ($this->hasMany as $btModelName => $btModelData) {
-					$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-				}
-				foreach ($this->belongsTo as $btModelName => $btModelData) {
-					$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-				}
-				foreach ($this->hasAndBelongsToMany as $btModelName => $btModelData) {
-					$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-				}
-			}
+		if ($this->useDbConfig !== 'test') {
+			self::$__useDbConfig = $dataSource;
+			parent::setDataSource($dataSource);
 		}
-
-		$db = ConnectionManager::getDataSource($this->useDbConfig);
-		if (!empty($oldConfig) && isset($db->config['prefix'])) {
-			$oldDb = ConnectionManager::getDataSource($oldConfig);
-
-			if (!isset($this->tablePrefix) || (!isset($oldDb->config['prefix']) || $this->tablePrefix === $oldDb->config['prefix'])) {
-				$this->tablePrefix = $db->config['prefix'];
-			}
-		} elseif (isset($db->config['prefix'])) {
-			$this->tablePrefix = $db->config['prefix'];
-		}
-
-		$schema = $db->getSchemaName();
-
-		$defaultProperties = get_class_vars(get_class($this));
-		if (isset($defaultProperties['schemaName'])) {
-			$schema = $defaultProperties['schemaName'];
-		}
-		$this->schemaName = $schema;
 	}
 
 /**
@@ -151,10 +157,8 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
-		if ($data !== null && $data !== false) {
-			$options = $this->_getDefaultValue($data);
-			$data = Hash::merge($options, $data);
-		}
+		$options = $this->_getDefaultValue($data);
+		$data = Hash::merge($options, $data);
 
 		return parent::create($data, $filterKey);
 	}
@@ -212,7 +216,7 @@ class NetCommonsAppModel extends Model {
  */
 	public function begin() {
 		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 1 = ' . $this->useDbConfig);
-		Configure::write('useDbConfig', 'master');
+		$this->setDataSource('master');
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		//CakeLog::debug('NetCommonsAppModel::begin() ' . $this->plugin . ' $this->useDbConfig 2 = ' . $this->useDbConfig);
@@ -254,9 +258,9 @@ class NetCommonsAppModel extends Model {
 	public function loadModels(array $models = [], $source = 'master') {
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class, true);
-			//if ($this->$model->useDbConfig !== 'test') {
-			//	$this->$model->setDataSource($source);
-			//}
+			if ($this->$model->useDbConfig !== 'test') {
+				$this->$model->setDataSource($source);
+			}
 		}
 	}
 

@@ -25,6 +25,33 @@ NetCommonsApp.filter('ncHtmlContent', ['$sce', function($sce) {
 
 
 /**
+ * ServerDatetime filter
+ *
+ * @see https://github.com/NetCommons3/NetCommons3/issues/12
+ * @param {string} filter name
+ * @param {Array} use service
+ */
+NetCommonsApp.filter('ncDatetime', ['$filter', function($filter) {
+  return function(input) {
+    if (!input || input.length == 0) {
+      return '';
+    }
+    var d = new Date(input.replace(/-/g, '/'));
+    var nowD = new Date();
+    if (d.getFullYear() == nowD.getFullYear() &&
+        d.getMonth() == nowD.getMonth() &&
+        d.getDate() == nowD.getDate()) {
+      return $filter('date')(d, 'HH:mm');
+    } else if (d.getFullYear() == nowD.getFullYear()) {
+      return $filter('date')(d, 'MM/dd');
+    } else {
+      return $filter('date')(d, 'yyyy/MM/dd');
+    }
+  };
+}]);
+
+
+/**
  * NetCommonsFlash factory
  */
 NetCommonsApp.factory('NetCommonsFlash', function() {

@@ -41,8 +41,6 @@ class PermissionComponent extends Component {
  */
 	const CHECK_TYEP_GENERAL_PLUGIN = 'general_plugin',
 			CHECK_TYEP_CONTROL_PANEL = 'control_panel',
-			CHECK_TYEP_USER_PLUGIN = 'user_plugin',
-			CHECK_TYEP_ROOM_PLUGIN = 'room_plugin',
 			CHECK_TYEP_SYSTEM_PLUGIN = 'system_plugin';
 
 /**
@@ -56,15 +54,9 @@ class PermissionComponent extends Component {
  * コントロールパネルを表示する際に使用します。<br>
  * コントロールパネルで動作するプラグインの有無で判定します。
  *
- * * CHECK_TYEP_USER_PLUGIN<br>
- * ？？？
- *
- * * CHECK_TYEP_ROOM_PLUGIN<br>
- * ？？？
- *
  * * CHECK_TYEP_SYSTEM_PLUGIN<br>
- * ？？？<br>
- * ユーザーが使用できるプラグインか否かで判定します。
+ * 管理プラグインを表示・設定する際に使用する。<br>
+ * ユーザーが使用できる管理プラグインか否かで判定します。
  *
  * @var string
  */
@@ -110,6 +102,16 @@ class PermissionComponent extends Component {
  * 		)
  * 	)
  * )
+ * ```
+ *
+ * typeでCHECK_TYEP_SYSTEM_PLUGINを指定するで、管理プラグインを許可しているユーザのみアクセスできるようになります。
+ * ```
+ * public $components = array(
+ * 	'NetCommons.Permission' => array(
+ * 		'type' => PermissionComponent::CHECK_TYEP_SYSTEM_PLUGIN,
+ * 		'allow' => array()
+ * 	)
+ * );
  * ```
  *
  * @var array

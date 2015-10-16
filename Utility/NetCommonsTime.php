@@ -32,7 +32,6 @@ class NetCommonsTime {
 		return $siteTimezone;
 	}
 
-	// TODO 指定したタイムゾーンに変換するタイプもいる
 	public function toUserDatetime($serverDatetime) {
 		$userTimezone = Current::read('User.timezone');
 

@@ -17,6 +17,8 @@ App::uses('Current', 'NetCommons.Utility');
  *    $nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
  *    $nowProperty->setAccessible(true);
  *    $nowProperty->setValue(strtotime('2000-01-01 00:00:00'));
+ *    // test code ..
+ *    $nowProperty->setValue(null); // 現在日時変更が他のテストに影響を与えないようにnullにもどしておく
  * ```
  */
 class NetCommonsTime {
@@ -47,11 +49,7 @@ class NetCommonsTime {
  * @return string ユーザタイムゾーンの日時
  */
 	public function toUserDatetime($serverDatetime) {
-		$userTimezone = Current::read('User.timezone');
-
-		if ($userTimezone === null) {
-			$userTimezone = $this->_getSiteTimezone();
-		}
+		$userTimezone = $this->getUserTimezone();
 		$date = new DateTime($serverDatetime, new DateTimeZone('UTC'));
 
 		$date->setTimezone(new DateTimeZone($userTimezone));
@@ -88,10 +86,7 @@ class NetCommonsTime {
  */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
 		if ($userTimezone === null) {
-			$userTimezone = Current::read('User.timezone');
-			if ($userTimezone === null) {
-				$userTimezone = $this->_getSiteTimezone();
-			}
+			$userTimezone = $this->getUserTimezone();
 		}
 		$date = new DateTime($userDatetime, new DateTimeZone($userTimezone));
 
@@ -133,4 +128,17 @@ class NetCommonsTime {
 		return date('Y-m-d H:i:s', self::$_now);
 	}
 
+/**
+ * アクセスしたユーザのタイムゾーンを返す
+ * ゲストならサイトタイムゾーンを返す
+ *
+ * @return string タイムゾーン
+ */
+	public function getUserTimezone() {
+		$userTimezone = Current::read('User.timezone');
+		if ($userTimezone === null) {
+			$userTimezone = $this->_getSiteTimezone();
+		}
+		return $userTimezone;
+	}
 }

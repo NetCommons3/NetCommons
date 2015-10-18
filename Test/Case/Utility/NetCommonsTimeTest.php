@@ -114,6 +114,7 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$sasikaeNowDatetime = $time->getNowDatetime();
 		$this->assertEquals('2000-01-01 00:00:00', $sasikaeNowDatetime);
 		// new NetCommonsTime()->getNowDatetime() が差し替えた時刻になることを確認
+		$nowProperty->setValue(null);
 	}
 
 /**

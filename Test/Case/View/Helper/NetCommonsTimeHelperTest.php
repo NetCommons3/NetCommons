@@ -25,6 +25,8 @@ class NetCommonsTimeHelperTest extends CakeTestCase {
 		parent::setUp();
 		$View = new View();
 		$this->NetCommonsTime = new NetCommonsTimeHelper($View);
+		Configure::write('Config.language', 'ja');
+		Current::$current['Language']['id'] = 2; // ja
 	}
 
 /**

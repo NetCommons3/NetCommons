@@ -1,12 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ryuji
- * Date: 15/10/09
- * Time: 13:00
+ * NetCommonsTime
+ *
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-//App::uses('CakeTime', 'Utility');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
@@ -21,8 +21,16 @@ App::uses('Current', 'NetCommons.Utility');
  */
 class NetCommonsTime {
 
+/**
+ * @var int 現在日時 unixtime
+ */
 	static protected $_now = null;
 
+/**
+ * サイトのデフォルトタイムゾーンを返す
+ *
+ * @return string タイムゾーン
+ */
 	protected function _getSiteTimezone() {
 		static $siteTimezone = null;
 		if ($siteTimezone === null) {
@@ -32,6 +40,12 @@ class NetCommonsTime {
 		return $siteTimezone;
 	}
 
+/**
+ * サーバタイムゾーンの日時をユーザタイムゾーンの日時に変換する
+ *
+ * @param string $serverDatetime server timezone datetime
+ * @return string ユーザタイムゾーンの日時
+ */
 	public function toUserDatetime($serverDatetime) {
 		$userTimezone = Current::read('User.timezone');
 
@@ -44,7 +58,14 @@ class NetCommonsTime {
 		return $date->format('Y-m-d H:i:s');
 	}
 
-	public function toUserDatetimeArray($data, array $convertKeyNameList) {
+/**
+ * サーバタイムゾーンの日時が含まれる連想配列から指定された配列添え字の値だけをユーザタイムゾーンに変換した配列を返す
+ *
+ * @param array $data サーバタイムゾーンの日時が含まれた配列
+ * @param array $convertKeyNameList ユーザタイムゾーンに変換する配列添え字
+ * @return array ユーザタイムゾーンに変換済みの配列
+ */
+	public function toUserDatetimeArray(array $data, array $convertKeyNameList) {
 		$userDatetimeData = $data;
 		foreach ($userDatetimeData as $key => $value) {
 			if (is_array($value)) {
@@ -58,8 +79,15 @@ class NetCommonsTime {
 		return $userDatetimeData;
 	}
 
+/**
+ * ユーザタイムゾーンからサーバタイムゾーンに日時を変換する
+ *
+ * @param string $userDatetime ユーザタイムゾーンの日時
+ * @param null|string $userTimezone ユーザタイムゾーンを指定したい時にユーザタイムゾーンを渡す。指定しないとアクセスユーザのタイムゾーンを対象に変換する
+ * @return string サーバタイムゾーンに変換された日時
+ */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
-		if($userTimezone === null){
+		if ($userTimezone === null) {
 			$userTimezone = Current::read('User.timezone');
 			if ($userTimezone === null) {
 				$userTimezone = $this->_getSiteTimezone();
@@ -71,6 +99,14 @@ class NetCommonsTime {
 		return $date->format('Y-m-d H:i:s');
 	}
 
+/**
+ * ユーザタイムゾーンの日時が含まれる連想配列から指定された配列添え字の値だけをサーバタイムゾーンに変換した配列を返す
+ *
+ * @param array $data ユーザタイムゾーンの日時が含まれた配列
+ * @param array $convertKeyNameList サーバタイムゾーンに変換する配列添え字
+ * @param null|string $userTimezone  ユーザタイムゾーンを指定したい時にユーザタイムゾーンを渡す。指定しないとアクセスユーザのタイムゾーンを対象に変換する
+ * @return array サーバタイムゾーンに変換済みの配列
+ */
 	public function toServerDatetimeArray($data, array $convertKeyNameList, $userTimezone = null) {
 		$serverDatetimeData = $data;
 		foreach ($serverDatetimeData as $key => $value) {
@@ -85,6 +121,11 @@ class NetCommonsTime {
 		return $serverDatetimeData;
 	}
 
+/**
+ * 現在日時を返す
+ *
+ * @return string
+ */
 	public function getNowDatetime() {
 		if (self::$_now === null) {
 			self::$_now = time();

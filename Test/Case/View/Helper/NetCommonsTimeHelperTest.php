@@ -52,7 +52,7 @@ class NetCommonsTimeHelperTest extends CakeTestCase {
 		// NetCommonsTimeHelperで使うNetCommonsTimeをモックにさしかえる
 		$netCommonsTimeMock = $this->getMock('NetCommonsTime', $methods);
 
-		$property = new ReflectionProperty($this->NetCommonsTime, 'NetCommonsTime');
+		$property = new ReflectionProperty($this->NetCommonsTime, '_netCommonsTime');
 		$property->setAccessible(true);
 		$property->setValue($this->NetCommonsTime, $netCommonsTimeMock);
 

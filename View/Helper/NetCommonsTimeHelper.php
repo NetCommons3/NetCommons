@@ -1,43 +1,36 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ryuji
- * Date: 15/10/09
- * Time: 13:13
+ * NetCommonsTimeHelper
+ *
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
+
 App::uses('AppHelper', 'View/Helper');
 App::uses('NetCommonsTime', 'NetCommons.Utility');
+
 /**
  * Class NetCommonsTimeHelper
  */
 class NetCommonsTimeHelper extends AppHelper {
 
 /**
- * @var NetCommonsTime
+ * @var NetCommonsTime NetCommonsTimeのインスタンス
  */
-	protected $NetCommonsTime = null;
+	protected $_netCommonsTime = null;
 
 /**
- * constructer
+ * コンストラクタ
  *
  * @param View $View The View this helper is being attached to.
  * @param array $settings Configuration settings for the helper.
- * @return void
+ * @return NetCommonsTimeHelper
  */
 	public function __construct(View $View, $settings = array()) {
-		$this->NetCommonsTime = new NetCommonsTime();
+		$this->_netCommonsTime = new NetCommonsTime();
 		parent::__construct($View, $settings);
 	}
-
-///**
-// * サーバタイムゾーンの日時をユーザタイムゾーンに変換して返す
-// *
-// * @param string $serverDatetime datetime
-// * @return string
-// */
-//	public function toUserDatetime($serverDatetime) {
-//		return $this->NetCommonsTime->toUserDatetime($serverDatetime);
-//	}
 
 /**
  * NetCommonsTime ラップ用マジックメソッド。
@@ -47,7 +40,7 @@ class NetCommonsTimeHelper extends AppHelper {
  * @return mixed
  */
 	public function __call($method, $params) {
-		return call_user_func_array(array(& $this->NetCommonsTime, $method), $params);
+		return call_user_func_array(array(& $this->_netCommonsTime, $method), $params);
 	}
 
 }

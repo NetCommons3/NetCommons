@@ -1,6 +1,10 @@
 <?php
 /**
  * NetCommonsTimeComponent
+ *
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
 App::uses('NetCommonsTime', 'NetCommons.Utility');
@@ -10,31 +14,20 @@ App::uses('NetCommonsTime', 'NetCommons.Utility');
  */
 class NetCommonsTimeComponent extends Component {
 
+/**
+ * @var NetCommonsTime NetCommonsTimeのインスタンス
+ */
 	protected $_netCommonsTime;
 
 /**
  * コントローラの beforeFilter メソッドの前に呼び出されます。
  *
  * @param Controller $controller コントローラ
+ * @return void
  */
 	public function initialize(Controller $controller) {
 		$this->_netCommonsTime = new NetCommonsTime();
-		// このタイミングではCurrentがとれない。ユーザタイムゾーンは不明な状態
-		// POSTパラメータにユーザタイムゾーンが書いてあったらどうか？
-		// NetCommonsForm::endとかで$this->Form->hidden('user_timezone','Asia/Tokyo')とか入れる
-		// $controller->request->data['user_timezone']で変換
-		// NetCommonsFormまで食い込むならdatetimeかどうかも分かるよね？-> 継承してるわけでなくラッパだったのでそこまで分からない。
-		if (isset($controller->request->data['_NetCommonsTime']['user_timezone'])) {
-			$userTimezone = $controller->request->data['_NetCommonsTime']['user_timezone'];
-			$convertFields = explode(',', $controller->request->data['_NetCommonsTime']['convert_fields']);
-			// TODO BlogEntry.publish_start って形式だとダメなので対応させる
-			$controller->request->data = $this->_netCommonsTime->toServerDatetimeArray(
-				$controller->request->data,
-				$convertFields,
-				$userTimezone
-			);
-
-		}
+		$this->_convertTimezone($controller);
 	}
 
 /**
@@ -48,15 +41,22 @@ class NetCommonsTimeComponent extends Component {
 		return call_user_func_array(array(& $this->_netCommonsTime, $method), $params);
 	}
 
-
 /**
- * コントローラの beforeFilter メソッドの後、コントローラの現在のアクションハンドラの前に 呼び出されます。
+ * ユーザタイムゾーンからサーバータイムゾーンへの自動変換
+ * NetCommonsFormと連携している
  *
  * @param Controller $controller コントローラ
+ * @return void
  */
-	public function startup(Controller $controller) {
-		// このタイミングならCurrentでユーザタイムゾーンを取得出来る。
-		// しかしbeforeFilter中は$controller->request->data を書き換えできない
-
+	protected function _convertTimezone(Controller $controller) {
+		if (isset($controller->request->data['_NetCommonsTime']['user_timezone'])) {
+			$userTimezone = $controller->request->data['_NetCommonsTime']['user_timezone'];
+			$convertFields = explode(',', $controller->request->data['_NetCommonsTime']['convert_fields']);
+			$controller->request->data = $this->_netCommonsTime->toServerDatetimeArray(
+				$controller->request->data,
+				$convertFields,
+				$userTimezone
+			);
+		}
 	}
 }

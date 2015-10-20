@@ -14,6 +14,16 @@ App::uses('Model', 'Model');
 /**
  * NetCommonsApp Model
  *
+ * CakePHPのModelクラスを継承してます。<br>
+ * ドキュメントルートのapp.Mode.AppModelはこのクラスを継承しているので、<br>
+ * 全モデルの基底クラスになります。<br>
+ * Overrideしているメソッドもあり、CakePHPの通常動作と異なるものがありますので注意して下さい。
+ *
+ * #### CakePHPのModel処理をOverrideしているメソッドです。
+ * [__construct](#__construct)<br>
+ * [setDataSource](#setdatasource)<br>
+ * [create](#create)<br>
+ *
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
@@ -45,7 +55,9 @@ class NetCommonsAppModel extends Model {
 	public $validate = array();
 
 /**
- * Constructor. Binds the model's database table to the object.
+ * Constructor. DataSourceの選択
+ *
+ * 接続先DBをランダムに選択します。
  *
  * @param bool|int|string|array $id Set this ID for this model on startup,
  * can also be an array of options, see above.
@@ -130,7 +142,9 @@ class NetCommonsAppModel extends Model {
 	//}
 
 /**
- * Sets the DataSource to which this model is bound.
+ * Sets the DataSource to which this model is bound.<br>
+ * データの書き込み時はMaterDBに対して行うため、接続先DBを変更しているが、<br>
+ * Test実行時は唯一のDBに対して行うようにOverrideしています。
  *
  * @param string $dataSource The name of the DataSource, as defined in app/Config/database.php
  * @return void
@@ -144,9 +158,21 @@ class NetCommonsAppModel extends Model {
 	}
 
 /**
- * Initializes the model for writing a new record, loading the default values
- * for those fields that are not defined in $data, and clearing previous validation errors.
- * Especially helpful for saving data in loops.
+ * NetCommonsで使用する共通の値がセットされた結果を返します。<br>
+ * CakePHPのSchemaは、not null指定されたカラムのdefaultがnullになっているため、<br>
+ * ''(長さ0の文字列)に書き換えています。<br>
+ * https://github.com/NetCommons3/NetCommons3/issues/7
+ *
+ * #### セットされるデータ
+ * ```
+ * 'room_id' => Current::read('Room.id'),
+ * 'language_id' => Current::read('Language.id'),
+ * 'block_id' => Current::read('Block.id'),
+ * 'block_key' => Current::read('Block.key'),
+ * 'frame_id' => Current::read('Frame.id'),
+ * 'frame_key' => Current::read('Frame.key'),
+ * 'plugin_key' => Inflector::underscore($this->plugin),
+ * ```
  *
  * @param bool|array $data Optional data array to assign to the model after it is created. If null or false,
  *   schema data defaults are not merged.

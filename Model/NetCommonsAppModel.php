@@ -14,8 +14,12 @@ App::uses('Model', 'Model');
 /**
  * NetCommonsApp Model
  *
- * CakePHPのModelクラスを継承してます。
- * #### Overrideしているメソッド
+ * CakePHPのModelクラスを継承してます。<br>
+ * ドキュメントルートのapp.Mode.AppModelはこのクラスを継承しているので、<br>
+ * 全モデルの基底クラスになります。<br>
+ * Overrideしているメソッドもあり、CakePHPの通常動作と異なるものがありますので注意して下さい。
+ *
+ * #### CakePHPのModel処理をOverrideしているメソッドです。
  * [__construct](#__construct)<br>
  * [setDataSource](#setdatasource)<br>
  * [create](#create)<br>

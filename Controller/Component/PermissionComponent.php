@@ -15,7 +15,8 @@ App::uses('Component', 'Controller');
  * Permission Component
  *
  * リクエストされたController、もしくは、actionのアクセス許可を、<br>
- * Currentオブジェクトの権限から判定します。
+ * [Currentオブジェクト](https://github.com/NetCommons3/NetCommons3Docs/blob/master/phpdocMd/NetCommons/Current.md#current)
+ * の権限から判定します。<br>
  * チェックタイプと許可アクションリストを渡してください。
  *
  * [チェックタイプ](#type)<br>

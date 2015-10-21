@@ -187,8 +187,10 @@ class PermissionComponent extends Component {
 				if (! isset($this->allow[$controller->params['action']])) {
 					return;
 				}
-				if (Current::permission($this->allow[$controller->params['action']])) {
-					return;
+				foreach ($this->allow[$controller->params['action']] as $action) {
+					if (Current::permission($action)) {
+						return;
+					}
 				}
 				break;
 		}

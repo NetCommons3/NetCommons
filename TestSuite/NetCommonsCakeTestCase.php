@@ -55,7 +55,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.plugin_manager.plugin',
 		//'plugin.plugin_manager.plugins_role',
 		//'plugin.roles.default_role_permission',
-		//'plugin.roles.role',
+		'plugin.roles.role',
 		'plugin.rooms.roles_room',
 		//'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',

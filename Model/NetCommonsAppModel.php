@@ -131,20 +131,23 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	private function __setMasterDataSource() {
+		if (! Configure::read('NetCommons.installed')) {
+			$this->useDbConfig = 'master';
+			return;
+		}
 		if (Configure::read('useDbConfig') === 'master' && $this->useDbConfig !== 'test') {
 			if ($this->useDbConfig !== 'master') {
 				$this->useDbConfig = 'master';
 			}
-			foreach ($this->hasOne as $btModelName => $btModelData) {
-				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-			}
-			foreach ($this->hasMany as $btModelName => $btModelData) {
-				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-			}
-			foreach ($this->belongsTo as $btModelName => $btModelData) {
-				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
-			}
-			foreach ($this->hasAndBelongsToMany as $btModelName => $btModelData) {
+
+			$associations = Hash::merge(
+				array_keys($this->hasOne),
+				array_keys($this->hasMany),
+				array_keys($this->belongsTo),
+				array_keys($this->hasAndBelongsToMany)
+			);
+
+			foreach ($associations as $btModelName) {
 				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
 			}
 		}

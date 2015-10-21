@@ -17,7 +17,7 @@ App::uses('Component', 'Controller');
  * リクエストされたController、もしくは、actionのアクセス許可を、<br>
  * [Currentオブジェクト](https://github.com/NetCommons3/NetCommons3Docs/blob/master/phpdocMd/NetCommons/Current.md#current)
  * の権限から判定します。<br>
- * チェックタイプと許可アクションリストを渡してください。
+ * チェックタイプと許可アクションリストを指定してください。
  *
  * [チェックタイプ](#type)<br>
  * [許可アクションリスト](#allow)
@@ -48,15 +48,15 @@ class PermissionComponent extends Component {
  * チェックタイプ
  *
  * * CHECK_TYEP_GENERAL_PLUGIN<br>
- * ページに配置するプラグインの場合に使用します。（デフォルト）<br>
+ * ページに配置するプラグインの場合に指定します。（デフォルト）<br>
  * 許可アクションリストに指定された権限から判定します。
  *
  * * CHECK_TYEP_CONTROL_PANEL<br>
- * コントロールパネルを表示する際に使用します。<br>
+ * コントロールパネルを表示する際に指定します。<br>
  * コントロールパネルで動作するプラグインの有無で判定します。
  *
  * * CHECK_TYEP_SYSTEM_PLUGIN<br>
- * 管理プラグインを表示・設定する際に使用する。<br>
+ * 管理プラグインを表示・設定する際に指定します。<br>
  * ユーザーが使用できる管理プラグインか否かで判定します。
  *
  * @var string
@@ -103,16 +103,6 @@ class PermissionComponent extends Component {
  * 		)
  * 	)
  * )
- * ```
- *
- * typeでCHECK_TYEP_SYSTEM_PLUGINを指定するで、管理プラグインを許可しているユーザのみアクセスできるようになります。
- * ```
- * public $components = array(
- * 	'NetCommons.Permission' => array(
- * 		'type' => PermissionComponent::CHECK_TYEP_SYSTEM_PLUGIN,
- * 		'allow' => array()
- * 	)
- * );
  * ```
  *
  * @var array

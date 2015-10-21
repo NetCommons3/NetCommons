@@ -43,18 +43,20 @@ class ButtonHelper extends FormHelper {
 		$output = '';
 
 		//URLの設定
+		$defaultUrl = array(
+			'plugin' => $this->_View->request->params['plugin'],
+			'controller' => $this->_View->request->params['controller'],
+		);
 		if (! isset($url)) {
 			$url = array(
-				'plugin' => $this->_View->request->params['plugin'],
-				'controller' => $this->_View->request->params['controller'],
 				'action' => 'add',
 				'frame_id' => Current::read('Frame.id'),
 			);
 			if (isset($this->_View->viewVars['addActionController'])) {
 				$url['controller'] = $this->_View->viewVars['addActionController'];
 			}
-			$url = NetCommonsUrl::actionUrl($url);
 		}
+		$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(

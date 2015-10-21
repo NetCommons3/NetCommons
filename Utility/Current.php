@@ -358,24 +358,14 @@ class Current {
  * Current::permission('content_publishable')
  * ```
  *
- * @param string|array $key Hashクラスのpath
+ * @param string $key Hashクラスのpath
  * @return bool permission value
  */
 	public static function permission($key) {
 		if (! isset(self::$current)) {
 			return false;
 		}
-
-		if (is_array($key)) {
-			foreach ($key as $k) {
-				if (self::permission($k)) {
-					return true;
-				}
-			}
-			return false;
-		}
 		$path = 'Permission.' . $key . '.value';
-
 		return (bool)Hash::get(self::$current, $path);
 	}
 

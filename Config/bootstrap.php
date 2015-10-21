@@ -20,6 +20,11 @@ EOF;
 
 Configure::write('PhpDocumentor.classHeader', $header);
 
+// 多数ファイルをインクルードしていて、xdebugの制限に引っかかるため
+if (ini_get('xdebug.max_nesting_level')) {
+	ini_set('xdebug.max_nesting_level', 200);
+}
+
 // Load all plugins
 $plugins = App::objects('plugins');
 foreach ($plugins as $plugin) {

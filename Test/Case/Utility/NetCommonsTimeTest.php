@@ -82,12 +82,36 @@ class NetCommonsTimeTest extends CakeTestCase {
  *
  * @return void
  */
-	public function testNow() {
+	public function XtestNow() {
 		$netCommonsTime = new NetCommonsTime();
 		$start = $netCommonsTime->getNowDatetime();
 		sleep(1);
 		$after1secNow = $netCommonsTime->getNowDatetime();
 		$this->assertEquals($start, $after1secNow);
+
+		$netCommonsTime2 = new NetCommonsTime();
+		$secondInstanceNow = $netCommonsTime2->getNowDatetime();
+
+		$this->assertEquals($start, $secondInstanceNow);
+	}
+
+/**
+ * 同一セッション中は別インスタンスでも同じ日時を返すことを確認
+ *
+ * @return void
+ */
+	public function testNowStatic() {
+		// Static call
+		$start = NetCommonsTime::getNowDatetime();
+		sleep(1);
+		// 1秒後のStatic call
+		$after1secNow = NetCommonsTime::getNowDatetime();
+		$this->assertEquals($start, $after1secNow);
+
+		// newしても同じ日時
+		$netCommonsTime1 = new NetCommonsTime();
+		$firstInstanceNow = $netCommonsTime1->getNowDatetime();
+		$this->assertEquals($start, $firstInstanceNow);
 
 		$netCommonsTime2 = new NetCommonsTime();
 		$secondInstanceNow = $netCommonsTime2->getNowDatetime();
@@ -110,10 +134,14 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$nowProperty->setAccessible(true);
 		$nowProperty->setValue(strtotime('2000-01-01 00:00:00'));
 
+		// new NetCommonsTime()->getNowDatetime() が差し替えた時刻になることを確認
 		$time = new NetCommonsTime();
 		$sasikaeNowDatetime = $time->getNowDatetime();
 		$this->assertEquals('2000-01-01 00:00:00', $sasikaeNowDatetime);
-		// new NetCommonsTime()->getNowDatetime() が差し替えた時刻になることを確認
+
+		//Static callでも差し替えた日時になる
+		$this->assertEquals('2000-01-01 00:00:00', NetCommonsTime::getNowDatetime());
+
 		$nowProperty->setValue(null);
 	}
 

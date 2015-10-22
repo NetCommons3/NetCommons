@@ -121,7 +121,7 @@ class NetCommonsTime {
  *
  * @return string
  */
-	public function getNowDatetime() {
+	static public function getNowDatetime() {
 		if (self::$_now === null) {
 			self::$_now = time();
 		}

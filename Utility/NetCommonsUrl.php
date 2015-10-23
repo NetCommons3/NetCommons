@@ -89,11 +89,13 @@ class NetCommonsUrl {
 		} else {
 			$url['plugin'] = $params['plugin'];
 		}
-		if (! isset($params['controller'])) {
+		if (isset($params['controller'])) {
 			$url['controller'] = $params['controller'];
+			unset($params['controller']);
 		}
-		if (! isset($params['action'])) {
+		if (isset($params['action'])) {
 			$url['action'] = $params['action'];
+			unset($params['action']);
 		}
 
 		if (isset($params['block_id'])) {

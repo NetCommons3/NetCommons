@@ -288,7 +288,7 @@ class NetCommonsFormHelper extends Helper {
  * @return mixed
  */
 	public function __call($method, $params) {
-		return call_user_func_array(array(& $this->Form, $method), $params);
+		return call_user_func_array(array($this->Form, $method), $params);
 	}
 
 /**

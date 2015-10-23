@@ -40,7 +40,7 @@ class NetCommonsTimeHelper extends AppHelper {
  * @return mixed
  */
 	public function __call($method, $params) {
-		return call_user_func_array(array(& $this->_netCommonsTime, $method), $params);
+		return call_user_func_array(array($this->_netCommonsTime, $method), $params);
 	}
 
 }

@@ -1,23 +1,21 @@
 <?php
 /**
- * SiteSetting Test Case
+ * SiteSettings Test Case
  *
- * @author   Jun Nishikawa <topaz2@m0n0m0n0.com>
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author   Ryuji AMANO <ryuji@ryus.co.jp>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
 App::uses('SiteSetting', 'NetCommons.Model');
 
 /**
- * Summary for SiteSetting Test Case
+ * Summary for SiteSettings Test Case
  */
 class SiteSettingTest extends CakeTestCase {
 
 /**
- * Fixtures
- *
- * @var array
+ * @var array fixture
  */
 	public $fixtures = array(
 		'plugin.net_commons.site_setting',
@@ -32,6 +30,8 @@ class SiteSettingTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+		Configure::write('Config.language', 'ja');
+		Current::$current['Language']['id'] = 2; // ja
 	}
 
 /**
@@ -41,9 +41,11 @@ class SiteSettingTest extends CakeTestCase {
  */
 	public function tearDown() {
 		unset($this->SiteSetting);
+		Configure::write('Config.language', null);
 
 		parent::tearDown();
 	}
+
 /**
  * getSiteTheme サイト用テーマ名の取得
  *
@@ -64,4 +66,13 @@ class SiteSettingTest extends CakeTestCase {
 		$this->assertEquals(null, $ck);
 	}
 
+/**
+ * test getTimezone
+ *
+ * @return void
+ */
+	public function testGetTimezone() {
+		$siteTimezone = $this->SiteSetting->getSiteTimezone();
+		$this->assertEquals('Asia/Tokyo', $siteTimezone);
+	}
 }

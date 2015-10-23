@@ -10,6 +10,8 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('Validation', 'Utility');
+App::uses('NetCommonsTimeHelper', 'NetCommons.View/Helper');
 
 /**
  * DateHelper Helper
@@ -25,7 +27,8 @@ class DateHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array(
-		'Time'
+		'NetCommons.NetCommonsTime',
+		'Time',
 	);
 
 /**
@@ -38,11 +41,13 @@ class DateHelper extends AppHelper {
 		if (! Validation::datetime($date)) {
 			return null;
 		}
+		// ユーザタイムゾーンに変換
+		$date = $this->NetCommonsTime->toUserDatetime($date);
 
-		if ($this->Time->isToday($date)) {
+		if ($this->_isToday($date)) {
 			return date('G:i', strtotime($date));
 
-		} elseif (! $this->Time->isThisYear($date)) {
+		} elseif (! $this->_isThisYear($date)) {
 			return date('Y/m/d', strtotime($date));
 
 		} else {
@@ -50,4 +55,33 @@ class DateHelper extends AppHelper {
 		}
 	}
 
+/**
+ * ユーザタイムゾーンで今日の日付かの判定
+ *
+ * @param string $date user timezone datetime
+ * @return bool
+ */
+	protected function _isToday($date) {
+		$now = $this->NetCommonsTime->getNowDatetime();
+		$nowUserDatetime = $this->NetCommonsTime->toUserDatetime($now);
+
+		$dateYmd = date('Y-m-d', strtotime($date));
+		$nowYmd = date('Y-m-d', strtotime($nowUserDatetime));
+		return ($dateYmd === $nowYmd);
+	}
+
+/**
+ * ユーザタイムゾーンで今年の日時かの判定
+ *
+ * @param string $date user timezone datetime
+ * @return bool
+ */
+	protected function _isThisYear($date) {
+		$now = $this->NetCommonsTime->getNowDatetime();
+		$nowUserDatetime = $this->NetCommonsTime->toUserDatetime($now);
+
+		$dateYear = date('Y', strtotime($date));
+		$nowYear = date('Y', strtotime($nowUserDatetime));
+		return ($dateYear === $nowYear);
+	}
 }

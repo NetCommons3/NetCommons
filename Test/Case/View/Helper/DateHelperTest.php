@@ -11,6 +11,8 @@
 
 App::uses('View', 'View');
 App::uses('DateHelper', 'NetCommons.View/Helper');
+App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsTime', 'NetCommons.Utility');
 
 /**
  * Summary for DateHelper Test Case
@@ -21,12 +23,25 @@ App::uses('DateHelper', 'NetCommons.View/Helper');
 class DateHelperTest extends CakeTestCase {
 
 /**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'plugin.net_commons.site_setting',
+		'plugin.users.user',
+	);
+
+/**
  * setUp method
  *
  * @return void
  */
 	public function setUp() {
 		parent::setUp();
+
+		Configure::write('Config.language', 'ja');
+		Current::$current['Language']['id'] = 2; // ja
 
 		$View = new View();
 		$this->Date = new DateHelper($View);
@@ -49,10 +64,13 @@ class DateHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testDateFormat() {
-		$today = date('Y-m-d H:i:s');
+		$netCommonsTime = new NetCommonsTime();
+		$today = $netCommonsTime->getNowDatetime();
+		$todayUserDatetime = $netCommonsTime->toUserDatetime($today);
+
 		$testDate = $this->Date->dateFormat($today);
 
-		$expected = date('G:i', strtotime($today));
+		$expected = date('G:i', strtotime($todayUserDatetime));
 
 		$this->assertEquals($expected, $testDate);
 	}

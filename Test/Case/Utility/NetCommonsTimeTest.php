@@ -82,24 +82,6 @@ class NetCommonsTimeTest extends CakeTestCase {
  *
  * @return void
  */
-	public function XtestNow() {
-		$netCommonsTime = new NetCommonsTime();
-		$start = $netCommonsTime->getNowDatetime();
-		sleep(1);
-		$after1secNow = $netCommonsTime->getNowDatetime();
-		$this->assertEquals($start, $after1secNow);
-
-		$netCommonsTime2 = new NetCommonsTime();
-		$secondInstanceNow = $netCommonsTime2->getNowDatetime();
-
-		$this->assertEquals($start, $secondInstanceNow);
-	}
-
-/**
- * 同一セッション中は別インスタンスでも同じ日時を返すことを確認
- *
- * @return void
- */
 	public function testNowStatic() {
 		// Static call
 		$start = NetCommonsTime::getNowDatetime();
@@ -191,6 +173,7 @@ class NetCommonsTimeTest extends CakeTestCase {
  * @return void
  */
 	public function testGetSiteTimezone() {
+		Configure::delete('SiteTimezone');
 		// NetCommonsTimeの現在時刻を差し替える
 		$netCommonsTime = new NetCommonsTime();
 		$method = new ReflectionMethod($netCommonsTime, '_getSiteTimezone');
@@ -204,6 +187,9 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$siteTimezone = $method->invoke($netCommonsTime);
 
 		$this->assertEquals('Asia/Tokyo', $siteTimezone);
+
+		$method->invoke($netCommonsTime); // 2回目はSiteSettingを呼び出さない
+		Configure::delete('SiteTimezone');
 	}
 
 /**

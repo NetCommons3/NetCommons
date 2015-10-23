@@ -34,13 +34,24 @@ class NetCommonsTime {
  * @return string タイムゾーン
  */
 	protected function _getSiteTimezone() {
-		static $siteTimezone = null;
+		$siteTimezone = Configure::read('SiteTimezone');
 		if ($siteTimezone === null) {
 			$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
 			$siteTimezone = $SiteSetting->getSiteTimezone();
+			Configure::write('SiteTimezone', $siteTimezone);
 		}
 		return $siteTimezone;
 	}
+
+	//protected function _getSiteTimezone() {
+	//	static $siteTimezone = null;
+	//	if ($siteTimezone === null) {
+	//		$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+	//		$siteTimezone = $SiteSetting->getSiteTimezone();
+	//	}
+	//	return $siteTimezone;
+	//}
+	//
 
 /**
  * サーバタイムゾーンの日時をユーザタイムゾーンの日時に変換する

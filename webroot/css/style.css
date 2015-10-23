@@ -121,3 +121,7 @@ textarea.nc-noresize {
   background: none;
   box-shadow: none;
 }
+
+.nc-danger-zone .panel-title > a.accordion-toggle {
+	display: block;
+}

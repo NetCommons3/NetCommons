@@ -117,6 +117,10 @@ class NetCommonsFormHelper extends Helper {
 		if (Hash::get($options, 'convert_timezone') === true) {
 			$this->_convertFields[] = $fieldName;
 		}
+		$options = Hash::merge(array(
+			'error' => array(),
+		), $options);
+
 		$defaultOptions = array(
 			'error' => false,
 			'class' => 'form-control',
@@ -128,6 +132,7 @@ class NetCommonsFormHelper extends Helper {
 		}
 
 		$inputOptions = Hash::merge($defaultOptions, $options);
+		$inputOptions['error'] = false;
 
 		if ($inputOptions['required']) {
 			if ($inputOptions['label']) {
@@ -149,9 +154,9 @@ class NetCommonsFormHelper extends Helper {
 
 		$output .= $this->Form->input($fieldName, $inputOptions);
 
-		if (!isset($options['error']) || $options['error']) {
+		if (is_array($options['error'])) {
 			$output .= '<div class="has-error">';
-			$output .= $this->Form->error($fieldName, null, array('class' => 'help-block'));
+			$output .= $this->Form->error($fieldName, null, Hash::merge(array('class' => 'help-block'), $options['error']));
 			$output .= '</div>';
 		}
 

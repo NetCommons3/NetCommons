@@ -287,18 +287,6 @@ class NetCommonsAppModel extends Model {
 	}
 
 /**
- * Check field1 matches field2
- *
- * @param array $field1 field1 parameters
- * @param string $field2 field2 key
- * @return bool
- */
-	public function equalToField($field1, $field2) {
-		$keys = array_keys($field1);
-		return $this->data[$this->name][$field2] === $this->data[$this->name][array_pop($keys)];
-	}
-
-/**
  * 全カラムのデフォルト値をセットした配列を返す。
  *
  * @param array $data デフォルトを上書きするカラム配列

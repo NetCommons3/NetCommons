@@ -42,22 +42,23 @@ class ButtonHelper extends FormHelper {
 	public function addLink($title = '', $url = null, $options = array()) {
 		$output = '';
 
-		//URLの設定
-		$defaultUrl = array(
-			'plugin' => $this->_View->request->params['plugin'],
-			'controller' => $this->_View->request->params['controller'],
-		);
-		if (! isset($url)) {
-			$url = array(
-				'action' => 'add',
-				'frame_id' => Current::read('Frame.id'),
+		if (! is_string($url)) {
+			//URLの設定
+			$defaultUrl = array(
+				'plugin' => $this->_View->request->params['plugin'],
+				'controller' => $this->_View->request->params['controller'],
 			);
-			if (isset($this->_View->viewVars['addActionController'])) {
-				$url['controller'] = $this->_View->viewVars['addActionController'];
+			if (! isset($url)) {
+				$url = array(
+					'action' => 'add',
+					'frame_id' => Current::read('Frame.id'),
+				);
+				if (isset($this->_View->viewVars['addActionController'])) {
+					$url['controller'] = $this->_View->viewVars['addActionController'];
+				}
 			}
+			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 		}
-		$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
@@ -65,6 +66,7 @@ class ButtonHelper extends FormHelper {
 			'escapeTitle' => false,
 			'class' => 'btn btn-success',
 		), $options);
+		//$title = $inputOptions['escapeTitle'] ? h($title) : $title;
 		if (! $inputOptions['escapeTitle']) {
 			$title = h($title);
 		}
@@ -79,7 +81,7 @@ class ButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		if (isset($options['tooltip']) && $options['tooltip']) {
+		if (Hash::get($options, 'tooltip', false)) {
 			if (is_string($options['tooltip'])) {
 				$tooltip = $options['tooltip'];
 			} else {
@@ -89,7 +91,7 @@ class ButtonHelper extends FormHelper {
 			unset($inputOptions['tooltip']);
 		}
 		$output .= $this->Html->link($iconElement . $title, $url, $inputOptions);
-		if (isset($options['tooltip']) && $options['tooltip']) {
+		if (Hash::get($options, 'tooltip', false)) {
 			$output .= '</span>';
 		}
 		return $output;

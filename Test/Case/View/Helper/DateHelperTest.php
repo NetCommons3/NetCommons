@@ -95,10 +95,13 @@ class DateHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testDateFormatLastDate() {
+		$netCommonsTime = new NetCommonsTime();
 		$lastDate = date('Y-m-d H:i:s', strtotime("- 1 days"));
+		$lastUserDatetime = $netCommonsTime->toUserDatetime($lastDate);
+
 		$testDate = $this->Date->dateFormat($lastDate);
 
-		$expected = date('m/d', strtotime($lastDate));
+		$expected = date('m/d', strtotime($lastUserDatetime));
 
 		$this->assertEquals($expected, $testDate);
 	}

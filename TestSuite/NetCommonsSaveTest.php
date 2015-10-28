@@ -84,7 +84,10 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		}
 		$expected[$this->$model->alias] = Hash::merge(
 			$before[$this->$model->alias],
-			$data[$this->$model->alias]
+			$data[$this->$model->alias],
+			array(
+				'id' => $id,
+			)
 		);
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');

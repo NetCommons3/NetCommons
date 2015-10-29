@@ -20,6 +20,11 @@ App::uses('Current', 'NetCommons.Utility');
  *    // test code ..
  *    $nowProperty->setValue(null); // 現在日時変更が他のテストに影響を与えないようにnullにもどしておく
  * ```
+ *
+ * ## 現在時刻を得る
+ * ```
+ * $nowDatetime = (new NetCommonsTime())->getNowDatetime();
+ * ```
  */
 class NetCommonsTime {
 
@@ -28,30 +33,20 @@ class NetCommonsTime {
  */
 	static protected $_now = null;
 
+	static protected $_siteTimezone = null;
+
 /**
  * サイトのデフォルトタイムゾーンを返す
  *
  * @return string タイムゾーン
  */
 	public function getSiteTimezone() {
-		$siteTimezone = Configure::read('SiteTimezone');
-		if ($siteTimezone === null) {
+		if (self::$_siteTimezone === null) {
 			$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
-			$siteTimezone = $SiteSetting->getSiteTimezone();
-			Configure::write('SiteTimezone', $siteTimezone);
+			self::$_siteTimezone = $SiteSetting->getSiteTimezone();
 		}
-		return $siteTimezone;
+		return self::$_siteTimezone;
 	}
-
-	//protected function _getSiteTimezone() {
-	//	static $siteTimezone = null;
-	//	if ($siteTimezone === null) {
-	//		$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
-	//		$siteTimezone = $SiteSetting->getSiteTimezone();
-	//	}
-	//	return $siteTimezone;
-	//}
-	//
 
 /**
  * サーバタイムゾーンの日時をユーザタイムゾーンの日時に変換する

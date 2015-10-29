@@ -33,6 +33,9 @@ class NetCommonsTime {
  */
 	static protected $_now = null;
 
+/**
+ * @var string サイトデフォルトタイムゾーン
+ */
 	static protected $_siteTimezone = null;
 
 /**

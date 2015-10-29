@@ -14,15 +14,14 @@ App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 /**
  * Summary for NetCommonsApp Test Case
  */
-class NetCommonsAppModelCreateAllTest extends NetCommonsCakeTestCase {
+class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
 
 /**
  * @var array fixture
  */
 	public $fixtures = array(
-		'plugin.net_commons.create_group',
+		'plugin.net_commons.site_setting',
 		'plugin.net_commons.create_profile',
-		'plugin.net_commons.create_user',
 	);
 
 /**
@@ -34,7 +33,6 @@ class NetCommonsAppModelCreateAllTest extends NetCommonsCakeTestCase {
 		parent::setUp();
 		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestNetCommons');
 
-		Current::$current['Room']['id'] = '2';
 		Current::$current['Language']['id'] = '5';
 	}
 
@@ -44,91 +42,75 @@ class NetCommonsAppModelCreateAllTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = null;
+		Current::$current = array();
 		parent::tearDown();
 	}
 
 /**
- * createAllのassociation(hasOne)のテスト
+ * createでnot nullカラムのデフォルトがnullにならないこと
  *
- * @param array $data createAllの引数
- * @dataProvider dataProviderCreateAllUser
+ * @see https://github.com/NetCommons3/NetCommons3/issues/7
  * @return void
  */
-	public function testCreateAllUser($data = array()) {
-		$TestCreateUser = ClassRegistry::init('TestNetCommons.TestCreateUser');
-		$newData = $TestCreateUser->createAll($data);
+	public function testNotNullFieldDefaultIsNotNull() {
+		$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+		$newData = $SiteSetting->create();
 
-		$this->assertNotEmpty($newData['TestCreateUser']);
-		$this->assertNotEmpty($newData['TestCreateGroup']);
-		$this->assertArrayNotHasKey('TrackableCreator', $newData);
-		$this->assertArrayNotHasKey('TrackableUpdater', $newData);
+		// Tableでnot null なカラムにnullがセットされちゃダメ
+		$this->assertNotNull($newData['SiteSetting']['key']);
+		$this->assertNotNull($newData['SiteSetting']['label']);
 
-		if (isset($data['TestCreateGroup']['room_id'])) {
-			$expected = $data['TestCreateGroup']['room_id'];
-		} else {
-			$expected = Current::$current['Room']['id'];
-		}
+		// CurrentがあればCurrentで上書きされる
+		App::uses('Current', 'NetCommons.Utility');
+		Current::$current['Language']['id'] = 5;
+		$newDataWithCurrent = $SiteSetting->create();
+		$this->assertEquals(5, $newDataWithCurrent['SiteSetting']['language_id']);
 
-		$this->assertEquals($expected, $newData['TestCreateGroup']['room_id']);
+		// $data が渡れれば$dataを優先する
+		$data = array();
+		$data['SiteSetting']['language_id'] = 10;
+		$newDataWithCurrent = $SiteSetting->create($data);
+		$this->assertEquals(10, $newDataWithCurrent['SiteSetting']['language_id']);
+
+		// nullを渡すと空が返る
+		$newDataWithCurrent = $SiteSetting->create(null);
+		$this->assertEmpty($newDataWithCurrent);
+
+		// falseを渡すと空が返る
+		$newDataWithCurrent = $SiteSetting->create(false);
+		$this->assertEmpty($newDataWithCurrent);
 	}
 
 /**
- * createAllのassociation(belongTo)のテスト
+ * create()でモデル名付きの配列を渡すとデフォルト値がセットされなかったバグの修正テスト
+ * ```
+ * var_dump($this->Announcement->create(array('Announcement' => array(
+ * 	'id' => null,
+ * ))));
+ * var_dump($this->Announcement->create(array(
+ * 	'id' => null,
+ * )));
+ * 上記の結果が同じになるように修正した
+ * ```
  *
- * @param array $data createAllの引数
- * @dataProvider dataProviderCreateAllProfile
  * @return void
  */
-	public function testCreateAllProfile($data = array()) {
+	public function testCreateWithModelNameData() {
 		$TestCreateProfile = ClassRegistry::init('TestNetCommons.TestCreateProfile');
-		$newData = $TestCreateProfile->createAll($data);
+		$data = [
+			'name' => 'foo'
+		];
+		$newData = $TestCreateProfile->create($data);
 
-		$this->assertNotEmpty($newData['TestCreateUser']);
-		$this->assertNotEmpty($newData['TestCreateProfile']);
-		$this->assertArrayNotHasKey('TrackableCreator', $newData);
-		$this->assertArrayNotHasKey('TrackableUpdater', $newData);
+		$dataWithModelName = [
+			'TestCreateProfile' => [
+				'name' => 'foo'
+			]
 
-		if (isset($data['language_id'])) {
-			$expected = $data['language_id'];
-		} elseif (isset($data['TestCreateProfile']['language_id'])) {
-			$expected = $data['TestCreateProfile']['language_id'];
-		} else {
-			$expected = Current::$current['Language']['id'];
-		}
+		];
+		$newDataWithModelName = $TestCreateProfile->create($dataWithModelName);
 
-		$this->assertEquals($expected, $newData['TestCreateProfile']['language_id']);
+		$this->assertEquals($newData, $newDataWithModelName);
+		$this->assertEquals(5, $newData['TestCreateProfile']['language_id']);
 	}
-
-/**
- * createAllのassociation(hasOne)のDataProvider
- *
- * #### 戻り値
- *  - data createAllの引数
- *
- * @return void
- */
-	public function dataProviderCreateAllUser() {
-		return array(
-			array(),
-			array(array('TestCreateGroup' => array('room_id' => '3'))),
-		);
-	}
-
-/**
- * createAllのassociation(hasOne)のDataProvider
- *
- * #### 戻り値
- *  - data createAllの引数
- *
- * @return void
- */
-	public function dataProviderCreateAllProfile() {
-		return array(
-			array(),
-			array(array('language_id' => '2')),
-			array(array('TestCreateProfile' => array('language_id' => '4'))),
-		);
-	}
-
 }

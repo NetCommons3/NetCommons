@@ -7,20 +7,21 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('NetCommonsApp', 'NetCommons.Model');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 
 /**
  * Summary for NetCommonsApp Test Case
  */
-class NetCommonsAppTest extends NetCommonsCakeTestCase {
+class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
 
 /**
  * @var array fixture
  */
 	public $fixtures = array(
 		'plugin.net_commons.site_setting',
+		'plugin.net_commons.create_profile',
 	);
 
 /**
@@ -30,7 +31,9 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		//$this->NetCommonsApp = ClassRegistry::init('NetCommons.NetCommonsApp');
+		NetCommonsControllerTestCase::loadTestPlugin($this, 'NetCommons', 'TestNetCommons');
+
+		Current::$current['Language']['id'] = '5';
 	}
 
 /**
@@ -39,8 +42,7 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		//unset($this->NetCommonsApp);
-
+		Current::$current = array();
 		parent::tearDown();
 	}
 
@@ -77,5 +79,38 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
 		// falseを渡すと空が返る
 		$newDataWithCurrent = $SiteSetting->create(false);
 		$this->assertEmpty($newDataWithCurrent);
+	}
+
+/**
+ * create()でモデル名付きの配列を渡すとデフォルト値がセットされなかったバグの修正テスト
+ * ```
+ * var_dump($this->Announcement->create(array('Announcement' => array(
+ * 	'id' => null,
+ * ))));
+ * var_dump($this->Announcement->create(array(
+ * 	'id' => null,
+ * )));
+ * 上記の結果が同じになるように修正した
+ * ```
+ *
+ * @return void
+ */
+	public function testCreateWithModelNameData() {
+		$TestCreateProfile = ClassRegistry::init('TestNetCommons.TestCreateProfile');
+		$data = [
+			'name' => 'foo'
+		];
+		$newData = $TestCreateProfile->create($data);
+
+		$dataWithModelName = [
+			'TestCreateProfile' => [
+				'name' => 'foo'
+			]
+
+		];
+		$newDataWithModelName = $TestCreateProfile->create($dataWithModelName);
+
+		$this->assertEquals($newData, $newDataWithModelName);
+		$this->assertEquals(5, $newData['TestCreateProfile']['language_id']);
 	}
 }

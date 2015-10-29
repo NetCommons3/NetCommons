@@ -44,7 +44,7 @@ class NetCommonsAppModelCreateAllTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = null;
+		Current::$current = array();
 		parent::tearDown();
 	}
 

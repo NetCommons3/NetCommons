@@ -21,6 +21,7 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.net_commons.site_setting',
+		'plugin.announcements.announcement',
 	);
 
 /**
@@ -78,4 +79,39 @@ class NetCommonsAppTest extends NetCommonsCakeTestCase {
 		$newDataWithCurrent = $SiteSetting->create(false);
 		$this->assertEmpty($newDataWithCurrent);
 	}
+
+/**
+ * create()でモデル名付きの配列を渡すとデフォルト値がセットされなかったバグの修正テスト
+ * ```
+ * var_dump($this->Announcement->create(array('Announcement' => array(
+ * 	'id' => null,
+ * ))));
+ * var_dump($this->Announcement->create(array(
+ * 	'id' => null,
+ * )));
+ * 上記の結果が同じになるように修正した
+ * ```
+ *
+ * @return void
+ */
+	public function testCreateWithModelNameData() {
+		$Announcement = ClassRegistry::init('Announcements.Announcement');
+		$data = [
+			'key' => 'foo'
+		];
+		$newData = $Announcement->create($data);
+		//debug($newData);
+
+		$dataWithModelName = [
+			'Announcement' => [
+				'key' => 'foo'
+			]
+
+		];
+		$newDataWithModelName = $Announcement->create($dataWithModelName);
+		//debug($newDataWithModelName);
+
+		$this->assertEquals($newData, $newDataWithModelName);
+	}
 }
+

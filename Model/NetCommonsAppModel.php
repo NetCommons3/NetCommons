@@ -180,7 +180,11 @@ class NetCommonsAppModel extends Model {
  */
 	public function create($data = array(), $filterKey = false) {
 		if ($data !== null && $data !== false) {
-			$options = $this->_getDefaultValue($data);
+			if (empty($data[$this->alias])) {
+				$data = $this->_setAliasData($data);
+			}
+
+			$options = $this->_getDefaultValue();
 			$data = Hash::merge($options, $data);
 		}
 
@@ -289,10 +293,9 @@ class NetCommonsAppModel extends Model {
 /**
  * 全カラムのデフォルト値をセットした配列を返す。
  *
- * @param array $data デフォルトを上書きするカラム配列
  * @return array デフォルト値をセットした配列
  */
-	protected function _getDefaultValue($data) {
+	protected function _getDefaultValue() {
 		$options = array();
 
 		$currents = array();
@@ -322,6 +325,8 @@ class NetCommonsAppModel extends Model {
 				$options[$fieldName] = $currents[$fieldName];
 			}
 		}
+
+		$options = $this->_setAliasData($options);
 		return $options;
 	}
 }

@@ -48,6 +48,20 @@ class NetCommonsAppModel extends Model {
 	public $validate = array();
 
 /**
+ * 接続先DB　master slave変更用
+ *
+ * @var string
+ */
+	private static $__changeDbConfig;
+
+/**
+ * 接続先DB　古いslave保存用
+ *
+ * @var string
+ */
+	private static $__oldSlaveDbConfig;
+
+/**
  * Constructor. DataSourceの選択
  *
  * 接続先DBをランダムに選択します。
@@ -69,21 +83,7 @@ class NetCommonsAppModel extends Model {
 		// Use a static variable, to only use one connection per page-call (otherwise we would get a new handle every time a Model is created)
 		static $_useDbConfig;
 		if (!isset($_useDbConfig)) {
-			// Get all available database-configs
-			$sources = ConnectionManager::enumConnectionObjects();
-
-			// Find the slaves we have
-			$slaves = array();
-			foreach ($sources as $name => $values) {
-				unset($values);
-				// Slaves have to be named "slave1", "slave2", etc...
-				if (preg_match('/^slave[0-9]+$/i', $name) == 1) {
-					$slaves[] = $name;
-				}
-			}
-
-			// Randomly use a slave
-			$_useDbConfig = $slaves[rand(0, count($slaves) - 1)];
+			$_useDbConfig = $this->__getRandomlySlave();
 		}
 		$this->useDbConfig = $_useDbConfig;
 
@@ -91,38 +91,61 @@ class NetCommonsAppModel extends Model {
 	}
 
 /**
- * Sets the DataSource to which this model is bound.<br>
- * データの書き込み時はMaterDBに対して行うため、接続先DBを変更しているが、<br>
- * Test実行時は唯一のDBに対して行うようにOverrideしています。
+ * Find the slaves we have
  *
- * @param string $dataSource The name of the DataSource, as defined in app/Config/database.php
+ * @return string The name of the DataSource, as defined in app/Config/database.php
+ */
+	private function __getRandomlySlave() {
+		// Get all available database-configs
+		$sources = ConnectionManager::enumConnectionObjects();
+
+		// Find the slaves we have
+		$slaves = array();
+		foreach ($sources as $name => $values) {
+			unset($values);
+			// Slaves have to be named "slave1", "slave2", etc...
+			if (preg_match('/^slave[0-9]+$/i', $name) == 1) {
+				$slaves[] = $name;
+			}
+		}
+
+		// Randomly use a slave
+		$dataSource = (count($slaves) !== 0) ? $slaves[rand(0, count($slaves) - 1)] : 'master';
+		return $dataSource;
+	}
+
+/**
+ * Masterの接続先に変更する。
+ *
  * @return void
  */
-	public function setDataSource($dataSource = null) {
-		$oldConfig = $this->useDbConfig;
-		if ($dataSource) {
-			//MasterDBに切り替え処理
-			$this->__setMasterDataSource();
+	public function setMasterDataSource() {
+		self::$__changeDbConfig = 'master';
+	}
+
+/**
+ * 以前のSlaveの接続先に戻す。なければ、ランダムに選択
+ *
+ * @return void
+ */
+	public function setSlaveDataSource() {
+		if (self::$__oldSlaveDbConfig) {
+			self::$__changeDbConfig = self::$__oldSlaveDbConfig;
+			return;
 		}
+		self::$__changeDbConfig = $this->__getRandomlySlave();
+	}
 
-		$db = ConnectionManager::getDataSource($this->useDbConfig);
-		if (!empty($oldConfig) && isset($db->config['prefix'])) {
-			$oldDb = ConnectionManager::getDataSource($oldConfig);
+/**
+ * Gets the DataSource to which this model is bound.
+ *
+ * @return DataSource A DataSource object
+ */
+	public function getDataSource() {
+		// MasterDBに切り替え処理
+		$this->__changeMasterDataSource();
 
-			if (!isset($this->tablePrefix) || (!isset($oldDb->config['prefix']) || $this->tablePrefix === $oldDb->config['prefix'])) {
-				$this->tablePrefix = $db->config['prefix'];
-			}
-		} elseif (isset($db->config['prefix'])) {
-			$this->tablePrefix = $db->config['prefix'];
-		}
-
-		$schema = $db->getSchemaName();
-
-		$defaultProperties = get_class_vars(get_class($this));
-		if (isset($defaultProperties['schemaName'])) {
-			$schema = $defaultProperties['schemaName'];
-		}
-		$this->schemaName = $schema;
+		return parent::getDataSource();
 	}
 
 /**
@@ -130,15 +153,12 @@ class NetCommonsAppModel extends Model {
  *
  * @return void
  */
-	private function __setMasterDataSource() {
-		if (! Configure::read('NetCommons.installed')) {
+	private function __changeMasterDataSource() {
+		if (self::$__changeDbConfig === 'master' &&
+				$this->useDbConfig !== 'test' && $this->useDbConfig !== 'master') {
+			self::$__oldSlaveDbConfig = $this->useDbConfig;
 			$this->useDbConfig = 'master';
-			return;
-		}
-		if (Configure::read('useDbConfig') === 'master' && $this->useDbConfig !== 'test') {
-			if ($this->useDbConfig !== 'master') {
-				$this->useDbConfig = 'master';
-			}
+			$this->_sourceConfigured = false;
 
 			$associations = Hash::merge(
 				array_keys($this->hasOne),
@@ -146,7 +166,6 @@ class NetCommonsAppModel extends Model {
 				array_keys($this->belongsTo),
 				array_keys($this->hasAndBelongsToMany)
 			);
-
 			foreach ($associations as $btModelName) {
 				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
 			}
@@ -232,8 +251,7 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function begin() {
-		Configure::write('useDbConfig', 'master');
-		$this->setDataSource('master');
+		$this->setMasterDataSource();
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 	}

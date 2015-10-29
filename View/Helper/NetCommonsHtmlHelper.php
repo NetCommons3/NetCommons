@@ -26,6 +26,17 @@ class NetCommonsHtmlHelper extends AppHelper {
 	public $helpers = array('Html');
 
 /**
+ * HtmlHelperラップ用マジックメソッド。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
+ */
+	public function __call($method, $params) {
+		return call_user_func_array(array($this->Html, $method), $params);
+	}
+
+/**
  * Overwrite HtmlHelper::script()
  *
  * @param string|array $url String or array of javascript files to include

@@ -12,6 +12,12 @@ App::uses('Current', 'NetCommons.Utility');
 /**
  * Class NetCommonsTime
  *
+ * タイムゾーンを考慮した日時を算出します。
+ * コンポーネントとヘルパーを提供しています。
+ *
+ * [NetCommonsTimeComponent](./NetCommonsTimeComponent.md#netcommonstimecomponent)<br>
+ * [NetCommonsTimeHelper](./NetCommonsTimeHelper.md#netcommonstimehelper)
+ *
  * ## テストで時刻を差し替えたいときのサンプルコード
  * ```
  *    $nowProperty = new ReflectionProperty('NetCommonsTime', '_now');

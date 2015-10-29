@@ -124,6 +124,9 @@ class NetCommonsTimeTest extends CakeTestCase {
 		//Static callでも差し替えた日時になる
 		$this->assertEquals('2000-01-01 00:00:00', NetCommonsTime::getNowDatetime());
 
+		// メソッドチェーンもOK
+		$this->assertEquals('2000-01-01 00:00:00', (new NetCommonsTime())->getNowDatetime());
+
 		$nowProperty->setValue(null);
 	}
 
@@ -176,7 +179,7 @@ class NetCommonsTimeTest extends CakeTestCase {
 		Configure::delete('SiteTimezone');
 		// NetCommonsTimeの現在時刻を差し替える
 		$netCommonsTime = new NetCommonsTime();
-		$method = new ReflectionMethod($netCommonsTime, '_getSiteTimezone');
+		$method = new ReflectionMethod($netCommonsTime, 'getSiteTimezone');
 		$method->setAccessible(true);
 
 		$this->getMockForModel('NetCommons.SiteSetting', ['getSiteTimezone'])
@@ -200,14 +203,46 @@ class NetCommonsTimeTest extends CakeTestCase {
 	public function testGuestConvertCallGetSiteTimezone() {
 		Current::$current['User']['timezone'] = null;
 
-		// NetCommonsTime::_getSiteTimezone()が2回呼ばれるはず
-		$mock = $this->getMock('NetCommonsTime', ['_getSiteTimezone']);
+		// NetCommonsTime::getSiteTimezone()が2回呼ばれるはず
+		$mock = $this->getMock('NetCommonsTime', ['getSiteTimezone']);
 
 		$mock->expects($this->exactly(2))
-			->method('_getSiteTimezone')
+			->method('getSiteTimezone')
 			->will($this->returnValue('Asia/Tokyo'));
 
 		$mock->toServerDatetime('2000-01-01 00:00:00');
 		$mock->toUserDatetime('2000-01-01 00:00:00');
+	}
+
+/**
+ * コンストラクタからチェーンメソッドでも呼べるのを確認した
+ *
+ * @return void
+ */
+	public function testMethodChain() {
+		$siteTimezone = (new NetCommonsTime())->getSiteTimezone();
+		$this->assertEquals('Asia/Tokyo', $siteTimezone);
+	}
+
+/**
+ * メソッドチェーンとインスタンス生成でのメモリ消費ぐあいの確認
+ *
+ * @return void
+ */
+	public function testMethodChainUseMemory() {
+		// コンストラクタから直接メソッドチェーンするとメモリは余計には使われない
+		echo memory_get_usage() . '/';
+		$timezone = (new NetCommonsTime())->getSiteTimezone();
+		echo memory_get_usage() . '/';
+		$timezone = (new NetCommonsTime())->getSiteTimezone();
+		echo memory_get_usage() . '/';
+
+		// インスタンスをそれぞれ作ると各インスタンス毎にメモリを消費する
+		echo memory_get_usage() . '/';
+		$instance1 = new NetCommonsTime();
+		echo memory_get_usage() . '/';
+		$instance2 = new NetCommonsTime();
+		echo memory_get_usage() . '/';
+		unset($instance1, $instance2);
 	}
 }

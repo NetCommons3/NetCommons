@@ -176,7 +176,10 @@ class NetCommonsTimeTest extends CakeTestCase {
  * @return void
  */
 	public function testGetSiteTimezone() {
-		Configure::delete('SiteTimezone');
+		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', '_siteTimezone');
+		$siteTimezoneProperty->setAccessible(true);
+		$siteTimezoneProperty->setValue(null);
+
 		// NetCommonsTimeの現在時刻を差し替える
 		$netCommonsTime = new NetCommonsTime();
 		$method = new ReflectionMethod($netCommonsTime, 'getSiteTimezone');
@@ -192,7 +195,10 @@ class NetCommonsTimeTest extends CakeTestCase {
 		$this->assertEquals('Asia/Tokyo', $siteTimezone);
 
 		$method->invoke($netCommonsTime); // 2回目はSiteSettingを呼び出さない
-		Configure::delete('SiteTimezone');
+
+		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', '_siteTimezone');
+		$siteTimezoneProperty->setAccessible(true);
+		$siteTimezoneProperty->setValue(null);
 	}
 
 /**

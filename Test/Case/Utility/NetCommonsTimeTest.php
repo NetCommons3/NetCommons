@@ -176,7 +176,7 @@ class NetCommonsTimeTest extends CakeTestCase {
 		Configure::delete('SiteTimezone');
 		// NetCommonsTimeの現在時刻を差し替える
 		$netCommonsTime = new NetCommonsTime();
-		$method = new ReflectionMethod($netCommonsTime, '_getSiteTimezone');
+		$method = new ReflectionMethod($netCommonsTime, 'getSiteTimezone');
 		$method->setAccessible(true);
 
 		$this->getMockForModel('NetCommons.SiteSetting', ['getSiteTimezone'])
@@ -201,10 +201,10 @@ class NetCommonsTimeTest extends CakeTestCase {
 		Current::$current['User']['timezone'] = null;
 
 		// NetCommonsTime::_getSiteTimezone()が2回呼ばれるはず
-		$mock = $this->getMock('NetCommonsTime', ['_getSiteTimezone']);
+		$mock = $this->getMock('NetCommonsTime', ['getSiteTimezone']);
 
 		$mock->expects($this->exactly(2))
-			->method('_getSiteTimezone')
+			->method('getSiteTimezone')
 			->will($this->returnValue('Asia/Tokyo'));
 
 		$mock->toServerDatetime('2000-01-01 00:00:00');

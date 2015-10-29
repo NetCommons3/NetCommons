@@ -33,7 +33,7 @@ class NetCommonsTime {
  *
  * @return string タイムゾーン
  */
-	protected function _getSiteTimezone() {
+	public function getSiteTimezone() {
 		$siteTimezone = Configure::read('SiteTimezone');
 		if ($siteTimezone === null) {
 			$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
@@ -148,7 +148,7 @@ class NetCommonsTime {
 	public function getUserTimezone() {
 		$userTimezone = Current::read('User.timezone');
 		if ($userTimezone === null) {
-			$userTimezone = $this->_getSiteTimezone();
+			$userTimezone = $this->getSiteTimezone();
 		}
 		return $userTimezone;
 	}

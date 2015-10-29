@@ -201,33 +201,22 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function createAll($data = array(), $filterKey = false) {
-		$newRecord = $data;
-
-		if (isset($data[$this->alias])) {
-			$options = $data[$this->alias];
-		} else {
-			$options = array();
-		}
-		$newRecord = Hash::merge($newRecord, $this->create($options));
-
-		foreach ($this->_associations as $type) {
-			if (! in_array($type, array('belongsTo', 'hasOne'), true)) {
+		$newRecord = $this->create($data, $filterKey);
+		$associations = Hash::merge(
+			array_keys($this->hasOne),
+			array_keys($this->belongsTo)
+		);
+		foreach ($associations as $model) {
+			if ($model === 'TrackableCreator' || $model === 'TrackableUpdater') {
 				continue;
 			}
 
-			$models = array_keys($this->$type);
-			foreach ($models as $model) {
-				if ($model === 'TrackableCreator' || $model === 'TrackableUpdater') {
-					continue;
-				}
-
-				if (isset($data[$model])) {
-					$options = $data[$model];
-				} else {
-					$options = array();
-				}
-				$newRecord = Hash::merge($newRecord, $this->$model->create($options));
+			if (isset($data[$model])) {
+				$options = $data[$model];
+			} else {
+				$options = array();
 			}
+			$newRecord = Hash::merge($newRecord, $this->$model->create($options, $filterKey));
 		}
 
 		return $newRecord;

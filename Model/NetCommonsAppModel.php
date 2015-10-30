@@ -120,7 +120,9 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function setMasterDataSource() {
-		self::$__changeDbConfig = 'master';
+		if ($this->useDbConfig !== 'test') {
+			self::$__changeDbConfig = 'master';
+		}
 	}
 
 /**
@@ -129,6 +131,9 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function setSlaveDataSource() {
+		if ($this->useDbConfig === 'test') {
+			return;
+		}
 		if (self::$__oldSlaveDbConfig) {
 			self::$__changeDbConfig = self::$__oldSlaveDbConfig;
 			return;

@@ -20,7 +20,8 @@ class CurrentControlPanel {
 /**
  * Constant Plugin value
  */
-	const PLUGIN_CONTROL_PANEL = 'control_panel';
+	const PLUGIN_CONTROL_PANEL = 'control_panel',
+			PLUGIN_USERS = 'users';
 
 /**
  * Request object
@@ -99,7 +100,7 @@ class CurrentControlPanel {
 			unset(Current::$current['Plugin']);
 		}
 
-		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
+		if (self::$__request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
 				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return;
 		}

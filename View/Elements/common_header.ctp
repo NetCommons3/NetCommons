@@ -37,43 +37,44 @@ if (! isset($isSettingMode)) {
 					<li>
 						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
 					</li>
-					<?php if ($user = AuthComponent::user()): ?>
+					<?php if ($user = AuthComponent::user()) : ?>
 						<li>
-							<a href="#">
-								<?php echo h($user['handlename']); ?>
-							</a>
+							<?php echo $this->NetCommonsHtml->link($user['handlename'], NetCommonsUrl::userActionUrl()); ?>
 						</li>
 						<li>
-							<?php echo $this->Html->link(__d('net_commons', 'Logout'), '/auth/logout') ?>
+							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'),
+									NetCommonsUrl::actionUrl(array('plugin' => 'auth', 'controller' => 'logout'))); ?>
 						</li>
 					<?php else: ?>
 						<li>
-							<?php echo $this->Html->link(__d('net_commons', 'Login'), '/auth/login') ?>
+							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'),
+									NetCommonsUrl::actionUrl(array('plugin' => 'auth', 'controller' => 'login'))); ?>
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')): ?>
+					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
 						<li class="dropdown">
 							<?php echo $this->element('Pages.dropdown_menu'); ?>
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasSettingMode()): ?>
+					<?php if (Current::hasSettingMode()) : ?>
 						<li>
-							<?php if (! $isSettingMode): ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode on'), '/' . Current::SETTING_MODE_WORD . NetCommonsUrl::backToPageUrl()); ?>
+							<?php if (! $isSettingMode) : ?>
+								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode on'), NetCommonsUrl::backToPageUrl(true)); ?>
 							<?php else: ?>
-								<?php echo $this->Html->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
+								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasControlPanel()): ?>
+					<?php if (Current::hasControlPanel()) : ?>
 						<li>
 							<?php if (! Current::isControlPanel()): ?>
-								<?php echo $this->Html->link(__d('control_panel', 'Control Panel'), '/control_panel/control_panel'); ?>
+								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Control Panel'),
+										array('plugin' => 'control_panel', 'controller' => 'control_panel')); ?>
 							<?php else : ?>
-								<?php echo $this->Html->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
+								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

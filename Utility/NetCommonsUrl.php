@@ -131,7 +131,7 @@ class NetCommonsUrl {
 			'plugin' => 'users',
 			'controller' => 'users',
 			'action' => 'view',
-			'block_id' => Current::read('User.id')
+			'key' => Current::read('User.id')
 		), $params);
 
 		//if (! Current::isControlPanel()) {

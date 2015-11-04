@@ -72,7 +72,7 @@ if (! isset($isSettingMode)) {
 						<li>
 							<?php if (! Current::isControlPanel()): ?>
 								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Control Panel'),
-										array('plugin' => 'control_panel', 'controller' => 'control_panel')); ?>
+										array('plugin' => 'control_panel', 'controller' => 'control_panel', 'action' => 'index')); ?>
 							<?php else : ?>
 								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>

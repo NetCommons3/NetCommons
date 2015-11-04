@@ -415,9 +415,27 @@ class Current {
 /**
  * コントロールパネルチェック
  *
+ * @param string|null $url 指定されている場合、そのURLに対してコントロールパネルかどうかチェックする
  * @return bool
  */
-	public static function isControlPanel() {
+	public static function isControlPanel($url = null) {
+		if (isset($url)) {
+			$urlAsArray = Router::parse($url);
+			$Plugin = ClassRegistry::init('PluginManager.Plugin');
+			$result = $Plugin->find('first', array(
+				'recursive' => -1,
+				'fields' => 'type',
+				'conditions' => array(
+					'key' => $urlAsArray['plugin'],
+					'language_id' => Current::$current['Language']['id']
+				),
+			));
+			if (! $result) {
+				return false;
+			}
+			return ($result['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL);
+		}
+
 		if (self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}

@@ -18,10 +18,9 @@
 class CurrentControlPanel {
 
 /**
- * Constant Plugin value
+ * ControlPanelプラグイン名の定数
  */
-	const PLUGIN_CONTROL_PANEL = 'control_panel',
-			PLUGIN_USERS = 'users';
+	const PLUGIN_CONTROL_PANEL = 'control_panel';
 
 /**
  * Request object

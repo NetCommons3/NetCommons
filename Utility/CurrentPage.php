@@ -25,7 +25,7 @@ class CurrentPage {
 	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
- * Constant Plugin value
+ * Pagesプラグイン名の定数
  */
 	const PLUGIN_PAGES = 'pages';
 

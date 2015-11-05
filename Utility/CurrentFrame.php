@@ -31,7 +31,7 @@ class CurrentFrame {
  */
 	public static $skipFramePlugins = array(
 		CurrentPage::PLUGIN_PAGES,
-		CurrentControlPanel::PLUGIN_USERS
+		Current::PLUGIN_USERS
 	);
 
 /**

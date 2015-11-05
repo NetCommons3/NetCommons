@@ -237,6 +237,11 @@ class Current {
 	const SETTING_MODE_WORD = 'setting';
 
 /**
+ * Usersプラグイン名の定数
+ */
+	const PLUGIN_USERS = 'users';
+
+/**
  * is setting mode true
  *
  * @var bool
@@ -282,7 +287,32 @@ class Current {
 			self::$__instance = new Current();
 		}
 
-		self::$__request = $request;
+		self::$__request = clone $request;
+
+		if ($request->params['plugin'] === self::PLUGIN_USERS) {
+//CakeLog::debug('Current::initialize() $request->params: ' . print_r($request->params, true));
+//CakeLog::debug('Current::initialize() $request->query: ' . print_r($request->query, true));
+
+			if (! $referer = CakeSession::read('Current.referer')) {
+				$referer = $request->referer(true);
+				CakeSession::write('Current.referer', $referer);
+			}
+			$params = Router::parse($referer);
+			if ($params['plugin'] === self::PLUGIN_USERS) {
+				$params = Router::parse('/');
+			}
+			if (isset($params['?'])) {
+				self::$__request->query = $params['?'];
+				unset($params['?']);
+			}
+			self::$__request->params = $params;
+
+//CakeLog::debug('Current::initialize() self::$__request->params: ' . print_r(self::$__request->params, true));
+		} else {
+			if (CakeSession::read('Current.referer')) {
+				CakeSession::delete('Current.referer');
+			}
+		}
 
 		self::$current['User'] = AuthComponent::user();
 
@@ -415,27 +445,9 @@ class Current {
 /**
  * コントロールパネルチェック
  *
- * @param string|null $url 指定されている場合、そのURLに対してコントロールパネルかどうかチェックする
  * @return bool
  */
-	public static function isControlPanel($url = null) {
-		if (isset($url)) {
-			$urlAsArray = Router::parse($url);
-			$Plugin = ClassRegistry::init('PluginManager.Plugin');
-			$result = $Plugin->find('first', array(
-				'recursive' => -1,
-				'fields' => 'type',
-				'conditions' => array(
-					'key' => $urlAsArray['plugin'],
-					'language_id' => Current::$current['Language']['id']
-				),
-			));
-			if (! $result) {
-				return false;
-			}
-			return ($result['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL);
-		}
-
+	public static function isControlPanel() {
 		if (self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}

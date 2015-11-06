@@ -19,6 +19,7 @@ echo $this->Html->script(
 		'/net_commons/js/base.js',
 		'/frames/js/frames.js',
 		'/pages/js/pages.js',
+		'/users/js/users.js',
 	),
 	array('plugin' => false)
 );

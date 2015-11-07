@@ -326,7 +326,7 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $location, NetCommonsUser) {
+    $scope, $location, User) {
 
       /**
        * Base URL
@@ -342,8 +342,7 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @return {void}
        */
       $scope.showUser = function(id) {
-        var url = $scope.baseUrl + '/users/users/view/' + id;
-        NetCommonsUser.show($scope, url);
+        User.show($scope, $scope.baseUrl + '/users/users/view/' + id + '');
       };
 
       /**

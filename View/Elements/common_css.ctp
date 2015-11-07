@@ -10,13 +10,14 @@
 
 echo $this->Html->css(
 	array(
-		'/components/bootstrap/dist/css/bootstrap.min.css',
-		'/net_commons/css/style.css',
-		'/frames/css/style.css',
 		'bootstrap.min.css',
 		'style',
-		'/pages/css/style.css',
+		'/components/bootstrap/dist/css/bootstrap.min.css',
 		'/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+		'/frames/css/style.css',
+		'/net_commons/css/style.css',
+		'/pages/css/style.css',
+		'/user_attributes/css/style.css',
 	),
 	array('plugin' => false)
 );

@@ -64,9 +64,6 @@ input[type="checkbox"] {
 #nc-flash-message .pull-right {
 	margin-right: 20px;
 }
-.modal {
-	/* top: 20px; */
-}
 
 /* nc-system- */
 #nc-system-footer {
@@ -77,10 +74,6 @@ input[type="checkbox"] {
 
 #nc-system-footer .copyright {
     text-align: center;
-}
-/* modle width large*/
-.nc-modal-lg.modal-dialog {
-    width: 90%;
 }
 
 .nc-wysiwyg-alert {
@@ -124,4 +117,13 @@ textarea.nc-noresize {
 
 .nc-danger-zone .panel-title > a.accordion-toggle {
 	display: block;
+}
+
+.nc-no-border {
+	border: none;
+}
+
+/* modal */
+.modal-header {
+	padding-bottom: 5px;
 }

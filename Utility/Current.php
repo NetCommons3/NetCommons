@@ -289,28 +289,23 @@ class Current {
 
 		self::$__request = clone $request;
 
-		if ($request->params['plugin'] === self::PLUGIN_USERS) {
-//CakeLog::debug('Current::initialize() $request->params: ' . print_r($request->params, true));
-//CakeLog::debug('Current::initialize() $request->query: ' . print_r($request->query, true));
-
-			if (! $referer = CakeSession::read('Current.referer')) {
-				$referer = $request->referer(true);
-				CakeSession::write('Current.referer', $referer);
-			}
-			$params = Router::parse($referer);
-			if ($params['plugin'] === self::PLUGIN_USERS) {
-				$params = Router::parse('/');
-			}
-			if (isset($params['?'])) {
-				self::$__request->query = $params['?'];
-				unset($params['?']);
-			}
-			self::$__request->params = $params;
-
-//CakeLog::debug('Current::initialize() self::$__request->params: ' . print_r(self::$__request->params, true));
-		} else {
-			if (CakeSession::read('Current.referer')) {
-				CakeSession::delete('Current.referer');
+		if (! Hash::get($request->params, 'autoRender')) {
+			if ($request->params['plugin'] === self::PLUGIN_USERS) {
+				if (! $referer = CakeSession::read('current_referer')) {
+					$referer = $request->referer(true);
+					CakeSession::write('current_referer', $referer);
+				}
+				$params = Router::parse($referer);
+				if (in_array($params['plugin'], array(self::PLUGIN_USERS, 'auth'))) {
+					$params = Router::parse('/');
+				}
+				if (isset($params['?'])) {
+					self::$__request->query = $params['?'];
+					unset($params['?']);
+				}
+				self::$__request->params = $params;
+			} elseif (CakeSession::read('current_referer')) {
+				CakeSession::delete('current_referer');
 			}
 		}
 

@@ -119,8 +119,9 @@ textarea.nc-noresize {
 	display: block;
 }
 
-.nc-no-border {
+.nc-data-label {
 	border: none;
+	overflow: hidden;
 }
 
 /* modal */

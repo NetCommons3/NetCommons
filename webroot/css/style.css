@@ -10,6 +10,12 @@ input[type="radio"] ,
 input[type="checkbox"] {
     margin-right: 5px;
 }
+.nc-checkbox {
+    padding-left: 20px;
+}
+.nc-checkbox label {
+    padding-left: 0px;
+}
 
 .inline-block {
     display: inline-block;

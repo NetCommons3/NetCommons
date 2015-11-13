@@ -19,6 +19,15 @@ App::uses('Current', 'NetCommons.Utility');
 class SiteSetting extends AppModel {
 
 /**
+ * use behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+			'NetCommons.OriginalKey',
+	);
+
+/**
  * サイトに設定されているテーマを返す
  *
  * @author Takako Miyagawa <nekoget@gmail.com>

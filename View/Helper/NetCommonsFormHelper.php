@@ -237,8 +237,15 @@ class NetCommonsFormHelper extends Helper {
 
 
 	public function uploadFile($fieldName, $options = array()) {
-		$modelName = $this->Form->defaultModel;
-		$inputFieldName = $modelName . '.' . $fieldName;
+		if(strpos($fieldName, '.')) {
+			//モデル名あり ex BlogEntry.pdf
+			$inputFieldName = $fieldName;
+			$fieldName = substr($fieldName, strrpos($fieldName, '.') + 1); //BlogEntry.pdf -> pdf
+		}else{
+			// モデル名ついてない
+			$modelName = $this->Form->defaultModel;
+			$inputFieldName = $modelName . '.' . $fieldName;
+		}
 		$output = '';
 		$output .= $this->input($inputFieldName, ['type' => 'file']);
 		if(isset($this->_uploadFileNames[$fieldName])){

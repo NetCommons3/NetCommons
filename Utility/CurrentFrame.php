@@ -18,16 +18,21 @@
 class CurrentFrame {
 
 /**
- * Constant Plugin value
- */
-	const PLUGIN_PAGES = 'pages';
-
-/**
  * Request object
  *
  * @var mixed
  */
 	private static $__request;
+
+/**
+ * 管理プラグイン以外でFrameチェックからスキップするプラグインリスト
+ *
+ * @var mixed
+ */
+	public static $skipFramePlugins = array(
+		CurrentPage::PLUGIN_PAGES,
+		Current::PLUGIN_USERS
+	);
 
 /**
  * Instance object
@@ -65,7 +70,7 @@ class CurrentFrame {
 			unset(Current::$m17n['Block']);
 		}
 
-		if (self::$__request->params['plugin'] !== self::PLUGIN_PAGES) {
+		if (!in_array(self::$__request->params['plugin'], self::$skipFramePlugins, true)) {
 			self::$__instance->setFrame();
 			self::$__instance->setBlock();
 			self::$__instance->setM17n();

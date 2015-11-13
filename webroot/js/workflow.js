@@ -6,6 +6,7 @@
 
 /**
  * NetCommonsWorkflow factory
+ * 後で削除したい
  */
 NetCommonsApp.factory(
     'NetCommonsWorkflow',

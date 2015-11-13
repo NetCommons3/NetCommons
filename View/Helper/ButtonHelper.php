@@ -75,9 +75,7 @@ class ButtonHelper extends FormHelper {
 		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
 		unset($inputOptions['icon']);
 		//ボタンサイズ
-		$sizeAttr = '';
-		$sizeAttr = h($inputOptions['iconSize']);
-		$inputOptions['class'] .= ' ' . $sizeAttr;
+		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
@@ -126,9 +124,7 @@ class ButtonHelper extends FormHelper {
 		unset($inputOptions['icon']);
 
 		//ボタンサイズ
-		$sizeAttr = '';
-		$sizeAttr = h($inputOptions['iconSize']);
-		$inputOptions['class'] .= ' ' . $sizeAttr;
+		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
@@ -142,6 +138,63 @@ class ButtonHelper extends FormHelper {
 			unset($inputOptions['tooltip']);
 		}
 		$output .= $this->NetCommonsHtml->editLink($iconElement . $title, $url, $inputOptions);
+		if (isset($options['tooltip']) && $options['tooltip']) {
+			$output .= '</span>';
+		}
+		return $output;
+	}
+
+/**
+ * 検索ボタンHTMLの出力
+ *
+ * @param string $title タイトル
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string HTMLタグ
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function searchLink($title = '', $url = null, $options = array()) {
+		$output = '';
+
+		//Linkオプションの設定
+		$inputOptions = Hash::merge(array(
+			'icon' => 'search',
+			'iconSize' => '',
+			'escapeTitle' => false,
+			'class' => 'btn btn-info'
+		), $options);
+
+		if (! $inputOptions['escapeTitle']) {
+			$title = h($title);
+		}
+
+		//iconの有無
+		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
+		unset($inputOptions['icon']);
+
+		//ボタンサイズ
+		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		unset($inputOptions['iconSize']);
+
+		//span tooltipタグの出力
+		if (isset($options['tooltip']) && $options['tooltip']) {
+			if (is_string($options['tooltip'])) {
+				$tooltip = $options['tooltip'];
+			} else {
+				$tooltip = __d('net_commons', 'Search');
+			}
+			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
+			unset($inputOptions['tooltip']);
+		}
+
+		if (! isset($url)) {
+			$url = array();
+		}
+		if (is_array($url)) {
+			$url = Hash::merge(array('action' => 'search'), $url);
+		}
+		$output .= $this->NetCommonsHtml->link($iconElement . $title, $url, $inputOptions);
+
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';
 		}

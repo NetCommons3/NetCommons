@@ -15,6 +15,7 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite
+ * @codeCoverageIgnore
  */
 class NetCommonsSaveTest extends NetCommonsModelTestCase {
 

@@ -4,13 +4,13 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".ctp">app/Plugin/NetCommons</directory>
             <directory suffix=".php">app/Plugin/NetCommons</directory>
-			<exclude>
-				<directory suffix=".php">app/Plugin/NetCommons/Config/Migration</directory>
-				<directory suffix=".php">app/Plugin/NetCommons/Config/Schema</directory>
-				<directory suffix=".php">app/Plugin/NetCommons/Test/Case</directory>
-				<directory suffix=".php">app/Plugin/NetCommons/Test/Fixture</directory>
-				<directory suffix=".php">app/Plugin/NetCommons/TestSuite</directory>
-			</exclude>
+            <exclude>
+                <directory suffix=".php">app/Plugin/NetCommons/Config/Migration</directory>
+                <directory suffix=".php">app/Plugin/NetCommons/Config/Schema</directory>
+                <directory suffix=".php">app/Plugin/NetCommons/Test/Case</directory>
+                <directory suffix=".php">app/Plugin/NetCommons/Test/Fixture</directory>
+                <directory suffix=".php">app/Plugin/NetCommons/TestSuite</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>

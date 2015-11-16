@@ -8,11 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-if (! isset($container)) {
-	$container = 'container';
-}
-if (! isset($isSettingMode)) {
-	$isSettingMode = Current::isSettingMode();
+if (! isset($pageContainerCss)) {
+	$pageContainerCss = 'container';
 }
 ?>
 
@@ -22,7 +19,7 @@ if (! isset($isSettingMode)) {
 
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo ! empty($this->PageLayout) ? $this->PageLayout->getContainerFluid() : $container; ?>">
+		<div class="<?php echo $pageContainerCss; ?>">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>

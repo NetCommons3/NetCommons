@@ -65,6 +65,8 @@ class CurrentPage {
 		self::$__instance->setDefaultRolePermissions();
 
 		self::$__instance->setRoomRolePermissions();
+
+		self::$__instance->setPluginsRoom();
 	}
 
 /**
@@ -209,6 +211,21 @@ class CurrentPage {
 		));
 
 		Current::$current = Hash::merge(Current::$current, $result);
+	}
+
+/**
+ * Set PluginsRoom
+ *
+ * @return bool
+ */
+	public function setPluginsRoom() {
+		if (isset(Current::$current['PluginsRoom']) || ! isset(Current::$current['Room'])) {
+			return;
+		}
+		self::$__instance->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
+
+		$result = self::$__instance->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
+		Current::$current['PluginsRoom'] = $result;
 	}
 
 }

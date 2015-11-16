@@ -134,3 +134,13 @@ textarea.nc-noresize {
 .modal-header {
 	padding-bottom: 5px;
 }
+
+/*
+ * カラーパレット
+ */
+.nc-color-palette-dropdown {width:242px;}
+.nc-color-palette {float:left;width:1em;height:1em;margin:4px 5px;border:1px solid transparent;}
+.nc-color-palette:hover {border-color:#cccccc;}
+.nc-color-palette-bases {float:left;width:1em;height:1em;margin:8px 5px;border:1px solid transparent;}
+.nc-color-palette-bases:hover {border-color:#cccccc;}
+.nc-color-index {border-radius: 0.5em 0px 0px 0.5em !important;height: 34px;padding-left: 0.5em;padding-right: 0.5em;}

@@ -11,6 +11,9 @@
 if (! isset($pageContainerCss)) {
 	$pageContainerCss = 'container';
 }
+if (! isset($isSettingMode)) {
+	$isSettingMode = Current::isSettingMode();
+}
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>

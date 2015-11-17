@@ -162,6 +162,10 @@ class PermissionComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
+		if (! Configure::read('NetCommons.installed')) {
+			return;
+		}
+
 		switch ($this->type) {
 			case self::CHECK_TYEP_SYSTEM_PLUGIN:
 				if (Current::allowSystemPlugin($controller->params['plugin'])) {
@@ -174,17 +178,9 @@ class PermissionComponent extends Component {
 				}
 				break;
 			case self::CHECK_TYEP_GENERAL_PLUGIN:
-				$Room = ClassRegistry::init('Rooms.Room');
-				$spaces = $Room->getSpaces();
-				if (! $spaces) {
-					$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
-					$plugin = Inflector::camelize($space['Space']['plugin_key']);
-					$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
-					if (! $this->SpaceComponent->accessCheck($controller)) {
-						break;
-					}
+				if (! $this->__accessCheck($controller)) {
+					break;
 				}
-
 				if ($this->__allowAction($controller)) {
 					return;
 				}
@@ -211,5 +207,27 @@ class PermissionComponent extends Component {
 		}
 
 		return false;
+	}
+
+/**
+ * アクセスチェック
+ *
+ * @param Controller $controller Controller with components to startup
+ * @return bool
+ */
+	private function __accessCheck(Controller $controller) {
+		try {
+			$Room = ClassRegistry::init('Rooms.Room');
+			$spaces = $Room->getSpaces();
+			if ($spaces && Current::read('Room')) {
+				$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
+				$plugin = Inflector::camelize($space['Space']['plugin_key']);
+				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
+				return $this->SpaceComponent->accessCheck($controller);
+			}
+		} catch (Exception $ex) {
+			CakeLog::error($ex);
+		}
+		return true;
 	}
 }

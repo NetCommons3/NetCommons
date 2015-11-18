@@ -282,7 +282,9 @@ class NetCommonsAppModel extends Model {
 		$dataSource = $this->getDataSource();
 		$dataSource->rollback();
 		if ($ex) {
-			CakeLog::error($ex);
+			if ($this->useDbConfig !== 'test') {
+				CakeLog::error($ex);
+			}
 			throw $ex;
 		}
 	}

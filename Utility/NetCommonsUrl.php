@@ -118,4 +118,33 @@ class NetCommonsUrl {
 		return Hash::merge($url, $params, $query);
 	}
 
+/**
+ * ユーザのアクションURLを生成
+ *
+ * @param array $params Action url array
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
+ * @return string Full translated URL with base path.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public static function userActionUrl($params = array(), $full = false) {
+		$params = Hash::merge(array(
+			'plugin' => 'users',
+			'controller' => 'users',
+			'action' => 'view',
+			'key' => Current::read('User.id')
+		), $params);
+
+		//if (! Current::isControlPanel()) {
+		//	if (Current::read('Frame.id')) {
+		//		$params['frame_id'] = Current::read('Frame.id');
+		//	} else {
+		//		$params['?']['page_id'] = Current::read('Page.id');
+		//	}
+		//}
+
+		$url = self::actionUrlAsArray($params, $full);
+
+		return h(Router::url($url, $full));
+	}
+
 }

@@ -61,6 +61,7 @@ NetCommonsApp.factory('NetCommonsFlash', function() {
 
 /**
  * NetCommonsBase factory
+ * 後で削除したい
  */
 NetCommonsApp.factory(
     'NetCommonsBase',
@@ -151,61 +152,6 @@ NetCommonsApp.factory(
          * @type {Object.<string>}
          */
         var variables = {
-          /**
-           * Relative path to login form
-           *
-           * @const
-           */
-          LOGIN_URI: '/auth/login',
-
-          /**
-           * Relative path to login form
-           *
-           * @const
-           */
-          LOGOUT_URI: '/auth/logout',
-
-          /**
-           * status published
-           *
-           * @const
-           */
-          STATUS_PUBLISHED: '1',
-
-          /**
-           * status approved
-           *
-           * @const
-           */
-          STATUS_APPROVED: '2',
-
-          /**
-           * status drafted
-           *
-           * @const
-           */
-          STATUS_IN_DRAFT: '3',
-
-          /**
-           * status disaproved
-           *
-           * @const
-           */
-          STATUS_DISAPPROVED: '4',
-
-          /**
-           * SERVER_VALIDATE_KEY
-           *
-           * @const
-           */
-          VALIDATE_KEY: 'validation',
-
-          /**
-           * SERVER_VALIDATE_KEY
-           *
-           * @const
-           */
-          VALIDATE_MESSAGE_KEY: 'validationErrors'
 
         };
 
@@ -282,47 +228,48 @@ NetCommonsApp.factory(
 /**
  * NetCommonsUser factory
  */
-NetCommonsApp.factory('NetCommonsUser', function() {
-
-  /**
-   * variables
-   *
-   * @type {Object.<string>}
-   */
-  var variables = {};
-
-  /**
-   * functions
-   *
-   * @type {Object.<function>}
-   */
-  var functions = {
-    /**
-     * new method
-     *
-     * @return {Object.<Object|string|function>}
-     */
-    new: function() {
-      return angular.extend(variables, functions);
-    },
-
-    /**
-     * show user information method
-     *
-     * @param {number} users.id
-     * @return {void}
-     */
-    showUser: function(user_id) {
-      alert('user_id:' + user_id);
-    }
-  };
-
-  return functions.new();
-});
+//NetCommonsApp.factory('NetCommonsUser', function() {
+//
+//  /**
+//   * variables
+//   *
+//   * @type {Object.<string>}
+//   */
+//  var variables = {};
+//
+//  /**
+//   * functions
+//   *
+//   * @type {Object.<function>}
+//   */
+//  var functions = {
+//    /**
+//     * new method
+//     *
+//     * @return {Object.<Object|string|function>}
+//     */
+//    new: function() {
+//      return angular.extend(variables, functions);
+//    },
+//
+//    /**
+//     * show user information method
+//     *
+//     * @param {number} users.id
+//     * @return {void}
+//     */
+//    showUser: function(user_id) {
+//      alert('user_id:' + user_id);
+//    }
+//  };
+//
+//  return functions.new();
+//});
 
 
 /**
  * NetCommonsTab factory
+ * 後で削除したい
  */
 NetCommonsApp.factory('NetCommonsTab', function() {
 
@@ -379,7 +326,24 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $modalStack, NetCommonsBase) {
+    $scope, $location, User) {
+
+      /**
+       * Base URL
+       *
+       * @type {string}
+       */
+      $scope.baseUrl = '';
+
+      /**
+       * show user information method
+       *
+       * @param {number} users.id
+       * @return {void}
+       */
+      $scope.showUser = function(id) {
+        User.show($scope, $scope.baseUrl + '/users/users/view/' + id + '');
+      };
 
       /**
        * sending
@@ -396,26 +360,13 @@ NetCommonsApp.controller('NetCommons.base', function(
       $scope.messages = {};
 
       /**
-       * placeholder
-       *
-       * @type {string}
-       */
-      $scope.placeholder = '';
-
-      /**
        * top
        *
        * @type {function}
        */
-      $scope.top = NetCommonsBase.top;
-
-      /**
-       * dialog cancel
-       *
-       * @return {void}
-       */
-      $scope.cancel = function() {
-        history.back();
+      $scope.top = function() {
+        $location.hash('nc-modal-top');
+        $anchorScroll();
       };
 
       /**

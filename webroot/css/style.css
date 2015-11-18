@@ -70,9 +70,6 @@ input[type="checkbox"] {
 #nc-flash-message .pull-right {
 	margin-right: 20px;
 }
-.modal {
-	/* top: 20px; */
-}
 
 /* nc-system- */
 #nc-system-footer {
@@ -83,10 +80,6 @@ input[type="checkbox"] {
 
 #nc-system-footer .copyright {
     text-align: center;
-}
-/* modle width large*/
-.nc-modal-lg.modal-dialog {
-    width: 90%;
 }
 
 .nc-wysiwyg-alert {
@@ -131,3 +124,23 @@ textarea.nc-noresize {
 .nc-danger-zone .panel-title > a.accordion-toggle {
 	display: block;
 }
+
+.nc-data-label {
+	border: none;
+	overflow: hidden;
+}
+
+/* modal */
+.modal-header {
+	padding-bottom: 5px;
+}
+
+/*
+ * カラーパレット
+ */
+.nc-color-palette-dropdown {width:242px;}
+.nc-color-palette {float:left;width:1em;height:1em;margin:4px 5px;border:1px solid transparent;}
+.nc-color-palette:hover {border-color:#cccccc;}
+.nc-color-palette-bases {float:left;width:1em;height:1em;margin:8px 5px;border:1px solid transparent;}
+.nc-color-palette-bases:hover {border-color:#cccccc;}
+.nc-color-index {border-radius: 0.5em 0px 0px 0.5em !important;height: 34px;padding-left: 0.5em;padding-right: 0.5em;}

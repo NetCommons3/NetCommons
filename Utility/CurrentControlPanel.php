@@ -18,7 +18,7 @@
 class CurrentControlPanel {
 
 /**
- * Constant Plugin value
+ * ControlPanelプラグイン名の定数
  */
 	const PLUGIN_CONTROL_PANEL = 'control_panel';
 
@@ -99,7 +99,7 @@ class CurrentControlPanel {
 			unset(Current::$current['Plugin']);
 		}
 
-		if (self::$__request->params['plugin'] === CurrentFrame::PLUGIN_PAGES ||
+		if (self::$__request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
 				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return;
 		}

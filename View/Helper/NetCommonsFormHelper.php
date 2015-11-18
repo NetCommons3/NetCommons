@@ -26,7 +26,8 @@ class NetCommonsFormHelper extends Helper {
 	public $helpers = array(
 		'Form',
 		'Html',
-		'NetCommons.Button'
+		'NetCommons.Button',
+		'NetCommons.NetCommonsHtml'
 	);
 
 /**
@@ -282,7 +283,15 @@ class NetCommonsFormHelper extends Helper {
 			'rows' => 5,
 		);
 		$attributes = Hash::merge($defaultAttributes, $attributes);
-		return $this->input($fieldName, $attributes);
+
+		$html = '';
+		$html .= $this->NetCommonsHtml->script(array(
+			'/components/tinymce-dist/tinymce.min.js',
+			'/components/angular-ui-tinymce/src/tinymce.js',
+		));
+		$html .= $this->input($fieldName, $attributes);
+
+		return $html;
 	}
 
 /**

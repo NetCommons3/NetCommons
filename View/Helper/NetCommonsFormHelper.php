@@ -263,8 +263,14 @@ class NetCommonsFormHelper extends Helper {
 			$modelName = $this->Form->defaultModel;
 			$inputFieldName = $modelName . '.' . $fieldName;
 		}
-		$output = '';
-		$output .= $this->input($inputFieldName, ['type' => 'file']);
+		$output = '<div class="form-group">';
+		$defaultOptions = [
+			'class' => '',
+			'div' => false,
+		];
+		$options = Hash::merge($defaultOptions, $options, ['type' => 'file']);
+		$output .= $this->input($inputFieldName, $options);
+
 		if (isset($this->_uploadFileNames[$fieldName])) {
 			$output .= $this->_uploadFileNames[$fieldName];
 			$output .= $this->checkbox(
@@ -273,6 +279,7 @@ class NetCommonsFormHelper extends Helper {
 			);
 			$output .= $this->Form->label($inputFieldName . '.remove', '削除');
 		}
+		$output .= '</div>';
 
 		return $output;
 	}

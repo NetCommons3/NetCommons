@@ -3,6 +3,8 @@
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
+NetCommonsApp.requires.push('ui.tinymce');
+
 
 /**
  * NetCommonsWysiwyg factory

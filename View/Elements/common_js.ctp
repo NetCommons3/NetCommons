@@ -12,15 +12,10 @@ echo $this->Html->script(
 	array(
 		'/components/jquery/dist/jquery.min.js',
 		'/components/bootstrap/dist/js/bootstrap.min.js',
-		'/components/tinymce-dist/tinymce.min.js',
 		'/components/angular/angular.min.js',
 		'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-		'/components/angular-ui-tinymce/src/tinymce.js',
 		'/net_commons/js/base.js',
-		'/frames/js/frames.js',
-		'/pages/js/pages.js',
 		'/users/js/users.js',
 	),
 	array('plugin' => false)
 );
-echo $this->element('NetCommons.datetimepicker');

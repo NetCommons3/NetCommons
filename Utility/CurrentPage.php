@@ -150,7 +150,7 @@ class CurrentPage {
 			return;
 		}
 
-		if (isset(self::$__request->data['Page']) && self::$__request->data['Page']['id']) {
+		if (Hash::get(self::$__request->data, 'Page.id')) {
 			$pageId = self::$__request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
 
@@ -160,11 +160,7 @@ class CurrentPage {
 			} else {
 				$field = 'Page.id';
 			}
-			if (isset(self::$__request->params['pass'][0])) {
-				$value = self::$__request->params['pass'][0];
-			} else {
-				$value = '';
-			}
+			$value = Hash::get(self::$__request->params, 'pass.0', '');
 			$conditions = array($field => $value);
 
 		} elseif (self::$__request->params['plugin'] === Current::PLUGIN_USERS && ! self::$__request->is('ajax')) {

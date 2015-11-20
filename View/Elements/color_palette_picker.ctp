@@ -14,9 +14,9 @@ echo $this->NetCommonsHtml->script(
 	)
 );
 $ngModelAttribute = '';
-$colorsAttribute = '';
+$colorAttribute = '';
 if (isset($ngModel)) {
-	$ngModelAttribute = ' ng-model=' . $ngModel . '" ';
+	$ngModelAttribute = ' ng-model="' . $ngModel . '" ';
 }
 if (isset($colors)) {
 	$colorAttribute = ' colors="' . str_replace('"', '\'', $colors) . '" ';

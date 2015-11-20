@@ -77,7 +77,8 @@ class CurrentPage {
 	public function setRolesRoomsUser() {
 		self::$__instance->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 
-		if (isset(Current::$current['User']['id']) && isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
+		if (isset(Current::$current['User']['id']) &&
+				isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
 			$result = self::$__instance->RolesRoomsUser->getRolesRoomsUsers(array(
 				'RolesRoomsUser.user_id' => Current::$current['User']['id'],
 				'Room.id' => Current::$current['Room']['id']
@@ -166,6 +167,13 @@ class CurrentPage {
 			}
 			$conditions = array($field => $value);
 
+		} elseif (self::$__request->params['plugin'] === Current::PLUGIN_USERS && ! self::$__request->is('ajax')) {
+			self::$__instance->Room = ClassRegistry::init('Rooms.Room');
+			$result = self::$__instance->Room->getPrivateRoomByUserId(Current::read('User.id'));
+			Current::$current = Hash::merge(Current::$current, $result);
+			$conditions = array(
+				'Page.id' => $result['Room']['page_id_top']
+			);
 		} else {
 			return;
 		}

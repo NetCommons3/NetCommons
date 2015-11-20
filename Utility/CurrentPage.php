@@ -65,6 +65,8 @@ class CurrentPage {
 		self::$__instance->setDefaultRolePermissions();
 
 		self::$__instance->setRoomRolePermissions();
+
+		self::$__instance->setPluginsRoom();
 	}
 
 /**
@@ -75,7 +77,8 @@ class CurrentPage {
 	public function setRolesRoomsUser() {
 		self::$__instance->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 
-		if (isset(Current::$current['User']['id']) && isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
+		if (isset(Current::$current['User']['id']) &&
+				isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
 			$result = self::$__instance->RolesRoomsUser->getRolesRoomsUsers(array(
 				'RolesRoomsUser.user_id' => Current::$current['User']['id'],
 				'Room.id' => Current::$current['Room']['id']
@@ -147,7 +150,7 @@ class CurrentPage {
 			return;
 		}
 
-		if (isset(self::$__request->data['Page']) && self::$__request->data['Page']['id']) {
+		if (Hash::get(self::$__request->data, 'Page.id')) {
 			$pageId = self::$__request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
 
@@ -157,13 +160,16 @@ class CurrentPage {
 			} else {
 				$field = 'Page.id';
 			}
-			if (isset(self::$__request->params['pass'][0])) {
-				$value = self::$__request->params['pass'][0];
-			} else {
-				$value = '';
-			}
+			$value = Hash::get(self::$__request->params, 'pass.0', '');
 			$conditions = array($field => $value);
 
+		} elseif (self::$__request->params['plugin'] === Current::PLUGIN_USERS && ! self::$__request->is('ajax')) {
+			self::$__instance->Room = ClassRegistry::init('Rooms.Room');
+			$result = self::$__instance->Room->getPrivateRoomByUserId(Current::read('User.id'));
+			Current::$current = Hash::merge(Current::$current, $result);
+			$conditions = array(
+				'Page.id' => $result['Room']['page_id_top']
+			);
 		} else {
 			return;
 		}
@@ -209,6 +215,21 @@ class CurrentPage {
 		));
 
 		Current::$current = Hash::merge(Current::$current, $result);
+	}
+
+/**
+ * Set PluginsRoom
+ *
+ * @return bool
+ */
+	public function setPluginsRoom() {
+		if (isset(Current::$current['PluginsRoom']) || ! isset(Current::$current['Room'])) {
+			return;
+		}
+		self::$__instance->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
+
+		$result = self::$__instance->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
+		Current::$current['PluginsRoom'] = $result;
 	}
 
 }

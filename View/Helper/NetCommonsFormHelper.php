@@ -26,7 +26,8 @@ class NetCommonsFormHelper extends Helper {
 	public $helpers = array(
 		'Form',
 		'Html',
-		'NetCommons.Button'
+		'NetCommons.Button',
+		'NetCommons.NetCommonsHtml'
 	);
 
 /**
@@ -38,6 +39,11 @@ class NetCommonsFormHelper extends Helper {
  * @var null デフォルトモデル名
  */
 	protected $_model = null;
+
+/**
+ * @var array アップロードされたファイルの元ファイル名
+ */
+	protected $_uploadFileNames = array();
 
 /**
  * Returns an HTML FORM element.
@@ -73,7 +79,38 @@ class NetCommonsFormHelper extends Helper {
 		if (!isset($options['novalidate'])) {
 			$options['novalidate'] = true;
 		}
-		return $this->Form->create($model, $options);
+
+		$output = $this->Form->create($model, $options);
+
+		if (Hash::get($options, 'type') == 'file') {
+			$output .= $this->_setupFileUploadForm();
+		}
+		return $output;
+	}
+
+/**
+ * Filesプラグインのアップロードフォームの準備
+ *
+ * 現在添付されてるファイルのID、フィールド名をhidden で埋め込む
+ *
+ * @return string
+ */
+	protected function _setupFileUploadForm() {
+		// setup的な処理と定型のhidden埋め込み
+		$output = '';
+		if (isset($this->request->data['UploadFile'])) {
+			foreach (array_keys($this->request->data['UploadFile']) as $key) {
+				$output .= $this->input('UploadFile.' . $key . '.id', ['type' => 'hidden']);
+				$output .= $this->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
+			}
+			// uploadされた元ファイル名のリスト
+			$this->_uploadFileNames = Hash::combine(
+					$this->request->data['UploadFile'],
+					'{n}.field_name',
+					'{n}.original_name'
+			);
+		}
+		return $output;
 	}
 
 /**
@@ -210,6 +247,44 @@ class NetCommonsFormHelper extends Helper {
 	}
 
 /**
+ * Filesプラグイン用のfileフォーム。ファイル削除チェックボックスとファイル名表示付き
+ *
+ * @param string $fieldName フィールド名
+ * @param array $options オプション
+ * @return string inputタグ等
+ */
+	public function uploadFile($fieldName, $options = array()) {
+		if (strpos($fieldName, '.')) {
+			//モデル名あり ex BlogEntry.pdf
+			$inputFieldName = $fieldName;
+			$fieldName = substr($fieldName, strrpos($fieldName, '.') + 1); //BlogEntry.pdf -> pdf
+		} else {
+			// モデル名ついてない
+			$modelName = $this->Form->defaultModel;
+			$inputFieldName = $modelName . '.' . $fieldName;
+		}
+		$output = '<div class="form-group">';
+		$defaultOptions = [
+			'class' => '',
+			'div' => false,
+		];
+		$options = Hash::merge($defaultOptions, $options, ['type' => 'file']);
+		$output .= $this->input($inputFieldName, $options);
+
+		if (isset($this->_uploadFileNames[$fieldName])) {
+			$output .= $this->_uploadFileNames[$fieldName];
+			$output .= $this->checkbox(
+					$inputFieldName . '.remove',
+					['type' => 'checkbox', 'div' => false, 'error' => false]
+			);
+			$output .= $this->Form->label($inputFieldName . '.remove', '削除');
+		}
+		$output .= '</div>';
+
+		return $output;
+	}
+
+/**
  * Overwrite FormHelper::checkbox()
  *
  * ### Options
@@ -282,7 +357,15 @@ class NetCommonsFormHelper extends Helper {
 			'rows' => 5,
 		);
 		$attributes = Hash::merge($defaultAttributes, $attributes);
-		return $this->input($fieldName, $attributes);
+
+		$html = '';
+		$html .= $this->NetCommonsHtml->script(array(
+			'/components/tinymce-dist/tinymce.min.js',
+			'/components/angular-ui-tinymce/src/tinymce.js',
+		));
+		$html .= $this->input($fieldName, $attributes);
+
+		return $html;
 	}
 
 /**

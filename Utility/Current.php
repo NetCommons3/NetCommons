@@ -289,25 +289,25 @@ class Current {
 
 		self::$__request = clone $request;
 
-		if (! Hash::get($request->params, 'autoRender')) {
-			if ($request->params['plugin'] === self::PLUGIN_USERS) {
-				if (! $referer = CakeSession::read('current_referer')) {
-					$referer = $request->referer(true);
-					CakeSession::write('current_referer', $referer);
-				}
-				$params = Router::parse($referer);
-				if (in_array($params['plugin'], array(self::PLUGIN_USERS, 'auth'))) {
-					$params = Router::parse('/');
-				}
-				if (isset($params['?'])) {
-					self::$__request->query = $params['?'];
-					unset($params['?']);
-				}
-				self::$__request->params = $params;
-			} elseif (CakeSession::read('current_referer')) {
-				CakeSession::delete('current_referer');
-			}
-		}
+		//if (! Hash::get($request->params, 'autoRender')) {
+		//	if ($request->params['plugin'] === self::PLUGIN_USERS) {
+		//		if (! $referer = CakeSession::read('current_referer')) {
+		//			$referer = $request->referer(true);
+		//			CakeSession::write('current_referer', $referer);
+		//		}
+		//		$params = Router::parse($referer);
+		//		if (in_array($params['plugin'], array(self::PLUGIN_USERS, 'auth'))) {
+		//			$params = Router::parse('/');
+		//		}
+		//		if (isset($params['?'])) {
+		//			self::$__request->query = $params['?'];
+		//			unset($params['?']);
+		//		}
+		//		self::$__request->params = $params;
+		//	} elseif (CakeSession::read('current_referer')) {
+		//		CakeSession::delete('current_referer');
+		//	}
+		//}
 
 		self::$current['User'] = AuthComponent::user();
 

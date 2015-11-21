@@ -323,4 +323,32 @@ class ButtonHelper extends FormHelper {
 		return $output;
 	}
 
+/**
+ * 検索ボタンの出力
+ *
+ * @param string $title タイトル
+ * @param array $options button属性
+ * @return string ボタンHTML.
+ */
+	public function search($title, $options = array()) {
+		$output = '';
+
+		$options['icon'] = Hash::get($options, 'icon', 'search');
+		if ($options['icon'] !== '') {
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			unset($options['icon']);
+		} else {
+			$iconElement = '';
+		}
+
+		$defaultOptions = array(
+			'name' => 'search',
+			'class' => 'btn btn-info btn-workflow',
+		);
+		$inputOptions = Hash::merge($defaultOptions, $options);
+
+		$output .= $this->Form->button($iconElement . $title, $inputOptions);
+		return $output;
+	}
+
 }

@@ -56,15 +56,19 @@ NetCommonsApp.filter('ncDatetime', ['$filter', function($filter) {
 NetCommonsApp.factory('NetCommonsModal', ['$modal', function($modal) {
   return {
     show: function($scope, controller, url, options) {
-      options = angular.extend({
-        templateUrl: url,
+      var defaultOptions = {
+        //templateUrl: url,
         controller: controller,
         //backdrop: 'static',
         //size: 'lg',
         animation: false,
         scope: $scope
-      }, options);
+      };
+      if (url) {
+        defaultOptions['templateUrl'] = url;
+      }
 
+      options = angular.extend(defaultOptions, options);
       return $modal.open(options);
     }
   }}]

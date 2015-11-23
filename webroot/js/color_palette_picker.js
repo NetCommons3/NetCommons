@@ -32,18 +32,18 @@ NetCommonsApp.directive('ncColorPalettePicker', [function() {
     link: {
       pre: function(scope, element, attr) {
         var baseColors = [
-          '#f79e61', '#f25a62', '#50add6', '#4cccc6', '#63c97b',
-          '#7c4f6c', '#9c9b7f', '#4d5361', '#464747', '#cccccc'
+          '#f79e61', '#f25a62', '#50add6', '#63c97b', '#7c4f6c',
+          '#9c9b7f', '#4d5361', '#464747', '#cccccc', '#ffffff'
         ];
         var defaultColors = [
-          '#f4d7c3', '#f4ced3', '#c0e4ed', '#c2efe9', '#d1edd5',
-          '#e3d1dc', '#e0e4cd', '#d4dbe8', '#898989', '#f4f4f4',
-          '#efb791', '#ee9da3', '#95cbdb', '#95dcd5', '#a3d9ad',
-          '#b8a0b1', '#c0c2a9', '#9ca2ae', '#5e5e5e', '#d9d9d9',
-          '#ea9760', '#e86c74', '#69b1c9', '#68cac2', '#75c686',
-          '#906f86', '#9fa086', '#636974', '#323232', '#bebebe',
-          '#e5772e', '#e23b44', '#3e98b7', '#3bb7ae', '#47b25e',
-          '#683e5b', '#7f7e62', '#2b303a', '#070707', '#a3a3a3'
+          '#f4d7c3', '#f4ced3', '#c0e4ed', '#d1edd5', '#e3d1dc',
+          '#e0e4cd', '#d4dbe8', '#898989', '#f4f4f4', '#000000',
+          '#efb791', '#ee9da3', '#95cbdb', '#a3d9ad', '#b8a0b1',
+          '#c0c2a9', '#9ca2ae', '#5e5e5e', '#d9d9d9', '#ff0000',
+          '#ea9760', '#e86c74', '#69b1c9', '#75c686', '#906f86',
+          '#9fa086', '#636974', '#323232', '#bebebe', '#00ff00',
+          '#e5772e', '#e23b44', '#3e98b7', '#47b25e', '#683e5b',
+          '#7f7e62', '#2b303a', '#070707', '#a3a3a3', '#0000ff'
         ];
         if (scope.customizedColors) {
           scope.baseColors = [];

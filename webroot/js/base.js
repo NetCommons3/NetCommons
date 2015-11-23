@@ -51,6 +51,31 @@ NetCommonsApp.filter('ncDatetime', ['$filter', function($filter) {
 
 
 /**
+ * Modal factory
+ */
+NetCommonsApp.factory('NetCommonsModal', ['$modal', function($modal) {
+  return {
+    show: function($scope, controller, url, options) {
+      var defaultOptions = {
+        //templateUrl: url,
+        controller: controller,
+        //backdrop: 'static',
+        //size: 'lg',
+        animation: false,
+        scope: $scope
+      };
+      if (url) {
+        defaultOptions['templateUrl'] = url;
+      }
+
+      options = angular.extend(defaultOptions, options);
+      return $modal.open(options);
+    }
+  }}]
+);
+
+
+/**
  * NetCommonsFlash factory
  */
 NetCommonsApp.factory('NetCommonsFlash', function() {
@@ -325,7 +350,7 @@ NetCommonsApp.factory('NetCommonsTab', function() {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $location, User) {
+    $scope, $location) {
 
       /**
        * Base URL
@@ -333,16 +358,6 @@ NetCommonsApp.controller('NetCommons.base', function(
        * @type {string}
        */
       $scope.baseUrl = '';
-
-      /**
-       * show user information method
-       *
-       * @param {number} users.id
-       * @return {void}
-       */
-      $scope.showUser = function(id) {
-        User.show($scope, $scope.baseUrl + '/users/users/view/' + id + '');
-      };
 
       /**
        * sending

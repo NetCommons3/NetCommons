@@ -360,6 +360,7 @@ class NetCommonsFormHelper extends Helper {
 
 		$html = '';
 		$html .= $this->NetCommonsHtml->script(array(
+			'/net_commons/js/wysiwyg.js',
 			'/components/tinymce-dist/tinymce.min.js',
 			'/components/angular-ui-tinymce/src/tinymce.js',
 		));

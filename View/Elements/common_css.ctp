@@ -17,6 +17,7 @@ echo $this->Html->css(
 		'/frames/css/style.css',
 		'/net_commons/css/style.css',
 		'/pages/css/style.css',
+		'/users/css/style.css',
 		'/user_attributes/css/style.css',
 	),
 	array('plugin' => false)

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2015-08-23 10:05+0900\n"
+"PO-Revision-Date: 2015-11-22 05:58+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -522,3 +522,6 @@ msgstr "全ての期間"
 
 msgid "No results found."
 msgstr "条件に一致するデータはありませんでした。"
+
+msgid "Search"
+msgstr "検索"

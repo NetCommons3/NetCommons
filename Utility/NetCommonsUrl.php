@@ -69,7 +69,11 @@ class NetCommonsUrl {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function actionUrl($params = array(), $full = false) {
-		$url = self::actionUrlAsArray($params, $full);
+		if (is_array($params)) {
+			$url = self::actionUrlAsArray($params, $full);
+		} else {
+			$url = $params;
+		}
 		return h(Router::url($url, $full));
 	}
 

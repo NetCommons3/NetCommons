@@ -48,6 +48,7 @@ foreach ($files as $file) {
 	}
 }
 
+App::uses('Router', 'Routing');
 Router::parseExtensions();
 
 if (Configure::read('NetCommons.installed')) {

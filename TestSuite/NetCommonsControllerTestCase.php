@@ -61,6 +61,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
+		'plugin.files.upload_file',
+		'plugin.files.upload_files_content',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		'plugin.net_commons.site_setting',

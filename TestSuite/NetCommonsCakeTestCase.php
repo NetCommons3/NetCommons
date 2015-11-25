@@ -49,6 +49,8 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
+		'plugin.data_types.data_type',
+		'plugin.data_types.data_type_choice',
 		'plugin.files.upload_file',
 		'plugin.files.upload_files_content',
 		'plugin.frames.frame',
@@ -65,6 +67,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		//'plugin.rooms.room_role',
 		//'plugin.rooms.room_role_permission',
 		'plugin.rooms.space',
+		'plugin.user_attributes.user_attribute',
+		'plugin.user_attributes.user_attribute_choice',
+		'plugin.user_roles.user_attributes_role',
 		'plugin.users.user',
 		//'plugin.users.users_language',
 	);

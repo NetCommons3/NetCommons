@@ -79,6 +79,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.rooms.rooms_language',
 		'plugin.rooms.space',
 		'plugin.user_roles.user_role_setting',
+		'plugin.user_attributes.user_attribute',
 		'plugin.users.user',
 		//'plugin.users.users_language',
 	);

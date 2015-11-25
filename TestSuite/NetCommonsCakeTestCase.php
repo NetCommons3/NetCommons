@@ -69,6 +69,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.rooms.space',
 		'plugin.user_attributes.user_attribute',
 		'plugin.user_attributes.user_attribute_choice',
+		'plugin.user_attributes.user_attribute_setting',
 		'plugin.user_roles.user_attributes_role',
 		'plugin.users.user',
 		//'plugin.users.users_language',

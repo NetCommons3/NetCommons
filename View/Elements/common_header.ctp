@@ -43,12 +43,12 @@ if (! isset($isSettingMode)) {
 						</li>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'),
-									NetCommonsUrl::actionUrl(array('plugin' => 'auth', 'controller' => 'logout'))); ?>
+									NetCommonsUrl::actionUrl('/auth/logout')); ?>
 						</li>
 					<?php else: ?>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'),
-									NetCommonsUrl::actionUrl(array('plugin' => 'auth', 'controller' => 'login'))); ?>
+									NetCommonsUrl::actionUrl('/auth/login')); ?>
 						</li>
 					<?php endif; ?>
 

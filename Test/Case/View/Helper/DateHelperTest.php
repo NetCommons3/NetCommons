@@ -13,6 +13,7 @@ App::uses('View', 'View');
 App::uses('DateHelper', 'NetCommons.View/Helper');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTime', 'NetCommons.Utility');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * Summary for DateHelper Test Case
@@ -20,7 +21,7 @@ App::uses('NetCommonsTime', 'NetCommons.Utility');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\NetCommons\Test\View\Helper
  */
-class DateHelperTest extends CakeTestCase {
+class DateHelperTest extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures

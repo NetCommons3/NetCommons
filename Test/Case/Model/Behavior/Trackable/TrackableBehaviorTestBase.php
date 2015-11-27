@@ -9,6 +9,7 @@
  */
 
 App::uses('Model', 'Model');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * TrackableUserModel for test case
@@ -65,7 +66,7 @@ class TrackableUserModel extends Model {
 /**
  * Base class of TrackableBehavior test case
  */
-class TrackableBehaviorTestBase extends CakeTestCase {
+class TrackableBehaviorTestBase extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures

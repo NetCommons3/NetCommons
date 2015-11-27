@@ -11,11 +11,12 @@
 App::uses('NetCommonsTime', 'NetCommons.Utility');
 App::uses('CakeTime', 'Utility');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * Class NetCommonsTimeTest
  */
-class NetCommonsTimeTest extends CakeTestCase {
+class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures

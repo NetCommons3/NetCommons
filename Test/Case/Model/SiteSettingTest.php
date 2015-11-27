@@ -8,11 +8,12 @@
  */
 
 App::uses('SiteSetting', 'NetCommons.Model');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * Summary for SiteSettings Test Case
  */
-class SiteSettingTest extends CakeTestCase {
+class SiteSettingTest extends NetCommonsCakeTestCase {
 
 /**
  * @var array fixture

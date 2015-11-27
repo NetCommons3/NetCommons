@@ -106,8 +106,8 @@ class NetCommonsFormHelper extends Helper {
 			// uploadされた元ファイル名のリスト
 			$this->_uploadFileNames = Hash::combine(
 					$this->request->data['UploadFile'],
-					'{n}.field_name',
-					'{n}.original_name'
+					'{s}.field_name',
+					'{s}.original_name'
 			);
 		}
 		return $output;

@@ -277,7 +277,7 @@ class NetCommonsFormHelper extends Helper {
 					$inputFieldName . '.remove',
 					['type' => 'checkbox', 'div' => false, 'error' => false]
 			);
-			$output .= $this->Form->label($inputFieldName . '.remove', '削除');
+			$output .= $this->Form->label($inputFieldName . '.remove', __d('NetCommons', 'Delete'));
 		}
 		$output .= '</div>';
 

@@ -162,7 +162,7 @@ class NetCommonsAppModel extends Model {
 			self::$__oldSlaveDbConfig = $this->useDbConfig;
 			$this->useDbConfig = self::$__changeDbConfig;
 			$this->_sourceConfigured = false;
-			self::$__changeDbConfig = null;
+			//self::$__changeDbConfig = null;
 
 			$associations = Hash::merge(
 				array_keys($this->hasOne),

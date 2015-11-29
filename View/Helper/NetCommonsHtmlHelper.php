@@ -180,17 +180,4 @@ class NetCommonsHtmlHelper extends AppHelper {
 		$output = $this->Html->link($title, $url, $options);
 		return $output;
 	}
-
-/**
- * 必須ラベルHTMLの出力
- *
- * @param string $title タイトル
- * @return string HTMLタグ.
- */
-	public function requireTitle($title = '') {
-		$output = h($title);
-		$output .= $this->_View->element('NetCommons.required');
-		return $output;
-	}
-
 }

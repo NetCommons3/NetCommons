@@ -24,4 +24,12 @@
 	<div class="modal-body">
 		<?php echo $this->fetch('content'); ?>
 	</div>
+
+	<?php if ($modalFooter = $this->fetch('footer_for_modal')) : ?>
+		<div class="modal-footer">
+			<div class="text-center">
+				<?php echo $modalFooter; ?>
+			</div>
+		</div>
+	<?php endif; ?>
 </div>

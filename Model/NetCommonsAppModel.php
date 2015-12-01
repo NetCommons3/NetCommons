@@ -96,6 +96,9 @@ class NetCommonsAppModel extends Model {
  * @return string The name of the DataSource, as defined in app/Config/database.php
  */
 	private function __getRandomlySlave() {
+		if ($this->useDbConfig === 'test') {
+			return $this->useDbConfig;
+		}
 		// Get all available database-configs
 		$sources = ConnectionManager::enumConnectionObjects();
 
@@ -120,9 +123,7 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function setMasterDataSource() {
-		if ($this->useDbConfig !== 'test') {
-			self::$__changeDbConfig = 'master';
-		}
+		self::$__changeDbConfig = 'master';
 	}
 
 /**
@@ -131,9 +132,6 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function setSlaveDataSource() {
-		if ($this->useDbConfig === 'test') {
-			return;
-		}
 		if (self::$__oldSlaveDbConfig) {
 			self::$__changeDbConfig = self::$__oldSlaveDbConfig;
 			return;
@@ -148,7 +146,7 @@ class NetCommonsAppModel extends Model {
  */
 	public function getDataSource() {
 		// MasterDBに切り替え処理
-		$this->__changeMasterDataSource();
+		$this->__changeDataSource();
 
 		return parent::getDataSource();
 	}
@@ -158,12 +156,13 @@ class NetCommonsAppModel extends Model {
  *
  * @return void
  */
-	private function __changeMasterDataSource() {
-		if (self::$__changeDbConfig === 'master' &&
-				$this->useDbConfig !== 'test' && $this->useDbConfig !== 'master') {
+	private function __changeDataSource() {
+		if (!empty(self::$__changeDbConfig) &&
+				self::$__changeDbConfig !== $this->useDbConfig && $this->useDbConfig !== 'test') {
 			self::$__oldSlaveDbConfig = $this->useDbConfig;
-			$this->useDbConfig = 'master';
+			$this->useDbConfig = self::$__changeDbConfig;
 			$this->_sourceConfigured = false;
+			//self::$__changeDbConfig = null;
 
 			$associations = Hash::merge(
 				array_keys($this->hasOne),
@@ -173,7 +172,11 @@ class NetCommonsAppModel extends Model {
 			);
 			foreach ($associations as $btModelName) {
 				$this->{$btModelName}->useDbConfig = $this->useDbConfig;
+				if ($this->{$btModelName}->useTable !== false) {
+					$this->{$btModelName}->setSource($this->{$btModelName}->useTable);
+				}
 			}
+
 		}
 	}
 

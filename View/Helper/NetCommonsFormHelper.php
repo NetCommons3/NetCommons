@@ -106,8 +106,8 @@ class NetCommonsFormHelper extends Helper {
 			// uploadされた元ファイル名のリスト
 			$this->_uploadFileNames = Hash::combine(
 					$this->request->data['UploadFile'],
-					'{n}.field_name',
-					'{n}.original_name'
+					'{s}.field_name',
+					'{s}.original_name'
 			);
 		}
 		return $output;
@@ -277,7 +277,7 @@ class NetCommonsFormHelper extends Helper {
 					$inputFieldName . '.remove',
 					['type' => 'checkbox', 'div' => false, 'error' => false]
 			);
-			$output .= $this->Form->label($inputFieldName . '.remove', '削除');
+			$output .= $this->Form->label($inputFieldName . '.remove', __d('NetCommons', 'Delete'));
 		}
 		$output .= '</div>';
 

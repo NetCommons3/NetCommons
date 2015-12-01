@@ -13,13 +13,17 @@ echo $this->NetCommonsHtml->script(
 	'/net_commons/js/color_palette_picker.js',
 	)
 );
+if (! isset($colorValue)) {
+	$colorValue = '';
+}
 $ngModelAttribute = '';
 $colorAttribute = '';
 if (isset($ngModel)) {
 	$ngModelAttribute = ' ng-model="' . $ngModel . '" ';
 }
 if (isset($colors)) {
-	$colorAttribute = ' colors="' . str_replace('"', '\'', $colors) . '" ';
+	$colorStr = implode("','", $colors);
+	$colorAttribute = ' colors="[\'' . $colorStr . '\']" ';
 }
 ?>
 

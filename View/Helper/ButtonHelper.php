@@ -263,6 +263,9 @@ class ButtonHelper extends FormHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function save($title, $options = array()) {
+		if (isset($options['icon'])) {
+			$title .= '<span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+		}
 		$output = '';
 
 		$defaultOptions = array(

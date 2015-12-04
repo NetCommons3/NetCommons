@@ -47,7 +47,7 @@ App::uses('UserRole', 'UserRoles.Model');
  * 			[key] => system_administrator
  * 			[type] => 1
  * 			[name] => システム管理者
- * 			[is_systemized] => 1
+ * 			[is_system] => 1
  * 		)
  * 	)
  *

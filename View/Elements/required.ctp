@@ -11,5 +11,5 @@
 ?>
 
 <strong class="text-danger h4">
-	<?php echo __d('net_commons', 'Required'); ?>
+	<?php echo __d('net_commons', '*'); ?>
 </strong>

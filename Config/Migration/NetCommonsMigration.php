@@ -25,11 +25,15 @@ class NetCommonsMigration extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @param string $scope ?
+ * @param string $clear 初期化するかどうか
  * @return bool Should process continue
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function updateRecords($model, $records, $scope = null) {
+	public function updateRecords($model, $records, $clear = true) {
 		$Model = $this->generateModel($model);
+		if ($clear) {
+			$Model->deleteAll(array(), false, false);
+		}
 		foreach ($records as $record) {
 			$Model->create();
 			if (!$Model->save($record, false)) {

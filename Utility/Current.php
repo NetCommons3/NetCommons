@@ -451,7 +451,7 @@ class Current {
 			return false;
 		}
 
-		if (self::$current['Plugin']['type'] === Plugin::PLUGIN_TYPE_FOR_CONTROL_PANEL) {
+		if (in_array(self::$current['Plugin']['type'], array(Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER), true)) {
 			return true;
 		} else {
 			return false;

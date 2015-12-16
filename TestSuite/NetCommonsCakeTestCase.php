@@ -72,7 +72,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.user_attributes.user_attribute_setting',
 		'plugin.user_roles.user_attributes_role',
 		'plugin.users.user',
-		//'plugin.users.users_language',
+		'plugin.users.users_language',
 	);
 
 /**

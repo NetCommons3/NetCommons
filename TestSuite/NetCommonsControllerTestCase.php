@@ -88,7 +88,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.user_roles.user_attributes_role',
 		'plugin.user_roles.user_role_setting',
 		'plugin.users.user',
-		//'plugin.users.users_language',
+		'plugin.users.users_language',
 	);
 
 /**

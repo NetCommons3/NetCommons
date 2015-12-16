@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2015-12-01 14:18+0900\n"
+"PO-Revision-Date: 2015-12-16 10:20+0900\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr "登録されていません。"
 #: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14
 #: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:17
 msgid "Delete all data associated with the %s."
-msgstr "%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
+msgstr "この%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
 #: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:25
@@ -263,7 +263,7 @@ msgstr "一時保存"
 #: Blocks/View/Elements/delete_form.ctp:28
 #: Pages/View/Elements/Pages/delete_form.ctp:22
 msgid "Danger Zone"
-msgstr ""
+msgstr "削除処理"
 
 #: Blocks/View/Elements/edit_form.ctp:32
 #: CircularNotices/View/CircularNotices/view.ctp:219

@@ -280,7 +280,15 @@ class NetCommonsFormHelper extends Helper {
 		$filename = Hash::get($options, 'filename');
 		Hash::remove($options, 'filename');
 
+		$help = $help = Hash::get($options, 'help', false);
+		Hash::remove($options, 'help');
+
 		$output .= $this->input($inputFieldName, $options);
+
+		// help-block
+		if ($help) {
+			$output .= $this->Html->tag('p', $help, ['class' => 'help-block']);
+		}
 
 		if (isset($this->_uploadFileNames[$fieldName])) {
 			if ($filename) {

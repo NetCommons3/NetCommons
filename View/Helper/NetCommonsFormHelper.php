@@ -104,6 +104,7 @@ class NetCommonsFormHelper extends Helper {
 				$output .= $this->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
 			}
 			// uploadされた元ファイル名のリスト
+
 			$this->_uploadFileNames = Hash::combine(
 					$this->request->data['UploadFile'],
 					'{s}.field_name',
@@ -251,6 +252,8 @@ class NetCommonsFormHelper extends Helper {
  *
  * @param string $fieldName フィールド名
  * @param array $options オプション
+ *  filename => false でフィアル名非表示
+ *  remove => falseで削除チェックボックス非表示。デフォルトはtrue
  * @return string inputタグ等
  */
 	public function uploadFile($fieldName, $options = array()) {
@@ -267,17 +270,29 @@ class NetCommonsFormHelper extends Helper {
 		$defaultOptions = [
 			'class' => '',
 			'div' => false,
+			'remove' => true,
+			'filename' => true,
 		];
 		$options = Hash::merge($defaultOptions, $options, ['type' => 'file']);
+
+		$remove = Hash::get($options, 'remove');
+		Hash::remove($options, 'remove');
+		$filename = Hash::get($options, 'filename');
+		Hash::remove($options, 'filename');
+
 		$output .= $this->input($inputFieldName, $options);
 
 		if (isset($this->_uploadFileNames[$fieldName])) {
-			$output .= $this->_uploadFileNames[$fieldName];
-			$output .= $this->checkbox(
-					$inputFieldName . '.remove',
-					['type' => 'checkbox', 'div' => false, 'error' => false]
-			);
-			$output .= $this->Form->label($inputFieldName . '.remove', __d('NetCommons', 'Delete'));
+			if ($filename) {
+				$output .= $this->_uploadFileNames[$fieldName];
+			}
+			if ($remove) {
+				$output .= $this->checkbox(
+						$inputFieldName . '.remove',
+						['type' => 'checkbox', 'div' => false, 'error' => false]
+				);
+				$output .= $this->Form->label($inputFieldName . '.remove', __d('NetCommons', 'Delete'));
+			}
 		}
 		$output .= '</div>';
 

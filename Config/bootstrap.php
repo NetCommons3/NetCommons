@@ -11,11 +11,13 @@
 // phpDocumentor Settings
 // Put author name to netcommons.php or netcommons.yaml
 /* $author = 'Noriko Arai, Ryuji Masukawa'; */
-$author = 'Jun Nishikawa <topaz2@m0n0m0n0.com>';
+$author = 'Your Name <yourname@domain.com>';
 $header = <<<EOF
+ * @author Noriko Arai <arai@nii.ac.jp>
  * @author $author
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
 EOF;
 
 Configure::write('PhpDocumentor.classHeader', $header);

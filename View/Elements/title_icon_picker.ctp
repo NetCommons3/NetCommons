@@ -12,8 +12,9 @@ echo $this->NetCommonsHtml->script(array(
 	'/net_commons/js/title_icon_picker.js',
 ));
 $dir = new Folder(APP . 'Plugin/NetCommons/webroot/img/title_icon');
-$files = $dir->find('.*\.svg');
-$icons = json_encode(Hash::format($files, array('{n}'), '/net_commons/img/title_icon/%1$s'));
+$iconFiles = Hash::format($dir->find('.*\.svg'), array('{n}'), '/net_commons/img/title_icon/%1$s');
+$alts = array_map('__d', array_fill(0, count($iconFiles), 'net_commons'), $iconFiles);
+$icons = json_encode(array_combine($iconFiles, $alts));
 $ngModelAttribute = '';
 if (isset($ngModel)) {
 	$ngModelAttribute = ' ng-model="' . $ngModel . '" ';

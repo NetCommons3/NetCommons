@@ -150,6 +150,9 @@ class NetCommonsFormHelper extends Helper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#creating-form-elements
  */
 	public function input($fieldName, $options = array()) {
+		if (Hash::get($options, 'type') === 'hidden') {
+			return $this->hidden($fieldName, $options);
+		}
 		if (Hash::get($options, 'type') === 'datetime') {
 			$options = $this->_makeDatetimeOptions($fieldName, $options);
 		}
@@ -245,6 +248,36 @@ class NetCommonsFormHelper extends Helper {
 		$attributes = Hash::merge($defaultAttributes, $attributes);
 
 		$output = $this->Form->radio($fieldName, $options, $attributes);
+		return $output;
+	}
+
+/**
+ * Overwrite FormHelper::hidden()
+ *
+ * 値がfalseの場合、hiddenのvalueが消えてしまい、validationErrorになってしまう。
+ *
+ * @param string $fieldName フィールド名, like this "Modelname.fieldname"
+ * @param array $options hiddenのオプション
+ * @return string Completed hiddenタグ
+ * @link https://github.com/cakephp/cakephp/issues/5639
+ */
+	public function hidden($fieldName, $options = array()) {
+		if (strpos($fieldName, '.')) {
+			//モデル名あり ex BlogEntry.pdf
+			$inputFieldName = $fieldName;
+		} else {
+			// モデル名ついてない
+			$modelName = $this->Form->defaultModel;
+			$inputFieldName = $modelName . '.' . $fieldName;
+		}
+
+		if (Hash::get($this->_View->data, $inputFieldName) === false) {
+			$options = Hash::merge(array(
+				'value' => (int)Hash::get($this->_View->data, $inputFieldName),
+			), $options);
+		}
+
+		$output = $this->Form->hidden($fieldName, $options);
 		return $output;
 	}
 

@@ -102,6 +102,7 @@ class NetCommonsFormHelper extends Helper {
 			foreach (array_keys($this->request->data['UploadFile']) as $key) {
 				$output .= $this->input('UploadFile.' . $key . '.id', ['type' => 'hidden']);
 				$output .= $this->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
+				$output .= $this->input('UploadFile.' . $key . '.original_name', ['type' => 'hidden']);
 			}
 			// uploadされた元ファイル名のリスト
 

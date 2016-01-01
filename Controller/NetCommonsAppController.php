@@ -150,7 +150,7 @@ class NetCommonsAppController extends Controller {
 		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除
 		$this->set('languageId', Current::read('Language.id')); //後で削除
 
-		$this->Auth->allow('index', 'view');
+		$this->Auth->allow('index', 'view', 'emptyRender');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->NetCommons->renderJson();

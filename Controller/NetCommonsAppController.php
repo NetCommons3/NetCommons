@@ -96,6 +96,7 @@ class NetCommonsAppController extends Controller {
 		),
 		'NetCommons.BackTo',
 		'NetCommons.Button',
+		'NetCommons.LinkButton',
 		'NetCommons.Date',
 		'NetCommons.NetCommonsForm',
 		'NetCommons.NetCommonsHtml',

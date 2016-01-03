@@ -48,7 +48,7 @@
         "netcommons/user-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",
         "netcommons/workflow":          "dev-master",
-        "satooshi/php-coveralls":       "dev-master"
+        "satooshi/php-coveralls":       "~1.0"
     },
     "config": {
         "vendor-dir": "vendors",

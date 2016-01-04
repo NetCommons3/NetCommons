@@ -79,6 +79,9 @@ class NetCommonsAppModel extends Model {
 			parent::__construct($id, $table, $ds);
 			return;
 		}
+		if (Hash::get((array)$id, 'testing') && $this->useDbConfig !== 'test') {
+			$this->useDbConfig = 'test';
+		}
 
 		// Use a static variable, to only use one connection per page-call (otherwise we would get a new handle every time a Model is created)
 		static $_useDbConfig;

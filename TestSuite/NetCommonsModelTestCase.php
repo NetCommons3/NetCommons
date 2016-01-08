@@ -29,12 +29,10 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		parent::setUp();
 		CurrentControlPanel::setLanguage();
 
-		$models = array_keys($this->models);
-		foreach ($models as $model) {
-			//Tracableビヘイビアの削除
-			$this->$model->Behaviors->unload('NetCommons.Trackable');
-			$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
-		}
+		$model = $this->_modelName;
+		//Tracableビヘイビアの削除
+		$this->$model->Behaviors->unload('NetCommons.Trackable');
+		$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
 	}
 
 /**
@@ -53,20 +51,21 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
+ * @param bool $return 戻り値
  * @return void
  */
-	protected function _mockForReturnFalse($model, $mockModel, $mockMethod) {
+	protected function _mockForReturnFalse($model, $mockModel, $mockMethod, $return = false) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 		if ($mockModel === $model) {
 			$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
 			$this->$model->expects($this->once())
 				->method($mockMethod)
-				->will($this->returnValue(false));
+				->will($this->returnValue($return));
 		} else {
 			$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
 			$this->$model->$mockModel->expects($this->once())
 				->method($mockMethod)
-				->will($this->returnValue(false));
+				->will($this->returnValue($return));
 		}
 	}
 

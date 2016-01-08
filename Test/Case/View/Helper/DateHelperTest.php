@@ -96,8 +96,14 @@ class DateHelperTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function testDateFormatLastDate() {
+		// 現在時刻を2016-01-02 00:00:00に設定
+		$nowProperty = new ReflectionProperty('NetCommonsTime', '_now');
+		$nowProperty->setAccessible(true);
+		$nowProperty->setValue(strtotime('2016-01-02 00:00:00'));
+
+		// 同じ年なら月/日にフォーマットされる
 		$netCommonsTime = new NetCommonsTime();
-		$lastDate = date('Y-m-d H:i:s', strtotime("- 1 days"));
+		$lastDate = '2016-01-01 10:00:00';
 		$lastUserDatetime = $netCommonsTime->toUserDatetime($lastDate);
 
 		$testDate = $this->Date->dateFormat($lastDate);
@@ -105,6 +111,8 @@ class DateHelperTest extends NetCommonsCakeTestCase {
 		$expected = date('m/d', strtotime($lastUserDatetime));
 
 		$this->assertEquals($expected, $testDate);
+
+		$nowProperty->setValue(null); // 現在日時変更が他のテストに影響を与えないようにnullに
 	}
 
 /**

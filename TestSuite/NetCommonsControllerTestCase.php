@@ -102,7 +102,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function __construct($name = null, array $data = array(), $dataName = '') {
 		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
-			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+			$this->fixtures = array_merge($this->_fixtures, $this->fixtures);
 		}
 
 		if ($this->plugin) {

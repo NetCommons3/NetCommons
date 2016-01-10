@@ -55,6 +55,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $mockMethod Mockのメソッド
  * @param bool $return 戻り値
  * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	protected function _mockForReturnFalse($model, $mockModel, $mockMethod, $return = false) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);

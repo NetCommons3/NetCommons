@@ -29,10 +29,12 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		parent::setUp();
 		CurrentControlPanel::setLanguage();
 
-		$model = $this->_modelName;
-		//Tracableビヘイビアの削除
-		$this->$model->Behaviors->unload('NetCommons.Trackable');
-		$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
+		if ($this->_modelName) {
+			$model = $this->_modelName;
+			//Tracableビヘイビアの削除
+			$this->$model->Behaviors->unload('NetCommons.Trackable');
+			$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
+		}
 	}
 
 /**

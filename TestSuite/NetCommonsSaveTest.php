@@ -133,33 +133,4 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		$this->assertFalse($result);
 	}
 
-/**
- * Validatesのテスト
- *
- * @param array $data 登録データ
- * @param string $field フィールド名
- * @param string $value セットする値
- * @param string $message エラーメッセージ
- * @param array $overwrite 上書きするデータ
- * @dataProvider dataProviderValidationError
- * @return void
- */
-	public function testValidationError($data, $field, $value, $message, $overwrite = array()) {
-		$model = $this->_modelName;
-
-		if (is_null($value)) {
-			unset($data[$model][$field]);
-		} else {
-			$data[$model][$field] = $value;
-		}
-		$data = Hash::merge($data, $overwrite);
-
-		//validate処理実行
-		$this->$model->set($data);
-		$result = $this->$model->validates();
-		$this->assertFalse($result);
-
-		$this->assertEquals($this->$model->validationErrors[$field][0], $message);
-	}
-
 }

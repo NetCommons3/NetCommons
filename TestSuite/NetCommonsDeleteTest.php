@@ -54,7 +54,7 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 
 		if ($associationModels) {
 			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$assocModel->find('count', array(
+				$count = $this->$model->$assocModel->find('count', array(
 					'recursive' => -1,
 					'conditions' => $conditions,
 				));
@@ -75,7 +75,7 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 
 		if ($associationModels) {
 			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$assocModel->find('count', array(
+				$count = $this->$model->$assocModel->find('count', array(
 					'recursive' => -1,
 					'conditions' => $conditions,
 				));

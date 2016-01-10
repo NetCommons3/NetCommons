@@ -31,6 +31,20 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 	public $plugin;
 
 /**
+ * Model name
+ *
+ * @var array
+ */
+	protected $_modelName;
+
+/**
+ * Method name
+ *
+ * @var array
+ */
+	protected $_methodName;
+
+/**
  * Fixture merge
  *
  * @var array
@@ -91,8 +105,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		if ($this->plugin) {
 			NetCommonsTestSuite::$plugin = $this->plugin;
 		}
-		Configure::write('NetCommons.installed', true);
-		Configure::write('Config.language', 'ja');
 	}
 
 /**
@@ -106,24 +118,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
 
-		foreach ($this->fixtures as $fixture) {
-			$split = pluginSplit($fixture);
-			if (! isset($split[0]) || ! isset($split[1]) || isset($split[0]) && strtolower($split[0]) !== 'plugin') {
-				continue;
-			}
-			list($plugin, $model) = pluginSplit($split[1]);
-			$plugin = Inflector::camelize($plugin);
-			$model = Inflector::camelize($model);
-
-			$classModel = ClassRegistry::init($plugin . '.' . $model, true);
-			if ($classModel) {
-				$model = $classModel->name;
-				$this->models[$model] = $plugin . '.' . $model;
-			}
-		}
-
-		foreach ($this->models as $model => $class) {
-			$this->$model = ClassRegistry::init($class);
+		if ($this->_modelName) {
+			$model = $this->_modelName;
+			$this->$model = ClassRegistry::init(Inflector::camelize($this->plugin) . '.' . $model);
 		}
 	}
 
@@ -133,7 +130,8 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		foreach ($this->models as $model) {
+		if ($this->_modelName) {
+			$model = $this->_modelName;
 			unset($this->$model);
 		}
 

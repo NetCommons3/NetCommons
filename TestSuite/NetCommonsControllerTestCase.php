@@ -36,6 +36,13 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public $plugin = null;
 
 /**
+ * Controller name
+ *
+ * @var string
+ */
+	protected $_controller;
+
+/**
  * Post data
  *
  * @var array
@@ -102,7 +109,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public function __construct($name = null, array $data = array(), $dataName = '') {
 		parent::__construct($name, $data, $dataName);
 		if ($this->_isFixtureMerged) {
-			$this->fixtures = array_merge($this->fixtures, $this->_fixtures);
+			$this->fixtures = array_merge($this->_fixtures, $this->fixtures);
 		}
 
 		if ($this->plugin) {
@@ -125,6 +132,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
 		CurrentControlPanel::setLanguage();
+
+		if ($this->_controller) {
+			$this->generateNc(Inflector::camelize($this->_controller));
+		}
 	}
 
 /**

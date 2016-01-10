@@ -36,6 +36,13 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 	public $plugin = null;
 
 /**
+ * Controller name
+ *
+ * @var string
+ */
+	protected $_controller;
+
+/**
  * Post data
  *
  * @var array
@@ -125,6 +132,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
 		CurrentControlPanel::setLanguage();
+
+		if ($this->_controller) {
+			$this->generateNc(Inflector::camelize($this->_controller));
+		}
 	}
 
 /**

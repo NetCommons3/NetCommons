@@ -142,7 +142,13 @@ class NetCommonsAppController extends Controller {
 
 		//現在のテーマを取得(後で、見直しが必要)
 		if (empty($this->request->params['requested'])) {
-			$theme = $this->Asset->getSiteTheme($this);
+			if (Current::read('Page.theme')) {
+				$theme = Current::read('Page.theme');
+			} elseif (Current::read('Room.theme')) {
+				$theme = Current::read('Room.theme');
+			} else {
+				$theme = $this->Asset->getSiteTheme($this);
+			}
 			if ($theme) {
 				$this->theme = $theme;
 			}

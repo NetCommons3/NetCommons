@@ -119,7 +119,7 @@ class NetCommonsUrl {
 			$query['?']['frame_id'] = $params['frame_id'];
 			unset($params['frame_id']);
 		}
-		return Hash::merge($url, $params, $query);
+		return Hash::merge($url, $query, $params);
 	}
 
 /**

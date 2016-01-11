@@ -33,12 +33,12 @@ class OriginalKeyBehavior extends ModelBehavior {
 			return true;
 		}
 		//  beforeSave はupdateAllでも呼び出される。
-		if (isset($model->data[$model->name]['id']) && ($model->data[$model->name]['id'] > 0)) {
+		if (isset($model->data[$model->alias]['id']) && ($model->data[$model->alias]['id'] > 0)) {
 			// updateのときは何もしない
 			return true;
 		}
-		if (! isset($model->data[$model->name]['key']) || $model->data[$model->name]['key'] === '') {
-			$model->data[$model->name]['key'] = self::generateKey($model->name, $model->useDbConfig);
+		if (! isset($model->data[$model->alias]['key']) || $model->data[$model->alias]['key'] === '') {
+			$model->data[$model->alias]['key'] = self::generateKey($model->alias, $model->useDbConfig);
 		}
 		return true;
 	}
@@ -54,15 +54,15 @@ class OriginalKeyBehavior extends ModelBehavior {
  */
 	public function afterSave(Model $model, $created, $options = array()) {
 		if ($created && $model->hasField('origin_id')) {
-			if (isset($model->data[$model->name]['origin_id']) &&
-					(int)$model->data[$model->name]['origin_id'] === 0) {
+			if (isset($model->data[$model->alias]['origin_id']) &&
+					(int)$model->data[$model->alias]['origin_id'] === 0) {
 				// origin_id がセットされてなかったらkey=idでupdate
 				$backupData = $model->data;
-				$result = $model->saveField('origin_id', $model->data[$model->name]['id'], array('callbacks' => false));
+				$result = $model->saveField('origin_id', $model->data[$model->alias]['id'], array('callbacks' => false));
 				$model->data = $backupData;
-				$model->data[$model->name]['origin_id'] = $result[$model->name]['origin_id'];
+				$model->data[$model->alias]['origin_id'] = $result[$model->alias]['origin_id'];
 
-				//$model->saveField('origin_id', $model->data[$model->name]['id']);
+				//$model->saveField('origin_id', $model->data[$model->alias]['id']);
 			}
 		}
 	}

@@ -131,7 +131,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
-		CurrentControlPanel::setLanguage();
+		(new CurrentControlPanel())->setLanguage();
 
 		if ($this->_controller) {
 			$this->generateNc(Inflector::camelize($this->_controller));

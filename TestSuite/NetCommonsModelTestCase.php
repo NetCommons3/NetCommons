@@ -27,7 +27,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		CurrentControlPanel::setLanguage();
+		(new CurrentControlPanel())->setLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;

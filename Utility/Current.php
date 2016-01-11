@@ -253,7 +253,7 @@ class Current {
  *
  * @var mixed
  */
-	private static $__request;
+	public static $request;
 
 /**
  * Instance object
@@ -287,34 +287,14 @@ class Current {
 			self::$__instance = new Current();
 		}
 
-		self::$__request = clone $request;
-
-		//if (! Hash::get($request->params, 'autoRender')) {
-		//	if ($request->params['plugin'] === self::PLUGIN_USERS) {
-		//		if (! $referer = CakeSession::read('current_referer')) {
-		//			$referer = $request->referer(true);
-		//			CakeSession::write('current_referer', $referer);
-		//		}
-		//		$params = Router::parse($referer);
-		//		if (in_array($params['plugin'], array(self::PLUGIN_USERS, 'auth'))) {
-		//			$params = Router::parse('/');
-		//		}
-		//		if (isset($params['?'])) {
-		//			self::$__request->query = $params['?'];
-		//			unset($params['?']);
-		//		}
-		//		self::$__request->params = $params;
-		//	} elseif (CakeSession::read('current_referer')) {
-		//		CakeSession::delete('current_referer');
-		//	}
-		//}
+		self::$request = clone $request;
 
 		self::$current['User'] = AuthComponent::user();
 
-		CurrentControlPanel::initialize(self::$__request);
+		(new CurrentControlPanel())->initialize();
 
 		if (! self::isControlPanel()) {
-			CurrentFrame::initialize(self::$__request);
+			(new CurrentFrame())->initialize();
 		}
 	}
 
@@ -443,7 +423,7 @@ class Current {
  * @return bool
  */
 	public static function isControlPanel() {
-		if (self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+		if (self::$request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}
 

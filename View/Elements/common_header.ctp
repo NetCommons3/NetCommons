@@ -53,8 +53,9 @@ if (! isset($isSettingMode)) {
 					<?php endif; ?>
 
 					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
-						<li class="dropdown">
-							<?php echo $this->element('Pages.dropdown_menu'); ?>
+						<li>
+							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting'),
+									'/pages/pages_edit/index/' . Current::read('Page.id')); ?>
 						</li>
 					<?php endif; ?>
 

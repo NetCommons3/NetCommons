@@ -129,7 +129,8 @@ class CurrentPage {
 			$conditions = array('Page.id' => $pageId);
 
 		} elseif (Current::$request->params['plugin'] === self::PLUGIN_PAGES) {
-			if (Current::$request->params['action'] === 'index') {
+			if (Current::$request->params['controller'] === 'pages' &&
+					Current::$request->params['action'] === 'index') {
 				$field = 'Page.permalink';
 			} else {
 				$field = 'Page.id';

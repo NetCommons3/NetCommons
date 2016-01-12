@@ -59,7 +59,7 @@ if (! isset($isSettingMode)) {
 					<?php elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting on'),
-									'/pages/pages_edit/index/' . Current::read('Room.id') . '/' . Current::read('Page.id')); ?>
+									'/pages/pages_edit/index/' . Current::read('Page.room_id') . '/' . Current::read('Page.id')); ?>
 						</li>
 					<?php endif; ?>
 

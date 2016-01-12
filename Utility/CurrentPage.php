@@ -132,7 +132,7 @@ class CurrentPage {
 			if (Current::$request->params['controller'] === 'pages' &&
 					Current::$request->params['action'] === 'index') {
 				$field = 'Page.permalink';
-				$value = Hash::get(Current::$request->params, 'pass.0', '');
+				$value = $path = implode('/', Current::$request->params['pass']);
 			} else {
 				$field = 'Page.id';
 				$value = Hash::get(Current::$request->params, 'pass.1', '');

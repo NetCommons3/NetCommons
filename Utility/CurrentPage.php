@@ -132,10 +132,16 @@ class CurrentPage {
 			if (Current::$request->params['controller'] === 'pages' &&
 					Current::$request->params['action'] === 'index') {
 				$field = 'Page.permalink';
+				$value = Hash::get(Current::$request->params, 'pass.0', '');
 			} else {
 				$field = 'Page.id';
+				$value = Hash::get(Current::$request->params, 'pass.1', '');
+				if (! $value) {
+					$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
+					$field = 'Page.id';
+					$value = Hash::get(Current::$current, 'Room.page_id_top', '');
+				}
 			}
-			$value = Hash::get(Current::$request->params, 'pass.0', '');
 			$conditions = array($field => $value);
 
 		} elseif (Current::$request->params['plugin'] === Current::PLUGIN_USERS && ! Current::$request->is('ajax')) {
@@ -205,6 +211,23 @@ class CurrentPage {
 
 		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
 		Current::$current['PluginsRoom'] = $result;
+	}
+
+/**
+ * Set Room
+ *
+ * @return bool
+ */
+	public function setRoom($roomId) {
+		$this->Room = ClassRegistry::init('Rooms.Room');
+		$conditions = array(
+			'Room.id' => $roomId
+		);
+		$result = $this->Room->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 }

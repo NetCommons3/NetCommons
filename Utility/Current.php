@@ -242,6 +242,11 @@ class Current {
 	const PLUGIN_USERS = 'users';
 
 /**
+ * Groupsプラグイン名の定数
+ */
+	const PLUGIN_GROUPS = 'groups';
+
+/**
  * is setting mode true
  *
  * @var bool

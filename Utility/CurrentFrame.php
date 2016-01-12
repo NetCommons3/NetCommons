@@ -66,8 +66,10 @@ class CurrentFrame {
  * @return void
  */
 	public function setFrame() {
-		if (isset(Current::$request->data['Frame']) && isset(Current::$request->data['Frame']['id'])) {
+		if (Hash::get(Current::$request->data, 'Frame.id')) {
 			$frameId = Current::$request->data['Frame']['id'];
+		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
+			$frameId = Hash::get(Current::$request->params, '?.frame_id');
 		} elseif (isset(Current::$request->query['frame_id'])) {
 			$frameId = Current::$request->query['frame_id'];
 		}

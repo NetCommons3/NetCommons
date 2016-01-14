@@ -10,10 +10,10 @@
 
 echo $this->Html->css(
 	array(
-		'bootstrap.min.css',
-		'style',
 		'/components/bootstrap/dist/css/bootstrap.min.css',
 		'/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+		'bootstrap.min.css',
+		'style',
 		'/frames/css/style.css',
 		'/net_commons/css/style.css',
 		'/pages/css/style.css',

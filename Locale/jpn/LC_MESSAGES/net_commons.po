@@ -537,3 +537,6 @@ msgstr "選択"
 
 msgid "Preview"
 msgstr "プレビュー"
+
+msgid "Move"
+msgstr "移動"

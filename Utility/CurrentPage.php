@@ -113,17 +113,11 @@ class CurrentPage {
 	}
 
 /**
- * Set Page
+ * ページ取得の条件取得
  *
- * @return bool
+ * @return array 条件配列
  */
-	public function setPage() {
-		$this->Page = ClassRegistry::init('Pages.Page');
-
-		if (isset(Current::$current['Page'])) {
-			return;
-		}
-
+	private function __getPageConditions() {
 		if (Hash::get(Current::$request->data, 'Page.id')) {
 			$pageId = Current::$request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
@@ -132,13 +126,12 @@ class CurrentPage {
 			if (Current::$request->params['controller'] === 'pages' &&
 					Current::$request->params['action'] === 'index') {
 				$field = 'Page.permalink';
-				$value = $path = implode('/', Current::$request->params['pass']);
+				$value = implode('/', Current::$request->params['pass']);
 			} else {
 				$field = 'Page.id';
 				$value = Hash::get(Current::$request->params, 'pass.1', '');
 				if (! $value) {
 					$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
-					$field = 'Page.id';
 					$value = Hash::get(Current::$current, 'Room.page_id_top', '');
 				}
 			}
@@ -152,6 +145,26 @@ class CurrentPage {
 				'Page.id' => $result['Room']['page_id_top']
 			);
 		} else {
+			$conditions = null;
+		}
+
+		return $conditions;
+	}
+
+/**
+ * Set Page
+ *
+ * @return bool
+ */
+	public function setPage() {
+		$this->Page = ClassRegistry::init('Pages.Page');
+
+		if (isset(Current::$current['Page'])) {
+			return;
+		}
+
+		$conditions = $this->__getPageConditions();
+		if (! $conditions) {
 			return;
 		}
 

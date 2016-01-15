@@ -42,7 +42,6 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
-		'Asset',
 		'Auth' => array(
 			'loginAction' => array(
 				'plugin' => 'auth',
@@ -62,6 +61,7 @@ class NetCommonsAppController extends Controller {
 		),
 		'DebugKit.Toolbar',
 		'Flash',
+		'NetCommons.Asset',
 		'NetCommons.NetCommons',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
@@ -82,7 +82,7 @@ class NetCommonsAppController extends Controller {
  */
 	public $uses = [
 		'M17n.Language',
-		'NetCommons.SiteSetting',
+		'NetCommons.SiteSetting', //後で使う予定
 	];
 
 /**
@@ -140,18 +140,10 @@ class NetCommonsAppController extends Controller {
 		//カレントデータセット
 		Current::initialize($this->request);
 
-		//現在のテーマを取得(後で、見直しが必要)
-		if (empty($this->request->params['requested'])) {
-			if (Current::read('Page.theme')) {
-				$theme = Current::read('Page.theme');
-			} elseif (Current::read('Room.theme')) {
-				$theme = Current::read('Room.theme');
-			} else {
-				$theme = $this->Asset->getSiteTheme($this);
-			}
-			if ($theme) {
-				$this->theme = $theme;
-			}
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
 		}
 
 		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除

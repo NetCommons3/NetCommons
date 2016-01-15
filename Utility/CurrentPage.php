@@ -216,6 +216,7 @@ class CurrentPage {
 /**
  * Set Room
  *
+ * @param int $roomId Rooms.id
  * @return bool
  */
 	public function setRoom($roomId) {

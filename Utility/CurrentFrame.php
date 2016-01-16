@@ -18,13 +18,6 @@
 class CurrentFrame {
 
 /**
- * Request object
- *
- * @var mixed
- */
-	private static $__request;
-
-/**
  * 管理プラグイン以外でFrameチェックからスキップするプラグインリスト
  *
  * @var mixed
@@ -35,25 +28,11 @@ class CurrentFrame {
 	);
 
 /**
- * Instance object
- *
- * @var mixed
- */
-	private static $__instance;
-
-/**
  * setup current data
  *
- * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function initialize(CakeRequest $request) {
-		if (! self::$__instance) {
-			self::$__instance = new CurrentFrame();
-		}
-
-		self::$__request = $request;
-
+	public function initialize() {
 		if (isset(Current::$current['Frame'])) {
 			unset(Current::$current['Frame']);
 		}
@@ -70,15 +49,15 @@ class CurrentFrame {
 			unset(Current::$m17n['Block']);
 		}
 
-		if (!in_array(self::$__request->params['plugin'], self::$skipFramePlugins, true)) {
-			self::$__instance->setFrame();
-			self::$__instance->setBlock();
-			self::$__instance->setM17n();
+		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
+			$this->setFrame();
+			$this->setBlock();
+			$this->setM17n();
 		}
 
-		CurrentPage::initialize(self::$__request);
+		(new CurrentPage())->initialize();
 
-		self::$__instance->setBlockRolePermissions();
+		$this->setBlockRolePermissions();
 	}
 
 /**
@@ -87,24 +66,26 @@ class CurrentFrame {
  * @return void
  */
 	public function setFrame() {
-		if (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['id'])) {
-			$frameId = self::$__request->data['Frame']['id'];
-		} elseif (isset(self::$__request->query['frame_id'])) {
-			$frameId = self::$__request->query['frame_id'];
+		if (Hash::get(Current::$request->data, 'Frame.id')) {
+			$frameId = Current::$request->data['Frame']['id'];
+		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
+			$frameId = Hash::get(Current::$request->params, '?.frame_id');
+		} elseif (isset(Current::$request->query['frame_id'])) {
+			$frameId = Current::$request->query['frame_id'];
 		}
 
-		self::$__instance->Frame = ClassRegistry::init('Frames.Frame');
-		self::$__instance->Box = ClassRegistry::init('Boxes.Box');
+		$this->Frame = ClassRegistry::init('Frames.Frame');
+		$this->Box = ClassRegistry::init('Boxes.Box');
 
 		if (isset($frameId)) {
-			$result = self::$__instance->Frame->findById($frameId);
+			$result = $this->Frame->findById($frameId);
 			Current::$current = Hash::merge(Current::$current, $result);
 			if (isset(Current::$current['Page'])) {
 				return;
 			}
 		}
 
-		self::$__instance->setPageByBox();
+		$this->setPageByBox();
 	}
 
 /**
@@ -115,15 +96,15 @@ class CurrentFrame {
 	public function setPageByBox() {
 		if (isset(Current::$current['Box']['id'])) {
 			$boxId = Current::$current['Box']['id'];
-		} elseif (isset(self::$__request->data['Frame']) && isset(self::$__request->data['Frame']['box_id'])) {
-			$boxId = self::$__request->data['Frame']['box_id'];
-		} elseif (isset(self::$__request->data['Box']) && isset(self::$__request->data['Box']['id'])) {
-			$boxId = self::$__request->data['Box']['id'];
+		} elseif (isset(Current::$request->data['Frame']) && isset(Current::$request->data['Frame']['box_id'])) {
+			$boxId = Current::$request->data['Frame']['box_id'];
+		} elseif (isset(Current::$request->data['Box']) && isset(Current::$request->data['Box']['id'])) {
+			$boxId = Current::$request->data['Box']['id'];
 		} else {
 			return;
 		}
 
-		$result = self::$__instance->Box->find('first', array(
+		$result = $this->Box->find('first', array(
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),
@@ -144,20 +125,20 @@ class CurrentFrame {
  * @param int $blockId Blocks.id
  * @return void
  */
-	public static function setBlock($blockId = null) {
-		self::$__instance->Block = ClassRegistry::init('Blocks.Block');
+	public function setBlock($blockId = null) {
+		$this->Block = ClassRegistry::init('Blocks.Block');
 
-		if (isset(self::$__request->data['Block']['id']) && self::$__request->data['Block']['id']) {
-			$blockId = self::$__request->data['Block']['id'];
+		if (isset(Current::$request->data['Block']['id']) && Current::$request->data['Block']['id']) {
+			$blockId = Current::$request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない
-		} elseif (isset(self::$__request->params['pass'][0])) {
-			$blockId = self::$__request->params['pass'][0];
+		} elseif (isset(Current::$request->params['pass'][0])) {
+			$blockId = Current::$request->params['pass'][0];
 		} else {
 			return;
 		}
 
-		$result = self::$__instance->Block->find('first', array(
+		$result = $this->Block->find('first', array(
 			'recursive' => 0,
 			'conditions' => array(
 				'Block.id' => $blockId,
@@ -169,7 +150,7 @@ class CurrentFrame {
 		}
 
 		if (isset(Current::$current['Frame']['block_id'])) {
-			$result = self::$__instance->Block->find('first', array(
+			$result = $this->Block->find('first', array(
 				'recursive' => 0,
 				'conditions' => array(
 					'Block.id' => Current::$current['Frame']['block_id'],
@@ -187,14 +168,14 @@ class CurrentFrame {
  * @return void
  */
 	public function setBlockRolePermissions() {
-		self::$__instance->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
+		$this->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
 
 		if (isset(Current::$current['BlockRolePermission'])) {
 			return;
 		}
 
 		if (isset(Current::$current['RolesRoom']) && isset(Current::$current['Block']['key'])) {
-			$result = self::$__instance->BlockRolePermission->find('all', array(
+			$result = $this->BlockRolePermission->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
 					'roles_room_id' => Current::$current['RolesRoom']['id'],
@@ -225,13 +206,10 @@ class CurrentFrame {
  *
  * @return void
  */
-	public static function setM17n() {
-		if (! self::$__instance) {
-			self::$__instance = new CurrentFrame();
-		}
-
+	public function setM17n() {
 		if (isset(Current::$current['Frame'])) {
-			Current::$m17n['Frame'] = self::$__instance->Frame->find('all', array(
+			$this->Frame = ClassRegistry::init('Frames.Frame');
+			Current::$m17n['Frame'] = $this->Frame->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
 					'key' => Current::$current['Frame']['key']
@@ -240,8 +218,8 @@ class CurrentFrame {
 		}
 
 		if (isset(Current::$current['Block'])) {
-			self::$__instance->Block = ClassRegistry::init('Blocks.Block');
-			Current::$m17n['Block'] = self::$__instance->Block->find('all', array(
+			$this->Block = ClassRegistry::init('Blocks.Block');
+			Current::$m17n['Block'] = $this->Block->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
 					'key' => Current::$current['Block']['key']

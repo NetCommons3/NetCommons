@@ -23,37 +23,14 @@ class CurrentControlPanel {
 	const PLUGIN_CONTROL_PANEL = 'control_panel';
 
 /**
- * Request object
- *
- * @var mixed
- */
-	private static $__request;
-
-/**
- * Instance object
- *
- * @var mixed
- */
-	private static $__instance;
-
-/**
  * setup current data
  *
- * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function initialize(CakeRequest $request) {
-		if (! self::$__instance) {
-			self::$__instance = new CurrentControlPanel();
-		}
-
-		self::$__request = $request;
-
-		self::$__instance->setLanguage();
-
-		self::$__instance->setPlugin();
-
-		self::$__instance->setPluginRole();
+	public function initialize() {
+		$this->setLanguage();
+		$this->setPlugin();
+		$this->setPluginRole();
 	}
 
 /**
@@ -61,17 +38,13 @@ class CurrentControlPanel {
  *
  * @return void
  */
-	public static function setLanguage() {
-		if (! self::$__instance) {
-			self::$__instance = new CurrentControlPanel();
-		}
-
+	public function setLanguage() {
 		if (isset(Current::$current['Language'])) {
 			return;
 		}
-		self::$__instance->Language = ClassRegistry::init('M17n.Language');
+		$this->Language = ClassRegistry::init('M17n.Language');
 
-		Current::$m17n['Language'] = self::$__instance->Language->find('all', array(
+		Current::$m17n['Language'] = $this->Language->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'is_active' => true
@@ -99,17 +72,17 @@ class CurrentControlPanel {
 			unset(Current::$current['Plugin']);
 		}
 
-		if (self::$__request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
-				self::$__request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+		if (Current::$request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
+				Current::$request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
 			return;
 		}
 
 		//Pluginデータ取得
-		self::$__instance->Plugin = ClassRegistry::init('PluginManager.Plugin');
-		$result = self::$__instance->Plugin->find('first', array(
+		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
+		$result = $this->Plugin->find('first', array(
 			'recursive' => -1,
 			'conditions' => array(
-				'key' => self::$__request->params['plugin'],
+				'key' => Current::$request->params['plugin'],
 				'language_id' => Current::$current['Language']['id']
 			),
 		));
@@ -131,9 +104,9 @@ class CurrentControlPanel {
 		}
 
 		//PluginsRoleデータ取得
-		self::$__instance->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
+		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 		if (Current::$current['User']['role_key']) {
-			$result = self::$__instance->PluginsRole->find('all', array(
+			$result = $this->PluginsRole->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(
 					'role_key' => Current::$current['User']['role_key'],

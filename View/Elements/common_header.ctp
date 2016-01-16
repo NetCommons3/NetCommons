@@ -52,9 +52,14 @@ if (! isset($isSettingMode)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
-						<li class="dropdown">
-							<?php echo $this->element('Pages.dropdown_menu'); ?>
+					<?php if ($this->params['plugin'] === 'pages' && $this->params['controller'] === 'pages_edit') : ?>
+						<li>
+							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting off'), NetCommonsUrl::backToPageUrl()); ?>
+						</li>
+					<?php elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
+						<li>
+							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting on'),
+									'/pages/pages_edit/index/' . Current::read('Page.room_id') . '/' . Current::read('Page.id')); ?>
 						</li>
 					<?php endif; ?>
 

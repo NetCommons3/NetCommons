@@ -30,43 +30,17 @@ class CurrentPage {
 	const PLUGIN_PAGES = 'pages';
 
 /**
- * Request object
- *
- * @var mixed
- */
-	private static $__request;
-
-/**
- * Instance object
- *
- * @var mixed
- */
-	private static $__instance;
-
-/**
  * setup current data
  *
- * @param CakeRequest $request CakeRequest
  * @return void
  */
-	public static function initialize(CakeRequest $request) {
-		if (! self::$__instance) {
-			self::$__instance = new CurrentPage();
-		}
-
-		self::$__request = $request;
-
-		self::$__instance->setPage();
-
-		self::$__instance->setPageByRoomPageTopId();
-
-		self::$__instance->setRolesRoomsUser();
-
-		self::$__instance->setDefaultRolePermissions();
-
-		self::$__instance->setRoomRolePermissions();
-
-		self::$__instance->setPluginsRoom();
+	public function initialize() {
+		$this->setPage();
+		$this->setPageByRoomPageTopId();
+		$this->setRolesRoomsUser();
+		$this->setDefaultRolePermissions();
+		$this->setRoomRolePermissions();
+		$this->setPluginsRoom();
 	}
 
 /**
@@ -75,11 +49,11 @@ class CurrentPage {
  * @return void
  */
 	public function setRolesRoomsUser() {
-		self::$__instance->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
+		$this->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 
 		if (isset(Current::$current['User']['id']) &&
 				isset(Current::$current['Room']['id']) && ! isset(Current::$current['RolesRoomsUser'])) {
-			$result = self::$__instance->RolesRoomsUser->getRolesRoomsUsers(array(
+			$result = $this->RolesRoomsUser->getRolesRoomsUsers(array(
 				'RolesRoomsUser.user_id' => Current::$current['User']['id'],
 				'Room.id' => Current::$current['Room']['id']
 			));
@@ -95,7 +69,7 @@ class CurrentPage {
  * @return void
  */
 	public function setDefaultRolePermissions() {
-		self::$__instance->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
+		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 
 		if (isset(Current::$current['DefaultRolePermission'])) {
 			return;
@@ -105,7 +79,7 @@ class CurrentPage {
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
 		}
-		$result = self::$__instance->DefaultRolePermission->find('all', array(
+		$result = $this->DefaultRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'role_key' => $roomRoleKey,
@@ -122,12 +96,12 @@ class CurrentPage {
  * @return void
  */
 	public function setRoomRolePermissions() {
-		self::$__instance->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
+		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
 
 		if (isset(Current::$current['RoomRolePermission']) || ! isset(Current::$current['RolesRoom'])) {
 			return;
 		}
-		$result = self::$__instance->RoomRolePermission->find('all', array(
+		$result = $this->RoomRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'roles_room_id' => Current::$current['RolesRoom']['id'],
@@ -139,42 +113,62 @@ class CurrentPage {
 	}
 
 /**
- * Set Page
+ * ページ取得の条件取得
  *
- * @return bool
+ * @return array 条件配列
  */
-	public function setPage() {
-		self::$__instance->Page = ClassRegistry::init('Pages.Page');
-
-		if (isset(Current::$current['Page'])) {
-			return;
-		}
-
-		if (Hash::get(self::$__request->data, 'Page.id')) {
-			$pageId = self::$__request->data['Page']['id'];
+	private function __getPageConditions() {
+		if (Hash::get(Current::$request->data, 'Page.id')) {
+			$pageId = Current::$request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
 
-		} elseif (self::$__request->params['plugin'] === self::PLUGIN_PAGES) {
-			if (self::$__request->params['action'] === 'index') {
+		} elseif (Current::$request->params['plugin'] === self::PLUGIN_PAGES) {
+			if (Current::$request->params['controller'] === 'pages' &&
+					Current::$request->params['action'] === 'index') {
 				$field = 'Page.permalink';
+				$value = implode('/', Current::$request->params['pass']);
 			} else {
 				$field = 'Page.id';
+				$value = Hash::get(Current::$request->params, 'pass.1', '');
+				if (! $value) {
+					$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
+					$value = Hash::get(Current::$current, 'Room.page_id_top', '');
+				}
 			}
-			$value = Hash::get(self::$__request->params, 'pass.0', '');
 			$conditions = array($field => $value);
 
-		} elseif (self::$__request->params['plugin'] === Current::PLUGIN_USERS && ! self::$__request->is('ajax')) {
-			self::$__instance->Room = ClassRegistry::init('Rooms.Room');
-			$result = self::$__instance->Room->getPrivateRoomByUserId(Current::read('User.id'));
+		} elseif (Current::$request->params['plugin'] === Current::PLUGIN_USERS && ! Current::$request->is('ajax')) {
+			$this->Room = ClassRegistry::init('Rooms.Room');
+			$result = $this->Room->getPrivateRoomByUserId(Current::read('User.id'));
 			Current::$current = Hash::merge(Current::$current, $result);
 			$conditions = array(
 				'Page.id' => $result['Room']['page_id_top']
 			);
 		} else {
+			$conditions = null;
+		}
+
+		return $conditions;
+	}
+
+/**
+ * Set Page
+ *
+ * @return bool
+ */
+	public function setPage() {
+		$this->Page = ClassRegistry::init('Pages.Page');
+
+		if (isset(Current::$current['Page'])) {
 			return;
 		}
 
-		$result = self::$__instance->Page->find('first', array(
+		$conditions = $this->__getPageConditions();
+		if (! $conditions) {
+			return;
+		}
+
+		$result = $this->Page->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
@@ -188,7 +182,7 @@ class CurrentPage {
 			$conditions = array(
 				'Page.id' => Current::$current['Room']['page_id_top']
 			);
-			$result = self::$__instance->Page->find('first', array(
+			$result = $this->Page->find('first', array(
 				'recursive' => 0,
 				'conditions' => $conditions,
 			));
@@ -209,7 +203,7 @@ class CurrentPage {
 		$conditions = array(
 			'Page.id' => Current::$current['Room']['page_id_top']
 		);
-		$result = self::$__instance->Page->find('first', array(
+		$result = $this->Page->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
@@ -226,10 +220,28 @@ class CurrentPage {
 		if (isset(Current::$current['PluginsRoom']) || ! isset(Current::$current['Room'])) {
 			return;
 		}
-		self::$__instance->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
+		$this->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
 
-		$result = self::$__instance->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
+		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
 		Current::$current['PluginsRoom'] = $result;
+	}
+
+/**
+ * Set Room
+ *
+ * @param int $roomId Rooms.id
+ * @return bool
+ */
+	public function setRoom($roomId) {
+		$this->Room = ClassRegistry::init('Rooms.Room');
+		$conditions = array(
+			'Room.id' => $roomId
+		);
+		$result = $this->Room->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 }

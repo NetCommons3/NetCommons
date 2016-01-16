@@ -51,7 +51,7 @@ class NetCommonsTime {
  */
 	public function getSiteTimezone() {
 		if (self::$_siteTimezone === null) {
-			$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+			$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
 			self::$_siteTimezone = $SiteSetting->getSiteTimezone();
 		}
 		return self::$_siteTimezone;

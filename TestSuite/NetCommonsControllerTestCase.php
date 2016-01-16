@@ -74,7 +74,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		'plugin.files.upload_files_content',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
-		'plugin.net_commons.site_setting',
+		'plugin.site_manager.site_setting',
 		'plugin.pages.languages_page',
 		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',

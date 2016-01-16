@@ -82,7 +82,7 @@ class NetCommonsAppController extends Controller {
  */
 	public $uses = [
 		'M17n.Language',
-		'NetCommons.SiteSetting', //後で使う予定
+		'SiteManager.SiteSetting', //後で使う予定
 	];
 
 /**

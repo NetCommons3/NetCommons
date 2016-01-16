@@ -24,7 +24,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.net_commons.site_setting',
+		'plugin.site_manager.site_setting',
 		'plugin.users.user',
 	);
 
@@ -186,7 +186,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 		$method = new ReflectionMethod($netCommonsTime, 'getSiteTimezone');
 		$method->setAccessible(true);
 
-		$this->getMockForModel('NetCommons.SiteSetting', ['getSiteTimezone'])
+		$this->getMockForModel('SiteManager.SiteSetting', ['getSiteTimezone'])
 			->expects($this->once())
 			->method('getSiteTimezone')
 			->will($this->returnValue('Asia/Tokyo'));

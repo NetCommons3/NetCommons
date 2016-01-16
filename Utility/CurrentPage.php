@@ -137,7 +137,8 @@ class CurrentPage {
 			}
 			$conditions = array($field => $value);
 
-		} elseif (Current::$request->params['plugin'] === Current::PLUGIN_USERS && ! Current::$request->is('ajax')) {
+		} elseif (in_array(Current::$request->params['plugin'], [Current::PLUGIN_USERS, Current::PLUGIN_GROUPS], true)
+				&& ! Current::$request->is('ajax')) {
 			$this->Room = ClassRegistry::init('Rooms.Room');
 			$result = $this->Room->getPrivateRoomByUserId(Current::read('User.id'));
 			Current::$current = Hash::merge(Current::$current, $result);

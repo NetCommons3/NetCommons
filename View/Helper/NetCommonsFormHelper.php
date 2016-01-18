@@ -423,6 +423,17 @@ class NetCommonsFormHelper extends Helper {
 	}
 
 /**
+ * FormHelperラップ用マジックメソッド。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
+ */
+	public function __call($method, $params) {
+		return call_user_func_array(array($this->Form, $method), $params);
+	}
+
+/**
  * Timezone変換の準備を組み込んだForm::end
  *
  * @param null|array $options オプション

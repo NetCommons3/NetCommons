@@ -540,3 +540,9 @@ msgstr "プレビュー"
 
 msgid "Move"
 msgstr "移動"
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "No"
+msgstr "いいえ"

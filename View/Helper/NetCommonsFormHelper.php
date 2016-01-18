@@ -197,9 +197,7 @@ class NetCommonsFormHelper extends Helper {
 		$output .= $this->Form->input($fieldName, $inputOptions);
 
 		if (is_array($options['error'])) {
-			$output .= '<div class="has-error">';
-			$output .= $this->Form->error($fieldName, null, Hash::merge(array('class' => 'help-block'), $options['error']));
-			$output .= '</div>';
+			$output .= $this->error($fieldName, null, $options['error']);
 		}
 
 		$output .= $outputEnd;
@@ -384,9 +382,7 @@ class NetCommonsFormHelper extends Helper {
 		$output .= $this->Form->input($fieldName, $inputAttributes);
 
 		if (!isset($attributes['error']) || $attributes['error']) {
-			$output .= '<div class="has-error">';
-			$output .= $this->Form->error($fieldName, null, array('class' => 'help-block'));
-			$output .= '</div>';
+			$output .= $this->error($fieldName);
 		}
 
 		$output .= '</div>';
@@ -424,17 +420,6 @@ class NetCommonsFormHelper extends Helper {
 		$html .= $this->input($fieldName, $attributes);
 
 		return $html;
-	}
-
-/**
- * FormHelperラップ用マジックメソッド。
- *
- * @param string $method メソッド
- * @param array $params パラメータ
- * @return mixed
- */
-	public function __call($method, $params) {
-		return call_user_func_array(array($this->Form, $method), $params);
 	}
 
 /**
@@ -489,4 +474,24 @@ class NetCommonsFormHelper extends Helper {
 		}
 		return $options;
 	}
+
+/**
+ * Overwrite FormHelper::error()
+ *
+ * @param string $field A field name, like "Modelname.fieldname"
+ * @param string|array $text Error message as string or array of messages.
+ *   If array contains `attributes` key it will be used as options for error container
+ * @param array $options Rendering options for <div /> wrapper tag
+ * @return string error html
+ */
+	public function error($fieldName, $text = null, $options = array()) {
+		$output = '';
+
+		$output .= '<div class="has-error">';
+		$output .= $this->Form->error($fieldName, $text, Hash::merge(array('class' => 'help-block'), $options));
+		$output .= '</div>';
+
+		return $output;
+	}
+
 }

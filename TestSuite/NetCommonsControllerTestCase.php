@@ -434,6 +434,7 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  */
 	public function assertInput($tagType, $name, $value, $result, $message = null) {
 		$result = str_replace("\n", '', $result);
+
 		if ($tagType === 'input') {
 			if ($value) {
 				$this->assertRegExp(

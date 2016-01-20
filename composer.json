@@ -22,7 +22,7 @@
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
         "phpunit/phpunit":              "~3.7.38",
-        "twbs/bootstrap":               "@dev",
+        "twbs/bootstrap":               "@dev"
     },
     "require-dev": {
         "mustangostang/spyc":           "dev-master",

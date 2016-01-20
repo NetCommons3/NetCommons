@@ -151,8 +151,8 @@ textarea.nc-noresize {
 /*
  * タイトルアイコン
  */
-.nc-title-icon {height:1.15em; vertical-align:text-top;}
-.nc-title-icon-index .nc-title-icon {height:1.3em; vertical-align:text-top;}
+.nc-title-icon {height:1.3em; vertical-align:text-bottom;}
+.nc-title-icon-index .nc-title-icon {height:1.3em; vertical-align:text-bottom;}
 .nc-icon-palette {float:left; margin:0px; padding:6px; border:1px solid transparent;}
 .nc-icon-palette:hover {border-color:#cccccc;}
 .nc-icon-palette .nc-title-icon {height:1.3em;}

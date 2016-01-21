@@ -21,8 +21,7 @@
         "cakephp/cakephp":              "~2.6",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
-        "phpunit/phpunit":              "~3.7.38",
-        "twbs/bootstrap":               "@dev"
+        "phpunit/phpunit":              "~3.7.38"
     },
     "require-dev": {
         "mustangostang/spyc":           "dev-master",

@@ -25,7 +25,7 @@ class NetCommonsUrl {
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function backToPageUrl($settingMode = false, $full = false) {
+	public static function backToPageUrl($settingMode = false, $full = true) {
 		$url = '/';
 		if (! Current::isControlPanel()) {
 			if ($settingMode) {
@@ -47,7 +47,7 @@ class NetCommonsUrl {
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
+	public static function backToIndexUrl($defaultField = 'default_action', $full = true) {
 		$url = '/' . Current::read('Plugin.key') . '/' . Current::read('Plugin.' . $defaultField);
 		if (Current::read('Plugin.' . $defaultField) && ! Current::isControlPanel()) {
 			if (Current::read('Block.id')) {
@@ -68,7 +68,7 @@ class NetCommonsUrl {
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function actionUrl($params = array(), $full = false) {
+	public static function actionUrl($params = array(), $full = true) {
 		if (is_array($params)) {
 			$url = self::actionUrlAsArray($params, $full);
 		} else {
@@ -85,7 +85,7 @@ class NetCommonsUrl {
  * @return array Full translated URL with base path as array.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function actionUrlAsArray($params = array(), $full = false) {
+	public static function actionUrlAsArray($params = array(), $full = true) {
 		$url = array();
 		$query['?'] = null;
 		if (! isset($params['plugin'])) {
@@ -130,7 +130,7 @@ class NetCommonsUrl {
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function userActionUrl($params = array(), $full = false) {
+	public static function userActionUrl($params = array(), $full = true) {
 		$params = Hash::merge(array(
 			'plugin' => 'users',
 			'controller' => 'users',

@@ -35,7 +35,8 @@ if (! isset($isSettingMode)) {
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
+						<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Home'),
+								NetCommonsUrl::actionUrl('/')); ?>
 					</li>
 					<?php if ($user = AuthComponent::user()) : ?>
 						<li>

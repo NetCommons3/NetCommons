@@ -141,7 +141,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function url($url = null, $options = array()) {
+	private function __getUrl($url = null) {
 		//URLの設定
 		if (is_array($url)) {
 			if (! isset($url['plugin'])) {
@@ -161,7 +161,20 @@ class NetCommonsHtmlHelper extends AppHelper {
 			}
 			$url = NetCommonsUrl::actionUrl($url);
 		}
+		return $url;
+	}
 
+/**
+ * Creates a `<a>` tag for add link. The type attribute defaults
+ *
+ * @param mixed $url Link url
+ * @param array $options Array of options and HTML attributes.
+ * @return string A HTML button tag.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function url($url = null, $options = array()) {
+		//URLの設定
+		$url = $this->__getUrl($url);
 		$output = $this->Html->url($url, $options);
 		return $output;
 	}
@@ -176,7 +189,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function link($title = '', $url = null, $options = array()) {
-		$url = $this->url($url, $options);
+		$url = $this->__getUrl($url);
 		$output = $this->Html->link($title, $url, $options);
 		return $output;
 	}

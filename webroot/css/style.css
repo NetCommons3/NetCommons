@@ -140,19 +140,19 @@ textarea.nc-noresize {
 /*
  * カラーパレット
  */
-.nc-color-palette-dropdown {width:242px;}
-.nc-color-palette {float:left;width:1em;height:1em;margin:4px 5px;border:1px solid transparent;}
+.nc-color-palette-dropdown {width:20.2em;}
+.nc-color-palette {float:left;width:1em;height:1em;margin:0.3em 0.5em;border:1px solid transparent;}
 .nc-color-palette:hover {border-color:#cccccc;}
-.nc-color-palette-bases {float:left;width:1em;height:1em;margin:8px 5px;border:1px solid transparent;}
-.nc-color-palette-bases:nth-child(9) {float:left;width:1em;height:1em;margin:8px 5px;border:1px solid #ccc;}
+.nc-color-palette-bases {float:left;width:1em;height:1em;margin:0.6em 0.5em;border:1px solid transparent;}
+.nc-color-palette-bases:nth-child(9) {float:left;width:1em;height:1em;margin:0.6em 0.5em;border:1px solid #ccc;}
 .nc-color-palette-bases:hover {border-color:#aaaaaa;}
 .nc-color-index {border-radius: 0.5em 0px 0px 0.5em !important;height: 34px;padding-left: 0.5em;padding-right: 0.5em;}
 
 /*
  * タイトルアイコン
  */
-.nc-title-icon {height:1em; vertical-align:text-top;}
-.nc-title-icon-index .nc-title-icon {height:1.3em; vertical-align:text-top;}
-.nc-icon-palette {float:left; margin:4px; padding:2px; border:1px solid transparent;}
+.nc-title-icon {height:1.3em; vertical-align:text-bottom;}
+.nc-title-icon-index .nc-title-icon {height:1.3em; vertical-align:text-bottom;}
+.nc-icon-palette {float:left; margin:0px; padding:6px; border:1px solid transparent;}
 .nc-icon-palette:hover {border-color:#cccccc;}
-.nc-icon-palette .nc-title-icon {height:16px;}
+.nc-icon-palette .nc-title-icon {height:1.3em;}

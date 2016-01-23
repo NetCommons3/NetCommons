@@ -433,6 +433,8 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
  * @return void
  */
 	public function assertInput($tagType, $name, $value, $result, $message = null) {
+		$result = str_replace("\n", '', $result);
+
 		if ($tagType === 'input') {
 			if ($value) {
 				$this->assertRegExp(
@@ -450,6 +452,10 @@ class NetCommonsControllerTestCase extends ControllerTestCase {
 		} elseif ($tagType === 'button') {
 			$this->assertRegExp(
 				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+			);
+		} elseif ($tagType === 'select') {
+			$this->assertRegExp(
+				'/<select.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
 			);
 		} elseif ($tagType === 'form') {
 			$this->assertRegExp(

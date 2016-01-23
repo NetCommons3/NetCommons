@@ -36,7 +36,7 @@ class NetCommonsUrl {
 				$url .= Current::read('Page.permalink') . '/';
 			}
 		}
-		return h(Router::url($url, $full));
+		return self::url($url, $full);
 	}
 
 /**
@@ -57,7 +57,7 @@ class NetCommonsUrl {
 				$url .= '?frame_id=' . Current::read('Frame.id');
 			}
 		}
-		return h(Router::url($url, $full));
+		return self::url($url, $full);
 	}
 
 /**
@@ -74,7 +74,7 @@ class NetCommonsUrl {
 		} else {
 			$url = $params;
 		}
-		return h(Router::url($url, $full));
+		return self::url($url, $full);
 	}
 
 /**
@@ -147,8 +147,29 @@ class NetCommonsUrl {
 		//}
 
 		$url = self::actionUrlAsArray($params, $full);
+		return self::url($url, $full);
+	}
 
-		return h(Router::url($url, $full));
+/**
+ * URLを生成
+ *
+ * @param array $params Action url array
+ * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
+ * @return string Full translated URL with base path.
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public static function url($params = array(), $full = false) {
+		$url = Router::url($params, $full);
+		$request = Router::getRequest(true);
+		$base = '';
+		if ($request) {
+			$base = $request->base;
+		}
+		if (! $full) {
+			return h(substr($url, strlen($base)));
+		} else {
+			return $url;
+		}
 	}
 
 }

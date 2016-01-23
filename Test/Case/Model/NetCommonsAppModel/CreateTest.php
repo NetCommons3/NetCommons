@@ -20,7 +20,7 @@ class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
  * @var array fixture
  */
 	public $fixtures = array(
-		'plugin.net_commons.site_setting',
+		'plugin.site_manager.site_setting',
 		'plugin.net_commons.create_profile',
 	);
 
@@ -53,7 +53,7 @@ class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function testNotNullFieldDefaultIsNotNull() {
-		$SiteSetting = ClassRegistry::init('NetCommons.SiteSetting');
+		$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
 		$newData = $SiteSetting->create();
 
 		// Tableでnot null なカラムにnullがセットされちゃダメ

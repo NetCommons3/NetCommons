@@ -30,12 +30,15 @@ if (! isset($isSettingMode)) {
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/">NetCommons3</a>
+
+				<?php echo $this->NetCommonsHtml->link('NetCommons3',
+						NetCommonsUrl::actionUrl('/'), array('class' => 'navbar-brand')); ?>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="/"><?php echo __d('net_commons', 'Home'); ?></a>
+						<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Home'),
+								NetCommonsUrl::actionUrl('/')); ?>
 					</li>
 					<?php if ($user = AuthComponent::user()) : ?>
 						<li>

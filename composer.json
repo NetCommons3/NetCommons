@@ -43,6 +43,7 @@
         "netcommons/roles":             "dev-master",
         "netcommons/rooms":             "dev-master",
         "netcommons/room-space":        "dev-master",
+        "netcommons/site-manager":      "dev-master",
         "netcommons/users":             "dev-master",
         "netcommons/user-attributes":   "dev-master",
         "netcommons/user-manager":      "dev-master",

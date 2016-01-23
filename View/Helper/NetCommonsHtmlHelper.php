@@ -137,7 +137,6 @@ class NetCommonsHtmlHelper extends AppHelper {
  * Creates a `<a>` tag for add link. The type attribute defaults
  *
  * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */

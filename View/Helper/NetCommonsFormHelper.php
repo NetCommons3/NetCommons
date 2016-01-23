@@ -489,7 +489,7 @@ class NetCommonsFormHelper extends Helper {
 /**
  * Overwrite FormHelper::error()
  *
- * @param string $field A field name, like "Modelname.fieldname"
+ * @param string $fieldName A field name, like "Modelname.fieldname"
  * @param string|array $text Error message as string or array of messages.
  *   If array contains `attributes` key it will be used as options for error container
  * @param array $options Rendering options for <div /> wrapper tag

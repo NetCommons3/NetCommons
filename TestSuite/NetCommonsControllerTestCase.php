@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsControllerBaseTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * NetCommonsControllerTestCase
@@ -29,7 +30,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @return void
  */
 	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
-		parent::loadTestPlugin($test, $plugin, $testPlugin);
+		NetCommonsCakeTestCase::loadTestPlugin($test, $plugin, $testPlugin);
 	}
 
 /**

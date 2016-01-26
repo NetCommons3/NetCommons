@@ -156,4 +156,25 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		return $result;
 	}
 
+/**
+ * Load TestPlugin
+ *
+ * @param CakeTestCase $test CakeTestCase
+ * @param string $plugin Plugin name
+ * @param string $testPlugin Test plugin name
+ * @return void
+ */
+	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
+		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
+		if (empty($pluginPath) || ! file_exists($pluginPath)) {
+			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
+			return;
+		}
+
+		App::build(array(
+			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		));
+		CakePlugin::load($testPlugin);
+	}
+
 }

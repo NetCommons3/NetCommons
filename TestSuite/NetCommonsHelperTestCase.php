@@ -50,7 +50,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 		if ($this->_helperName) {
 			$this->loadHelper($this->_helperName);
 		}
- 	}
+	}
 
 /**
  * tearDown method
@@ -64,8 +64,11 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 	}
 
 /**
- * indexのテスト
+ * Helperのロード処理
  *
+ * @param string $helper ロードするHelper名(PluginName.HelperName)
+ * @param array $viewVars $helper->_View->viewVarsに値をセットする配列
+ * @param array $reqestData $helper->_View->request->dataに値をセットする配列
  * @return void
  */
 	public function loadHelper($helper, $viewVars = array(), $reqestData = array()) {
@@ -73,8 +76,8 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 
 		$helperClass = $helper . 'Helper';
 		App::uses($helperClass, Inflector::camelize($this->plugin) . '.View/Helper');
-        $CakeRequest = new CakeRequest();
-        $CakeResponse = new CakeResponse();
+		$CakeRequest = new CakeRequest();
+		$CakeResponse = new CakeResponse();
 		$Controller = new Controller($CakeRequest, $CakeResponse);
 		$Controller->set($viewVars);
 		$Controller->request->data = $reqestData;

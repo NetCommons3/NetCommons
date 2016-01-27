@@ -17,6 +17,7 @@ App::uses('Current', 'NetCommons.Utility');
 App::uses('CurrentControlPanel', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
 
 /**
@@ -125,7 +126,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
  * @return void
  */
 	public function setUp() {
-		self::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+		NetCommonsCakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
 		parent::setUp();
 
@@ -150,27 +151,6 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 		Current::$current = array();
 		parent::tearDown();
-	}
-
-/**
- * Load TestPlugin
- *
- * @param CakeTestCase $test CakeTestCase
- * @param string $plugin Plugin name
- * @param string $testPlugin Test plugin name
- * @return void
- */
-	public static function loadTestPlugin(CakeTestCase $test, $plugin, $testPlugin) {
-		$pluginPath = CakePlugin::path(Inflector::camelize($plugin));
-		if (empty($pluginPath) || ! file_exists($pluginPath)) {
-			$test->markTestAsSkipped(sprintf('Could not find %s in plugin paths', $pluginPath));
-			return;
-		}
-
-		App::build(array(
-			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		));
-		CakePlugin::load($testPlugin);
 	}
 
 }

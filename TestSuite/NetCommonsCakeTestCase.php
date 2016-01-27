@@ -105,6 +105,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		if ($this->plugin) {
 			NetCommonsTestSuite::$plugin = $this->plugin;
 		}
+		Configure::write('Config.language', 'ja');
 	}
 
 /**

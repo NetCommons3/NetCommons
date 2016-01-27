@@ -73,6 +73,9 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
  */
 	public function loadHelper($helper, $viewVars = array(), $reqestData = array()) {
 		list($plugin, $helper) = pluginSplit($helper);
+		if (! $plugin) {
+			$plugin = $this->plugin;
+		}
 
 		$helperClass = $helper . 'Helper';
 		App::uses($helperClass, Inflector::camelize($this->plugin) . '.View/Helper');

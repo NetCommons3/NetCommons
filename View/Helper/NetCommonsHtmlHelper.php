@@ -10,6 +10,7 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('NetCommonsUrl', 'NetCommons.Utility');
 
 /**
  * NetCommonsFormHelper

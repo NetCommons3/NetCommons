@@ -343,6 +343,16 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 			$this->assertRegExp(
 				'/<select.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
 			);
+		} elseif ($tagType === 'option') {
+			if ($value) {
+				$this->assertRegExp(
+					'/<option.*?value="' . preg_quote($name, '/') . '".*?' . $value . '="' . $value . '".*?>/', $result, $message
+				);
+			} else {
+				$this->assertRegExp(
+					'/<option.*?value="' . preg_quote($name, '/') . '".*?>/', $result, $message
+				);
+			}
 		} elseif ($tagType === 'form') {
 			$this->assertRegExp(
 				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message

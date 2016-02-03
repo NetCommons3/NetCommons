@@ -99,7 +99,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  */
 	public function __construct($name = null, array $data = array(), $dataName = '') {
 		parent::__construct($name, $data, $dataName);
-		if ($this->_isFixtureMerged) {
+		if ($this->_isFixtureMerged && isset($this->fixtures)) {
 			$this->fixtures = array_merge($this->_defaultFixtures, $this->fixtures);
 		}
 		if ($this->plugin) {

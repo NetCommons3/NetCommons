@@ -14,6 +14,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('View', 'View');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
 App::uses('CurrentControlPanel', 'NetCommons.Utility');
 
 /**
@@ -87,6 +88,20 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 
 		$View = new View($Controller);
 		$this->$helper = new $helperClass($View);
+	}
+
+/**
+ * Assert input tag
+ *
+ * @param string $tagType タグタイプ(input or textearea or button)
+ * @param string $name inputタグのname属性
+ * @param string $value inputタグのvalue値
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertInput($tagType, $name, $value, $result, $message = null) {
+		(new NetCommonsControllerTestCase())->assertInput($tagType, $name, $value, $result, $message);
 	}
 
 }

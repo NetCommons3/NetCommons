@@ -9,14 +9,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('FormHelper', 'View/Helper');
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * NetCommonsFormHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
-class NetCommonsFormHelper extends Helper {
+class NetCommonsFormHelper extends AppHelper {
 
 /**
  * Other helpers used by FormHelper

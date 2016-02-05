@@ -316,48 +316,63 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param string $value inputタグのvalue値
  * @param string $result Result data
  * @param string $message メッセージ
+ * @param string $assertName assertメソッド名
  * @return void
  */
-	public function assertInput($tagType, $name, $value, $result, $message = null) {
+	public function assertInput($tagType, $name, $value, $result, $message = null, $assertName = 'assertRegExp') {
 		$result = str_replace("\n", '', $result);
 
 		if ($tagType === 'input') {
 			if ($value) {
-				$this->assertRegExp(
+				$this->$assertName(
 					'/<input.*?name="' . preg_quote($name, '/') . '".*?value="' . $value . '".*?>/', $result, $message
 				);
 			} else {
-				$this->assertRegExp(
+				$this->$assertName(
 					'/<input.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
 				);
 			}
 		} elseif ($tagType === 'textarea') {
-			$this->assertRegExp(
+			$this->$assertName(
 				'/<textarea.*?name="' . preg_quote($name, '/') . '".*?>.*?<\/textarea>/', $result, $message
 			);
 		} elseif ($tagType === 'button') {
-			$this->assertRegExp(
+			$this->$assertName(
 				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
 			);
 		} elseif ($tagType === 'select') {
-			$this->assertRegExp(
+			$this->$assertName(
 				'/<select.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
 			);
 		} elseif ($tagType === 'option') {
 			if ($value) {
-				$this->assertRegExp(
+				$this->$assertName(
 					'/<option.*?value="' . preg_quote($name, '/') . '".*?' . $value . '="' . $value . '".*?>/', $result, $message
 				);
 			} else {
-				$this->assertRegExp(
+				$this->$assertName(
 					'/<option.*?value="' . preg_quote($name, '/') . '".*?>/', $result, $message
 				);
 			}
 		} elseif ($tagType === 'form') {
-			$this->assertRegExp(
+			$this->$assertName(
 				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message
 			);
 		}
+	}
+
+/**
+ * Assert not input tag
+ *
+ * @param string $tagType タグタイプ(input or textearea or button)
+ * @param string $name inputタグのname属性
+ * @param string $value inputタグのvalue値
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertNotInput($tagType, $name, $value, $result, $message = null) {
+		$this->assertInput($tagType, $name, $value, $result, $message, 'assertNotRegExp');
 	}
 
 /**

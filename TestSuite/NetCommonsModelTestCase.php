@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
  * NetCommonsModelTestCase class
@@ -78,20 +79,42 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @param bool $return 戻り値
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturn($model, $mockModel, $mockMethod, $return) {
+	protected function _mockForReturn($model, $mockModel, $mockMethod, $return, $count = 1) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
+
 		if ($mockModel === $model) {
-			$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
-			$this->$model->expects($this->once())
-				->method($mockMethod)
-				->will($this->returnValue($return));
+			if (get_class($this->$mockModel) === $mockModel) {
+				$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			}
 		} else {
-			$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
-			$this->$model->$mockModel->expects($this->once())
-				->method($mockMethod)
-				->will($this->returnValue($return));
+			if (get_class($this->$model->$mockModel) === $mockModel) {
+				$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			}
+		}
+
+		if ($count === 1) {
+			if ($mockModel === $model) {
+				$this->$model->expects($this->once())
+					->method($mockMethod)
+					->will($this->returnValue($return));
+			} else {
+				$this->$model->$mockModel->expects($this->once())
+					->method($mockMethod)
+					->will($this->returnValue($return));
+			}
+		} else {
+			if ($mockModel === $model) {
+				$this->$model->expects($this->exactly($count))
+					->method($mockMethod)
+					->will($this->returnValue($return));
+			} else {
+				$this->$model->$mockModel->expects($this->exactly())
+					->method($mockMethod)
+					->will($this->returnValue($return));
+			}
 		}
 	}
 

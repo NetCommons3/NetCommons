@@ -48,16 +48,39 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 	}
 
 /**
- * ExceptionErrorのMockセット
+ * Mockセット(戻り値：false)
+ *
+ * @param string $model モデル名
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
+ * @return void
+ */
+	protected function _mockForReturnFalse($model, $mockModel, $mockMethod) {
+		$this->_mockForReturn($model, $mockModel, $mockMethod, false);
+	}
+
+/**
+ * Mockセット(戻り値：true)
+ *
+ * @param string $model モデル名
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
+ * @return void
+ */
+	protected function _mockForReturnTrue($model, $mockModel, $mockMethod) {
+		$this->_mockForReturn($model, $mockModel, $mockMethod, true);
+	}
+
+/**
+ * Mockセット
  *
  * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @param bool $return 戻り値
  * @return void
- * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	protected function _mockForReturnFalse($model, $mockModel, $mockMethod, $return = false) {
+	protected function _mockForReturn($model, $mockModel, $mockMethod, $return) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 		if ($mockModel === $model) {
 			$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));

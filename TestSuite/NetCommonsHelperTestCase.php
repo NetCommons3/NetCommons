@@ -87,6 +87,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 		$Controller->request->data = $reqestData;
 
 		$View = new View($Controller);
+		$View->plugin = Inflector::camelize($this->plugin);
 		$this->$helper = new $helperClass($View);
 	}
 

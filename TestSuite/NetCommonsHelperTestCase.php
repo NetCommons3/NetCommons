@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('Controller', 'Controller');
+App::uses('AppController', 'Controller');
 App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('View', 'View');
@@ -82,7 +82,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 		App::uses($helperClass, Inflector::camelize($this->plugin) . '.View/Helper');
 		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
-		$Controller = new Controller($CakeRequest, $CakeResponse);
+		$Controller = new AppController($CakeRequest, $CakeResponse);
 		$Controller->set($viewVars);
 		$Controller->request->data = $reqestData;
 

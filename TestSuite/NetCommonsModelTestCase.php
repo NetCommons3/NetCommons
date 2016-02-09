@@ -78,42 +78,40 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
- * @param bool $return 戻り値
+ * @param mixed $return 戻り値
  * @param int $count Mockの呼び出し回数
  * @return void
  */
 	protected function _mockForReturn($model, $mockModel, $mockMethod, $return, $count = 1) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 
+		if (is_string($mockMethod)) {
+			$mockMethod = array($mockMethod);
+		}
 		if ($mockModel === $model) {
 			if (get_class($this->$mockModel) === $mockModel) {
-				$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+				$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, $mockMethod);
 			}
 		} else {
-			if (get_class($this->$model->$mockModel) === $mockModel) {
-				$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			$mockClassName = get_class($this->$model->$mockModel);
+			if (substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
+				$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, $mockMethod);
 			}
 		}
-
-		if ($count === 1) {
-			if ($mockModel === $model) {
-				$this->$model->expects($this->once())
-					->method($mockMethod)
-					->will($this->returnValue($return));
+		foreach ($mockMethod as $method) {
+			if ($count === 1) {
+				$funcCount = $this->once();
 			} else {
-				$this->$model->$mockModel->expects($this->once())
-					->method($mockMethod)
-					->will($this->returnValue($return));
+				$funcCount = $this->exactly($count);
 			}
-		} else {
 			if ($mockModel === $model) {
-				$this->$model->expects($this->exactly($count))
-					->method($mockMethod)
-					->will($this->returnValue($return));
+				$this->$model->expects($funcCount)
+						->method($method)
+						->will($this->returnValue($return));
 			} else {
-				$this->$model->$mockModel->expects($this->exactly())
-					->method($mockMethod)
-					->will($this->returnValue($return));
+				$this->$model->$mockModel->expects($funcCount)
+						->method($method)
+						->will($this->returnValue($return));
 			}
 		}
 	}

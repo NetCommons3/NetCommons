@@ -321,41 +321,35 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 	public function assertInput($tagType, $name, $value, $result, $message = null) {
 		$result = str_replace("\n", '', $result);
 
-		if ($tagType === 'input') {
-			if ($value) {
-				$this->assertRegExp(
-					'/<input.*?name="' . preg_quote($name, '/') . '".*?value="' . $value . '".*?>/', $result, $message
-				);
-			} else {
-				$this->assertRegExp(
-					'/<input.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
-				);
-			}
-		} elseif ($tagType === 'textarea') {
+		if ($name) {
+			$patternName = '.*?name="' . preg_quote($name, '/') . '"';
+		} else {
+			$patternName = '';
+		}
+
+		if (! $value) {
+			$patternValue = '';
+		} elseif (in_array($value, ['checked', 'selected'], true)) {
+			$patternValue = '.*?' . $value . '="' . $value . '"';
+		} else {
+			$patternValue = '.*?value="' . $value . '"';
+		}
+
+		if ($tagType === 'textarea') {
 			$this->assertRegExp(
-				'/<textarea.*?name="' . preg_quote($name, '/') . '".*?>.*?<\/textarea>/', $result, $message
-			);
-		} elseif ($tagType === 'button') {
-			$this->assertRegExp(
-				'/<button.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
-			);
-		} elseif ($tagType === 'select') {
-			$this->assertRegExp(
-				'/<select.*?name="' . preg_quote($name, '/') . '".*?>/', $result, $message
+				'/<textarea' . $patternName . '.*?>.*?<\/textarea>/', $result, $message
 			);
 		} elseif ($tagType === 'option') {
-			if ($value) {
-				$this->assertRegExp(
-					'/<option.*?value="' . preg_quote($name, '/') . '".*?' . $value . '="' . $value . '".*?>/', $result, $message
-				);
-			} else {
-				$this->assertRegExp(
-					'/<option.*?value="' . preg_quote($name, '/') . '".*?>/', $result, $message
-				);
-			}
+			$this->assertRegExp(
+				'/<option.*?value="' . preg_quote($name, '/') . '"' . $patternValue . '.*?>/', $result, $message
+			);
 		} elseif ($tagType === 'form') {
 			$this->assertRegExp(
-				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*?">/', $result, $message
+				'/<form.*?action=".*?' . preg_quote($value, '/') . '"' . $patternName . '.*?>/', $result, $message
+			);
+		} elseif (in_array($tagType, ['input', 'select', 'button'], true)) {
+			$this->assertRegExp(
+				'/<' . $tagType . $patternName . $patternValue . '.*?>/', $result, $message
 			);
 		}
 	}

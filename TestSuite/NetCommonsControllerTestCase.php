@@ -345,7 +345,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 			);
 		} elseif ($tagType === 'form') {
 			$this->assertRegExp(
-				'/<form.*?action=".*?' . preg_quote($value, '/') . '"' . $patternName . '.*?>/', $result, $message
+				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*"' . $patternName . '.*?>/', $result, $message
 			);
 		} elseif (in_array($tagType, ['input', 'select', 'button'], true)) {
 			$this->assertRegExp(

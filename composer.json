@@ -21,6 +21,7 @@
         "cakephp/cakephp":              "~2.6",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
+        "monolog/monolog":              "1.0.*",
         "phpunit/phpunit":              "~3.7.38"
     },
     "require-dev": {

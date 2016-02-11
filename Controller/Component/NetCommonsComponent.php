@@ -62,17 +62,20 @@ class NetCommonsComponent extends Component {
  * Handle validation error
  *
  * @param array $errors validation errors
+ * @param string $message エラーメッセージ
  * @return bool true on success, false on error
  * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
  */
-	public function handleValidationError($errors) {
+	public function handleValidationError($errors, $message = null) {
 		if (! $errors) {
 			return true;
 		}
 
 		$this->controller->validationErrors = $errors;
 
-		$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
+		if (! $message) {
+			$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
+		}
 		CakeLog::info('[ValidationErrors] ' . $this->controller->request->here());
 		if (Configure::read('debug')) {
 			CakeLog::info(print_r($errors, true));

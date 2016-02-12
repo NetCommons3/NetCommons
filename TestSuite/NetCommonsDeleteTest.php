@@ -44,6 +44,9 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 	public function testDelete($data, $associationModels = null) {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
+		if (! $associationModels) {
+			$associationModels = array();
+		}
 
 		//テスト実行前のチェック
 		if (isset($data[$this->$model->alias]['key'])) {
@@ -59,14 +62,16 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 		));
 		$this->assertNotEquals(0, $count);
 
-		if ($associationModels) {
-			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$model->$assocModel->find('count', array(
-					'recursive' => -1,
-					'conditions' => $conditions,
-				));
-				$this->assertNotEquals(0, $count);
+		foreach ($associationModels as $assocModel => $conditions) {
+			if (! is_object($this->$model->$assocModel)) {
+				debug('Not defined association model "' . $assocModel . '".');
+				continue;
 			}
+			$count = $this->$model->$assocModel->find('count', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			));
+			$this->assertNotEquals(0, $count);
 		}
 
 		//テスト実行
@@ -80,14 +85,12 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 		));
 		$this->assertEquals(0, $count);
 
-		if ($associationModels) {
-			foreach ($associationModels as $assocModel => $conditions) {
-				$count = $this->$model->$assocModel->find('count', array(
-					'recursive' => -1,
-					'conditions' => $conditions,
-				));
-				$this->assertEquals(0, $count);
-			}
+		foreach ($associationModels as $assocModel => $conditions) {
+			$count = $this->$model->$assocModel->find('count', array(
+				'recursive' => -1,
+				'conditions' => $conditions,
+			));
+			$this->assertEquals(0, $count);
 		}
 	}
 

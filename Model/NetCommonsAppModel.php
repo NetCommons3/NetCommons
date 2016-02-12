@@ -62,6 +62,13 @@ class NetCommonsAppModel extends Model {
 	private static $__oldSlaveDbConfig;
 
 /**
+ * Use database config
+ *
+ * @var string
+ */
+	public $useDbConfig = 'master';
+
+/**
  * Constructor. DataSourceの選択
  *
  * 接続先DBをランダムに選択します。

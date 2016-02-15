@@ -124,7 +124,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param array $assert テストの期待値
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
- * @return array テスト結果
+ * @return mixed テスト結果
  */
 	protected function _testGetAction($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実施

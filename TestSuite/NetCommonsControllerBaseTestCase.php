@@ -153,4 +153,19 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		parent::tearDown();
 	}
 
+/**
+ * privateおよびprotectedメソッドのテスト
+ *
+ * @param Instance $instance インスタンス
+ * @param string $mockMethod Mockのメソッド
+ * @param array $params Mockのメソッドのパラメータ
+ * @return void
+ */
+	protected function _testReflectionMethod($instance, $mockMethod, $params = array()) {
+		$method = new ReflectionMethod($instance, $mockMethod);
+		$method->setAccessible(true);
+		$result = $method->invokeArgs($instance, $params);
+		return $result;
+	}
+
 }

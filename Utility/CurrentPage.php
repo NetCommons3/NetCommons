@@ -202,7 +202,7 @@ class CurrentPage {
 		}
 
 		$conditions = array(
-			'Page.id' => Current::$current['Room']['page_id_top']
+			'Page.id' => Hash::get(Current::$current, 'Room.page_id_top')
 		);
 		$result = $this->Page->find('first', array(
 			'recursive' => 0,

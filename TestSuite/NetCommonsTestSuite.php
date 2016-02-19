@@ -40,7 +40,6 @@ class NetCommonsTestSuite extends CakeTestSuite {
 			}
 
 			if (substr($file, -8) === 'Test.php') {
-				CakeLog::debug($file);
 				$this->addTestFile($file);
 			}
 		}

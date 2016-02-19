@@ -124,14 +124,18 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param array $assert テストの期待値
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
- * @return array テスト結果
+ * @return mixed テスト結果
  */
 	protected function _testGetAction($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実施
-		$url = Hash::merge(array(
-			'plugin' => $this->plugin,
-			'controller' => $this->_controller,
-		), $urlOptions);
+		if (is_array($urlOptions)) {
+			$url = Hash::merge(array(
+				'plugin' => $this->plugin,
+				'controller' => $this->_controller,
+			), $urlOptions);
+		} else {
+			$url = $urlOptions;
+		}
 		$result = $this->_testNcAction($url, array('method' => 'get'), $exception, $return);
 
 		if (! $exception && $assert) {
@@ -153,14 +157,18 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param array $urlOptions URLオプション
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
- * @return array テスト結果
+ * @return mixed テスト結果
  */
 	protected function _testPostAction($method, $data, $urlOptions, $exception = null, $return = 'view') {
 		//テスト実施
-		$url = Hash::merge(array(
-			'plugin' => $this->plugin,
-			'controller' => $this->_controller,
-		), $urlOptions);
+		if (is_array($urlOptions)) {
+			$url = Hash::merge(array(
+				'plugin' => $this->plugin,
+				'controller' => $this->_controller,
+			), $urlOptions);
+		} else {
+			$url = $urlOptions;
+		}
 		$result = $this->_testNcAction($url, array('method' => $method, 'data' => $data), $exception, $return);
 
 		return $result;
@@ -173,7 +181,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param array $data POSTデータ
  * @param array $urlOptions URLオプション
  * @param string|null $validationError ValidationError
- * @return array テスト結果
+ * @return mixed テスト結果
  */
 	protected function _testActionOnValidationError($method, $data, $urlOptions, $validationError = null) {
 		$data = Hash::remove($data, $validationError['field']);

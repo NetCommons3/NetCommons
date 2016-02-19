@@ -128,10 +128,14 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  */
 	protected function _testGetAction($urlOptions, $assert, $exception = null, $return = 'view') {
 		//テスト実施
-		$url = Hash::merge(array(
-			'plugin' => $this->plugin,
-			'controller' => $this->_controller,
-		), $urlOptions);
+		if (is_array($urlOptions)) {
+			$url = Hash::merge(array(
+				'plugin' => $this->plugin,
+				'controller' => $this->_controller,
+			), $urlOptions);
+		} else {
+			$url = $urlOptions;
+		}
 		$result = $this->_testNcAction($url, array('method' => 'get'), $exception, $return);
 
 		if (! $exception && $assert) {
@@ -157,10 +161,14 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  */
 	protected function _testPostAction($method, $data, $urlOptions, $exception = null, $return = 'view') {
 		//テスト実施
-		$url = Hash::merge(array(
-			'plugin' => $this->plugin,
-			'controller' => $this->_controller,
-		), $urlOptions);
+		if (is_array($urlOptions)) {
+			$url = Hash::merge(array(
+				'plugin' => $this->plugin,
+				'controller' => $this->_controller,
+			), $urlOptions);
+		} else {
+			$url = $urlOptions;
+		}
 		$result = $this->_testNcAction($url, array('method' => $method, 'data' => $data), $exception, $return);
 
 		return $result;

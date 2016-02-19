@@ -35,7 +35,12 @@ class NetCommonsTestSuite extends CakeTestSuite {
 		$files = $Folder->tree(null, true, 'files');
 
 		foreach ($files as $file) {
+			if (preg_match('/\/All([\w]+)Test\.php$/', $file)) {
+				continue;
+			}
+
 			if (substr($file, -8) === 'Test.php') {
+				CakeLog::debug($file);
 				$this->addTestFile($file);
 			}
 		}

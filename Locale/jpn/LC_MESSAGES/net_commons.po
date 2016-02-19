@@ -546,3 +546,12 @@ msgstr "はい"
 
 msgid "No"
 msgstr "いいえ"
+
+msgid "Newest"
+msgstr "新着順"
+
+msgid "Oldest"
+msgstr "登録順"
+
+msgid "Title"
+msgstr "タイトル"

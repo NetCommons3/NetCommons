@@ -67,7 +67,7 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 		}
 		App::uses($shell, Inflector::camelize($plugin) . '.Console/Command');
 
-		return $this->_loadMock($shell, $stdinValue, $methods);
+		return $this->_loadMock($shell, $stdinValue, $methods, true);
 	}
 
 /**
@@ -85,7 +85,7 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 		}
 		App::uses($task, Inflector::camelize($plugin) . '.Console/Command/Task');
 
-		return $this->_loadMock($task, $stdinValue, $methods);
+		return $this->_loadMock($task, $stdinValue, $methods, false);
 	}
 
 /**
@@ -94,9 +94,11 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
  * @param string $shell ロードするShell名(PluginName.ShellName)
  * @param string $stdinValue 標準入力値
  * @param array $methods メソッド
+ * @param bool $construct コンストラクタの有無
  * @return Mock Mockオブジェクト
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	protected function _loadMock($shell, $stdinValue = '', $methods = array()) {
+	protected function _loadMock($shell, $stdinValue = '', $methods = array(), $construct = true) {
 		$stdout = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$stderr = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		if ($stdinValue) {
@@ -111,7 +113,7 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 
 		return $this->getMock($shell,
 			Hash::merge(array('out', 'hr', 'err', 'createFile', '_stop'), $methods),
-			array($stdout, $stderr, $stdin)
+			array($stdout, $stderr, $stdin), '', $construct
 		);
 	}
 

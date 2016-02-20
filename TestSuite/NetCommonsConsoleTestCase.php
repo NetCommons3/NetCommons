@@ -50,7 +50,6 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
  */
 	public function tearDown() {
 		parent::tearDown();
-		unset($this->Shell);
 	}
 
 /**

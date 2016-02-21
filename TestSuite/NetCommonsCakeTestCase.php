@@ -178,4 +178,16 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		CakePlugin::load($testPlugin);
 	}
 
+/**
+ * Assert Date time
+ *
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertDatetime($result, $message = null) {
+		$pattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/';
+		$this->assertRegExp($pattern, $result, $message);
+	}
+
 }

@@ -168,4 +168,15 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		return $result;
 	}
 
+/**
+ * Assert Date time
+ *
+ * @param string $result Result data
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertDatetime($result, $message = null) {
+		(new NetCommonsCakeTestCase())->assertDatetime($result, $message);
+	}
+
 }

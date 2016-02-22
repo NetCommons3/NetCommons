@@ -54,10 +54,11 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturnFalse($model, $mockModel, $mockMethod) {
-		$this->_mockForReturn($model, $mockModel, $mockMethod, false);
+	protected function _mockForReturnFalse($model, $mockModel, $mockMethod, $count = 1) {
+		$this->_mockForReturn($model, $mockModel, $mockMethod, false, $count);
 	}
 
 /**
@@ -66,10 +67,11 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param string $model モデル名
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturnTrue($model, $mockModel, $mockMethod) {
-		$this->_mockForReturn($model, $mockModel, $mockMethod, true);
+	protected function _mockForReturnTrue($model, $mockModel, $mockMethod, $count = 1) {
+		$this->_mockForReturn($model, $mockModel, $mockMethod, true, $count);
 	}
 
 /**

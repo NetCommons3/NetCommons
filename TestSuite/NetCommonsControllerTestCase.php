@@ -211,10 +211,11 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturnFalse($mockModel, $mockMethod) {
-		$this->_mockForReturn($mockModel, $mockMethod, false);
+	protected function _mockForReturnFalse($mockModel, $mockMethod, $count = 1) {
+		$this->_mockForReturn($mockModel, $mockMethod, false, $count);
 	}
 
 /**
@@ -222,10 +223,11 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturnTrue($mockModel, $mockMethod) {
-		$this->_mockForReturn($mockModel, $mockMethod, true);
+	protected function _mockForReturnTrue($mockModel, $mockMethod, $count = 1) {
+		$this->_mockForReturn($mockModel, $mockMethod, true, $count);
 	}
 
 /**
@@ -234,15 +236,21 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @param bool $return 戻り値
+ * @param int $count Mockの呼び出し回数
  * @return void
  */
-	protected function _mockForReturn($mockModel, $mockMethod, $return) {
+	protected function _mockForReturn($mockModel, $mockMethod, $return, $count = 1) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 
-		if (get_class($this->controller->$mockModel) === $mockModel) {
+		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
 			$this->controller->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
 		}
-		$this->controller->$mockModel->expects($this->once())
+		if ($count === 1) {
+			$funcCount = $this->once();
+		} else {
+			$funcCount = $this->exactly($count);
+		}
+		$this->controller->$mockModel->expects($funcCount)
 			->method($mockMethod)
 			->will($this->returnValue($return));
 	}

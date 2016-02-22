@@ -554,4 +554,4 @@ msgid "Oldest"
 msgstr "登録順"
 
 msgid "Title"
-msgstr "タイトル"
+msgstr "タイトル順"

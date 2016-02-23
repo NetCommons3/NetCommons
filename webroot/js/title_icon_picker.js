@@ -35,7 +35,9 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
       post: function(scope, element, attr) {
         scope.pick = function(icon) {
           scope.titleIcon = icon;
-          scope.ngModel = icon;
+          if (scope.ngModel) {
+            scope.ngModel = icon;
+          }
           scope.$parent.titleIcon = icon;
         };
       }

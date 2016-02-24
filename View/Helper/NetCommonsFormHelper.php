@@ -413,7 +413,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$html = '';
 		$html .= $this->NetCommonsHtml->script(array(
-			'/net_commons/js/wysiwyg.js',
+			'/wysiwyg/js/wysiwyg.js',
 			'/components/tinymce-dist/tinymce.min.js',
 			'/components/angular-ui-tinymce/src/tinymce.js',
 		));

@@ -62,14 +62,12 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
 			'iconSize' => '',
-			'escapeTitle' => false,
 			'class' => 'btn btn-success',
-		), $options);
+		), $options, array('escapeTitle' => false));
 		//$title = $inputOptions['escapeTitle'] ? h($title) : $title;
-		if ($inputOptions['escapeTitle']) {
+		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
-
 		//iconの有無
 		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
 		unset($inputOptions['icon']);
@@ -110,11 +108,10 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'edit',
 			'iconSize' => '',
-			'escapeTitle' => false,
 			'class' => 'btn btn-primary'
-		), $options);
+		), $options, array('escapeTitle' => false));
 
-		if (! $inputOptions['escapeTitle']) {
+		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
 
@@ -159,11 +156,10 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'search',
 			'iconSize' => '',
-			'escapeTitle' => false,
 			'class' => 'btn btn-info'
-		), $options);
+		), $options, array('escapeTitle' => false));
 
-		if (! $inputOptions['escapeTitle']) {
+		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
 
@@ -216,11 +212,10 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'sort',
 			'iconSize' => '',
-			'escapeTitle' => false,
 			'class' => 'btn btn-default'
-		), $options);
+		), $options, array('escapeTitle' => false));
 
-		if (! $inputOptions['escapeTitle']) {
+		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
 

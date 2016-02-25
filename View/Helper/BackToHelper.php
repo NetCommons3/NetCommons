@@ -92,26 +92,27 @@ class BackToHelper extends AppHelper {
 	public function linkButton($title, $url, $options = array()) {
 		//iconの有無
 		$iconElement = '';
-		if (! isset($options['icon'])) {
-			$options['icon'] = 'remove';
+
+		//アイコン
+		$icon = Hash::get($options, 'icon', 'remove');
+		$options = Hash::remove($options, 'icon');
+		if ($icon) {
+			$iconElement = '<span class="glyphicon glyphicon-' . h($icon) . '"></span> ';
 		}
-		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
-			unset($options['icon']);
-		}
+
 		//ボタンサイズ
 		$sizeAttr = '';
 		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
-			unset($options['iconSize']);
+			$sizeAttr = ' ' . h('btn-' . $options['iconSize']);
 		}
+		$options = Hash::remove($options, 'iconSize');
 
-		$inputOptions = Hash::merge(array(
-			'escapeTitle' => false,
-			'class' => 'btn btn-default ' . $sizeAttr
-		), $options);
-
-		if (! $inputOptions['escapeTitle']) {
+		$inputOptions = Hash::merge(
+			array('class' => 'btn btn-default' . $sizeAttr),
+			$options,
+			array('escapeTitle' => false)
+		);
+		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
 		return $this->Html->link($iconElement . $title, $url, $inputOptions);

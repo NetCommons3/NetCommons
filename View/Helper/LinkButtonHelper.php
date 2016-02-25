@@ -66,7 +66,7 @@ class LinkButtonHelper extends FormHelper {
 			'class' => 'btn btn-success',
 		), $options);
 		//$title = $inputOptions['escapeTitle'] ? h($title) : $title;
-		if (! $inputOptions['escapeTitle']) {
+		if ($inputOptions['escapeTitle']) {
 			$title = h($title);
 		}
 

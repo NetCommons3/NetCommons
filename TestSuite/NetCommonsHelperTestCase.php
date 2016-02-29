@@ -71,9 +71,10 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
  * @param array $viewVars $helper->_View->viewVarsに値をセットする配列
  * @param array $reqestData $helper->_View->request->dataに値をセットする配列
  * @param array $params $helper->_View->paramsに値をセットする配列
+ * @param array $helpers ヘルパー配列
  * @return void
  */
-	public function loadHelper($helper, $viewVars = array(), $reqestData = array(), $params = array()) {
+	public function loadHelper($helper, $viewVars = array(), $reqestData = array(), $params = array(), $helpers = array()) {
 		list($plugin, $helper) = pluginSplit($helper);
 		if (! $plugin) {
 			$plugin = $this->plugin;
@@ -92,6 +93,8 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 
 		$View = new View($Controller);
 		$View->plugin = Inflector::camelize($this->plugin);
+		$View->helpers = $helpers;
+		$View->loadHelpers();
 		$this->$helper = new $helperClass($View);
 	}
 

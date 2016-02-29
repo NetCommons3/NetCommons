@@ -60,6 +60,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
  */
 	public function tearDown() {
 		Current::$current = array();
+		Current::$request = null;
 		unset($this->_Controller);
 		parent::tearDown();
 	}
@@ -90,6 +91,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 		$Controller->request->params = Hash::merge(
 			array('plugin' => $this->plugin, 'controller' => '', 'action' => ''), $params
 		);
+		Current::$request = $Controller->request;
 
 		$View = new View($Controller);
 		$View->plugin = Inflector::camelize($this->plugin);

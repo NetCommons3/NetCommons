@@ -64,7 +64,6 @@ class LinkButtonHelper extends FormHelper {
 			'iconSize' => '',
 			'class' => 'btn btn-success',
 		), $options, array('escapeTitle' => false));
-		//$title = $inputOptions['escapeTitle'] ? h($title) : $title;
 		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
@@ -72,7 +71,9 @@ class LinkButtonHelper extends FormHelper {
 		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
 		unset($inputOptions['icon']);
 		//ボタンサイズ
-		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		if ($inputOptions['iconSize']) {
+			$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		}
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力

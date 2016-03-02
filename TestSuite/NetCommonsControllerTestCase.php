@@ -353,7 +353,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 
 		if ($tagType === 'textarea') {
 			$this->assertRegExp(
-				'/<textarea' . $patternName . '.*?>.*?<\/textarea>/', $result, $message
+				'/<textarea' . $patternName . '.*?>.*?' . preg_quote($value, '/') . '<\/textarea>/', $result, $message
 			);
 		} elseif ($tagType === 'option') {
 			$this->assertRegExp(

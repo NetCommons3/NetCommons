@@ -346,9 +346,9 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		if (! $value) {
 			$patternValue = '';
 		} elseif (in_array($value, ['checked', 'selected'], true)) {
-			$patternValue = '.*?' . $value . '="' . $value . '"';
+			$patternValue = '.*?' . preg_quote($value, '/') . '="' . preg_quote($value, '/') . '"';
 		} else {
-			$patternValue = '.*?value="' . $value . '"';
+			$patternValue = '.*?value="' . preg_quote($value, '/') . '"';
 		}
 
 		if ($tagType === 'textarea') {

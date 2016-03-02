@@ -166,7 +166,7 @@ class NetCommonsUrl {
 			$base = $request->base;
 		}
 		if (! $full) {
-			return h(substr($url, strlen($base)));
+			return preg_replace('/&amp;/', '&', h(substr($url, strlen($base))));
 		} else {
 			return $url;
 		}

@@ -154,6 +154,47 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
+ * Generates a mocked controller and mocks any classes passed to `$mocks`. By
+ * default, `_stop()` is stubbed as is sending the response headers, so to not
+ * interfere with testing.
+ *
+ * ### Mocks:
+ *
+ * - `methods` Methods to mock on the controller. `_stop()` is mocked by default
+ * - `models` Models to mock. Models are added to the ClassRegistry so any
+ *   time they are instantiated the mock will be created. Pass as key value pairs
+ *   with the value being specific methods on the model to mock. If `true` or
+ *   no value is passed, the entire model will be mocked.
+ * - `components` Components to mock. Components are only mocked on this controller
+ *   and not within each other (i.e., components on components)
+ *
+ * @param string $controller Controller name
+ * @param array $mocks List of classes and methods to mock
+ * @return Controller Mocked controller
+ */
+	public function generateNc($controller, $mocks = array()) {
+		list($plugin, $controller) = pluginSplit($controller);
+		if (! $plugin) {
+			$plugin = Inflector::camelize($this->plugin);
+		}
+
+		if (Hash::check($mocks, 'components.Session')) {
+			$default = array('components' => array(
+				'Auth' => array('user'),
+				'Security',
+			));
+		} else {
+			$default = array('components' => array(
+				'Auth' => array('user'),
+				'Session',
+				'Security',
+			));
+		}
+
+		$this->generate($plugin . '.' . $controller, Hash::merge($default, $mocks));
+	}
+
+/**
  * privateおよびprotectedメソッドのテスト
  *
  * @param Instance $instance インスタンス

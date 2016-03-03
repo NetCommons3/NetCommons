@@ -54,7 +54,7 @@ class NetCommonsDeleteTest extends NetCommonsModelTestCase {
 		} elseif (! is_array($data)) {
 			$keyConditions = array('key' => $data);
 		} else {
-			$keyConditions = $data;
+			$keyConditions = Hash::flatten($data);
 		}
 		$count = $this->$model->find('count', array(
 			'recursive' => -1,

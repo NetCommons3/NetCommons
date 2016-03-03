@@ -13,6 +13,7 @@ App::uses('CurrentControlPanel', 'NetCommons.Utility');
 App::uses('CurrentFrame', 'NetCommons.Utility');
 App::uses('CurrentPage', 'NetCommons.Utility');
 App::uses('UserRole', 'UserRoles.Model');
+App::uses('Plugin', 'PluginManager.Model');
 
 /**
  * Current Utility

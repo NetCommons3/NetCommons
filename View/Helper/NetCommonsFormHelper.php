@@ -411,12 +411,9 @@ class NetCommonsFormHelper extends AppHelper {
 		);
 		$attributes = Hash::merge($defaultAttributes, $attributes);
 
+		// wysiwygに関連する js読み込みを Wysiwygプラグインから行う
 		$html = '';
-		$html .= $this->NetCommonsHtml->script(array(
-			'/wysiwyg/js/wysiwyg.js',
-			'/components/tinymce-dist/tinymce.min.js',
-			'/components/angular-ui-tinymce/src/tinymce.js',
-		));
+		$html .= $this->_View->element('Wysiwyg.wysiwyg_js');
 		$html .= $this->input($fieldName, $attributes);
 
 		return $html;

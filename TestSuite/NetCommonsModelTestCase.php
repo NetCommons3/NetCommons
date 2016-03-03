@@ -92,12 +92,16 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		}
 		if ($mockModel === $model) {
 			if (get_class($this->$mockModel) === $mockModel) {
-				$this->$model = $this->getMockForModel($mockPlugin . '.' . $mockModel, $mockMethod);
+				$this->$model = $this->getMockForModel(
+					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
+				);
 			}
 		} else {
 			$mockClassName = get_class($this->$model->$mockModel);
 			if (substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
-				$this->$model->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, $mockMethod);
+				$this->$model->$mockModel = $this->getMockForModel(
+					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
+				);
 			}
 		}
 		foreach ($mockMethod as $method) {

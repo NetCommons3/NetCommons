@@ -27,7 +27,9 @@ class NetCommonsFormHelper extends AppHelper {
 		'Form',
 		'Html',
 		'NetCommons.Button',
-		'NetCommons.NetCommonsHtml'
+		'NetCommons.NetCommonsHtml',
+		'NetCommons.DatetimePicker',
+
 	);
 
 /**
@@ -175,6 +177,8 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$inputOptions = Hash::merge($defaultOptions, $options);
 		$inputOptions['error'] = false;
+
+		$this->DatetimePicker->setLinkFieldName($fieldName, $inputOptions);
 
 		if ($inputOptions['required']) {
 			if ($inputOptions['label']) {
@@ -438,8 +442,11 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string
  */
 	public function end($options = null, $secureAttributes = array()) {
+		$out = '';
+		$out .= $this->DatetimePicker->render();
+
 		// modelをみてdatetime
-		$out = $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
+		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
 		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
@@ -503,3 +510,4 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 }
+

@@ -1,6 +1,6 @@
 <?php
 /**
- * NetCommonsFormHelper::input()のテスト
+ * DatetimePickerHelper::input()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Ryuji AMANO <nakajimashouhei@gmail.com>
@@ -11,15 +11,15 @@
 
 App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
 App::uses('NetCommonsTime', 'NetCommons.Utility');
-App::uses('NetCommonsForm', 'NetCommons.View/Helper');
+App::uses('DatetimePicker', 'NetCommons.View/Helper');
 
 /**
- * NetCommonsFormHelper::input()のテスト
+ * DatetimePickerHelper::input()のテスト
  *
  * @author Ryuji AMANO <nakajimashouhei@gmail.com>
- * @package NetCommons\NetCommons\Test\Case\View\Helper\NetCommonsFormHelper
+ * @package NetCommons\NetCommons\Test\Case\View\Helper\DatetimePickerHelper
  */
-class NetCommonsFormHelperMakeDatetimeOptionsTest extends NetCommonsHelperTestCase {
+class DatetimePickerHelperMakeDatetimeOptionsTest extends NetCommonsHelperTestCase {
 
 /**
  * Fixtures
@@ -56,11 +56,12 @@ class NetCommonsFormHelperMakeDatetimeOptionsTest extends NetCommonsHelperTestCa
 		$params = array();
 
 		//Helperロード
-		$this->loadHelper('NetCommons.NetCommonsForm', $viewVars, $requestData, $params);
+		//$this->loadHelper('NetCommons.DatetimePicker', $viewVars, $requestData, $params);
+		$this->loadHelper('NetCommons.DatetimePicker', $viewVars, $requestData, $params);
 
-		$this->NetCommonsForm->create('TestModel');
-
-		$this->_targetMethod = new ReflectionMethod($this->NetCommonsForm, '_makeDatetimeOptions');
+		//$this->DatetimePicker->create('TestModel');
+		$this->DatetimePicker->Form->create('TestModel');
+		$this->_targetMethod = new ReflectionMethod($this->DatetimePicker, '_makeDatetimeOptions');
 		$this->_targetMethod->setAccessible(true);
 	}
 
@@ -75,7 +76,7 @@ class NetCommonsFormHelperMakeDatetimeOptionsTest extends NetCommonsHelperTestCa
 			'type' => 'datetime',
 			'ng-model' => 'model_publish_start'
 		];
-		$resultOptions = $this->_targetMethod->invoke($this->NetCommonsForm, $fieldName, $options);
+		$resultOptions = $this->_targetMethod->invoke($this->DatetimePicker, $fieldName, $options);
 
 		$this->assertArrayHasKey('datetimepicker', $resultOptions);
 		$this->assertArrayHasKey('ng-model', $resultOptions);
@@ -102,20 +103,20 @@ class NetCommonsFormHelperMakeDatetimeOptionsTest extends NetCommonsHelperTestCa
 			$options['value'] = $valueOption;
 		}
 		if ($requestData) {
-			$this->NetCommonsForm->request->data['TestModel'][$fieldName] = $requestData;
+			$this->DatetimePicker->request->data['TestModel'][$fieldName] = $requestData;
 		}
 		if ($defaultOption) {
 			$options['default'] = $defaultOption;
 		}
 
-		$resultOptions = $this->_targetMethod->invoke($this->NetCommonsForm, $fieldName, $options);
+		$resultOptions = $this->_targetMethod->invoke($this->DatetimePicker, $fieldName, $options);
 
 		$this->assertArrayHasKey('datetimepicker', $resultOptions);
 		$this->assertArrayHasKey('ng-model', $resultOptions);
-		$this->assertEquals('NetCommonsFormDatetimePickerModel_' . $fieldName, $resultOptions['ng-model']);
+		$this->assertEquals('NetCommonsFormDatetimePickerModel_TestModel_' . $fieldName, $resultOptions['ng-model']);
 		$this->assertArrayHasKey('ng-init', $resultOptions);
 
-		$expect = sprintf('NetCommonsFormDatetimePickerModel_%s=\'%s\'',
+		$expect = sprintf('NetCommonsFormDatetimePickerModel_TestModel_%s=\'%s\'',
 			$fieldName,
 			$ngInitValue
 			);

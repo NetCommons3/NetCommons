@@ -54,30 +54,26 @@ class DatetimePickerHelper extends AppHelper {
 		'to',
 	];
 
-/**
- * datetimepickerを使うフィールドをFromTo制約候補に追加する
- *
- * @param string $fieldName FieldName
- * @param array $options Options
- * @return void
- */
-	public function setLinkFieldName($fieldName, $options) {
-		if (Hash::get($options, 'datetimepicker')) {
-			if (preg_match('/^(.*)_(' . implode('|', $this->_fromFieldSuffix) . ')$/', $fieldName, $matches)) {
-				$this->_datetimeLink[$matches[1]]['from'] = $fieldName;
-			}
-			if (preg_match('/^(.*)_(' . implode('|', $this->_toFieldSuffix) . ')$/', $fieldName, $matches)) {
-				$this->_datetimeLink[$matches[1]]['to'] = $fieldName;
-			}
+	protected static $_loadedScript = false;
+
+	public function beforeFormInput($fieldName, $inputOptions) {
+		if (Hash::get($inputOptions, 'type') === 'datetime') {
+			$inputOptions = $this->_makeDatetimeOptions($fieldName, $inputOptions);
 		}
+		if (Hash::get($inputOptions, 'datetimepicker') || in_array('datetimepicker', $inputOptions)) {
+			$this->_loadDatetimePicker();
+			$this->_setLinkFieldName($fieldName, $inputOptions);
+		}
+		return $inputOptions;
 	}
+
 
 /**
  * datetimePickerFromToLink()をコールするscriptBlock出力
  *
  * @return void
  */
-	public function render() {
+	public function beforeFormEnd() {
 		if ($this->_datetimeLink) {
 			$script = '';
 			foreach ($this->_datetimeLink as $fromTo) {
@@ -100,6 +96,78 @@ class DatetimePickerHelper extends AppHelper {
 	}
 
 /**
+ * datetimepickerを使うフィールドをFromTo制約候補に追加する
+ *
+ * @param string $fieldName FieldName
+ * @param array $options Options
+ * @return void
+ */
+	protected function _setLinkFieldName($fieldName, $options) {
+		if (preg_match('/^(.*)_(' . implode('|', $this->_fromFieldSuffix) . ')$/', $fieldName, $matches)) {
+			$this->_datetimeLink[$matches[1]]['from'] = $fieldName;
+		}
+		if (preg_match('/^(.*)_(' . implode('|', $this->_toFieldSuffix) . ')$/', $fieldName, $matches)) {
+			$this->_datetimeLink[$matches[1]]['to'] = $fieldName;
+		}
+	}
+
+/**
+ * datimepicker用オプション指定
+ *
+ * @param string $fieldName フィールド名
+ * @param array $options オプション
+ * @return mixed
+ */
+	protected function _makeDatetimeOptions($fieldName, $options) {
+		//$this->DatetimePicker->usePicker();
+		// $filedNameにモデル名が入ってるかは不定
+		if (strpos($fieldName, '.') === false) {
+			$fieldName = $this->Form->defaultModel . '.' . $fieldName;
+		}
+
+		$options['type'] = 'text';
+		$options['datetimepicker'] = true;
+		$options['convert_timezone'] = true;
+		// ng-modelを指定してなくてもdatetimepickerが動くようにする
+		if (!isset($options['ng-model'])) {
+			$options['ng-model'] = 'NetCommonsFormDatetimePickerModel_' . str_replace('.', '_', $fieldName);
+			//'ng-init' => 'hoge=\'2011-01-01\'',
+			// value > request->data > default
+			$value = '';
+			if (isset($options['value'])) {
+				$value = $options['value'];
+			} elseif (Hash::check($this->request->data, $fieldName)) {
+				$value = Hash::get($this->request->data, $fieldName);
+			} elseif (isset($options['default'])) {
+				$value = $options['default'];
+			}
+			$netCommonsTime = new NetCommonsTime();
+
+			$value = $netCommonsTime->toUserDatetime($value);
+
+			$options['ng-init'] = sprintf(
+				'%s=\'%s\'',
+				$options['ng-model'],
+				$value
+			);
+			return $options;
+		}
+		return $options;
+	}
+
+/**
+ * datetimepickerに必要なJSとCSSを読みこみ
+ *
+ * @return void
+ */
+	protected function _loadDatetimePicker() {
+		if (self::$_loadedScript === false) {
+			$this->_View->element('NetCommons.load_datetimepicker');
+			self::$_loadedScript = true;
+		}
+	}
+
+/**
  * FromTo制約をDatetimePickerに設定する関数をscriptBlockへ
  *
  * @return void
@@ -114,4 +182,5 @@ class DatetimePickerHelper extends AppHelper {
 			)
 			);
 	}
+
 }

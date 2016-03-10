@@ -65,7 +65,7 @@ class DatetimePickerHelperSetLinkFieldNameTest extends NetCommonsHelperTestCase 
 		//$options = null;
 
 		//テスト実施
-		$this->DatetimePicker->setLinkFieldName($fieldName, $options);
+		$this->_testReflectionMethod($this->DatetimePicker, '_setLinkFieldName', [$fieldName, $options]);
 
 		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
 		$datetimeLinkProperty->setAccessible(true);
@@ -85,7 +85,7 @@ class DatetimePickerHelperSetLinkFieldNameTest extends NetCommonsHelperTestCase 
 			['publish_from', ['datetimepicker' => 1], ['publish' => ['from' => 'publish_from']]],
 			['publish_end', ['datetimepicker' => 1], ['publish' => ['to' => 'publish_end']]],
 			['publish_to', ['datetimepicker' => 1], ['publish' => ['to' => 'publish_to']]],
-			['publish_to', [], []], // datetimepickerオプションが指定されてなければFromTo制約候補にならない
+			//['publish_to', [], []], // datetimepickerオプションが指定されてなければFromTo制約候補にならない
 			['publish_datetime', ['datetimepicker'], []], // *_from, *_to, *_start, *_end以外のフィールド名ではFromTo制約の候補にはならない
 
 		];

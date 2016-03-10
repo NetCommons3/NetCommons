@@ -17,7 +17,7 @@ App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
  * @author Ryuji AMANO <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\View\Helper\DatetimePickerHelper
  */
-class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
+class DatetimePickerHelperBeforeFormEndTest extends NetCommonsHelperTestCase {
 
 /**
  * Fixtures
@@ -51,11 +51,11 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 	}
 
 /**
- * render()のテスト FromTo制約候補が一切無いケース
+ * beforeFormEnd()のテスト FromTo制約候補が一切無いケース
  *
  * @return void
  */
-	public function testRenderNoLink() {
+	public function testBeforeFormEndNoLink() {
 		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
 		$datetimeLinkProperty->setAccessible(true);
 
@@ -71,15 +71,15 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 
 		//テスト実施
 
-		$this->DatetimePicker->render();
+		$this->DatetimePicker->beforeFormEnd();
 	}
 
 /**
- * render()のテスト FromTo制約候補にfrom or to一方しかないケース
+ * beforeFormEnd()のテスト FromTo制約候補にfrom or to一方しかないケース
  *
  * @return void
  */
-	public function testRenderFromOrToOnly() {
+	public function testBeforeFormEndFromOrToOnly() {
 		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
 		$datetimeLinkProperty->setAccessible(true);
 
@@ -94,7 +94,7 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 		$this->DatetimePicker->Html = $htmlHelperMock;
 
 		//テスト実施
-		$this->DatetimePicker->render();
+		$this->DatetimePicker->beforeFormEnd();
 
 		// toだけあるケース
 		$datetimeLinkProperty->setValue($this->DatetimePicker, array('publish' => ['tod' => 'publish_end']));
@@ -107,15 +107,15 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 		$this->DatetimePicker->Html = $htmlHelperMock;
 
 		//テスト実施
-		$this->DatetimePicker->render();
+		$this->DatetimePicker->beforeFormEnd();
 	}
 
 /**
- * render()のテスト FromTo制約候補にfrom toのペアがあるケース
+ * beforeFormEnd()のテスト FromTo制約候補にfrom toのペアがあるケース
  *
  * @return void
  */
-	public function testRenderFromAndTo() {
+	public function testBeforeFormEndFromAndTo() {
 		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
 		$datetimeLinkProperty->setAccessible(true);
 
@@ -136,7 +136,7 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 
 		$this->DatetimePicker->Form->create('BlogEntry');
 		//テスト実施
-		$this->DatetimePicker->render();
+		$this->DatetimePicker->beforeFormEnd();
 	}
 
 }

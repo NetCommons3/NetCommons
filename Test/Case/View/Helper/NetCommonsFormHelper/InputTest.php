@@ -67,13 +67,14 @@ class NetCommonsFormHelperInputTest extends NetCommonsHelperTestCase {
 		);
 
 		//テスト実施
+		$this->NetCommonsForm->create('TestModel');
 		$result = $this->NetCommonsForm->input($fieldName, $options);
 		// $resultにinputタグがあること
 		$this->assertContains('<input', $result);
 		// $resultのinputタグに属性datetimepickerがあること
 		$this->assertRegExp('/<input.*?datetimepicker.*?>/', $result);
 
-		$ngModelName = 'NetCommonsFormDatetimePickerModel_' . $fieldName;
+		$ngModelName = 'NetCommonsFormDatetimePickerModel_TestModel_' . $fieldName;
 
 		// ng-modelチェック
 		$this->assertRegExp('/ng-model="' . $ngModelName . '"/', $result);

@@ -451,8 +451,6 @@ class NetCommonsFormHelper extends AppHelper {
 		return $out;
 	}
 
-
-
 /**
  * Overwrite FormHelper::error()
  *

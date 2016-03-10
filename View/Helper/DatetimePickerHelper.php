@@ -54,8 +54,20 @@ class DatetimePickerHelper extends AppHelper {
 		'to',
 	];
 
+/**
+ * @var bool スクリプトロード済みでtrue
+ */
 	protected static $_loadedScript = false;
 
+/**
+ * NetCommonsForm::inputから呼ばれる。
+ * type=datetimeだったらdatetimipicker有効
+ * options = array('datetimepicker')あればdatetimepickerスクリプトロード
+ *
+ * @param string $fieldName field name
+ * @param array $inputOptions options
+ * @return array options
+ */
 	public function beforeFormInput($fieldName, $inputOptions) {
 		if (Hash::get($inputOptions, 'type') === 'datetime') {
 			$inputOptions = $this->_makeDatetimeOptions($fieldName, $inputOptions);
@@ -66,7 +78,6 @@ class DatetimePickerHelper extends AppHelper {
 		}
 		return $inputOptions;
 	}
-
 
 /**
  * datetimePickerFromToLink()をコールするscriptBlock出力

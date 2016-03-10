@@ -458,7 +458,7 @@ class NetCommonsFormHelper extends AppHelper {
 		$options['convert_timezone'] = true;
 		// ng-modelを指定してなくてもdatetimepickerが動くようにする
 		if (!isset($options['ng-model'])) {
-			$options['ng-model'] = 'NetCommonsFormDatimePickerModel_' . $fieldName;
+			$options['ng-model'] = 'NetCommonsFormDatetimePickerModel_' . $fieldName;
 			//'ng-init' => 'hoge=\'2011-01-01\'',
 			// value > request->data > default
 			$value = '';

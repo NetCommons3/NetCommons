@@ -27,7 +27,9 @@ class NetCommonsFormHelper extends AppHelper {
 		'Form',
 		'Html',
 		'NetCommons.Button',
-		'NetCommons.NetCommonsHtml'
+		'NetCommons.NetCommonsHtml',
+		'NetCommons.DatetimePicker',
+
 	);
 
 /**
@@ -153,9 +155,9 @@ class NetCommonsFormHelper extends AppHelper {
 		if (Hash::get($options, 'type') === 'hidden') {
 			return $this->hidden($fieldName, $options);
 		}
-		if (Hash::get($options, 'type') === 'datetime') {
-			$options = $this->_makeDatetimeOptions($fieldName, $options);
-		}
+
+		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
+
 		if (Hash::get($options, 'convert_timezone') === true) {
 			$this->_convertFields[] = $fieldName;
 		}
@@ -438,49 +440,15 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string
  */
 	public function end($options = null, $secureAttributes = array()) {
+		$out = '';
+
+		$this->DatetimePicker->beforeFormEnd();
+
 		// modelをみてdatetime
-		$out = $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
+		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
 		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
-	}
-
-/**
- * datimepicker用オプション指定
- *
- * @param string $fieldName フィールド名
- * @param array $options オプション
- * @return mixed
- */
-	protected function _makeDatetimeOptions($fieldName, $options) {
-		$options['type'] = 'text';
-		$options['datetimepicker'] = true;
-		$options['convert_timezone'] = true;
-		// ng-modelを指定してなくてもdatetimepickerが動くようにする
-		if (!isset($options['ng-model'])) {
-			$options['ng-model'] = 'NetCommonsFormDatimePickerModel_' . $fieldName;
-			//'ng-init' => 'hoge=\'2011-01-01\'',
-			// value > request->data > default
-			$value = '';
-			if (isset($options['value'])) {
-				$value = $options['value'];
-			} elseif (isset($this->request->data[$this->_model][$fieldName])) {
-				$value = $this->request->data[$this->_model][$fieldName];
-			} elseif (isset($options['default'])) {
-				$value = $options['default'];
-			}
-			$netCommonsTime = new NetCommonsTime();
-
-			$value = $netCommonsTime->toUserDatetime($value);
-
-			$options['ng-init'] = sprintf(
-				'%s=\'%s\'',
-				$options['ng-model'],
-				$value
-			);
-			return $options;
-		}
-		return $options;
 	}
 
 /**
@@ -503,3 +471,4 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 }
+

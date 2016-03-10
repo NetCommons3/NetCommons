@@ -49,6 +49,7 @@
         "netcommons/user-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",
         "netcommons/workflow":          "dev-master",
+        "netcommons/wysiwyg":           "dev-master",
         "satooshi/php-coveralls":       "~1.0"
     },
     "config": {

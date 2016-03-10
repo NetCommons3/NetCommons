@@ -193,14 +193,5 @@ class NetCommonsHtmlHelper extends AppHelper {
 		$output = $this->Html->link($title, $url, $options);
 		return $output;
 	}
-/**
- * Creates a `<img>` tag for title icon.
- *
- * @param string $filePath The title icon's file path.
- * @return string img tag.
- */
-	public function titleIcon($filePath) {
-		$output = $this->Html->image($filePath, array('alt' => __d('net_commons', $filePath), 'class' => 'nc-title-icon'));
-		return $output;
-	}
+
 }

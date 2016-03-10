@@ -12,22 +12,20 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
     },
     restrict: 'AE',
     transclude: true,
-    template: '<div class="input-group">' +
-        '<span class="input-group-addon nc-title-icon-index">' +
-        '<img src="{{titleIcon}}" class="nc-title-icon" />' +
-        '</span>' +
-        '<ng-transclude></ng-transclude>' +
-        '<div class="input-group-btn">' +
+    template: '<ng-transclude></ng-transclude>' +
         '<button type="button" ' +
         'class="btn btn-default dropdown-toggle" data-toggle="dropdown">' +
-        '<span class="caret"></span></button>' +
+        '<span class="nc-title-icon-index">' +
+        '<img src="{{titleIcon}}" class="nc-title-icon" />' +
+        '</span>' +
+        '</button>' +
         '<ul class="dropdown-menu nc-title-icon-dropdown pull-right">' +
         '<li>' +
-        '<div ng-repeat="(icon, alt) in icons" class="nc-icon-palette">' +
-        '<img src="{{icon}}" alt="{{alt}}" title="{{alt}}" ' +
-        ' class="nc-title-icon" ng-click="pick(icon)" />' +
+        '<div ng-repeat="icon in icons" class="nc-icon-palette">' +
+        '<img src="{{icon.path}}" alt="{{icon.alt}}" title="{{icon.alt}}" ' +
+        ' class="nc-title-icon" ng-click="pick(icon.path)" />' +
         '</div>' +
-        '</li></ul></div></div>',
+        '</li></ul>',
     link: {
       pre: function(scope, element, attr) {
         scope.titeIcon = scope.ngModel || scope.titleIcon;

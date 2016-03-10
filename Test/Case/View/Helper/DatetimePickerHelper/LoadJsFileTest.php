@@ -1,6 +1,6 @@
 <?php
 /**
- * DatetimePickerHelper::renderScript()のテスト
+ * DatetimePickerHelper::_loadJsFile()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Ryuji AMANO <nakajimashouhei@gmail.com>
@@ -17,7 +17,7 @@ App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
  * @author Ryuji AMANO <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\View\Helper\DatetimePickerHelper
  */
-class DatetimePickerHelperRenderScriptTest extends NetCommonsHelperTestCase {
+class DatetimePickerHelperLoadJsFileTest extends NetCommonsHelperTestCase {
 
 /**
  * Fixtures
@@ -42,7 +42,6 @@ class DatetimePickerHelperRenderScriptTest extends NetCommonsHelperTestCase {
 		parent::setUp();
 
 		//テストデータ生成
-		//TODO:必要に応じてセットする
 		$viewVars = array();
 		$requestData = array();
 		$params = array();
@@ -57,14 +56,22 @@ class DatetimePickerHelperRenderScriptTest extends NetCommonsHelperTestCase {
  * @return void
  */
 	public function testRenderScript() {
-		//データ生成
-
+		// HtmlHelper::script()がコールされる
+		$view = new View();
+		$htmlHelperMock = $this->getMock('HtmlHelper', ['script'], [$view, array()]);
+		$this->DatetimePicker->Html = $htmlHelperMock;
 		//テスト実施
-		$result = $this->DatetimePicker->renderScript();
+		// HtmlHelper::script()がコールされる
+		$htmlHelperMock->expects($this->once())
+			->method('script')
+			->with(
+				$this->stringContains('/net_commons/js/datetime_picker_from_to_link.js'),
+				$this->isType('array')
+			);
 
-		//チェック
-		//TODO:assertを書く
-		debug($result);
+		$loadJsFileMethod = new ReflectionMethod($this->DatetimePicker, '_loadJsFile');
+		$loadJsFileMethod->setAccessible(true);
+		$loadJsFileMethod->invoke($this->DatetimePicker);
 	}
 
 }

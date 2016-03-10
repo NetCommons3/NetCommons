@@ -42,7 +42,6 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 		parent::setUp();
 
 		//テストデータ生成
-		//TODO:必要に応じてセットする
 		$viewVars = array();
 		$requestData = array();
 		$params = array();
@@ -52,19 +51,92 @@ class DatetimePickerHelperRenderTest extends NetCommonsHelperTestCase {
 	}
 
 /**
- * render()のテスト
+ * render()のテスト FromTo制約候補が一切無いケース
  *
  * @return void
  */
-	public function testRender() {
-		//データ生成
+	public function testRenderNoLink() {
+		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
+		$datetimeLinkProperty->setAccessible(true);
+
+		// _datetimeLink datetimepicker でfrom or toが一切無いケース -> scriptBlockはコールされない
+		$datetimeLinkProperty->setValue($this->DatetimePicker, array());
+
+		$view = new View();
+		$htmlHelperMock = $this->getMock('HtmlHelper', ['scriptBlock'], [$view, array()]);
+		// scriptBlockはコールされないはず
+		$htmlHelperMock->expects($this->never())
+			->method('scriptBlock');
+		$this->DatetimePicker->Html = $htmlHelperMock;
 
 		//テスト実施
-		$result = $this->DatetimePicker->render();
 
-		//チェック
-		//TODO:assertを書く
-		debug($result);
+		$this->DatetimePicker->render();
+	}
+
+/**
+ * render()のテスト FromTo制約候補にfrom or to一方しかないケース
+ *
+ * @return void
+ */
+	public function testRenderFromOrToOnly() {
+		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
+		$datetimeLinkProperty->setAccessible(true);
+
+		// _datetimeLink datetimepicker でfrom しかないケース -> scriptBlockはコールされない
+		$datetimeLinkProperty->setValue($this->DatetimePicker, array('publish' => ['from' => 'publish_start']));
+
+		$view = new View();
+		$htmlHelperMock = $this->getMock('HtmlHelper', ['scriptBlock'], [$view, array()]);
+		// scriptBlockはコールされないはず
+		$htmlHelperMock->expects($this->never())
+			->method('scriptBlock');
+		$this->DatetimePicker->Html = $htmlHelperMock;
+
+		//テスト実施
+		$this->DatetimePicker->render();
+
+		// toだけあるケース
+		$datetimeLinkProperty->setValue($this->DatetimePicker, array('publish' => ['tod' => 'publish_end']));
+
+		$view = new View();
+		$htmlHelperMock = $this->getMock('HtmlHelper', ['scriptBlock'], [$view, array()]);
+		// scriptBlockはコールされないはず
+		$htmlHelperMock->expects($this->never())
+			->method('scriptBlock');
+		$this->DatetimePicker->Html = $htmlHelperMock;
+
+		//テスト実施
+		$this->DatetimePicker->render();
+	}
+
+/**
+ * render()のテスト FromTo制約候補にfrom toのペアがあるケース
+ *
+ * @return void
+ */
+	public function testRenderFromAndTo() {
+		$datetimeLinkProperty = new ReflectionProperty($this->DatetimePicker, '_datetimeLink');
+		$datetimeLinkProperty->setAccessible(true);
+
+		// _datetimeLink datetimepicker でfrom or toがペアがある -> scriptBlockがコールされる
+		$datetimeLinkProperty->setValue($this->DatetimePicker, array('publish' => ['from' => 'publish_start', 'to' => 'publish_end']));
+
+		$view = new View();
+		$htmlHelperMock = $this->getMock('HtmlHelper', ['scriptBlock'], [$view, array()]);
+		// scriptBlockは1回だけコールされる
+		$htmlHelperMock->expects($this->once())
+			->method('scriptBlock')
+			->with(
+				$this->stringContains('PublishStart'),
+				$this->equalTo(['inline' => false])
+			);
+
+		$this->DatetimePicker->Html = $htmlHelperMock;
+
+		$this->DatetimePicker->Form->create('BlogEntry');
+		//テスト実施
+		$this->DatetimePicker->render();
 	}
 
 }

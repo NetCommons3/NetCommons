@@ -75,12 +75,11 @@ class DatetimePickerHelper extends AppHelper {
 /**
  * datetimePickerFromToLink()をコールするscriptBlock出力
  *
- * @return string
+ * @return void
  */
 	public function render() {
-		$out = '';
 		if ($this->_datetimeLink) {
-			$script = '$(function () {';
+			$script = '';
 			foreach ($this->_datetimeLink as $fromTo) {
 				if (isset($fromTo['from']) && isset($fromTo['to'])) {
 					// from to のペア有り
@@ -90,11 +89,14 @@ class DatetimePickerHelper extends AppHelper {
 					$script .= "datetimePickerFromToLink('{$fromId}', '{$toId}');\n";
 				}
 			}
-			$script .= '});';
-			$this->Html->scriptBlock($script, ['inline' => false]);
-			$this->renderScript();
+			if ($script) {
+				$scriptBlock = '$(function () {';
+				$scriptBlock .= $script;
+				$scriptBlock .= '});';
+				$this->Html->scriptBlock($scriptBlock, ['inline' => false]);
+				$this->_loadJsFile();
+			}
 		}
-		return $out;
 	}
 
 /**
@@ -102,19 +104,14 @@ class DatetimePickerHelper extends AppHelper {
  *
  * @return void
  */
-	public function renderScript() {
-		static $executed = false;
-		if ($executed === false) {
-			$functionScript = "function datetimePickerFromToLink(fromId, toId){
-				$('#' + fromId).on('dp.change', function (e) {
-					$('#' + toId).data('DateTimePicker').minDate(e.date);
-				});
-				$('#' + toId).on('dp.change', function (e) {
-					$('#' + fromId).data('DateTimePicker').maxDate(e.date);
-				});
-			}";
-			$this->Html->scriptBlock($functionScript, ['inline' => false]);
-			$executed = true;
-		}
+	protected function _loadJsFile() {
+		$this->Html->script(
+			'/net_commons/js/datetime_picker_from_to_link.js',
+			array(
+				'plugin' => false,
+				'once' => true,
+				'inline' => false
+			)
+			);
 	}
 }

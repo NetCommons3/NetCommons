@@ -443,7 +443,8 @@ class NetCommonsFormHelper extends AppHelper {
  */
 	public function end($options = null, $secureAttributes = array()) {
 		$out = '';
-		$out .= $this->DatetimePicker->render();
+
+		$this->DatetimePicker->render();
 
 		// modelをみてdatetime
 		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));

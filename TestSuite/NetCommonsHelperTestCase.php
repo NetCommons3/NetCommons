@@ -21,6 +21,7 @@ App::uses('CurrentControlPanel', 'NetCommons.Utility');
  * NetCommonsHelperTestCase class
  *
  * @package NetCommons\NetCommons\TestSuite
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @codeCoverageIgnore
  */
 class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {

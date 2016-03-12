@@ -18,6 +18,39 @@ App::uses('AppHelper', 'View/Helper');
 class TitleIconHelper extends AppHelper {
 
 /**
+ * 概要
+ *
+ * タイトルアイコンを設定するピッカーを生成するHelper、および
+ * 設定されたタイトルアイコンを表示するHelperを提供します。
+ *
+ * タイトルアイコンピッカー：
+ * これを使うことでinput(type=text)の前にタイトルアイオンピッカーのボタンを
+ * アドオンとして付与することができます
+ * Cakephp通常のinput要素に付ける場合と、Angularで生成されるinput要素に付ける場合で
+ * 使用方法が異なります
+ * 現在のバージョンはCakephp通常のinput要素に付与する場合のメソッドのみ提供しています
+ *
+ * 利用方法
+ * 通常のHelper利用と同様です NetCommons.TitleIconをHelperとして組み込んでください。
+ * Viewでは、inputWithTitleIconメソッドを呼び出します。
+ * inputWithTitleIconでは最低限、タイトルアイコンデータを設定するフィールド名と
+ * タイトルデータを設定するフィールド名を引数として与える必要があります。
+ * その他、タイトルinput-textに与える追加のoption情報を与えることができます。
+ * optionではbetweenとafterが使用できません。これは内部でタイトルアイコンピッカーのaddonを
+ * 設定するためにbetweenとafterを占有しているからです。
+ *
+ * #### サンプルコード
+ * ```
+ * 	public $helpers = array(
+ *     'NetCommons.TitleIcon',
+ *  );
+ * <?php echo $this->TitleIcon->inputWithTitleIcon('title', 'Questionnaire.title_icon',
+ *     array('label' => __d('questionnaires', 'Title'),
+ *           'ng-model' => 'questionnaires.questionnaire.title'
+ *   ));?>
+ * ```
+ */
+/**
  * Other helpers used by FormHelper
  *
  * @var array
@@ -50,7 +83,7 @@ class TitleIconHelper extends AppHelper {
  * @param array $options option for input
  * @return string input and title icon picker button
  */
-	public function inputWithTitleIcon($fieldName, $titleIconFieldName, $options) {
+	public function inputWithTitleIcon($fieldName, $titleIconFieldName, $options = array()) {
 		$options['between'] = $this->titleIconPicker($titleIconFieldName);
 		$options['after'] = '</div>';
 		$html = $this->NetCommonsForm->input($fieldName, $options);

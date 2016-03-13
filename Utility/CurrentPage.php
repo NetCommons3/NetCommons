@@ -123,10 +123,14 @@ class CurrentPage {
 			$conditions = array('Page.id' => $pageId);
 
 		} elseif (Current::$request->params['plugin'] === self::PLUGIN_PAGES) {
-			if (Current::$request->params['controller'] === 'pages' &&
-					Current::$request->params['action'] === 'index') {
-				$field = 'Page.permalink';
+			if (Current::$request->params['controller'] === 'pages') {
 				$value = implode('/', Current::$request->params['pass']);
+				if ($value === '') {
+					$field = 'Page.lft';
+					$value = '1';
+				} else {
+					$field = 'Page.permalink';
+				}
 			} else {
 				$field = 'Page.id';
 				$value = Hash::get(Current::$request->params, 'pass.1', '');

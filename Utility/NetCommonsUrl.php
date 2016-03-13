@@ -32,7 +32,7 @@ class NetCommonsUrl {
 				$url .= Current::SETTING_MODE_WORD . '/';
 			}
 
-			if (Current::read('Page.permalink')) {
+			if (Current::read('Page.lft') !== '1' && Current::read('Page.permalink')) {
 				$url .= Current::read('Page.permalink') . '/';
 			}
 		}
@@ -151,6 +151,20 @@ class NetCommonsUrl {
 	}
 
 /**
+ * セッティングモードURLを生成
+ *
+ * @return string Full translated URL with base path.
+ */
+	public static function settingModeUrl() {
+		if (Current::read('Page.lft') === '1') {
+			$url = '/' . Current::SETTING_MODE_WORD . '/';
+		} else {
+			$url = '/' . Current::SETTING_MODE_WORD . '/' . h(Current::read('Page.permalink'));
+		}
+		return $url;
+	}
+
+/**
  * URLを生成
  *
  * @param array $params Action url array
@@ -160,6 +174,10 @@ class NetCommonsUrl {
  */
 	public static function url($params = array(), $full = false) {
 		$url = Router::url($params, $full);
+		if (is_array($params) && Current::isSettingMode()) {
+			$url = preg_replace('/\/' . Current::SETTING_MODE_WORD . '/', '', $url);
+		}
+
 		$request = Router::getRequest(true);
 		$base = '';
 		if ($request) {

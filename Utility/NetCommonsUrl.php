@@ -153,13 +153,18 @@ class NetCommonsUrl {
 /**
  * セッティングモードURLを生成
  *
+ * @param array $page ページデータ
  * @return string Full translated URL with base path.
  */
-	public static function settingModeUrl() {
-		if (Current::read('Page.lft') === '1') {
+	public static function settingModeUrl($page = null) {
+		if (! isset($page)) {
+			$page['Page'] = Current::read('Page');
+		}
+
+		if (Hash::get($page, 'Page.lft') === '1') {
 			$url = '/' . Current::SETTING_MODE_WORD . '/';
 		} else {
-			$url = '/' . Current::SETTING_MODE_WORD . '/' . h(Current::read('Page.permalink'));
+			$url = '/' . Current::SETTING_MODE_WORD . '/' . h(Hash::get($page, 'Page.permalink'));
 		}
 		return $url;
 	}

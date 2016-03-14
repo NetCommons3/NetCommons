@@ -126,8 +126,8 @@ class CurrentPage {
 			if (Current::$request->params['controller'] === 'pages') {
 				$value = implode('/', Current::$request->params['pass']);
 				if ($value === '') {
-					$field = 'Page.lft';
-					$value = '1';
+					$field = 'Page.root_id';
+					$value = Page::PUBLIC_ROOT_PAGE_ID;
 				} else {
 					$field = 'Page.permalink';
 				}
@@ -176,6 +176,7 @@ class CurrentPage {
 		$result = $this->Page->find('first', array(
 			'recursive' => 0,
 			'conditions' => $conditions,
+			'order' => array('Page.lft' => 'asc')
 		));
 
 		Current::$current = Hash::merge(Current::$current, $result);

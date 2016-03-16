@@ -10,6 +10,8 @@
  */
 
 App::uses('Component', 'Controller');
+App::uses('NetCommonsTime', 'NetCommons.Utility');
+App::uses('Block', 'Blocks.Model');
 
 /**
  * Permission Component
@@ -178,6 +180,9 @@ class PermissionComponent extends Component {
 				}
 				break;
 			case self::CHECK_TYEP_GENERAL_PLUGIN:
+				if (! $this->__checkBlockAccess($controller)) {
+					return $controller->setAction('emptyRender');
+				}
 				if (! $this->__accessCheck($controller)) {
 					break;
 				}
@@ -230,4 +235,51 @@ class PermissionComponent extends Component {
 		}
 		return true;
 	}
+
+/**
+ * ブロックのアクセスチェック
+ *
+ * @param Controller $controller Controller with components to startup
+ * @return bool
+ */
+	private function __checkBlockAccess(Controller $controller) {
+		//ブロックがない場合、trueとする
+		if (! Current::read('Block')) {
+			return true;
+		}
+		//ブロック編集権限があるか、公開ならTrue
+		if (Current::permission('block_editable') ||
+				Current::read('Block.public_type') === Block::TYPE_PUBLIC) {
+			return true;
+		}
+
+		//非公開ならFalse
+		if (Current::read('Block.public_type') === Block::TYPE_PRIVATE) {
+			return false;
+		}
+
+		$now = (new NetCommonsTime())->getNowDatetime();
+		if (Current::read('Block.publish_start') && Current::read('Block.publish_end')) {
+			if (Current::read('Block.publish_start') <= $now && $now < Current::read('Block.publish_end')) {
+				return true;
+			} else {
+				return false;
+			}
+		} elseif (Current::read('Block.publish_start')) {
+			if (Current::read('Block.publish_start') <= $now) {
+				return true;
+			} else {
+				return false;
+			}
+		} elseif (Current::read('Block.publish_end')) {
+			if ($now < Current::read('Block.publish_end')) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
 }

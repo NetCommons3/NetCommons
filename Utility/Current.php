@@ -230,43 +230,7 @@ App::uses('Plugin', 'PluginManager.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current {
-
-/**
- * Constant setting mode value
- */
-	const SETTING_MODE_WORD = 'setting';
-
-/**
- * Usersプラグイン名の定数
- */
-	const PLUGIN_USERS = 'users';
-
-/**
- * Groupsプラグイン名の定数
- */
-	const PLUGIN_GROUPS = 'groups';
-
-/**
- * is setting mode true
- *
- * @var bool
- */
-	private static $__isSettingMode = null;
-
-/**
- * Request object
- *
- * @var mixed
- */
-	public static $request;
-
-/**
- * Instance object
- *
- * @var mixed
- */
-	private static $__instance;
+class CurrentBase {
 
 /**
  * Current data
@@ -274,35 +238,6 @@ class Current {
  * @var array
  */
 	public static $current = array();
-
-/**
- * M17n data
- *
- * @var array
- */
-	public static $m17n = array();
-
-/**
- * setup current data
- *
- * @param CakeRequest $request CakeRequest
- * @return void
- */
-	public static function initialize(CakeRequest $request) {
-		if (! self::$__instance) {
-			self::$__instance = new Current();
-		}
-
-		self::$request = clone $request;
-
-		self::$current['User'] = AuthComponent::user();
-
-		(new CurrentControlPanel())->initialize();
-
-		if (! self::isControlPanel()) {
-			(new CurrentFrame())->initialize();
-		}
-	}
 
 /**
  * 指定された$keyの値を返します。
@@ -324,6 +259,139 @@ class Current {
 			return self::$current;
 		}
 		return Hash::get(self::$current, $key);
+	}
+
+/**
+ * 指定された$keyの値をセットします
+ *
+ * 現在のBlockKeyをセットしたい場合
+ * ```
+ * Cuurent::write('Block.key', 'block_key)
+ * ```
+ *
+ * @param string $key Hashクラスのpath
+ * @param mixted $value セットする値
+ * @return void
+ */
+	public static function write($key, $value) {
+		if (! isset(self::$current)) {
+			return self::$current;
+		}
+
+		Hash::insert(self::$current, $key, $value);
+	}
+
+/**
+ * 指定された$keyの値を削除します。
+ *
+ * 現在のBlockKeyを削除したい場合
+ * ```
+ * Cuurent::remove('Block.key')
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath
+ * @return array|null Current data.
+ */
+	public static function remove($key = null) {
+		if (! isset(self::$current) || ! isset($key)) {
+			self::$current = array();
+		}
+
+		Hash::remove(self::$current, $key);
+	}
+
+/**
+ * 指定された$key(権限名文字列)の値を返します。
+ *
+ * ```
+ * Current::permission('content_publishable')
+ * ```
+ *
+ * @param string $key Hashクラスのpath
+ * @return bool permission value
+ */
+	public static function permission($key) {
+		if (! isset(self::$current)) {
+			return false;
+		}
+		$path = 'Permission.' . $key . '.value';
+		return (bool)Hash::get(self::$current, $path);
+	}
+
+}
+
+
+/**
+ * Current Utilityチェック
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Utility
+ */
+class Current extends CurrentBase {
+
+/**
+ * Constant setting mode value
+ */
+	const SETTING_MODE_WORD = 'setting';
+
+/**
+ * Usersプラグイン名の定数
+ */
+	const PLUGIN_USERS = 'users';
+
+/**
+ * Groupsプラグイン名の定数
+ */
+	const PLUGIN_GROUPS = 'groups';
+
+/**
+ * is setting mode true
+ *
+ * @var bool
+ */
+	protected static $_isSettingMode = null;
+
+/**
+ * Request object
+ *
+ * @var mixed
+ */
+	public static $request;
+
+/**
+ * Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instance;
+
+/**
+ * M17n data
+ *
+ * @var array
+ */
+	public static $m17n = array();
+
+/**
+ * setup current data
+ *
+ * @param CakeRequest $request CakeRequest
+ * @return void
+ */
+	public static function initialize(CakeRequest $request) {
+		if (! self::$_instance) {
+			self::$_instance = new Current();
+		}
+
+		self::$request = clone $request;
+
+		self::$current['User'] = AuthComponent::user();
+
+		(new CurrentControlPanel())->initialize();
+
+		if (! self::isControlPanel()) {
+			(new CurrentFrame())->initialize();
+		}
 	}
 
 /**
@@ -363,24 +431,6 @@ class Current {
 	}
 
 /**
- * 指定された$key(権限名文字列)の値を返します。
- *
- * ```
- * Current::permission('content_publishable')
- * ```
- *
- * @param string $key Hashクラスのpath
- * @return bool permission value
- */
-	public static function permission($key) {
-		if (! isset(self::$current)) {
-			return false;
-		}
-		$path = 'Permission.' . $key . '.value';
-		return (bool)Hash::get(self::$current, $path);
-	}
-
-/**
  * ログインチェック
  *
  * @return bool
@@ -397,21 +447,21 @@ class Current {
  */
 	public static function isSettingMode($settingMode = null) {
 		if (isset($settingMode)) {
-			self::$__isSettingMode = $settingMode;
+			self::$_isSettingMode = $settingMode;
 		}
 
-		if (isset(self::$__isSettingMode)) {
-			return self::$__isSettingMode;
+		if (isset(self::$_isSettingMode)) {
+			return self::$_isSettingMode;
 		}
 
 		$pattern = preg_quote('/' . self::SETTING_MODE_WORD . '/', '/');
 		if (preg_match('/' . $pattern . '/', Router::url())) {
-			self::$__isSettingMode = true;
+			self::$_isSettingMode = true;
 		} else {
-			self::$__isSettingMode = false;
+			self::$_isSettingMode = false;
 		}
 
-		return self::$__isSettingMode;
+		return self::$_isSettingMode;
 	}
 
 /**

@@ -56,9 +56,7 @@ class TitleIconHelperGetIconFilesTest extends NetCommonsHelperTestCase {
  * @return void
  */
 	public function testGetIconFiles() {
-		$getTestMethod = new ReflectionMethod($this->TitleIcon, '_getIconFiles');
-		$getTestMethod->setAccessible(true);
-		$result = $getTestMethod->invoke($this->TitleIcon);
+		$result = $this->TitleIcon->getIconFiles();
 		$this->assertTextContains(json_encode(__d('net_commons', 'icon_cancel')), $result);
 		$this->assertTextContains(json_encode(__d('net_commons', 'ok')), $result);
 		$this->assertTextContains(json_encode(__d('net_commons', 'glasses')), $result);

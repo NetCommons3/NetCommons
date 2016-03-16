@@ -29,7 +29,7 @@ class NetCommonsFormHelper extends AppHelper {
 		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
 		'NetCommons.DatetimePicker',
-
+		'Wysiwyg.Wysiwyg',
 	);
 
 /**
@@ -415,7 +415,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		// wysiwygに関連する js読み込みを Wysiwygプラグインから行う
 		$html = '';
-		$html .= $this->_View->element('Wysiwyg.wysiwyg_js');
+		$html .= $this->Wysiwyg->wysiwygScript();
 		$html .= $this->input($fieldName, $attributes);
 
 		return $html;

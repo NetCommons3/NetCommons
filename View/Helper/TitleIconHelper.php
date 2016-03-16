@@ -159,7 +159,7 @@ class TitleIconHelper extends AppHelper {
  * @return string open tag for title icon picker
  */
 	protected function _getTitleIconPickerOpenTag($titleIcon, $ngModelAttribute = '') {
-		$icons = $this->_getIconFiles();
+		$icons = $this->getIconFiles();
 		$html = '<div class="input-group" ng-controller="ncTitleIconPickerCtrl" title-icon="' . $titleIcon . '">';
 		$html .= '<nc-title-icon-picker class="input-group-btn" title-icon="' . $titleIcon . '" ' . $ngModelAttribute . ' icons="' . str_replace('"', '\'', $icons) . '">';
 		return $html;
@@ -174,11 +174,11 @@ class TitleIconHelper extends AppHelper {
 	}
 
 /**
- * _getIconFiles
+ * getIconFiles
  *
  * @return string icon file paths
  */
-	protected function _getIconFiles() {
+	public function getIconFiles() {
 		// アイコンフォルダー
 		$dir = new Folder(APP . 'Plugin/NetCommons/webroot/img/title_icon');
 		// アイコンファイル名取り出し

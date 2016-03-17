@@ -58,37 +58,44 @@ class NetCommonsTimeComponentInitializeTest extends NetCommonsControllerTestCase
 	}
 
 /**
- * initialize()のテスト
+ * NetCommonsAppControllerで読みこまれるので個々のコントローラでの読み込み不要
  *
  * @return void
  */
-	public function testInitialize() {
+	public function testAlwaysLoad() {
 		//テストコントローラ生成
 		$this->generateNc('TestNetCommons.TestNetCommonsTimeComponent');
 
 		// 個別のコントローラで読みこまなくてもNetCommonsAppControllerでNetCommonsTimeは有効になっている
 		$this->assertInstanceOf('NetCommonsTimeComponent', $this->controller->NetCommonsTime);
+	}
+
+/**
+ * ModelName.field_nameでのタイムゾーンコンバート
+ *
+ * @return void
+ */
+	public function testFieldNameWithModelNameConvert() {
+		//テストコントローラ生成
+		$this->generateNc('TestNetCommons.TestNetCommonsTimeComponent');
 
 		//ログイン
 		TestAuthGeneral::login($this);
 
+		$data = [
+			'Block' => [
+				'publish_start' => '2001-01-01 09:00:00',
+			],
+			'_NetCommonsTime' => [
+				'user_timezone' => 'Asia/Tokyo',
+				'convert_fields' => 'Block.publish_start', // convert_fieldsにモデル名抜きのフィールド名のパターン
+			],
+		];
+
 		//テスト実行
-		$this->_testGetAction('/test_net_commons/test_net_commons_time_component/index',
-				array('method' => 'assertNotEmpty'), null, 'view');
+		$this->_testPostAction('post', $data, '/test_net_commons/test_net_commons_time_component/index');
 
-
-
-
-
-		//チェック
-		$pattern = '/' . preg_quote('Controller/Component/TestNetCommonsTimeComponent/index', '/') . '/';
-		$this->assertRegExp($pattern, $this->view);
-
-
-
-		//TODO:必要に応じてassert追加する
-		debug($this->view);
-
+		$this->assertEquals('2001-01-01 00:00:00', $this->controller->request->data['Block']['publish_start']);
 	}
 
 }

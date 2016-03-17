@@ -159,6 +159,9 @@ class NetCommonsFormHelper extends AppHelper {
 		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
 
 		if (Hash::get($options, 'convert_timezone') === true) {
+			if (strpos($fieldName, '.') === false) {
+				$fieldName = $this->Form->defaultModel . '.' . $fieldName;
+			}
 			$this->_convertFields[] = $fieldName;
 		}
 		$options = Hash::merge(array(

@@ -80,15 +80,21 @@ class NetCommonsTime {
  */
 	public function toUserDatetimeArray(array $data, array $convertKeyNameList) {
 		$userDatetimeData = $data;
-		foreach ($userDatetimeData as $key => $value) {
-			if (is_array($value)) {
-				$userDatetimeData[$key] = $this->toUserDatetimeArray($value, $convertKeyNameList);
-			} else {
-				if (in_array($key, $convertKeyNameList)) {
-					$userDatetimeData[$key] = $this->toUserDatetime($value);
-				}
-			}
+		$convertKeyNameList = Hash::filter($convertKeyNameList);
+		foreach ($convertKeyNameList as $keyName) {
+			$_userDatetime = $this->toUserDatetime(Hash::get($data, $keyName));
+			$userDatetimeData = Hash::insert($userDatetimeData, $keyName, $_userDatetime);
 		}
+		//
+		//foreach ($userDatetimeData as $key => $value) {
+		//	if (is_array($value)) {
+		//		$userDatetimeData[$key] = $this->toUserDatetimeArray($value, $convertKeyNameList);
+		//	} else {
+		//		if (in_array($key, $convertKeyNameList)) {
+		//			$userDatetimeData[$key] = $this->toUserDatetime($value);
+		//		}
+		//	}
+		//}
 		return $userDatetimeData;
 	}
 
@@ -119,15 +125,21 @@ class NetCommonsTime {
  */
 	public function toServerDatetimeArray($data, array $convertKeyNameList, $userTimezone = null) {
 		$serverDatetimeData = $data;
-		foreach ($serverDatetimeData as $key => $value) {
-			if (is_array($value)) {
-				$serverDatetimeData[$key] = $this->toServerDatetimeArray($value, $convertKeyNameList, $userTimezone);
-			} else {
-				if (in_array($key, $convertKeyNameList)) {
-					$serverDatetimeData[$key] = $this->toServerDatetime($value, $userTimezone);
-				}
-			}
+		$convertKeyNameList = Hash::filter($convertKeyNameList);
+		foreach ($convertKeyNameList as $keyName) {
+			$_serverDatetime = $this->toServerDatetime(Hash::get($data, $keyName), $userTimezone);
+			$serverDatetimeData = Hash::insert($serverDatetimeData, $keyName, $_serverDatetime);
 		}
+
+		//foreach ($serverDatetimeData as $key => $value) {
+		//	if (is_array($value)) {
+		//		$serverDatetimeData[$key] = $this->toServerDatetimeArray($value, $convertKeyNameList, $userTimezone);
+		//	} else {
+		//		if (in_array($key, $convertKeyNameList)) {
+		//			$serverDatetimeData[$key] = $this->toServerDatetime($value, $userTimezone);
+		//		}
+		//	}
+		//}
 		return $serverDatetimeData;
 	}
 

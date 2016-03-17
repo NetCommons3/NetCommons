@@ -156,6 +156,8 @@ class DatetimePickerHelper extends AppHelper {
 
 			$value = $netCommonsTime->toUserDatetime($value);
 
+			$options['ng-value'] = $options['ng-model'];
+
 			$options['ng-init'] = sprintf(
 				'%s=\'%s\'',
 				$options['ng-model'],

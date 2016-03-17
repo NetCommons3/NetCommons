@@ -18,6 +18,7 @@ App::uses('AppHelper', 'View/Helper');
 
 /**
  * Class DatetimePickerHelper
+ * このHelperはNetCommonsFormから使われる前提で開発されています。Viewから直接使われることは想定していません。
  */
 class DatetimePickerHelper extends AppHelper {
 

@@ -73,6 +73,7 @@ class NetCommonsAppController extends Controller {
 		'RequestHandler',
 		'Session',
 		'Workflow.Workflow',
+		'NetCommons.NetCommonsTime',
 	);
 
 /**

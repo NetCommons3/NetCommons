@@ -147,7 +147,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 		];
 		Current::$current['User']['timezone'] = 'Asia/Tokyo';
 
-		$userData = $netCommonsTime->toUserDatetimeArray($data, array('published_datetime'));
+		$userData = $netCommonsTime->toUserDatetimeArray($data, array('BlogEntry.published_datetime'));
 		$this->assertEquals('2000-01-01 09:00:00', $userData['BlogEntry']['published_datetime']);
 	}
 
@@ -167,7 +167,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 		];
 		Current::$current['User']['timezone'] = 'Asia/Tokyo';
 
-		$userData = $netCommonsTime->toServerDatetimeArray($data, array('published_datetime'));
+		$userData = $netCommonsTime->toServerDatetimeArray($data, array('BlogEntry.published_datetime'));
 		$this->assertEquals('2000-01-01 00:00:00', $userData['BlogEntry']['published_datetime']);
 	}
 

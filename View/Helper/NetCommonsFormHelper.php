@@ -450,6 +450,7 @@ class NetCommonsFormHelper extends AppHelper {
 		// modelをみてdatetime
 		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
 		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
+		$this->_convertFields = array();
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
 	}

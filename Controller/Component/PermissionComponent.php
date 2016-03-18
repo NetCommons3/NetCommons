@@ -180,16 +180,16 @@ class PermissionComponent extends Component {
 				}
 				break;
 			case self::CHECK_TYEP_GENERAL_PLUGIN:
-				if (! $this->__checkBlockAccess($controller)) {
-					return $controller->setAction('emptyRender');
-				}
 				if (! $this->__accessCheck($controller)) {
 					break;
 				}
-				if ($this->__allowAction($controller)) {
-					return;
+				if (! $this->__allowAction($controller)) {
+					break;
 				}
-				break;
+				if (! $this->__checkBlockAccess($controller)) {
+					return $controller->setAction('emptyRender');
+				}
+				return;
 		}
 
 		throw new ForbiddenException(__d('net_commons', 'Permission denied'));

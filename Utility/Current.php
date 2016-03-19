@@ -278,7 +278,7 @@ class CurrentBase {
 			return self::$current;
 		}
 
-		Hash::insert(self::$current, $key, $value);
+		self::$current = Hash::insert(self::$current, $key, $value);
 	}
 
 /**

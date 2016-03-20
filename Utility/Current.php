@@ -269,16 +269,19 @@ class CurrentBase {
  * Cuurent::write('Block.key', 'block_key)
  * ```
  *
- * @param string $key Hashクラスのpath
+ * @param string|null $key Hashクラスのpath、nullの場合、Hash::mergeする
  * @param mixted $value セットする値
  * @return void
  */
 	public static function write($key, $value) {
 		if (! isset(self::$current)) {
-			return self::$current;
+			self::$current = array();
 		}
-
-		self::$current = Hash::insert(self::$current, $key, $value);
+		if (! isset($key)) {
+			self::$current = Hash::merge(self::$current, $value);
+		} else {
+			self::$current = Hash::insert(self::$current, $key, $value);
+		}
 	}
 
 /**

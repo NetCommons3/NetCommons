@@ -248,9 +248,10 @@ class CurrentBase {
  * ```
  *
  * @param string|null $key Hashクラスのpath
+ * @param mixed $default デフォルト値
  * @return array|null Current data.
  */
-	public static function read($key = null) {
+	public static function read($key = null, $default = null) {
 		if (! isset(self::$current)) {
 			return self::$current;
 		}
@@ -258,7 +259,7 @@ class CurrentBase {
 		if (! isset($key)) {
 			return self::$current;
 		}
-		return Hash::get(self::$current, $key);
+		return Hash::get(self::$current, $key, $default);
 	}
 
 /**

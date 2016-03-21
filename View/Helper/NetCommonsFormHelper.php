@@ -76,7 +76,7 @@ class NetCommonsFormHelper extends AppHelper {
 	public function create($model = null, $options = array()) {
 		$this->_model = $model;
 		if (!isset($options['ng-submit'])) {
-			$options['ng-submit'] = 'sending=true;';
+			$options['ng-submit'] = 'submit($event)';
 		}
 		if (!isset($options['novalidate'])) {
 			$options['novalidate'] = true;

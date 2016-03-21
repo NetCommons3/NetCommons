@@ -230,7 +230,108 @@ App::uses('Plugin', 'PluginManager.Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current {
+class CurrentBase {
+
+/**
+ * Current data
+ *
+ * @var array
+ */
+	public static $current = array();
+
+/**
+ * 指定された$keyの値を返します。
+ *
+ * 現在のBlockKeyを取得したい場合
+ * ```
+ * Cuurent::read('Block.key')
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath
+ * @param mixed $default デフォルト値
+ * @return array|null Current data.
+ */
+	public static function read($key = null, $default = null) {
+		if (! isset(self::$current)) {
+			return self::$current;
+		}
+
+		if (! isset($key)) {
+			return self::$current;
+		}
+		return Hash::get(self::$current, $key, $default);
+	}
+
+/**
+ * 指定された$keyの値をセットします
+ *
+ * 現在のBlockKeyをセットしたい場合
+ * ```
+ * Cuurent::write('Block.key', 'block_key)
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath、nullの場合、Hash::mergeする
+ * @param mixted $value セットする値
+ * @return void
+ */
+	public static function write($key, $value) {
+		if (! isset(self::$current)) {
+			self::$current = array();
+		}
+		if (! isset($key)) {
+			self::$current = Hash::merge(self::$current, $value);
+		} else {
+			self::$current = Hash::insert(self::$current, $key, $value);
+		}
+	}
+
+/**
+ * 指定された$keyの値を削除します。
+ *
+ * 現在のBlockKeyを削除したい場合
+ * ```
+ * Cuurent::remove('Block.key')
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath
+ * @return array|null Current data.
+ */
+	public static function remove($key = null) {
+		if (! isset(self::$current) || ! isset($key)) {
+			self::$current = array();
+		}
+
+		Hash::remove(self::$current, $key);
+	}
+
+/**
+ * 指定された$key(権限名文字列)の値を返します。
+ *
+ * ```
+ * Current::permission('content_publishable')
+ * ```
+ *
+ * @param string $key Hashクラスのpath
+ * @return bool permission value
+ */
+	public static function permission($key) {
+		if (! isset(self::$current)) {
+			return false;
+		}
+		$path = 'Permission.' . $key . '.value';
+		return (bool)Hash::get(self::$current, $path);
+	}
+
+}
+
+
+/**
+ * Current Utilityチェック
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Utility
+ */
+class Current extends CurrentBase {
 
 /**
  * Constant setting mode value
@@ -252,7 +353,7 @@ class Current {
  *
  * @var bool
  */
-	private static $__isSettingMode = null;
+	protected static $_isSettingMode = null;
 
 /**
  * Request object
@@ -266,14 +367,7 @@ class Current {
  *
  * @var mixed
  */
-	private static $__instance;
-
-/**
- * Current data
- *
- * @var array
- */
-	public static $current = array();
+	protected static $_instance;
 
 /**
  * M17n data
@@ -289,8 +383,8 @@ class Current {
  * @return void
  */
 	public static function initialize(CakeRequest $request) {
-		if (! self::$__instance) {
-			self::$__instance = new Current();
+		if (! self::$_instance) {
+			self::$_instance = new Current();
 		}
 
 		self::$request = clone $request;
@@ -302,28 +396,6 @@ class Current {
 		if (! self::isControlPanel()) {
 			(new CurrentFrame())->initialize();
 		}
-	}
-
-/**
- * 指定された$keyの値を返します。
- *
- * 現在のBlockKeyを取得したい場合
- * ```
- * Cuurent::read('Block.key')
- * ```
- *
- * @param string|null $key Hashクラスのpath
- * @return array|null Current data.
- */
-	public static function read($key = null) {
-		if (! isset(self::$current)) {
-			return self::$current;
-		}
-
-		if (! isset($key)) {
-			return self::$current;
-		}
-		return Hash::get(self::$current, $key);
 	}
 
 /**
@@ -363,24 +435,6 @@ class Current {
 	}
 
 /**
- * 指定された$key(権限名文字列)の値を返します。
- *
- * ```
- * Current::permission('content_publishable')
- * ```
- *
- * @param string $key Hashクラスのpath
- * @return bool permission value
- */
-	public static function permission($key) {
-		if (! isset(self::$current)) {
-			return false;
-		}
-		$path = 'Permission.' . $key . '.value';
-		return (bool)Hash::get(self::$current, $path);
-	}
-
-/**
  * ログインチェック
  *
  * @return bool
@@ -397,21 +451,21 @@ class Current {
  */
 	public static function isSettingMode($settingMode = null) {
 		if (isset($settingMode)) {
-			self::$__isSettingMode = $settingMode;
+			self::$_isSettingMode = $settingMode;
 		}
 
-		if (isset(self::$__isSettingMode)) {
-			return self::$__isSettingMode;
+		if (isset(self::$_isSettingMode)) {
+			return self::$_isSettingMode;
 		}
 
 		$pattern = preg_quote('/' . self::SETTING_MODE_WORD . '/', '/');
 		if (preg_match('/' . $pattern . '/', Router::url())) {
-			self::$__isSettingMode = true;
+			self::$_isSettingMode = true;
 		} else {
-			self::$__isSettingMode = false;
+			self::$_isSettingMode = false;
 		}
 
-		return self::$__isSettingMode;
+		return self::$_isSettingMode;
 	}
 
 /**

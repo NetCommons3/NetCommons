@@ -19,5 +19,3 @@ echo $this->Html->script(
 	),
 	array('plugin' => false)
 );
-
-echo $this->element('Wysiwyg.mathjax_js');

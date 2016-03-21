@@ -186,9 +186,6 @@ class PermissionComponent extends Component {
 				if (! $this->__allowAction($controller)) {
 					break;
 				}
-				if (! $this->__checkBlockAccess($controller)) {
-					return $controller->setAction('emptyRender');
-				}
 				return;
 		}
 
@@ -233,6 +230,11 @@ class PermissionComponent extends Component {
 		} catch (Exception $ex) {
 			CakeLog::error($ex);
 		}
+
+		if (! $this->__checkBlockAccess($controller)) {
+			$controller->setAction('emptyRender');
+		}
+
 		return true;
 	}
 
@@ -259,26 +261,11 @@ class PermissionComponent extends Component {
 		}
 
 		$now = (new NetCommonsTime())->getNowDatetime();
-		if (Current::read('Block.publish_start') && Current::read('Block.publish_end')) {
-			if (Current::read('Block.publish_start') <= $now && $now < Current::read('Block.publish_end')) {
-				return true;
-			} else {
-				return false;
-			}
-		} elseif (Current::read('Block.publish_start')) {
-			if (Current::read('Block.publish_start') <= $now) {
-				return true;
-			} else {
-				return false;
-			}
-		} elseif (Current::read('Block.publish_end')) {
-			if ($now < Current::read('Block.publish_end')) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
+		if (Current::read('Block.publish_start', '0000-00-00 00:00:00') <= $now &&
+				$now < Current::read('Block.publish_end', '9999-99-99 99:99:99')) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 

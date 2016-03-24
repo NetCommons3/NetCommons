@@ -8,13 +8,13 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-App::uses('Model', 'Model');
+App::uses('AppModel', 'Model');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * TrackableUserModel for test case
  */
-class TrackableUserModel extends Model {
+class TrackableUserModel extends AppModel {
 
 /**
  * Table name

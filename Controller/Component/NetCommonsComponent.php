@@ -114,13 +114,14 @@ class NetCommonsComponent extends Component {
 			'class' => 'danger',
 			'interval' => null,
 			'plugin' => 'NetCommons',
+			'ajax' => $this->controller->request->is('ajax'),
 		), $params);
 
 		if ($params['interval'] === null && $params['class'] !== 'danger') {
 			$params['interval'] = self::ALERT_SUCCESS_INTERVAL;
 		}
 
-		if ($this->controller->request->is('ajax')) {
+		if ($params['ajax']) {
 			$this->renderJson($params, $message, $status);
 		} else {
 			$this->controller->Session->setFlash($message, $element, $params);

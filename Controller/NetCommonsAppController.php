@@ -151,7 +151,7 @@ class NetCommonsAppController extends Controller {
 			$this->theme = $theme;
 		}
 
-		$this->Auth->allow('index', 'view', 'emptyRender');
+		$this->Auth->allow('index', 'view', 'emptyRender', 'download');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->NetCommons->renderJson();

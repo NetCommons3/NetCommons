@@ -36,9 +36,23 @@ class AssetComponent extends Component {
 		$theme = null;
 		if (empty($controller->request->params['requested'])) {
 			if (Current::read('Page.theme')) {
-				$theme = Current::read('Page.theme');
-			} elseif (Current::read('Room.theme')) {
-				$theme = Current::read('Room.theme');
+				return Current::read('Page.theme');
+			}
+
+			$controller->Page = ClassRegistry::init('Pages.Page');
+			if (Current::read('Page.id')) {
+				$parentIds = $controller->Page->getPath(Current::read('Page.id'), array('id'));
+				$page = $controller->Page->find('first', array(
+					'recursive' => -1,
+					'fields' => array('theme'),
+					'conditions' => array('id' => Hash::extract($parentIds, '{n}.Page.id'), 'theme !=' => null),
+					'order' => array('lft' => 'desc'),
+				));
+				$theme = Hash::get($page, 'Page.theme');
+			}
+
+			if ($theme) {
+				return $theme;
 			} else {
 				$theme = $controller->SiteSetting->getSiteTheme();
 			}

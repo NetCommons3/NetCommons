@@ -66,7 +66,7 @@ class CurrentFrame {
  * @return void
  */
 	public function setFrame() {
-		if (Hash::get(Current::$request->data, 'Frame.id')) {
+		if (! Hash::get(Current::$request->params, 'requested') && Hash::get(Current::$request->data, 'Frame.id')) {
 			$frameId = Current::$request->data['Frame']['id'];
 		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
 			$frameId = Hash::get(Current::$request->params, '?.frame_id');
@@ -128,7 +128,7 @@ class CurrentFrame {
 	public function setBlock($blockId = null) {
 		$this->Block = ClassRegistry::init('Blocks.Block');
 
-		if (isset(Current::$request->data['Block']['id']) && Current::$request->data['Block']['id']) {
+		if (! Hash::get(Current::$request->params, 'requested') && Hash::get(Current::$request->data, 'Block.id')) {
 			$blockId = Current::$request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない

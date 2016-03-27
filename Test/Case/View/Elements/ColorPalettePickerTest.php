@@ -63,6 +63,8 @@ class NetCommonsViewElementsColorPalettePickerTest extends NetCommonsControllerT
 
 		$this->assertTextContains('#F00000', $this->view);
 		$this->assertTextContains('#00000F', $this->view);
+		$this->assertTextContains('testNgModel', $this->view);
+		$this->assertTextContains('testName', $this->view);
 	}
 
 }

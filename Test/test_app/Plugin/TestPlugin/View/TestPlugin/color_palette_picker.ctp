@@ -13,6 +13,11 @@
 View/Elements/color_palette_picker
 
 <?php echo $this->element('NetCommons.color_palette_picker', array(
-'ngModel' => 'testNgModel',
+'ngModel' => 'testNgModel.graphColor',
+'ngAttrName' => 'data[testNgModel][{{testIndex}}][graph_color]',
+'colorValue' => '{{testNgModel.graphColor}}',
 'colors' => array('#00000F', '#F00000')
-));
+)); ?>
+<?php echo $this->element('NetCommons.color_palette_picker', array(
+'name' => 'testName'));
+

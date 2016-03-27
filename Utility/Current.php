@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('CurrentFrame', 'NetCommons.Utility');
 App::uses('CurrentPage', 'NetCommons.Utility');
 App::uses('UserRole', 'UserRoles.Model');
@@ -391,7 +391,7 @@ class Current extends CurrentBase {
 
 		self::$current['User'] = AuthComponent::user();
 
-		(new CurrentControlPanel())->initialize();
+		(new CurrentSystem())->initialize();
 
 		if (! self::isControlPanel()) {
 			(new CurrentFrame())->initialize();
@@ -483,7 +483,7 @@ class Current extends CurrentBase {
  * @return bool
  */
 	public static function isControlPanel() {
-		if (self::$request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+		if (self::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}
 

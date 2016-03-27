@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
@@ -28,7 +28,7 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		(new CurrentControlPanel())->setLanguage();
+		(new CurrentSystem())->setLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;

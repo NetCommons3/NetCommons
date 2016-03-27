@@ -15,7 +15,7 @@ App::uses('CakeResponse', 'Network');
 App::uses('View', 'View');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentSystem', 'NetCommons.Utility');
 
 /**
  * NetCommonsHelperTestCase class
@@ -47,7 +47,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		(new CurrentControlPanel())->setLanguage();
+		(new CurrentSystem())->setLanguage();
 
 		if ($this->_helperName) {
 			$this->loadHelper($this->_helperName);

@@ -1,6 +1,6 @@
 <?php
 /**
- * CurrentControlPanel Utility
+ * CurrentSystem Utility
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,12 +10,12 @@
  */
 
 /**
- * CurrentControlPanel Utility
+ * CurrentSystem Utility
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentControlPanel {
+class CurrentSystem {
 
 /**
  * ControlPanelプラグイン名の定数
@@ -73,7 +73,7 @@ class CurrentControlPanel {
 		}
 
 		if (Current::$request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
-				Current::$request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+				Current::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
 			return;
 		}
 

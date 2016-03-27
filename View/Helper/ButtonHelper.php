@@ -47,6 +47,20 @@ class ButtonHelper extends FormHelper {
 	}
 
 /**
+ * ボタンサイズ取得
+ *
+ * @return string A HTML button tag.
+ */
+	public function getButtonSize() {
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = 'btn-sm';
+		} else {
+			$btnSize = '';
+		}
+		return $btnSize;
+	}
+
+/**
  * <button>タグの出力
  *
  * @param string $title The button's caption. Not automatically HTML encoded

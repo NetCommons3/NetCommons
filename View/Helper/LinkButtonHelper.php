@@ -26,6 +26,7 @@ class LinkButtonHelper extends FormHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
+		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
 	);
 
@@ -59,16 +60,10 @@ class LinkButtonHelper extends FormHelper {
 			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 		}
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = 'btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
-			'iconSize' => $btnSize,
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-success',
 		), $options, array('escapeTitle' => false));
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -112,16 +107,10 @@ class LinkButtonHelper extends FormHelper {
 	public function edit($title = '', $url = null, $options = array()) {
 		$output = '';
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = 'btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'edit',
-			'iconSize' => $btnSize,
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-primary'
 		), $options, array('escapeTitle' => false));
 
@@ -166,16 +155,10 @@ class LinkButtonHelper extends FormHelper {
 	public function search($title = '', $url = null, $options = array()) {
 		$output = '';
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = 'btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'search',
-			'iconSize' => $btnSize,
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-info'
 		), $options, array('escapeTitle' => false));
 
@@ -228,16 +211,10 @@ class LinkButtonHelper extends FormHelper {
 	public function sort($title = '', $url = null, $options = array()) {
 		$output = '';
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = 'btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'sort',
-			'iconSize' => $btnSize,
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-default'
 		), $options, array('escapeTitle' => false));
 

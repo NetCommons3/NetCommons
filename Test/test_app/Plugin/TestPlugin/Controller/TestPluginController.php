@@ -25,5 +25,13 @@ class TestPluginController extends AppController {
  */
 	public function index() {
 	}
+/**
+ * color_palette_picker
+ *
+ * @return void
+ */
+	public function color_palette_picker() {
+		$this->autoRender = true;
+	}
 
 }

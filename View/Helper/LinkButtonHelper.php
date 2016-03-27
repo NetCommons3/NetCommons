@@ -58,10 +58,17 @@ class LinkButtonHelper extends FormHelper {
 			}
 			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 		}
+
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = 'btn-sm';
+		} else {
+			$btnSize = '';
+		}
+
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
-			'iconSize' => '',
+			'iconSize' => $btnSize,
 			'class' => 'btn btn-success',
 		), $options, array('escapeTitle' => false));
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -105,10 +112,16 @@ class LinkButtonHelper extends FormHelper {
 	public function edit($title = '', $url = null, $options = array()) {
 		$output = '';
 
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = 'btn-sm';
+		} else {
+			$btnSize = '';
+		}
+
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'edit',
-			'iconSize' => '',
+			'iconSize' => $btnSize,
 			'class' => 'btn btn-primary'
 		), $options, array('escapeTitle' => false));
 
@@ -153,10 +166,16 @@ class LinkButtonHelper extends FormHelper {
 	public function search($title = '', $url = null, $options = array()) {
 		$output = '';
 
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = 'btn-sm';
+		} else {
+			$btnSize = '';
+		}
+
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'search',
-			'iconSize' => '',
+			'iconSize' => $btnSize,
 			'class' => 'btn btn-info'
 		), $options, array('escapeTitle' => false));
 
@@ -209,10 +228,16 @@ class LinkButtonHelper extends FormHelper {
 	public function sort($title = '', $url = null, $options = array()) {
 		$output = '';
 
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = 'btn-sm';
+		} else {
+			$btnSize = '';
+		}
+
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'sort',
-			'iconSize' => '',
+			'iconSize' => $btnSize,
 			'class' => 'btn btn-default'
 		), $options, array('escapeTitle' => false));
 

@@ -19,6 +19,7 @@ echo $this->Html->css(
 		'/pages/css/style.css',
 		'/users/css/style.css',
 		'/user_attributes/css/style.css',
+		'/wysiwyg/css/style.css',
 	),
 	array('plugin' => false)
 );

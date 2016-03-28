@@ -349,6 +349,16 @@ class Current extends CurrentBase {
 	const PLUGIN_GROUPS = 'groups';
 
 /**
+ * Wysiwygプラグイン名の定数
+ */
+	const PLUGIN_WYSIWYG = 'wysiwyg';
+
+/**
+ * Pagesプラグイン名の定数
+ */
+	const PLUGIN_PAGES = 'pages';
+
+/**
  * is setting mode true
  *
  * @var bool

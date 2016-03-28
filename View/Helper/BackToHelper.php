@@ -111,7 +111,7 @@ class BackToHelper extends AppHelper {
 			$sizeAttr = '';
 		}
 		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = ' ' . h(' btn-' . $options['iconSize']);
+			$sizeAttr = ' ' . h('btn-' . $options['iconSize']);
 		}
 		$options = Hash::remove($options, 'iconSize');
 

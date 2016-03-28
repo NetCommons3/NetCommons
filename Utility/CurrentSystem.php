@@ -93,7 +93,7 @@ class CurrentSystem {
 			unset(Current::$current['Plugin']);
 		}
 
-		if (Current::$request->params['plugin'] === CurrentPage::PLUGIN_PAGES ||
+		if (Current::$request->params['plugin'] === Current::PLUGIN_PAGES ||
 				Current::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
 			return;
 		}

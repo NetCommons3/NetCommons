@@ -10,6 +10,7 @@
 
 echo $this->NetCommonsHtml->script(
 	array(
+	'/net_commons/js/color_palette_value.js',
 	'/net_commons/js/color_palette_picker.js',
 	)
 );

@@ -73,6 +73,7 @@ class NetCommonsAppController extends Controller {
 		'RequestHandler',
 		'Session',
 		'Workflow.Workflow',
+		'NetCommons.NetCommonsTime',
 	);
 
 /**
@@ -139,6 +140,10 @@ class NetCommonsAppController extends Controller {
 
 		//カレントデータセット
 		Current::initialize($this->request);
+		if (Current::read('Block') &&
+				! $this->Components->loaded('NetCommons.Permission')) {
+			$this->Components->load('NetCommons.Permission');
+		}
 
 		//現在のテーマを取得
 		$theme = $this->Asset->getSiteTheme($this);
@@ -146,16 +151,11 @@ class NetCommonsAppController extends Controller {
 			$this->theme = $theme;
 		}
 
-		Configure::write('Config.languageId', Current::read('Language.id')); //後で削除
-		$this->set('languageId', Current::read('Language.id')); //後で削除
-
-		$this->Auth->allow('index', 'view', 'emptyRender');
+		$this->Auth->allow('index', 'view', 'emptyRender', 'download');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->NetCommons->renderJson();
 		}
-
-		$this->set('userId', $this->Auth->user('id')); //後で削除
 	}
 
 /**

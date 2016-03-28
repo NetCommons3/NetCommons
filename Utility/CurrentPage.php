@@ -25,16 +25,19 @@ class CurrentPage {
 	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
- * Pagesプラグイン名の定数
- */
-	const PLUGIN_PAGES = 'pages';
-
-/**
  * setup current data
  *
  * @return void
  */
 	public function initialize() {
+		if (Current::$request->params['plugin'] === Current::PLUGIN_WYSIWYG) {
+			if (Hash::get(Current::$request->data, 'Room.id')) {
+				$roomId = Hash::get(Current::$request->data, 'Room.id');
+			} else {
+				$roomId = Hash::get(Current::$request->params, 'pass.0', '');
+			}
+			$this->setRoom($roomId);
+		}
 		$this->setPage();
 		$this->setPageByRoomPageTopId();
 		$this->setRolesRoomsUser();
@@ -122,12 +125,12 @@ class CurrentPage {
 			$pageId = Current::$request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
 
-		} elseif (Current::$request->params['plugin'] === self::PLUGIN_PAGES) {
+		} elseif (Current::$request->params['plugin'] === Current::PLUGIN_PAGES) {
 			if (Current::$request->params['controller'] === 'pages') {
 				$value = implode('/', Current::$request->params['pass']);
 				if ($value === '') {
-					$field = 'Page.lft';
-					$value = '1';
+					$field = 'Page.root_id';
+					$value = Page::PUBLIC_ROOT_PAGE_ID;
 				} else {
 					$field = 'Page.permalink';
 				}
@@ -169,18 +172,17 @@ class CurrentPage {
 		}
 
 		$conditions = $this->__getPageConditions();
-		if (! $conditions) {
-			return;
-		}
+		if ($conditions) {
+			$result = $this->Page->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+				'order' => array('Page.lft' => 'asc')
+			));
 
-		$result = $this->Page->find('first', array(
-			'recursive' => 0,
-			'conditions' => $conditions,
-		));
-
-		Current::$current = Hash::merge(Current::$current, $result);
-		if (isset(Current::$current['Page'])) {
-			return;
+			Current::$current = Hash::merge(Current::$current, $result);
+			if (isset(Current::$current['Page'])) {
+				return;
+			}
 		}
 
 		if (isset(Current::$current['Room'])) {

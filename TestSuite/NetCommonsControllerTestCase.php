@@ -207,7 +207,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 	}
 
 /**
- * ExceptionErrorのMockセット
+ * 戻り値FalseのMockセット
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
@@ -219,7 +219,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 	}
 
 /**
- * ExceptionErrorのMockセット
+ * 戻り値TrueのMockセット
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
@@ -231,7 +231,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 	}
 
 /**
- * ExceptionErrorのMockセット
+ * 戻り値指定のMockセット
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
@@ -253,6 +253,26 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		$this->controller->$mockModel->expects($funcCount)
 			->method($mockMethod)
 			->will($this->returnValue($return));
+	}
+
+/**
+ * CallbackのMockセット
+ *
+ * @param string $mockModel Mockのモデル
+ * @param string $mockMethod Mockのメソッド
+ * @param mixed $callback コールバック関数
+ * @return void
+ */
+	protected function _mockForReturnCallback($mockModel, $mockMethod, $callback) {
+		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
+
+		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
+			$this->controller->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+		}
+		$funcCount = $this->once();
+		$this->controller->$mockModel->expects($funcCount)
+			->method($mockMethod)
+			->will($this->returnCallback($callback));
 	}
 
 /**

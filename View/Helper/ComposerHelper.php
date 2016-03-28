@@ -44,26 +44,31 @@ class ComposerHelper extends AppHelper {
  */
 	private function __getComposer($plugin) {
 		$filePath = CakePlugin::path(Inflector::camelize($plugin)) . 'composer.json';
-		$file = new File($filePath);
-		$contents = $file->read();
-		$file->close();
-		$this->__plugins[$plugin] = json_decode($contents, true);
+		if (file_exists($filePath)) {
+			$file = new File($filePath);
+			$contents = $file->read();
+			$file->close();
+			$this->__plugins[$plugin] = json_decode($contents, true);
+		} else {
+			$this->__plugins[$plugin] = array();
+		}
 	}
 
 /**
- * Get the composer.json init function
+ * composer.jsonからデータ取得
  *
- * @param string $plugin Plugin path
- * @param string $key composer key
- * @return string|array Composer value
+ * @param string $plugin プラグインkey
+ * @param string $key Composerのkey
+ * @param mixed $default デフォルト値
+ * @return string|array Composerの値
  */
-	public function getComposer($plugin, $key = null) {
+	public function getComposer($plugin, $key = null, $default = null) {
 		if (! isset($this->__plugins[$plugin])) {
 			$this->__getComposer($plugin);
 		}
 		$composer = $this->__plugins[$plugin];
 		if (! is_null($key)) {
-			return $composer[$key];
+			return Hash::get($composer, $key, $default);
 		} else {
 			return $composer;
 		}
@@ -77,7 +82,7 @@ class ComposerHelper extends AppHelper {
  * @return string|array Composer value
  */
 	public function getAuthors($plugin, $options = array()) {
-		$authors = $this->getComposer($plugin, 'authors');
+		$authors = $this->getComposer($plugin, 'authors', array());
 		$options += array('useTag' => true);
 		if (! $options['useTag']) {
 			return $authors;

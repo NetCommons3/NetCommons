@@ -76,7 +76,7 @@ class NetCommonsFormHelper extends AppHelper {
 	public function create($model = null, $options = array()) {
 		$this->_model = $model;
 		if (!isset($options['ng-submit'])) {
-			$options['ng-submit'] = 'sending=true;';
+			$options['ng-submit'] = 'submit($event)';
 		}
 		if (!isset($options['novalidate'])) {
 			$options['novalidate'] = true;
@@ -159,6 +159,9 @@ class NetCommonsFormHelper extends AppHelper {
 		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
 
 		if (Hash::get($options, 'convert_timezone') === true) {
+			if (strpos($fieldName, '.') === false) {
+				$fieldName = $this->Form->defaultModel . '.' . $fieldName;
+			}
 			$this->_convertFields[] = $fieldName;
 		}
 		$options = Hash::merge(array(
@@ -447,6 +450,7 @@ class NetCommonsFormHelper extends AppHelper {
 		// modelをみてdatetime
 		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
 		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
+		$this->_convertFields = array();
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
 	}

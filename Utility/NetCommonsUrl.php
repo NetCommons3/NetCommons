@@ -26,14 +26,19 @@ class NetCommonsUrl {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function backToPageUrl($settingMode = false, $full = false) {
+		$page['Page'] = Current::read('Page');
+
 		$url = '/';
 		if (! Current::isControlPanel()) {
 			if ($settingMode) {
 				$url .= Current::SETTING_MODE_WORD . '/';
 			}
 
-			if (Current::read('Page.lft') !== '1' && Current::read('Page.permalink')) {
-				$url .= Current::read('Page.permalink') . '/';
+			if (Hash::get($page, 'Page.parent_id') === Page::PUBLIC_ROOT_PAGE_ID &&
+					Hash::get($page, 'Page.id') === Current::read('Room.page_id_top')) {
+				$url .= '';
+			} else {
+				$url .= h(Hash::get($page, 'Page.permalink'));
 			}
 		}
 		return self::url($url, $full);
@@ -148,25 +153,6 @@ class NetCommonsUrl {
 
 		$url = self::actionUrlAsArray($params, $full);
 		return self::url($url, $full);
-	}
-
-/**
- * セッティングモードURLを生成
- *
- * @param array $page ページデータ
- * @return string Full translated URL with base path.
- */
-	public static function settingModeUrl($page = null) {
-		if (! isset($page)) {
-			$page['Page'] = Current::read('Page');
-		}
-
-		if (Hash::get($page, 'Page.lft') === '1') {
-			$url = '/' . Current::SETTING_MODE_WORD . '/';
-		} else {
-			$url = '/' . Current::SETTING_MODE_WORD . '/' . h(Hash::get($page, 'Page.permalink'));
-		}
-		return $url;
 	}
 
 /**

@@ -406,4 +406,16 @@ NetCommonsApp.controller('NetCommons.base', function(
         }
       };
 
+      /**
+       * submit
+       *
+       * @type {function}
+       */
+      $scope.submit = function($event) {
+        if ($scope.sending) {
+          $event.preventDefault();
+        }
+        $scope.sending = true;
+      };
+
     });

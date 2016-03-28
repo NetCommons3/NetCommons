@@ -50,6 +50,17 @@ class TrackableBehavior extends ModelBehavior {
  */
 	public function setup(Model $model, $config = array()) {
 		$this->settings[$model->alias] = Set::merge($this->_defaults, $config);
+
+		if (! Configure::read('NetCommons.installed')) {
+			return;
+		}
+
+		$dataSource = ConnectionManager::getDataSource($model->useDbConfig);
+		$tables = $dataSource->listSources();
+		if (!in_array($model->useTable, $tables)) {
+			return;
+		}
+
 		if ($this->_hasTrackableFields($model)) {
 			$this->_setupBelongsTo($model);
 		}

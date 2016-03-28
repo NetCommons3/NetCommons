@@ -23,8 +23,9 @@ class CurrentFrame {
  * @var mixed
  */
 	public static $skipFramePlugins = array(
-		CurrentPage::PLUGIN_PAGES,
-		Current::PLUGIN_USERS
+		Current::PLUGIN_PAGES,
+		Current::PLUGIN_USERS,
+		Current::PLUGIN_WYSIWYG,
 	);
 
 /**

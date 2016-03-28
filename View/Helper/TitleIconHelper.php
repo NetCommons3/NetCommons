@@ -176,19 +176,23 @@ class TitleIconHelper extends AppHelper {
 /**
  * getIconFiles
  *
+ * @param bool $isCancel cancel icon を必要とするか否か
  * @return string icon file paths
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function getIconFiles() {
+	public function getIconFiles($isCancel = true) {
 		// アイコンフォルダー
 		$dir = new Folder(APP . 'Plugin/NetCommons/webroot/img/title_icon');
 		// アイコンファイル名取り出し
 		$iconFileNames = $dir->find('.*\.svg', true);
 
 		$icons = array();
-		$icons[] = array(
-			'path' => '',
-			'alt' => __d('net_commons', 'icon_cancel')
-		);
+		if ($isCancel) {
+			$icons[] = array(
+				'path' => '',
+				'alt' => __d('net_commons', 'icon_cancel')
+			);
+		}
 		foreach ($iconFileNames as $file) {
 			$path = '/net_commons/img/title_icon/' . $file;
 			$alt = $this->_getAltName($file);

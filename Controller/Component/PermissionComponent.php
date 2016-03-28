@@ -10,6 +10,8 @@
  */
 
 App::uses('Component', 'Controller');
+App::uses('NetCommonsTime', 'NetCommons.Utility');
+App::uses('Block', 'Blocks.Model');
 
 /**
  * Permission Component
@@ -181,10 +183,10 @@ class PermissionComponent extends Component {
 				if (! $this->__accessCheck($controller)) {
 					break;
 				}
-				if ($this->__allowAction($controller)) {
-					return;
+				if (! $this->__allowAction($controller)) {
+					break;
 				}
-				break;
+				return;
 		}
 
 		throw new ForbiddenException(__d('net_commons', 'Permission denied'));
@@ -228,6 +230,43 @@ class PermissionComponent extends Component {
 		} catch (Exception $ex) {
 			CakeLog::error($ex);
 		}
+
+		if (! $this->__checkBlockAccess($controller)) {
+			$controller->setAction('emptyRender');
+		}
+
 		return true;
 	}
+
+/**
+ * ブロックのアクセスチェック
+ *
+ * @param Controller $controller Controller with components to startup
+ * @return bool
+ */
+	private function __checkBlockAccess(Controller $controller) {
+		//ブロックがない場合、trueとする
+		if (! Current::read('Block')) {
+			return true;
+		}
+		//ブロック編集権限があるか、公開ならTrue
+		if (Current::permission('block_editable') ||
+				Current::read('Block.public_type') === Block::TYPE_PUBLIC) {
+			return true;
+		}
+
+		//非公開ならFalse
+		if (Current::read('Block.public_type') === Block::TYPE_PRIVATE) {
+			return false;
+		}
+
+		$now = (new NetCommonsTime())->getNowDatetime();
+		if (Current::read('Block.publish_start', '0000-00-00 00:00:00') <= $now &&
+				$now < Current::read('Block.publish_end', '9999-99-99 99:99:99')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

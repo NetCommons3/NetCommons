@@ -79,8 +79,6 @@ class CurrentSystem {
 		if (in_array(CakeSession::read('debug'), array_keys($debugs), true)) {
 			Configure::write('debug', CakeSession::read('debug'));
 		}
-
-
 	}
 
 /**

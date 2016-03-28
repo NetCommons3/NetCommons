@@ -35,6 +35,11 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 			//Tracableビヘイビアの削除
 			$this->$model->Behaviors->unload('NetCommons.Trackable');
 			$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
+
+			//MailQueueビヘイビアの削除
+			if ($this->$model->Behaviors->loaded('Mails.MailQueue')) {
+				$this->$model->Behaviors->unload('Mails.MailQueue');
+			}
 		}
 	}
 

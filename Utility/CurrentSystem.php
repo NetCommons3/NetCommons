@@ -29,6 +29,7 @@ class CurrentSystem {
  */
 	public function initialize() {
 		$this->setLanguage();
+		$this->setSiteSetting();
 		$this->setPlugin();
 		$this->setPluginRole();
 	}
@@ -60,6 +61,26 @@ class CurrentSystem {
 				Current::$current = Hash::merge(Current::$current, $language);
 			}
 		}
+	}
+
+/**
+ * サイト設定
+ *
+ * @return void
+ */
+	public function setSiteSetting() {
+		$this->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+
+		$siteSetting = $this->SiteSetting->getInitializeSiteSetting();
+		foreach ($siteSetting as $key => $value) {
+			Configure::write($key, $value);
+		}
+		$debugs = $this->SiteSetting->debugOptions;
+		if (in_array(CakeSession::read('debug'), array_keys($debugs), true)) {
+			Configure::write('debug', CakeSession::read('debug'));
+		}
+
+
 	}
 
 /**

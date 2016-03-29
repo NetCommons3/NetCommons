@@ -84,7 +84,12 @@ class TitleIconHelper extends AppHelper {
  * @return string input and title icon picker button
  */
 	public function inputWithTitleIcon($fieldName, $titleIconFieldName, $options = array()) {
-		$options['between'] = $this->titleIconPicker($titleIconFieldName);
+		if (isset($options) && isset($options['titleIcon'])) {
+			$titleIcon = $options['titleIcon'];
+		} else {
+			$titleIcon = null;
+		}
+		$options['between'] = $this->titleIconPicker($titleIconFieldName, $titleIcon);
 		$options['after'] = '</div>';
 		$html = $this->NetCommonsForm->input($fieldName, $options);
 		return $html;

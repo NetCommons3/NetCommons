@@ -14,7 +14,7 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
     transclude: true,
     template: '<ng-transclude></ng-transclude>' +
         '<button type="button" ' +
-        'class="btn btn-default dropdown-toggle" data-toggle="dropdown">' +
+        'class="btn btn-default dropdown-toggle nc-title-icon-btn" data-toggle="dropdown">' +
         '<span class="nc-title-icon-index">' +
         '<img src="{{titleIcon}}" class="nc-title-icon" />' +
         '</span>' +

@@ -56,15 +56,19 @@ class BackToHelper extends AppHelper {
 			unset($options['icon']);
 		}
 		//ボタンサイズ
-		$sizeAttr = '';
+		if ($this->_View->request->is('mobile')) {
+			$sizeAttr = ' btn-sm';
+		} else {
+			$sizeAttr = '';
+		}
 		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
+			$sizeAttr = h(' btn-' . $options['iconSize']);
 			unset($options['iconSize']);
 		}
 
 		$defaultOptions = array(
 			'type' => 'button',
-			'class' => 'btn btn-default btn-workflow ' . $sizeAttr,
+			'class' => 'btn btn-default btn-workflow' . $sizeAttr,
 			'ng-disabled' => 'sending',
 		);
 		if ($url) {
@@ -101,7 +105,11 @@ class BackToHelper extends AppHelper {
 		}
 
 		//ボタンサイズ
-		$sizeAttr = '';
+		if ($this->_View->request->is('mobile')) {
+			$sizeAttr = ' btn-sm';
+		} else {
+			$sizeAttr = '';
+		}
 		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
 			$sizeAttr = ' ' . h('btn-' . $options['iconSize']);
 		}

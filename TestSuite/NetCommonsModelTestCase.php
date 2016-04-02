@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
@@ -28,13 +28,18 @@ class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		(new CurrentControlPanel())->setLanguage();
+		(new CurrentSystem())->setLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;
 			//Tracableビヘイビアの削除
 			$this->$model->Behaviors->unload('NetCommons.Trackable');
 			$this->$model->unbindModel(array('belongsTo' => array('TrackableCreator', 'TrackableUpdater')), false);
+
+			//MailQueueビヘイビアの削除
+			if ($this->$model->Behaviors->loaded('Mails.MailQueue')) {
+				$this->$model->Behaviors->unload('Mails.MailQueue');
+			}
 		}
 	}
 

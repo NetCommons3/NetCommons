@@ -109,8 +109,6 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 			$result = $this->controller->view;
 		} elseif ($return === 'json') {
 			$result = json_decode($this->contents, true);
-			debug($view);
-
 			$this->assertArrayHasKey('code', $result);
 			$this->assertEquals($status, $result['code']);
 		} else {

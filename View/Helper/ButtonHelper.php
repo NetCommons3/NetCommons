@@ -53,7 +53,7 @@ class ButtonHelper extends FormHelper {
  */
 	public function getButtonSize() {
 		if ($this->_View->request->is('mobile')) {
-			$btnSize = 'btn-sm';
+			$btnSize = ' btn-sm';
 		} else {
 			$btnSize = '';
 		}
@@ -113,15 +113,9 @@ class ButtonHelper extends FormHelper {
 
 		$title = '<span class="glyphicon glyphicon-trash"> </span> ' . $title;
 
-		if ($this->_View->request->isMobile()) {
-			$btnSize = ' btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		$defaultOptions = array(
 			'name' => 'delete',
-			'class' => 'btn btn-danger' . $btnSize,
+			'class' => 'btn btn-danger' . $this->getButtonSize(),
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
 			'ng-disabled' => 'sending'
 		);
@@ -164,15 +158,9 @@ class ButtonHelper extends FormHelper {
 		}
 		$output = '';
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = ' btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		$defaultOptions = array(
 			'name' => 'save',
-			'class' => 'btn btn-primary' . $btnSize . ' btn-workflow',
+			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 			'ng-disabled' => 'sending'
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
@@ -246,15 +234,9 @@ class ButtonHelper extends FormHelper {
 		}
 		$output = '';
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = ' btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		//キャンセル
 		$cancelOptions = Hash::merge(array(
-			'class' => 'btn btn-default' . $btnSize . ' btn-workflow', 'escape' => false
+			'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
 		), $cancelOptions);
 
 		$label = Hash::get($cancelOptions, 'label', __d('net_commons', 'Cancel'));
@@ -271,13 +253,13 @@ class ButtonHelper extends FormHelper {
 			$output .= $this->Html->link(
 				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
 				$backUrl,
-				array('class' => 'btn btn-default' . $btnSize . ' btn-workflow', 'escape' => false)
+				array('class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false)
 			);
 		}
 
 		//一時保存ボタン
 		$saveTempOptions = Hash::merge(array(
-			'class' => 'btn btn-info' . $btnSize . ' btn-workflow',
+			'class' => 'btn btn-info' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_IN_DRAFT,
 		), $saveTempOptions);
 
@@ -288,7 +270,7 @@ class ButtonHelper extends FormHelper {
 
 		//決定ボタン
 		$saveOptions = Hash::merge(array(
-			'class' => 'btn btn-primary' . $btnSize . ' btn-workflow',
+			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED,
 		), $saveOptions);
 
@@ -318,15 +300,9 @@ class ButtonHelper extends FormHelper {
 			$iconElement = '';
 		}
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = ' btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		$defaultOptions = array(
 			'name' => 'search',
-			'class' => 'btn btn-info' . $btnSize . ' btn-workflow',
+			'class' => 'btn btn-info' . $this->getButtonSize() . ' btn-workflow',
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
@@ -352,15 +328,9 @@ class ButtonHelper extends FormHelper {
 			$iconElement = '';
 		}
 
-		if ($this->_View->request->is('mobile')) {
-			$btnSize = ' btn-sm';
-		} else {
-			$btnSize = '';
-		}
-
 		$defaultOptions = array(
 			'name' => 'add',
-			'class' => 'btn' . $btnSize . ' btn-success ' . Hash::get($options, 'iconSize'),
+			'class' => 'btn' . $this->getButtonSize() . ' btn-success ' . Hash::get($options, 'iconSize'),
 		);
 		$options = Hash::remove($options, 'iconSize');
 

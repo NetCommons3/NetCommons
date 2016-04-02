@@ -24,7 +24,11 @@ class BackToHelper extends AppHelper {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Form');
+	public $helpers = array(
+		'Html',
+		'Form',
+		'NetCommons.Button',
+	);
 
 /**
  * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
@@ -56,15 +60,12 @@ class BackToHelper extends AppHelper {
 			unset($options['icon']);
 		}
 		//ボタンサイズ
-		if ($this->_View->request->is('mobile')) {
-			$sizeAttr = ' btn-sm';
-		} else {
-			$sizeAttr = '';
-		}
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
+		if (Hash::get($options, 'iconSize')) {
 			$sizeAttr = h(' btn-' . $options['iconSize']);
-			unset($options['iconSize']);
+		} else {
+			$sizeAttr = $this->Button->getButtonSize();
 		}
+		$options = Hash::remove($options, 'iconSize');
 
 		$defaultOptions = array(
 			'type' => 'button',
@@ -105,13 +106,10 @@ class BackToHelper extends AppHelper {
 		}
 
 		//ボタンサイズ
-		if ($this->_View->request->is('mobile')) {
-			$sizeAttr = ' btn-sm';
+		if (Hash::get($options, 'iconSize')) {
+			$sizeAttr = h(' btn-' . $options['iconSize']);
 		} else {
-			$sizeAttr = '';
-		}
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = ' ' . h('btn-' . $options['iconSize']);
+			$sizeAttr = $this->Button->getButtonSize();
 		}
 		$options = Hash::remove($options, 'iconSize');
 

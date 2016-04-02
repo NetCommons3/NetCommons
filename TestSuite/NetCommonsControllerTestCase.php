@@ -59,6 +59,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		$options = array_merge(['type' => 'html'], $options);
 		if ($options['type'] === 'json') {
 			$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+			$_SERVER['HTTP_ACCEPT'] = 'application/json';
 		}
 		$ret = parent::_testAction($url, $options);
 		return $ret;
@@ -101,13 +102,15 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 			$params['return'] = $return;
 		}
 		$params = Hash::merge($params, $paramsOptions);
-
+debug($params);
 		//テスト実施
 		$view = $this->testAction(NetCommonsUrl::actionUrl($url), $params);
 		if ($return === 'viewFile') {
 			$result = $this->controller->view;
 		} elseif ($return === 'json') {
 			$result = json_decode($this->contents, true);
+			debug($view);
+
 			$this->assertArrayHasKey('code', $result);
 			$this->assertEquals($status, $result['code']);
 		} else {

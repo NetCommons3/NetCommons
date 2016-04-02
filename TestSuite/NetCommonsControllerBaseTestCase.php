@@ -14,7 +14,7 @@ CakeLog::drop('stderr');
 
 App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
-App::uses('CurrentControlPanel', 'NetCommons.Utility');
+App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
@@ -135,7 +135,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
-		(new CurrentControlPanel())->setLanguage();
+		(new CurrentSystem())->setLanguage();
 
 		if ($this->_controller) {
 			$this->generateNc(Inflector::camelize($this->_controller));

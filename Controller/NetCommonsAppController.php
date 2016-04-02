@@ -154,7 +154,8 @@ class NetCommonsAppController extends Controller {
 		$this->Auth->allow('index', 'view', 'emptyRender', 'download');
 
 		if ($this->RequestHandler->accepts('json')) {
-			$this->NetCommons->renderJson();
+			$this->viewClass = 'Json';
+			$this->layout = false;
 		}
 	}
 
@@ -166,6 +167,15 @@ class NetCommonsAppController extends Controller {
 	public function beforeRender() {
 		//theme css指定
 		$this->set('bootstrapMinCss', $this->Asset->isThemeBootstrapMinCss($this));
+
+		$plugin = Inflector::camelize($this->params['plugin']);
+		$controller = Inflector::camelize($this->params['controller']);
+		$path = Hash::get(App::path('View', $plugin), '0') . $controller . DS . 'json' . DS . $this->view . '.ctp';
+
+		if ($this->viewClass === 'Json' &&
+				! isset($this->viewVars['_serialize']) && ! file_exists($path)) {
+			$this->NetCommons->renderJson();
+		}
 	}
 
 /**

@@ -28,35 +28,67 @@ class ButtonHelper extends FormHelper {
 		'Html',
 		'NetCommons.BackTo',
 		'NetCommons.LinkButton',
+		'NetCommons.NetCommonsForm',
 		'NetCommons.NetCommonsHtml',
 	);
 
 /**
- * Creates a `<a>` tag for add link. The type attribute defaults
- * 後で削除
+ * LinkButtonHelperラップ用マジックメソッド。
  *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
  */
-	public function addLink($title = '', $url = null, $options = array()) {
-		return $this->LinkButton->add($title, $url, $options);
+	public function __call($method, $params) {
+		if (in_array($method, ['addLink', 'editLink', 'searchLink', 'sortLink'], true)) {
+			$method = substr($method, 0, -4);
+			return call_user_func_array(array($this->LinkButton, $method), $params);
+		}
 	}
 
 /**
- * Creates a `<a>` tag for edit link link. The type attribute defaults
- * 後で削除
+ * ボタンサイズ取得
+ *
+ * @return string A HTML button tag.
+ */
+	public function getButtonSize() {
+		if ($this->_View->request->is('mobile')) {
+			$btnSize = ' btn-sm';
+		} else {
+			$btnSize = '';
+		}
+		return $btnSize;
+	}
+
+/**
+ * <button>タグの出力
  *
  * @param string $title The button's caption. Not automatically HTML encoded
- * @param mixed $url Link url
  * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ * @return string <button>タグ
  */
-	public function editLink($title = '', $url = null, $options = array()) {
-		return $this->LinkButton->edit($title, $url, $options);
+	public function button($title, $options = array()) {
+		$icon = Hash::get($options, 'icon');
+		if ($icon) {
+			$title = '<span class="glyphicon ' . $icon . '"></span> ' . $title;
+			$options = Hash::remove($options, 'icon');
+			$options = Hash::insert($options, 'escape', false);
+		}
+		if (Hash::check($options, 'class')) {
+			if (is_string(Hash::get($options, 'class'))) {
+				$class = explode(' ', trim(Hash::get($options, 'class')));
+			} else {
+				$class = Hash::get($options, 'class', array());
+			}
+			if (in_array('btn', $class, true)) {
+				if ($this->_View->request->is('mobile')) {
+					$btnSize = 'btn-sm';
+					$class = array_merge($class, array($btnSize));
+				}
+			}
+			$options = Hash::insert($options, 'class', $class);
+		}
+		return $this->NetCommonsForm->button($title, $options);
 	}
 
 /**
@@ -83,7 +115,7 @@ class ButtonHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'name' => 'delete',
-			'class' => 'btn btn-danger',
+			'class' => 'btn btn-danger' . $this->getButtonSize(),
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
 			'ng-disabled' => 'sending'
 		);
@@ -128,7 +160,7 @@ class ButtonHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'name' => 'save',
-			'class' => 'btn btn-primary btn-workflow',
+			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 			'ng-disabled' => 'sending'
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
@@ -204,7 +236,7 @@ class ButtonHelper extends FormHelper {
 
 		//キャンセル
 		$cancelOptions = Hash::merge(array(
-			'class' => 'btn btn-default btn-workflow', 'escape' => false
+			'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
 		), $cancelOptions);
 
 		$label = Hash::get($cancelOptions, 'label', __d('net_commons', 'Cancel'));
@@ -221,13 +253,13 @@ class ButtonHelper extends FormHelper {
 			$output .= $this->Html->link(
 				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
 				$backUrl,
-				array('class' => 'btn btn-default btn-workflow', 'escape' => false)
+				array('class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false)
 			);
 		}
 
 		//一時保存ボタン
 		$saveTempOptions = Hash::merge(array(
-			'class' => 'btn btn-info btn-workflow',
+			'class' => 'btn btn-info' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_IN_DRAFT,
 		), $saveTempOptions);
 
@@ -238,7 +270,7 @@ class ButtonHelper extends FormHelper {
 
 		//決定ボタン
 		$saveOptions = Hash::merge(array(
-			'class' => 'btn btn-primary btn-workflow',
+			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED,
 		), $saveOptions);
 
@@ -270,7 +302,7 @@ class ButtonHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'name' => 'search',
-			'class' => 'btn btn-info btn-workflow',
+			'class' => 'btn btn-info' . $this->getButtonSize() . ' btn-workflow',
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
@@ -298,7 +330,7 @@ class ButtonHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'name' => 'add',
-			'class' => 'btn btn-success ' . Hash::get($options, 'iconSize'),
+			'class' => 'btn' . $this->getButtonSize() . ' btn-success ' . Hash::get($options, 'iconSize'),
 		);
 		$options = Hash::remove($options, 'iconSize');
 

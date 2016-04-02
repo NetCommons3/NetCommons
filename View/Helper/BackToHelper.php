@@ -24,7 +24,11 @@ class BackToHelper extends AppHelper {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Form');
+	public $helpers = array(
+		'Html',
+		'Form',
+		'NetCommons.Button',
+	);
 
 /**
  * Creates a `<button>` tag. The type attribute defaults to `type="submit"`
@@ -56,15 +60,16 @@ class BackToHelper extends AppHelper {
 			unset($options['icon']);
 		}
 		//ボタンサイズ
-		$sizeAttr = '';
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = h('btn-' . $options['iconSize']);
-			unset($options['iconSize']);
+		if (Hash::get($options, 'iconSize')) {
+			$sizeAttr = h(' btn-' . $options['iconSize']);
+		} else {
+			$sizeAttr = $this->Button->getButtonSize();
 		}
+		$options = Hash::remove($options, 'iconSize');
 
 		$defaultOptions = array(
 			'type' => 'button',
-			'class' => 'btn btn-default btn-workflow ' . $sizeAttr,
+			'class' => 'btn btn-default btn-workflow' . $sizeAttr,
 			'ng-disabled' => 'sending',
 		);
 		if ($url) {
@@ -101,9 +106,10 @@ class BackToHelper extends AppHelper {
 		}
 
 		//ボタンサイズ
-		$sizeAttr = '';
-		if (isset($options['iconSize']) && $options['iconSize'] !== '') {
-			$sizeAttr = ' ' . h('btn-' . $options['iconSize']);
+		if (Hash::get($options, 'iconSize')) {
+			$sizeAttr = h(' btn-' . $options['iconSize']);
+		} else {
+			$sizeAttr = $this->Button->getButtonSize();
 		}
 		$options = Hash::remove($options, 'iconSize');
 

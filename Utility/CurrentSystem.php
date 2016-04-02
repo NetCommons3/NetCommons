@@ -1,6 +1,6 @@
 <?php
 /**
- * CurrentControlPanel Utility
+ * CurrentSystem Utility
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,12 +10,12 @@
  */
 
 /**
- * CurrentControlPanel Utility
+ * CurrentSystem Utility
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentControlPanel {
+class CurrentSystem {
 
 /**
  * ControlPanelプラグイン名の定数
@@ -29,6 +29,7 @@ class CurrentControlPanel {
  */
 	public function initialize() {
 		$this->setLanguage();
+		$this->setSiteSetting();
 		$this->setPlugin();
 		$this->setPluginRole();
 	}
@@ -63,6 +64,24 @@ class CurrentControlPanel {
 	}
 
 /**
+ * サイト設定
+ *
+ * @return void
+ */
+	public function setSiteSetting() {
+		$this->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+
+		$siteSetting = $this->SiteSetting->getInitializeSiteSetting();
+		foreach ($siteSetting as $key => $value) {
+			Configure::write($key, $value);
+		}
+		$debugs = $this->SiteSetting->debugOptions;
+		if (in_array(CakeSession::read('debug'), array_keys($debugs), true)) {
+			Configure::write('debug', CakeSession::read('debug'));
+		}
+	}
+
+/**
  * Set Plugin
  *
  * @return void
@@ -73,7 +92,7 @@ class CurrentControlPanel {
 		}
 
 		if (Current::$request->params['plugin'] === Current::PLUGIN_PAGES ||
-				Current::$request->params['plugin'] === CurrentControlPanel::PLUGIN_CONTROL_PANEL) {
+				Current::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
 			return;
 		}
 

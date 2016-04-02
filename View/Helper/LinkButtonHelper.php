@@ -26,6 +26,7 @@ class LinkButtonHelper extends FormHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
+		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
 	);
 
@@ -58,10 +59,11 @@ class LinkButtonHelper extends FormHelper {
 			}
 			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 		}
+
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
-			'iconSize' => '',
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-success',
 		), $options, array('escapeTitle' => false));
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -108,7 +110,7 @@ class LinkButtonHelper extends FormHelper {
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'edit',
-			'iconSize' => '',
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-primary'
 		), $options, array('escapeTitle' => false));
 
@@ -156,7 +158,7 @@ class LinkButtonHelper extends FormHelper {
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'search',
-			'iconSize' => '',
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-info'
 		), $options, array('escapeTitle' => false));
 
@@ -212,7 +214,7 @@ class LinkButtonHelper extends FormHelper {
 		//Linkオプションの設定
 		$inputOptions = Hash::merge(array(
 			'icon' => 'sort',
-			'iconSize' => '',
+			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-default'
 		), $options, array('escapeTitle' => false));
 

@@ -59,6 +59,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		$options = array_merge(['type' => 'html'], $options);
 		if ($options['type'] === 'json') {
 			$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+			$_SERVER['HTTP_ACCEPT'] = 'application/json';
 		}
 		$ret = parent::_testAction($url, $options);
 		return $ret;

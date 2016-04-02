@@ -60,7 +60,7 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
 	public function testIndexAjax() {
 		Router::parseExtensions();
 		$this->testAction(
-			'/test_net_commons/test_net_commons/indexJson.json',
+			'/test_net_commons/test_net_commons/index_json_with_file.json',
 			array('return' => 'contents')
 		);
 		$view = json_decode($this->view, true);
@@ -79,7 +79,7 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
 		//Router::parseExtensions();
 		$_SERVER['HTTP_ACCEPT'] = 'application/json';
 		$this->testAction(
-			'/test_net_commons/test_net_commons/indexJson',
+			'/test_net_commons/test_net_commons/index_json_wo_file',
 			array('return' => 'contents')
 		);
 

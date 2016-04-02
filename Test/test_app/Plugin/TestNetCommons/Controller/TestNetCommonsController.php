@@ -45,9 +45,18 @@ class TestNetCommonsController extends AppController {
  *
  * @return void
  */
-	public function indexJson() {
+	public function index_json_with_file() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		$this->setAction('index');
+	}
+
+/**
+ * indexJson
+ *
+ * @return void
+ */
+	public function index_json_wo_file() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 	}
 
 /**

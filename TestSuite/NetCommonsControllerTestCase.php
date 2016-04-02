@@ -102,7 +102,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 			$params['return'] = $return;
 		}
 		$params = Hash::merge($params, $paramsOptions);
-debug($params);
+
 		//テスト実施
 		$view = $this->testAction(NetCommonsUrl::actionUrl($url), $params);
 		if ($return === 'viewFile') {

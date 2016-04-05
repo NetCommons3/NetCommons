@@ -164,3 +164,11 @@ textarea.nc-noresize {
 .dropdown-menu.nc-title-icon-dropdown.pull-right {
     right: auto;
 }
+
+/*
+ * タブ
+ */
+ul.nav-tabs,
+ul.nav-pills {
+	margin-bottom: 1.5em;
+}

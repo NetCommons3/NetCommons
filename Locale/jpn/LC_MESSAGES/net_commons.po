@@ -497,7 +497,7 @@ msgstr ""
 #: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
 #: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201
 msgid "BACK"
-msgstr "戻る"
+msgstr "前へ"
 
 #: Questionnaires/View/QuestionnaireAnswers/answer.ctp:129
 #: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:95

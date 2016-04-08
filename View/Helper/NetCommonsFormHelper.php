@@ -31,13 +31,7 @@ class NetCommonsFormHelper extends AppHelper {
 		'NetCommons.NetCommonsHtml',
 		'NetCommons.NetCommonsTime',
 		'NetCommons.DatetimePicker',
-		//'Wysiwyg.Wysiwyg',
 	);
-
-/**
- * @var null デフォルトモデル名
- */
-	protected $_model = null;
 
 /**
  * 各プラグインFormHelperラップ用マジックメソッド。
@@ -48,11 +42,23 @@ class NetCommonsFormHelper extends AppHelper {
  */
 	public function __call($method, $params) {
 		if ($method === 'uploadFile') {
+			//アップロード
 			$helper = $this->FilesForm;
 		} elseif ($method === 'wysiwyg') {
+			//WYSIWYG
 			$this->Wysiwyg = $this->_View->loadHelper('Wysiwyg.Wysiwyg');
 			$helper = $this->Wysiwyg;
+		} elseif ($method === 'inlineCheckbox') {
+			//checkboxのインライン
+			$helper = $this;
+			$method = 'input';
+			$params = Hash::insert($params, '1.type', 'inlineCheckbox');
+		} elseif (in_array($method, ['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
+			//タイトルアイコン
+			$this->TitleIcon = $this->_View->loadHelper('NetCommons.TitleIcon');
+			$helper = $this->TitleIcon;
 		} else {
+			//それ以外
 			$helper = $this->Form;
 		}
 		return call_user_func_array(array($helper, $method), $params);
@@ -85,7 +91,6 @@ class NetCommonsFormHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-create
  */
 	public function create($model = null, $options = array()) {
-		$this->_model = $model;
 		if (!isset($options['ng-submit'])) {
 			$options['ng-submit'] = 'submit($event)';
 		}
@@ -138,6 +143,9 @@ class NetCommonsFormHelper extends AppHelper {
 	public function input($fieldName, $options = array()) {
 		if (Hash::get($options, 'type') === 'hidden') {
 			return $this->hidden($fieldName, $options);
+		}
+		if (Hash::get($options, 'type') === 'inlineCheckbox') {
+			return $this->_inlineCheckbox($fieldName, $options);
 		}
 
 		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
@@ -266,56 +274,6 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 /**
- * Overwrite FormHelper::checkbox()
- *
- * ### Options
- *
- * $options = array(
- *  array('name' => 'United states', 'value' => 'US', 'title' => 'My title'),
- *  array('name' => 'Germany', 'value' => 'DE', 'class' => 'de-de', 'title' => 'Another title'),
- * );
- *
- * ### Attributes:
- *
- * - `separator` - define the string in between the radio buttons
- * - `between` - the string between legend and input set or array of strings to insert
- *    strings between each input block
- * - `legend` - control whether or not the widget set has a fieldset & legend
- * - `value` - indicate a value that is should be checked
- * - `label` - boolean to indicate whether or not labels for widgets show be displayed
- * - `hiddenField` - boolean to indicate if you want the results of radio() to include
- *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
- * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
- * - `empty` - Set to `true` to create an input with the value '' as the first option. When `true`
- *   the radio label will be 'empty'. Set this option to a string to control the label value.
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
- */
-	public function inlineCheckbox($fieldName, $attributes = array()) {
-		$defaultAttributes = array(
-			'error' => false,
-			'div' => array('class' => 'form-inline'),
-			'label' => false,
-			'legend' => false,
-		);
-
-		$inputAttributes = Hash::merge($defaultAttributes, $attributes);
-
-		$output = '<div class="form-group">';
-		$output .= $this->Form->input($fieldName, $inputAttributes);
-
-		if (!isset($attributes['error']) || $attributes['error']) {
-			$output .= $this->error($fieldName);
-		}
-
-		$output .= '</div>';
-		return $output;
-	}
-
-/**
  * Timezone変換の準備を組み込んだForm::end
  *
  * @param null|array $options オプション
@@ -349,6 +307,34 @@ class NetCommonsFormHelper extends AppHelper {
 		$output .= $this->Form->error($fieldName, $text, Hash::merge(array('class' => 'help-block'), $options));
 		$output .= '</div>';
 
+		return $output;
+	}
+
+/**
+ * インライン用のcheckbox
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $attributes HTML属性用の配列
+ * @return string HTML
+ */
+	protected function _inlineCheckbox($fieldName, $attributes = array()) {
+		$defaultAttributes = array(
+			'error' => false,
+			'div' => array('class' => 'form-inline'),
+			'label' => false,
+			'legend' => false,
+		);
+
+		$inputAttributes = Hash::merge($defaultAttributes, $attributes, array('type' => 'checkbox'));
+
+		$output = '<div class="form-group">';
+		$output .= $this->Form->input($fieldName, $inputAttributes);
+
+		if (!isset($attributes['error']) || $attributes['error']) {
+			$output .= $this->error($fieldName);
+		}
+
+		$output .= '</div>';
 		return $output;
 	}
 

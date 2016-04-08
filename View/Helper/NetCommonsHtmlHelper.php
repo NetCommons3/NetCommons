@@ -101,6 +101,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 
 /**
  * Creates a `<a>` tag for add link. The type attribute defaults
+ * 後で削除予定(現状、ブロック設定の一覧のリンクで使っている)
  *
  * @param string $title The anchor's caption. Not automatically HTML encoded
  * @param mixed $url Link url

@@ -26,6 +26,7 @@ class NetCommonsFormHelper extends AppHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
+		'Files.FilesForm',
 		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
 		'NetCommons.DatetimePicker',
@@ -43,9 +44,20 @@ class NetCommonsFormHelper extends AppHelper {
 	protected $_model = null;
 
 /**
- * @var array アップロードされたファイルの元ファイル名
+ * 各プラグインFormHelperラップ用マジックメソッド。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
  */
-	protected $_uploadFileNames = array();
+	public function __call($method, $params) {
+		if ($method === 'uploadFile') {
+			$helper = $this->FilesForm;
+		} else {
+			$helper = $this->Form;
+		}
+		return call_user_func_array(array($helper, $method), $params);
+	}
 
 /**
  * Returns an HTML FORM element.
@@ -85,34 +97,7 @@ class NetCommonsFormHelper extends AppHelper {
 		$output = $this->Form->create($model, $options);
 
 		if (Hash::get($options, 'type') == 'file') {
-			$output .= $this->_setupFileUploadForm();
-		}
-		return $output;
-	}
-
-/**
- * Filesプラグインのアップロードフォームの準備
- *
- * 現在添付されてるファイルのID、フィールド名をhidden で埋め込む
- *
- * @return string
- */
-	protected function _setupFileUploadForm() {
-		// setup的な処理と定型のhidden埋め込み
-		$output = '';
-		if (isset($this->request->data['UploadFile'])) {
-			foreach (array_keys($this->request->data['UploadFile']) as $key) {
-				$output .= $this->input('UploadFile.' . $key . '.id', ['type' => 'hidden']);
-				$output .= $this->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
-				$output .= $this->input('UploadFile.' . $key . '.original_name', ['type' => 'hidden']);
-			}
-			// uploadされた元ファイル名のリスト
-
-			$this->_uploadFileNames = Hash::combine(
-					$this->request->data['UploadFile'],
-					'{s}.field_name',
-					'{s}.original_name'
-			);
+			$output .= $this->FilesForm->setupFileUploadForm();
 		}
 		return $output;
 	}
@@ -285,66 +270,6 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 /**
- * Filesプラグイン用のfileフォーム。ファイル削除チェックボックスとファイル名表示付き
- *
- * @param string $fieldName フィールド名
- * @param array $options オプション
- *  filename => false でフィアル名非表示
- *  remove => falseで削除チェックボックス非表示。デフォルトはtrue
- * @return string inputタグ等
- */
-	public function uploadFile($fieldName, $options = array()) {
-		if (strpos($fieldName, '.')) {
-			//モデル名あり ex BlogEntry.pdf
-			$inputFieldName = $fieldName;
-			$fieldName = substr($fieldName, strrpos($fieldName, '.') + 1); //BlogEntry.pdf -> pdf
-		} else {
-			// モデル名ついてない
-			$modelName = $this->Form->defaultModel;
-			$inputFieldName = $modelName . '.' . $fieldName;
-		}
-		$output = '<div class="form-group">';
-		$defaultOptions = [
-			'class' => '',
-			'div' => false,
-			'remove' => true,
-			'filename' => true,
-		];
-		$options = Hash::merge($defaultOptions, $options, ['type' => 'file']);
-
-		$remove = Hash::get($options, 'remove');
-		Hash::remove($options, 'remove');
-		$filename = Hash::get($options, 'filename');
-		Hash::remove($options, 'filename');
-
-		$help = $help = Hash::get($options, 'help', false);
-		Hash::remove($options, 'help');
-
-		$output .= $this->input($inputFieldName, $options);
-
-		// help-block
-		if ($help) {
-			$output .= $this->Html->tag('p', $help, ['class' => 'help-block']);
-		}
-
-		if (isset($this->_uploadFileNames[$fieldName])) {
-			if ($filename) {
-				$output .= $this->_uploadFileNames[$fieldName];
-			}
-			if ($remove) {
-				$output .= $this->checkbox(
-						$inputFieldName . '.remove',
-						['type' => 'checkbox', 'div' => false, 'error' => false]
-				);
-				$output .= $this->Form->label($inputFieldName . '.remove', __d('net_commons', 'Delete'));
-			}
-		}
-		$output .= '</div>';
-
-		return $output;
-	}
-
-/**
  * Overwrite FormHelper::checkbox()
  *
  * ### Options
@@ -422,17 +347,6 @@ class NetCommonsFormHelper extends AppHelper {
 		$html .= $this->input($fieldName, $attributes);
 
 		return $html;
-	}
-
-/**
- * FormHelperラップ用マジックメソッド。
- *
- * @param string $method メソッド
- * @param array $params パラメータ
- * @return mixed
- */
-	public function __call($method, $params) {
-		return call_user_func_array(array($this->Form, $method), $params);
 	}
 
 /**

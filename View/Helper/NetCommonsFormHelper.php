@@ -29,14 +29,10 @@ class NetCommonsFormHelper extends AppHelper {
 		'Files.FilesForm',
 		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
+		'NetCommons.NetCommonsTime',
 		'NetCommons.DatetimePicker',
 		'Wysiwyg.Wysiwyg',
 	);
-
-/**
- * @var array タイムゾーン変換対象フィールド
- */
-	protected $_convertFields = array();
 
 /**
  * @var null デフォルトモデル名
@@ -143,12 +139,9 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
 
-		if (Hash::get($options, 'convert_timezone') === true) {
-			if (strpos($fieldName, '.') === false) {
-				$fieldName = $this->Form->defaultModel . '.' . $fieldName;
-			}
-			$this->_convertFields[] = $fieldName;
-		}
+		//TimeZoneのコンバートするinputのセットアップ
+		$this->NetCommonsTime->beforeFormInput($fieldName, $options);
+
 		$options = Hash::merge(array(
 			'error' => array(),
 		), $options);
@@ -361,10 +354,8 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$this->DatetimePicker->beforeFormEnd();
 
-		// modelをみてdatetime
-		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
-		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
-		$this->_convertFields = array();
+		$out .= $this->NetCommonsTime->beforeFormEnd();
+
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
 	}

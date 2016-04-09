@@ -50,11 +50,14 @@ class NetCommonsFormHelper extends AppHelper {
 			$this->Wysiwyg = $this->_View->loadHelper('Wysiwyg.Wysiwyg');
 			$helper = $this->Wysiwyg;
 
-		} elseif ($method === 'inlineCheckbox') {
-			//checkboxのインライン
+		} elseif (in_array($method, ['inlineCheckbox', 'inlineRadio'], true)) {
+			//checkbox、radioのインライン
 			$helper = $this;
+			$type = strtolower(substr($method, strlen('inline')));
 			$method = 'input';
-			$params = Hash::insert($params, '1.type', 'checkbox');
+
+			$params = Hash::insert($params, '1.type', $type);
+			$params = Hash::insert($params, '1.separator', '<span class="' . $type . '-separator"></span>');
 			$params = Hash::insert($params, '1.class', false);
 			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
 			$params = Hash::insert($params, '1.childDiv', array('class' => 'form-inline'));
@@ -170,6 +173,43 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 /**
+ * <input>の出力
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options inputのオプション配列
+ * @return string HTML
+ */
+	protected function _input($fieldName, $options = array()) {
+		$output = '';
+
+		if (Hash::get($options, 'type') === 'radio') {
+			//ラベル付与
+			if (Hash::get($options, 'label')) {
+				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+			}
+			$attributes = Hash::remove($options, 'options');
+			$attributes['outer'] = true;
+			$output .= $this->radio($fieldName, Hash::get($options, 'options', array()), $attributes);
+
+		} elseif (Hash::get($options, 'type') === 'checkbox') {
+			$output .= $this->checkbox($fieldName, $options);
+
+		} else {
+			//ラベル付与
+			if (Hash::get($options, 'label')) {
+				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+			}
+			$output .= $this->Form->input($fieldName, $options);
+		}
+
+		return $output;
+	}
+
+/**
  * Overwrite FormHelper::radio()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
@@ -265,42 +305,6 @@ class NetCommonsFormHelper extends AppHelper {
 
 		if (!isset($inputOptions['error']) || $inputOptions['error']) {
 			$output .= $this->error($fieldName);
-		}
-
-		return $output;
-	}
-
-/**
- * <input>の出力
- *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options inputのオプション配列
- * @return string HTML
- */
-	protected function _input($fieldName, $options = array()) {
-		$output = '';
-
-		if (Hash::get($options, 'type') === 'radio') {
-			//ラベル付与
-			if (Hash::get($options, 'label')) {
-				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
-				$options = Hash::remove($options, 'required');
-				$options = Hash::insert($options, 'label', false);
-			}
-			$attributes = Hash::remove($options, 'options');
-			$output .= $this->radio($fieldName, Hash::get($options, 'options', array()), $attributes);
-
-		} elseif (Hash::get($options, 'type') === 'checkbox') {
-			$output .= $this->checkbox($fieldName, $options);
-
-		} else {
-			//ラベル付与
-			if (Hash::get($options, 'label')) {
-				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
-				$options = Hash::remove($options, 'required');
-				$options = Hash::insert($options, 'label', false);
-			}
-			$output .= $this->Form->input($fieldName, $options);
 		}
 
 		return $output;

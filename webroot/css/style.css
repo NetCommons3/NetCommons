@@ -1,36 +1,13 @@
 /**
- * base/css/style.css
+ * netcommons/css/style.css
  *
- * @author   Takako Miyagawa <nekoget@gmail.com>
- * @link     http://www.netcommons.org NetCommons Project
- * @license  http://www.netcommons.org/license.txt NetCommons License
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-input[type="radio"] ,
-input[type="checkbox"] {
-    margin-right: 5px;
-}
-.nc-checkbox {
-    padding-left: 20px;
-}
-.nc-checkbox label {
-    padding-left: 0px;
-    font-weight: normal;
-}
-
 .inline-block {
-    display: inline-block;
-}
-
-.btn-workflow {
-	margin-left: 6px;
-	margin-right: 6px;
-}
-
-.radio-separator,
-.checkbox-separator {
-	margin-left: 10px;
-	margin-right: 10px;
+	display: inline-block;
 }
 
 .nc-input-dropdown,
@@ -48,19 +25,108 @@ input[type="checkbox"] {
 	/*overflow: hidden;*/
 }
 
-/* angulrJS hidden class */
-/*.ng-hide {
-    display: none;
-}*/
-
 .display-number-dropdown-toggle {
 	min-width: 125px;
 	max-width: 300px;
 	text-align: left;
 }
 
-/* netcommons */
-/* flash message */
+.nc-tooltip {
+	padding: 5px 0px;
+}
+
+.nav > li > a.nc-switch-language {
+	padding: 5px 10px;
+}
+
+.nc-data-label {
+	border: none;
+	overflow: hidden;
+	height: auto;
+	min-height: 34px;
+}
+
+/*
+ * buttonタグ
+ */
+.btn-workflow {
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+/*
+ * inputタグ
+ */
+input[type="radio"] ,
+input[type="checkbox"] {
+	margin-right: 5px;
+}
+.nc-checkbox {
+	padding-left: 20px;
+}
+.nc-checkbox label {
+	padding-left: 0px;
+}
+
+.checkbox,
+.radio {
+	margin-top: 0px;
+}
+
+@media (min-width: 768px) {
+	.radio-separator,
+	.checkbox-separator {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
+
+.input-indent {
+	margin-left: 20px;
+}
+
+.form-input-outer {
+	/*border: none;*/
+	/*overflow: hidden;*/
+	/*min-height: 34px;*/
+    /*border-radius: 4px;*/
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;*/
+    display: block;
+    /*line-height: 1.42857;*/
+    padding: 0px 12px;
+	width: 100%;
+}
+
+textarea.nc-noresize {
+	resize: none;
+}
+
+.input-range {
+	padding-right: 5px;
+}
+
+.form-text {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 0;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	margin: 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
+}
+
+span.input-group-addon:not(:first-child):not(:last-child) {
+	border-left: none;
+	border-right: none;
+}
+
+/*
+ * メッセージの出力
+ */
 #nc-flash-message {
     z-index: 2000;
     top: 0px;
@@ -83,54 +149,11 @@ input[type="checkbox"] {
     text-align: center;
 }
 
-.nc-wysiwyg-alert {
-    border: 1px solid transparent;
-    border-radius: 4px;
-    padding: 2px;
-	margin-top: -2px;
-	margin-left: -2px;
-	margin-right: -2px;
-}
-
-textarea.nc-noresize {
-	resize: none;
-}
-
-.nc-tooltip {
-	padding: 5px 0px;
-}
-
-.nav > li > a.nc-switch-language {
-	padding: 5px 10px;
-}
-
-.input-range {
-  padding-right: 5px;
-}
-
-.form-text {
-  display: block;
-  width: 100%;
-  height: 34px;
-  padding: 6px 0;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  margin: 0;
-  border: 0;
-  background: none;
-  box-shadow: none;
-}
-
+/*
+ * 削除パネル
+ */
 .nc-danger-zone .panel-title > a.accordion-toggle {
 	display: block;
-}
-
-.nc-data-label {
-	border: none;
-	overflow: hidden;
-	height: auto;
-	min-height: 34px;
 }
 
 /* modal */

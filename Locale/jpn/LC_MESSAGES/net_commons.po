@@ -361,7 +361,7 @@ msgstr "不正なリクエストの可能性があります"
 #: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
-msgstr "%sの書式が不正です。%s形式で入力してください。"
+msgstr "「%s」の書式が不正です。%s形式で入力してください。"
 
 #: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Only alphabets and numbers are allowed."
@@ -414,6 +414,9 @@ msgstr "終了"
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "URL"
 msgstr ""
+
+msgid "IP Address"
+msgstr "IPアドレス"
 
 #: NetCommons/Controller/NetCommonsAppController.php:289
 msgid "Failed on validation errors. Please check the input data."

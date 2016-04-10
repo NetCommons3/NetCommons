@@ -105,8 +105,8 @@ class NetCommonsFormHelper extends AppHelper {
  * Overwrite FormHelper::input()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options Each type of input takes different options.
- * @return string Completed form widget.
+ * @param array $options オプション配列
+ * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#creating-form-elements
  */
 	public function input($fieldName, $options = array()) {
@@ -196,6 +196,9 @@ class NetCommonsFormHelper extends AppHelper {
 		} elseif (Hash::get($options, 'type') === 'checkbox') {
 			$output .= $this->checkbox($fieldName, $options);
 
+		} elseif (Hash::get($options, 'type') === 'select' && Hash::get($options, 'multiple') === 'checkbox') {
+			$output .= $this->multipleCheckbox($fieldName, $options);
+
 		} else {
 			//ラベル付与
 			if (Hash::get($options, 'label')) {
@@ -213,9 +216,8 @@ class NetCommonsFormHelper extends AppHelper {
  * Overwrite FormHelper::radio()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options Radio button options array.
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
+ * @param array $options オプション配列
+ * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function radio($fieldName, $options = array(), $attributes = array()) {
@@ -265,8 +267,8 @@ class NetCommonsFormHelper extends AppHelper {
  * Overwrite FormHelper::checkbox()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options Radio button options array.
- * @return string Completed radio widget set.
+ * @param array $options オプション配列
+ * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function checkbox($fieldName, $options = array()) {
@@ -305,6 +307,51 @@ class NetCommonsFormHelper extends AppHelper {
 
 		if (!isset($inputOptions['error']) || $inputOptions['error']) {
 			$output .= $this->error($fieldName);
+		}
+
+		return $output;
+	}
+
+/**
+ * 複数チェックボックス
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * @return string HTML
+ */
+	public function multipleCheckbox($fieldName, $options = array()) {
+		$output = '';
+
+		if (Hash::get($options, 'label')) {
+			$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
+			$options = Hash::remove($options, 'required');
+			$options['outer'] = true;
+		}
+		$options = Hash::insert($options, 'label', false);
+
+		if (Hash::get($options, 'outer')) {
+			$output .= '<div class="form-input-outer">';
+		}
+
+		$hiddenField = true;
+		foreach ($options['options'] as $key => $value) {
+			$inputOptions = array(
+				'type' => 'select',
+				'error' => false,
+				'legend' => false,
+				'label' => false,
+				'multiple' => 'checkbox',
+				'value' => $options['value'],
+				'hiddenField' => $hiddenField,
+			);
+			$output .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
+			$output .= '<span class="checkbox-separator"></span>';
+
+			$hiddenField = false;
+		}
+
+		if (Hash::get($options, 'outer')) {
+			$output .= '</div>';
 		}
 
 		return $output;

@@ -34,7 +34,14 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @return mixed
  */
 	public function __call($method, $params) {
-		return call_user_func_array(array($this->Html, $method), $params);
+		if ($method === 'mailHelp') {
+			$this->MailsHtml = $this->_View->loadHelper('Mails.MailsHtml');
+			$helper = $this->MailsHtml;
+			$method = 'help';
+		} else {
+			$helper = $this->Html;
+		}
+		return call_user_func_array(array($helper, $method), $params);
 	}
 
 /**

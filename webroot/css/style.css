@@ -46,6 +46,17 @@
 	min-height: 34px;
 }
 
+/* nc-system- */
+#nc-system-footer {
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
+    margin-top: 30px;
+}
+
+#nc-system-footer .copyright {
+    text-align: center;
+}
+
 /*
  * ウィザード
  */
@@ -66,7 +77,6 @@
 .wizard-step-item-title {
 	text-align: center;
 }
-
 .wizard-step-item .glyphicon.glyphicon-chevron-right {
 	padding-top: 3px;
 }
@@ -162,16 +172,10 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 #nc-flash-message .pull-right {
 	margin-right: 20px;
 }
-
-/* nc-system- */
-#nc-system-footer {
-    border-top: 1px solid #ccc;
-    padding-top: 30px;
-    margin-top: 30px;
-}
-
-#nc-system-footer .copyright {
-    text-align: center;
+.help-block > .alert {
+	margin-bottom: 0px;
+	margin-top: -5px;
+	border-radius: 0px 0px 4px 4px;
 }
 
 /*

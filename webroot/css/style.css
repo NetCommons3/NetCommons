@@ -47,6 +47,31 @@
 }
 
 /*
+ * ウィザード
+ */
+.wizard-steps {
+	height: auto;
+}
+.wizard-step-item {
+	float: left;
+	height: 100%;
+	padding: 6px 1em 6px 0;
+	text-align: center;
+	font-size: 14px;
+}
+.wizard-step-item.small {
+	padding: 3px 1em 3px 0;
+	font-size: 95%;
+}
+.wizard-step-item-title {
+	text-align: center;
+}
+
+.wizard-step-item .glyphicon.glyphicon-chevron-right {
+	padding-top: 3px;
+}
+
+/*
  * buttonタグ
  */
 .btn-workflow {

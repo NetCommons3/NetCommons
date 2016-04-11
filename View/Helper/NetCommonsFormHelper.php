@@ -196,8 +196,8 @@ class NetCommonsFormHelper extends AppHelper {
 		} elseif (Hash::get($options, 'type') === 'checkbox') {
 			$output .= $this->checkbox($fieldName, $options);
 
-		} elseif (Hash::get($options, 'type') === 'select' && Hash::get($options, 'multiple') === 'checkbox') {
-			$output .= $this->multipleCheckbox($fieldName, $options);
+		} elseif (Hash::get($options, 'multiple') === 'checkbox') {
+			$output .= $this->_multipleCheckbox($fieldName, $options);
 
 		} else {
 			//ラベル付与
@@ -216,7 +216,8 @@ class NetCommonsFormHelper extends AppHelper {
  * Overwrite FormHelper::radio()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options オプション配列
+ * @param array $options radioのオプション配列
+ * @param array $attributes HTML属性配列
  * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
@@ -244,20 +245,17 @@ class NetCommonsFormHelper extends AppHelper {
 			$input .= '</div>';
 			$input .= Hash::get($attributes, 'separator', '');
 		}
+		if ($divOption) {
+			$input = $this->Html->div(null, $input, $divOption);
+		}
 
 		$output = '';
 		if (Hash::get($attributes, 'outer')) {
 			$output .= '<div class="form-input-outer">';
-		}
-
-		if ($divOption) {
-			$output .= $this->Html->div(null, $input, $divOption);
+			$output .= $input;
+			$output .= '</div>';
 		} else {
 			$output .= $input;
-		}
-
-		if (Hash::get($attributes, 'outer')) {
-			$output .= '</div>';
 		}
 
 		return $output;
@@ -305,7 +303,7 @@ class NetCommonsFormHelper extends AppHelper {
 			$output .= $input;
 		}
 
-		if (!isset($inputOptions['error']) || $inputOptions['error']) {
+		if (Hash::get($inputOptions, 'error', true)) {
 			$output .= $this->error($fieldName);
 		}
 
@@ -319,7 +317,7 @@ class NetCommonsFormHelper extends AppHelper {
  * @param array $options オプション配列
  * @return string HTML
  */
-	public function multipleCheckbox($fieldName, $options = array()) {
+	protected function _multipleCheckbox($fieldName, $options = array()) {
 		$output = '';
 
 		if (Hash::get($options, 'label')) {
@@ -329,11 +327,8 @@ class NetCommonsFormHelper extends AppHelper {
 		}
 		$options = Hash::insert($options, 'label', false);
 
-		if (Hash::get($options, 'outer')) {
-			$output .= '<div class="form-input-outer">';
-		}
-
 		$hiddenField = true;
+		$input = '';
 		foreach ($options['options'] as $key => $value) {
 			$inputOptions = array(
 				'type' => 'select',
@@ -344,13 +339,15 @@ class NetCommonsFormHelper extends AppHelper {
 				'value' => $options['value'],
 				'hiddenField' => $hiddenField,
 			);
-			$output .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
-			$output .= '<span class="checkbox-separator"></span>';
+			$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
+			$input .= '<span class="checkbox-separator"></span>';
 
 			$hiddenField = false;
 		}
 
 		if (Hash::get($options, 'outer')) {
+			$output .= '<div class="form-input-outer">';
+			$output .= $input;
 			$output .= '</div>';
 		}
 
@@ -452,10 +449,11 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string|array HTMLもしくはoption配列
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function label($fieldName, $labelText, $options = array(), $returnHtml = true) {
+	public function label($fieldName = null, $labelText = null, $options = array(), $returnHtml = true) {
 		if (! $labelText) {
-			return false;
+			return $this->Form->label($fieldName, $labelText, $options);
 		}
+
 		if (Hash::get($options, 'required', false)) {
 			if ($labelText) {
 				$labelText .= $this->_View->element('NetCommons.required');

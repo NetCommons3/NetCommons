@@ -237,12 +237,16 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$input = '';
 		foreach ($options as $key => $value) {
-			$input .= '<div class="radio">';
-			$input .= '<label class="control-label">';
-			$input .= $this->Form->radio($fieldName, array($key => $value), $attributes);
-			$input .= '</label>';
-			$input .= '</div>';
-			$input .= Hash::get($attributes, 'separator', '');
+			if ($value) {
+				$input .= '<div class="radio">';
+				$input .= '<label class="control-label">';
+				$input .= $this->Form->radio($fieldName, array($key => $value), $attributes);
+				$input .= '</label>';
+				$input .= '</div>';
+				$input .= Hash::get($attributes, 'separator', '');
+			} else {
+				$input .= $this->Form->radio($fieldName, array($key => $value), $attributes);
+			}
 		}
 		if ($divOption) {
 			$input = $this->Html->div(null, $input, $divOption);

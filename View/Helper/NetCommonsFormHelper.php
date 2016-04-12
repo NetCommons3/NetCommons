@@ -236,7 +236,6 @@ class NetCommonsFormHelper extends AppHelper {
 		$attributes = Hash::insert($attributes, 'div', false);
 
 		$input = '';
-
 		foreach ($options as $key => $value) {
 			$input .= '<div class="radio">';
 			$input .= '<label class="control-label">';
@@ -290,12 +289,17 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$output = '';
 
-		$input = '<div class="checkbox">';
-		$input .= '<label class="control-label" for="' . $this->domId($fieldName) . '">';
-		$input .= $this->Form->input($fieldName, $inputOptions);
-		$input .= $label;
-		$input .= '</label>';
-		$input .= '</div>';
+		$input = '';
+		if ($label) {
+			$input .= '<div class="checkbox">';
+			$input .= '<label class="control-label" for="' . $this->domId($fieldName) . '">';
+			$input .= $this->Form->input($fieldName, $inputOptions);
+			$input .= $label;
+			$input .= '</label>';
+			$input .= '</div>';
+		} else {
+			$input .= $this->Form->input($fieldName, $inputOptions);
+		}
 
 		if ($divOption) {
 			$output .= $this->Html->div(null, $input, $divOption);

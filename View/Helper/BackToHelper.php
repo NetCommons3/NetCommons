@@ -58,6 +58,9 @@ class BackToHelper extends AppHelper {
 		if ($options['icon'] !== '') {
 			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
 			unset($options['icon']);
+
+			$title = h($title);
+			$options['escape'] = false;
 		}
 		//ボタンサイズ
 		if (Hash::get($options, 'iconSize')) {
@@ -73,14 +76,22 @@ class BackToHelper extends AppHelper {
 			'ng-disabled' => 'sending',
 		);
 		if ($url) {
-			$defaultOptions = Hash::merge($defaultOptions, array(
+			$inputOptions = Hash::merge(array(
+				'class' => 'btn btn-default btn-workflow' . $sizeAttr,
+				'ng-disabled' => 'sending',
 				'ng-click' => 'sending=true',
-				'onclick' => 'location.href = \'' . $this->Html->url($url) . '\''
-			));
-		}
-		$inputOptions = Hash::merge($defaultOptions, $options);
+			), $options);
 
-		return $this->Form->button($iconElement . $title, $inputOptions);
+			return $this->Html->link($iconElement . $title, $url, $inputOptions);
+		} else {
+			$inputOptions = Hash::merge(array(
+				'type' => 'button',
+				'class' => 'btn btn-default btn-workflow' . $sizeAttr,
+				'ng-disabled' => 'sending',
+			), $options);
+
+			return $this->Form->button($iconElement . $title, $inputOptions);
+		}
 	}
 
 /**

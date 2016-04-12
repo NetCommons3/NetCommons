@@ -24,7 +24,8 @@ class WizardHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.NetCommonsHtml'
+		'NetCommons.Button',
+		'NetCommons.NetCommonsHtml',
 	);
 
 /**
@@ -39,21 +40,24 @@ class WizardHelper extends AppHelper {
 		parent::beforeRender($viewFile);
 
 		//ウィザード
-		if (! isset($this->settings['navbar'])) {
-			return;
+		if (! isset($this->settings['navibar'])) {
+			$this->settings['navibar'] = array();
+		}
+		if (! isset($this->settings['cancelUrl'])) {
+			$this->settings['cancelUrl'] = NetCommonsUrl::backToPageUrl();
 		}
 	}
 
 /**
- * ウィザード出力
+ * ウィザードバー出力
  *
- * @param string $active アクティブのキー
+ * @param string $activeKey アクティブのキー
  * @return string HTML出力
  */
-	public function outputWizard($active = null, $small = false) {
+	public function navibar($activeKey, $small = false) {
 		$output = '';
 
-		$stepWidth = ' style="width: ' . 100 / count($this->settings['navbar']) . '%;"';
+		$stepWidth = ' style="width: ' . 100 / count($this->settings['navibar']) . '%;"';
 
 		if ($small) {
 			$smallCss = ' small';
@@ -63,15 +67,15 @@ class WizardHelper extends AppHelper {
 
 		$output .= '<div class="progress wizard-steps">';
 
-		$count = count($this->settings['navbar']);
+		$count = count($this->settings['navibar']);
 		$index = 0;
 		$backLink = true;
-		foreach ($this->settings['navbar'] as $key => $step) {
+		foreach ($this->settings['navibar'] as $key => $step) {
 			$index++;
 
 			$badge = '<span class="badge">' . $index . '</span>';
 			$currentClass = '';
-			if ($key === $active) {
+			if ($key === $activeKey) {
 				$currentClass = 'progress-bar ';
 				$badge = '<span class="btn-primary">' . $badge . '</span>';
 				$backLink = false;
@@ -96,6 +100,72 @@ class WizardHelper extends AppHelper {
 		}
 
 		$output .= '</div>';
+		return $output;
+	}
+
+/**
+ * URL出力
+ *
+ * @param string $activeKey アクティブのキー
+ * @return string HTML出力
+ */
+	public function naviUrl($activeKey) {
+		return Hash::get($this->settings['navibar'], $activeKey . '.url');
+	}
+
+/**
+ * ウィザードボタン
+ *
+ * @param string $activeKey アクティブのキー
+ * @param array $cancelOptions キャンセルボタンのオプション
+ * @param array $prevOptions 戻るボタンのオプション
+ * @param array $nextOptions 次へ、決定ボタンのオプション
+ * @return string HTML
+ */
+	public function buttons($activeKey, $cancelOptions = array(), $prevOptions = array(), $nextOptions = array()) {
+		$output = '';
+
+		//キャンセルボタン
+		$cancelUrl = $this->NetCommonsHtml->url(Hash::get($cancelOptions, 'url', $this->settings['cancelUrl']));
+		$cancelTitle = Hash::get($cancelOptions, 'title', __d('net_commons', 'Cancel'));
+		$output .= $this->Button->cancel($cancelTitle, $cancelUrl, $cancelOptions);
+
+		//ウィザードの状態取得
+		$prev = null;
+		$current = null;
+		$next = null;
+		$step = null;
+		foreach ($this->settings['navibar'] as $key => $navibar) {
+			if ($current) {
+				$next = $step;
+				break;
+			}
+
+			if ($key === $activeKey) {
+				if ($step) {
+					$prev = $step;
+				}
+				$current = $navibar;
+			}
+
+			$step = $navibar;
+		}
+
+		if ($prev) {
+			$prevUrl = $this->NetCommonsHtml->url(Hash::get($prevOptions, 'url', $prev['url']));
+			$prevlTitle = Hash::get($prevOptions, 'title', __d('net_commons', 'BACK'));
+			$prevOptions['icon'] = Hash::get($prevOptions, 'icon', 'chevron-left');
+			$output .= $this->Button->cancel($prevlTitle, $prevUrl, $prevOptions);
+		}
+
+		if ($next) {
+			$nextTitle = Hash::get($nextOptions, 'title', __d('net_commons', 'NEXT'));
+			$nextOptions['icon'] = Hash::get($nextOptions, 'icon', 'chevron-right');
+		} else {
+			$nextTitle = Hash::get($nextOptions, 'title', __d('net_commons', 'OK'));
+		}
+		$output .= $this->Button->save($nextTitle, $nextOptions);
+
 		return $output;
 	}
 

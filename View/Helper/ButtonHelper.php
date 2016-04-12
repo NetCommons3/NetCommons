@@ -154,9 +154,10 @@ class ButtonHelper extends FormHelper {
  */
 	public function save($title, $options = array()) {
 		if (isset($options['icon'])) {
-			$title .= '<span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+			$title = h($title);
+			$title .= ' <span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+			$options['escape'] = false;
 		}
-		$output = '';
 
 		$defaultOptions = array(
 			'name' => 'save',
@@ -165,8 +166,26 @@ class ButtonHelper extends FormHelper {
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
-		$output .= $this->Form->button($title, $inputOptions);
-		return $output;
+		if (Hash::get($options, 'url')) {
+			$options['url'] = $this->NetCommonsHtml->url(Hash::get($options, 'url'));
+
+			$inputOptions = Hash::merge(array(
+				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
+				'ng-disabled' => 'sending',
+				'ng-click' => 'sending=true',
+			), $options);
+			$inputOptions = Hash::remove($inputOptions, 'url');
+
+			return $this->Html->link($title, Hash::get($options, 'url'), $inputOptions);
+		} else {
+			$inputOptions = Hash::merge(array(
+				'name' => 'save',
+				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
+				'ng-disabled' => 'sending'
+			), $options);
+
+			return $this->Form->button($title, $inputOptions);
+		}
 	}
 
 /**

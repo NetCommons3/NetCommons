@@ -313,6 +313,24 @@ class NetCommonsFormHelper extends AppHelper {
 
 		return $output;
 	}
+/**
+ * Returns a formatted SELECT element.
+ *
+ * @param string $fieldName Name attribute of the SELECT
+ * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
+ *	SELECT element
+ * @param array $attributes The HTML attributes of the select element.
+ * @return string Formatted SELECT element
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ */
+	public function select($fieldName, $options = array(), $attributes = array()) {
+		if (Hash::get($attributes, 'multiple') === 'checkbox') {
+			$attributes['options'] = $options;
+			return $this->_multipleCheckbox($fieldName, $attributes);
+		} else {
+			return $this->Form->select($fieldName, $options, $attributes);
+		}
+	}
 
 /**
  * 複数チェックボックス
@@ -340,10 +358,16 @@ class NetCommonsFormHelper extends AppHelper {
 				'legend' => false,
 				'label' => false,
 				'multiple' => 'checkbox',
-				'value' => $options['value'],
+				'value' => Hash::get($options, 'value'),
 				'hiddenField' => $hiddenField,
 			);
-			$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
+			$divOption = Hash::get($options, 'div');
+			if ($divOption) {
+				$input .= $this->Html->div(null, $this->Form->select($fieldName, array($key => $value), $inputOptions), $divOption);
+			} else {
+				$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
+			}
+
 			$input .= '<span class="checkbox-separator"></span>';
 
 			$hiddenField = false;
@@ -353,6 +377,8 @@ class NetCommonsFormHelper extends AppHelper {
 			$output .= '<div class="form-input-outer">';
 			$output .= $input;
 			$output .= '</div>';
+		} else {
+			$output .= $input;
 		}
 
 		return $output;

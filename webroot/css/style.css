@@ -6,21 +6,6 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-input[type="radio"] ,
-input[type="checkbox"] {
-    margin-right: 5px;
-}
-.checkbox.nc-checkbox {
-    padding-left: 20px;
-}
-.checkbox-inline.nc-checkbox {
-    padding-left: 40px;
-}
-.nc-checkbox label {
-    padding-left: 0px;
-    font-weight: normal;
-}
-
 .inline-block {
 	display: inline-block;
 }
@@ -109,13 +94,17 @@ input[type="checkbox"] {
  */
 input[type="radio"] ,
 input[type="checkbox"] {
-	margin-right: 5px;
+    margin-right: 5px;
 }
-.nc-checkbox {
-	padding-left: 20px;
+.checkbox.nc-checkbox {
+    padding-left: 20px;
+}
+.checkbox-inline.nc-checkbox {
+    padding-left: 40px;
 }
 .nc-checkbox label {
-	padding-left: 0px;
+    padding-left: 0px;
+    font-weight: normal;
 }
 
 .checkbox,

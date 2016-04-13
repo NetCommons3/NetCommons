@@ -23,7 +23,7 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
         '<ul class="dropdown-menu nc-title-icon-dropdown pull-right">' +
         '<li>' +
         '<div ng-repeat="icon in icons" class="nc-icon-palette">' +
-        '<img src="{{icon.path}}" alt="{{icon.alt}}" title="{{icon.alt}}" ' +
+        '<img ng-src="{{icon.path}}" alt="{{icon.alt}}" title="{{icon.alt}}" ' +
         ' class="nc-title-icon" ng-click="pick(icon.path)" />' +
         '</div>' +
         '</li></ul>',

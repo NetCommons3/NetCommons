@@ -110,7 +110,11 @@ class WizardHelper extends AppHelper {
  * @return string HTML出力
  */
 	public function naviUrl($activeKey) {
-		return Hash::get($this->settings['navibar'], $activeKey . '.url');
+		if ($activeKey === 'cancelUrl') {
+			return $this->settings['cancelUrl'];
+		} else {
+			return Hash::get($this->settings['navibar'], $activeKey . '.url');
+		}
 	}
 
 /**

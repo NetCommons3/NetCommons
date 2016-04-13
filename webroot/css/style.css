@@ -6,6 +6,21 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+input[type="radio"] ,
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+.checkbox.nc-checkbox {
+    padding-left: 20px;
+}
+.checkbox-inline.nc-checkbox {
+    padding-left: 40px;
+}
+.nc-checkbox label {
+    padding-left: 0px;
+    font-weight: normal;
+}
+
 .inline-block {
 	display: inline-block;
 }
@@ -211,7 +226,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 .nc-icon-palette {float:left; margin:0px; padding:0.1em; border:1px solid transparent;}
 .nc-icon-palette:hover {border-color:#cccccc;}
 .nc-icon-palette .nc-title-icon {height:1.5em;}
-.nc-icon-palette .nc-title-icon[src=""] {opacity: 0;width:2.0em;display:inline-block;overflow:hidden;}
+.nc-icon-palette .nc-title-icon[ng-src=""] {opacity: 0;width:2.0em;display:inline-block;overflow:hidden;}
 .nc-title-icon-dropdown {min-width:19em;}
 .dropdown-menu.nc-title-icon-dropdown.pull-right {
     right: auto;

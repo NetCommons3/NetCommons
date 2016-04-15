@@ -60,7 +60,6 @@ class NetCommonsFormHelper extends AppHelper {
 			$params = Hash::insert($params, '1.separator', '<span class="' . $type . '-separator"></span>');
 			$params = Hash::insert($params, '1.class', false);
 			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
-			$params = Hash::insert($params, '1.childDiv', array('class' => 'form-inline'));
 
 		} elseif (in_array($method, ['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
 			//タイトルアイコン
@@ -140,8 +139,6 @@ class NetCommonsFormHelper extends AppHelper {
 		//Form->inputには含めないため、divの設定を取得しておく
 		$divOptions = Hash::get($inputOptions, 'div', array('class' => 'form-group'));
 		$inputOptions = Hash::insert($inputOptions, 'div', false);
-		$childDivOptions = Hash::get($inputOptions, 'childDiv');
-		$inputOptions = Hash::remove($inputOptions, 'childDiv');
 
 		//Form->input
 		$input = '';
@@ -162,9 +159,6 @@ class NetCommonsFormHelper extends AppHelper {
 			$input .= $this->error($fieldName, null, $options['error']);
 		}
 
-		if ($childDivOptions) {
-			$input = $this->NetCommonsHtml->div(null, $input, $childDivOptions);
-		}
 		if ($divOptions) {
 			return $this->NetCommonsHtml->div(null, $input, $divOptions);
 		} else {
@@ -236,18 +230,21 @@ class NetCommonsFormHelper extends AppHelper {
 		$attributes = Hash::insert($attributes, 'div', false);
 
 		$input = '';
-		foreach ($options as $key => $value) {
-			if ($value) {
-				$input .= '<div class="radio">';
-				$input .= '<label class="control-label">';
-				$input .= $this->Form->radio($fieldName, array($key => $value), $attributes);
-				$input .= '</label>';
-				$input .= '</div>';
-				$input .= Hash::get($attributes, 'separator', '');
-			} else {
-				$input .= $this->Form->radio($fieldName, array($key => $value), $attributes);
-			}
-		}
+		
+		$befor = Hash::get($attributes, 'before', '');
+		$separator = Hash::get($attributes, 'separator', '');
+		$after = Hash::get($attributes, 'after', '');
+		
+		$attributes = Hash::merge($attributes, array(
+			'separator' => '</label></div>' . 
+						$separator . 
+						'<div class="radio"><label class="control-label">',
+		));
+		
+		$input .= '<div class="radio"><label class="control-label">' . $befor;
+		$input .= $this->Form->radio($fieldName, $options, $attributes);
+		$input .= $after . '</div></label>';
+
 		if ($divOption) {
 			$input = $this->Html->div(null, $input, $divOption);
 		}

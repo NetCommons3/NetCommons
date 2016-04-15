@@ -13,9 +13,6 @@ input[type="checkbox"] {
 .checkbox.nc-checkbox {
     padding-left: 20px;
 }
-.checkbox-inline.nc-checkbox {
-    padding-left: 40px;
-}
 .nc-checkbox label {
     padding-left: 0px;
     font-weight: normal;

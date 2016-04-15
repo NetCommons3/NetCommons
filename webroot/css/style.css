@@ -6,6 +6,18 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
+input[type="radio"] ,
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+.checkbox.nc-checkbox {
+    padding-left: 20px;
+}
+.nc-checkbox label {
+    padding-left: 0px;
+    font-weight: normal;
+}
+
 .inline-block {
 	display: inline-block;
 }
@@ -92,21 +104,6 @@
 /*
  * inputタグ
  */
-input[type="radio"] ,
-input[type="checkbox"] {
-    margin-right: 5px;
-}
-.checkbox.nc-checkbox {
-    padding-left: 20px;
-}
-.checkbox-inline.nc-checkbox {
-    padding-left: 40px;
-}
-.nc-checkbox label {
-    padding-left: 0px;
-    font-weight: normal;
-}
-
 .checkbox,
 .radio {
 	margin-top: 0px;
@@ -210,7 +207,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
  */
 .nc-title-icon {height:1.3em; vertical-align:text-bottom;}
 .nc-title-icon-index .nc-title-icon {height:28px; vertical-align:text-bottom;}
-.nc-title-icon-index .nc-title-icon[src=""] {opacity: 0;width:2.6em;}
+.nc-title-icon-index .nc-title-icon[ng-src=""] {opacity: 0;width:2.6em;}
 .nc-title-icon-btn {border-radius: 2px 0 0 2px !important;padding: 1px 0;}
 .nc-icon-palette {float:left; margin:0px; padding:0.1em; border:1px solid transparent;}
 .nc-icon-palette:hover {border-color:#cccccc;}

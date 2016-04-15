@@ -17,7 +17,7 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
         'class="btn btn-default dropdown-toggle nc-title-icon-btn" ' +
         'data-toggle="dropdown">' +
         '<span class="nc-title-icon-index">' +
-        '<img src="{{titleIcon}}" class="nc-title-icon" />' +
+        '<img ng-src="{{titleIcon}}" class="nc-title-icon" />' +
         '</span>' +
         '</button>' +
         '<ul class="dropdown-menu nc-title-icon-dropdown pull-right">' +

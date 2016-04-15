@@ -52,7 +52,9 @@ class WizardHelper extends AppHelper {
  * ウィザードバー出力
  *
  * @param string $activeKey アクティブのキー
+ * @param bool $small 小さいバーフラグ
  * @return string HTML出力
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function navibar($activeKey, $small = false) {
 		$output = '';

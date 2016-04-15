@@ -230,17 +230,17 @@ class NetCommonsFormHelper extends AppHelper {
 		$attributes = Hash::insert($attributes, 'div', false);
 
 		$input = '';
-		
+
 		$befor = Hash::get($attributes, 'before', '');
 		$separator = Hash::get($attributes, 'separator', '');
 		$after = Hash::get($attributes, 'after', '');
-		
+
 		$attributes = Hash::merge($attributes, array(
-			'separator' => '</label></div>' . 
-						$separator . 
+			'separator' => '</label></div>' .
+						$separator .
 						'<div class="radio"><label class="control-label">',
 		));
-		
+
 		$input .= '<div class="radio"><label class="control-label">' . $befor;
 		$input .= $this->Form->radio($fieldName, $options, $attributes);
 		$input .= $after . '</div></label>';

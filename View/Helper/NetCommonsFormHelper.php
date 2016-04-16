@@ -57,7 +57,6 @@ class NetCommonsFormHelper extends AppHelper {
 			$method = 'input';
 
 			$params = Hash::insert($params, '1.type', $type);
-			$params = Hash::insert($params, '1.separator', '<span class="' . $type . '-separator"></span>');
 			$params = Hash::insert($params, '1.class', false);
 			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
 
@@ -138,7 +137,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//Form->inputには含めないため、divの設定を取得しておく
 		$divOptions = Hash::get($inputOptions, 'div', array('class' => 'form-group'));
-		$inputOptions = Hash::insert($inputOptions, 'div', false);
+		$inputOptions = Hash::insert($inputOptions, 'div', Hash::get($inputOptions, 'childDiv', false));
 
 		//Form->input
 		$input = '';
@@ -179,18 +178,27 @@ class NetCommonsFormHelper extends AppHelper {
 		if (Hash::get($options, 'type') === 'radio') {
 			//ラベル付与
 			if (Hash::get($options, 'label')) {
-				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$label = $this->label($fieldName, $options['label'], array('required' => $options['required']));
 				$options = Hash::remove($options, 'required');
 				$options = Hash::insert($options, 'label', false);
+				$output .= $label;
+				$options['outer'] = true;
 			}
+
 			$attributes = Hash::remove($options, 'options');
-			$attributes['outer'] = true;
 			$output .= $this->radio($fieldName, Hash::get($options, 'options', array()), $attributes);
 
 		} elseif (Hash::get($options, 'type') === 'checkbox') {
 			$output .= $this->checkbox($fieldName, $options);
 
 		} elseif (Hash::get($options, 'multiple') === 'checkbox') {
+			if (Hash::get($options, 'label')) {
+				$label = $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+				$output .= $label;
+				$options['outer'] = true;
+			}
 			$output .= $this->_multipleCheckbox($fieldName, $options);
 
 		} else {
@@ -343,15 +351,9 @@ class NetCommonsFormHelper extends AppHelper {
 	protected function _multipleCheckbox($fieldName, $options = array()) {
 		$output = '';
 
-		if (Hash::get($options, 'label')) {
-			$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
-			$options = Hash::remove($options, 'required');
-			$options['outer'] = true;
-		}
-		$options = Hash::insert($options, 'label', false);
-
 		$hiddenField = true;
 		$input = '';
+		$divOption = Hash::get($options, 'div');
 		foreach ($options['options'] as $key => $value) {
 			$inputOptions = array(
 				'type' => 'select',
@@ -362,16 +364,11 @@ class NetCommonsFormHelper extends AppHelper {
 				'value' => Hash::get($options, 'value'),
 				'hiddenField' => $hiddenField,
 			);
-			$divOption = Hash::get($options, 'div');
-			if ($divOption) {
-				$input .= $this->Html->div(null, $this->Form->select($fieldName, array($key => $value), $inputOptions), $divOption);
-			} else {
-				$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
-			}
-
-			$input .= '<span class="checkbox-separator"></span>';
-
+			$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
 			$hiddenField = false;
+		}
+		if ($divOption) {
+			$input = $this->Html->div(null, $input, $divOption);
 		}
 
 		if (Hash::get($options, 'outer')) {

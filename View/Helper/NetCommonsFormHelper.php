@@ -251,7 +251,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$input .= '<div class="radio"><label class="control-label">' . $befor;
 		$input .= $this->Form->radio($fieldName, $options, $attributes);
-		$input .= $after . '</div></label>';
+		$input .= $after . '</label></div>';
 
 		if ($divOption) {
 			$input = $this->Html->div(null, $input, $divOption);

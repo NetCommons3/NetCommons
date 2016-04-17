@@ -15,6 +15,7 @@ App::uses('AppHelper', 'View/Helper');
  * NetCommonsFormHelper
  *
  * @package NetCommons\NetCommons\View\Helper
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class NetCommonsFormHelper extends AppHelper {
 
@@ -60,7 +61,8 @@ class NetCommonsFormHelper extends AppHelper {
 			$params = Hash::insert($params, '1.class', false);
 			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
 
-		} elseif (in_array($method, ['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
+		} elseif (in_array($method,
+						['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
 			//タイトルアイコン
 			$this->TitleIcon = $this->_View->loadHelper('NetCommons.TitleIcon');
 			$helper = $this->TitleIcon;
@@ -193,7 +195,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		} elseif (Hash::get($options, 'multiple') === 'checkbox') {
 			if (Hash::get($options, 'label')) {
-				$label = $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
 				$options = Hash::remove($options, 'required');
 				$options = Hash::insert($options, 'label', false);
 				$output .= $label;
@@ -204,7 +206,7 @@ class NetCommonsFormHelper extends AppHelper {
 		} else {
 			//ラベル付与
 			if (Hash::get($options, 'label')) {
-				$output .= $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$output .= $this->label($fieldName, $options['label'], ['required' => $options['required']]);
 				$options = Hash::remove($options, 'required');
 				$options = Hash::insert($options, 'label', false);
 			}
@@ -443,7 +445,9 @@ class NetCommonsFormHelper extends AppHelper {
 		$output = '';
 
 		$output .= '<div class="has-error">';
-		$output .= $this->Form->error($fieldName, $text, Hash::merge(array('class' => 'help-block'), $options));
+		$output .= $this->Form->error(
+			$fieldName, $text, Hash::merge(['class' => 'help-block'], $options)
+		);
 		$output .= '</div>';
 
 		return $output;
@@ -477,7 +481,7 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string|array HTMLもしくはoption配列
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function label($fieldName = null, $labelText = null, $options = array(), $returnHtml = true) {
+	public function label($fieldName = null, $labelText = null, $options = [], $returnHtml = true) {
 		if (! $labelText) {
 			return $this->Form->label($fieldName, $labelText, $options);
 		}

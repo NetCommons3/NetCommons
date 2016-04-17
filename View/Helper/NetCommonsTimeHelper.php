@@ -83,8 +83,14 @@ class NetCommonsTimeHelper extends AppHelper {
 		$out = '';
 
 		// modelをみてdatetime
-		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
-		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
+		$out .= $this->Form->hidden(
+			'_NetCommonsTime.user_timezone',
+			array('value' => Current::read('User.timezone'))
+		);
+		$out .= $this->Form->hidden(
+			'_NetCommonsTime.convert_fields',
+			array('value' => implode(',', $this->_convertFields))
+		);
 		$this->_convertFields = array();
 
 		return $out;

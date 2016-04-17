@@ -224,7 +224,8 @@ class ButtonHelper extends FormHelper {
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null, $cancelOptions = array(), $saveOptions = array()) {
+	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null,
+									$cancelOptions = [], $saveOptions = []) {
 		if (! isset($cancelUrl)) {
 			$cancelUrl = NetCommonsUrl::backToPageUrl();
 		}
@@ -245,7 +246,8 @@ class ButtonHelper extends FormHelper {
  * @param string|null $backUrl Back url
  * @return string ボタン群のタグ.
  */
-	public function cancelAndSaveAndSaveTemp($cancelUrl = null, $cancelOptions = array(), $saveTempOptions = array(), $saveOptions = array(), $backUrl = null) {
+	public function cancelAndSaveAndSaveTemp($cancelUrl = null, $cancelOptions = [],
+												$saveTempOptions = [], $saveOptions = [], $backUrl = null) {
 		App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
 		if (! isset($cancelUrl)) {
@@ -272,7 +274,9 @@ class ButtonHelper extends FormHelper {
 			$output .= $this->Html->link(
 				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
 				$backUrl,
-				array('class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false)
+				array(
+					'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
+				)
 			);
 		}
 

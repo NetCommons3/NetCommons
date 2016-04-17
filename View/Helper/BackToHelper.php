@@ -70,11 +70,6 @@ class BackToHelper extends AppHelper {
 		}
 		$options = Hash::remove($options, 'iconSize');
 
-		$defaultOptions = array(
-			'type' => 'button',
-			'class' => 'btn btn-default btn-workflow' . $sizeAttr,
-			'ng-disabled' => 'sending',
-		);
 		if ($url) {
 			$inputOptions = Hash::merge(array(
 				'class' => 'btn btn-default btn-workflow' . $sizeAttr,

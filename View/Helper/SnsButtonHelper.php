@@ -78,7 +78,8 @@ class SnsButtonHelper extends AppHelper {
 		if (self::$_loaded['twitter'] === false) {
 			$this->Html->scriptBlock(
 				"!function (d, s, id) {
-							var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+							var js, fjs = d.getElementsByTagName(s)[0], " .
+								"p = /^http:/.test(d.location) ? 'http' : 'https';
 							if (!d.getElementById(id)) {
 								js = d.createElement(s);
 								js.id = id;
@@ -101,8 +102,9 @@ class SnsButtonHelper extends AppHelper {
  */
 	public function facebook($permLink) {
 		$out = $this->_facebookScript();
-		$out .= '<div class="fb-like pull-left" data-href="' . $permLink . '" data-layout="button_count" data-action="like"
-				 data-show-faces="false" data-share="false"></div>';
+		$out .= '<div class="fb-like pull-left" data-href="' . $permLink . '"' .
+					' data-layout="button_count" data-action="like"' .
+					' data-show-faces="false" data-share="false"></div>';
 		return $out;
 	}
 
@@ -114,7 +116,8 @@ class SnsButtonHelper extends AppHelper {
  */
 	public function twitter($permLink) {
 		$out = $this->_twitterScript();
-		$out .= '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' . $permLink . '">Tweet</a>';
+		$out .= '<a href="https://twitter.com/share" ' .
+						'class="twitter-share-button" data-url="' . $permLink . '">Tweet</a>';
 		return $out;
 	}
 }

@@ -89,7 +89,9 @@ class CurrentPage {
 			)
 		));
 		if ($result) {
-			Current::$current['DefaultRolePermission'] = Hash::combine($result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission');
+			Current::$current['DefaultRolePermission'] = Hash::combine(
+				$result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission'
+			);
 		}
 	}
 
@@ -111,7 +113,9 @@ class CurrentPage {
 			)
 		));
 		if ($result) {
-			Current::$current['RoomRolePermission'] = Hash::combine($result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission');
+			Current::$current['RoomRolePermission'] = Hash::combine(
+				$result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission'
+			);
 		}
 	}
 
@@ -144,8 +148,9 @@ class CurrentPage {
 			}
 			$conditions = array($field => $value);
 
-		} elseif (in_array(Current::$request->params['plugin'], [Current::PLUGIN_USERS, Current::PLUGIN_GROUPS], true)
-				&& ! Current::$request->is('ajax')) {
+		} elseif (in_array(Current::$request->params['plugin'],
+								[Current::PLUGIN_USERS, Current::PLUGIN_GROUPS], true) &&
+					! Current::$request->is('ajax')) {
 			$this->Room = ClassRegistry::init('Rooms.Room');
 			$result = $this->Room->getPrivateRoomByUserId(Current::read('User.id'));
 			Current::$current = Hash::merge(Current::$current, $result);

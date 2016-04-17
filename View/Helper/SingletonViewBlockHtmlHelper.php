@@ -61,7 +61,8 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
  * @param array|string $blockKeys Copy key
  * @return void
  */
-	private function __copyBlockValue(ViewBlock $sourceBlock, ViewBlock $destinationBlock, $blockKeys = array()) {
+	private function __copyBlockValue(ViewBlock $sourceBlock,
+										ViewBlock $destinationBlock, $blockKeys = array()) {
 		if (!is_array($blockKeys)) {
 			$blockKeys = array($blockKeys);
 		}
@@ -110,7 +111,9 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 	public function css($path, $options = array()) {
 		$out = parent::css($path, $options);
 
-		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
+		self::$__staticIncludedAssets = array_merge(
+			self::$__staticIncludedAssets, $this->_includedAssets
+		);
 
 		if (strlen($out) > 0) {
 			return $out;
@@ -130,7 +133,9 @@ class SingletonViewBlockHtmlHelper extends HtmlHelper {
 	public function script($url, $options = array()) {
 		$out = parent::script($url, $options);
 
-		self::$__staticIncludedAssets = array_merge(self::$__staticIncludedAssets, $this->_includedAssets);
+		self::$__staticIncludedAssets = array_merge(
+			self::$__staticIncludedAssets, $this->_includedAssets
+		);
 
 		if (strlen($out) > 0) {
 			return $out;

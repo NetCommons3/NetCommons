@@ -432,7 +432,8 @@ class Current extends CurrentBase {
 			return self::$m17n[$model];
 		}
 
-		$result = Hash::extract(self::$m17n, $model . '.{n}.' . $model . '[language_id=' . $languageId . ']');
+		$pathKey = $model . '.{n}.' . $model . '[language_id=' . $languageId . ']';
+		$result = Hash::extract(self::$m17n, $pathKey);
 		if (! $result) {
 			return null;
 		}
@@ -501,7 +502,10 @@ class Current extends CurrentBase {
 			return false;
 		}
 
-		if (in_array(self::$current['Plugin']['type'], array(Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER), true)) {
+		$controlPanelKeys = array(
+			Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER
+		);
+		if (in_array(self::$current['Plugin']['type'], $controlPanelKeys, true)) {
 			return true;
 		} else {
 			return false;

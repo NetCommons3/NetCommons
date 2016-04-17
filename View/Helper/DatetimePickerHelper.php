@@ -115,10 +115,15 @@ class DatetimePickerHelper extends AppHelper {
  * @return void
  */
 	protected function _setLinkFieldName($fieldName, $options) {
-		if (preg_match('/^(.*)_(' . implode('|', $this->_fromFieldSuffix) . ')$/', $fieldName, $matches)) {
+		$matches = array();
+		$pattern = '/^(.*)_(' . implode('|', $this->_fromFieldSuffix) . ')$/';
+		if (preg_match($pattern, $fieldName, $matches)) {
 			$this->_datetimeLink[$matches[1]]['from'] = $fieldName;
 		}
-		if (preg_match('/^(.*)_(' . implode('|', $this->_toFieldSuffix) . ')$/', $fieldName, $matches)) {
+
+		$matches = array();
+		$pattern = '/^(.*)_(' . implode('|', $this->_toFieldSuffix) . ')$/';
+		if (preg_match($pattern, $fieldName, $matches)) {
 			$this->_datetimeLink[$matches[1]]['to'] = $fieldName;
 		}
 	}

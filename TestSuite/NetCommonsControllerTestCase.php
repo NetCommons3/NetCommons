@@ -79,7 +79,8 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param string $return testActionの実行後の結果
  * @return void
  */
-	protected function _testNcAction($url = array(), $paramsOptions = array(), $exception = null, $return = 'view') {
+	protected function _testNcAction($url = [], $paramsOptions = [],
+										$exception = null, $return = 'view') {
 		if ($exception && $return !== 'json') {
 			$this->setExpectedException($exception);
 		}
@@ -160,7 +161,8 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param string $return testActionの実行後の結果
  * @return mixed テスト結果
  */
-	protected function _testPostAction($method, $data, $urlOptions, $exception = null, $return = 'view') {
+	protected function _testPostAction($method, $data, $urlOptions,
+											$exception = null, $return = 'view') {
 		//テスト実施
 		if (is_array($urlOptions)) {
 			$url = Hash::merge(array(
@@ -170,7 +172,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		} else {
 			$url = $urlOptions;
 		}
-		$result = $this->_testNcAction($url, array('method' => $method, 'data' => $data), $exception, $return);
+		$result = $this->_testNcAction($url, ['method' => $method, 'data' => $data], $exception, $return);
 
 		return $result;
 	}
@@ -181,12 +183,12 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param array $method リクエストのmethod(post put delete)
  * @param array $data POSTデータ
  * @param array $urlOptions URLオプション
- * @param string|null $validationError ValidationError
+ * @param string|null $validError ValidationError
  * @return mixed テスト結果
  */
-	protected function _testActionOnValidationError($method, $data, $urlOptions, $validationError = null) {
-		$data = Hash::remove($data, $validationError['field']);
-		$data = Hash::insert($data, $validationError['field'], $validationError['value']);
+	protected function _testActionOnValidationError($method, $data, $urlOptions, $validError = null) {
+		$data = Hash::remove($data, $validError['field']);
+		$data = Hash::insert($data, $validError['field'], $validError['value']);
 
 		//テスト実施
 		$url = Hash::merge(array(
@@ -198,7 +200,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		//バリデーションエラー
 		$asserts = array(
 			array('method' => 'assertNotEmpty', 'value' => $this->controller->validationErrors),
-			array('method' => 'assertTextContains', 'expected' => $validationError['message']),
+			array('method' => 'assertTextContains', 'expected' => $validError['message']),
 		);
 
 		//チェック
@@ -244,7 +246,9 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 
 		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
-			$this->controller->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			$this->controller->$mockModel = $this->getMockForModel(
+				$mockPlugin . '.' . $mockModel, array($mockMethod)
+			);
 		}
 		if ($count === 1) {
 			$funcCount = $this->once();
@@ -268,7 +272,9 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 
 		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
-			$this->controller->$mockModel = $this->getMockForModel($mockPlugin . '.' . $mockModel, array($mockMethod));
+			$this->controller->$mockModel = $this->getMockForModel(
+				$mockPlugin . '.' . $mockModel, array($mockMethod)
+			);
 		}
 		$funcCount = $this->once();
 		$this->controller->$mockModel->expects($funcCount)
@@ -340,15 +346,18 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 
 		if ($tagType === 'textarea') {
 			$this->assertRegExp(
-				'/<textarea' . $patternName . '.*?>.*?' . preg_quote($value, '/') . '<\/textarea>/', $result, $message
+				'/<textarea' . $patternName . '.*?>.*?' . preg_quote($value, '/') . '<\/textarea>/',
+				$result, $message
 			);
 		} elseif ($tagType === 'option') {
 			$this->assertRegExp(
-				'/<option.*?value="' . preg_quote($name, '/') . '"' . $patternValue . '.*?>/', $result, $message
+				'/<option.*?value="' . preg_quote($name, '/') . '"' . $patternValue . '.*?>/',
+				$result, $message
 			);
 		} elseif ($tagType === 'form') {
 			$this->assertRegExp(
-				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*"' . $patternName . '.*?>/', $result, $message
+				'/<form.*?action=".*?' . preg_quote($value, '/') . '.*"' . $patternName . '.*?>/',
+				$result, $message
 			);
 		} elseif (in_array($tagType, ['input', 'select', 'button'], true)) {
 			$this->assertRegExp(

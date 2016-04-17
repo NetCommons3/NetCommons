@@ -82,7 +82,8 @@ class WizardHelper extends AppHelper {
 				$badge = '<span class="btn-primary">' . $badge . '</span>';
 				$backLink = false;
 			}
-			$output .= '<div class="' . $currentClass . 'wizard-step-item' . $smallCss . ' clearfix"' . $stepWidth . '>';
+			$styleCss = $currentClass . 'wizard-step-item' . $smallCss . ' clearfix';
+			$output .= '<div class="' . $styleCss . '"' . $stepWidth . '>';
 
 			$output .= '<span class="wizard-step-item-title">' . $badge . ' ';
 
@@ -128,11 +129,13 @@ class WizardHelper extends AppHelper {
  * @param array $nextOptions 次へ、決定ボタンのオプション
  * @return string HTML
  */
-	public function buttons($activeKey, $cancelOptions = array(), $prevOptions = array(), $nextOptions = array()) {
+	public function buttons($activeKey, $cancelOptions = [], $prevOptions = [], $nextOptions = []) {
 		$output = '';
 
 		//キャンセルボタン
-		$cancelUrl = $this->NetCommonsHtml->url(Hash::get($cancelOptions, 'url', $this->settings['cancelUrl']));
+		$cancelUrl = $this->NetCommonsHtml->url(
+			Hash::get($cancelOptions, 'url', $this->settings['cancelUrl'])
+		);
 		$cancelTitle = Hash::get($cancelOptions, 'title', __d('net_commons', 'Cancel'));
 		$output .= $this->Button->cancel($cancelTitle, $cancelUrl, $cancelOptions);
 

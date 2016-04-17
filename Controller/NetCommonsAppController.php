@@ -169,9 +169,9 @@ class NetCommonsAppController extends Controller {
 		//theme css指定
 		$this->set('bootstrapMinCss', $this->Asset->isThemeBootstrapMinCss($this));
 
-		$plugin = Inflector::camelize($this->params['plugin']);
 		$controller = Inflector::camelize($this->params['controller']);
-		$path = Hash::get(App::path('View', $plugin), '0') . $controller . DS . 'json' . DS . $this->view . '.ctp';
+		$pluginPath = Hash::get(App::path('View', Inflector::camelize($this->params['plugin'])), '0');
+		$path = $pluginPath . $controller . DS . 'json' . DS . $this->view . '.ctp';
 
 		if ($this->viewClass === 'Json' &&
 				! isset($this->viewVars['_serialize']) && ! file_exists($path)) {

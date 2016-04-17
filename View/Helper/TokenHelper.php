@@ -30,7 +30,8 @@ class TokenHelper extends FormHelper {
  * @param array $blacklist  A array of fields to not create inputs for.
  * @return array _Token
  */
-	public function getToken($model = null, $actionUrl = null, $tokenFields = null, $hiddenFields = array(), $blacklist = null) {
+	public function getToken($model = null, $actionUrl = null, $tokenFields = null,
+								$hiddenFields = array(), $blacklist = null) {
 		if (! isset($blacklist)) {
 			$blacklist = array();
 			$blacklist += array(

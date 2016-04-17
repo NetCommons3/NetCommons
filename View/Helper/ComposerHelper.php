@@ -90,7 +90,10 @@ class ComposerHelper extends AppHelper {
 
 		//$html = '<ul class="list-inline small frame-add-plugin">';
 		$html = '';
-		$html .= $this->Html->tag('li', '<strong class="h4">' . __d('plugin_manager', 'Author(s)') . '</strong>', array('class' => 'dropdown-header'));
+		$html .= $this->Html->tag('li',
+			'<strong class="h4">' . __d('plugin_manager', 'Author(s)') . '</strong>',
+			array('class' => 'dropdown-header')
+		);
 		//$html .= $this->Html->tag('li', '', array('class' => 'divider'));
 		foreach ($authors as $author) {
 			$name = '';
@@ -101,7 +104,11 @@ class ComposerHelper extends AppHelper {
 						'</span></span>';
 			}
 			if (isset($author['homepage'])) {
-				$name .= $this->Html->link($author['name'], $author['homepage'], array('target' => '_blank', 'escapeTitle' => false));
+				$name .= $this->Html->link(
+					$author['name'],
+					$author['homepage'],
+					array('target' => '_blank', 'escapeTitle' => false)
+				);
 			} else {
 				$name .= h($author['name']);
 			}

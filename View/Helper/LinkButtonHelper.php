@@ -162,7 +162,6 @@ class LinkButtonHelper extends FormHelper {
 			'icon' => 'search',
 			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-info',
-			'tooltip' => null,
 		), $options, array('escapeTitle' => false));
 
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -180,7 +179,7 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		if ($inputOptions['tooltip']) {
+		if (Hash::get($options, 'tooltip', false)) {
 			if (is_string($options['tooltip'])) {
 				$tooltip = $options['tooltip'];
 			} else {
@@ -221,7 +220,6 @@ class LinkButtonHelper extends FormHelper {
 			'icon' => 'sort',
 			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-default',
-			'tooltip' => null,
 		), $options, array('escapeTitle' => false));
 
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -239,7 +237,7 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		if ($options['tooltip']) {
+		if (Hash::get($options, 'tooltip', false)) {
 			if (is_string($options['tooltip'])) {
 				$tooltip = $options['tooltip'];
 			} else {

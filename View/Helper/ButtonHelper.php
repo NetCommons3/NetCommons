@@ -154,9 +154,10 @@ class ButtonHelper extends FormHelper {
  */
 	public function save($title, $options = array()) {
 		if (isset($options['icon'])) {
-			$title .= '<span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+			$title = h($title);
+			$title .= ' <span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+			$options['escape'] = false;
 		}
-		$output = '';
 
 		$defaultOptions = array(
 			'name' => 'save',
@@ -165,8 +166,26 @@ class ButtonHelper extends FormHelper {
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 
-		$output .= $this->Form->button($title, $inputOptions);
-		return $output;
+		if (Hash::get($options, 'url')) {
+			$options['url'] = $this->NetCommonsHtml->url(Hash::get($options, 'url'));
+
+			$inputOptions = Hash::merge(array(
+				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
+				'ng-disabled' => 'sending',
+				'ng-click' => 'sending=true',
+			), $options);
+			$inputOptions = Hash::remove($inputOptions, 'url');
+
+			return $this->Html->link($title, Hash::get($options, 'url'), $inputOptions);
+		} else {
+			$inputOptions = Hash::merge(array(
+				'name' => 'save',
+				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
+				'ng-disabled' => 'sending'
+			), $options);
+
+			return $this->Form->button($title, $inputOptions);
+		}
 	}
 
 /**
@@ -205,7 +224,8 @@ class ButtonHelper extends FormHelper {
  * @return string A HTML button tag.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
-	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null, $cancelOptions = array(), $saveOptions = array()) {
+	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null,
+									$cancelOptions = [], $saveOptions = []) {
 		if (! isset($cancelUrl)) {
 			$cancelUrl = NetCommonsUrl::backToPageUrl();
 		}
@@ -226,7 +246,8 @@ class ButtonHelper extends FormHelper {
  * @param string|null $backUrl Back url
  * @return string ボタン群のタグ.
  */
-	public function cancelAndSaveAndSaveTemp($cancelUrl = null, $cancelOptions = array(), $saveTempOptions = array(), $saveOptions = array(), $backUrl = null) {
+	public function cancelAndSaveAndSaveTemp($cancelUrl = null, $cancelOptions = [],
+												$saveTempOptions = [], $saveOptions = [], $backUrl = null) {
 		App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
 		if (! isset($cancelUrl)) {
@@ -253,7 +274,9 @@ class ButtonHelper extends FormHelper {
 			$output .= $this->Html->link(
 				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
 				$backUrl,
-				array('class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false)
+				array(
+					'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
+				)
 			);
 		}
 

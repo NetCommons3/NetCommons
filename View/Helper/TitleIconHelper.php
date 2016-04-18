@@ -152,7 +152,9 @@ class TitleIconHelper extends AppHelper {
 			return '';
 		}
 		$alt = $this->_getAltName($fileName);
-		$output = $this->Html->image($filePath, array('alt' => $alt, 'title' => $alt, 'class' => 'nc-title-icon'));
+		$output = $this->Html->image(
+			$filePath, array('alt' => $alt, 'title' => $alt, 'class' => 'nc-title-icon')
+		);
 		return $output;
 	}
 
@@ -165,8 +167,16 @@ class TitleIconHelper extends AppHelper {
  */
 	protected function _getTitleIconPickerOpenTag($titleIcon, $ngModelAttribute = '') {
 		$icons = $this->getIconFiles();
-		$html = '<div class="input-group" ng-controller="ncTitleIconPickerCtrl" title-icon="' . $titleIcon . '">';
-		$html .= '<nc-title-icon-picker class="input-group-btn" title-icon="' . $titleIcon . '" ' . $ngModelAttribute . ' icons="' . str_replace('"', '\'', $icons) . '">';
+		$html = '<div class="input-group"' .
+					' ng-controller="ncTitleIconPickerCtrl"' .
+					' title-icon="' . $titleIcon . '"' .
+				'>';
+		$html .= '<nc-title-icon-picker' .
+					' class="input-group-btn"' .
+					' title-icon="' . $titleIcon . '"' .
+					' ' . $ngModelAttribute .
+					' icons="' . str_replace('"', '\'', $icons) . '"' .
+				'>';
 		return $html;
 	}
 /**
@@ -216,6 +226,8 @@ class TitleIconHelper extends AppHelper {
  * @return string icon file alts
  */
 	protected function _getAltName($file) {
-		return __d('net_commons', preg_replace('/^[0-9]{2}_[0-9]{3}_/', '', pathinfo($file, PATHINFO_FILENAME)));
+		return __d('net_commons',
+			preg_replace('/^[0-9]{2}_[0-9]{3}_/', '', pathinfo($file, PATHINFO_FILENAME))
+		);
 	}
 }

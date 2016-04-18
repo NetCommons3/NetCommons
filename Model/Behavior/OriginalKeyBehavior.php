@@ -58,7 +58,9 @@ class OriginalKeyBehavior extends ModelBehavior {
 					(int)$model->data[$model->alias]['origin_id'] === 0) {
 				// origin_id がセットされてなかったらkey=idでupdate
 				$backupData = $model->data;
-				$result = $model->saveField('origin_id', $model->data[$model->alias]['id'], array('callbacks' => false));
+				$result = $model->saveField(
+					'origin_id', $model->data[$model->alias]['id'], array('callbacks' => false)
+				);
 				$model->data = $backupData;
 				$model->data[$model->alias]['origin_id'] = $result[$model->alias]['origin_id'];
 

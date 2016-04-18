@@ -79,7 +79,9 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
 
 			if ($this->$model->hasField('key')) {
-				$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey($this->$model->alias, $this->$model->useDbConfig);
+				$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey(
+					$this->$model->alias, $this->$model->useDbConfig
+				);
 			}
 			$before[$this->$model->alias] = array();
 		}

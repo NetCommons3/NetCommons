@@ -115,9 +115,9 @@ class NetCommonsUrl {
 			$url[] = $params['key'];
 			unset($params['key']);
 		}
-		if (isset($params['origin_id'])) {
-			$url[] = $params['origin_id'];
-			unset($params['origin_id']);
+		if (isset($params['key2'])) {
+			$url[] = $params['key2'];
+			unset($params['key2']);
 		}
 
 		if (isset($params['frame_id'])) {

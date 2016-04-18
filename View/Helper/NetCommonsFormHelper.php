@@ -15,6 +15,7 @@ App::uses('AppHelper', 'View/Helper');
  * NetCommonsFormHelper
  *
  * @package NetCommons\NetCommons\View\Helper
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class NetCommonsFormHelper extends AppHelper {
 
@@ -26,44 +27,55 @@ class NetCommonsFormHelper extends AppHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
+		'Files.FilesForm',
 		'NetCommons.Button',
 		'NetCommons.NetCommonsHtml',
+		'NetCommons.NetCommonsTime',
 		'NetCommons.DatetimePicker',
-		'Wysiwyg.Wysiwyg',
 	);
 
 /**
- * @var array タイムゾーン変換対象フィールド
+ * 各プラグインFormHelperラップ用マジックメソッド。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
  */
-	protected $_convertFields = array();
+	public function __call($method, $params) {
+		if ($method === 'uploadFile') {
+			//アップロード
+			$helper = $this->FilesForm;
 
-/**
- * @var null デフォルトモデル名
- */
-	protected $_model = null;
+		} elseif ($method === 'wysiwyg') {
+			//WYSIWYG
+			$this->Wysiwyg = $this->_View->loadHelper('Wysiwyg.Wysiwyg');
+			$helper = $this->Wysiwyg;
 
-/**
- * @var array アップロードされたファイルの元ファイル名
- */
-	protected $_uploadFileNames = array();
+		} elseif (in_array($method, ['inlineCheckbox', 'inlineRadio'], true)) {
+			//checkbox、radioのインライン
+			$helper = $this;
+			$type = strtolower(substr($method, strlen('inline')));
+			$method = 'input';
+
+			$params = Hash::insert($params, '1.type', $type);
+			$params = Hash::insert($params, '1.class', false);
+			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
+
+		} elseif (in_array($method,
+						['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
+			//タイトルアイコン
+			$this->TitleIcon = $this->_View->loadHelper('NetCommons.TitleIcon');
+			$helper = $this->TitleIcon;
+
+		} else {
+			//それ以外
+			$helper = $this->Form;
+		}
+		return call_user_func_array(array($helper, $method), $params);
+	}
 
 /**
  * Returns an HTML FORM element.
- *
- * ### Options:
- *
- * - `type` Form method defaults to POST
- * - `action`  The controller action the form submits to, (optional).
- * - `url`  The URL the form submits to. Can be a string or a URL array. If you use 'url'
- *    you should leave 'action' undefined.
- * - `default`  Allows for the creation of Ajax forms. Set this to false to prevent the default event handler.
- *   Will create an onsubmit attribute if it doesn't not exist. If it does, default action suppression
- *   will be appended.
- * - `onsubmit` Used in conjunction with 'default' to create ajax forms.
- * - `inputDefaults` set the default $options for FormHelper::input(). Any options that would
- *   be set when using FormHelper::input() can be set here. Options set with `inputDefaults`
- *   can be overridden when calling input()
- * - `encoding` Set the accept-charset encoding for the form. Defaults to `Configure::read('App.encoding')`
  *
  * @param mixed $model The model name for which the form is being defined. Should
  *   include the plugin name for plugin models. e.g. `ContactManager.Contact`.
@@ -74,7 +86,6 @@ class NetCommonsFormHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-create
  */
 	public function create($model = null, $options = array()) {
-		$this->_model = $model;
 		if (!isset($options['ng-submit'])) {
 			$options['ng-submit'] = 'submit($event)';
 		}
@@ -85,70 +96,17 @@ class NetCommonsFormHelper extends AppHelper {
 		$output = $this->Form->create($model, $options);
 
 		if (Hash::get($options, 'type') == 'file') {
-			$output .= $this->_setupFileUploadForm();
-		}
-		return $output;
-	}
-
-/**
- * Filesプラグインのアップロードフォームの準備
- *
- * 現在添付されてるファイルのID、フィールド名をhidden で埋め込む
- *
- * @return string
- */
-	protected function _setupFileUploadForm() {
-		// setup的な処理と定型のhidden埋め込み
-		$output = '';
-		if (isset($this->request->data['UploadFile'])) {
-			foreach (array_keys($this->request->data['UploadFile']) as $key) {
-				$output .= $this->input('UploadFile.' . $key . '.id', ['type' => 'hidden']);
-				$output .= $this->input('UploadFile.' . $key . '.field_name', ['type' => 'hidden']);
-				$output .= $this->input('UploadFile.' . $key . '.original_name', ['type' => 'hidden']);
-			}
-			// uploadされた元ファイル名のリスト
-
-			$this->_uploadFileNames = Hash::combine(
-					$this->request->data['UploadFile'],
-					'{s}.field_name',
-					'{s}.original_name'
-			);
+			$output .= $this->FilesForm->setupFileUploadForm();
 		}
 		return $output;
 	}
 
 /**
  * Overwrite FormHelper::input()
- * Generates a form input element complete with label and wrapper div
  *
- * ### Options
- *
- * See each field type method for more information. Any options that are part of
- * $attributes or $options for the different **type** methods can be included in `$options` for input().i
- * Additionally, any unknown keys that are not in the list below, or part of the selected type's options
- * will be treated as a regular html attribute for the generated input.
- *
- * - `type` - Force the type of widget you want. e.g. `type => 'select'`
- * - `label` - Either a string label, or an array of options for the label. See FormHelper::label().
- * - `div` - Either `false` to disable the div, or an array of options for the div.
- *    See HtmlHelper::div() for more options.
- * - `options` - For widgets that take options e.g. radio, select.
- * - `error` - Control the error message that is produced. Set to `false` to disable any kind of error reporting (field
- *    error and error messages).
- * - `errorMessage` - Boolean to control rendering error messages (field error will still occur).
- * - `empty` - String or boolean to enable empty select box options.
- * - `before` - Content to place before the label + input.
- * - `after` - Content to place after the label + input.
- * - `between` - Content to place between the label + input.
- * - `format` - Format template for element order. Any element that is not in the array, will not be in the output.
- *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- *    - Hidden input will not be formatted
- *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
- *
- * @param string $fieldName This should be "Modelname.fieldname"
- * @param array $options Each type of input takes different options.
- * @return string Completed form widget.
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#creating-form-elements
  */
 	public function input($fieldName, $options = array()) {
@@ -156,14 +114,12 @@ class NetCommonsFormHelper extends AppHelper {
 			return $this->hidden($fieldName, $options);
 		}
 
+		//DatetimePicker用処理
 		$options = $this->DatetimePicker->beforeFormInput($fieldName, $options);
 
-		if (Hash::get($options, 'convert_timezone') === true) {
-			if (strpos($fieldName, '.') === false) {
-				$fieldName = $this->Form->defaultModel . '.' . $fieldName;
-			}
-			$this->_convertFields[] = $fieldName;
-		}
+		//TimeZoneのコンバートするinputのセットアップ
+		$this->NetCommonsTime->beforeFormInput($fieldName, $options);
+
 		$options = Hash::merge(array(
 			'error' => array(),
 		), $options);
@@ -181,31 +137,81 @@ class NetCommonsFormHelper extends AppHelper {
 		$inputOptions = Hash::merge($defaultOptions, $options);
 		$inputOptions['error'] = false;
 
-		if ($inputOptions['required']) {
-			if ($inputOptions['label']) {
-				$inputOptions['label'] .= $this->_View->element('NetCommons.required');
-			}
-			unset($inputOptions['required']);
+		//Form->inputには含めないため、divの設定を取得しておく
+		$divOptions = Hash::get($inputOptions, 'div', array('class' => 'form-group'));
+		$inputOptions = Hash::insert($inputOptions, 'div', Hash::get($inputOptions, 'childDiv', false));
+
+		//Form->input
+		$input = '';
+		if ($this->Form->error($fieldName)) {
+			$input .= '<div class="has-error">';
+			$input .= $this->_input($fieldName, $inputOptions);
+			$input .= '</div>';
+		} else {
+			$input .= $this->_input($fieldName, $inputOptions);
 		}
 
-		$output = '';
-		$outputStart = '';
-		$outputEnd = '';
-
-		if (!isset($inputOptions['div'])) {
-			$outputStart = '<div class="form-group">';
-			$outputEnd = '</div>';
+		if (Hash::get($inputOptions, 'help')) {
+			$input .= $this->help(Hash::get($inputOptions, 'help'));
 		}
 
-		$output .= $outputStart;
-
-		$output .= $this->Form->input($fieldName, $inputOptions);
-
+		//error出力
 		if (is_array($options['error'])) {
-			$output .= $this->error($fieldName, null, $options['error']);
+			$input .= $this->error($fieldName, null, $options['error']);
 		}
 
-		$output .= $outputEnd;
+		if ($divOptions) {
+			return $this->NetCommonsHtml->div(null, $input, $divOptions);
+		} else {
+			return $input;
+		}
+	}
+
+/**
+ * <input>の出力
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options inputのオプション配列
+ * @return string HTML
+ */
+	protected function _input($fieldName, $options = array()) {
+		$output = '';
+
+		if (Hash::get($options, 'type') === 'radio') {
+			//ラベル付与
+			if (Hash::get($options, 'label')) {
+				$label = $this->label($fieldName, $options['label'], array('required' => $options['required']));
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+				$output .= $label;
+				$options['outer'] = true;
+			}
+
+			$attributes = Hash::remove($options, 'options');
+			$output .= $this->radio($fieldName, Hash::get($options, 'options', array()), $attributes);
+
+		} elseif (Hash::get($options, 'type') === 'checkbox') {
+			$output .= $this->checkbox($fieldName, $options);
+
+		} elseif (Hash::get($options, 'multiple') === 'checkbox') {
+			if (Hash::get($options, 'label')) {
+				$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+				$output .= $label;
+				$options['outer'] = true;
+			}
+			$output .= $this->_multipleCheckbox($fieldName, $options);
+
+		} else {
+			//ラベル付与
+			if (Hash::get($options, 'label')) {
+				$output .= $this->label($fieldName, $options['label'], ['required' => $options['required']]);
+				$options = Hash::remove($options, 'required');
+				$options = Hash::insert($options, 'label', false);
+			}
+			$output .= $this->Form->input($fieldName, $options);
+		}
 
 		return $output;
 	}
@@ -213,44 +219,175 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * Overwrite FormHelper::radio()
  *
- * ### Options
- *
- * $options = array(
- *  array('name' => 'United states', 'value' => 'US', 'title' => 'My title'),
- *  array('name' => 'Germany', 'value' => 'DE', 'class' => 'de-de', 'title' => 'Another title'),
- * );
- *
- * ### Attributes:
- *
- * - `separator` - define the string in between the radio buttons
- * - `between` - the string between legend and input set or array of strings to insert
- *    strings between each input block
- * - `legend` - control whether or not the widget set has a fieldset & legend
- * - `value` - indicate a value that is should be checked
- * - `label` - boolean to indicate whether or not labels for widgets show be displayed
- * - `hiddenField` - boolean to indicate if you want the results of radio() to include
- *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
- * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
- * - `empty` - Set to `true` to create an input with the value '' as the first option. When `true`
- *   the radio label will be 'empty'. Set this option to a string to control the label value.
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $options Radio button options array.
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options radioのオプション配列
+ * @param array $attributes HTML属性配列
+ * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function radio($fieldName, $options = array(), $attributes = array()) {
 		$defaultAttributes = array(
 			'error' => false,
 			'div' => false,
-			//'label' => false,
+			'label' => false,
 			'legend' => false,
+			'outer' => false,
 		);
 
 		$attributes = Hash::merge($defaultAttributes, $attributes);
 
-		$output = $this->Form->radio($fieldName, $options, $attributes);
+		$divOption = Hash::get($attributes, 'div');
+		$attributes = Hash::insert($attributes, 'div', false);
+
+		$input = '';
+
+		$outer = Hash::get($attributes, 'outer');
+		$attributes = Hash::remove($attributes, 'outer');
+
+		$befor = Hash::get($attributes, 'before', '');
+		$separator = Hash::get($attributes, 'separator', '');
+		$after = Hash::get($attributes, 'after', '');
+
+		$attributes = Hash::merge($attributes, array(
+			'separator' => '</label></div>' .
+						$separator .
+						'<div class="radio"><label class="control-label">',
+		));
+
+		$input .= '<div class="radio"><label class="control-label">' . $befor;
+		$input .= $this->Form->radio($fieldName, $options, $attributes);
+		$input .= $after . '</label></div>';
+
+		if ($divOption) {
+			$input = $this->Html->div(null, $input, $divOption);
+		}
+
+		$output = '';
+		if ($outer) {
+			$output .= '<div class="form-input-outer">';
+			$output .= $input;
+			$output .= '</div>';
+		} else {
+			$output .= $input;
+		}
+
+		return $output;
+	}
+
+/**
+ * Overwrite FormHelper::checkbox()
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * @return string HTML
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ */
+	public function checkbox($fieldName, $options = array()) {
+		$defaultOptions = array(
+			'error' => false,
+			'legend' => false,
+		);
+
+		$escape = Hash::get($options, 'escape', true);
+		$label = Hash::get($options, 'label', '');
+		if ($escape) {
+			$label = h($label);
+		}
+
+		$options = Hash::insert($options, 'label', false);
+
+		$divOption = Hash::get($options, 'div');
+		$options = Hash::insert($options, 'div', false);
+
+		$inputOptions = Hash::merge($defaultOptions, $options, array('type' => 'checkbox'));
+
+		$output = '';
+
+		$input = '';
+		if ($label) {
+			$input .= '<div class="checkbox">';
+			$input .= '<label class="control-label" for="' . $this->domId($fieldName) . '">';
+			$input .= $this->Form->input($fieldName, $inputOptions);
+			$input .= $label;
+			$input .= '</label>';
+			$input .= '</div>';
+		} else {
+			$input .= $this->Form->input($fieldName, $inputOptions);
+		}
+
+		if ($divOption) {
+			$output .= $this->Html->div(null, $input, $divOption);
+		} else {
+			$output .= $input;
+		}
+
+		if (Hash::get($inputOptions, 'error', true)) {
+			$output .= $this->error($fieldName);
+		}
+
+		return $output;
+	}
+/**
+ * Returns a formatted SELECT element.
+ *
+ * @param string $fieldName Name attribute of the SELECT
+ * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
+ *	SELECT element
+ * @param array $attributes The HTML attributes of the select element.
+ * @return string Formatted SELECT element
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ */
+	public function select($fieldName, $options = array(), $attributes = array()) {
+		if (Hash::get($attributes, 'multiple') === 'checkbox') {
+			$attributes['options'] = $options;
+			return $this->_multipleCheckbox($fieldName, $attributes);
+		} else {
+			return $this->Form->select($fieldName, $options, $attributes);
+		}
+	}
+
+/**
+ * 複数チェックボックス
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * @return string HTML
+ */
+	protected function _multipleCheckbox($fieldName, $options = array()) {
+		$output = '';
+
+		$hiddenField = true;
+		$input = '';
+		$divOption = Hash::get($options, 'div');
+
+		$outer = Hash::get($options, 'outer');
+		$options = Hash::remove($options, 'outer');
+
+		foreach ($options['options'] as $key => $value) {
+			$inputOptions = array(
+				'type' => 'select',
+				'error' => false,
+				'legend' => false,
+				'label' => false,
+				'multiple' => 'checkbox',
+				'value' => Hash::get($options, 'value'),
+				'hiddenField' => $hiddenField,
+			);
+			$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);
+			$hiddenField = false;
+		}
+		if ($divOption) {
+			$input = $this->Html->div(null, $input, $divOption);
+		}
+
+		if ($outer) {
+			$output .= '<div class="form-input-outer">';
+			$output .= $input;
+			$output .= '</div>';
+		} else {
+			$output .= $input;
+		}
+
 		return $output;
 	}
 
@@ -285,157 +422,6 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 /**
- * Filesプラグイン用のfileフォーム。ファイル削除チェックボックスとファイル名表示付き
- *
- * @param string $fieldName フィールド名
- * @param array $options オプション
- *  filename => false でフィアル名非表示
- *  remove => falseで削除チェックボックス非表示。デフォルトはtrue
- * @return string inputタグ等
- */
-	public function uploadFile($fieldName, $options = array()) {
-		if (strpos($fieldName, '.')) {
-			//モデル名あり ex BlogEntry.pdf
-			$inputFieldName = $fieldName;
-			$fieldName = substr($fieldName, strrpos($fieldName, '.') + 1); //BlogEntry.pdf -> pdf
-		} else {
-			// モデル名ついてない
-			$modelName = $this->Form->defaultModel;
-			$inputFieldName = $modelName . '.' . $fieldName;
-		}
-		$output = '<div class="form-group">';
-		$defaultOptions = [
-			'class' => '',
-			'div' => false,
-			'remove' => true,
-			'filename' => true,
-		];
-		$options = Hash::merge($defaultOptions, $options, ['type' => 'file']);
-
-		$remove = Hash::get($options, 'remove');
-		Hash::remove($options, 'remove');
-		$filename = Hash::get($options, 'filename');
-		Hash::remove($options, 'filename');
-
-		$help = $help = Hash::get($options, 'help', false);
-		Hash::remove($options, 'help');
-
-		$output .= $this->input($inputFieldName, $options);
-
-		// help-block
-		if ($help) {
-			$output .= $this->Html->tag('p', $help, ['class' => 'help-block']);
-		}
-
-		if (isset($this->_uploadFileNames[$fieldName])) {
-			if ($filename) {
-				$output .= $this->_uploadFileNames[$fieldName];
-			}
-			if ($remove) {
-				$output .= $this->checkbox(
-						$inputFieldName . '.remove',
-						['type' => 'checkbox', 'div' => false, 'error' => false]
-				);
-				$output .= $this->Form->label($inputFieldName . '.remove', __d('net_commons', 'Delete'));
-			}
-		}
-		$output .= '</div>';
-
-		return $output;
-	}
-
-/**
- * Overwrite FormHelper::checkbox()
- *
- * ### Options
- *
- * $options = array(
- *  array('name' => 'United states', 'value' => 'US', 'title' => 'My title'),
- *  array('name' => 'Germany', 'value' => 'DE', 'class' => 'de-de', 'title' => 'Another title'),
- * );
- *
- * ### Attributes:
- *
- * - `separator` - define the string in between the radio buttons
- * - `between` - the string between legend and input set or array of strings to insert
- *    strings between each input block
- * - `legend` - control whether or not the widget set has a fieldset & legend
- * - `value` - indicate a value that is should be checked
- * - `label` - boolean to indicate whether or not labels for widgets show be displayed
- * - `hiddenField` - boolean to indicate if you want the results of radio() to include
- *    a hidden input with a value of ''. This is useful for creating radio sets that non-continuous
- * - `disabled` - Set to `true` or `disabled` to disable all the radio buttons.
- * - `empty` - Set to `true` to create an input with the value '' as the first option. When `true`
- *   the radio label will be 'empty'. Set this option to a string to control the label value.
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
- */
-	public function inlineCheckbox($fieldName, $attributes = array()) {
-		$defaultAttributes = array(
-			'error' => false,
-			'div' => array('class' => 'form-inline'),
-			'label' => false,
-			'legend' => false,
-		);
-
-		$inputAttributes = Hash::merge($defaultAttributes, $attributes);
-
-		$output = '<div class="form-group">';
-		$output .= $this->Form->input($fieldName, $inputAttributes);
-
-		if (!isset($attributes['error']) || $attributes['error']) {
-			$output .= $this->error($fieldName);
-		}
-
-		$output .= '</div>';
-		return $output;
-	}
-
-/**
- * Overwrite FormHelper::input($fieldName, array('type' => 'textarea'))
- *
- * @param string $fieldName Name of a field, like this "Modelname.fieldname"
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
- */
-	public function wysiwyg($fieldName, $attributes = array()) {
-		$ngModel = Hash::expand(array($fieldName => 0));
-		$ngModel = NetCommonsAppController::camelizeKeyRecursive($ngModel);
-		$ngModel = Hash::flatten($ngModel);
-		$ngModel = array_flip($ngModel);
-
-		$defaultAttributes = array(
-			'type' => 'textarea',
-			'ui-tinymce' => 'tinymce.options',
-			'ng-model' => $ngModel[0],
-			'rows' => 5,
-		);
-		$attributes = Hash::merge($defaultAttributes, $attributes);
-
-		// wysiwygに関連する js読み込みを Wysiwygプラグインから行う
-		$html = '';
-		$html .= $this->Wysiwyg->wysiwygScript();
-		$html .= $this->input($fieldName, $attributes);
-
-		return $html;
-	}
-
-/**
- * FormHelperラップ用マジックメソッド。
- *
- * @param string $method メソッド
- * @param array $params パラメータ
- * @return mixed
- */
-	public function __call($method, $params) {
-		return call_user_func_array(array($this->Form, $method), $params);
-	}
-
-/**
  * Timezone変換の準備を組み込んだForm::end
  *
  * @param null|array $options オプション
@@ -447,10 +433,8 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$this->DatetimePicker->beforeFormEnd();
 
-		// modelをみてdatetime
-		$out .= $this->Form->hidden('_NetCommonsTime.user_timezone', array('value' => Current::read('User.timezone')));
-		$out .= $this->Form->hidden('_NetCommonsTime.convert_fields', array('value' => implode(',', $this->_convertFields)));
-		$this->_convertFields = array();
+		$out .= $this->NetCommonsTime->beforeFormEnd();
+
 		$out .= $this->Form->end($options, $secureAttributes);
 		return $out;
 	}
@@ -468,10 +452,60 @@ class NetCommonsFormHelper extends AppHelper {
 		$output = '';
 
 		$output .= '<div class="has-error">';
-		$output .= $this->Form->error($fieldName, $text, Hash::merge(array('class' => 'help-block'), $options));
+		$output .= $this->Form->error(
+			$fieldName, $text, Hash::merge(['class' => 'help-block'], $options)
+		);
 		$output .= '</div>';
 
 		return $output;
+	}
+
+/**
+ * ヘルプブロックの表示
+ *
+ * @param string $helpText ヘルプテキスト
+ * @return string HTML
+ */
+	public function help($helpText) {
+		$output = '';
+
+		if ($helpText) {
+			$output .= '<div class="help-block">';
+			$output .= $helpText;
+			$output .= '</div>';
+		}
+
+		return $output;
+	}
+
+/**
+ * <label>タグの表示
+ *
+ * @param string $fieldName フィールド名 "Modelname.fieldname"
+ * @param string $labelText ラベルテキスト
+ * @param array $options オプション
+ * @param bool $returnHtml 戻り値をHTMLにするか配列にするか
+ * @return string|array HTMLもしくはoption配列
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function label($fieldName = null, $labelText = null, $options = [], $returnHtml = true) {
+		if (! $labelText) {
+			return $this->Form->label($fieldName, $labelText, $options);
+		}
+
+		if (Hash::get($options, 'required', false)) {
+			if ($labelText) {
+				$labelText .= $this->_View->element('NetCommons.required');
+			}
+		}
+		$options = Hash::merge(array('class' => 'control-label'), $options);
+
+		if ($returnHtml) {
+			return $this->Form->label($fieldName, $labelText, $options);
+		} else {
+			$options['text'] = $labelText;
+			return $options;
+		}
 	}
 
 }

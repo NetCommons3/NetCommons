@@ -67,7 +67,8 @@ class CurrentFrame {
  * @return void
  */
 	public function setFrame() {
-		if (! Hash::get(Current::$request->params, 'requested') && Hash::get(Current::$request->data, 'Frame.id')) {
+		if (! Hash::get(Current::$request->params, 'requested') &&
+					Hash::get(Current::$request->data, 'Frame.id')) {
 			$frameId = Current::$request->data['Frame']['id'];
 		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
 			$frameId = Hash::get(Current::$request->params, '?.frame_id');
@@ -97,9 +98,11 @@ class CurrentFrame {
 	public function setPageByBox() {
 		if (isset(Current::$current['Box']['id'])) {
 			$boxId = Current::$current['Box']['id'];
-		} elseif (isset(Current::$request->data['Frame']) && isset(Current::$request->data['Frame']['box_id'])) {
+		} elseif (isset(Current::$request->data['Frame']) &&
+					isset(Current::$request->data['Frame']['box_id'])) {
 			$boxId = Current::$request->data['Frame']['box_id'];
-		} elseif (isset(Current::$request->data['Box']) && isset(Current::$request->data['Box']['id'])) {
+		} elseif (isset(Current::$request->data['Box']) &&
+					isset(Current::$request->data['Box']['id'])) {
 			$boxId = Current::$request->data['Box']['id'];
 		} else {
 			return;
@@ -129,7 +132,8 @@ class CurrentFrame {
 	public function setBlock($blockId = null) {
 		$this->Block = ClassRegistry::init('Blocks.Block');
 
-		if (! Hash::get(Current::$request->params, 'requested') && Hash::get(Current::$request->data, 'Block.id')) {
+		if (! Hash::get(Current::$request->params, 'requested') &&
+					Hash::get(Current::$request->data, 'Block.id')) {
 			$blockId = Current::$request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない
@@ -184,7 +188,9 @@ class CurrentFrame {
 				)
 			));
 			if ($result) {
-				Current::$current['BlockRolePermission'] = Hash::combine($result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission');
+				Current::$current['BlockRolePermission'] = Hash::combine(
+					$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
+				);
 			}
 		}
 

@@ -34,7 +34,14 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @return mixed
  */
 	public function __call($method, $params) {
-		return call_user_func_array(array($this->Html, $method), $params);
+		if ($method === 'mailHelp') {
+			$this->MailsHtml = $this->_View->loadHelper('Mails.MailsHtml');
+			$helper = $this->MailsHtml;
+			$method = 'help';
+		} else {
+			$helper = $this->Html;
+		}
+		return call_user_func_array(array($helper, $method), $params);
 	}
 
 /**
@@ -101,6 +108,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 
 /**
  * Creates a `<a>` tag for add link. The type attribute defaults
+ * 後で削除予定(現状、ブロック設定の一覧のリンクで使っている)
  *
  * @param string $title The anchor's caption. Not automatically HTML encoded
  * @param mixed $url Link url

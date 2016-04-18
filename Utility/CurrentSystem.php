@@ -137,6 +137,8 @@ class CurrentSystem {
 		if (! $result) {
 			return;
 		}
-		Current::$current['PluginsRole'] = Hash::combine($result, '{n}.PluginsRole.id', '{n}.PluginsRole');
+		Current::$current['PluginsRole'] = Hash::combine(
+			$result, '{n}.PluginsRole.id', '{n}.PluginsRole'
+		);
 	}
 }

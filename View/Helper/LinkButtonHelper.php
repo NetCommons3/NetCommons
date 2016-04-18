@@ -74,7 +74,7 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['icon']);
 		//ボタンサイズ
 		if ($inputOptions['iconSize']) {
-			$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+			$inputOptions['class'] .= ' ' . trim(h($inputOptions['iconSize']));
 		}
 		unset($inputOptions['iconSize']);
 
@@ -123,7 +123,9 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['icon']);
 
 		//ボタンサイズ
-		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		if ($inputOptions['iconSize']) {
+			$inputOptions['class'] .= ' ' . trim(h($inputOptions['iconSize']));
+		}
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
@@ -171,7 +173,9 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['icon']);
 
 		//ボタンサイズ
-		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		if ($inputOptions['iconSize']) {
+			$inputOptions['class'] .= ' ' . trim(h($inputOptions['iconSize']));
+		}
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
@@ -227,7 +231,9 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['icon']);
 
 		//ボタンサイズ
-		$inputOptions['class'] .= ' ' . h($inputOptions['iconSize']);
+		if ($inputOptions['iconSize']) {
+			$inputOptions['class'] .= ' ' . trim(h($inputOptions['iconSize']));
+		}
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力

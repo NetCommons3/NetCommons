@@ -241,6 +241,9 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$input = '';
 
+		$outer = Hash::get($attributes, 'outer');
+		$attributes = Hash::remove($attributes, 'outer');
+
 		$befor = Hash::get($attributes, 'before', '');
 		$separator = Hash::get($attributes, 'separator', '');
 		$after = Hash::get($attributes, 'after', '');
@@ -260,7 +263,7 @@ class NetCommonsFormHelper extends AppHelper {
 		}
 
 		$output = '';
-		if (Hash::get($attributes, 'outer')) {
+		if ($outer) {
 			$output .= '<div class="form-input-outer">';
 			$output .= $input;
 			$output .= '</div>';
@@ -356,6 +359,10 @@ class NetCommonsFormHelper extends AppHelper {
 		$hiddenField = true;
 		$input = '';
 		$divOption = Hash::get($options, 'div');
+
+		$outer = Hash::get($options, 'outer');
+		$options = Hash::remove($options, 'outer');
+
 		foreach ($options['options'] as $key => $value) {
 			$inputOptions = array(
 				'type' => 'select',
@@ -373,7 +380,7 @@ class NetCommonsFormHelper extends AppHelper {
 			$input = $this->Html->div(null, $input, $divOption);
 		}
 
-		if (Hash::get($options, 'outer')) {
+		if ($outer) {
 			$output .= '<div class="form-input-outer">';
 			$output .= $input;
 			$output .= '</div>';

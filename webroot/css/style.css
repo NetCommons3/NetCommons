@@ -35,7 +35,7 @@ input[type="checkbox"] {
 	min-height: 34px;
 }
 
-/*
+/**
  * ページ
  */
 #nc-system-footer {
@@ -48,14 +48,14 @@ input[type="checkbox"] {
     text-align: center;
 }
 
-/*
+/**
  * ツールチップ
  */
 .nc-tooltip {
 	padding: 5px 0px;
 }
 
-/*
+/**
  * ウィザード
  */
 .wizard-steps {
@@ -79,7 +79,7 @@ input[type="checkbox"] {
 	padding-top: 3px;
 }
 
-/*
+/**
  * buttonタグ
  */
 .btn-workflow {
@@ -87,7 +87,7 @@ input[type="checkbox"] {
 	margin-right: 6px;
 }
 
-/*
+/**
  * inputタグ
  */
 .checkbox,
@@ -113,7 +113,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 	border-right: none;
 }
 
-/*
+/**
  * 入力フォーム画面で使用するDropdown
  */
 .nc-input-dropdown,
@@ -151,14 +151,14 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 	border-radius: 0px 0px 4px 4px;
 }
 
-/*
+/**
  * 削除パネル
  */
 .nc-danger-zone .panel-title > a.accordion-toggle {
 	display: block;
 }
 
-/*
+/**
  * カラーパレット
  */
 .nc-color-palette-dropdown {width:18.2em;}
@@ -169,7 +169,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 .nc-color-palette-bases:hover {border-color:#aaaaaa;}
 .nc-color-index {border-radius: 0.5em 0px 0px 0.5em !important;height: 34px;padding-left: 0.5em;padding-right: 0.5em;}
 
-/*
+/**
  * タイトルアイコン
  */
 .nc-title-icon {height:1.3em; vertical-align:text-bottom;}
@@ -185,7 +185,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
     right: auto;
 }
 
-/*
+/**
  * タブ
  */
 ul.nav-tabs,
@@ -193,16 +193,27 @@ ul.nav-pills {
 	margin-bottom: 1.5em;
 }
 
-/*
+/**
  * モーダルウィンドウ
  */
 .modal-header {
 	padding-bottom: 5px;
 }
 
-/*
+/**
  * 言語切り替え
  */
 .nav > li > a.nc-switch-language {
 	padding: 5px 10px;
+}
+
+/**
+ * テーブル
+ */
+.table-responsive .table th {
+	white-space: nowrap;
+}
+.table .row-datetime,
+.table .row-number {
+	text-align: right;
 }

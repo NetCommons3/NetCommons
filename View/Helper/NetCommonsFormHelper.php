@@ -385,6 +385,7 @@ class NetCommonsFormHelper extends AppHelper {
 				'label' => false,
 				'multiple' => 'checkbox',
 				'value' => Hash::get($options, 'value'),
+				'class' => Hash::get($options, 'class'),
 				'hiddenField' => $hiddenField,
 			);
 			$input .= $this->Form->select($fieldName, array($key => $value), $inputOptions);

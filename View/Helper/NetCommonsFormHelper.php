@@ -86,16 +86,12 @@ class NetCommonsFormHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-create
  */
 	public function create($model = null, $options = array()) {
-		if (!isset($options['ng-submit'])) {
-			$options['ng-submit'] = 'submit($event)';
-		}
-		if (!isset($options['novalidate'])) {
-			$options['novalidate'] = true;
-		}
+		$options['ng-submit'] = Hash::get($options, 'ng-submit', 'submit($event)');
+		$options['novalidate'] = Hash::get($options, 'novalidate', true);
 
 		$output = $this->Form->create($model, $options);
 
-		if (Hash::get($options, 'type') == 'file') {
+		if (Hash::get($options, 'type') === 'file') {
 			$output .= $this->FilesForm->setupFileUploadForm();
 		}
 		return $output;
@@ -138,8 +134,10 @@ class NetCommonsFormHelper extends AppHelper {
 		$inputOptions['error'] = false;
 
 		//Form->inputには含めないため、divの設定を取得しておく
-		$divOptions = Hash::get($inputOptions, 'div', array('class' => 'form-group'));
-		$inputOptions = Hash::insert($inputOptions, 'div', Hash::get($inputOptions, 'childDiv', false));
+		$divOption = $this->__getDivOption($inputOptions, 'div', array('class' => 'form-group'));
+		$inputOptions = Hash::insert(
+			$inputOptions, 'div', $this->__getDivOption($inputOptions, 'childDiv', false)
+		);
 
 		//Form->input
 		$input = '';
@@ -160,8 +158,8 @@ class NetCommonsFormHelper extends AppHelper {
 			$input .= $this->error($fieldName, null, $options['error']);
 		}
 
-		if ($divOptions) {
-			return $this->NetCommonsHtml->div(null, $input, $divOptions);
+		if ($divOption) {
+			return $this->NetCommonsHtml->div(null, $input, $divOption);
 		} else {
 			return $input;
 		}
@@ -217,6 +215,22 @@ class NetCommonsFormHelper extends AppHelper {
 	}
 
 /**
+ * divのオプション取得
+ *
+ * @param array $options inputのオプション配列
+ * @param string $key オプションキー
+ * @param string $default デフォルト値
+ * @return array $options divオプション
+ */
+	private function __getDivOption($options, $key, $default = null) {
+		$divOption = Hash::get($options, $key, $default);
+		if (is_string($divOption)) {
+			$divOption = array('class' => $divOption);
+		}
+		return $divOption;
+	}
+
+/**
  * Overwrite FormHelper::radio()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
@@ -236,7 +250,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$attributes = Hash::merge($defaultAttributes, $attributes);
 
-		$divOption = Hash::get($attributes, 'div');
+		$divOption = $this->__getDivOption($attributes, 'div');
 		$attributes = Hash::insert($attributes, 'div', false);
 
 		$input = '';
@@ -296,7 +310,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$options = Hash::insert($options, 'label', false);
 
-		$divOption = Hash::get($options, 'div');
+		$divOption = $this->__getDivOption($options, 'div');
 		$options = Hash::insert($options, 'div', false);
 
 		$inputOptions = Hash::merge($defaultOptions, $options, array('type' => 'checkbox'));
@@ -358,7 +372,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		$hiddenField = true;
 		$input = '';
-		$divOption = Hash::get($options, 'div');
+		$divOption = $this->__getDivOption($options, 'div');
 
 		$outer = Hash::get($options, 'outer');
 		$options = Hash::remove($options, 'outer');
@@ -494,9 +508,7 @@ class NetCommonsFormHelper extends AppHelper {
 		}
 
 		if (Hash::get($options, 'required', false)) {
-			if ($labelText) {
-				$labelText .= $this->_View->element('NetCommons.required');
-			}
+			$labelText .= $this->_View->element('NetCommons.required');
 		}
 		$options = Hash::merge(array('class' => 'control-label'), $options);
 

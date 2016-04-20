@@ -409,7 +409,7 @@ class NetCommonsFormHelper extends AppHelper {
 			$output .= $this->FormInput->multipleCheckbox($fieldName, $options);
 
 		} else {
-			if (Hash::get($options, 'type') !== 'file') {
+			if (Hash::get($options, 'type') !== 'file' && ! Hash::get($options, 'class')) {
 				$options = Hash::insert($options, 'class', 'form-control');
 			}
 			if (Hash::get($options, 'label')) {

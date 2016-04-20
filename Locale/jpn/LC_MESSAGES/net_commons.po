@@ -405,6 +405,10 @@ msgstr "差し戻し"
 msgid "Successfully saved."
 msgstr "正常に登録しました。"
 
+#:
+msgid "For confirmation, please re-enter."
+msgstr "確認のため、再度入力してください。"
+
 #: Frames/View/Elements/setting_header.ctp:23
 msgid "Quit"
 msgstr "終了"

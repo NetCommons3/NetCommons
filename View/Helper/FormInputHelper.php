@@ -27,6 +27,7 @@ class FormInputHelper extends AppHelper {
 	public $helpers = array(
 		'Form',
 		'Html',
+		'NetCommons.NetCommonsForm',
 	);
 
 /**
@@ -159,7 +160,7 @@ class FormInputHelper extends AppHelper {
 		}
 
 		if (Hash::get($inputOptions, 'error', true)) {
-			$output .= $this->error($fieldName);
+			$output .= $this->NetCommonsForm->error($fieldName);
 		}
 
 		return $output;

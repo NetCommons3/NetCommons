@@ -95,13 +95,10 @@ input[type="checkbox"] {
 	margin-top: 0px;
 }
 
-.form-inline .checkbox label,
-.form-inline .radio label {
-	padding-right: 1.5em;
-}
-
-.form-input-outer {
-	padding-left: 0.8em;
+.form-input-outer,
+.form-radio-outer .radio,
+.form-checkbox-outer .checkbox {
+	padding-left: 20px;
 }
 
 textarea.nc-noresize {

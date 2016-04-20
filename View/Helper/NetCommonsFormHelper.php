@@ -346,8 +346,8 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//errorの有無
 		$error = (bool)$this->Form->error($fieldName);
-		if (! $error && Hash::get($options, 'type') === 'password') {
-			$error = (bool)$this->Form->error($fieldName . '_again');
+		if (Hash::get($options, 'type') === 'password') {
+			$error = $error || (bool)$this->Form->error($fieldName . '_again');
 		}
 
 		//Form->input
@@ -366,10 +366,8 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//error出力
 		if (is_array($options['error'])) {
+			$options['error']['again'] = Hash::get($options, 'type') === 'password';
 			$input .= $this->error($fieldName, null, $options['error']);
-			if (Hash::get($options, 'type') === 'password') {
-				$input .= $this->error($fieldName . '_again', null, $options['error']);
-			}
 		}
 
 		if ($divOption) {
@@ -389,6 +387,11 @@ class NetCommonsFormHelper extends AppHelper {
 	protected function _input($fieldName, $options = array()) {
 		$output = '';
 
+		$type = Hash::get($options, 'type');
+		if (Hash::get($options, 'multiple') === 'checkbox') {
+			$type = 'multiple';
+		}
+
 		//ラベルの表示
 		if (Hash::get($options, 'label')) {
 			$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
@@ -396,15 +399,9 @@ class NetCommonsFormHelper extends AppHelper {
 			$options = Hash::insert($options, 'label', false);
 			$output .= $label;
 
-			if (in_array(Hash::get($options, 'type'), ['radio'], true) ||
-					Hash::get($options, 'multiple') === 'checkbox') {
+			if (in_array($type, ['radio', 'multiple'], true)) {
 				$options['outer'] = true;
 			}
-		}
-
-		$type = Hash::get($options, 'type');
-		if (Hash::get($options, 'multiple') === 'checkbox') {
-			$type = 'multiple';
 		}
 
 		if ($type === 'radio') {
@@ -462,10 +459,20 @@ class NetCommonsFormHelper extends AppHelper {
 	public function error($fieldName, $text = null, $options = array()) {
 		$output = '';
 
+		$again = Hash::get($options, 'again', false);
+		$options = Hash::remove($options, 'again');
+
 		$output .= '<div class="has-error">';
 		$output .= $this->Form->error(
 			$fieldName, $text, Hash::merge(['class' => 'help-block'], $options)
 		);
+
+		if ($again) {
+			$output .= $this->Form->error(
+				$fieldName . '_again', $text, Hash::merge(['class' => 'help-block'], $options)
+			);
+		}
+
 		$output .= '</div>';
 
 		return $output;

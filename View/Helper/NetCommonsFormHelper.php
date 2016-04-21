@@ -202,7 +202,8 @@ class NetCommonsFormHelper extends AppHelper {
  * #### 結果サンプル
  * ```
  *	<div class="form-group">
- *		<label for="BbsName" class="control-label">掲示板名
+ *		<label for="BbsName" class="control-label">
+ *			掲示板名
  *			<strong class="text-danger h4">*</strong>
  *		</label>
  *		<input name="data[Bbs][name]" class="form-control" maxlength="255" type="text" value="サンプル" id="BbsName"/>
@@ -343,9 +344,15 @@ class NetCommonsFormHelper extends AppHelper {
 		);
 		$inputOptions = Hash::remove($inputOptions, 'childDiv');
 
+		//errorの有無
+		$error = (bool)$this->Form->error($fieldName);
+		if (Hash::get($options, 'type') === 'password') {
+			$error = $error || (bool)$this->Form->error($fieldName . '_again');
+		}
+
 		//Form->input
 		$input = '';
-		if ($this->Form->error($fieldName)) {
+		if ($error) {
 			$input .= '<div class="has-error">';
 			$input .= $this->_input($fieldName, $inputOptions);
 			$input .= '</div>';
@@ -359,6 +366,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//error出力
 		if (is_array($options['error'])) {
+			$options['error']['again'] = Hash::get($options, 'type') === 'password';
 			$input .= $this->error($fieldName, null, $options['error']);
 		}
 
@@ -379,43 +387,41 @@ class NetCommonsFormHelper extends AppHelper {
 	protected function _input($fieldName, $options = array()) {
 		$output = '';
 
-		if (Hash::get($options, 'type') === 'radio') {
-			//ラジオボタン
-			if (Hash::get($options, 'label')) {
-				$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
-				$options = Hash::remove($options, 'required');
-				$options = Hash::insert($options, 'label', false);
-				$output .= $label;
+		$type = Hash::get($options, 'type');
+		if (Hash::get($options, 'multiple') === 'checkbox') {
+			$type = 'multiple';
+		}
+
+		//ラベルの表示
+		if (Hash::get($options, 'label')) {
+			$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$output .= $label;
+
+			if (in_array($type, ['radio', 'multiple'], true)) {
 				$options['outer'] = true;
 			}
+		}
+
+		if ($type === 'radio') {
+			//ラジオボタン
 			$attributes = Hash::remove($options, 'options');
 			$output .= $this->FormInput->radio(
 				$fieldName, Hash::get($options, 'options', array()), $attributes
 			);
 
-		} elseif (Hash::get($options, 'type') === 'checkbox') {
-			//チェックボックス
-			$output .= $this->FormInput->checkbox($fieldName, $options);
-
-		} elseif (Hash::get($options, 'multiple') === 'checkbox') {
+		} elseif ($type === 'multiple') {
 			//複数チェックボックス
-			if (Hash::get($options, 'label')) {
-				$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
-				$options = Hash::remove($options, 'required');
-				$options = Hash::insert($options, 'label', false);
-				$output .= $label;
-				$options['outer'] = true;
-			}
 			$output .= $this->FormInput->multipleCheckbox($fieldName, $options);
 
+		} elseif (in_array($type, ['checkbox', 'password'])) {
+			//チェックボックス
+			$output .= $this->FormInput->$type($fieldName, $options);
+
 		} else {
-			if (Hash::get($options, 'type') !== 'file' && ! Hash::get($options, 'class')) {
+			if ($type !== 'file' && ! Hash::get($options, 'class')) {
 				$options = Hash::insert($options, 'class', 'form-control');
-			}
-			if (Hash::get($options, 'label')) {
-				$output .= $this->label($fieldName, $options['label'], ['required' => $options['required']]);
-				$options = Hash::remove($options, 'required');
-				$options = Hash::insert($options, 'label', false);
 			}
 			$output .= $this->Form->input($fieldName, $options);
 		}
@@ -453,10 +459,20 @@ class NetCommonsFormHelper extends AppHelper {
 	public function error($fieldName, $text = null, $options = array()) {
 		$output = '';
 
+		$again = Hash::get($options, 'again', false);
+		$options = Hash::remove($options, 'again');
+
 		$output .= '<div class="has-error">';
 		$output .= $this->Form->error(
 			$fieldName, $text, Hash::merge(['class' => 'help-block'], $options)
 		);
+
+		if ($again) {
+			$output .= $this->Form->error(
+				$fieldName . '_again', $text, Hash::merge(['class' => 'help-block'], $options)
+			);
+		}
+
 		$output .= '</div>';
 
 		return $output;

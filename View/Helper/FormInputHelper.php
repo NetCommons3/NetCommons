@@ -63,9 +63,9 @@ class FormInputHelper extends AppHelper {
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options radioのオプション配列
- * @param array $attributes HTML属性配列
+ * @param array $attributes HTML属性オプション配列
  * @return string HTML
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function radio($fieldName, $options = array(), $attributes = array()) {
 		$defaultAttributes = array(
@@ -116,7 +116,7 @@ class FormInputHelper extends AppHelper {
  * Overwrite FormHelper::checkbox()
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options オプション配列
+ * @param array $options checkboxオプション配列
  * @return string HTML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
@@ -165,15 +165,15 @@ class FormInputHelper extends AppHelper {
 
 		return $output;
 	}
+
 /**
  * Returns a formatted SELECT element.
  *
- * @param string $fieldName Name attribute of the SELECT
- * @param array $options Array of the OPTION elements (as 'value'=>'Text' pairs) to be used in the
- *	SELECT element
- * @param array $attributes The HTML attributes of the select element.
- * @return string Formatted SELECT element
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options selectオプション配列
+ * @param array $attributes HTMLの属性オプション
+ * @return string HTML
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
  */
 	public function select($fieldName, $options = array(), $attributes = array()) {
 		if (Hash::get($attributes, 'multiple') === 'checkbox') {
@@ -245,6 +245,54 @@ class FormInputHelper extends AppHelper {
 
 		$output = $this->Form->hidden($fieldName, $options);
 		return $output;
+	}
+
+/**
+ * パスワードの出力
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options passwordオプション
+ * @return string HTML
+ */
+	public function password($fieldName, $options = array()) {
+		$input = '';
+
+		$divOption = $this->getDivOption('password', $options, 'div');
+
+		$again = Hash::get($options, 'again', false);
+		$options = Hash::remove($options, 'again');
+
+		$options = Hash::merge(
+			array(
+				'type' => 'password',
+				'label' => false,
+				'div' => false,
+				'class' => 'form-control',
+				'autocomplete' => 'off'
+			),
+			$options
+		);
+
+		//入力フォーム
+		$input .= $this->Form->input($fieldName, $options);
+
+		//再度入力フォーム
+		if ($again) {
+			$options = Hash::merge(
+				$options,
+				array(
+					'placeholder' => __d('net_commons', 'For confirmation, please re-enter.'),
+					'class' => 'form-control form-input-again'
+				)
+			);
+			$input .= $this->Form->input($fieldName . '_again', $options);
+		}
+
+		if ($divOption) {
+			return $this->Html->div(null, $input, $divOption);
+		} else {
+			return $input;
+		}
 	}
 
 }

@@ -61,8 +61,8 @@ class NetCommonsAppController extends Controller {
 		),
 		'DebugKit.Toolbar',
 		'Flash',
+		'MobileDetect.MobileDetect',
 		'NetCommons.Asset',
-		'NetCommons.NetCommons',
 		'NetCommons.Permission' => array(
 			//アクセスの権限
 			'allow' => array(
@@ -70,10 +70,11 @@ class NetCommonsAppController extends Controller {
 				'view' => null,
 			),
 		),
+		'NetCommons.NetCommons',
+		'NetCommons.NetCommonsTime',
 		'RequestHandler',
 		'Session',
 		'Workflow.Workflow',
-		'NetCommons.NetCommonsTime',
 	);
 
 /**
@@ -158,6 +159,9 @@ class NetCommonsAppController extends Controller {
 			$this->viewClass = 'Json';
 			$this->layout = false;
 		}
+
+		//モバイルかどうかの判定処理
+		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
 	}
 
 /**

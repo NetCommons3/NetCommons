@@ -15,7 +15,6 @@ App::uses('AppHelper', 'View/Helper');
  * FormInputHelper
  *
  * @package NetCommons\NetCommons\View\Helper
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class FormInputHelper extends AppHelper {
 
@@ -65,11 +64,11 @@ class FormInputHelper extends AppHelper {
  * @param array $options radioのオプション配列
  * @param array $attributes HTML属性オプション配列
  * @return string
- * #### Returnサンプル
- * ##### 入力
+ * ##### return サンプル
+ * - 入力
  * ```
  * ```
- * ##### 出力
+ * - 出力
  * ```
  * ```
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::radio FormHelper::radio()
@@ -126,11 +125,11 @@ class FormInputHelper extends AppHelper {
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options checkboxオプション配列
  * @return string
- * #### Returnサンプル
- * ##### 入力
+ * ##### return サンプル
+ * - 入力
  * ```
  * ```
- * ##### 出力
+ * - 出力
  * ```
  * ```
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::checkbox FormHelper::checkbox()
@@ -185,15 +184,16 @@ class FormInputHelper extends AppHelper {
 /**
  * セレクトボックスを出力する
  *
- * multiple=checkboxを指定している場合、
- * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_multipleCheckbox FormInputHelper::multipleCheckbox()}
- * を実行する。
- * それ以外は、
- * {@link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()}
- * を実行する
- *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options selectオプション配列
+ * - multiple=checkboxを指定している場合<br>
+ * <a href="../../NetCommons/classes/FormInputHelper.html#method_multipleCheckbox">FormInputHelper::multipleCheckbox()</a>
+ * を実行する。
+ *
+ * - それ以外の場合<br>
+ * <a href="http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select">FormHelper::select()</a>
+ * を実行する
+ *
  * @param array $attributes HTMLの属性オプション
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
@@ -215,11 +215,11 @@ class FormInputHelper extends AppHelper {
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options オプション配列
  * @return string
- * #### Returnサンプル
- * ##### 入力
+ * ##### return サンプル
+ * - 入力
  * ```
  * ```
- * ##### 出力
+ * - 出力
  * ```
  * ```
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()
@@ -259,15 +259,15 @@ class FormInputHelper extends AppHelper {
  * @param string $fieldName フィールド名, like this "Modelname.fieldname"
  * @param array $options hiddenのオプション
  * @return string
- * #### Returnサンプル
- * ##### 入力
+ * ##### return サンプル
+ * - 入力
  * ```
  * $this->request->data['BbsSetting']['use_comment'] = false;
  * ```
  * ```
  * echo $this->NetCommonsForm->hidden('BbsSetting.use_comment');
  * ```
- * ##### 出力
+ * - 出力
  * ```
  * <input type="hidden" name="data[BbsSetting][use_comment]" value="0" id="BbsSettingUseComment"/>
  * ```
@@ -298,11 +298,11 @@ class FormInputHelper extends AppHelper {
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options passwordオプション
  * @return string
- * #### Returnサンプル
- * ##### 入力
+ * ##### return サンプル
+ * - 入力
  * ```
  * ```
- * ##### 出力
+ * - 出力
  * ```
  * ```
  */

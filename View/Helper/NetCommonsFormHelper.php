@@ -60,7 +60,7 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * - <a id="method__input_wysiwyg" name="method__input_wysiwyg" class="anchor"></a>
  * NetCommonsForm::wysiwyg()<br>
- * <a href="../../Wysiwyg/classes/WysiwygHelper.html#method_radio">Wysiwyg.WysiwygHelper::wysiwyg()</a>
+ * <a href="../../Wysiwyg/classes/WysiwygHelper.html#method_wysiwyg">Wysiwyg.WysiwygHelper::wysiwyg()</a>
  * の結果を出力する。
  *
  * - <a id="method__input_inlineCheckbox" name="method__input_inlineCheckbox" class="anchor"></a>

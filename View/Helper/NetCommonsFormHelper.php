@@ -55,12 +55,12 @@ class NetCommonsFormHelper extends AppHelper {
  * あとでseeを付ける
  *
  * ### NetCommonsForm->inlineCheckbox() の場合
- * $paramsに以下を追加して、$this->input()を実行する。ただし、すでに$paramsにあれば、無視する。
+ * $paramsに以下を追加して、NetCommons.FormInputHelper->checkbox()を実行する。ただし、すでに$paramsにあれば、無視する。<br>
+ *
  * ```
  *	$params[1] = array(
- *		'type' => 'checkbox',
  *		'class' => false,
- *		'childDiv' => array('class' => 'form-inline')
+ *		'div' => array('class' => 'form-group')
  *	)
  * ```
  *
@@ -99,13 +99,11 @@ class NetCommonsFormHelper extends AppHelper {
 
 		} elseif ($method === 'inlineCheckbox') {
 			//checkbox、radioのインライン
-			$helper = $this;
-			$type = 'checkbox';
-			$method = 'input';
+			$helper = $this->FormInput;
+			$method = 'checkbox';
 
-			$params = Hash::insert($params, '1.type', $type);
 			$params = Hash::insert($params, '1.class', false);
-			$params = Hash::insert($params, '1.childDiv', array('class' => 'form-inline'));
+			$params = Hash::insert($params, '1.div', array('class' => 'form-group'));
 
 		} elseif (in_array($method,
 						['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
@@ -126,14 +124,13 @@ class NetCommonsFormHelper extends AppHelper {
  * * 二重submit防止のため、ng-submit=submit($event)をセットする
  * * エラー出力をNetCommons用の表示をするため、novalidateをOffにする
  *
- * ### 出力結果サンプル
+ * @param mixed $model モデル名
+ * @param array $options オプション
+ * @return string
+ * #### returnサンプル
  * ```
  * <form method="post" novalidate="novalidate" ng-submit="submit($event)" action="/auth_general/auth_general/login">
  * ```
- *
- * @param mixed $model モデル名
- * @param array $options オプション
- * @return string HTMLタグ
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::create FormHelper::create()
  */
 	public function create($model = null, $options = array()) {
@@ -152,8 +149,10 @@ class NetCommonsFormHelper extends AppHelper {
  * NetCommons用Htmlを付加して、FormHelper::input()の結果を出力する<br>
  * ※Overwrite FormHelper::input()
  *
- * ### FormHelper->input()の$optionsに対する初期値
- * #### 共通
+ * ### $optionsの内容
+ *
+ * #### $optionsの初期値
+ * ##### 共通
  * ```
  *	array(
  *		'error' => false,
@@ -161,7 +160,8 @@ class NetCommonsFormHelper extends AppHelper {
  *		'label' => null,
  *	);
  * ```
- * #### type=number の場合
+ *
+ * ##### type=number の場合
  * ```
  *	array(
  *		'error' => false,
@@ -172,24 +172,20 @@ class NetCommonsFormHelper extends AppHelper {
  *	);
  * ```
  *
- * ### エラー発生時、入力ボックスの色を変えるためのdivを付与
- * ```
- *	<div class="has-error">
- *	</div>
- * ```
- *
- * ### help=メッセージ（NCオリジナル）
+ * <a id="method_input_help" name="method_input_help" class="anchor"></a>
+ * #### help=メッセージ（NCオリジナル）
  * ヘルプブロックを付与する
  *
- * #### サンプル
+ * ##### サンプル
  * ```
  * ```
- * #### 結果サンプル
+ * ##### 結果サンプル
  * ```
  * ```
  *
- * ### type=text の出力(デフォルト)
- * #### サンプル
+ * <a id="method_input_text" name="method_input_text" class="anchor"></a>
+ * #### type=text (typeを省略した場合、デフォルト値)
+ * ##### サンプル
  * ```
  *	echo $this->NetCommonsForm->input('Bbs.name',
  *		array(
@@ -199,7 +195,7 @@ class NetCommonsFormHelper extends AppHelper {
  *		)
  *	);
  * ```
- * #### 結果サンプル
+ * ##### 結果サンプル
  * ```
  *	<div class="form-group">
  *		<label for="BbsName" class="control-label">
@@ -211,56 +207,51 @@ class NetCommonsFormHelper extends AppHelper {
  *	</div>
  * ```
  *
- * ### type=textarea の出力
- * #### サンプル
+ * <a id="method_input_textarea" name="method_input_textarea" class="anchor"></a>
+ * #### type=textarea
+ * ##### サンプル
  * ```
  * ```
- * #### 結果サンプル
- * ```
- * ```
- *
- * ### type=radio の出力
- * #### サンプル
- * ```
- * ```
- * #### 結果サンプル
+ * ##### 結果サンプル
  * ```
  * ```
  *
- * ### type=select, multiple=checkbox の出力
- * #### サンプル
- * ```
- * ```
- * #### 結果サンプル
- * ```
- * ```
+ * <a id="method_input_radio" name="method_input_radio" class="anchor"></a>
+ * #### type=radio
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_radio FormInputHelper::radio()}
+ * を実行し、出力する
  *
- * ### type=select の出力
- * #### サンプル
- * ```
- * ```
- * #### 結果サンプル
- * ```
- * ```
  *
- * ### type=hidden の出力
- * NetCommons.FormInput->hidden()を実行し、出力する
- * あとでseeを付ける
+ * <a id="method_input_multiple_checkbox" name="method_input_multiple_checkbox" class="anchor"></a>
+ * #### type=select, multiple=checkbox
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_multipleCheckbox FormInputHelper::multipleCheckbox()}
+ * を実行し、出力する
  *
- * #### サンプル
- * ```
- * echo $this->NetCommonsForm->hidden('Frame.id');
- * ```
- * #### 結果サンプル
- * ```
- * <input type="hidden" name="data[Frame][id]" value="7" id="FrameId"/>
- * ```
  *
- * ### type=datetime の出力
- * datetimepickerのHTMLを出力する
- * あとでseeを付ける
+ * <a id="method_input_checkbox" name="method_input_checkbox" class="anchor"></a>
+ * #### type=checkbox
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_checkbox FormInputHelper::checkbox()}
+ * を実行し、出力する
  *
- * #### サンプル
+ *
+ * <a id="method_input_select" name="method_input_select" class="anchor"></a>
+ * #### type=select
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_select FormInputHelper::select()}
+ * を実行し、出力する
+ *
+ *
+ * <a id="method_input_hidden" name="method_input_hidden" class="anchor"></a>
+ * #### type=hidden
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_hidden FormInputHelper::hidden()}
+ * を実行し、出力する
+ *
+ *
+ * <a id="method_input_datetime" name="method_input_datetime" class="anchor"></a>
+ * #### type=datetime
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/DatetimePickerHelper.html datetimepickerのHTML}
+ * を出力する<br>
+ *
+ * ##### サンプル
  * ```
  *	echo $this->NetCommonsForm->input('publish_start',
  *		array(
@@ -270,7 +261,7 @@ class NetCommonsFormHelper extends AppHelper {
  *		)
  *	);
  * ```
- * #### 結果サンプル
+ * ##### 結果サンプル
  * ```
  *	<div class="form-group">
  *		<label for="BlogEntryPublishStart" class="control-label">公開日時
@@ -289,7 +280,10 @@ class NetCommonsFormHelper extends AppHelper {
  *	</div>
  * ```
  *
- * ### TimeZone関係のHTMLを出力する
+ *
+ * ### 強制的に出力するHTML
+ *
+ * #### TimeZone関係のHTML
  * ```
  *	<input type="hidden"
  *		name="data[_NetCommonsTime][user_timezone]"
@@ -300,10 +294,15 @@ class NetCommonsFormHelper extends AppHelper {
  *		id="_NetCommonsTimeConvertFields"/>
  * ```
  *
+ * #### エラー発生時、入力ボックスの色を変えるためのdiv
+ * ```
+ *	<div class="has-error">
+ *	</div>
+ * ```
+ *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options オプション配列
  * @return string HTML
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#creating-form-elements
  */
 	public function input($fieldName, $options = array()) {
 		if (Hash::get($options, 'type') === 'hidden') {
@@ -379,6 +378,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 /**
  * <input>の出力
+ * このメソッドは、NetCommonsFormHelper->input()から実行される。
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options inputのオプション配列
@@ -435,6 +435,7 @@ class NetCommonsFormHelper extends AppHelper {
  * @param null|array $options オプション
  * @param array $secureAttributes secureAttributes
  * @return string
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::end FormHelper::end()
  */
 	public function end($options = null, $secureAttributes = array()) {
 		$out = '';

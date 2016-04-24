@@ -1,6 +1,6 @@
 <?php
 /**
- * getDivOption
+ * FormInputHelper
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,7 +12,7 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * getDivOption
+ * FormInputHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -20,7 +20,7 @@ App::uses('AppHelper', 'View/Helper');
 class FormInputHelper extends AppHelper {
 
 /**
- * Other helpers used by FormHelper
+ * 使用ヘルパー
  *
  * @var array
  */
@@ -31,7 +31,7 @@ class FormInputHelper extends AppHelper {
 	);
 
 /**
- * divのオプション取得
+ * $optionsの中身をarrat('div' => css文字列)をarray('div' => ['class' => css文字列])に変換して出力する
  *
  * @param string $type inputのタイプ
  * @param array $options inputのオプション配列
@@ -59,13 +59,21 @@ class FormInputHelper extends AppHelper {
 	}
 
 /**
- * Overwrite FormHelper::radio()
+ * ラジオボタンを出力する
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options radioのオプション配列
  * @param array $attributes HTML属性オプション配列
- * @return string HTML
- * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ * @return string
+ * #### Returnサンプル
+ * ##### 入力
+ * ```
+ * ```
+ * ##### 出力
+ * ```
+ * ```
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::radio FormHelper::radio()
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
  */
 	public function radio($fieldName, $options = array(), $attributes = array()) {
 		$defaultAttributes = array(
@@ -113,12 +121,20 @@ class FormInputHelper extends AppHelper {
 	}
 
 /**
- * Overwrite FormHelper::checkbox()
+ * チェックボックスを出力する
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options checkboxオプション配列
- * @return string HTML
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ * @return string
+ * #### Returnサンプル
+ * ##### 入力
+ * ```
+ * ```
+ * ##### 出力
+ * ```
+ * ```
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::checkbox FormHelper::checkbox()
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
  */
 	public function checkbox($fieldName, $options = array()) {
 		$defaultOptions = array(
@@ -167,13 +183,22 @@ class FormInputHelper extends AppHelper {
 	}
 
 /**
- * Returns a formatted SELECT element.
+ * セレクトボックスを出力する
+ *
+ * multiple=checkboxを指定している場合、
+ * {@link https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_multipleCheckbox FormInputHelper::multipleCheckbox()}
+ * を実行する。
+ * それ以外は、
+ * {@link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()}
+ * を実行する
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options selectオプション配列
  * @param array $attributes HTMLの属性オプション
- * @return string HTML
- * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#options-for-select-checkbox-and-radio-inputs
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
+ * @see https://netcommons3.github.io/NetCommons3Docs/phpdoc/NetCommons/classes/FormInputHelper.html#method_multipleCheckbox NetCommons.FormInputHelper::multipleCheckbox()
+ * @return string
  */
 	public function select($fieldName, $options = array(), $attributes = array()) {
 		if (Hash::get($attributes, 'multiple') === 'checkbox') {
@@ -185,11 +210,19 @@ class FormInputHelper extends AppHelper {
 	}
 
 /**
- * 複数チェックボックス
+ * 複数チェックボックスを出力する
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options オプション配列
- * @return string HTML
+ * @return string
+ * #### Returnサンプル
+ * ##### 入力
+ * ```
+ * ```
+ * ##### 出力
+ * ```
+ * ```
+ * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()
  */
 	public function multipleCheckbox($fieldName, $options = array()) {
 		$output = '';
@@ -218,14 +251,26 @@ class FormInputHelper extends AppHelper {
 	}
 
 /**
- * Overwrite FormHelper::hidden()
+ * NetCommons用にFormHelper::hidden()を付与してHTMLを出力する
  *
- * 値がfalseの場合、hiddenのvalueが消えてしまい、validationErrorになってしまう。
+ * 値がfalseの場合、hiddenのvalueが消えてしまい、validationErrorになってしまう。<br>
+ * {@link https://github.com/cakephp/cakephp/issues/5639}
  *
  * @param string $fieldName フィールド名, like this "Modelname.fieldname"
  * @param array $options hiddenのオプション
- * @return string Completed hiddenタグ
- * @link https://github.com/cakephp/cakephp/issues/5639
+ * @return string
+ * #### Returnサンプル
+ * ##### 入力
+ * ```
+ * $this->request->data['BbsSetting']['use_comment'] = false;
+ * ```
+ * ```
+ * echo $this->NetCommonsForm->hidden('BbsSetting.use_comment');
+ * ```
+ * ##### 出力
+ * ```
+ * <input type="hidden" name="data[BbsSetting][use_comment]" value="0" id="BbsSettingUseComment"/>
+ * ```
  */
 	public function hidden($fieldName, $options = array()) {
 		if (strpos($fieldName, '.')) {
@@ -252,7 +297,14 @@ class FormInputHelper extends AppHelper {
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options passwordオプション
- * @return string HTML
+ * @return string
+ * #### Returnサンプル
+ * ##### 入力
+ * ```
+ * ```
+ * ##### 出力
+ * ```
+ * ```
  */
 	public function password($fieldName, $options = array()) {
 		$input = '';

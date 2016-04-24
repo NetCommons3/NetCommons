@@ -187,11 +187,11 @@ class FormInputHelper extends AppHelper {
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
  * @param array $options selectオプション配列
  * - multiple=checkboxを指定している場合<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_multipleCheckbox">FormInputHelper::multipleCheckbox()</a>
+ * [FormInputHelper::multipleCheckbox()](#method_multipleCheckbox)
  * を実行する。
  *
  * - それ以外の場合<br>
- * <a href="http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select">FormHelper::select()</a>
+ * [FormHelper::select()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select)
  * を実行する
  *
  * @param array $attributes HTMLの属性オプション

@@ -45,28 +45,28 @@ class NetCommonsFormHelper extends AppHelper {
  * ##### $method の内容による出力
  * - <a id="method__input_uploadFile" name="method__input_uploadFile" class="anchor"></a>
  * NetCommonsForm::uploadFile()<br>
- * <a href="../../Files/classes/FilesFormHelper.html#method_uploadFile">Files.FilesFormHelper::uploadFile()</a>
+ * [Files.FilesFormHelper::uploadFile()](../../Files/classes/FilesFormHelper.html#method_uploadFile)
  * の結果を出力する。
  *
  * - <a id="method__input_checkbox" name="method__input_checkbox" class="anchor"></a>
  * NetCommonsForm::checkbox()<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_checkbox">NetCommons.FormInputHelper::checkbox()</a>
+ * [NetCommons.FormInputHelper::checkbox()](../../NetCommons/classes/FormInputHelper.html#method_checkbox)
  * の結果を出力する。
  *
  * - <a id="method__input_radio" name="method__input_radio" class="anchor"></a>
  * NetCommonsForm::radio()<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_radio">NetCommons.FormInputHelper::radio()</a>
+ * [NetCommons.FormInputHelper::radio()](../../NetCommons/classes/FormInputHelper.html#method_radio)
  * の結果を出力する。
  *
  * - <a id="method__input_wysiwyg" name="method__input_wysiwyg" class="anchor"></a>
  * NetCommonsForm::wysiwyg()<br>
- * <a href="../../Wysiwyg/classes/WysiwygHelper.html#method_wysiwyg">Wysiwyg.WysiwygHelper::wysiwyg()</a>
+ * [Wysiwyg.WysiwygHelper::wysiwyg()](../../Wysiwyg/classes/WysiwygHelper.html#method_wysiwyg)
  * の結果を出力する。
  *
  * - <a id="method__input_inlineCheckbox" name="method__input_inlineCheckbox" class="anchor"></a>
  * NetCommonsForm::inlineCheckbox()<br>
  * $paramsに以下を追加して、
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_checkbox">NetCommons.FormInputHelper::checkbox()</a>
+ * [NetCommons.FormInputHelper::checkbox()](../../NetCommons/classes/FormInputHelper.html#method_checkbox)
  * の結果を出力する。ただし、すでに$paramsにあれば、無視する。
  * ```
  * $params[1] = array(
@@ -77,22 +77,22 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * - <a id="method__input_inputWithTitleIcon" name="method__input_inputWithTitleIcon" class="anchor"></a>
  * NetCommonsForm::inputWithTitleIcon()<br>
- * <a href="../../NetCommons/classes/TitleIconHelper.html#method_inputWithTitleIcon">NetCommons.TitleIconHelper::inputWithTitleIcon()</a>
+ * [NetCommons.TitleIconHelper::inputWithTitleIcon()](../../NetCommons/classes/TitleIconHelper.html#method_inputWithTitleIcon)
  * の結果を出力する。
  *
  * - <a id="method__input_titleIconPicker" name="method__input_titleIconPicker" class="anchor"></a>
  * NetCommonsForm::titleIconPicker()<br>
- * <a href="../../NetCommons/classes/TitleIconHelper.html#method_titleIconPicker">NetCommons.TitleIconHelper::titleIconPicker()</a>
+ * [NetCommons.TitleIconHelper::titleIconPicker()](../../NetCommons/classes/TitleIconHelper.html#method_titleIconPicker)
  * の結果を出力する。
  *
  * - <a id="method__input_ngTitleIconPicker" name="method__input_ngTitleIconPicker" class="anchor"></a>
  * NetCommonsForm::ngTitleIconPicker()<br>
- * <a href="../../NetCommons/classes/TitleIconHelper.html#method_ngTitleIconPicker">NetCommons.TitleIconHelper::ngTitleIconPicker()</a>
+ * [NetCommons.TitleIconHelper::ngTitleIconPicker()](../../NetCommons/classes/TitleIconHelper.html#method_ngTitleIconPicker)
  * の結果を出力する。
  *
  * - <a id="method__input_others" name="method__input_others" class="anchor"></a>
  * それ以外<br>
- * <a href="http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper">FormHelper</a>
+ * [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の各メソッドの結果を出力する。
  */
 	public function __call($method, $params) {
@@ -196,7 +196,7 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * - <a id="method_input_text" name="method_input_text" class="anchor"></a>
  * type=text (typeを省略した場合、デフォルト値)<br>
- * <a href="http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper">FormHelper::input()</a>
+ * [FormHelper::input()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の結果を出力する。<br>
  * [サンプル]
  *  - 入力
@@ -223,7 +223,7 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * - <a id="method_input_textarea" name="method_input_textarea" class="anchor"></a>
  * type=textarea<br>
- * <a href="http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper">FormHelper::input()</a>
+ * [FormHelper::input()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の結果を出力する。<br>
  * [サンプル]
  *  - 入力
@@ -235,32 +235,32 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * - <a id="method_input_radio" name="method_input_radio" class="anchor"></a>
  * type=radio<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_radio">FormInputHelper::radio()</a>
+ * [FormInputHelper::radio()](../../NetCommons/classes/FormInputHelper.html#method_radio)
  * の結果を出力する。
  *
  * - <a id="method_input_multiple_checkbox" name="method_input_multiple_checkbox" class="anchor"></a>
  * type=select, multiple=checkbox<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_multipleCheckbox">FormInputHelper::multipleCheckbox()</a>
+ * [FormInputHelper::multipleCheckbox()](../../NetCommons/classes/FormInputHelper.html#method_multipleCheckbox)
  * の結果を出力する。
  *
  * - <a id="method_input_checkbox" name="method_input_checkbox" class="anchor"></a>
  * type=checkbox<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_checkbox">FormInputHelper::checkbox()</a>
+ * [FormInputHelper::checkbox()](../../NetCommons/classes/FormInputHelper.html#method_checkbox)
  * の結果を出力する。
  *
  * - <a id="method_input_select" name="method_input_select" class="anchor"></a>
  * type=select<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_select">FormInputHelper::select()</a>
+ * [FormInputHelper::select()](../../NetCommons/classes/FormInputHelper.html#method_select)
  * の結果を出力する。
  *
  * - <a id="method_input_hidden" name="method_input_hidden" class="anchor"></a>
  * type=hidden<br>
- * <a href="../../NetCommons/classes/FormInputHelper.html#method_hidden">FormInputHelper::hidden()</a>
+ * [FormInputHelper::hidden()](../../NetCommons/classes/FormInputHelper.html#method_hidden)
  * の結果を出力する。
  *
  * - <a id="method_input_datetime" name="method_input_datetime" class="anchor"></a>
  * type=datetime<br>
- * <a href="../../NetCommons/classes/DatetimePickerHelper.html">datetimepicker</a>
+ * [datetimepicker](../../NetCommons/classes/DatetimePickerHelper.html)
  * の結果を出力する。<br>
  * [サンプル]
  *  - 入力

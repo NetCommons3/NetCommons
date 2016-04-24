@@ -19,7 +19,11 @@ App::uses('AppHelper', 'View/Helper');
 class FormInputHelper extends AppHelper {
 
 /**
- * 使用ヘルパー
+ * 使用するHelper
+ *
+ * - [Form](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
+ * - [Html](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * - [NetCommons.NetCommonsForm](../../NetCommons/classes/NetCommonsFormHelper.html)
  *
  * @var array
  */

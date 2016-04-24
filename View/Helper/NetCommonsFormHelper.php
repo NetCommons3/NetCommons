@@ -19,7 +19,16 @@ App::uses('AppHelper', 'View/Helper');
 class NetCommonsFormHelper extends AppHelper {
 
 /**
- * 使用するFormHelper
+ * 使用するHelper
+ *
+ * - [Form](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
+ * - [Html](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * - [Files.FilesForm](../../Files/classes/FilesFormHelper.html)
+ * - [NetCommons.Button](../../NetCommons/classes/ButtonHelper.html)
+ * - [NetCommons.FormInput](../../NetCommons/classes/FormInputHelper.html)
+ * - [NetCommons.NetCommonsHtml](../../NetCommons/classes/NetCommonsHtmlHelper.html)
+ * - [NetCommons.NetCommonsTime](../../NetCommons/classes/NetCommonsTimeHelper.html)
+ * - [NetCommons.DatetimePicker](../../NetCommons/classes/DatetimePickerHelper.html)
  *
  * @var array
  */

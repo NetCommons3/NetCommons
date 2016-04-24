@@ -181,6 +181,31 @@ class NetCommonsFormHelper extends AppHelper {
  * );
  * ```
  *
+ * ##### $optionsの値<br>
+ * 基本的なオプションについては、[FormHelperのオプション](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#id5)を参照。
+ * そのうち、下記が良く使われるオプションである。
+ *
+ * - 必須マークを付ける場合
+ * ```
+ * array(
+ * 		'required' => true,
+ * );
+ * ```
+ * - <a id="method_input_options_placeholder" name="method_input_options_placeholder" class="anchor"></a>
+ * プレースホルダーテキストを表示する場合
+ * ```
+ * array(
+ * 		'placeholder' => 'アンケートを入力してください。',
+ * );
+ * ```
+ * - ヘルプブロックを表示する場合（NetCommonsのみのオプション）<br>
+ * 出力内容については、[こちら](#method_input_help) を参照。
+ * ```
+ * array(
+ * 		'help' => 'アンケートを入力してください。',
+ * );
+ * ```
+ *
  * @return string
  * ##### 下記の$optionsに指定した内容に基づきHTMLを出力する。
  * - <a id="method_input_help" name="method_input_help" class="anchor"></a>
@@ -189,9 +214,26 @@ class NetCommonsFormHelper extends AppHelper {
  * [サンプル]
  *  - 入力
  * ```
+ * echo $this->NetCommonsForm->input('Bbs.name',
+ * 			array(
+ * 				'type' => 'text',
+ * 				'label' => __d('bbses', 'Bbs name'),
+ * 				'required' => true,
+ * 				'help' => '掲示板名を入力してください。',
+ * 			)
+ * );
  * ```
  *  - 出力
  * ```
+ * <div class="form-group">
+ * 			<label class="control-label" for="BbsName">
+ * 				掲示板名
+ * 				<strong class="text-danger h4">*</strong>
+ * 			</label>
+ * 			<input type="text" id="BbsName" class="form-control" name="data[Bbs][name]">
+ * 			<div class="help-block">掲示板名を入力してください。</div>
+ * 			<div class="has-error"></div>
+ * </div>
  * ```
  *
  * - <a id="method_input_text" name="method_input_text" class="anchor"></a>
@@ -228,9 +270,24 @@ class NetCommonsFormHelper extends AppHelper {
  * [サンプル]
  *  - 入力
  * ```
+ * echo $this->NetCommonsForm->input('Bbs.name',
+ * 			array(
+ * 				'type' => 'textarea',
+ * 				'label' => '内容',
+ * 				'required' => true,
+ * 			)
+ * );
  * ```
  *  - 出力
  * ```
+ * <div class="form-group">
+ * 			<label class="control-label" for="BbsName">
+ * 				内容
+ * 				<strong class="text-danger h4">*</strong>
+ * 			</label>
+ * 			<textarea id="BbsName" rows="6" cols="30" class="form-control" name="data[Bbs][name]"></textarea>
+ * 			<div class="has-error"></div>
+ * </div>
  * ```
  *
  * - <a id="method_input_radio" name="method_input_radio" class="anchor"></a>
@@ -326,6 +383,9 @@ class NetCommonsFormHelper extends AppHelper {
 			'error' => array(),
 		), $options);
 
+		$help = Hash::get($options, 'help', false);
+		$options = Hash::remove($options, 'help');
+
 		$defaultOptions = array(
 			'error' => false,
 			//'class' => 'form-control',
@@ -366,9 +426,8 @@ class NetCommonsFormHelper extends AppHelper {
 			$input .= $this->_input($fieldName, $inputOptions);
 		}
 
-		if (Hash::get($inputOptions, 'help')) {
-			$input .= $this->help(Hash::get($inputOptions, 'help'));
-		}
+		//ヘルプブロックの追加
+		$input .= $this->help($help);
 
 		//error出力
 		if (is_array($options['error'])) {
@@ -442,6 +501,9 @@ class NetCommonsFormHelper extends AppHelper {
  * @param null|array $options オプション
  * @param array $secureAttributes secureAttributes
  * @return string
+ * [FormHelper::end()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::end)と
+ * [DatetimePickerHelper::beforeFormEnd()](./DatetimePickerHelper.html#method_beforeFormEnd)と
+ * [NetCommonsTimeHelper::beforeFormEnd()](./NetCommonsTimeHelper.html#method_beforeFormEnd)の内容を出力する
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::end FormHelper::end()
  */
 	public function end($options = null, $secureAttributes = array()) {

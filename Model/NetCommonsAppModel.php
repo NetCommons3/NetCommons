@@ -20,9 +20,9 @@ App::uses('Model', 'Model');
  * Overrideしているメソッドもあり、CakePHPの通常動作と異なるものがありますので注意して下さい。
  *
  * #### CakePHPのModel処理をOverrideしているメソッドです。
- * [__construct](#__construct)<br>
- * [setDataSource](#setdatasource)<br>
- * [create](#create)<br>
+ * [__construct](#method___construct)<br>
+ * [getDataSource](#method_getDataSource)<br>
+ * [create](#method_create)<br>
  *
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>

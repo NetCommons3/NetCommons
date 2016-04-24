@@ -17,12 +17,12 @@ App::uses('Block', 'Blocks.Model');
  * Permission Component
  *
  * リクエストされたController、もしくは、actionのアクセス許可を、<br>
- * [Currentオブジェクト](https://github.com/NetCommons3/NetCommons3Docs/blob/master/phpdocMd/NetCommons/Current.md#current)
+ * [Currentオブジェクト](./Current.html)
  * の権限から判定します。<br>
  * チェックタイプと許可アクションリストを指定してください。
  *
- * [チェックタイプ](#type)<br>
- * [許可アクションリスト](#allow)
+ * [チェックタイプ](#property_type)<br>
+ * [許可アクションリスト](#property_allow)
  *
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

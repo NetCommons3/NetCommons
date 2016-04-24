@@ -15,8 +15,8 @@ App::uses('Current', 'NetCommons.Utility');
  * タイムゾーンを考慮した日時を算出します。
  * コンポーネントとヘルパーを提供しています。
  *
- * [NetCommonsTimeComponent](./NetCommonsTimeComponent.md#netcommonstimecomponent)<br>
- * [NetCommonsTimeHelper](./NetCommonsTimeHelper.md#netcommonstimehelper)
+ * [NetCommonsTimeComponent](./NetCommonsTimeComponent.html)<br>
+ * [NetCommonsTimeHelper](./NetCommonsTimeHelper.html)
  *
  * ## テストで時刻を差し替えたいときのサンプルコード
  * ```

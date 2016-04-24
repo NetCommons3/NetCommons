@@ -19,10 +19,10 @@ App::uses('Plugin', 'PluginManager.Model');
  * Current Utility
  *
  * NetCommonsの機能として必要な情報を保持します。<br>
- * [NetCommonsAppController::beforeFilter](https://github.com/NetCommons3/NetCommons3Docs/blob/master/phpdocMd/NetCommons/NetCommonsAppController.md#beforefilter)
+ * [NetCommonsAppController::beforeFilter](./NetCommonsAppController.html#method_beforeFilter)
  * で初期処理が呼び出され、値が設定されます。<br>
- * 値を取得する時は、[readメソッド](#read)を使用します。<br>
- * 権限を取得する時は、[permissionメソッド](#permission)を使用します。<br>
+ * 値を取得する時は、[readメソッド](#method_read)を使用します。<br>
+ * 権限を取得する時は、[permissionメソッド](#method_permission)を使用します。<br>
  *
  * #### 保持データ
  * ```

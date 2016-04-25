@@ -1,6 +1,6 @@
 <?php
 /**
- * NetCommonsFormHelper
+ * NetCommonsHtml Helper
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -13,25 +13,41 @@ App::uses('AppHelper', 'View/Helper');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 
 /**
- * NetCommonsFormHelper
+ * NetCommonsでHtmlHelperをOverrideしたHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
 class NetCommonsHtmlHelper extends AppHelper {
 
 /**
- * Other helpers used by HtmlHelper
+ * 使用するHelpers
+ *
+ * - [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
  *
  * @var array
  */
-	public $helpers = array('Html');
+	public $helpers = array(
+		'Html'
+	);
 
 /**
  * HtmlHelperラップ用マジックメソッド。
  *
+ * 指定されたメソッドにより、各プラグインのHelperメソッドを呼び出します。
+ *
  * @param string $method メソッド
  * @param array $params パラメータ
- * @return mixed
+ * @return string
+ * ##### $method の内容による出力
+ * - <a id="method___call_mailHelp" name="method___call_mailHelp" class="anchor"></a>
+ * NetCommonsHtml::mailHelp()<br>
+ * [Mails.MailsHtml::help()](../../Mails/classes/MailsHtmlHelper.html#method_help)
+ * の結果を出力する。
+ *
+ * - <a id="method___call_others" name="method___call_others" class="anchor"></a>
+ * それ以外<br>
+ * [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * の各メソッドの結果を出力する。
  */
 	public function __call($method, $params) {
 		if ($method === 'mailHelp') {
@@ -45,13 +61,12 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
- * Overwrite HtmlHelper::script()
+ * NetCommonsによるHtmlHelper::script()を共通化
  *
- * @param string|array $url String or array of javascript files to include
- * @param array|bool $options Array of options, and html attributes see above. If boolean sets $options['inline'] = value
- * @return mixed String of `<script />` tags or null if $inline is false or if $once is true and the file has been
- *   included before.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::script
+ * @param string|array $url javascriptファイルのURL
+ * @param array|bool $options HTML属性のオプション
+ * @return mixed `<script>`タグの出力
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::script HtmlHelper::script
  */
 	public function script($url, $options = array()) {
 		$defaultOptions = array(
@@ -64,14 +79,12 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
- * Overwrite HtmlHelper::css()
+ * NetCommonsによるHtmlHelper::css()を共通化
  *
- * @param string|array $path The name of a CSS style sheet or an array containing names of
- *   CSS stylesheets. If `$path` is prefixed with '/', the path will be relative to the webroot
- *   of your application. Otherwise, the path will be relative to your CSS path, usually webroot/css.
- * @param array $options Array of options and HTML arguments.
- * @return string CSS <link /> or <style /> tag, depending on the type of link.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::css
+ * @param string|array $path CSS style sheetのパス
+ * @param array $options HTML属性のオプション
+ * @return string CSS `<link>` or `<style>`タグの出力
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::css HtmlHelper::css
  */
 	public function css($path, $options = array()) {
 		$defaultOptions = array(
@@ -84,13 +97,13 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
- * Json CakePHP template.
- * It is better reference Google JSON Style Guid
+ * Google JSON Style Guideに沿ってJSON形式の出力
  *
- * @param array $results results data
- * @param string $name message
- * @param int $status status code
- * @return string json format data
+ * @param array $results 出力結果配列
+ * @param string $name レスポンスメッセージ
+ * @param int $status ステータスコード
+ * @return string JSON形式の文字列
+ * @link https://google.github.io/styleguide/jsoncstyleguide.xml Google JSON Style Guide
  */
 	public function json($results = [], $name = 'OK', $status = 200) {
 		//if (! $results) {
@@ -104,6 +117,65 @@ class NetCommonsHtmlHelper extends AppHelper {
 		$camelizeData = NetCommonsAppController::camelizeKeyRecursive($results);
 
 		return json_encode($camelizeData);
+	}
+
+/**
+ * URL生成処理
+ *
+ * @param mixed $url URL
+ * @return string URL
+ */
+	private function __getUrl($url = null) {
+		//URLの設定
+		if (is_array($url)) {
+			if (! isset($url['plugin'])) {
+				$url['plugin'] = $this->_View->request->params['plugin'];
+			}
+			if (! isset($url['controller'])) {
+				$url['controller'] = $this->_View->request->params['controller'];
+			}
+			if (! isset($url['action'])) {
+				$url['action'] = $this->_View->request->params['action'];
+			}
+			if (! isset($url['block_id']) && Current::read('Block.id')) {
+				$url['block_id'] = Current::read('Block.id');
+			}
+			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
+				$url['frame_id'] = Current::read('Frame.id');
+			}
+			$url = NetCommonsUrl::actionUrl($url);
+		}
+		return $url;
+	}
+
+/**
+ * URLの取得
+ *
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string URL
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::url HtmlHelper::url
+ */
+	public function url($url = null, $options = array()) {
+		//URLの設定
+		$url = $this->__getUrl($url);
+		$output = $this->Html->url($url, $options);
+		return $output;
+	}
+
+/**
+ * `<a>`タグの出力
+ *
+ * @param string $title `<a>`のタイトル
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string `<a>`タグ
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ */
+	public function link($title = '', $url = null, $options = array()) {
+		$url = $this->__getUrl($url);
+		$output = $this->Html->link($title, $url, $options);
+		return $output;
 	}
 
 /**
@@ -140,66 +212,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 		$url = NetCommonsUrl::actionUrl($url);
 
 		return $this->Html->link($title, $url, $options);
-	}
-
-/**
- * Creates a `<a>` tag for add link. The type attribute defaults
- *
- * @param mixed $url Link url
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	private function __getUrl($url = null) {
-		//URLの設定
-		if (is_array($url)) {
-			if (! isset($url['plugin'])) {
-				$url['plugin'] = $this->_View->request->params['plugin'];
-			}
-			if (! isset($url['controller'])) {
-				$url['controller'] = $this->_View->request->params['controller'];
-			}
-			if (! isset($url['action'])) {
-				$url['action'] = $this->_View->request->params['action'];
-			}
-			if (! isset($url['block_id']) && Current::read('Block.id')) {
-				$url['block_id'] = Current::read('Block.id');
-			}
-			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-				$url['frame_id'] = Current::read('Frame.id');
-			}
-			$url = NetCommonsUrl::actionUrl($url);
-		}
-		return $url;
-	}
-
-/**
- * Creates a `<a>` tag for add link. The type attribute defaults
- *
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	public function url($url = null, $options = array()) {
-		//URLの設定
-		$url = $this->__getUrl($url);
-		$output = $this->Html->url($url, $options);
-		return $output;
-	}
-
-/**
- * Creates a `<a>` tag for add link. The type attribute defaults
- *
- * @param string $title The anchor's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	public function link($title = '', $url = null, $options = array()) {
-		$url = $this->__getUrl($url);
-		$output = $this->Html->link($title, $url, $options);
-		return $output;
 	}
 
 }

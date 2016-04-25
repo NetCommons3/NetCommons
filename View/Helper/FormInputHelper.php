@@ -21,9 +21,9 @@ class FormInputHelper extends AppHelper {
 /**
  * 使用するHelper
  *
- * - [Form](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
- * - [Html](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
- * - [NetCommons.NetCommonsForm](../../NetCommons/classes/NetCommonsFormHelper.html)
+ * - [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
+ * - [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * - [NetCommons.NetCommonsFormHelper](../../NetCommons/classes/NetCommonsFormHelper.html)
  *
  * @var array
  */

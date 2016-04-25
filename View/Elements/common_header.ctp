@@ -49,16 +49,16 @@ if (! isset($isSettingMode)) {
 									NetCommonsUrl::actionUrl('/auth/logout')); ?>
 						</li>
 					<?php else: ?>
+						<?php if (Current::hasAutoUserRegist()) : ?>
+							<li>
+								<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'),
+										NetCommonsUrl::actionUrl('/auth/auto_user_regist/request')); ?>
+							</li>
+						<?php endif; ?>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'),
 									NetCommonsUrl::actionUrl('/auth/login')); ?>
 						</li>
-						<?php if (Current::hasAutoUserRegist()) : ?>
-							<li>
-								<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'),
-										NetCommonsUrl::actionUrl('/auth/user_regist/request')); ?>
-							</li>
-						<?php endif; ?>
 					<?php endif; ?>
 
 					<?php if ($this->params['plugin'] === 'pages' && $this->params['controller'] === 'pages_edit') : ?>

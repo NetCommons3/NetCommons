@@ -531,8 +531,8 @@ class Current extends CurrentBase {
  * @return bool
  */
 	public static function hasAutoUserRegist() {
-		$UserRegist = ClassRegistry::init('Auth.UserRegist');
-		return $UserRegist->hasAutoUserRegist();
+		$AutoUserRegist = ClassRegistry::init('Auth.AutoUserRegist');
+		return $AutoUserRegist->hasAutoUserRegist();
 	}
 
 /**

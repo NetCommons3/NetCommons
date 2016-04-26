@@ -109,7 +109,7 @@ class NetCommonsFormHelper extends AppHelper {
 			//アップロード
 			$helper = $this->FilesForm;
 
-		} elseif (in_array($method, ['hidden', 'checkbox', 'radio', 'select'], true)) {
+		} elseif (in_array($method, ['hidden', 'checkbox', 'radio', 'select', 'email'], true)) {
 			$helper = $this->FormInput;
 
 		} elseif ($method === 'wysiwyg') {
@@ -421,7 +421,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//errorの有無
 		$error = (bool)$this->Form->error($fieldName);
-		if (Hash::get($options, 'type') === 'password') {
+		if (in_array(Hash::get($options, 'type'), ['password', 'email'], true)) {
 			$error = $error || (bool)$this->Form->error($fieldName . '_again');
 		}
 
@@ -460,7 +460,8 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string HTML
  */
 	protected function _input($fieldName, $options = array()) {
-		$output = '';
+		$input = '';
+		$label = '';
 
 		$type = Hash::get($options, 'type');
 		if (Hash::get($options, 'multiple') === 'checkbox') {
@@ -470,38 +471,50 @@ class NetCommonsFormHelper extends AppHelper {
 		//ラベルの表示
 		if (Hash::get($options, 'label')) {
 			$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
-			$options = Hash::remove($options, 'required');
-			$options = Hash::insert($options, 'label', false);
-			$output .= $label;
-
-			if (in_array($type, ['radio', 'multiple'], true)) {
-				$options['outer'] = true;
-			}
 		}
 
 		if ($type === 'radio') {
 			//ラジオボタン
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$options['outer'] = (bool)$label;
+
 			$attributes = Hash::remove($options, 'options');
-			$output .= $this->FormInput->radio(
+			$input = $this->FormInput->radio(
 				$fieldName, Hash::get($options, 'options', array()), $attributes
 			);
 
 		} elseif ($type === 'multiple') {
 			//複数チェックボックス
-			$output .= $this->FormInput->multipleCheckbox($fieldName, $options);
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$options['outer'] = (bool)$label;
 
-		} elseif (in_array($type, ['checkbox', 'password'])) {
+			$input = $this->FormInput->multipleCheckbox($fieldName, $options);
+
+		} elseif ($type === 'checkbox') {
 			//チェックボックス
-			$output .= $this->FormInput->$type($fieldName, $options);
+			$label = '';
+			$input = $this->FormInput->$type($fieldName, $options);
+
+		} elseif (in_array($type, ['password', 'email'], true)) {
+			//パスワード、eメール
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+
+			$input = $this->FormInput->$type($fieldName, $options);
 
 		} else {
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
 			if ($type !== 'file' && ! Hash::get($options, 'class')) {
 				$options = Hash::insert($options, 'class', 'form-control');
 			}
-			$output .= $this->Form->input($fieldName, $options);
+
+			$input = $this->Form->input($fieldName, $options);
 		}
 
-		return $output;
+		return $label . $input;
 	}
 
 /**

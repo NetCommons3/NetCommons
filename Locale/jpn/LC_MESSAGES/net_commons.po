@@ -15,59 +15,9 @@ msgstr ""
 "Language: ja\n"
 "X-Generator: Poedit 1.7.5\n"
 
-#: AccessCounters/Model/AccessCounter.php:60;68;75
-#: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
-#: Announcements/Model/Announcement.php:80;94;100 Bbses/Model/Bbs.php:97
-#: Bbses/Model/BbsArticleTree.php:114;121;128;134;140
-#: Bbses/Model/BbsArticlesUser.php:63;70
-#: Bbses/Model/BbsFrameSetting.php:90;97;104 Blocks/Model/Block.php:121;131
-#: Blocks/Model/BlockRolePermission.php:71;81;91;101
-#: Blogs/Model/Blog.php:93;102;118 Blogs/Model/BlogFrameSetting.php:84;91
-#: Categories/Model/Category.php:84;93
-#: Categories/Model/CategoryOrder.php:43;52;61
-#: Categories/Test/Case/Model/CategoryOrderValidateCategoryOrderTest.php:96;124;152
-#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:93;150;178
-#: CircularNotices/Model/CircularNoticeChoice.php:43;49
-#: CircularNotices/Model/CircularNoticeContent.php:64;84;94;98;118;125
-#: CircularNotices/Model/CircularNoticeFrameSetting.php:54;61
-#: Comments/Model/Comment.php:43
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:137
-#: ContentComments/Model/ContentComment.php:56;63;70;77
-#: Edumap/Model/Edumap.php:116;125;137;173
-#: Edumap/Model/EdumapSocialMedium.php:56;62;68
-#: Edumap/Model/EdumapStudent.php:52;60;68
-#: Edumap/Model/EdumapVisibilitySetting.php:62
-#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:101;421
-#: Faqs/Model/Faq.php:93;102;118 Faqs/Model/FaqQuestion.php:94;103
-#: Faqs/Model/FaqQuestionOrder.php:43;52;61 Faqs/Model/FaqSetting.php:43;52
-#: Faqs/Test/Case/Model/FaqQuestionOrderValidateFaqQuestionOrderTest.php:81;109;137
-#: Faqs/Test/Case/Model/FaqQuestionSaveFaqQuestionTest.php:333;364;502
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:139;170;239;295;324;423
-#: Faqs/Test/Case/Model/FaqSettingValidateFaqSettingTest.php:80;108
-#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:121;206;228
-#: Files/Model/FileModel.php:77;85;93;102;110;118;126;134;140
-#: Iframes/Model/Iframe.php:121;128 Likes/Model/Like.php:56;63;70;77
-#: Links/Model/Link.php:94;103;115
-#: Links/Model/LinkFrameSetting.php:173;182;192;198;204;212;221
-#: Links/Model/LinkOrder.php:43;52;61 Links/Model/LinkSetting.php:43;52
-#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:44
-#: NetCommons/Model/Behavior/PublishableBehavior.php:136;143
-#: Pages/Model/LanguagesPage.php:73;83 Pages/Model/Page.php:173
-#: Questionnaires/Model/Questionnaire.php:102;109;122;148;164;170;176;186;192;198
-#: Questionnaires/Model/QuestionnaireQuestion.php:91;97;103;115;121;127;133;137;143;149
-#: Questionnaires/Test/Case/Model/QuestionnaireQuestionBehaviorTest.php:90;116
-#: Questionnaires/Test/Case/Model/QuestionnaireQuestionValidationTest.php:85;107;129;173;195;217;239
-#: Questionnaires/Test/Case/Model/QuestionnaireValidationBoolTest.php:75;95;118;141;164;187;210;234
-#: Questionnaires/Test/Case/Model/QuestionnaireValidationTest.php:74
-#: RssReaders/Model/RssReader.php:102
-#: RssReaders/Model/RssReaderFrameSetting.php:52;60
-#: RssReaders/Model/RssReaderItem.php:61
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:67
-#: Videos/Model/VideoBlockSetting.php:43;49;55;61;67;73;79;85;91
-#: Videos/Model/VideoFrameSetting.php:71;78;85
-#: Videos/Model/Behavior/VideoValidationBehavior.php:28;82
-msgid "Invalid request."
-msgstr "入力値が不正です。"
+#
+# Exceptionメッセージ
+#
 
 #: AccessCounters/Model/AccessCounter.php:136;141;207;248
 #: AccessCounters/Model/AccessCounterFrameSetting.php:150
@@ -127,10 +77,6 @@ msgstr "入力値が不正です。"
 msgid "Internal Server Error"
 msgstr "Internal Server Error"
 
-#: AccessCounters/View/AccessCounterBlocks/index.ctp:43
-msgid "Created datetime"
-msgstr "作成日時"
-
 #: AccessCounters/View/AccessCounterBlocks/not_found.ctp:24
 #: Announcements/View/AnnouncementBlocks/not_found.ctp:24
 #: Bbses/View/BbsBlocks/not_found.ctp:24
@@ -147,6 +93,80 @@ msgstr "作成日時"
 msgid "Not found."
 msgstr "登録されていません。"
 
+#: Blogs/Controller/BlogEntriesEditController.php:148;185
+#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
+#: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
+#: Questionnaires/Controller/QuestionnairesController.php:216
+msgid "Permission denied"
+msgstr "アクセスができません。"
+
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
+#: NetCommons/Controller/NetCommonsAppController.php:287;324;330
+#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
+#: Questionnaires/Controller/QuestionnaireQuestionsController.php:85;123;148;178
+#: Questionnaires/Controller/QuestionnairesController.php:321;368
+msgid "Bad Request"
+msgstr "不正なリクエストの可能性があります"
+
+
+#
+# メッセージ
+#
+
+#: AccessCounters/Model/AccessCounter.php:60;68;75
+#: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
+#: Announcements/Model/Announcement.php:80;94;100 Bbses/Model/Bbs.php:97
+#: Bbses/Model/BbsArticleTree.php:114;121;128;134;140
+#: Bbses/Model/BbsArticlesUser.php:63;70
+#: Bbses/Model/BbsFrameSetting.php:90;97;104 Blocks/Model/Block.php:121;131
+#: Blocks/Model/BlockRolePermission.php:71;81;91;101
+#: Blogs/Model/Blog.php:93;102;118 Blogs/Model/BlogFrameSetting.php:84;91
+#: Categories/Model/Category.php:84;93
+#: Categories/Model/CategoryOrder.php:43;52;61
+#: Categories/Test/Case/Model/CategoryOrderValidateCategoryOrderTest.php:96;124;152
+#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:93;150;178
+#: CircularNotices/Model/CircularNoticeChoice.php:43;49
+#: CircularNotices/Model/CircularNoticeContent.php:64;84;94;98;118;125
+#: CircularNotices/Model/CircularNoticeFrameSetting.php:54;61
+#: Comments/Model/Comment.php:43
+#: ContentComments/Controller/Component/ContentCommentsComponent.php:137
+#: ContentComments/Model/ContentComment.php:56;63;70;77
+#: Edumap/Model/Edumap.php:116;125;137;173
+#: Edumap/Model/EdumapSocialMedium.php:56;62;68
+#: Edumap/Model/EdumapStudent.php:52;60;68
+#: Edumap/Model/EdumapVisibilitySetting.php:62
+#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:101;421
+#: Faqs/Model/Faq.php:93;102;118 Faqs/Model/FaqQuestion.php:94;103
+#: Faqs/Model/FaqQuestionOrder.php:43;52;61 Faqs/Model/FaqSetting.php:43;52
+#: Faqs/Test/Case/Model/FaqQuestionOrderValidateFaqQuestionOrderTest.php:81;109;137
+#: Faqs/Test/Case/Model/FaqQuestionSaveFaqQuestionTest.php:333;364;502
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:139;170;239;295;324;423
+#: Faqs/Test/Case/Model/FaqSettingValidateFaqSettingTest.php:80;108
+#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:121;206;228
+#: Files/Model/FileModel.php:77;85;93;102;110;118;126;134;140
+#: Iframes/Model/Iframe.php:121;128 Likes/Model/Like.php:56;63;70;77
+#: Links/Model/Link.php:94;103;115
+#: Links/Model/LinkFrameSetting.php:173;182;192;198;204;212;221
+#: Links/Model/LinkOrder.php:43;52;61 Links/Model/LinkSetting.php:43;52
+#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:44
+#: NetCommons/Model/Behavior/PublishableBehavior.php:136;143
+#: Pages/Model/LanguagesPage.php:73;83 Pages/Model/Page.php:173
+#: Questionnaires/Model/Questionnaire.php:102;109;122;148;164;170;176;186;192;198
+#: Questionnaires/Model/QuestionnaireQuestion.php:91;97;103;115;121;127;133;137;143;149
+#: Questionnaires/Test/Case/Model/QuestionnaireQuestionBehaviorTest.php:90;116
+#: Questionnaires/Test/Case/Model/QuestionnaireQuestionValidationTest.php:85;107;129;173;195;217;239
+#: Questionnaires/Test/Case/Model/QuestionnaireValidationBoolTest.php:75;95;118;141;164;187;210;234
+#: Questionnaires/Test/Case/Model/QuestionnaireValidationTest.php:74
+#: RssReaders/Model/RssReader.php:102
+#: RssReaders/Model/RssReaderFrameSetting.php:52;60
+#: RssReaders/Model/RssReaderItem.php:61
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:67
+#: Videos/Model/VideoBlockSetting.php:43;49;55;61;67;73;79;85;91
+#: Videos/Model/VideoFrameSetting.php:71;78;85
+#: Videos/Model/Behavior/VideoValidationBehavior.php:28;82
+msgid "Invalid request."
+msgstr "入力値が不正です。"
+
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
@@ -160,23 +180,6 @@ msgstr "登録されていません。"
 #: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:17
 msgid "Delete all data associated with the %s."
 msgstr "この%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
-
-#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
-#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:25
-#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:25
-#: Blogs/View/BlogEntriesEdit/form.ctp:194
-#: Blogs/View/Elements/Blocks/delete_form.ctp:25
-#: Categories/View/Elements/edit_form.ctp:59
-#: CircularNotices/View/Elements/CircularNotices/choice_edit_form.ctp:58
-#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:25
-#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:25
-#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:25
-#: Links/View/Elements/LinkBlocks/delete_form.ctp:22
-#: Pages/View/Elements/Pages/delete_form.ctp:35
-#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:25
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:19
-msgid "Delete"
-msgstr "削除"
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:25
 #: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:28
@@ -225,6 +228,84 @@ msgstr "%sを削除します。本当によろしいですか。"
 #: Videos/Model/Behavior/VideoValidationBehavior.php:35;89
 msgid "Please input %s."
 msgstr "%sを入力してください"
+
+#: Comments/Model/Comment.php:57 Comments/View/Elements/form.ctp:28
+#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:271
+msgid "If it is not approved, comment is a required input."
+msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
+
+#: Comments/View/Elements/form.ctp:28
+msgid "Please enter comments to the person in charge."
+msgstr "担当者へコメントがあれば、入力して下さい。"
+
+#: Edumap/Model/Edumap.php:162;191;197;209;215;222;229;236;243
+#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:384;458;495;532;569;606;643;680;683;720
+#: Iframes/Model/Iframe.php:106
+#: Iframes/Test/Case/Model/IframeValidateTest.php:126 Links/Model/Link.php:131
+#: RssReaders/Model/RssReader.php:121;136
+#: RssReaders/Model/RssReaderItem.php:82
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
+msgid "Unauthorized pattern for %s. Please input the data in %s format."
+msgstr "「%s」の書式が不正です。%s形式で入力してください。"
+
+#: Edumap/Model/EdumapSocialMedium.php:74
+msgid "Only alphabets and numbers are allowed."
+msgstr "半角英数字または記号で入力してください。"
+
+#: Frames/Controller/FramesController.php:169
+#: Pages/Controller/PagesController.php:247
+#: PluginManager/Controller/PluginManagerController.php:148
+msgid "Successfully saved."
+msgstr "正常に登録しました。"
+
+#:
+msgid "For confirmation, please re-enter."
+msgstr "確認のため、再度入力してください。"
+
+#: NetCommons/Controller/NetCommonsAppController.php:289
+msgid "Failed on validation errors. Please check the input data."
+msgstr "入力した内容に誤りがあります。内容を確認して下さい。"
+
+msgid "%s is already in use. Please choose another."
+msgstr "入力した%sは既に存在します。他の内容を入力してください。"
+
+msgid "The input data does not match. Please try again."
+msgstr "入力した内容と確認項目の内容が一致しません。再度、入力してください。"
+
+#: Pages/Model/Page.php:178
+msgid "%s is already in use."
+msgstr "%sは既に使われています。"
+
+msgid "No results found."
+msgstr "条件に一致するデータはありませんでした。"
+
+
+#
+#: ラベル
+#
+
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
+#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:25
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:25
+#: Blogs/View/BlogEntriesEdit/form.ctp:194
+#: Blogs/View/Elements/Blocks/delete_form.ctp:25
+#: Categories/View/Elements/edit_form.ctp:59
+#: CircularNotices/View/Elements/CircularNotices/choice_edit_form.ctp:58
+#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:25
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:25
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:25
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:22
+#: Pages/View/Elements/Pages/delete_form.ctp:35
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:25
+#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:19
+msgid "Delete"
+msgstr "削除"
+
+#: AccessCounters/View/AccessCounterBlocks/index.ctp:43
+msgid "Created datetime"
+msgstr "作成日時"
 
 #: Announcements/View/AnnouncementBlocks/index.ctp:43
 #: Blogs/View/BlogBlocks/index.ctp:43 Edumap/View/EdumapBlocks/index.ctp:40
@@ -302,13 +383,6 @@ msgstr "決定"
 msgid "Role permission settings"
 msgstr "権限設定"
 
-#: Blogs/Controller/BlogEntriesEditController.php:148;185
-#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
-#: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
-#: Questionnaires/Controller/QuestionnairesController.php:216
-msgid "Permission denied"
-msgstr "アクセスができません。"
-
 #: CircularNotices/Controller/CircularNoticesAppController.php:125
 #: NetCommons/View/Elements/setting_tabs.ctp:31
 msgid "Frame settings"
@@ -325,47 +399,14 @@ msgstr ""
 msgid "Add"
 msgstr "追加"
 
-#: Comments/Model/Comment.php:57 Comments/View/Elements/form.ctp:28
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:271
-msgid "If it is not approved, comment is a required input."
-msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
-
 #: Comments/View/Elements/form.ctp:19;27
 msgid "Comments to the person in charge."
 msgstr "担当者へのコメント"
-
-#: Comments/View/Elements/form.ctp:28
-msgid "Please enter comments to the person in charge."
-msgstr "担当者へコメントがあれば、入力して下さい。"
 
 #: Comments/View/Elements/index.ctp:48
 #: ContentComments/View/Elements/index.ctp:251 Videos/View/Videos/view.ctp:255
 msgid "More"
 msgstr "もっと見る"
-
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
-#: NetCommons/Controller/NetCommonsAppController.php:287;324;330
-#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
-#: Questionnaires/Controller/QuestionnaireQuestionsController.php:85;123;148;178
-#: Questionnaires/Controller/QuestionnairesController.php:321;368
-msgid "Bad Request"
-msgstr "不正なリクエストの可能性があります"
-
-#: Edumap/Model/Edumap.php:162;191;197;209;215;222;229;236;243
-#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:384;458;495;532;569;606;643;680;683;720
-#: Iframes/Model/Iframe.php:106
-#: Iframes/Test/Case/Model/IframeValidateTest.php:126 Links/Model/Link.php:131
-#: RssReaders/Model/RssReader.php:121;136
-#: RssReaders/Model/RssReaderItem.php:82
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
-msgid "Unauthorized pattern for %s. Please input the data in %s format."
-msgstr "「%s」の書式が不正です。%s形式で入力してください。"
-
-#: Edumap/Model/EdumapSocialMedium.php:74
-msgid "Only alphabets and numbers are allowed."
-msgstr "半角英数字または記号で入力してください。"
 
 #: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
 msgid "Display all"
@@ -399,16 +440,6 @@ msgstr "承認待ち"
 msgid "Disapproving"
 msgstr "差し戻し"
 
-#: Frames/Controller/FramesController.php:169
-#: Pages/Controller/PagesController.php:247
-#: PluginManager/Controller/PluginManagerController.php:148
-msgid "Successfully saved."
-msgstr "正常に登録しました。"
-
-#:
-msgid "For confirmation, please re-enter."
-msgstr "確認のため、再度入力してください。"
-
 #: Frames/View/Elements/setting_header.ctp:23
 msgid "Quit"
 msgstr "終了"
@@ -422,9 +453,9 @@ msgstr ""
 msgid "IP Address"
 msgstr "IPアドレス"
 
-#: NetCommons/Controller/NetCommonsAppController.php:289
-msgid "Failed on validation errors. Please check the input data."
-msgstr "入力した内容に誤りがあります。内容を確認して下さい。"
+msgid "Re-enter"
+msgstr "確認項目"
+
 
 #: NetCommons/View/Elements/common_header.ctp:39
 msgid "Home"
@@ -450,6 +481,11 @@ msgstr "*"
 #: NetCommons/View/Elements/setting_tabs.ctp:20
 msgid "List"
 msgstr "一覧表示"
+
+
+#
+#: 画像認証
+#
 
 #: NetCommons/View/Elements/visual_captcha.ctp:34
 msgid "Sound icon"
@@ -484,10 +520,6 @@ msgstr "差し戻し"
 #: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:30;38
 msgid "Save temporally"
 msgstr "一時保存"
-
-#: Pages/Model/Page.php:178
-msgid "%s is already in use."
-msgstr "%sは既に使われています。"
 
 #: Pages/View/Elements/add_plugin.ctp:78
 msgid "Close"
@@ -527,9 +559,6 @@ msgstr "全てのステータス"
 msgid "All Duration"
 msgstr "全ての期間"
 
-msgid "No results found."
-msgstr "条件に一致するデータはありませんでした。"
-
 msgid "Search"
 msgstr "検索"
 
@@ -554,6 +583,11 @@ msgstr "はい"
 msgid "No"
 msgstr "いいえ"
 
+
+#
+#: ソート
+#
+
 msgid "Newest"
 msgstr "新着順"
 
@@ -563,7 +597,11 @@ msgstr "登録順"
 msgid "Title"
 msgstr "タイトル順"
 
+
+#
 #: TitleIconName
+#
+
 msgid "icon_cancel"
 msgstr "取消し"
 msgid "new"

@@ -19,7 +19,11 @@ App::uses('AppHelper', 'View/Helper');
 class FormInputHelper extends AppHelper {
 
 /**
- * 使用ヘルパー
+ * 使用するHelpers
+ *
+ * - [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
+ * - [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * - [NetCommons.NetCommonsFormHelper](../../NetCommons/classes/NetCommonsFormHelper.html)
  *
  * @var array
  */
@@ -30,7 +34,7 @@ class FormInputHelper extends AppHelper {
 	);
 
 /**
- * $optionsの中身をarrat('div' => css文字列)をarray('div' => ['class' => css文字列])に変換して出力する
+ * $optionsの中身をarray('div' => css文字列)をarray('div' => ['class' => css文字列])に変換して出力する
  *
  * @param string $type inputのタイプ
  * @param array $options inputのオプション配列
@@ -320,7 +324,61 @@ class FormInputHelper extends AppHelper {
 				'label' => false,
 				'div' => false,
 				'class' => 'form-control',
-				'autocomplete' => 'off'
+				'autocomplete' => 'off',
+			),
+			$options
+		);
+
+		//入力フォーム
+		$input .= $this->Form->input($fieldName, $options);
+
+		//再度入力フォーム
+		if ($again) {
+			$options = Hash::merge(
+				$options,
+				array(
+					'placeholder' => __d('net_commons', 'For confirmation, please re-enter.'),
+					'class' => 'form-control form-input-again'
+				)
+			);
+			$input .= $this->Form->input($fieldName . '_again', $options);
+		}
+
+		if ($divOption) {
+			return $this->Html->div(null, $input, $divOption);
+		} else {
+			return $input;
+		}
+	}
+
+/**
+ * emailの出力
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options emailオプション
+ * @return string
+ * ##### return サンプル
+ * - 入力
+ * ```
+ * ```
+ * - 出力
+ * ```
+ * ```
+ */
+	public function email($fieldName, $options = array()) {
+		$input = '';
+
+		$divOption = $this->getDivOption('email', $options, 'div');
+
+		$again = Hash::get($options, 'again', false);
+		$options = Hash::remove($options, 'again');
+
+		$options = Hash::merge(
+			array(
+				'type' => 'text',
+				'label' => false,
+				'div' => false,
+				'class' => 'form-control',
 			),
 			$options
 		);

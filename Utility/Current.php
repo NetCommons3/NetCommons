@@ -414,7 +414,7 @@ class Current extends CurrentBase {
  * @param string|null $languageId 言語ID
  * @param string|null $model モデル名
  * @param string|null $field フィールド名
- * @return mixed Current data.
+ * @return mixed Currentデータ
  */
 	public static function readM17n($languageId, $model = null, $field = null) {
 		if (! isset(self::$m17n)) {
@@ -523,6 +523,16 @@ class Current extends CurrentBase {
 		} else {
 			return (bool)count(self::$current['PluginsRole']);
 		}
+	}
+
+/**
+ * 新規登録の有無
+ *
+ * @return bool
+ */
+	public static function hasAutoUserRegist() {
+		$AutoUserRegist = ClassRegistry::init('Auth.AutoUserRegist');
+		return $AutoUserRegist->hasAutoUserRegist();
 	}
 
 /**

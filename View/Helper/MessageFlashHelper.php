@@ -1,6 +1,6 @@
 <?php
 /**
- * MessageFlash Helper
+ * メッセージ表示のためのHelper
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,14 +12,16 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * MessageFlash Helper
+ * メッセージ表示のためのHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
 class MessageFlashHelper extends AppHelper {
 
 /**
- * ヘルパー
+ * 使用するHelpers
+ *
+ * - [NetCommons.NetCommonsHtmlHelper](../../NetCommons/classes/NetCommonsHtmlHelper.html)
  *
  * @var array
  */
@@ -33,9 +35,24 @@ class MessageFlashHelper extends AppHelper {
  * @param string $message メッセージ
  * @param array $options オプション配列
  * @return string HTML出力
+ * ##### return サンプル
+ * - 入力
+ * ```
+ * echo $this->MessageFlash->description('メッセージ内容');
+ * ```
+ * - 出力
+ * ```
+ * <div class="alert alert-info">
+ * 		メッセージ内容
+ * </div>
+ * ```
  */
-	public function description($message, $options = array()) {
-		return $this->NetCommonsHtml->div('alert alert-info', $message, $options);
+	public function description($message, $options = array('class' => 'alert alert-info')) {
+		if ($message) {
+			return $this->NetCommonsHtml->div(null, $message, $options);
+		} else {
+			return '';
+		}
 	}
 
 }

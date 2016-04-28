@@ -1,6 +1,6 @@
 <?php
 /**
- * NetCommonsFormHelper
+ * NetCommonsForm Helper
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,14 +12,23 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * NetCommonsFormHelper
+ * NetCommonsでFormHelperをOverrideしたHelper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
 class NetCommonsFormHelper extends AppHelper {
 
 /**
- * 使用するFormHelper
+ * 使用するHelpers
+ *
+ * - [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html)
+ * - [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
+ * - [Files.FilesFormHelper](../../Files/classes/FilesFormHelper.html)
+ * - [NetCommons.ButtonHelper](../../NetCommons/classes/ButtonHelper.html)
+ * - [NetCommons.FormInputHelper](../../NetCommons/classes/FormInputHelper.html)
+ * - [NetCommons.NetCommonsHtmlHelper](../../NetCommons/classes/NetCommonsHtmlHelper.html)
+ * - [NetCommons.NetCommonsTimeHelper](../../NetCommons/classes/NetCommonsTimeHelper.html)
+ * - [NetCommons.DatetimePickerHelper](../../NetCommons/classes/DatetimePickerHelper.html)
  *
  * @var array
  */
@@ -37,33 +46,33 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * 各プラグインFormHelperラップ用マジックメソッド
  *
- * 指定されたメソッドにより、各プラグインのFormHelperのメソッドを間接的に呼び出します。
+ * 指定されたメソッドにより、各プラグインのFormHelperのメソッドを呼び出します。
  *
  * @param string $method メソッド
  * @param array $params パラメータ
  * @return mixed
  * ##### $method の内容による出力
- * - <a id="method__input_uploadFile" name="method__input_uploadFile" class="anchor"></a>
+ * - <a id="method___call_uploadFile" name="method___call_uploadFile" class="anchor"></a>
  * NetCommonsForm::uploadFile()<br>
  * [Files.FilesFormHelper::uploadFile()](../../Files/classes/FilesFormHelper.html#method_uploadFile)
  * の結果を出力する。
  *
- * - <a id="method__input_checkbox" name="method__input_checkbox" class="anchor"></a>
+ * - <a id="method___call_checkbox" name="method___call_checkbox" class="anchor"></a>
  * NetCommonsForm::checkbox()<br>
  * [NetCommons.FormInputHelper::checkbox()](./FormInputHelper.html#method_checkbox)
  * の結果を出力する。
  *
- * - <a id="method__input_radio" name="method__input_radio" class="anchor"></a>
+ * - <a id="method___call_radio" name="method___call_radio" class="anchor"></a>
  * NetCommonsForm::radio()<br>
  * [NetCommons.FormInputHelper::radio()](./FormInputHelper.html#method_radio)
  * の結果を出力する。
  *
- * - <a id="method__input_wysiwyg" name="method__input_wysiwyg" class="anchor"></a>
+ * - <a id="method___call_wysiwyg" name="method___call_wysiwyg" class="anchor"></a>
  * NetCommonsForm::wysiwyg()<br>
  * [Wysiwyg.WysiwygHelper::wysiwyg()](../../Wysiwyg/classes/WysiwygHelper.html#method_wysiwyg)
  * の結果を出力する。
  *
- * - <a id="method__input_inlineCheckbox" name="method__input_inlineCheckbox" class="anchor"></a>
+ * - <a id="method___call_inlineCheckbox" name="method___call_inlineCheckbox" class="anchor"></a>
  * NetCommonsForm::inlineCheckbox()<br>
  * $paramsに以下を追加して、
  * [NetCommons.FormInputHelper::checkbox()](./FormInputHelper.html#method_checkbox)
@@ -75,22 +84,22 @@ class NetCommonsFormHelper extends AppHelper {
  * )
  * ```
  *
- * - <a id="method__input_inputWithTitleIcon" name="method__input_inputWithTitleIcon" class="anchor"></a>
+ * - <a id="method___call_inputWithTitleIcon" name="method___call_inputWithTitleIcon" class="anchor"></a>
  * NetCommonsForm::inputWithTitleIcon()<br>
  * [NetCommons.TitleIconHelper::inputWithTitleIcon()](./TitleIconHelper.html#method_inputWithTitleIcon)
  * の結果を出力する。
  *
- * - <a id="method__input_titleIconPicker" name="method__input_titleIconPicker" class="anchor"></a>
+ * - <a id="method___call_titleIconPicker" name="method___call_titleIconPicker" class="anchor"></a>
  * NetCommonsForm::titleIconPicker()<br>
  * [NetCommons.TitleIconHelper::titleIconPicker()](./TitleIconHelper.html#method_titleIconPicker)
  * の結果を出力する。
  *
- * - <a id="method__input_ngTitleIconPicker" name="method__input_ngTitleIconPicker" class="anchor"></a>
+ * - <a id="method___call_ngTitleIconPicker" name="method___call_ngTitleIconPicker" class="anchor"></a>
  * NetCommonsForm::ngTitleIconPicker()<br>
  * [NetCommons.TitleIconHelper::ngTitleIconPicker()](./TitleIconHelper.html#method_ngTitleIconPicker)
  * の結果を出力する。
  *
- * - <a id="method__input_others" name="method__input_others" class="anchor"></a>
+ * - <a id="method___call_others" name="method___call_others" class="anchor"></a>
  * それ以外<br>
  * [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の各メソッドの結果を出力する。
@@ -100,7 +109,7 @@ class NetCommonsFormHelper extends AppHelper {
 			//アップロード
 			$helper = $this->FilesForm;
 
-		} elseif (in_array($method, ['hidden', 'checkbox', 'radio', 'select'], true)) {
+		} elseif (in_array($method, ['hidden', 'checkbox', 'radio', 'select', 'email'], true)) {
 			$helper = $this->FormInput;
 
 		} elseif ($method === 'wysiwyg') {
@@ -412,7 +421,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//errorの有無
 		$error = (bool)$this->Form->error($fieldName);
-		if (Hash::get($options, 'type') === 'password') {
+		if (in_array(Hash::get($options, 'type'), ['password', 'email'], true)) {
 			$error = $error || (bool)$this->Form->error($fieldName . '_again');
 		}
 
@@ -451,7 +460,8 @@ class NetCommonsFormHelper extends AppHelper {
  * @return string HTML
  */
 	protected function _input($fieldName, $options = array()) {
-		$output = '';
+		$input = '';
+		$label = '';
 
 		$type = Hash::get($options, 'type');
 		if (Hash::get($options, 'multiple') === 'checkbox') {
@@ -461,38 +471,50 @@ class NetCommonsFormHelper extends AppHelper {
 		//ラベルの表示
 		if (Hash::get($options, 'label')) {
 			$label = $this->label($fieldName, $options['label'], ['required' => $options['required']]);
-			$options = Hash::remove($options, 'required');
-			$options = Hash::insert($options, 'label', false);
-			$output .= $label;
-
-			if (in_array($type, ['radio', 'multiple'], true)) {
-				$options['outer'] = true;
-			}
 		}
 
 		if ($type === 'radio') {
 			//ラジオボタン
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$options['outer'] = (bool)$label;
+
 			$attributes = Hash::remove($options, 'options');
-			$output .= $this->FormInput->radio(
+			$input = $this->FormInput->radio(
 				$fieldName, Hash::get($options, 'options', array()), $attributes
 			);
 
 		} elseif ($type === 'multiple') {
 			//複数チェックボックス
-			$output .= $this->FormInput->multipleCheckbox($fieldName, $options);
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$options['outer'] = (bool)$label;
 
-		} elseif (in_array($type, ['checkbox', 'password'])) {
+			$input = $this->FormInput->multipleCheckbox($fieldName, $options);
+
+		} elseif ($type === 'checkbox') {
 			//チェックボックス
-			$output .= $this->FormInput->$type($fieldName, $options);
+			$label = '';
+			$input = $this->FormInput->$type($fieldName, $options);
+
+		} elseif (in_array($type, ['password', 'email'], true)) {
+			//パスワード、eメール
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+
+			$input = $this->FormInput->$type($fieldName, $options);
 
 		} else {
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
 			if ($type !== 'file' && ! Hash::get($options, 'class')) {
 				$options = Hash::insert($options, 'class', 'form-control');
 			}
-			$output .= $this->Form->input($fieldName, $options);
+
+			$input = $this->Form->input($fieldName, $options);
 		}
 
-		return $output;
+		return $label . $input;
 	}
 
 /**

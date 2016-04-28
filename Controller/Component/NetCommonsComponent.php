@@ -24,7 +24,7 @@ class NetCommonsComponent extends Component {
  *
  * @var string
  */
-	const ALERT_SUCCESS_INTERVAL = 1500,
+	const ALERT_SUCCESS_INTERVAL = 2000,
 		ALERT_VALIDATE_ERROR_INTERVAL = 4000;
 
 /**

@@ -87,7 +87,7 @@ class WizardHelper extends AppHelper {
 
 			$output .= '<span class="wizard-step-item-title">' . $badge . ' ';
 
-			if ($backLink) {
+			if ($backLink && isset($step['url'])) {
 				$url = $this->NetCommonsHtml->url($step['url']);
 				$output .= '<a href="' . $url . '">' . __d($step['label'][0], $step['label'][1]) . '</a>';
 			} else {

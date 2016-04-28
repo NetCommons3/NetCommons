@@ -133,6 +133,9 @@ class NetCommonsAppController extends Controller {
 			return;
 		}
 
+		//サイトの設定データセット
+		SiteSettingUtil::initialize();
+
 		//言語の取得
 		if (isset($this->request->query['language'])) {
 			Configure::write('Config.language', $this->request->query['language']);
@@ -147,9 +150,6 @@ class NetCommonsAppController extends Controller {
 				! $this->Components->loaded('NetCommons.Permission')) {
 			$this->Components->load('NetCommons.Permission');
 		}
-
-		//サイトの設定でデータセット
-		SiteSettingUtil::initialize();
 
 		//現在のテーマを取得
 		$theme = $this->Asset->getSiteTheme($this);

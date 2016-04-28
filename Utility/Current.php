@@ -526,16 +526,6 @@ class Current extends CurrentBase {
 	}
 
 /**
- * 新規登録の有無
- *
- * @return bool
- */
-	public static function hasAutoUserRegist() {
-		$AutoUserRegist = ClassRegistry::init('Auth.AutoUserRegist');
-		return $AutoUserRegist->hasAutoUserRegist();
-	}
-
-/**
  * 管理系プラグインの許可
  *
  * @param string $pluginKey プラグインkey

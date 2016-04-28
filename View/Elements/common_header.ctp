@@ -49,7 +49,7 @@ if (! isset($isSettingMode)) {
 									NetCommonsUrl::actionUrl('/auth/logout')); ?>
 						</li>
 					<?php else: ?>
-						<?php if (Current::hasAutoUserRegist()) : ?>
+						<?php if (SiteSettingUtil::read('AutoRegist.use_automatic_register', false)) : ?>
 							<li>
 								<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'),
 										NetCommonsUrl::actionUrl('/auth/auto_user_regist/request')); ?>

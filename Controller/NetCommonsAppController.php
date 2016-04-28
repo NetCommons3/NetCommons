@@ -13,6 +13,7 @@ App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -146,6 +147,9 @@ class NetCommonsAppController extends Controller {
 				! $this->Components->loaded('NetCommons.Permission')) {
 			$this->Components->load('NetCommons.Permission');
 		}
+
+		//サイトの設定でデータセット
+		SiteSettingUtil::initialize();
 
 		//現在のテーマを取得
 		$theme = $this->Asset->getSiteTheme($this);

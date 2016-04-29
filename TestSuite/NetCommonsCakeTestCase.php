@@ -14,6 +14,7 @@ CakeLog::drop('stderr');
 
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 /**
  * NetCommonsCakeTestCase class
@@ -141,6 +142,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 
 		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
+		SiteSettingUtil::reset();
 
 		parent::tearDown();
 	}

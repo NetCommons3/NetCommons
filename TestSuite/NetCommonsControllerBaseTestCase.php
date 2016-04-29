@@ -19,6 +19,7 @@ App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 /**
  * NetCommonsControllerTestCase
@@ -153,6 +154,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 
 		Current::$current = array();
+		SiteSettingUtil::reset();
 		parent::tearDown();
 	}
 

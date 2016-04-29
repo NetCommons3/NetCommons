@@ -47,7 +47,8 @@ class MessageFlashHelper extends AppHelper {
  * </div>
  * ```
  */
-	public function description($message, $options = array('class' => 'alert alert-info')) {
+	public function description($message, $options = array()) {
+		$options = Hash::merge(array('class' => 'alert alert-info'), $options);
 		if ($message) {
 			return $this->NetCommonsHtml->div(null, $message, $options);
 		} else {

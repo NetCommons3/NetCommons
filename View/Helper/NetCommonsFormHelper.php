@@ -48,10 +48,7 @@ class NetCommonsFormHelper extends AppHelper {
  *
  * 指定されたメソッドにより、各プラグインのFormHelperのメソッドを呼び出します。
  *
- * @param string $method メソッド
- * @param array $params パラメータ
- * @return mixed
- * ##### $method の内容による出力
+ * #### $method による出力内容
  * - <a id="method___call_uploadFile" name="method___call_uploadFile" class="anchor"></a>
  * NetCommonsForm::uploadFile()<br>
  * [Files.FilesFormHelper::uploadFile()](../../Files/classes/FilesFormHelper.html#method_uploadFile)
@@ -103,6 +100,10 @@ class NetCommonsFormHelper extends AppHelper {
  * それ以外<br>
  * [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の各メソッドの結果を出力する。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return mixed
  */
 	public function __call($method, $params) {
 		if ($method === 'uploadFile') {
@@ -144,13 +145,14 @@ class NetCommonsFormHelper extends AppHelper {
  * - 二重submit防止のため、ng-submit=submit($event)をセットする
  * - エラー出力をNetCommons用の表示をするため、novalidateをOffにする
  *
- * @param mixed $model モデル名
- * @param array $options オプション
- * @return string
- * ##### return サンプル
+ * #### return サンプル
  * ```
  * <form method="post" novalidate="novalidate" ng-submit="submit($event)" action="/auth_general/auth_general/login">
  * ```
+ *
+ * @param mixed $model モデル名
+ * @param array $options オプション
+ * @return string
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::create FormHelper::create()
  */
 	public function create($model = null, $options = array()) {
@@ -168,55 +170,7 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * NetCommons用Htmlを付加して、FormHelper::input()の結果を出力する。
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options オプション配列
- * ##### $optionsの初期値
- * - 共通
- * ```
- * array(
- * 		'error' => false,
- * 		'required' => null,
- * 		'label' => null,
- *	);
- * ```
- * - type=number の場合
- * ```
- * array(
- * 		'error' => false,
- * 		'required' => null,
- * 		'label' => null,
- * 		'min' => 0,
- * 		'div' => array('class' => 'form-group')
- * );
- * ```
- *
- * ##### $optionsの値<br>
- * 基本的なオプションについては、[FormHelperのオプション](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#id5)を参照。
- * そのうち、下記が良く使われるオプションである。
- *
- * - 必須マークを付ける場合
- * ```
- * array(
- * 		'required' => true,
- * );
- * ```
- * - <a id="method_input_options_placeholder" name="method_input_options_placeholder" class="anchor"></a>
- * プレースホルダーテキストを表示する場合
- * ```
- * array(
- * 		'placeholder' => 'アンケートを入力してください。',
- * );
- * ```
- * - ヘルプブロックを表示する場合（NetCommonsのみのオプション）<br>
- * 出力内容については、[こちら](#method_input_help) を参照。
- * ```
- * array(
- * 		'help' => 'アンケートを入力してください。',
- * );
- * ```
- *
- * @return string
- * ##### 下記の$optionsに指定した内容に基づきHTMLを出力する。
+ * #### 下記の$optionsに指定した内容に基づきHTMLを出力する。
  * - <a id="method_input_help" name="method_input_help" class="anchor"></a>
  * help=メッセージ（NCオリジナル）<br>
  * このオプションは、ヘルプブロックを出力するオプション。<br>
@@ -359,7 +313,7 @@ class NetCommonsFormHelper extends AppHelper {
  * ```
  * <br>
  *
- * ##### $optionsの内容の他に、下記のHTMLを強制的に出力する。
+ * #### $optionsの内容の他に、下記のHTMLを強制的に出力する。
  * - TimeZone関係のHTML
  * ```
  * <input type="hidden"
@@ -376,6 +330,55 @@ class NetCommonsFormHelper extends AppHelper {
  * 		・・・
  * </div>
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * ##### $optionsの初期値
+ * - 共通
+ * ```
+ * array(
+ * 		'error' => false,
+ * 		'required' => null,
+ * 		'label' => null,
+ *	);
+ * ```
+ * - type=number の場合
+ * ```
+ * array(
+ * 		'error' => false,
+ * 		'required' => null,
+ * 		'label' => null,
+ * 		'min' => 0,
+ * 		'div' => array('class' => 'form-group')
+ * );
+ * ```
+ *
+ * ##### $optionsの値<br>
+ * 基本的なオプションについては、[FormHelperのオプション](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#id5)を参照。
+ * そのうち、下記が良く使われるオプションである。
+ *
+ * - 必須マークを付ける場合
+ * ```
+ * array(
+ * 		'required' => true,
+ * );
+ * ```
+ * - <a id="method_input_options_placeholder" name="method_input_options_placeholder" class="anchor"></a>
+ * プレースホルダーテキストを表示する場合
+ * ```
+ * array(
+ * 		'placeholder' => 'アンケートを入力してください。',
+ * );
+ * ```
+ * - ヘルプブロックを表示する場合（NetCommonsのみのオプション）<br>
+ * 出力内容については、[こちら](#method_input_help) を参照。
+ * ```
+ * array(
+ * 		'help' => 'アンケートを入力してください。',
+ * );
+ * ```
+ *
+ * @return string
  */
 	public function input($fieldName, $options = array()) {
 		if (Hash::get($options, 'type') === 'hidden') {
@@ -520,12 +523,13 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * Timezone変換の準備を組み込んだForm::end
  *
- * @param null|array $options オプション
- * @param array $secureAttributes secureAttributes
- * @return string
  * [FormHelper::end()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::end)と
  * [DatetimePickerHelper::beforeFormEnd()](./DatetimePickerHelper.html#method_beforeFormEnd)と
  * [NetCommonsTimeHelper::beforeFormEnd()](./NetCommonsTimeHelper.html#method_beforeFormEnd)の内容を出力する
+ *
+ * @param null|array $options オプション
+ * @param array $secureAttributes secureAttributes
+ * @return string
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::end FormHelper::end()
  */
 	public function end($options = null, $secureAttributes = array()) {
@@ -542,17 +546,18 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * エラーの出力
  *
- * @param string $fieldName フィールド名 "Modelname.fieldname"
- * @param string|array $text エラーメッセージ
- * @param array $options <div>の属性オプション
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名 "Modelname.fieldname"
+ * @param string|array $text エラーメッセージ
+ * @param array $options <div>の属性オプション
+ * @return string
  */
 	public function error($fieldName, $text = null, $options = array()) {
 		$output = '';
@@ -579,15 +584,16 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * ヘルプブロックの表示
  *
- * @param string $helpText ヘルプテキスト
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $helpText ヘルプテキスト
+ * @return string
  */
 	public function help($helpText) {
 		$output = '';
@@ -604,12 +610,7 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * <label>タグの表示
  *
- * @param string $fieldName フィールド名 "Modelname.fieldname"
- * @param string $labelText ラベルテキスト
- * @param array $options オプション
- * @param bool $returnHtml 戻り値をHTMLにするか配列にするか
- * @return string|array HTMLもしくはoption配列
- * ##### return サンプル（$returnHtml=true）
+ * #### サンプル（$returnHtml=true）
  * - 入力
  * ```
  * ```
@@ -617,13 +618,19 @@ class NetCommonsFormHelper extends AppHelper {
  * ```
  * ```
  *
- * ##### return サンプル（$returnHtml=false）
+ * #### サンプル（$returnHtml=false）
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名 "Modelname.fieldname"
+ * @param string $labelText ラベルテキスト
+ * @param array $options オプション
+ * @param bool $returnHtml 戻り値をHTMLにするか配列にするか
+ * @return string|array HTMLもしくはoption配列
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function label($fieldName = null, $labelText = null, $options = [], $returnHtml = true) {

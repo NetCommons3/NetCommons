@@ -54,6 +54,7 @@ class AssetComponent extends Component {
 			if ($theme) {
 				return $theme;
 			} else {
+				$controller->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
 				$theme = $controller->SiteSetting->getSiteTheme();
 			}
 		}

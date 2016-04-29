@@ -170,11 +170,11 @@ class NetCommonsFormHelper extends AppHelper {
 /**
  * NetCommons用Htmlを付加して、FormHelper::input()の結果を出力する。
  *
- * #### 下記の$optionsに指定した内容に基づきHTMLを出力する。
+ * ##### 下記の$optionsに指定した内容に基づきHTMLを出力する。
+ *
  * - <a id="method_input_help" name="method_input_help" class="anchor"></a>
  * help=メッセージ（NCオリジナル）<br>
  * このオプションは、ヘルプブロックを出力するオプション。<br>
- * [サンプル]
  *  - 入力
  * ```
  * echo $this->NetCommonsForm->input('Bbs.name',
@@ -203,7 +203,6 @@ class NetCommonsFormHelper extends AppHelper {
  * type=text (typeを省略した場合、デフォルト値)<br>
  * [FormHelper::input()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の結果を出力する。<br>
- * [サンプル]
  *  - 入力
  * ```
  * echo $this->NetCommonsForm->input('Bbs.name',
@@ -230,7 +229,6 @@ class NetCommonsFormHelper extends AppHelper {
  * type=textarea<br>
  * [FormHelper::input()](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
  * の結果を出力する。<br>
- * [サンプル]
  *  - 入力
  * ```
  * echo $this->NetCommonsForm->input('Bbs.name',
@@ -282,7 +280,6 @@ class NetCommonsFormHelper extends AppHelper {
  * type=datetime<br>
  * [datetimepicker](./DatetimePickerHelper.html)
  * の結果を出力する。<br>
- * [サンプル]
  *  - 入力
  * ```
  * echo $this->NetCommonsForm->input('publish_start',
@@ -313,7 +310,7 @@ class NetCommonsFormHelper extends AppHelper {
  * ```
  * <br>
  *
- * #### $optionsの内容の他に、下記のHTMLを強制的に出力する。
+ * ##### $optionsの内容の他に、下記のHTMLを強制的に出力する。
  * - TimeZone関係のHTML
  * ```
  * <input type="hidden"

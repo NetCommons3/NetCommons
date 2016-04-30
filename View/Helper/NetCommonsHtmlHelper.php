@@ -35,10 +35,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  *
  * 指定されたメソッドにより、各プラグインのHelperメソッドを呼び出します。
  *
- * @param string $method メソッド
- * @param array $params パラメータ
- * @return string
- * ##### $method の内容による出力
+ * #### $method の内容による出力
  * - <a id="method___call_mailHelp" name="method___call_mailHelp" class="anchor"></a>
  * NetCommonsHtml::mailHelp()<br>
  * [Mails.MailsHtml::help()](../../Mails/classes/MailsHtmlHelper.html#method_help)
@@ -48,6 +45,10 @@ class NetCommonsHtmlHelper extends AppHelper {
  * それ以外<br>
  * [HtmlHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html)
  * の各メソッドの結果を出力する。
+ *
+ * @param string $method メソッド
+ * @param array $params パラメータ
+ * @return string
  */
 	public function __call($method, $params) {
 		if ($method === 'mailHelp') {

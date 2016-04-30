@@ -64,17 +64,18 @@ class FormInputHelper extends AppHelper {
 /**
  * ラジオボタンを出力する
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options radioのオプション配列
- * @param array $attributes HTML属性オプション配列
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options radioのオプション配列
+ * @param array $attributes HTML属性オプション配列
+ * @return string
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::radio FormHelper::radio()
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
  */
@@ -126,16 +127,17 @@ class FormInputHelper extends AppHelper {
 /**
  * チェックボックスを出力する
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options checkboxオプション配列
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options checkboxオプション配列
+ * @return string
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::checkbox FormHelper::checkbox()
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#select-checkbox-radio checkbox, radio に関するオプション
  */
@@ -216,16 +218,17 @@ class FormInputHelper extends AppHelper {
 /**
  * 複数チェックボックスを出力する
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options オプション配列
- * @return string
- * ##### return サンプル
+ * ##### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options オプション配列
+ * @return string
  * @see http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#FormHelper::select FormHelper::select()
  */
 	public function multipleCheckbox($fieldName, $options = array()) {
@@ -260,10 +263,7 @@ class FormInputHelper extends AppHelper {
  * 値がfalseの場合、hiddenのvalueが消えてしまい、validationErrorになってしまう。<br>
  * {@link https://github.com/cakephp/cakephp/issues/5639}
  *
- * @param string $fieldName フィールド名, like this "Modelname.fieldname"
- * @param array $options hiddenのオプション
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * $this->request->data['BbsSetting']['use_comment'] = false;
@@ -275,6 +275,10 @@ class FormInputHelper extends AppHelper {
  * ```
  * <input type="hidden" name="data[BbsSetting][use_comment]" value="0" id="BbsSettingUseComment"/>
  * ```
+ *
+ * @param string $fieldName フィールド名, like this "Modelname.fieldname"
+ * @param array $options hiddenのオプション
+ * @return string
  */
 	public function hidden($fieldName, $options = array()) {
 		if (strpos($fieldName, '.')) {
@@ -299,16 +303,17 @@ class FormInputHelper extends AppHelper {
 /**
  * パスワードの出力
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options passwordオプション
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options passwordオプション
+ * @return string
  */
 	public function password($fieldName, $options = array()) {
 		$input = '';
@@ -354,16 +359,17 @@ class FormInputHelper extends AppHelper {
 /**
  * emailの出力
  *
- * @param string $fieldName フィールド名("Modelname.fieldname"形式)
- * @param array $options emailオプション
- * @return string
- * ##### return サンプル
+ * #### サンプル
  * - 入力
  * ```
  * ```
  * - 出力
  * ```
  * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options emailオプション
+ * @return string
  */
 	public function email($fieldName, $options = array()) {
 		$input = '';

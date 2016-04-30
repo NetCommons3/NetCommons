@@ -395,21 +395,10 @@ class NetCommonsFormHelper extends AppHelper {
 		$help = Hash::get($options, 'help', false);
 		$options = Hash::remove($options, 'help');
 
-		$defaultOptions = array(
-			'error' => false,
-			//'class' => 'form-control',
-			'required' => null,
-			'label' => null,
-		);
-		if (Hash::get($options, 'type') === 'number') {
-			$defaultOptions['min'] = 0;
-		}
-
-		$inputOptions = Hash::merge($defaultOptions, $options);
-		$inputOptions['error'] = false;
+		$type = Hash::get($options, 'type', 'text');
+		$inputOptions = $this->_inputOptions($type, $options);
 
 		//Form->inputには含めないため、divの設定を取得しておく
-		$type = Hash::get($inputOptions, 'type', 'text');
 		$divOption = $this->FormInput->getDivOption(
 			$type, $inputOptions, 'div', array('class' => 'form-group')
 		);
@@ -449,6 +438,35 @@ class NetCommonsFormHelper extends AppHelper {
 		} else {
 			return $input;
 		}
+	}
+
+/**
+ * <input>のオプション
+ * このメソッドは、NetCommonsFormHelper->input()から実行される。
+ *
+ * @param string $type タイプ
+ * @param array $options オプション配列
+ * @return array
+ */
+	protected function _inputOptions($type, $options) {
+		$defaultOptions = array(
+			'error' => false,
+			//'class' => 'form-control',
+			'required' => null,
+			'label' => null,
+		);
+		if ($type === 'number') {
+			$defaultOptions['min'] = 0;
+			$defaultOptions['placeholder'] = __d('net_commons', 'Only numbers are allowed.');
+		}
+		if ($type === 'url') {
+			$defaultOptions['placeholder'] = 'http://';
+		}
+
+		$inputOptions = Hash::merge($defaultOptions, $options);
+		$inputOptions['error'] = false;
+
+		return $inputOptions;
 	}
 
 /**

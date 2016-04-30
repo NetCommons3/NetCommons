@@ -218,3 +218,20 @@ ul.nav-pills {
 .table .row-number {
 	text-align: right;
 }
+
+.nc-table-datetime,
+.nc-table-numeric,
+.nc-table-right {
+	text-align: right;
+}
+
+.nc-table-center {
+	text-align: left;
+}
+
+.nc-table-add {
+	margin-bottom: 5px
+}
+.nc-table-edit {
+	margin-left: 5px
+}

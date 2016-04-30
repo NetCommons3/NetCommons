@@ -77,22 +77,6 @@ msgstr ""
 msgid "Internal Server Error"
 msgstr "Internal Server Error"
 
-#: AccessCounters/View/AccessCounterBlocks/not_found.ctp:24
-#: Announcements/View/AnnouncementBlocks/not_found.ctp:24
-#: Bbses/View/BbsBlocks/not_found.ctp:24
-#: Blogs/View/BlogBlocks/not_found.ctp:24
-#: Edumap/View/EdumapBlocks/not_found.ctp:24
-#: Faqs/View/FaqBlocks/not_found.ctp:24
-#: Faqs/View/FaqQuestionOrders/edit.ctp:43
-#: Iframes/View/IframeBlocks/not_found.ctp:24
-#: Links/View/LinkBlocks/not_found.ctp:24
-#: PluginManager/View/Elements/PluginManager/plugins.ctp:16
-#: Questionnaires/View/QuestionnaireBlocks/not_found.ctp:24
-#: RssReaders/View/RssReaderBlocks/not_found.ctp:24
-#: Videos/View/VideoBlockSettings/not_found.ctp:25
-msgid "Not found."
-msgstr "登録されていません。"
-
 #: Blogs/Controller/BlogEntriesEditController.php:148;185
 #: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
 #: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
@@ -112,6 +96,22 @@ msgstr "不正なリクエストの可能性があります"
 #
 # メッセージ
 #
+
+#: AccessCounters/View/AccessCounterBlocks/not_found.ctp:24
+#: Announcements/View/AnnouncementBlocks/not_found.ctp:24
+#: Bbses/View/BbsBlocks/not_found.ctp:24
+#: Blogs/View/BlogBlocks/not_found.ctp:24
+#: Edumap/View/EdumapBlocks/not_found.ctp:24
+#: Faqs/View/FaqBlocks/not_found.ctp:24
+#: Faqs/View/FaqQuestionOrders/edit.ctp:43
+#: Iframes/View/IframeBlocks/not_found.ctp:24
+#: Links/View/LinkBlocks/not_found.ctp:24
+#: PluginManager/View/Elements/PluginManager/plugins.ctp:16
+#: Questionnaires/View/QuestionnaireBlocks/not_found.ctp:24
+#: RssReaders/View/RssReaderBlocks/not_found.ctp:24
+#: Videos/View/VideoBlockSettings/not_found.ctp:25
+msgid "Not found."
+msgstr "登録されていません。"
 
 #: AccessCounters/Model/AccessCounter.php:60;68;75
 #: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
@@ -227,7 +227,7 @@ msgstr "%sを削除します。本当によろしいですか。"
 #: Videos/Model/VideoBlockSetting.php:221
 #: Videos/Model/Behavior/VideoValidationBehavior.php:35;89
 msgid "Please input %s."
-msgstr "%sを入力してください"
+msgstr "%sを入力してください。"
 
 #: Comments/Model/Comment.php:57 Comments/View/Elements/form.ctp:28
 #: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
@@ -248,11 +248,14 @@ msgstr "担当者へコメントがあれば、入力して下さい。"
 #: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
-msgstr "「%s」の書式が不正です。%s形式で入力してください。"
+msgstr "%sの書式が不正です。%s形式で入力してください。"
 
 #: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Only alphabets and numbers are allowed."
 msgstr "半角英数字または記号で入力してください。"
+
+msgid "Only numbers are allowed."
+msgstr "数字で入力してください。"
 
 #: Frames/Controller/FramesController.php:169
 #: Pages/Controller/PagesController.php:247
@@ -281,9 +284,13 @@ msgstr "%sは既に使われています。"
 msgid "No results found."
 msgstr "条件に一致するデータはありませんでした。"
 
+#: CircularNotices/Model/CircularNoticeContent.php:104
+msgid "Pleas input boolean."
+msgstr ""
+
 
 #
-#: ラベル
+#: ボタン
 #
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
@@ -326,10 +333,6 @@ msgstr "更新日"
 #: RssReaders/View/RssReaders/view.ctp:36 Videos/View/Videos/view.ctp:37
 msgid "Edit"
 msgstr "編集"
-
-#: Auth/View/Auth/login.ctp:26 NetCommons/View/Elements/common_header.ctp:54
-msgid "Login"
-msgstr "ログイン"
 
 #: Bbses/View/Elements/BbsArticles/comment_status_label.ctp:15
 #: CircularNotices/View/Elements/CircularNotices/status_label.ctp:23
@@ -378,20 +381,6 @@ msgstr "キャンセル"
 msgid "OK"
 msgstr "決定"
 
-#: Blocks/View/Elements/setting_tabs.ctp:32
-#: NetCommons/View/Elements/setting_tabs.ctp:42
-msgid "Role permission settings"
-msgstr "権限設定"
-
-#: CircularNotices/Controller/CircularNoticesAppController.php:125
-#: NetCommons/View/Elements/setting_tabs.ctp:31
-msgid "Frame settings"
-msgstr "表示方法変更"
-
-#: CircularNotices/Model/CircularNoticeContent.php:104
-msgid "Pleas input boolean."
-msgstr ""
-
 #: CircularNotices/View/CircularNotices/index.ctp:45
 #: Pages/View/Elements/add_plugin.ctp:60
 #: Questionnaires/View/Elements/Questionnaires/add_button.ctp:14
@@ -399,18 +388,41 @@ msgstr ""
 msgid "Add"
 msgstr "追加"
 
-#: Comments/View/Elements/form.ctp:19;27
-msgid "Comments to the person in charge."
-msgstr "担当者へのコメント"
+#: Frames/View/Elements/setting_header.ctp:23
+msgid "Quit"
+msgstr "終了"
 
-#: Comments/View/Elements/index.ctp:48
-#: ContentComments/View/Elements/index.ctp:251 Videos/View/Videos/view.ctp:255
-msgid "More"
-msgstr "もっと見る"
+
+#
+#: ラベル
+#
 
 #: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
 msgid "Display all"
 msgstr "全て表示"
+
+#: Iframes/Model/Iframe.php:106
+#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
+#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
+msgid "URL"
+msgstr ""
+
+msgid "IP Address"
+msgstr "IPアドレス"
+
+msgid "Re-enter"
+msgstr "確認項目"
+
+#: NetCommons/View/Elements/required.ctp:14
+#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:189
+# 必須マーク
+msgid "*"
+msgstr ""
+
+
+#
+#: 承認の文言
+#
 
 #: Faqs/View/Elements/FaqQuestions/select_status.ctp:25
 #: Questionnaires/View/Elements/edit_status_selector.ctp:17
@@ -440,43 +452,59 @@ msgstr "承認待ち"
 msgid "Disapproving"
 msgstr "差し戻し"
 
-#: Frames/View/Elements/setting_header.ctp:23
-msgid "Quit"
-msgstr "終了"
+#: NetCommons/View/Elements/publish_button.ctp:14
+msgid "Accept"
+msgstr "承認する"
 
-#: Iframes/Model/Iframe.php:106
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
-msgid "URL"
-msgstr ""
+#: Comments/View/Elements/form.ctp:19;27
+msgid "Comments to the person in charge."
+msgstr "担当者へのコメント"
 
-msgid "IP Address"
-msgstr "IPアドレス"
 
-msgid "Re-enter"
-msgstr "確認項目"
-
+#
+#: ヘッダー
+#
 
 #: NetCommons/View/Elements/common_header.ctp:39
 msgid "Home"
 msgstr "ホーム"
 
+#: Auth/View/Auth/login.ctp:26 NetCommons/View/Elements/common_header.ctp:54
+msgid "Login"
+msgstr "ログイン"
+
 #: NetCommons/View/Elements/common_header.ctp:50
 msgid "Logout"
 msgstr "ログアウト"
+
+
+#
+#: 画面遷移等
+#
 
 #: NetCommons/View/Elements/goto_top_button.ctp:15
 msgid "Go to Top"
 msgstr "トップへ"
 
-#: NetCommons/View/Elements/publish_button.ctp:14
-msgid "Accept"
-msgstr "承認する"
+#: Comments/View/Elements/index.ctp:48
+#: ContentComments/View/Elements/index.ctp:251 Videos/View/Videos/view.ctp:255
+msgid "More"
+msgstr "もっと見る"
 
-#: NetCommons/View/Elements/required.ctp:14
-#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:189
-msgid "Required"
-msgstr "*"
+
+#
+#: ブロック編集画面のタブ
+#
+
+#: Blocks/View/Elements/setting_tabs.ctp:32
+#: NetCommons/View/Elements/setting_tabs.ctp:42
+msgid "Role permission settings"
+msgstr "権限設定"
+
+#: CircularNotices/Controller/CircularNoticesAppController.php:125
+#: NetCommons/View/Elements/setting_tabs.ctp:31
+msgid "Frame settings"
+msgstr "表示方法変更"
 
 #: NetCommons/View/Elements/setting_tabs.ctp:20
 msgid "List"

@@ -314,6 +314,9 @@ msgstr "削除"
 msgid "Created datetime"
 msgstr "作成日時"
 
+msgid "Created user"
+msgstr "作成者"
+
 #: Announcements/View/AnnouncementBlocks/index.ctp:43
 #: Blogs/View/BlogBlocks/index.ctp:43 Edumap/View/EdumapBlocks/index.ctp:40
 #: Faqs/View/FaqBlocks/index.ctp:40 Iframes/View/IframeBlocks/index.ctp:40
@@ -323,6 +326,12 @@ msgstr "作成日時"
 #: RssReaders/View/RssReaderBlocks/index.ctp:40
 msgid "Updated date"
 msgstr "更新日"
+
+msgid "Modified datetime"
+msgstr "更新日時"
+
+msgid "Modified user"
+msgstr "更新者"
 
 #: Announcements/View/Announcements/view.ctp:16
 #: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:63

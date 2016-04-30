@@ -252,10 +252,10 @@ msgstr "%sの書式が不正です。%s形式で入力してください。"
 
 #: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Only alphabets and numbers are allowed."
-msgstr "半角英数字または記号で入力してください。"
+msgstr "半角英数字または記号を入力してください。"
 
 msgid "Only numbers are allowed."
-msgstr "数字で入力してください。"
+msgstr "数字を入力してください。"
 
 #: Frames/Controller/FramesController.php:169
 #: Pages/Controller/PagesController.php:247

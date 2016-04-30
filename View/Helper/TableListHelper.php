@@ -134,7 +134,7 @@ class TableListHelper extends AppHelper {
 		$type = Hash::get($options, 'type', 'text');
 
 		if (in_array($type, ['text', 'datetime', 'numeric', 'center', 'right', 'link', 'handle'])) {
-			$start = '<th class="block-index-' . $type . '">';
+			$start = '<th class="nc-table-' . $type . '">';
 		} else {
 			$start = '<th>';
 		}

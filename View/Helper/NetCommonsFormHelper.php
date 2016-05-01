@@ -96,6 +96,11 @@ class NetCommonsFormHelper extends AppHelper {
  * [NetCommons.TitleIconHelper::ngTitleIconPicker()](./TitleIconHelper.html#method_ngTitleIconPicker)
  * の結果を出力する。
  *
+ * - <a id="method___call_displayNumver" name="method___call_displayNumver" class="anchor"></a>
+ * NetCommonsForm::ngTitleIconPicker()<br>
+ * [NetCommons.DisplayNumber::select()](./DisplayNumberHelper.html#method_select)
+ * の結果を出力する。
+ *
  * - <a id="method___call_others" name="method___call_others" class="anchor"></a>
  * それ以外<br>
  * [FormHelper](http://book.cakephp.org/2.0/ja/core-libraries/helpers/form.html#formhelper)
@@ -115,8 +120,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		} elseif ($method === 'wysiwyg') {
 			//WYSIWYG
-			$this->Wysiwyg = $this->_View->loadHelper('Wysiwyg.Wysiwyg');
-			$helper = $this->Wysiwyg;
+			$helper = $this->_View->loadHelper('Wysiwyg.Wysiwyg');
 
 		} elseif ($method === 'inlineCheckbox') {
 			//checkbox、radioのインライン
@@ -129,8 +133,12 @@ class NetCommonsFormHelper extends AppHelper {
 		} elseif (in_array($method,
 						['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
 			//タイトルアイコン
-			$this->TitleIcon = $this->_View->loadHelper('NetCommons.TitleIcon');
-			$helper = $this->TitleIcon;
+			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
+
+		} elseif ($method === 'displayNumber') {
+			//表示件数
+			$helper = $this->_View->loadHelper('NetCommons.DisplayNumber');
+			$method = 'select';
 
 		} else {
 			//それ以外

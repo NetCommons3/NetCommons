@@ -20,6 +20,16 @@ App::uses('ModelBehavior', 'Model');
 class OriginalKeyBehavior extends ModelBehavior {
 
 /**
+ * ビヘイビアの設定
+ *
+ * @var array
+ * @see ModelBehavior::$settings
+ */
+	public $settings = array(
+		'priority' => 8
+	);
+
+/**
  * beforeSave is called before a model is saved. Returning false from a beforeSave callback
  * will abort the save operation.
  *

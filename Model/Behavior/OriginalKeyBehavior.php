@@ -26,7 +26,7 @@ class OriginalKeyBehavior extends ModelBehavior {
  * @see ModelBehavior::$settings
  */
 	public $settings = array(
-		'priority' => 7
+		'priority' => 8
 	);
 
 /**

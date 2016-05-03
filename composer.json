@@ -46,6 +46,7 @@
         "netcommons/room-space":        "dev-master",
         "netcommons/site-manager":      "dev-master",
         "netcommons/theme-settings":    "dev-master",
+        "netcommons/topics":            "dev-master",
         "netcommons/users":             "dev-master",
         "netcommons/user-attributes":   "dev-master",
         "netcommons/user-manager":      "dev-master",

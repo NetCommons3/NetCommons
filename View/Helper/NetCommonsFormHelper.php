@@ -523,7 +523,7 @@ class NetCommonsFormHelper extends AppHelper {
 			$label = '';
 			$input = $this->FormInput->$type($fieldName, $options);
 
-		} elseif (in_array($type, ['password', 'email'], true)) {
+		} elseif (in_array($type, ['password', 'email', 'label', 'handle'], true)) {
 			//パスワード、eメール
 			$options = Hash::remove($options, 'required');
 			$options = Hash::insert($options, 'label', false);

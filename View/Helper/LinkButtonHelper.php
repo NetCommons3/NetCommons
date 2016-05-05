@@ -138,7 +138,7 @@ class LinkButtonHelper extends FormHelper {
 			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
-		$output .= $this->NetCommonsHtml->editLink($iconElement . $title, $url, $inputOptions);
+		$output .= $this->NetCommonsHtml->link($iconElement . $title, $url, $inputOptions);
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';
 		}

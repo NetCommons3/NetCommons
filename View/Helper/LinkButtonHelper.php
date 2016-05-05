@@ -138,6 +138,23 @@ class LinkButtonHelper extends FormHelper {
 			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
+
+		if (! isset($url)) {
+			$url = array();
+		}
+		if (is_array($url)) {
+			if (! isset($url['controller'])) {
+				if (! isset($this->_View->viewVars['editActionController'])) {
+					$url['controller'] = $this->_View->request->params['controller'];
+				} else {
+					$url['controller'] = $this->_View->viewVars['editActionController'];
+				}
+			}
+			if (! isset($url['action'])) {
+				$url['action'] = 'edit';
+			}
+		}
+
 		$output .= $this->NetCommonsHtml->link($iconElement . $title, $url, $inputOptions);
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';

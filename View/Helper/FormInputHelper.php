@@ -121,6 +121,10 @@ class FormInputHelper extends AppHelper {
 		$output = '';
 		$output .= $input;
 
+		if (Hash::get($attributes, 'error', true)) {
+			$output .= $this->NetCommonsForm->error($fieldName);
+		}
+
 		return $output;
 	}
 

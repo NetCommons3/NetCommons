@@ -38,10 +38,10 @@ class DisplayNumberHelper extends AppHelper {
 	public $displayNumberOptions = array(1, 5, 10, 20, 50, 100);
 
 /**
- * Get display number options
+ * 件数セレクトボックスのオプション
  *
- * @param array $attributes Array of HTML attributes, and special attributes above.
- * @return string Completed radio widget set.
+ * @param array $attributes HTMLの属性オプション
+ * @return array
  */
 	private function __getOptions($attributes = array()) {
 		$options = array();
@@ -49,6 +49,40 @@ class DisplayNumberHelper extends AppHelper {
 			if (! isset($attributes['unit'])) {
 				$attributes['unit']['single'] = __d('net_commons', '%s item');
 				$attributes['unit']['multiple'] = __d('net_commons', '%s items');
+			} elseif (is_string($attributes['unit'])) {
+				$unit = $attributes['unit'];
+				$attributes['unit'] = array();
+				$attributes['unit']['single'] = $unit;
+				$attributes['unit']['multiple'] = $unit;
+			}
+
+			foreach ($this->displayNumberOptions as $value) {
+				if ($value === 1) {
+					$unitLabel = $attributes['unit']['single'];
+				} else {
+					$unitLabel = $attributes['unit']['multiple'];
+				}
+				$options[$value] = sprintf($unitLabel, $value);
+			}
+		} else {
+			$options = $attributes['options'];
+		}
+
+		return $options;
+	}
+
+/**
+ * 日数セレクトボックスのオプション
+ *
+ * @param array $attributes HTMLの属性オプション
+ * @return array
+ */
+	private function __getOptionsForDays($attributes = array()) {
+		$options = array();
+		if (! isset($attributes['options'])) {
+			if (! isset($attributes['unit'])) {
+				$attributes['unit']['single'] = __d('net_commons', '%s day');
+				$attributes['unit']['multiple'] = __d('net_commons', '%s days');
 			} elseif (is_string($attributes['unit'])) {
 				$unit = $attributes['unit'];
 				$attributes['unit'] = array();
@@ -80,6 +114,27 @@ class DisplayNumberHelper extends AppHelper {
  */
 	public function select($fieldName, $attributes = array()) {
 		$attributes['options'] = $this->__getOptions($attributes);
+		if (isset($attributes['unit'])) {
+			unset($attributes['unit']);
+		}
+
+		$defaultAttributes = array(
+			'type' => 'select',
+		);
+		$attributes = Hash::merge($defaultAttributes, $attributes);
+
+		return $this->NetCommonsForm->input($fieldName, $attributes);
+	}
+
+/**
+ * Setting display number
+ *
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ */
+	public function selectDays($fieldName, $attributes = array()) {
+		$attributes['options'] = $this->__getOptionsForDays($attributes);
 		if (isset($attributes['unit'])) {
 			unset($attributes['unit']);
 		}

@@ -605,6 +605,12 @@ msgstr "%s件"
 msgid "%s items"
 msgstr "%s件"
 
+msgid "%s day"
+msgstr "%s日分"
+
+msgid "%s days"
+msgstr "%s日分"
+
 msgid "Select"
 msgstr "選択"
 

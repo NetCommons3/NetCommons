@@ -129,7 +129,8 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		if (isset($options['tooltip']) && $options['tooltip']) {
+		$tooltip = Hash::get($options, 'tooltip', false);
+		if ($tooltip) {
 			if (is_string($options['tooltip'])) {
 				$tooltip = $options['tooltip'];
 			} else {
@@ -138,7 +139,19 @@ class LinkButtonHelper extends FormHelper {
 			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
 			unset($inputOptions['tooltip']);
 		}
-		$output .= $this->NetCommonsHtml->editLink($iconElement . $title, $url, $inputOptions);
+
+		if (! isset($url)) {
+			$url = array();
+		}
+		if (is_array($url)) {
+			$defaultAction = Hash::get(
+				$this->_View->viewVars, 'editActionController', $this->_View->request->params['controller']
+			);
+			$url['controller'] = Hash::get($url, 'controller', $defaultAction);
+			$url['action'] = Hash::get($url, 'action', 'edit');
+		}
+
+		$output .= $this->NetCommonsHtml->link($iconElement . $title, $url, $inputOptions);
 		if (isset($options['tooltip']) && $options['tooltip']) {
 			$output .= '</span>';
 		}

@@ -22,8 +22,16 @@ if (! isset($isSettingMode)) {
 
 <header id="nc-system-header">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="<?php echo $pageContainerCss; ?>">
+		<div class="<?php echo $pageContainerCss; ?> clearfix text-nowrap">
 			<div class="navbar-header">
+				<div class="pull-right">
+					<?php echo $this->NetCommonsHtml->link(
+							'<span class="glyphicon glyphicon-refresh"> </span>',
+							NetCommonsUrl::backToPageUrl(),
+							array('escape' => false, 'class' => 'navbar-brand nc-page-refresh visible-xs')
+						); ?>
+				</div>
+
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
@@ -41,9 +49,6 @@ if (! isset($isSettingMode)) {
 								NetCommonsUrl::actionUrl('/')); ?>
 					</li>
 					<?php if ($user = AuthComponent::user()) : ?>
-						<li>
-							<?php echo $this->NetCommonsHtml->link($user['handlename'], NetCommonsUrl::userActionUrl()); ?>
-						</li>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'),
 									NetCommonsUrl::actionUrl('/auth/logout')); ?>
@@ -92,7 +97,25 @@ if (! isset($isSettingMode)) {
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
+				</ul>
 
+				<ul class="nav navbar-nav navbar-right">
+					<?php if ($user = AuthComponent::user()) : ?>
+						<li>
+							<?php echo $this->NetCommonsHtml->link(
+									$user['handlename'],
+									NetCommonsUrl::userActionUrl(),
+									array('class' => 'hidden-sm')
+								); ?>
+						</li>
+					<?php endif; ?>
+					<li>
+						<?php echo $this->NetCommonsHtml->link(
+								'<span class="glyphicon glyphicon-refresh"> </span>',
+								NetCommonsUrl::backToPageUrl(),
+								array('escape' => false, 'class' => 'nc-page-refresh hidden-xs')
+							); ?>
+					</li>
 				</ul>
 			</div>
 		</div>

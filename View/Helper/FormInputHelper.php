@@ -31,6 +31,7 @@ class FormInputHelper extends AppHelper {
 		'Form',
 		'Html',
 		'NetCommons.NetCommonsForm',
+		'Users.DisplayUser',
 	);
 
 /**
@@ -413,6 +414,60 @@ class FormInputHelper extends AppHelper {
 		} else {
 			return $input;
 		}
+	}
+
+/**
+ * ラベルの出力
+ *
+ * #### サンプル
+ * - 入力
+ * ```
+ * ```
+ * - 出力
+ * ```
+ * ```
+ *
+ * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @return string
+ */
+	public function label($fieldName) {
+		$input = '';
+
+		$input .= '<div class="form-input-outer">';
+		$input .= Hash::get($this->_View->request->data, $fieldName);
+		$input .= '</div>';
+
+		return $input;
+	}
+
+/**
+ * ハンドルの出力
+ *
+ * #### サンプル
+ * - 入力
+ * ```
+ * ```
+ * - 出力
+ * ```
+ * ```
+ *
+ * @param string $modelName モデル名
+ * @param array $attributes リンクタグの属性。array('avatar' => true)とするとアバターも表示する
+ * @param array $options リンクタグのオプション
+ * @return string
+ */
+	public function handle($modelName, $attributes = [], $options = []) {
+		$input = '';
+
+		$user = Hash::get($attributes, 'user', $this->_View->request->data);
+		$attributes = Hash::remove($attributes, 'user');
+		$attributes = Hash::merge(['avatar' => true], $attributes);
+
+		$input .= '<div class="form-input-outer">';
+		$input .= $this->DisplayUser->handleLink($user, $attributes, $options, $modelName);
+		$input .= '</div>';
+
+		return $input;
 	}
 
 }

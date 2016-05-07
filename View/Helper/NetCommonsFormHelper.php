@@ -135,10 +135,15 @@ class NetCommonsFormHelper extends AppHelper {
 			//タイトルアイコン
 			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
 
-		} elseif ($method === 'displayNumber') {
+		} elseif ($method === 'selectNumber') {
 			//表示件数
 			$helper = $this->_View->loadHelper('NetCommons.DisplayNumber');
 			$method = 'select';
+
+		} elseif ($method === 'selectDays') {
+			//表示件数
+			$helper = $this->_View->loadHelper('NetCommons.DisplayNumber');
+			$method = 'selectDays';
 
 		} else {
 			//それ以外
@@ -523,7 +528,7 @@ class NetCommonsFormHelper extends AppHelper {
 			$label = '';
 			$input = $this->FormInput->$type($fieldName, $options);
 
-		} elseif (in_array($type, ['password', 'email'], true)) {
+		} elseif (in_array($type, ['password', 'email', 'label', 'handle'], true)) {
 			//パスワード、eメール
 			$options = Hash::remove($options, 'required');
 			$options = Hash::insert($options, 'label', false);

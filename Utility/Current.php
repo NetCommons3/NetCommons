@@ -301,7 +301,7 @@ class CurrentBase {
 			self::$current = array();
 		}
 
-		Hash::remove(self::$current, $key);
+		self::$current = Hash::remove(self::$current, $key);
 	}
 
 /**

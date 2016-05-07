@@ -27,7 +27,8 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array(
-		'Html'
+		'Html',
+		'NetCommons.Date'
 	);
 
 /**
@@ -55,6 +56,12 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$this->MailsHtml = $this->_View->loadHelper('Mails.MailsHtml');
 			$helper = $this->MailsHtml;
 			$method = 'help';
+		} elseif ($method === 'titleIcon') {
+			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
+		} elseif ($method === 'dateFormat') {
+			$helper = $this->Date;
+		} elseif ($method === 'handleLink') {
+			$helper = $this->_View->loadHelper('Users.DisplayUser');
 		} else {
 			$helper = $this->Html;
 		}

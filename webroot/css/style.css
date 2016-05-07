@@ -6,10 +6,6 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-input[type="radio"] ,
-input[type="checkbox"] {
-    margin-right: 5px;
-}
 .checkbox.nc-checkbox {
     padding-left: 20px;
 }
@@ -99,6 +95,18 @@ a.nc-page-refresh {
 /**
  * inputタグ
  */
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 5px;
+	margin-top: 3px;
+}
+
+.form-inline input[type="radio"],
+.form-inline input[type="checkbox"] {
+    margin-right: 7px;
+	 margin-top: 4px;
+}
+
 .form-input-again {
     margin-top: 5px;
 }

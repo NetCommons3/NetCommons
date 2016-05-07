@@ -60,7 +60,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
 		} elseif ($method === 'dateFormat') {
 			$helper = $this->Date;
-		} elseif ($method === 'handleLink') {
+		} elseif (in_array($method, ['handleLink', 'avatarLink'], true)) {
 			$helper = $this->_View->loadHelper('Users.DisplayUser');
 		} else {
 			$helper = $this->Html;

@@ -100,13 +100,12 @@ if (! isset($isSettingMode)) {
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<?php if ($user = AuthComponent::user()) : ?>
-						<li>
-							<?php echo $this->NetCommonsHtml->link(
-									$user['handlename'],
-									NetCommonsUrl::userActionUrl(),
-									array('class' => 'hidden-sm')
-								); ?>
+					<?php if (AuthComponent::user()) : ?>
+						<li class="visible-sm">
+							<?php echo $this->NetCommonsHtml->avatarLink(Current::read(), [], [], 'User.id'); ?>
+						</li>
+						<li class="hidden-sm">
+							<?php echo $this->NetCommonsHtml->handleLink(Current::read(), ['avatar' => true], [], 'User'); ?>
 						</li>
 					<?php endif; ?>
 					<li>

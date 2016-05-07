@@ -77,7 +77,7 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
 
 		$this->assertNotEmpty($data['created_user']);
 		$this->assertEquals($data['created_user'], $data['modified_user']);
-		$this->assertEquals('system_administrator', $result['TrackableCreator']['username']);
+		$this->assertEquals('System Administrator', $result['TrackableCreator']['handlename']);
 	}
 
 /**

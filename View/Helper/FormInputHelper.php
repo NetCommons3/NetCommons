@@ -165,12 +165,14 @@ class FormInputHelper extends AppHelper {
 
 		$inputOptions = Hash::merge($defaultOptions, $options, array('type' => 'checkbox'));
 
+		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+
 		$output = '';
 
 		$input = '';
 		if ($label) {
 			$input .= '<div class="checkbox">';
-			$input .= '<label class="control-label" for="' . $this->domId($fieldName) . '">';
+			$input .= '<label class="control-label" for="' . $domId . '">';
 			$input .= $this->Form->input($fieldName, $inputOptions);
 			$input .= $label;
 			$input .= '</label>';

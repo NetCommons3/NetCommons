@@ -114,16 +114,7 @@ class DisplayNumberHelper extends AppHelper {
  */
 	public function select($fieldName, $attributes = array()) {
 		$attributes['options'] = $this->__getOptions($attributes);
-		if (isset($attributes['unit'])) {
-			unset($attributes['unit']);
-		}
-
-		$defaultAttributes = array(
-			'type' => 'select',
-		);
-		$attributes = Hash::merge($defaultAttributes, $attributes);
-
-		return $this->NetCommonsForm->input($fieldName, $attributes);
+		return $this->_select($fieldName, $attributes);
 	}
 
 /**
@@ -135,6 +126,17 @@ class DisplayNumberHelper extends AppHelper {
  */
 	public function selectDays($fieldName, $attributes = array()) {
 		$attributes['options'] = $this->__getOptionsForDays($attributes);
+		return $this->_select($fieldName, $attributes);
+	}
+
+/**
+ * Setting display number
+ *
+ * @param string $fieldName Name of a field, like this "Modelname.fieldname"
+ * @param array $attributes Array of HTML attributes, and special attributes above.
+ * @return string Completed radio widget set.
+ */
+	protected function _select($fieldName, $attributes = array()) {
 		if (isset($attributes['unit'])) {
 			unset($attributes['unit']);
 		}
@@ -172,6 +174,33 @@ class DisplayNumberHelper extends AppHelper {
 		return $this->_View->element('NetCommons.limit_dropdown_toggle', array(
 			'displayNumberOptions' => $attributes['options'],
 			'currentLimit' => $attributes['currentLimit'],
+			'url' => $attributes['url'],
+		));
+	}
+
+/**
+ * Output display number drop down toggle
+ *
+ * @param array $attributes Array of options and HTML arguments.
+ * @return string HTML tags
+ */
+	public function dropDownToggleDays($attributes = array()) {
+		$attributes['options'] = $this->__getOptionsForDays($attributes);
+		if (isset($attributes['unit'])) {
+			unset($attributes['unit']);
+		}
+
+		$days = Hash::get($this->_View->Paginator->params['named'], 'days', $attributes['currentDays']);
+
+		if (! isset($attributes['url'])) {
+			$named = $this->_View->Paginator->params['named'];
+			$named['page'] = '1';
+			$attributes['url'] = $named;
+		}
+
+		return $this->_View->element('NetCommons.limit_dropdown_toggle_days', array(
+			'displayNumberOptions' => $attributes['options'],
+			'currentDays' => $days,
 			'url' => $attributes['url'],
 		));
 	}

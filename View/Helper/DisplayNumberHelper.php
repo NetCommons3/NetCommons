@@ -90,13 +90,13 @@ class DisplayNumberHelper extends AppHelper {
 				$attributes['unit']['multiple'] = $unit;
 			}
 
-			foreach ($this->displayNumberOptions as $value) {
-				if ($value === 1) {
+			for ($i = 1; $i <= 31; $i++) {
+				if ($i === 1) {
 					$unitLabel = $attributes['unit']['single'];
 				} else {
 					$unitLabel = $attributes['unit']['multiple'];
 				}
-				$options[$value] = sprintf($unitLabel, $value);
+				$options[$i] = sprintf($unitLabel, $i);
 			}
 		} else {
 			$options = $attributes['options'];

@@ -43,6 +43,7 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
+		'NetCommons.AccessCtrl',
 		'Auth' => array(
 			'loginAction' => array(
 				'plugin' => 'auth',

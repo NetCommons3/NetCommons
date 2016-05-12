@@ -43,6 +43,7 @@ class NetCommonsAppController extends Controller {
  * @var array
  */
 	public $components = array(
+		'NetCommons.AccessCtrl',
 		'Auth' => array(
 			'loginAction' => array(
 				'plugin' => 'auth',
@@ -128,9 +129,6 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
-		if (! Configure::read('NetCommons.installed') && $this->params['plugin'] === 'install') {
-			return;
-		}
 
 		//サイトの設定データセット
 		SiteSettingUtil::initialize();
@@ -145,6 +143,12 @@ class NetCommonsAppController extends Controller {
 
 		//カレントデータセット
 		Current::initialize($this->request);
+
+		if (! $this->AccessCtrl->allowAccess()) {
+			$this->Auth->logout();
+			return $this->redirect('/net_commons/site_close/index');
+		}
+
 		if (Current::read('Block') &&
 				! $this->Components->loaded('NetCommons.Permission')) {
 			$this->Components->load('NetCommons.Permission');

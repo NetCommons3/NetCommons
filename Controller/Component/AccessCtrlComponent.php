@@ -31,7 +31,7 @@ class AccessCtrlComponent extends Component {
 		parent::initialize($controller);
 		$this->controller = $controller;
 
-		$siteClosed = SiteSettingUtil::read('App.close_site');
+		//$siteClosed = SiteSettingUtil::read('App.close_site');
 
 		//debug($controller->components);
 

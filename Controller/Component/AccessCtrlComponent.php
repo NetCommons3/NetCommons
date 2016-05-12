@@ -11,6 +11,7 @@
 
 App::uses('Component', 'Controller');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * アクセス制御 Component
@@ -30,25 +31,40 @@ class AccessCtrlComponent extends Component {
 	public function initialize(Controller $controller) {
 		parent::initialize($controller);
 		$this->controller = $controller;
-
-		//$siteClosed = SiteSettingUtil::read('App.close_site');
-
-		//debug($controller->components);
-
-		//$controller->Components->unloaded('Workflow.Workflow');
-
-		//debug($controller->components);
-
 	}
 
 /**
- * Called after the Controller::beforeFilter() and before the controller action
+ * アクセスチェック
  *
- * @param Controller $controller Controller with components to startup
  * @return void
- * @throws ForbiddenException
  */
-	public function startup(Controller $controller) {
+	public function allowAccess() {
+		$controller = $this->controller;
+
+		if (! Configure::read('NetCommons.installed')) {
+			return true;
+		}
+
+		$allowUrls = array(
+			['plugin' => 'auth', 'controller' => 'auth', 'action' => 'login'],
+			['plugin' => 'auth_general', 'controller' => 'auth_general', 'action' => 'login'],
+			['plugin' => 'net_commons', 'controller' => 'site_close', 'action' => 'index'],
+		);
+
+		foreach ($allowUrls as $url) {
+			if ($controller->request->params['plugin'] === $url['plugin'] &&
+					$controller->request->params['controller'] === $url['controller'] &&
+					$controller->request->params['action'] === $url['action']) {
+
+				return true;
+			}
+		}
+
+		if (Current::allowSystemPlugin('site_manager')) {
+			return true;
+		}
+
+		return !(bool)SiteSettingUtil::read('App.close_site');
 	}
 
 }

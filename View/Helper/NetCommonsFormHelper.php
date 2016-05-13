@@ -145,6 +145,10 @@ class NetCommonsFormHelper extends AppHelper {
 			$helper = $this->_View->loadHelper('NetCommons.DisplayNumber');
 			$method = 'selectDays';
 
+		} elseif ($method === 'button') {
+			//ボタン
+			$helper = $this->_View->loadHelper('NetCommons.Button');
+
 		} else {
 			//それ以外
 			$helper = $this->Form;

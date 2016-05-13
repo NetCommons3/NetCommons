@@ -89,7 +89,7 @@ class ButtonHelper extends FormHelper {
 			}
 			$options = Hash::insert($options, 'class', $class);
 		}
-		return $this->NetCommonsForm->button($title, $options);
+		return $this->Form->button($title, $options);
 	}
 
 /**

@@ -81,7 +81,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		$result = $this->LinkButton->add($title, $url, $options);
 
 		//チェック
-		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success">' .
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
 						'<span class="glyphicon glyphicon-plus"></span> ' . $title .
 					'</a>';
 		$this->assertEquals($expected, $result);
@@ -122,7 +122,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		$result = $this->LinkButton->add($title, $url, $options);
 
 		//チェック
-		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success">' .
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
 						'<span class="glyphicon glyphicon-plus"></span> ' . $expectedTitle .
 					'</a>';
 		$this->assertEqual($expected, $result);
@@ -144,7 +144,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		$result = $this->LinkButton->add($title, $url, $options);
 
 		//チェック
-		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success">' .
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
 						'<span class="glyphicon glyphicon-' . $icon . '"></span> ' .
 					'</a>';
 		$this->assertEquals($expected, $result);
@@ -171,7 +171,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		} else {
 			$expectedIconSize = '';
 		}
-		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success' . $expectedIconSize . '">' .
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style' . $expectedIconSize . '">' .
 						'<span class="glyphicon glyphicon-plus"></span> ' .
 					'</a>';
 		$this->assertEqual($expected, $result);
@@ -212,7 +212,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 			$tooltip = __d('net_commons', 'Add');
 		}
 		$expected = '<span class="nc-tooltip" tooltip="' . $tooltip . '">' .
-						'<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success">' .
+						'<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
 							'<span class="glyphicon glyphicon-plus"></span> ' . $title .
 						'</a>' .
 					'</span>';
@@ -242,7 +242,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		$result = $this->LinkButton->add($title, $url, $options);
 
 		//チェック
-		$expected = '<a href="/net_commons/add_net_commons_ctrl/add" class="btn btn-success">' .
+		$expected = '<a href="/net_commons/add_net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
 						'<span class="glyphicon glyphicon-plus"></span> ' . $title .
 					'</a>';
 		$this->assertEqual($expected, $result);

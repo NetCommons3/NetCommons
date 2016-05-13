@@ -52,7 +52,7 @@ class ButtonHelper extends FormHelper {
  * @return string A HTML button tag.
  */
 	public function getButtonSize() {
-		if ($this->_View->request->is('mobile')) {
+		if (Configure::read('isMobile')) {
 			$btnSize = ' btn-sm';
 		} else {
 			$btnSize = '';
@@ -81,7 +81,8 @@ class ButtonHelper extends FormHelper {
 				$class = Hash::get($options, 'class', array());
 			}
 			if (in_array('btn', $class, true)) {
-				if ($this->_View->request->is('mobile')) {
+				$class[] = 'nc-btn-style';
+				if (Configure::read('isMobile')) {
 					$btnSize = 'btn-sm';
 					$class = array_merge($class, array($btnSize));
 				}

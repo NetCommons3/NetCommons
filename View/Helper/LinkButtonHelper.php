@@ -64,7 +64,7 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'plus',
 			'iconSize' => $this->Button->getButtonSize(),
-			'class' => 'btn btn-success',
+			'class' => 'btn btn-success nc-btn-style',
 		), $options, array('escapeTitle' => false));
 		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
@@ -111,7 +111,7 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'edit',
 			'iconSize' => $this->Button->getButtonSize(),
-			'class' => 'btn btn-primary'
+			'class' => 'btn btn-primary nc-btn-style'
 		), $options, array('escapeTitle' => false));
 
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -174,7 +174,7 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'search',
 			'iconSize' => $this->Button->getButtonSize(),
-			'class' => 'btn btn-info',
+			'class' => 'btn btn-info nc-btn-style',
 		), $options, array('escapeTitle' => false));
 
 		if (Hash::get($options, 'escapeTitle', true)) {
@@ -232,7 +232,7 @@ class LinkButtonHelper extends FormHelper {
 		$inputOptions = Hash::merge(array(
 			'icon' => 'sort',
 			'iconSize' => $this->Button->getButtonSize(),
-			'class' => 'btn btn-default',
+			'class' => 'btn btn-default nc-btn-style',
 		), $options, array('escapeTitle' => false));
 
 		if (Hash::get($options, 'escapeTitle', true)) {

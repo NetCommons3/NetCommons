@@ -217,9 +217,9 @@ class TableListHelper extends AppHelper {
 		}
 
 		if (Hash::get($options, 'editUrl', false)) {
-			$value .= '  ' . $this->LinkButton->edit('',
+			$value .= $this->LinkButton->edit('',
 				Hash::get($options, 'editUrl', array()),
-				array('iconSize' => ' btn-xs nc-table-edit')
+				array('iconSize' => ' btn-xs')
 			);
 		}
 

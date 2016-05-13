@@ -187,6 +187,33 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
+ * タイトル（ブロックタイトル）の出力
+ *
+ * #### サンプル
+ * ```
+ * echo $this->NetCommonsHtml->blockTitle($bbs['name'])
+ * ```
+ * ##### 出力結果
+ * ```
+ * <h1>新しい掲示板 20160513074815</h1>
+ * ```
+ *
+ * @param string $text タイトル
+ * @param array $options HTML属性オプション
+ * @return string `<h1>`タグ
+ */
+	public function blockTitle($text = '', $options = array()) {
+		$output = '';
+
+		$options = Hash::merge(
+			array('escape' => true), $options
+		);
+
+		$output .= $this->Html->tag('h1', $text, $options);
+		return $output;
+	}
+
+/**
  * Creates a `<a>` tag for add link. The type attribute defaults
  * 後で削除予定(現状、ブロック設定の一覧のリンクで使っている)
  *

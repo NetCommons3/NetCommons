@@ -85,11 +85,15 @@ a.nc-page-refresh {
 }
 
 /**
- * buttonタグ
+ * buttonの定義
  */
 .btn-workflow {
 	margin-left: 6px;
 	margin-right: 6px;
+}
+table > tbody > tr > td .btn.btn-xs,
+.btn-xs.nc-btn-style {
+	margin-left: 1.4em;
 }
 
 /**
@@ -261,6 +265,11 @@ ul.nav-pills {
 	margin-top: 0px;
 	margin-bottom: 16px;
 }
+.frame.nc-content article h1,
+.frame.nc-content article .h1 {
+	margin-top: 0px;
+	margin-bottom: 16px;
+}
 
 .frame.nc-content-list article h1,
 .frame.nc-content-list article .h1,
@@ -271,8 +280,8 @@ ul.nav-pills {
 	margin-top: 16px;
 	margin-bottom: 10px;
 }
-.frame.nc-content article h1,
-.frame.nc-content article .h1,
+/*.frame.nc-content article h1,*/
+/*.frame.nc-content article .h1,*/
 .frame.nc-content article h2,
 .frame.nc-content article .h2,
 .frame.nc-content article h3,

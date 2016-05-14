@@ -290,7 +290,7 @@ msgstr ""
 
 
 #
-#: ボタン
+#: 一覧表示のヘッダー
 #
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
@@ -332,6 +332,11 @@ msgstr "更新日時"
 
 msgid "Modified user"
 msgstr "更新者"
+
+
+#
+#: ボタン
+#
 
 #: Announcements/View/Announcements/view.ctp:16
 #: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:63
@@ -401,14 +406,56 @@ msgstr "追加"
 msgid "Quit"
 msgstr "終了"
 
+#: NetCommons/View/Elements/workflow_buttons.ctp:20
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:22
+msgid "Disapproval"
+msgstr "差し戻し"
+
+#: NetCommons/View/Elements/workflow_buttons.ctp:28;36
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:30;38
+msgid "Save temporally"
+msgstr "一時保存"
+
+#: Pages/View/Elements/add_plugin.ctp:78
+msgid "Close"
+msgstr "閉じる"
+
+#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
+#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201
+msgid "BACK"
+msgstr "前へ"
+
+#: Questionnaires/View/QuestionnaireAnswers/answer.ctp:129
+#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:95
+#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:367
+#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:204
+#: Questionnaires/View/Questionnaires/add.ctp:119
+msgid "NEXT"
+msgstr "次へ"
+
+#: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:92
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Select"
+msgstr "選択"
+
+msgid "Preview"
+msgstr "プレビュー"
+
+msgid "Move"
+msgstr "移動"
+
+msgid "To list"
+msgstr "一覧へ"
+
 
 #
 #: ラベル
 #
-
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
-msgid "Display all"
-msgstr "全て表示"
 
 #: Iframes/Model/Iframe.php:106
 #: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
@@ -427,6 +474,12 @@ msgstr "確認項目"
 # 必須マーク
 msgid "*"
 msgstr ""
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "No"
+msgstr "いいえ"
 
 
 #
@@ -521,6 +574,54 @@ msgstr "一覧表示"
 
 
 #
+#: 選択肢
+#
+
+#: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
+msgid "Display all"
+msgstr "全て表示"
+
+#: Questionnaires/View/Elements/edit_status_selector.ctp:28
+msgid "All Display"
+msgstr ""
+
+msgid "All Plugins"
+msgstr "全てのプラグイン"
+
+msgid "All Statuses"
+msgstr "全てのステータス"
+
+msgid "All Duration"
+msgstr "全ての期間"
+
+msgid "%s item"
+msgstr "%s件"
+
+msgid "%s items"
+msgstr "%s件"
+
+msgid "%s day"
+msgstr "%s日分"
+
+msgid "%s days"
+msgstr "%s日分"
+
+
+#
+#: ソート
+#
+
+msgid "Newest"
+msgstr "新着順"
+
+msgid "Oldest"
+msgstr "登録順"
+
+msgid "Title"
+msgstr "タイトル順"
+
+
+#
 #: 画像認証
 #
 
@@ -547,98 +648,6 @@ msgstr ""
 #: NetCommons/View/Elements/visual_captcha.ctp:39
 msgid "Refresh/reload: get new images and accessibility option!"
 msgstr ""
-
-#: NetCommons/View/Elements/workflow_buttons.ctp:20
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:22
-msgid "Disapproval"
-msgstr "差し戻し"
-
-#: NetCommons/View/Elements/workflow_buttons.ctp:28;36
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:30;38
-msgid "Save temporally"
-msgstr "一時保存"
-
-#: Pages/View/Elements/add_plugin.ctp:78
-msgid "Close"
-msgstr "閉じる"
-
-#: Pages/View/Elements/dropdown_menu.ctp:28
-msgid "Theme setting"
-msgstr "テーマ設定"
-
-#: Questionnaires/View/Elements/edit_status_selector.ctp:28
-msgid "All Display"
-msgstr ""
-
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
-#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201
-msgid "BACK"
-msgstr "前へ"
-
-#: Questionnaires/View/QuestionnaireAnswers/answer.ctp:129
-#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:95
-#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:367
-#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:204
-#: Questionnaires/View/Questionnaires/add.ctp:119
-msgid "NEXT"
-msgstr "次へ"
-
-#: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:92
-msgid "Confirm"
-msgstr "確認"
-
-msgid "All Plugins"
-msgstr "全てのプラグイン"
-
-msgid "All Statuses"
-msgstr "全てのステータス"
-
-msgid "All Duration"
-msgstr "全ての期間"
-
-msgid "Search"
-msgstr "検索"
-
-msgid "%s item"
-msgstr "%s件"
-
-msgid "%s items"
-msgstr "%s件"
-
-msgid "%s day"
-msgstr "%s日分"
-
-msgid "%s days"
-msgstr "%s日分"
-
-msgid "Select"
-msgstr "選択"
-
-msgid "Preview"
-msgstr "プレビュー"
-
-msgid "Move"
-msgstr "移動"
-
-msgid "Yes"
-msgstr "はい"
-
-msgid "No"
-msgstr "いいえ"
-
-
-#
-#: ソート
-#
-
-msgid "Newest"
-msgstr "新着順"
-
-msgid "Oldest"
-msgstr "登録順"
-
-msgid "Title"
-msgstr "タイトル順"
 
 
 #

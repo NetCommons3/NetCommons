@@ -258,6 +258,13 @@ ul.nav-pills {
 }
 
 /**
+ * フレーム枠内
+ */
+.frame.nc-content header {
+	margin-bottom: 16px;
+}
+
+/**
  * フレーム枠内のh1,h2,h3,h4,h5,h6
  */
 .frame .nc-content-list > h1,

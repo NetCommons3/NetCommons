@@ -199,15 +199,24 @@ class NetCommonsHtmlHelper extends AppHelper {
  * ```
  *
  * @param string $text タイトル
+ * @param string $titleIcon タイトルアイコン
  * @param array $options HTML属性オプション
  * @return string `<h1>`タグ
  */
-	public function blockTitle($text = '', $options = array()) {
+	public function blockTitle($text = '', $titleIcon = null, $options = array()) {
 		$output = '';
 
-		$options = Hash::merge(
-			array('escape' => true), $options
-		);
+		if ($titleIcon) {
+			$text = $this->titleIcon($titleIcon) . ' ' . h($text);
+
+			$options = Hash::merge(
+				array('escape' => false), $options
+			);
+		} else {
+			$options = Hash::merge(
+				array('escape' => true), $options
+			);
+		}
 
 		$output .= $this->Html->tag('h1', $text, $options);
 		return $output;

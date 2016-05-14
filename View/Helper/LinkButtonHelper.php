@@ -12,14 +12,14 @@
 App::uses('FormHelper', 'View/Helper');
 
 /**
- * LinkButton Helper
+ * `<a>`のボタン Helper
  *
  * @package NetCommons\NetCommons\View\Helper
  */
 class LinkButtonHelper extends FormHelper {
 
 /**
- * Other helpers used by FormHelper
+ * 使用するヘルパ
  *
  * @var array
  */
@@ -31,13 +31,12 @@ class LinkButtonHelper extends FormHelper {
 	);
 
 /**
- * Creates a `<a>` tag for add link. The type attribute defaults
+ * 追加ボタンHTMLの出力
  *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ * @param string $title タイトル
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string HTMLタグ
  */
 	public function add($title = '', $url = null, $options = array()) {
 		$output = '';
@@ -96,13 +95,12 @@ class LinkButtonHelper extends FormHelper {
 	}
 
 /**
- * Creates a `<a>` tag for edit link link. The type attribute defaults
+ * 編集ボタンHTMLの出力
  *
- * @param string $title The button's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
+ * @param string $title タイトル
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string HTMLタグ
  */
 	public function edit($title = '', $url = null, $options = array()) {
 		$output = '';
@@ -165,7 +163,6 @@ class LinkButtonHelper extends FormHelper {
  * @param mixed $url URL
  * @param array $options HTML属性オプション
  * @return string HTMLタグ
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function search($title = '', $url = null, $options = array()) {
 		$output = '';
@@ -223,7 +220,6 @@ class LinkButtonHelper extends FormHelper {
  * @param mixed $url URL
  * @param array $options HTML属性オプション
  * @return string HTMLタグ
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function sort($title = '', $url = null, $options = array()) {
 		$output = '';

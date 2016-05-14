@@ -270,13 +270,15 @@ class ButtonHelper extends FormHelper {
 			$cancelOptions
 		);
 
-		//戻るボタン
+		//前へボタン
 		if (isset($backUrl)) {
 			$output .= $this->Html->link(
 				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
 				$backUrl,
 				array(
-					'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
+					'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow',
+					'escape' => false,
+					'ng-class' => '{disabled: sending}'
 				)
 			);
 		}

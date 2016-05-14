@@ -222,6 +222,7 @@ class WizardHelper extends AppHelper {
  * @param array $prevUrl 前へURL
  * @param array $panel panel-footerを表示するかどうか
  * @return string HTML
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function workflowButtons($statusName, $cancelUrl = null, $prevUrl = null, $panel = false) {
 		$output = '';

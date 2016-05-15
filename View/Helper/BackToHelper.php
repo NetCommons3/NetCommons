@@ -113,14 +113,26 @@ class BackToHelper extends AppHelper {
 
 		//ボタンサイズ
 		if (Hash::get($options, 'iconSize')) {
-			$sizeAttr = h(' btn-' . $options['iconSize']);
+			$sizeAttr = h('btn-' . $options['iconSize']);
 		} else {
-			$sizeAttr = $this->Button->getButtonSize();
+			$sizeAttr = trim($this->Button->getButtonSize());
 		}
 		$options = Hash::remove($options, 'iconSize');
 
+		//class属性
+		$class = Hash::get($options, 'class', array());
+		if (is_string($class)) {
+			$class = explode(' ', $class);
+		}
+		if ($sizeAttr) {
+			$class = array_merge(['btn', 'btn-default', $sizeAttr], $class);
+		} else {
+			$class = array_merge(['btn', 'btn-default'], $class);
+		}
+		$options = Hash::remove($options, 'class');
+
 		$inputOptions = Hash::merge(
-			array('class' => 'btn btn-default' . $sizeAttr),
+			array('class' => $class),
 			$options,
 			array('escapeTitle' => false)
 		);
@@ -153,6 +165,22 @@ class BackToHelper extends AppHelper {
 	public function indexLinkButton($title, $defaultField = 'default_action', $options = array()) {
 		$url = NetCommonsUrl::backToIndexUrl($defaultField);
 		return $this->linkButton($title, $url, $options);
+	}
+
+/**
+ * 一覧へボタンHTMLの出力
+ *
+ * @param array $options HTML属性オプション
+ * @return string HTMLタグ
+ */
+	public function listLinkButton($options = array()) {
+		$options = Hash::merge(['icon' => 'list'], $options);
+		$title = __d('net_commons', 'To list');
+
+		$output = '';
+		$output .= $this->indexLinkButton($title, 'default_action', $options);
+
+		return $this->indexLinkButton($title, 'default_action', $options);
 	}
 
 }

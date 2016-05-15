@@ -69,6 +69,22 @@ class NetCommonsAppModel extends Model {
 	public $useDbConfig = 'master';
 
 /**
+ * ブロックKey
+ * Behaviorで関連データ削除する際に使用する
+ *
+ * @var string
+ */
+	public $blockKey = null;
+
+/**
+ * コンテンツKey
+ * Behaviorで関連データ削除する際に使用する
+ *
+ * @var string
+ */
+	public $contentKey = null;
+
+/**
  * Constructor. DataSourceの選択
  *
  * 接続先DBをランダムに選択します。

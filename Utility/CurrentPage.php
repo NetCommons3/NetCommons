@@ -44,6 +44,7 @@ class CurrentPage {
 		$this->setDefaultRolePermissions();
 		$this->setRoomRolePermissions();
 		$this->setPluginsRoom();
+		$this->setSpace();
 	}
 
 /**
@@ -256,4 +257,24 @@ class CurrentPage {
 		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
+/**
+ * set Space
+ *
+ * @return void
+ */
+	public function setSpace() {
+		if (!isset(Current::$current['Room'])) {
+			return;
+		}
+
+		$this->Space = ClassRegistry::init('Rooms.Space');
+		$conditions = array(
+			'Space.id' => Hash::get(Current::$current, 'Room.space_id')
+		);
+		$result = $this->Space->find('first', array(
+			'recursive' => 0,
+			'conditions' => $conditions,
+		));
+		Current::$current = Hash::merge(Current::$current, $result);
+	}
 }

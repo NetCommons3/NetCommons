@@ -69,6 +69,14 @@ class NetCommonsAppModel extends Model {
 	public $useDbConfig = 'master';
 
 /**
+ * ブロックId
+ * Behaviorで関連データ削除する際に使用する
+ *
+ * @var string
+ */
+	public $blockId = null;
+
+/**
  * ブロックKey
  * Behaviorで関連データ削除する際に使用する
  *

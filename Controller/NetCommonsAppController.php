@@ -145,8 +145,7 @@ class NetCommonsAppController extends Controller {
 		Current::initialize($this->request);
 
 		if (! $this->AccessCtrl->allowAccess()) {
-			$this->Auth->logout();
-			return $this->redirect('/net_commons/site_close/index');
+			return;
 		}
 
 		if (Current::read('Block') &&

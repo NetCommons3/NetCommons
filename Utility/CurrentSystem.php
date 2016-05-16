@@ -106,13 +106,10 @@ class CurrentSystem {
 		}
 
 		//IPアドレスによる制御
-		if (SiteSettingUtil::read('Security.enable_allow_system_plugin_ips')) {
-			$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
-			$ips = SiteSettingUtil::read('Security.allow_system_plugin_ips');
-			if (! $SiteSetting->hasCurrentIp($ips)) {
-				Current::$current['PluginsRole'] = array();
-				return;
-			}
+		$netCommonsSecurity = new NetCommonsSecurity();
+		if (! $netCommonsSecurity->enableAllowSystemPluginIps()) {
+			Current::$current['PluginsRole'] = array();
+			return;
 		}
 
 		//PluginsRoleデータ取得

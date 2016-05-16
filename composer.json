@@ -29,6 +29,7 @@
         "netcommons/auth-general":      "dev-master",
         "netcommons/boxes":             "dev-master",
         "netcommons/blocks":            "dev-master",
+        "netcommons/categories":        "dev-master",
         "netcommons/containers":        "dev-master",
         "netcommons/control-panel":     "dev-master",
         "netcommons/data-types":        "dev-master",

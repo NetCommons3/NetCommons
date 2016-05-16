@@ -10,6 +10,7 @@
  */
 
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
+App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
  * CurrentSystem Utility

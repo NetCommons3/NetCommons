@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
+
 /**
  * CurrentSystem Utility
  *
@@ -103,6 +105,13 @@ class CurrentSystem {
 			return;
 		}
 
+		//IPアドレスによる制御
+		$netCommonsSecurity = new NetCommonsSecurity();
+		if (! $netCommonsSecurity->enableAllowSystemPluginIps()) {
+			Current::$current['PluginsRole'] = array();
+			return;
+		}
+
 		//PluginsRoleデータ取得
 		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 		if (Current::$current['User']['role_key']) {
@@ -113,9 +122,6 @@ class CurrentSystem {
 				),
 			));
 		} else {
-			$result = false;
-		}
-		if (! $result) {
 			return;
 		}
 		Current::$current['PluginsRole'] = Hash::combine(

@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
+
 /**
  * CurrentSystem Utility
  *
@@ -103,6 +105,16 @@ class CurrentSystem {
 			return;
 		}
 
+		//IPアドレスによる制御
+		if (SiteSettingUtil::read('Security.enable_allow_system_plugin_ips')) {
+			$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+			$ips = SiteSettingUtil::read('Security.allow_system_plugin_ips');
+			if (! $SiteSetting->hasCurrentIp($ips)) {
+				Current::$current['PluginsRole'] = array();
+				return;
+			}
+		}
+
 		//PluginsRoleデータ取得
 		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 		if (Current::$current['User']['role_key']) {
@@ -113,9 +125,6 @@ class CurrentSystem {
 				),
 			));
 		} else {
-			$result = false;
-		}
-		if (! $result) {
 			return;
 		}
 		Current::$current['PluginsRole'] = Hash::combine(

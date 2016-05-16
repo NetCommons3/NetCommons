@@ -68,6 +68,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
 		'plugin.boxes.boxes_page',
+		'plugin.categories.category',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
 		'plugin.data_types.data_type',

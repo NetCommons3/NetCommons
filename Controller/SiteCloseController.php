@@ -45,7 +45,10 @@ class SiteCloseController extends NetCommonsAppController {
 		if (! SiteSettingUtil::read('App.close_site')) {
 			return $this->redirect('/');
 		}
-		$this->set('siteClosingReason', SiteSettingUtil::read('App.site_closing_reason'));
+
+		$siteName = SiteSettingUtil::read('App.site_name');
+		$siteClosingReason = SiteSettingUtil::read('App.site_closing_reason');
+		$this->set('siteClosingReason', str_replace('{X-SITE_NAME}', $siteName, $siteClosingReason));
 	}
 
 }

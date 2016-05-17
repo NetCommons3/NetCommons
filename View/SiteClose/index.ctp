@@ -10,11 +10,4 @@
  */
 ?>
 
-<div class="site-close jumbotron">
-	<h1>
-		<?php echo SiteSettingUtil::read('App.site_name'); ?>
-	</h1>
-	<p>
-		<?php echo nl2br($siteClosingReason); ?>
-	</p>
-</div>
+<?php echo $siteClosingReason;

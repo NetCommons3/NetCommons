@@ -207,7 +207,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		$output = '';
 
 		$escape = Hash::get($options, 'escape', true);
-		if($escape){
+		if ($escape) {
 			$text = h($text);
 		}
 		$options = Hash::insert($options, 'escape', false);

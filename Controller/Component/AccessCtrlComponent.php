@@ -10,8 +10,7 @@
  */
 
 App::uses('Component', 'Controller');
-App::uses('SiteSettingUtil', 'SiteManager.Utility');
-App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
  * アクセス制御 Component
@@ -45,26 +44,30 @@ class AccessCtrlComponent extends Component {
 			return true;
 		}
 
-		$allowUrls = array(
-			['plugin' => 'auth', 'controller' => 'auth', 'action' => 'login'],
-			['plugin' => 'auth_general', 'controller' => 'auth_general', 'action' => 'login'],
-			['plugin' => 'net_commons', 'controller' => 'site_close', 'action' => 'index'],
-		);
+		$netCommonsSecurity = new NetCommonsSecurity();
 
-		foreach ($allowUrls as $url) {
-			if ($controller->request->params['plugin'] === $url['plugin'] &&
-					$controller->request->params['controller'] === $url['controller'] &&
-					$controller->request->params['action'] === $url['action']) {
-
-				return true;
-			}
+		//不正IPアドレスチェック
+		if (! $netCommonsSecurity->enableBadIps()) {
+			$controller->Auth->logout();
+			$controller->throwBadRequest();
+			return false;
 		}
 
-		if (Current::allowSystemPlugin('site_manager')) {
-			return true;
+		//IP変動の禁止チェック
+		if (! $netCommonsSecurity->denyIpMove()) {
+			$controller->Auth->logout();
+			$controller->throwBadRequest();
+			return false;
 		}
 
-		return !(bool)SiteSettingUtil::read('App.close_site');
+		//サイト閉鎖のチェック
+		if ($netCommonsSecurity->isCloseSite($controller->request)) {
+			$controller->Auth->logout();
+			$controller->redirect('/net_commons/site_close/index');
+			return false;
+		}
+
+		return true;
 	}
 
 }

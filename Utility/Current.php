@@ -535,10 +535,9 @@ class Current extends CurrentBase {
 		if (! isset(self::$current['PluginsRole'])) {
 			return false;
 		}
-		if (self::read('User.role_key') === UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR) {
-			return true;
-		}
-
+		//if (self::read('User.role_key') === UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR) {
+		//	return true;
+		//}
 		return Hash::check(Current::$current['PluginsRole'], '{n}[plugin_key=' . $pluginKey . ']');
 	}
 

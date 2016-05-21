@@ -17,18 +17,14 @@
         }
     },
     "require": {
-        "cakedc/migrations":            "~2.2",
-        "cakephp/cakephp":              "~2.6",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
-        "phpunit/phpunit":              "~3.7.38"
-    },
-    "require-dev": {
         "mustangostang/spyc":           "dev-master",
         "netcommons/auth":              "dev-master",
         "netcommons/auth-general":      "dev-master",
         "netcommons/boxes":             "dev-master",
         "netcommons/blocks":            "dev-master",
+        "netcommons/categories":        "dev-master",
         "netcommons/containers":        "dev-master",
         "netcommons/control-panel":     "dev-master",
         "netcommons/data-types":        "dev-master",
@@ -52,8 +48,7 @@
         "netcommons/user-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",
         "netcommons/workflow":          "dev-master",
-        "netcommons/wysiwyg":           "dev-master",
-        "satooshi/php-coveralls":       "~1.0"
+        "netcommons/wysiwyg":           "dev-master"
     },
     "config": {
         "vendor-dir": "vendors",

@@ -133,6 +133,7 @@ class NetCommonsFormHelper extends AppHelper {
 		} elseif (in_array($method,
 						['inputWithTitleIcon', 'titleIconPicker', 'ngTitleIconPicker'], true)) {
 			//タイトルアイコン
+			$this->NetCommonsHtml->script('/net_commons/js/title_icon_picker.js');
 			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
 
 		} elseif ($method === 'selectNumber') {

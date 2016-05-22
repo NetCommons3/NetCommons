@@ -260,9 +260,9 @@ ul.nav-pills {
 /**
  * フレーム枠内
  */
-.frame.nc-content-list article header,
-.frame.nc-content article header {
-	margin-bottom: 16px;
+.frame.nc-content-list header,
+.frame.nc-content header {
+	margin-bottom: 8px;
 }
 
 /**
@@ -276,6 +276,12 @@ ul.nav-pills {
 
 .frame.nc-content-list article h1,
 .frame.nc-content-list article .h1,
+.frame .nc-content-list > h1,
+.frame .nc-content-list > .h1 {
+	margin-top: 0px;
+	margin-bottom: 16px;
+}
+
 .frame.nc-content-list article h2,
 .frame.nc-content-list article .h2,
 .frame.nc-content-list article h3,

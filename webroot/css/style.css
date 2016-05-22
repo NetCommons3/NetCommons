@@ -260,18 +260,14 @@ ul.nav-pills {
 /**
  * フレーム枠内
  */
-.frame.nc-content header {
+.frame.nc-content-list article header,
+.frame.nc-content article header {
 	margin-bottom: 16px;
 }
 
 /**
  * フレーム枠内のh1,h2,h3,h4,h5,h6
  */
-.frame .nc-content-list > h1,
-.frame .nc-content-list > .h1 {
-	margin-top: 0px;
-	margin-bottom: 16px;
-}
 .frame.nc-content article h1,
 .frame.nc-content article .h1 {
 	margin-top: 0px;
@@ -396,13 +392,4 @@ ul.nav-pills {
 .frame.nc-content article h6,
 .frame.nc-content article .h6 {
 	font-size: 9px;
-}
-
-/**
- * サイト閉鎖
- */
-.site-close.jumbotron h1 {
-	font-size: 2.8em;
-	margin-top: 0px;
-	margin-bottom: 20px;
 }

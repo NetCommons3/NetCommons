@@ -177,9 +177,6 @@ class BackToHelper extends AppHelper {
 		$options = Hash::merge(['icon' => 'list'], $options);
 		$title = __d('net_commons', 'To list');
 
-		$output = '';
-		$output .= $this->indexLinkButton($title, 'default_action', $options);
-
 		return $this->indexLinkButton($title, 'default_action', $options);
 	}
 

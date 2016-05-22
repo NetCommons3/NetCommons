@@ -12,7 +12,7 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
     },
     restrict: 'AE',
     transclude: true,
-    template: '<ng-transclude></ng-transclude>' +
+    template: '' +
         '<button type="button" ' +
         'class="btn btn-default dropdown-toggle nc-title-icon-btn" ' +
         'data-toggle="dropdown">' +
@@ -26,7 +26,7 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
         '<img ng-src="{{icon.path}}" alt="{{icon.alt}}" title="{{icon.alt}}" ' +
         ' class="nc-title-icon" ng-click="pick(icon.path)" />' +
         '</div>' +
-        '</li></ul>',
+        '</li></ul><ng-transclude></ng-transclude>',
     link: {
       pre: function(scope, element, attr) {
         scope.titeIcon = scope.ngModel || scope.titleIcon;

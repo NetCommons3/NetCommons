@@ -494,6 +494,10 @@ class Current extends CurrentBase {
  * @return bool
  */
 	public static function isControlPanel() {
+		if (! isset(self::$request)) {
+			return false;
+		}
+
 		if (self::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}

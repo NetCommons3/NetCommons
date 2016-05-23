@@ -9,6 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('Current', 'NetCommons.Utility');
+App::uses('Page', 'Pages.Model');
+
 /**
  * NetCommons Utility
  *

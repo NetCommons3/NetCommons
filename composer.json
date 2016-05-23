@@ -17,41 +17,37 @@
         }
     },
     "require": {
+        "cakedc/migrations":            "~2.2",
         "cakephp/debug_kit":            "~2.2",
         "chronon/mobile_detect":        "*",
         "mustangostang/spyc":           "dev-master",
-        "netcommons/auth":              "dev-master",
-        "netcommons/auth-general":      "dev-master",
-        "netcommons/boxes":             "dev-master",
         "netcommons/blocks":            "dev-master",
-        "netcommons/categories":        "dev-master",
-        "netcommons/containers":        "dev-master",
-        "netcommons/control-panel":     "dev-master",
-        "netcommons/data-types":        "dev-master",
+        "netcommons/boxes":             "dev-master",
         "netcommons/files":             "dev-master",
         "netcommons/frames":            "dev-master",
-        "netcommons/install":           "dev-master",
         "netcommons/m17n":              "dev-master",
-        "netcommons/mails":             "dev-master",
         "netcommons/pages":             "dev-master",
         "netcommons/plugin-manager":    "dev-master",
         "netcommons/private-space":     "dev-master",
         "netcommons/public-space":      "dev-master",
         "netcommons/roles":             "dev-master",
-        "netcommons/rooms":             "dev-master",
         "netcommons/room-space":        "dev-master",
+        "netcommons/rooms":             "dev-master",
         "netcommons/site-manager":      "dev-master",
-        "netcommons/theme-settings":    "dev-master",
-        "netcommons/topics":            "dev-master",
-        "netcommons/users":             "dev-master",
-        "netcommons/user-attributes":   "dev-master",
-        "netcommons/user-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",
+        "netcommons/users":             "dev-master",
         "netcommons/workflow":          "dev-master",
         "netcommons/wysiwyg":           "dev-master"
     },
+    "require-dev": {
+        "netcommons/auth-general":      "dev-master",
+        "netcommons/categories":        "dev-master",
+        "netcommons/containers":        "dev-master",
+        "netcommons/mails":             "dev-master",
+        "netcommons/topics":            "dev-master"
+    },
     "config": {
         "vendor-dir": "vendors",
-        "process-timeout": 3000
+        "process-timeout": 10000
     }
 }

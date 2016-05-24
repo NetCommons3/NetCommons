@@ -37,9 +37,7 @@
         "netcommons/user-roles":        "dev-master",
         "netcommons/users":             "dev-master",
         "netcommons/workflow":          "dev-master",
-        "netcommons/wysiwyg":           "dev-master"
-    },
-    "require-dev": {
+        "netcommons/wysiwyg":           "dev-master",
         "netcommons/auth-general":      "dev-master",
         "netcommons/categories":        "dev-master",
         "netcommons/containers":        "dev-master",

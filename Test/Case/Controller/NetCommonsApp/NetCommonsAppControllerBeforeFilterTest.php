@@ -119,19 +119,4 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
 		$this->assertEquals(Configure::read('Config.language'), 'en');
 	}
 
-/**
- * installのテスト
- *
- * @return void
- */
-	public function testInstall() {
-		$this->testAction(
-			'/test_net_commons/test_net_commons/install',
-			array('return' => 'view')
-		);
-
-		$this->assertEquals($this->controller->view, 'install');
-		$this->assertEquals(trim($this->view), 'TestNetCommonsInstall');
-	}
-
 }

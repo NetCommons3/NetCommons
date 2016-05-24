@@ -69,12 +69,4 @@ class TestNetCommonsController extends AppController {
 		parent::throwBadRequest();
 	}
 
-/**
- * install
- *
- * @return void
- */
-	public function install() {
-	}
-
 }

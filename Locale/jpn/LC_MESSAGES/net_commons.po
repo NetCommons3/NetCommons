@@ -90,7 +90,7 @@ msgstr "アクセスができません。"
 #: Questionnaires/Controller/QuestionnaireQuestionsController.php:85;123;148;178
 #: Questionnaires/Controller/QuestionnairesController.php:321;368
 msgid "Bad Request"
-msgstr "不正なリクエストの可能性があります"
+msgstr "不正なリクエストの可能性があります。"
 
 
 #
@@ -233,11 +233,11 @@ msgstr "%sを入力してください。"
 #: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
 #: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:271
 msgid "If it is not approved, comment is a required input."
-msgstr "差し戻す場合は、必ずコメントを入力して下さい。"
+msgstr "差し戻す場合は、必ずコメントを入力してください。"
 
 #: Comments/View/Elements/form.ctp:28
 msgid "Please enter comments to the person in charge."
-msgstr "担当者へコメントがあれば、入力して下さい。"
+msgstr "担当者へコメントがあれば、入力してください。"
 
 #: Edumap/Model/Edumap.php:162;191;197;209;215;222;229;236;243
 #: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:384;458;495;532;569;606;643;680;683;720
@@ -257,6 +257,9 @@ msgstr "半角英数字または記号を入力してください。"
 msgid "Only numbers are allowed."
 msgstr "数字を入力してください。"
 
+msgid "The input %s must be a number bigger than %d and less than %d."
+msgstr "%sは%d～%dまでの数値を入力してください。"
+
 #: Frames/Controller/FramesController.php:169
 #: Pages/Controller/PagesController.php:247
 #: PluginManager/Controller/PluginManagerController.php:148
@@ -269,7 +272,7 @@ msgstr "確認のため、再度入力してください。"
 
 #: NetCommons/Controller/NetCommonsAppController.php:289
 msgid "Failed on validation errors. Please check the input data."
-msgstr "入力した内容に誤りがあります。内容を確認して下さい。"
+msgstr "入力した内容に誤りがあります。内容を確認してください。"
 
 msgid "%s is already in use. Please choose another."
 msgstr "入力した%sは既に存在します。他の内容を入力してください。"

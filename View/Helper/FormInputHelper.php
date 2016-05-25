@@ -173,27 +173,8 @@ class FormInputHelper extends AppHelper {
 		//チェックボックス出力
 		$input = '';
 
-		if (Hash::get($options, 'label')) {
-			$label = Hash::get($options, 'label');
-			$options = Hash::insert($options, 'label', false);
-
-			$inputOptions = Hash::merge($defaultOptions, $options);
-
-			$domId = $this->domId($fieldName);
-
-			$input .= '<div class="' . $checkboxClass . '">';
-			$input .= '<label class="control-label" for="' . $domId . '">';
-			$input .= $this->Form->checkbox($fieldName, $inputOptions);
-			if ($escape) {
-				$input .= h($label);
-			} else {
-				$input .= $label;
-			}
-			$input .= '</label>';
-			$input .= '</div>';
-
-		} else {
-			$checkboxes = Hash::get($options, 'options', array());
+		if (Hash::get($options, 'options')) {
+			$checkboxes = Hash::get($options, 'options');
 			$options = Hash::remove($options, 'options');
 
 			$default = Hash::get($options, 'default', array());
@@ -222,6 +203,24 @@ class FormInputHelper extends AppHelper {
 
 				$index++;
 			}
+		} else {
+			$label = Hash::get($options, 'label');
+			$options = Hash::insert($options, 'label', false);
+
+			$inputOptions = Hash::merge($defaultOptions, $options);
+
+			$domId = $this->domId($fieldName);
+
+			$input .= '<div class="' . $checkboxClass . '">';
+			$input .= '<label class="control-label" for="' . $domId . '">';
+			$input .= $this->Form->checkbox($fieldName, $inputOptions);
+			if ($escape) {
+				$input .= h($label);
+			} else {
+				$input .= $label;
+			}
+			$input .= '</label>';
+			$input .= '</div>';
 		}
 
 		$output = '';

@@ -17,7 +17,7 @@
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<?php foreach ($displayNumberOptions as $count => $label) : ?>
-			<li<?php echo (int)$currentDays === $count ? ' class="active"' : ''; ?>>
+			<li>
 				<?php echo $this->Paginator->link($label, Hash::merge($url, array('limit' => null, 'days' => $count))); ?>
 			</li>
 		<?php endforeach; ?>

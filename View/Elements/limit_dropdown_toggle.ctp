@@ -17,7 +17,7 @@
 	</button>
 	<ul class="dropdown-menu" role="menu">
 		<?php foreach ($displayNumberOptions as $count => $label) : ?>
-			<li<?php echo (int)$currentLimit === $count ? ' class="active"' : ''; ?>>
+			<li>
 				<?php echo $this->Paginator->link($label, Hash::merge($url, array('limit' => $count))); ?>
 			</li>
 		<?php endforeach; ?>

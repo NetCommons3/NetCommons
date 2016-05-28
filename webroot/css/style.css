@@ -24,7 +24,8 @@
 	text-align: left;
 }
 
-blockquote {
+blockquote,
+.mce-content-body blockquote {
 	font-size: 1em;
 }
 

@@ -530,7 +530,10 @@ class NetCommonsFormHelper extends AppHelper {
 
 		} elseif ($type === 'checkbox') {
 			//チェックボックス
-			$label = '';
+			$options = Hash::remove($options, 'required');
+			$options = Hash::insert($options, 'label', false);
+			$options['outer'] = (bool)$label;
+
 			$input = $this->FormInput->$type($fieldName, $options);
 
 		} elseif (in_array($type, ['password', 'email', 'label', 'handle'], true)) {

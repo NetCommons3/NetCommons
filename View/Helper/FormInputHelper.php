@@ -92,23 +92,26 @@ class FormInputHelper extends AppHelper {
 		$attributes = Hash::merge($defaultAttributes, $attributes);
 		$attributes = Hash::insert($attributes, 'div', false);
 
-		$radioClass = 'radio';
+		//後で消すかも
 		if ($divOption && strpos(Hash::get($divOption, 'class', ''), 'form-inline') !== false) {
+			$attributes = Hash::insert($attributes, 'inline', true);
+		}
+
+		$radioClass = 'radio';
+		if (Hash::get($attributes, 'inline')) {
 			$radioClass .= ' radio-inline';
+			$attributes = Hash::remove($attributes, 'inline');
 		}
 
 		$input = '';
 
 		$befor = Hash::get($attributes, 'before', '');
 		$separator = Hash::get($attributes, 'separator', '');
+		$separator = '</label></div>' .	$separator .
+					'<div class="' . $radioClass . '"><label class="control-label">';
 		$after = Hash::get($attributes, 'after', '');
 
-		$attributes = Hash::merge($attributes, array(
-			'separator' => '</label></div>' .
-						$separator .
-						'<div class="' . $radioClass . '"><label class="control-label">',
-		));
-
+		$attributes = Hash::merge($attributes, array('separator' => $separator));
 		$input .= '<div class="' . $radioClass . '"><label class="control-label">' . $befor;
 
 		$attributes = Hash::remove($attributes, 'outer');
@@ -153,34 +156,64 @@ class FormInputHelper extends AppHelper {
 		);
 
 		$escape = Hash::get($options, 'escape', true);
-		$label = Hash::get($options, 'label', '');
-		if ($escape) {
-			$label = h($label);
-		}
+		$options = Hash::remove($options, 'escape');
 
-		$options = Hash::insert($options, 'label', false);
-
+		//divタグの設定
 		$divOption = $this->getDivOption('checkbox', $options, 'div', array());
 		$options = Hash::insert($options, 'div', false);
+		$options = Hash::remove($options, 'outer');
 
-		$inputOptions = Hash::merge($defaultOptions, $options, array('type' => 'checkbox'));
-
-		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
-
-		$output = '';
-
-		$input = '';
-		if ($label) {
-			$input .= '<div class="checkbox">';
-			$input .= '<label class="control-label" for="' . $domId . '">';
-			$input .= $this->Form->input($fieldName, $inputOptions);
-			$input .= $label;
-			$input .= '</label>';
-			$input .= '</div>';
-		} else {
-			$input .= $this->Form->input($fieldName, $inputOptions);
+		//チェックボックスのclass属性
+		$checkboxClass = 'checkbox';
+		if (Hash::get($options, 'inline')) {
+			$checkboxClass .= ' checkbox-inline';
 		}
 
+		//チェックボックス出力
+		$input = '';
+
+		if (Hash::get($options, 'options')) {
+			$checkboxes = Hash::get($options, 'options');
+			$options = Hash::remove($options, 'options');
+
+			$default = Hash::get($options, 'default', array());
+			$options = Hash::remove($options, 'default');
+
+			$inputOptions = Hash::merge($defaultOptions, $options);
+
+			$index = 0;
+			foreach ($checkboxes as $key => $label) {
+				$domId = $this->domId($fieldName . $index);
+
+				$inputOptions['id'] = $domId;
+				$inputOptions['value'] = $key;
+				$inputOptions['checked'] = in_array($key, $default, true);
+
+				$input .= $this->__bootstrapCheckbox(
+					$fieldName . '.' . $index, $checkboxClass, $label, $escape, $inputOptions
+				);
+
+				$index++;
+			}
+		} else {
+			$label = Hash::get($options, 'label', '');
+			$options = Hash::insert($options, 'label', false);
+
+			$inputOptions = Hash::merge($defaultOptions, $options);
+			$inputOptions = Hash::remove($inputOptions, 'inline');
+
+			$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+
+			if ($label || Hash::check($options, 'inline')) {
+				$input .= $this->__bootstrapCheckbox(
+					$fieldName, $checkboxClass, $label, $escape, $inputOptions
+				);
+			} else {
+				$input .= $this->Form->input($fieldName, $inputOptions);
+			}
+		}
+
+		$output = '';
 		if ($divOption) {
 			$output .= $this->Html->div(null, $input, $divOption);
 		} else {
@@ -192,6 +225,33 @@ class FormInputHelper extends AppHelper {
 		}
 
 		return $output;
+	}
+
+/**
+ * Bootstrapのチェックボックスを出力する
+ *
+ * @param string $fieldName フィールド名
+ * @param string $checkboxClass チェックボックスclass属性
+ * @param string $label ラベル
+ * @param bool $escape エスケープフラグ
+ * @param array $inputOptions HTMLの属性オプション
+ * @return string
+ */
+	private function __bootstrapCheckbox($fieldName, $checkboxClass, $label, $escape, $inputOptions) {
+		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+
+		$input = '<div class="' . $checkboxClass . '">';
+		$input .= '<label class="control-label" for="' . $domId . '">';
+		$input .= $this->Form->checkbox($fieldName, $inputOptions);
+		if ($escape) {
+			$input .= h($label);
+		} else {
+			$input .= $label;
+		}
+		$input .= '</label>';
+		$input .= '</div>';
+
+		return $input;
 	}
 
 /**
@@ -435,7 +495,7 @@ class FormInputHelper extends AppHelper {
 	public function label($fieldName) {
 		$input = '';
 
-		$input .= '<div class="form-input-outer">';
+		$input .= '<div class="form-input-outer form-control">';
 		$input .= Hash::get($this->_View->request->data, $fieldName);
 		$input .= '</div>';
 

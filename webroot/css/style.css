@@ -24,13 +24,6 @@
 	text-align: left;
 }
 
-.nc-data-label {
-	border: none;
-	overflow: hidden;
-	height: auto;
-	min-height: 34px;
-}
-
 /**
  * ページ
  */
@@ -124,6 +117,15 @@ input[type="checkbox"] {
 .form-radio-outer .radio,
 .form-checkbox-outer .checkbox {
 	padding-left: 20px;
+}
+
+/* nc-data-label は後で消す */
+.nc-data-label,
+.form-input-outer.form-control {
+	border: none;
+	overflow: hidden;
+	height: auto;
+	min-height: 34px;
 }
 
 textarea.nc-noresize {

@@ -18,11 +18,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('Sanitize', 'Utility');
-App::uses('Router', 'Routing');
-App::uses('CakeResponse', 'Network');
-App::uses('Controller', 'Controller');
-App::uses('Error', 'ExceptionRenderer');
+App::uses('NetCommonsExceptionRenderer', 'NetCommons.Error');
 
 /**
  * Exception Renderer.
@@ -51,54 +47,6 @@ App::uses('Error', 'ExceptionRenderer');
  *
  * @package  NetCommons\NetCommons\Error
  */
-class YAExceptionRenderer extends ExceptionRenderer {
+class YAExceptionRenderer extends NetCommonsExceptionRenderer {
 
-/**
- * Convenience method to display a 400 series page.
- *
- * @param Exception $error Exception
- * @return void
- */
-	public function error400($error) {
-		$message = $error->getMessage();
-		if (!Configure::read('debug') && $error instanceof CakeException) {
-			$message = __d('cake', 'Not Found');
-		}
-		$url = $this->controller->request->here();
-		$this->controller->response->statusCode($error->getCode());
-		$this->controller->set(array(
-			'code' => $error->getCode(),
-			'name' => h($message),
-			'message' => h($message),
-			'url' => h($url),
-			'error' => $error,
-			'_serialize' => array('name', 'message', 'url', 'code')
-		));
-		$this->_outputMessage('error400');
-	}
-
-/**
- * Convenience method to display a 500 page.
- *
- * @param Exception $error Exception
- * @return void
- */
-	public function error500($error) {
-		$message = $error->getMessage();
-		if (!Configure::read('debug')) {
-			$message = __d('cake', 'An Internal Error Has Occurred.');
-		}
-		$url = $this->controller->request->here();
-		$code = ($error->getCode() > 500 && $error->getCode() < 506) ? $error->getCode() : 500;
-		$this->controller->response->statusCode($code);
-		$this->controller->set(array(
-			'code' => $error->getCode(),
-			'name' => h($message),
-			'message' => h($message),
-			'url' => h($url),
-			'error' => $error,
-			'_serialize' => array('name', 'message', 'url', 'code')
-		));
-		$this->_outputMessage('error500');
-	}
 }

@@ -167,7 +167,6 @@ class FormInputHelper extends AppHelper {
 		$checkboxClass = 'checkbox';
 		if (Hash::get($options, 'inline')) {
 			$checkboxClass .= ' checkbox-inline';
-			$options = Hash::remove($options, 'inline');
 		}
 
 		//チェックボックス出力
@@ -204,23 +203,28 @@ class FormInputHelper extends AppHelper {
 				$index++;
 			}
 		} else {
-			$label = Hash::get($options, 'label');
+			$label = Hash::get($options, 'label', '');
 			$options = Hash::insert($options, 'label', false);
 
 			$inputOptions = Hash::merge($defaultOptions, $options);
+			$inputOptions = Hash::remove($inputOptions, 'inline');
 
-			$domId = $this->domId($fieldName);
+			$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
 
-			$input .= '<div class="' . $checkboxClass . '">';
-			$input .= '<label class="control-label" for="' . $domId . '">';
-			$input .= $this->Form->checkbox($fieldName, $inputOptions);
-			if ($escape) {
-				$input .= h($label);
+			if ($label || Hash::check($options, 'inline')) {
+				$input .= '<div class="' . $checkboxClass . '">';
+				$input .= '<label class="control-label" for="' . $domId . '">';
+				$input .= $this->Form->checkbox($fieldName, $inputOptions);
+				if ($escape) {
+					$input .= h($label);
+				} else {
+					$input .= $label;
+				}
+				$input .= '</label>';
+				$input .= '</div>';
 			} else {
-				$input .= $label;
+				$input .= $this->Form->input($fieldName, $inputOptions);
 			}
-			$input .= '</label>';
-			$input .= '</div>';
 		}
 
 		$output = '';

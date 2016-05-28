@@ -24,6 +24,10 @@
 	text-align: left;
 }
 
+blockquote {
+	font-size: 1em;
+}
+
 /**
  * ページ
  */

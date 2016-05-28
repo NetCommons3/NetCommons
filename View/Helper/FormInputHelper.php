@@ -189,16 +189,9 @@ class FormInputHelper extends AppHelper {
 				$inputOptions['value'] = $key;
 				$inputOptions['checked'] = in_array($key, $default, true);
 
-				$input .= '<div class="' . $checkboxClass . '">';
-				$input .= '<label class="control-label" for="' . $domId . '">';
-				$input .= $this->Form->checkbox($fieldName . '.' . $index, $inputOptions);
-				if ($escape) {
-					$input .= h($label);
-				} else {
-					$input .= $label;
-				}
-				$input .= '</label>';
-				$input .= '</div>';
+				$input .= $this->__bootstrapCheckbox(
+					$fieldName . '.' . $index, $checkboxClass, $label, $escape, $inputOptions
+				);
 
 				$index++;
 			}
@@ -212,16 +205,9 @@ class FormInputHelper extends AppHelper {
 			$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
 
 			if ($label || Hash::check($options, 'inline')) {
-				$input .= '<div class="' . $checkboxClass . '">';
-				$input .= '<label class="control-label" for="' . $domId . '">';
-				$input .= $this->Form->checkbox($fieldName, $inputOptions);
-				if ($escape) {
-					$input .= h($label);
-				} else {
-					$input .= $label;
-				}
-				$input .= '</label>';
-				$input .= '</div>';
+				$input .= $this->__bootstrapCheckbox(
+					$fieldName, $checkboxClass, $label, $escape, $inputOptions
+				);
 			} else {
 				$input .= $this->Form->input($fieldName, $inputOptions);
 			}
@@ -239,6 +225,33 @@ class FormInputHelper extends AppHelper {
 		}
 
 		return $output;
+	}
+
+/**
+ * Bootstrapのチェックボックスを出力する
+ *
+ * @param string $fieldName フィールド名
+ * @param string $checkboxClass チェックボックスclass属性
+ * @param string $label ラベル
+ * @param bool $escape エスケープフラグ
+ * @param array $inputOptions HTMLの属性オプション
+ * @return string
+ */
+	private function __bootstrapCheckbox($fieldName, $checkboxClass, $label, $escape, $inputOptions) {
+		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+
+		$input = '<div class="' . $checkboxClass . '">';
+		$input .= '<label class="control-label" for="' . $domId . '">';
+		$input .= $this->Form->checkbox($fieldName, $inputOptions);
+		if ($escape) {
+			$input .= h($label);
+		} else {
+			$input .= $label;
+		}
+		$input .= '</label>';
+		$input .= '</div>';
+
+		return $input;
 	}
 
 /**

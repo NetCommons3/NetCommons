@@ -24,6 +24,11 @@
 	text-align: left;
 }
 
+blockquote,
+.mce-content-body blockquote {
+	font-size: 1em;
+}
+
 /**
  * ページ
  */

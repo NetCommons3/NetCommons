@@ -151,6 +151,7 @@ class FormInputHelper extends AppHelper {
  */
 	public function checkbox($fieldName, $options = array()) {
 		$defaultOptions = array(
+			'type' => 'checkbox',
 			'error' => false,
 			'legend' => false,
 		);

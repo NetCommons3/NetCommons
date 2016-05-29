@@ -38,6 +38,13 @@ class DisplayNumberHelper extends AppHelper {
 	public $displayNumberOptions = array(1, 5, 10, 20, 50, 100);
 
 /**
+ * listStyle
+ *
+ * @var array
+ */
+	public $displayDaysOptions = array(1, 3, 7, 14, 30);
+
+/**
  * 件数セレクトボックスのオプション
  *
  * @param array $attributes HTMLの属性オプション
@@ -90,13 +97,13 @@ class DisplayNumberHelper extends AppHelper {
 				$attributes['unit']['multiple'] = $unit;
 			}
 
-			for ($i = 1; $i <= 31; $i++) {
-				if ($i === 1) {
+			foreach ($this->displayDaysOptions as $value) {
+				if ($value === 1) {
 					$unitLabel = $attributes['unit']['single'];
 				} else {
 					$unitLabel = $attributes['unit']['multiple'];
 				}
-				$options[$i] = sprintf($unitLabel, $i);
+				$options[$value] = sprintf($unitLabel, $value);
 			}
 		} else {
 			$options = $attributes['options'];

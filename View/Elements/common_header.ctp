@@ -24,20 +24,25 @@ if (! isset($isSettingMode)) {
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="<?php echo $pageContainerCss; ?> clearfix text-nowrap">
 			<div class="navbar-header">
-				<div class="pull-right">
-					<?php echo $this->NetCommonsHtml->link(
-							'<span class="glyphicon glyphicon-refresh"> </span>',
-							NetCommonsUrl::backToPageUrl(),
-							array('escape' => false, 'class' => 'navbar-brand nc-page-refresh visible-xs')
-						); ?>
-				</div>
-
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
+
+				<?php if ($this->params['plugin'] !== 'pages' && ! Current::isControlPanel()) : ?>
+					<?php echo $this->NetCommonsHtml->link(
+							'<span class="glyphicon glyphicon-arrow-left"> </span>',
+							NetCommonsUrl::backToPageUrl(),
+							array('escape' => false, 'class' => 'nc-page-refresh pull-left visible-xs navbar-brand')
+						); ?>
+					<?php echo $this->NetCommonsHtml->link(
+							'<span class="glyphicon glyphicon-arrow-left"> </span>',
+							NetCommonsUrl::backToPageUrl(),
+							array('escape' => false, 'class' => 'nc-page-refresh pull-left hidden-xs navbar-brand')
+						); ?>
+				<?php endif; ?>
 
 				<?php echo $this->NetCommonsHtml->link('NetCommons3',
 						NetCommonsUrl::actionUrl('/'), array('class' => 'navbar-brand')); ?>
@@ -108,13 +113,6 @@ if (! isset($isSettingMode)) {
 							<?php echo $this->NetCommonsHtml->handleLink(Current::read(), ['avatar' => true], [], 'User'); ?>
 						</li>
 					<?php endif; ?>
-					<li>
-						<?php echo $this->NetCommonsHtml->link(
-								'<span class="glyphicon glyphicon-refresh"> </span>',
-								NetCommonsUrl::backToPageUrl(),
-								array('escape' => false, 'class' => 'nc-page-refresh hidden-xs')
-							); ?>
-					</li>
 				</ul>
 			</div>
 		</div>

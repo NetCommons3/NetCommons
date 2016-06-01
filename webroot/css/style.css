@@ -42,13 +42,14 @@ blockquote,
 	text-align: center;
 }
 
-.navbar-nav > li > a.nc-page-refresh,
 a.nc-page-refresh {
 	font-size: 1.5em;
 	/*line-height: 1em;*/
 	padding-top: 13px;
 	padding-bottom: 13px;
-	margin-right: 5px;
+}
+a.nc-page-refresh.visible-xs {
+	margin-right: -15px;
 }
 
 /**

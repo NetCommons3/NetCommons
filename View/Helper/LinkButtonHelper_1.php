@@ -65,17 +65,9 @@ class LinkButtonHelper extends FormHelper {
 			'iconSize' => $this->Button->getButtonSize(),
 			'class' => 'btn btn-success nc-btn-style',
 		), $options, array('escapeTitle' => false));
-
-		if (! $title) {
-			$tooltip = Hash::get($options, 'tooltip', __d('net_commons', 'Add'));
-			if (is_string($tooltip)) {
-				$title = $tooltip;
-			} else {
-				$title = __d('net_commons', 'Add');
-			}
-			unset($inputOptions['tooltip']);
+		if (Hash::get($options, 'escapeTitle', true)) {
+			$title = h($title);
 		}
-
 		//iconの有無
 		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
 		unset($inputOptions['icon']);
@@ -86,16 +78,15 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		//if (Hash::get($options, 'tooltip', false)) {
-		//	if (is_string($options['tooltip'])) {
-		//		$tooltip = $options['tooltip'];
-		//	} else {
-		//		$tooltip = __d('net_commons', 'Add');
-		//	}
-		//	$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
-		//	unset($inputOptions['tooltip']);
-		//}
-
+		if (Hash::get($options, 'tooltip', false)) {
+			if (is_string($options['tooltip'])) {
+				$tooltip = $options['tooltip'];
+			} else {
+				$tooltip = __d('net_commons', 'Add');
+			}
+			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
+			unset($inputOptions['tooltip']);
+		}
 		$output .= $this->Html->link($iconElement . $title, $url, $inputOptions);
 		if (Hash::get($options, 'tooltip', false)) {
 			$output .= '</span>';
@@ -124,16 +115,6 @@ class LinkButtonHelper extends FormHelper {
 		if (Hash::get($options, 'escapeTitle', true)) {
 			$title = h($title);
 		}
-		$title = __d('net_commons', 'Edit');
-		//if (! $title) {
-		//	$tooltip = Hash::get($options, 'tooltip', __d('net_commons', 'Edit'));
-		//	if (is_string($tooltip)) {
-		//		$title = $tooltip;
-		//	} else {
-		//		$title = __d('net_commons', 'Edit');
-		//	}
-		//	unset($inputOptions['tooltip']);
-		//}
 
 		//iconの有無
 		$iconElement = '<span class="glyphicon glyphicon-' . h($inputOptions['icon']) . '"></span> ';
@@ -146,16 +127,16 @@ class LinkButtonHelper extends FormHelper {
 		unset($inputOptions['iconSize']);
 
 		//span tooltipタグの出力
-		//$tooltip = Hash::get($options, 'tooltip', false);
-		//if ($tooltip) {
-		//	if (is_string($options['tooltip'])) {
-		//		$tooltip = $options['tooltip'];
-		//	} else {
-		//		$tooltip = __d('net_commons', 'Edit');
-		//	}
-		//	$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
-		//	unset($inputOptions['tooltip']);
-		//}
+		$tooltip = Hash::get($options, 'tooltip', false);
+		if ($tooltip) {
+			if (is_string($options['tooltip'])) {
+				$tooltip = $options['tooltip'];
+			} else {
+				$tooltip = __d('net_commons', 'Edit');
+			}
+			$output .= '<span class="nc-tooltip" tooltip="' . $tooltip . '">';
+			unset($inputOptions['tooltip']);
+		}
 
 		if (! isset($url)) {
 			$url = array();

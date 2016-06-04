@@ -240,6 +240,7 @@ class FormInputHelper extends AppHelper {
  */
 	private function __bootstrapCheckbox($fieldName, $checkboxClass, $label, $escape, $inputOptions) {
 		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+		$inputOptions = Hash::remove($inputOptions, 'type');
 
 		$input = '<div class="' . $checkboxClass . '">';
 		$input .= '<label class="control-label" for="' . $domId . '">';

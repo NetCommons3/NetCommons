@@ -82,9 +82,6 @@ class CurrentFrame {
 		if (isset($frameId)) {
 			$result = $this->Frame->findById($frameId);
 			Current::$current = Hash::merge(Current::$current, $result);
-			if (isset(Current::$current['Page'])) {
-				return;
-			}
 		}
 
 		$this->setPageByBox();
@@ -121,6 +118,8 @@ class CurrentFrame {
 		if (! isset(Current::$current['Room'])) {
 			Current::$current['Room'] = $result['Room'];
 		}
+
+		Current::$current['Container'] = $result['Container'];
 	}
 
 /**

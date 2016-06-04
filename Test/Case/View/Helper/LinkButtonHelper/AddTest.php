@@ -55,13 +55,14 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
  *
  * ### 戻り値
  *  - title タイトル
+ *  - expectedTitle 期待値のタイトル
  *
  * @return array データ
  */
 	public function dataProviderTitle() {
 		return array(
-			array('title' => ''),
-			array('title' => 'Input Title')
+			array('title' => '', 'expectedTitle' => __d('net_commons', 'Add')),
+			array('title' => 'Input Title', 'expectedTitle' => 'Input Title')
 		);
 	}
 
@@ -69,10 +70,11 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
  * add()のテスト
  *
  * @param string $title タイトル
+ * @param string $expectedTitle 期待値のタイトル
  * @dataProvider dataProviderTitle
  * @return void
  */
-	public function testAddWithTitle($title) {
+	public function testAddWithTitle($title, $expectedTitle) {
 		//データ生成
 		$url = null;
 		$options = array();
@@ -82,7 +84,8 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
-						'<span class="glyphicon glyphicon-plus"></span> ' . $title .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
 					'</a>';
 		$this->assertEquals($expected, $result);
 	}
@@ -123,7 +126,8 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
-						'<span class="glyphicon glyphicon-plus"></span> ' . $expectedTitle .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
 					'</a>';
 		$this->assertEqual($expected, $result);
 	}
@@ -136,6 +140,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 	public function testAddWithIcon() {
 		//データ生成
 		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
 		$url = null;
 		$icon = 'edit';
 		$options = array('icon' => $icon);
@@ -145,7 +150,8 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
-						'<span class="glyphicon glyphicon-' . $icon . '"></span> ' .
+						'<span class="glyphicon glyphicon-' . $icon . '" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
 					'</a>';
 		$this->assertEquals($expected, $result);
 	}
@@ -158,6 +164,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 	public function testAddWithIconSize() {
 		//データ生成
 		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
 		$url = null;
 		$iconSize = 'btn-xs';
 		$options = array('iconSize' => $iconSize);
@@ -172,50 +179,9 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 			$expectedIconSize = '';
 		}
 		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style' . $expectedIconSize . '">' .
-						'<span class="glyphicon glyphicon-plus"></span> ' .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
 					'</a>';
-		$this->assertEqual($expected, $result);
-	}
-/**
- * add()のテスト(iconSizeのテスト)のDataProvider
- *
- * ### 戻り値
- *  - tooltip ツールチップ
- *
- * @return array データ
- */
-	public function dataProviderTooltip() {
-		return array(
-			array('tooltip' => true),
-			array('tooltip' => 'Input Tooltip')
-		);
-	}
-
-/**
- * add()のテスト(ツールチップテスト)
- *
- * @param string|bool $tooltip ツールチップ
- * @dataProvider dataProviderTooltip
- * @return void
- */
-	public function testAddWithTooltip($tooltip) {
-		//データ生成
-		$title = '';
-		$url = null;
-		$options = array('tooltip' => $tooltip);
-
-		//テスト実施
-		$result = $this->LinkButton->add($title, $url, $options);
-
-		//チェック
-		if (is_bool($tooltip)) {
-			$tooltip = __d('net_commons', 'Add');
-		}
-		$expected = '<span class="nc-tooltip" tooltip="' . $tooltip . '">' .
-						'<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
-							'<span class="glyphicon glyphicon-plus"></span> ' . $title .
-						'</a>' .
-					'</span>';
 		$this->assertEqual($expected, $result);
 	}
 
@@ -235,6 +201,7 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 
 		//データ生成
 		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
 		$url = null;
 		$options = array();
 
@@ -243,7 +210,8 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/net_commons/add_net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
-						'<span class="glyphicon glyphicon-plus"></span> ' . $title .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
 					'</a>';
 		$this->assertEqual($expected, $result);
 	}

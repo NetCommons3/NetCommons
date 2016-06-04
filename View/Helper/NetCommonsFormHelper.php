@@ -680,11 +680,17 @@ class NetCommonsFormHelper extends AppHelper {
 		$options = Hash::remove($options, 'required');
 		$options = Hash::merge(array('class' => 'control-label'), $options);
 
-		if ($returnHtml) {
-			return $this->Form->label($fieldName, $labelText, $options);
-		} else {
+		if (! $returnHtml) {
 			$options['text'] = $labelText;
 			return $options;
+		}
+
+		if (Hash::get($options, 'error') && $this->Form->error($fieldName)) {
+			return $this->NetCommonsHtml->div(
+				null, $this->Form->label($fieldName, $labelText, $options), ['class' => 'has-error']
+			);
+		} else {
+			return $this->Form->label($fieldName, $labelText, $options);
 		}
 	}
 }

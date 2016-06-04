@@ -42,13 +42,13 @@ class MessageFlashHelper extends AppHelper {
  * ```
  * - 出力
  * ```
- * <div class="alert alert-info">
+ * <div class="well well-sm">
  * 		メッセージ内容
  * </div>
  * ```
  */
 	public function description($message, $options = array()) {
-		$options = Hash::merge(array('class' => 'alert alert-info'), $options);
+		$options = Hash::merge(array('class' => 'well well-sm'), $options);
 		if ($message) {
 			return $this->NetCommonsHtml->div(null, $message, $options);
 		} else {

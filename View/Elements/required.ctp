@@ -12,8 +12,4 @@
 if (! isset($size)) {
 	$size = 'h4';
 }
-?>
-
-<strong class="text-danger <?php echo h($size); ?>">
-	<?php echo __d('net_commons', '*'); ?>
-</strong>
+echo ' <strong class="text-danger ' . h($size) . '">' . __d('net_commons', '*') . '</strong>';

@@ -685,7 +685,10 @@ class NetCommonsFormHelper extends AppHelper {
 			return $options;
 		}
 
-		if (Hash::get($options, 'error') && $this->Form->error($fieldName)) {
+		if (Hash::get($options, 'error') &&
+				($this->Form->error($fieldName) || $this->Form->error($fieldName . '_again'))) {
+
+			$options = Hash::remove($options, 'error');
 			return $this->NetCommonsHtml->div(
 				null, $this->Form->label($fieldName, $labelText, $options), ['class' => 'has-error']
 			);

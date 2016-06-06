@@ -421,7 +421,7 @@ msgstr "一時保存"
 
 #: Pages/View/Elements/add_plugin.ctp:78
 msgid "Close"
-msgstr "閉じる"
+msgstr "終了"
 
 #: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
 #: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201

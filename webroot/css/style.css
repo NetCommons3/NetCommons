@@ -100,18 +100,18 @@ table > tbody > tr > td .btn.btn-xs,
  */
 input[type="radio"],
 input[type="checkbox"] {
-	margin-right: 5px;
-	margin-top: 3px;
+	margin-right: 4px;
+	margin-top: 2px;
 }
 
 .form-inline input[type="radio"],
 .form-inline input[type="checkbox"] {
-	margin-right: 7px;
+	margin-right: 8px;
 	margin-top: 4px;
 }
 
 .form-input-again {
-	margin-top: 5px;
+	margin-top: 4px;
 }
 
 .checkbox,
@@ -177,7 +177,7 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 
 .help-block > .alert {
 	margin-bottom: 0px;
-	margin-top: -5px;
+	margin-top: -4px;
 	border-radius: 0px 0px 4px 4px;
 }
 
@@ -220,14 +220,14 @@ span.input-group-addon:not(:first-child):not(:last-child) {
  */
 ul.nav-tabs,
 ul.nav-pills {
-	margin-bottom: 1.5em;
+	margin-bottom: 1.4em;
 }
 
 /**
  * モーダルウィンドウ
  */
 .modal-header {
-	padding-bottom: 5px;
+	padding-bottom: 4px;
 }
 
 /**
@@ -259,10 +259,10 @@ ul.nav-pills {
 }
 
 .nc-table-add {
-	margin-bottom: 5px
+	margin-bottom: 4px
 }
 .nc-table-edit {
-	margin-left: 5px
+	margin-left: 4px
 }
 
 /**

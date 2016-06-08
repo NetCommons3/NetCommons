@@ -188,14 +188,9 @@ class WizardHelper extends AppHelper {
 		list($prev, $next) = $this->__wizardStep($activeKey);
 
 		//キャンセルボタン
-		if ($this->settings['cancelUrl'] === false) {
-			$cancelUrl = null;
-			$cancelOpt['name'] = 'cancel';
-		} else {
-			$cancelUrl = $this->NetCommonsHtml->url(
-				Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
-			);
-		}
+		$cancelUrl = $this->NetCommonsHtml->url(
+			Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
+		);
 		$cancelTitle = Hash::get($cancelOpt, 'title', __d('net_commons', 'Cancel'));
 		$output .= $this->Button->cancel($cancelTitle, $cancelUrl, $cancelOpt);
 

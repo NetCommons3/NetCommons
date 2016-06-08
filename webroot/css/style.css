@@ -274,6 +274,16 @@ ul.nav-pills {
 }
 
 /**
+ * コンテンツリストの各コンテンツのスタイル
+ */
+.frame .nc-content-list > article {
+	border-bottom: 1px solid #ccc;
+}
+.frame .nc-content-list > article:last-child {
+	border-bottom: none;
+}
+
+/**
  * フレーム枠内のh1,h2,h3,h4,h5,h6
  */
 .frame.nc-content article h1,

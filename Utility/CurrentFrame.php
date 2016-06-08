@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('Container', 'Containers.Model');
+
 /**
  * CurrentFrame Utility
  *
@@ -113,7 +115,10 @@ class CurrentFrame {
 		if (! $result) {
 			return;
 		}
-		Current::$current['Page'] = $result['Page'][0];
+
+		if ($result['Container']['type'] === Container::TYPE_MAIN) {
+			Current::$current['Page'] = $result['Page'][0];
+		}
 
 		if (! isset(Current::$current['Room'])) {
 			Current::$current['Room'] = $result['Room'];

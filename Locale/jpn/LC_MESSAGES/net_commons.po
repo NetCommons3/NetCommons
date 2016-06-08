@@ -113,6 +113,9 @@ msgstr "不正なリクエストの可能性があります。"
 msgid "Not found."
 msgstr "登録されていません。"
 
+msgid "%s is not."
+msgstr "%sがありません。"
+
 #: AccessCounters/Model/AccessCounter.php:60;68;75
 #: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
 #: Announcements/Model/Announcement.php:80;94;100 Bbses/Model/Bbs.php:97
@@ -483,6 +486,9 @@ msgstr "はい"
 
 msgid "No"
 msgstr "いいえ"
+
+msgid "Display the number of each page"
+msgstr "１ページ毎の表示件数"
 
 
 #

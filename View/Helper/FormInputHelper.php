@@ -498,7 +498,7 @@ class FormInputHelper extends AppHelper {
 	public function label($fieldName, $options = array()) {
 		$input = '';
 
-		$input .= '<div class="form-input-outer form-control">';
+		$input .= '<div class="form-label-input-outer form-control">';
 		if (isset($options['value'])) {
 			$input .= Hash::get($options, 'value');
 		} else {

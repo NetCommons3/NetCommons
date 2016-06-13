@@ -127,6 +127,7 @@ input[type="checkbox"] {
 
 /* nc-data-label は後で消す */
 .nc-data-label,
+.form-label-input-outer.form-control,
 .form-input-outer.form-control {
 	border: none;
 	overflow: hidden;

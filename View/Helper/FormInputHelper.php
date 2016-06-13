@@ -492,13 +492,18 @@ class FormInputHelper extends AppHelper {
  * ```
  *
  * @param string $fieldName フィールド名("Modelname.fieldname"形式)
+ * @param array $options label型のオプション
  * @return string
  */
-	public function label($fieldName) {
+	public function label($fieldName, $options = array()) {
 		$input = '';
 
-		$input .= '<div class="form-input-outer form-control">';
-		$input .= Hash::get($this->_View->request->data, $fieldName);
+		$input .= '<div class="form-label-input-outer form-control">';
+		if (isset($options['value'])) {
+			$input .= Hash::get($options, 'value');
+		} else {
+			$input .= Hash::get($this->_View->request->data, $fieldName);
+		}
 		$input .= '</div>';
 
 		return $input;

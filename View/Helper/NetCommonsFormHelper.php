@@ -413,6 +413,9 @@ class NetCommonsFormHelper extends AppHelper {
 		$help = Hash::get($options, 'help', false);
 		$options = Hash::remove($options, 'help');
 
+		$helpOptions = Hash::get($options, 'helpOptions', null);
+		$options = Hash::remove($options, 'helpOptions');
+
 		$type = Hash::get($options, 'type', 'text');
 		$inputOptions = $this->_inputOptions($type, $options);
 
@@ -443,7 +446,7 @@ class NetCommonsFormHelper extends AppHelper {
 		}
 
 		//ヘルプブロックの追加
-		$input .= $this->help($help);
+		$input .= $this->help($help, $helpOptions);
 
 		//error出力
 		if (is_array($options['error'])) {
@@ -629,15 +632,17 @@ class NetCommonsFormHelper extends AppHelper {
  * ```
  *
  * @param string $helpText ヘルプテキスト
+ * @param array|null $helpOptions ヘルプテキストのオプション
  * @return string
  */
-	public function help($helpText) {
+	public function help($helpText, $helpOptions = null) {
 		$output = '';
 
+		if (! $helpOptions) {
+			$helpOptions = array('class' => 'help-block', 'escape' => false);
+		}
 		if ($helpText) {
-			$output .= '<div class="help-block">';
-			$output .= $helpText;
-			$output .= '</div>';
+			$output .= $this->NetCommonsHtml->div(null, $helpText, $helpOptions);
 		}
 
 		return $output;

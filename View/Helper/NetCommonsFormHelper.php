@@ -639,7 +639,7 @@ class NetCommonsFormHelper extends AppHelper {
 		$output = '';
 
 		if (! $helpOptions) {
-			$helpOptions = array('class' => 'help-block');
+			$helpOptions = array('class' => 'help-block', 'escape' => false);
 		}
 		if ($helpText) {
 			$output .= $this->NetCommonsHtml->div(null, $helpText, $helpOptions);

@@ -145,7 +145,13 @@ class TableListHelper extends AppHelper {
 
 		$end = '</th>';
 
-		return $start . $title . $end;
+		$output = $start . $title . $end;
+
+		if (Hash::get($options, 'editUrl', false)) {
+			$output .= '<th></th>';
+		}
+
+		return $output;
 	}
 
 /**
@@ -216,16 +222,19 @@ class TableListHelper extends AppHelper {
 			$value = h($value);
 		}
 
-		if (Hash::get($options, 'editUrl', false)) {
-			$value .= $this->LinkButton->edit('',
-				Hash::get($options, 'editUrl', array()),
-				array('iconSize' => ' btn-xs')
-			);
-		}
-
 		$end = '</td>';
 
-		return $start . $value . $end;
+		$output = $start . $value . $end;
+
+		if (Hash::get($options, 'editUrl', false)) {
+			$output .= '<td>';
+			$output .= $this->LinkButton->edit(
+				'', Hash::get($options, 'editUrl', []), ['iconSize' => ' btn-xs']
+			);
+			$output .= '</td>';
+		}
+
+		return $output;
 	}
 
 }

@@ -225,7 +225,9 @@ class PermissionComponent extends Component {
 				$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
 				$plugin = Inflector::camelize($space['Space']['plugin_key']);
 				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
-				return $this->SpaceComponent->accessCheck($controller);
+				if (! $this->SpaceComponent->accessCheck($controller)) {
+					return false;
+				}
 			}
 		} catch (Exception $ex) {
 			CakeLog::error($ex);

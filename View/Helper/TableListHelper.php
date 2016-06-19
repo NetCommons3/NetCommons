@@ -228,7 +228,9 @@ class TableListHelper extends AppHelper {
 
 		if (Hash::get($options, 'editUrl', false)) {
 			$output .= '<td>';
-			$output .= $this->LinkButton->edit('', Hash::get($options, 'editUrl', []), ['iconSize' => ' btn-xs']);
+			$output .= $this->LinkButton->edit(
+				'', Hash::get($options, 'editUrl', []), ['iconSize' => ' btn-xs']
+			);
 			$output .= '</td>';
 		}
 

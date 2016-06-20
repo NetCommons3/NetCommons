@@ -151,7 +151,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
 				$url['frame_id'] = Current::read('Frame.id');
 			}
-			$url = NetCommonsUrl::actionUrlAsArray($url);
+			$url = NetCommonsUrl::actionUrl($url);
 		}
 		return $url;
 	}
@@ -183,20 +183,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 	public function link($title = '', $url = null, $options = array()) {
 		$url = $this->__getUrl($url);
 		$output = $this->Html->link($title, $url, $options);
-		return $output;
-	}
-
-/**
- * `<img>`タグの出力
- *
- * @param mixed $path URL
- * @param array $options HTML属性オプション
- * @return string `<img>`タグ
- * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::image
- */
-	public function image($path, $options = array()) {
-		$path = $this->__getUrl($path);
-		$output = $this->Html->image($path, $options);
 		return $output;
 	}
 
@@ -265,7 +251,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		if (! isset($url['frame_id']) && Current::read('Frame.id')) {
 			$url['frame_id'] = Current::read('Frame.id');
 		}
-		$url = NetCommonsUrl::actionUrlAsArray($url);
+		$url = NetCommonsUrl::actionUrl($url);
 
 		return $this->Html->link($title, $url, $options);
 	}

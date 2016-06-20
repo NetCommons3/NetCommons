@@ -57,7 +57,7 @@ class LinkButtonHelper extends FormHelper {
 					$url['controller'] = $this->_View->viewVars['addActionController'];
 				}
 			}
-			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
+			$url = NetCommonsUrl::actionUrlAsArray(Hash::merge($defaultUrl, $url));
 		}
 
 		//Linkオプションの設定

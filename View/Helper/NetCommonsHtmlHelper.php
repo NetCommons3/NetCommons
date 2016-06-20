@@ -57,7 +57,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$helper = $this->MailsHtml;
 			$method = 'help';
 		} elseif ($method === 'titleIcon') {
-			$this->script('/net_commons/js/title_icon_picker.js');
 			$helper = $this->_View->loadHelper('NetCommons.TitleIcon');
 		} elseif ($method === 'dateFormat') {
 			$helper = $this->Date;

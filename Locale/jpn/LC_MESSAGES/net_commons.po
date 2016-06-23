@@ -458,6 +458,9 @@ msgstr "移動"
 msgid "To list"
 msgstr "一覧へ"
 
+msgid "Sort"
+msgstr "並び替え"
+
 
 #
 #: ラベル

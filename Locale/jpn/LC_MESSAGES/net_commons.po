@@ -862,3 +862,6 @@ msgid "glasses"
 msgstr "眼鏡"
 msgid "search"
 msgstr "虫眼鏡"
+
+msgid "Number"
+msgstr "件数"

@@ -158,6 +158,21 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
+ * ImageのURLの取得
+ *
+ * @param mixed $path URL
+ * @param array $options HTML属性オプション
+ * @return string URL
+ * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::url HtmlHelper::url
+ */
+	public function image($path, $options = array()) {
+		//URLの設定
+		$path = $this->__getUrl($path);
+		$output = $this->Html->image($path, $options);
+		return $output;
+	}
+
+/**
  * URLの取得
  *
  * @param mixed $url URL

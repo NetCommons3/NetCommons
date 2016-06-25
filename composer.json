@@ -31,7 +31,7 @@
         "netcommons/private-space":     "dev-master",
         "netcommons/public-space":      "dev-master",
         "netcommons/roles":             "dev-master",
-        "netcommons/room-space":        "dev-master",
+        "netcommons/community-space":   "dev-master",
         "netcommons/rooms":             "dev-master",
         "netcommons/site-manager":      "dev-master",
         "netcommons/user-roles":        "dev-master",

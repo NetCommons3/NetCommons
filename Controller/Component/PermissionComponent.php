@@ -164,10 +164,6 @@ class PermissionComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
-		if (! Configure::read('NetCommons.installed')) {
-			return;
-		}
-
 		switch ($this->type) {
 			case self::CHECK_TYEP_SYSTEM_PLUGIN:
 				if (Current::allowSystemPlugin($controller->params['plugin'])) {

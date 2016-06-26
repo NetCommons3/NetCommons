@@ -164,10 +164,6 @@ class PermissionComponent extends Component {
  * @throws ForbiddenException
  */
 	public function startup(Controller $controller) {
-		if (! Configure::read('NetCommons.installed')) {
-			return;
-		}
-
 		switch ($this->type) {
 			case self::CHECK_TYEP_SYSTEM_PLUGIN:
 				if (Current::allowSystemPlugin($controller->params['plugin'])) {
@@ -189,7 +185,11 @@ class PermissionComponent extends Component {
 				return;
 		}
 
-		throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+		if ($controller->Auth->user('id')) {
+			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+		} else {
+			return $controller->redirect($controller->Auth->redirect());
+		}
 	}
 
 /**

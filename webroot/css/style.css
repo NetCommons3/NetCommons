@@ -104,6 +104,10 @@ input[type="checkbox"] {
 	margin-top: 2px;
 }
 
+.form-inline label.control-label {
+	margin-right: 4px;
+}
+
 .form-inline input[type="radio"],
 .form-inline input[type="checkbox"] {
 	margin-right: 8px;

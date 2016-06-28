@@ -60,13 +60,19 @@ class TableListHelper extends AppHelper {
 /**
  * `<table>`を表示する
  *
+ * @param string $tableType テーブル種別 `table-hover`,`table-striped`,`table-bordered`,`table-condensed`
  * @return string HTML
+ * @see http://getbootstrap.com/css/#tables
  */
-	public function startTable() {
+	public function startTable($tableType = 'table-hover') {
 		$html = '';
 
+		if ($tableType) {
+			$tableType = ' ' . $tableType;
+		}
+
 		$html .= '<div class="table-responsive">';
-		$html .= '<table class="table table-hover">';
+		$html .= '<table class="table' . $tableType . '">';
 		return $html;
 	}
 

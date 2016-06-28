@@ -272,6 +272,13 @@ ul.nav-pills {
 .nc-table-edit {
 	margin-left: 4px
 }
+.nc-table-handle a {
+	display: block;
+	max-width: 120px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
 
 /**
  * フレーム枠内

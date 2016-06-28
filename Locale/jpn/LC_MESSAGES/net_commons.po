@@ -342,6 +342,9 @@ msgstr "更新日時"
 msgid "Modified user"
 msgstr "更新者"
 
+msgid "Number"
+msgstr "件数"
+
 
 #
 #: ボタン
@@ -865,6 +868,3 @@ msgid "glasses"
 msgstr "眼鏡"
 msgid "search"
 msgstr "虫眼鏡"
-
-msgid "Number"
-msgstr "件数"

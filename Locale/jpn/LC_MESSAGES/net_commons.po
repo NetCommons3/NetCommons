@@ -260,6 +260,9 @@ msgstr "半角英数字または記号を入力してください。"
 msgid "Only numbers are allowed."
 msgstr "数字を入力してください。"
 
+msgid "Please enter more than %s."
+msgstr "%s以上の数値を入力してください。"
+
 msgid "The input %s must be a number bigger than %d and less than %d."
 msgstr "%sは%d～%dまでの数値を入力してください。"
 

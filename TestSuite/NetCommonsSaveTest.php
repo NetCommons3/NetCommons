@@ -34,6 +34,13 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 	protected $_methodName = '';
 
 /**
+ * Key Alias
+ *
+ * @var array
+ */
+	protected $_keyAlias = '';
+
+/**
  * Saveのテスト
  *
  * @param array $data 登録データ
@@ -43,12 +50,21 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 	public function testSave($data) {
 		$model = $this->_modelName;
 		$method = $this->_methodName;
+		if (! $this->_keyAlias) {
+			$this->_keyAlias = $this->$model->alias;
+		}
 
 		//チェック用データ取得
 		if (isset($data[$this->$model->alias]['id'])) {
 			$before = $this->$model->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('id' => $data[$this->$model->alias]['id']),
+			));
+		} else {
+			$max = $this->$model->find('first', array(
+				'recursive' => -1,
+				'fields' => array('id'),
+				'order' => array('id' => 'desc'),
 			));
 		}
 
@@ -59,6 +75,8 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		//idのチェック
 		if (isset($data[$this->$model->alias]['id'])) {
 			$id = $data[$this->$model->alias]['id'];
+		} elseif ($max) {
+			$id = (string)($max[$this->$model->alias]['id'] + 1);
 		} else {
 			$id = $this->$model->getLastInsertID();
 		}
@@ -80,7 +98,7 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 
 			if ($this->$model->hasField('key')) {
 				$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey(
-					$this->$model->alias, $this->$model->useDbConfig
+					$this->_keyAlias, $this->$model->useDbConfig
 				);
 			}
 			$before[$this->$model->alias] = array();

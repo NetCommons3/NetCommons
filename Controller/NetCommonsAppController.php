@@ -220,17 +220,6 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
- * Keep connection alive
- *
- * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
- * @return void
- **/
-	public function ping() {
-		$this->set('result', array('message' => 'OK'));
-		$this->set('_serialize', array('result'));
-	}
-
-/**
  * camelizeKeyRecursive
  *
  * @param array $orig data to camelize

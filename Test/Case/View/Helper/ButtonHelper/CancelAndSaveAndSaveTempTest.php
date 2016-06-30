@@ -140,7 +140,7 @@ class ButtonHelperCancelAndSaveAndSaveTempTest extends NetCommonsHelperTestCase 
 	private function __assertButtons($result, $cancelUrl, $backUrl, $disapproval, $approval) {
 		//キャンセルのチェック
 		$expected = '<a href="' . $cancelUrl . '" class="btn btn-default btn-workflow">' .
-						'<span class="glyphicon glyphicon-remove"></span> ' . __d('net_commons', 'Cancel') .
+						'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . __d('net_commons', 'Cancel') .
 					'</a>';
 		$this->assertTextContains($expected, $result);
 

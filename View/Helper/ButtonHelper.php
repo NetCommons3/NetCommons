@@ -161,13 +161,6 @@ class ButtonHelper extends FormHelper {
 			$options['escape'] = false;
 		}
 
-		$defaultOptions = array(
-			'name' => 'save',
-			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
-			'ng-disabled' => 'sending'
-		);
-		$inputOptions = Hash::merge($defaultOptions, $options);
-
 		if (Hash::get($options, 'url')) {
 			$options['url'] = $this->NetCommonsHtml->url(Hash::get($options, 'url'));
 

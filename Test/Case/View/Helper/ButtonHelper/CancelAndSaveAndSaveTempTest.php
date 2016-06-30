@@ -147,7 +147,7 @@ class ButtonHelperCancelAndSaveAndSaveTempTest extends NetCommonsHelperTestCase 
 		//戻るのチェック
 		if ($backUrl) {
 			$expected = '<a href="' . $backUrl . '" class="btn btn-default btn-workflow" ng-class="{disabled: sending}">' .
-							'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK') .
+							'<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> ' . __d('net_commons', 'BACK') .
 						'</a>';
 			$this->assertTextContains($expected, $result);
 		} else {

@@ -168,8 +168,9 @@ class DisplayNumberHelper extends AppHelper {
 			unset($attributes['unit']);
 		}
 
-		if (! isset($attributes['currentLimit'])) {
-			$attributes['currentLimit'] = $this->_View->Paginator->param('limit');
+		$currentLimit = $this->_View->Paginator->param('limit');
+		if ($currentLimit) {
+			$attributes['currentLimit'] = $currentLimit;
 		}
 
 		if (! isset($attributes['url'])) {

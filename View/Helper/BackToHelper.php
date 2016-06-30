@@ -56,7 +56,8 @@ class BackToHelper extends AppHelper {
 			$options['icon'] = 'remove';
 		}
 		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) .
+				'" aria-hidden="true"></span> ';
 			unset($options['icon']);
 
 			$title = h($title);
@@ -108,7 +109,8 @@ class BackToHelper extends AppHelper {
 		$icon = Hash::get($options, 'icon', 'remove');
 		$options = Hash::remove($options, 'icon');
 		if ($icon) {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($icon) . '"></span> ';
+			$iconElement = '<span class="glyphicon glyphicon-' . h($icon) .
+				'" aria-hidden="true"></span> ';
 		}
 
 		//ボタンサイズ

@@ -81,7 +81,7 @@ class BackToHelperLinkButtonTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/edit" class="btn btn-default">' .
-						'<span class="glyphicon glyphicon-remove"></span> ' . $title .
+						'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $title .
 					'</a>';
 		$this->assertEquals($expected, $result);
 	}
@@ -125,7 +125,7 @@ class BackToHelperLinkButtonTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		if ($icon) {
-			$expected = '<a href="/edit" class="btn btn-default"><span class="glyphicon glyphicon-' . $icon . '"></span> </a>';
+			$expected = '<a href="/edit" class="btn btn-default"><span class="glyphicon glyphicon-' . $icon . '" aria-hidden="true"></span> </a>';
 		} else {
 			$expected = '<a href="/edit" class="btn btn-default"></a>';
 		}
@@ -172,9 +172,9 @@ class BackToHelperLinkButtonTest extends NetCommonsHelperTestCase {
 			$expectedIconSize = '';
 		}
 		$expected = '<a href="/edit" class="btn btn-default' . $expectedIconSize . '">' .
-						'<span class="glyphicon glyphicon-remove"></span> ' .
+						'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' .
 					'</a>';
-		$this->assertEqual($expected, $result);
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -213,9 +213,9 @@ class BackToHelperLinkButtonTest extends NetCommonsHelperTestCase {
 
 		//チェック
 		$expected = '<a href="/edit" class="btn btn-default">' .
-						'<span class="glyphicon glyphicon-remove"></span> ' . $expectedTitle .
+						'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $expectedTitle .
 					'</a>';
-		$this->assertEqual($expected, $result);
+		$this->assertEquals($expected, $result);
 	}
 
 }

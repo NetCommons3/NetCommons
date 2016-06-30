@@ -70,7 +70,7 @@ class ButtonHelper extends FormHelper {
 	public function button($title, $options = array()) {
 		$icon = Hash::get($options, 'icon');
 		if ($icon) {
-			$title = '<span class="glyphicon ' . $icon . '"></span> ' . $title;
+			$title = '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span> ' . $title;
 			$options = Hash::remove($options, 'icon');
 			$options = Hash::insert($options, 'escape', false);
 		}
@@ -112,7 +112,7 @@ class ButtonHelper extends FormHelper {
 	public function delete($title, $confirm, $options = array()) {
 		$output = '';
 
-		$title = '<span class="glyphicon glyphicon-trash"> </span> ' . $title;
+		$title = '<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span> ' . $title;
 
 		$defaultOptions = array(
 			'name' => 'delete',
@@ -156,16 +156,10 @@ class ButtonHelper extends FormHelper {
 	public function save($title, $options = array()) {
 		if (isset($options['icon'])) {
 			$title = h($title);
-			$title .= ' <span class="glyphicon glyphicon-' . $options['icon'] . '"></span>';
+			$title .= ' <span class="glyphicon glyphicon-' . $options['icon'] .
+				'" aria-hidden="true"></span>';
 			$options['escape'] = false;
 		}
-
-		$defaultOptions = array(
-			'name' => 'save',
-			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
-			'ng-disabled' => 'sending'
-		);
-		$inputOptions = Hash::merge($defaultOptions, $options);
 
 		if (Hash::get($options, 'url')) {
 			$options['url'] = $this->NetCommonsHtml->url(Hash::get($options, 'url'));
@@ -173,7 +167,7 @@ class ButtonHelper extends FormHelper {
 			$inputOptions = Hash::merge(array(
 				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 				'ng-disabled' => 'sending',
-				'ng-click' => 'sending=true',
+				'ng-click' => 'sending=true'
 			), $options);
 			$inputOptions = Hash::remove($inputOptions, 'url');
 
@@ -265,7 +259,7 @@ class ButtonHelper extends FormHelper {
 		$cancelOptions = Hash::remove($cancelOptions, 'label');
 
 		$output .= $this->Html->link(
-			'<span class="glyphicon glyphicon-remove"></span> ' . $label,
+			'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $label,
 			$cancelUrl,
 			$cancelOptions
 		);
@@ -273,7 +267,8 @@ class ButtonHelper extends FormHelper {
 		//前へボタン
 		if (isset($backUrl)) {
 			$output .= $this->Html->link(
-				'<span class="glyphicon glyphicon-chevron-left"></span> ' . __d('net_commons', 'BACK'),
+				'<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> ' .
+					__d('net_commons', 'BACK'),
 				$backUrl,
 				array(
 					'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow',
@@ -320,7 +315,8 @@ class ButtonHelper extends FormHelper {
 
 		$options['icon'] = Hash::get($options, 'icon', 'search');
 		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) .
+				'" aria-hidden="true"></span> ';
 			unset($options['icon']);
 		} else {
 			$iconElement = '';
@@ -348,7 +344,8 @@ class ButtonHelper extends FormHelper {
 
 		$options['icon'] = Hash::get($options, 'icon', 'plus');
 		if ($options['icon'] !== '') {
-			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) . '"></span> ';
+			$iconElement = '<span class="glyphicon glyphicon-' . h($options['icon']) .
+				'" aria-hidden="true"></span> ';
 			unset($options['icon']);
 		} else {
 			$iconElement = '';

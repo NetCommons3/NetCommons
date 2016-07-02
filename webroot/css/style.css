@@ -384,7 +384,7 @@ ul.nav-pills {
 .frame .nc-content-list > .h1,
 .frame.nc-content-list article h1,
 .frame.nc-content-list article .h1 {
-	font-size: 27px;
+	font-size: 28px;
 }
 
 .frame.nc-content-list article h2,
@@ -405,12 +405,12 @@ ul.nav-pills {
 }
 .frame.nc-content-list article h6,
 .frame.nc-content-list article .h6 {
-	font-size: 9px;
+	font-size: 8px;
 }
 
 .frame.nc-content article h1,
 .frame.nc-content article .h1 {
-	font-size: 27px;
+	font-size: 28px;
 }
 .frame.nc-content article h2,
 .frame.nc-content article .h2 {
@@ -430,5 +430,5 @@ ul.nav-pills {
 }
 .frame.nc-content article h6,
 .frame.nc-content article .h6 {
-	font-size: 9px;
+	font-size: 8px;
 }

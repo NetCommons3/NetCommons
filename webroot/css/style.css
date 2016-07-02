@@ -287,6 +287,11 @@ ul.nav-pills {
 .frame.nc-content header {
 	margin-bottom: 8px;
 }
+.frame.nc-content-list footer,
+.frame.nc-content footer {
+	margin-top: 16px;
+	margin-bottom: 8px;
+}
 
 /**
  * コンテンツリストの各コンテンツのスタイル

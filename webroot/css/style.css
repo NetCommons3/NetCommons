@@ -298,6 +298,7 @@ ul.nav-pills {
  */
 .frame .nc-content-list > article {
 	border-bottom: 1px solid #ccc;
+	padding-bottom: 8px;
 }
 .frame .nc-content-list > article:last-child {
 	border-bottom: none;

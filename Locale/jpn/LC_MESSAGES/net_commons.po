@@ -499,6 +499,12 @@ msgstr "いいえ"
 msgid "Display the number of each page"
 msgstr "１ページ毎の表示件数"
 
+msgid "Created:"
+msgstr "作成:"
+
+msgid "Modified:"
+msgstr "更新:"
+
 
 #
 #: 承認の文言

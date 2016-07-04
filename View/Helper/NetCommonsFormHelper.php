@@ -437,7 +437,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//Form->input
 		$input = '';
-		if ($error) {
+		if ($error && Hash::get($inputOptions, 'error') !== false) {
 			$input .= '<div class="has-error">';
 			$input .= $this->_input($fieldName, $inputOptions);
 			$input .= '</div>';

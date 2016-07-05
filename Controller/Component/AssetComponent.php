@@ -37,30 +37,48 @@ class AssetComponent extends Component {
  */
 	public function getSiteTheme(Controller $controller) {
 		$theme = null;
-		if (empty($controller->request->params['requested'])) {
-			if (Current::read('Page.theme')) {
-				return Current::read('Page.theme');
-			}
+		if (! empty($controller->request->params['requested'])) {
+			return $theme;
+		}
+		if (Current::read('Page.theme')) {
+			return Current::read('Page.theme');
+		}
 
-			$controller->Page = ClassRegistry::init('Pages.Page');
-			if (Current::read('Page.id')) {
-				$parentIds = $controller->Page->getPath(Current::read('Page.id'), array('id'));
-				$page = $controller->Page->find('first', array(
-					'recursive' => -1,
-					'fields' => array('theme'),
-					'conditions' => array('id' => Hash::extract($parentIds, '{n}.Page.id'), 'theme !=' => null),
-					'order' => array('lft' => 'desc'),
-				));
-				$theme = Hash::get($page, 'Page.theme');
-			}
-
+		$controller->Page = ClassRegistry::init('Pages.Page');
+		if (Current::read('Page.id')) {
+			$parentIds = $controller->Page->getPath(Current::read('Page.id'), array('id'));
+			$page = $controller->Page->find('first', array(
+				'recursive' => -1,
+				'fields' => array('theme'),
+				'conditions' => array('id' => Hash::extract($parentIds, '{n}.Page.id'), 'theme !=' => null),
+				'order' => array('lft' => 'desc'),
+			));
+			$theme = Hash::get($page, 'Page.theme');
 			if ($theme) {
 				return $theme;
-			} else {
-				$controller->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
-				$theme = $controller->SiteSetting->getSiteTheme();
 			}
 		}
+
+		if (! Current::read('Room.id')) {
+			$controller->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+			$theme = $controller->SiteSetting->getSiteTheme();
+			return $theme;
+		}
+
+		if (Current::read('Room.theme')) {
+			$theme = Current::read('Room.theme');
+			return $theme;
+		}
+
+		$controller->Room = ClassRegistry::init('Rooms.Room');
+		$parentIds = $controller->Room->getPath(Current::read('Room.id'), array('id'));
+		$room = $controller->Page->find('first', array(
+			'recursive' => -1,
+			'fields' => array('theme'),
+			'conditions' => array('id' => Hash::extract($parentIds, '{n}.Room.id'), 'theme !=' => null),
+			'order' => array('lft' => 'desc'),
+		));
+		$theme = Hash::get($room, 'Room.theme');
 		return $theme;
 	}
 }

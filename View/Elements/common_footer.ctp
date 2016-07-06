@@ -13,3 +13,11 @@
 		<div class="copyright">Powered by NetCommons</div>
 	</div>
 </footer>
+
+<script type="text/javascript">
+$(function() {
+	$(document).on('keypress', 'input:not(.allow-submit)', function(event) {
+		return event.which !== 13;
+	});
+});
+</script>

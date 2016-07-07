@@ -300,6 +300,12 @@ msgstr ""
 msgid "Each of the embedded keywords, will be converted to the corresponding content. <br />"
 msgstr "それぞれの埋め込みキーワードは、対応する内容に変換されます。<br />"
 
+msgid "Can use an embedded keyword."
+msgstr "埋め込みキーワードが使えます。"
+
+msgid "{X-SITE_NAME} : Site name"
+msgstr "{X-SITE_NAME} : サイト名"
+
 
 #
 #: 一覧表示のヘッダー

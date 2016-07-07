@@ -297,6 +297,9 @@ msgstr "条件に一致するデータはありませんでした。"
 msgid "Pleas input boolean."
 msgstr ""
 
+msgid "Each of the embedded keywords, will be converted to the corresponding content. <br />"
+msgstr "それぞれの埋め込みキーワードは、対応する内容に変換されます。<br />"
+
 
 #
 #: 一覧表示のヘッダー

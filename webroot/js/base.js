@@ -81,8 +81,8 @@ NetCommonsApp.factory('NetCommonsModal', ['$uibModal', function($uibModal) {
 /**
  * base controller
  */
-NetCommonsApp.controller('NetCommons.base', function(
-    $scope, $location) {
+NetCommonsApp.controller('NetCommons.base',
+    ['$scope', '$location', function($scope, $location) {
 
       /**
        * Base URL
@@ -148,4 +148,4 @@ NetCommonsApp.controller('NetCommons.base', function(
         $scope.sending = true;
       };
 
-    });
+    }]);

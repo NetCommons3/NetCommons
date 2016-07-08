@@ -53,8 +53,10 @@ NetCommonsApp.directive('ncColorPalettePicker', [
       }
     };
   }]);
+
+
 NetCommonsApp.controller('ncColorPalettePickerCtrl',
-    function($scope, $attrs) {
+    ['$scope', '$attrs', function($scope, $attrs) {
       $scope.colorValue = $attrs.colorValue;
-    }
+    }]
 );

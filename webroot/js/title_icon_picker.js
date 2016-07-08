@@ -43,8 +43,10 @@ NetCommonsApp.directive('ncTitleIconPicker', [function() {
     }
   };
 }]);
+
+
 NetCommonsApp.controller('ncTitleIconPickerCtrl',
-    function($scope, $attrs) {
+    ['$scope', '$attrs', function($scope, $attrs) {
       $scope.titleIcon = $attrs.titleIcon;
-    }
+    }]
 );

@@ -35,16 +35,20 @@ class DateHelper extends AppHelper {
  * Date Format
  *
  * @param datetime $date datetime
+ * @param null|string $format フォーマット
  * @return array
  */
-	public function dateFormat($date) {
+	public function dateFormat($date, $format = null) {
 		if (! Validation::datetime($date)) {
 			return null;
 		}
 		// ユーザタイムゾーンに変換
 		$date = $this->NetCommonsTime->toUserDatetime($date);
 
-		if ($this->_isToday($date)) {
+		if ($format) {
+			return date($format, strtotime($date));
+
+		} elseif ($this->_isToday($date)) {
 			return date('G:i', strtotime($date));
 
 		} elseif (! $this->_isThisYear($date)) {

@@ -129,35 +129,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
- * URL生成処理
- *
- * @param mixed $url URL
- * @return string URL
- */
-	private function __getUrl($url = null) {
-		//URLの設定
-		if (is_array($url)) {
-			if (! isset($url['plugin'])) {
-				$url['plugin'] = $this->_View->request->params['plugin'];
-			}
-			if (! isset($url['controller'])) {
-				$url['controller'] = $this->_View->request->params['controller'];
-			}
-			if (! isset($url['action'])) {
-				$url['action'] = $this->_View->request->params['action'];
-			}
-			if (! isset($url['block_id']) && Current::read('Block.id')) {
-				$url['block_id'] = Current::read('Block.id');
-			}
-			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-				$url['frame_id'] = Current::read('Frame.id');
-			}
-			$url = NetCommonsUrl::actionUrl($url);
-		}
-		return $url;
-	}
-
-/**
  * ImageのURLの取得
  *
  * @param mixed $path URL

@@ -29,7 +29,7 @@ Router::connect(
 
 $params = array();
 if (! Current::isSettingMode()) {
-	//$params = array(Current::SETTING_MODE_WORD => false);
+	$params = array(Current::SETTING_MODE_WORD => false);
 }
 $indexParams = $params + array('action' => 'index');
 if ($plugins = CakePlugin::loaded()) {

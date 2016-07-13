@@ -266,11 +266,11 @@ msgstr "%s以上の数値を入力してください。"
 msgid "The input %s must be a number bigger than %d and less than %d."
 msgstr "%sは%d～%dまでの数値を入力してください。"
 
-#: Frames/Controller/FramesController.php:169
-#: Pages/Controller/PagesController.php:247
-#: PluginManager/Controller/PluginManagerController.php:148
 msgid "Successfully saved."
 msgstr "正常に登録しました。"
+
+msgid "Successfully deleted."
+msgstr "正常に削除しました。"
 
 #:
 msgid "For confirmation, please re-enter."

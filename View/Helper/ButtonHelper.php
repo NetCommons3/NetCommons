@@ -82,7 +82,7 @@ class ButtonHelper extends FormHelper {
 			}
 			if (in_array('btn', $class, true)) {
 				$class[] = 'nc-btn-style';
-				if (Configure::read('isMobile')) {
+				if (! in_array('btn-xs', $class, true) && Configure::read('isMobile')) {
 					$btnSize = 'btn-sm';
 					$class = array_merge($class, array($btnSize));
 				}

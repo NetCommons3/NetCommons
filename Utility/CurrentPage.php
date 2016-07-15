@@ -192,12 +192,16 @@ class CurrentPage {
 		}
 
 		if (isset(Current::$current['Room'])) {
-			$conditions = array(
-				'Page.id' => Hash::get(Current::$current, 'Room.page_id_top')
-			);
+			$pageId = Hash::get(Current::$current, 'Room.page_id_top');
+		} elseif (! $conditions) {
+			$pageId = $this->Page->getTopPageId();
+		} else {
+			$pageId = null;
+		}
+		if ($pageId) {
 			$result = $this->Page->find('first', array(
 				'recursive' => 0,
-				'conditions' => $conditions,
+				'conditions' => array('Page.id' => $pageId),
 			));
 			Current::$current = Hash::merge(Current::$current, $result);
 		}
@@ -247,6 +251,7 @@ class CurrentPage {
  */
 	public function setRoom($roomId) {
 		$this->Room = ClassRegistry::init('Rooms.Room');
+
 		$conditions = array(
 			'Room.id' => $roomId
 		);

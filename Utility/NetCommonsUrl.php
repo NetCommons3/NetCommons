@@ -184,4 +184,45 @@ class NetCommonsUrl {
 		}
 	}
 
+/**
+ * BlockのURLを生成
+ *
+ * @param array $url An array specifying any of the following: 'controller', 'action',
+ *   and/or 'plugin', in addition to named arguments (keyed array elements),
+ *   and standard URL arguments (indexed array elements).
+ *   'autoSetting': Current::SETTING_MODE_WORDを付ける処理を自動で行う。デフォルトfalse
+ * @return array block url
+ */
+	public static function blockUrl($url = array()) {
+		if (!is_array($url)) {
+			return $url;
+		}
+
+		$autoSetting = Hash::get($url, ['autoSetting']);
+		if ($autoSetting && Current::isSettingMode()) {
+			array_unshift($url, Current::SETTING_MODE_WORD);
+		}
+		unset($url['autoSetting']);
+
+		$blockId = Current::read('Block.id');
+		if (!isset($url['block_id']) && $blockId) {
+			$url['block_id'] = $blockId;
+		}
+
+		if (Hash::get($url, ['?', 'frame_id'])) {
+			return $url;
+		}
+		if (isset($url['frame_id'])) {
+			$url['?']['frame_id'] = $url['frame_id'];
+			unset($url['frame_id']);
+			return $url;
+		}
+
+		$frameId = Current::read('Frame.id');
+		if ($frameId) {
+			$url['?']['frame_id'] = $frameId;
+		}
+
+		return $url;
+	}
 }

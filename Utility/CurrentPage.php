@@ -193,7 +193,7 @@ class CurrentPage {
 
 		if (isset(Current::$current['Room'])) {
 			$pageId = Hash::get(Current::$current, 'Room.page_id_top');
-		} elseif (! $conditions) {
+		} elseif (! $conditions && Current::$request->params['plugin']) {
 			$pageId = $this->Page->getTopPageId();
 		} else {
 			$pageId = null;

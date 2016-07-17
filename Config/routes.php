@@ -70,6 +70,11 @@ if ($plugins) {
 		$options
 	);
 	Router::connect(
+		'/:plugin/:controller/:action/:block_id',
+		$params,
+		$options
+	);
+	Router::connect(
 		'/:plugin/:controller/:action/:block_id/:key',
 		$params,
 		$options

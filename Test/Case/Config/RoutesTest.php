@@ -41,7 +41,7 @@ class RoutesTest extends NetCommonsControllerTestCase {
  *
  * @var string
  */
-	public $plugin = 'pages';
+	public $plugin = 'net_commons';
 
 /**
  * setUp method

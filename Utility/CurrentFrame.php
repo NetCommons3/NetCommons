@@ -141,8 +141,8 @@ class CurrentFrame {
 			$blockId = Current::$request->data['Block']['id'];
 		} elseif (isset($blockId)) {
 			//何もしない
-		} elseif (isset(Current::$request->params['pass'][0])) {
-			$blockId = Current::$request->params['pass'][0];
+		} elseif (isset(Current::$request->params['block_id'])) {
+			$blockId = Current::$request->params['block_id'];
 		} else {
 			return;
 		}

@@ -50,7 +50,7 @@ if ($plugins) {
 	$options = array(
 		'plugin' => $pluginPattern,
 		'block_id' => '[0-9]+',
-		'key' => '[a-z0-9]+',
+		'key' => '[a-zA-Z0-9_]+', //_は、UnitTestで使用するため
 	);
 	$shortParams = array('routeClass' => 'PluginShortRoute', 'plugin' => $pluginPattern);
 

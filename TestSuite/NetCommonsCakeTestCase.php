@@ -183,7 +183,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		App::build(array(
 			'Plugin' => array($pluginPath . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
 		));
-		CakePlugin::load($testPlugin);
+		CakePlugin::load($testPlugin, ['routes' => true, 'ignoreMissing' => true]);
 	}
 
 /**

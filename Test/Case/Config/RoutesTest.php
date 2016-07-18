@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
+App::uses('NetCommonsRoutesTestCase', 'NetCommons.TestSuite');
 
 /**
  * Config/routes.phpのテスト
@@ -17,7 +17,7 @@ App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Pages\Test\Case\Routing\Route\SlugRoute
  */
-class RoutesTest extends NetCommonsControllerTestCase {
+class RoutesTest extends NetCommonsRoutesTestCase {
 
 /**
  * Fixtures
@@ -71,93 +71,90 @@ class RoutesTest extends NetCommonsControllerTestCase {
 		return array(
 			//セッティングOFF
 			array('url' => '/',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index'
+				)
 			),
 			array('url' => '/test4/',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test4'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test4')
+				)
 			),
 			array('url' => '/test_pages/test_page/index',
-				'expected' => array('plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index'
+				)
 			),
 			array('url' => '/test_pages/test_page',
-				'expected' => array('plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index'
+				)
 			),
 			array('url' => '/test_err/test_error',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test_err', 'test_error'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test_err', 'test_error')
+				)
 			),
 			array('url' => '/test_err/test_error/index',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test_err', 'test_error', 'index'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test_err', 'test_error', 'index')
+				)
 			),
 			array('url' => '/aaaaa/',
-				'expected' => false, 'exception' => 'MissingControllerException'
+				'expected' => array(
+					'plugin' => null, 'controller' => 'aaaaa', 'action' => 'index',
+				),
 			),
 			//セッティングON
 			array('url' => '/setting/',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index'
+				),
+				'settingMode' => true
 			),
 			array('url' => '/setting/test4/',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test4'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test4')
+				),
+				'settingMode' => true
 			),
 			array('url' => '/setting/test_pages/test_page/index',
-				'expected' => array('plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index'
+				),
+				'settingMode' => true
 			),
 			array('url' => '/setting/test_pages/test_page',
-				'expected' => array('plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index', 'pass' => array())
+				'expected' => array(
+					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index',
+				),
+				'settingMode' => true
 			),
 			array('url' => '/setting/test_err/test_error',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test_err', 'test_error'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test_err', 'test_error')
+				),
+				'settingMode' => true
 			),
 			array('url' => '/setting/test_err/test_error/index',
-				'expected' => array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'index', 'pass' => array('test_err', 'test_error', 'index'))
+				'expected' => array(
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pass' => array('test_err', 'test_error', 'index')
+				),
+				'settingMode' => true
 			),
-			array('/setting/aaaaa/',
-				'expected' => false, 'exception' => 'MissingControllerException'
+			array('url' => '/setting/aaaaa/',
+				'expected' => array(
+					'plugin' => null, 'controller' => 'aaaaa', 'action' => 'index',
+				),
+				'settingMode' => true
 			),
 		);
-	}
-
-/**
- * parse()のテスト
- *
- * @param string $url URL
- * @param bool|array $expected 期待値
- * @param null|string $exception ExceptionError文字列(省略可)
- * @dataProvider dataProvider
- * @return void
- */
-	public function testRoutes($url, $expected, $exception = null) {
-		//テスト実施
-		$this->_testGetAction($url, null, $exception, 'view');
-
-		//チェック
-		if ($expected) {
-			$this->assertEquals($expected['plugin'], $this->controller->request->params['plugin']);
-			$this->assertEquals($expected['controller'], $this->controller->request->params['controller']);
-			$this->assertEquals($expected['action'], $this->controller->request->params['action']);
-			$this->assertEquals($expected['pass'], $this->controller->request->params['pass']);
-		}
-	}
-
-/**
- * parse()のテスト
- *
- * @return void
- */
-	public function testRoutesByBlockId() {
-		$url = '/test_net_commons/test_net_commons/index/1/content_key';
-		$expected = array(
-			'plugin' => 'test_net_commons', 'controller' => 'test_net_commons', 'action' => 'index', 'block_id' => '1', 'key' => 'content_key'
-		);
-
-		//テスト実施
-		$this->_testGetAction($url, null, null, 'view');
-
-		//チェック
-		$this->assertEquals($expected['plugin'], $this->controller->request->params['plugin']);
-		$this->assertEquals($expected['controller'], $this->controller->request->params['controller']);
-		$this->assertEquals($expected['action'], $this->controller->request->params['action']);
-		$this->assertEquals($expected['block_id'], $this->controller->request->params['block_id']);
-		$this->assertEquals($expected['key'], $this->controller->request->params['key']);
 	}
 
 }

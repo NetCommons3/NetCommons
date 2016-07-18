@@ -41,10 +41,14 @@ if ($plugins) {
 	if (! $managerPlugins) {
 		$managerPlugins = array();
 	}
+	$managerPlugins += array_merge($managerPlugins, array('Boxes', 'Containers', 'Pages'));
+
 	foreach ($plugins as $key => $value) {
-		if (! in_array($value, $managerPlugins, true)) {
-			$plugins[$key] = Inflector::underscore($value);
+		if (in_array($value, $managerPlugins, true) ||
+				substr($value, 0, 4) === 'Test' && in_array(substr($value, 4), $managerPlugins, true)) {
+			continue;
 		}
+		$plugins[$key] = Inflector::underscore($value);
 	}
 	$pluginPattern = implode('|', $plugins);
 	$options = array(

@@ -62,6 +62,7 @@ class NetCommonsRoutesTestCase extends NetCommonsCakeTestCase {
 
 		//テスト実施
 		$params = Router::parse($url);
+		$params = Hash::remove($params, 'setting');
 
 		//チェック
 		if (in_array($expected['action'], ['emptyRender', 'throwBadRequest'], true)) {

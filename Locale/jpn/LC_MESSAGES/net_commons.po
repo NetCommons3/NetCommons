@@ -476,6 +476,9 @@ msgstr "一覧へ"
 msgid "Sort"
 msgstr "並び替え"
 
+msgid "All select"
+msgstr "全選択"
+
 
 #
 #: ラベル

@@ -19,6 +19,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<title><?php echo (isset($pageTitle) ? h($pageTitle) : ''); ?></title>
 
 		<?php
+			echo $this->html->meta('icon', '/net_commons/favicon.ico');
 			echo $this->fetch('meta');
 
 			echo $this->element('NetCommons.common_css');

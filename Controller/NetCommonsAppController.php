@@ -159,11 +159,15 @@ class NetCommonsAppController extends Controller {
 			$this->theme = $theme;
 		}
 
-		$this->Auth->allow('index', 'view', 'emptyRender', 'download');
+		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->viewClass = 'Json';
 			$this->layout = false;
+		}
+
+		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest'])) {
+			$this->params['pass'] = array();
 		}
 
 		//モバイルかどうかの判定処理

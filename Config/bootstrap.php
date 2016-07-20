@@ -37,5 +37,14 @@ foreach ($files as $file) {
 	}
 }
 
+//サイトの設定データセット
+if (Configure::read('NetCommons.installed')) {
+	//ClassRegistryは本来SiteSettingUtilでセットするべきだが、SiteSettingUtilが古い場合があるため、
+	//とりあえず、こっちにも定義しておく
+	App::uses('ClassRegistry', 'Utility');
+	App::uses('SiteSettingUtil', 'SiteManager.Utility');
+	SiteSettingUtil::initialize();
+}
+
 App::uses('Router', 'Routing');
 Router::parseExtensions();

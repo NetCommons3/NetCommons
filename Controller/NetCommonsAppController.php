@@ -13,7 +13,6 @@ App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
-App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -129,9 +128,6 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
-
-		//サイトの設定データセット
-		SiteSettingUtil::initialize();
 
 		//言語の取得
 		if (isset($this->request->query['language'])) {

@@ -27,6 +27,22 @@ App::uses('CurrentSystem', 'NetCommons.Utility');
 class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 
 /**
+ * Fixture merge
+ *
+ * @var bool
+ */
+	protected $_isFixtureMerged = true;
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	protected $_fixtures = array(
+		'plugin.site_manager.site_setting',
+	);
+
+/**
  * Plugin name
  *
  * @var array
@@ -39,6 +55,21 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
  * @var string
  */
 	protected $_helperName = null;
+
+/**
+ * Fixtures load
+ *
+ * @param string $name The name parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param array  $data The date parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param string $dataName The dataName parameter on PHPUnit_Framework_TestCase::__construct()
+ * @return void
+ */
+	public function __construct($name = null, array $data = array(), $dataName = '') {
+		parent::__construct($name, $data, $dataName);
+		if ($this->_isFixtureMerged && isset($this->fixtures)) {
+			$this->fixtures = array_merge($this->_fixtures, $this->fixtures);
+		}
+	}
 
 /**
  * setUp method

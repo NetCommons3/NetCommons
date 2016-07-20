@@ -13,6 +13,7 @@ App::uses('Utility', 'Inflector');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
+App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 /**
  * NetCommonsApp Controller
@@ -119,6 +120,9 @@ class NetCommonsAppController extends Controller {
 				!isset($this->helpers['Html']['className'])) {
 			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';
 		}
+
+		//サイトの設定データセット
+		SiteSettingUtil::initialize();
 	}
 
 /**

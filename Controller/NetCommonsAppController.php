@@ -120,6 +120,9 @@ class NetCommonsAppController extends Controller {
 				!isset($this->helpers['Html']['className'])) {
 			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';
 		}
+
+		//サイトの設定データセット
+		SiteSettingUtil::initialize();
 	}
 
 /**
@@ -129,9 +132,6 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		Security::setHash('sha512');
-
-		//サイトの設定データセット
-		SiteSettingUtil::initialize();
 
 		//言語の取得
 		if (isset($this->request->query['language'])) {

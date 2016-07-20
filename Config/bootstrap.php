@@ -36,6 +36,9 @@ foreach ($files as $file) {
 		Configure::write($conf);
 	}
 }
+if (! Configure::read('Config.language')) {
+	Configure::write('Config.language', 'ja');
+}
 
 App::uses('Router', 'Routing');
 Router::parseExtensions();

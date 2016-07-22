@@ -129,35 +129,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
- * URL生成処理
- *
- * @param mixed $url URL
- * @return string URL
- */
-	private function __getUrl($url = null) {
-		//URLの設定
-		if (is_array($url)) {
-			if (! isset($url['plugin'])) {
-				$url['plugin'] = $this->_View->request->params['plugin'];
-			}
-			if (! isset($url['controller'])) {
-				$url['controller'] = $this->_View->request->params['controller'];
-			}
-			if (! isset($url['action'])) {
-				$url['action'] = $this->_View->request->params['action'];
-			}
-			if (! isset($url['block_id']) && Current::read('Block.id')) {
-				$url['block_id'] = Current::read('Block.id');
-			}
-			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-				$url['frame_id'] = Current::read('Frame.id');
-			}
-			$url = NetCommonsUrl::actionUrl($url);
-		}
-		return $url;
-	}
-
-/**
  * ImageのURLの取得
  *
  * @param mixed $path URL
@@ -167,7 +138,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function image($path, $options = array()) {
 		//URLの設定
-		$path = $this->__getUrl($path);
+		$path = NetCommonsUrl::blockUrl($path);
 		$output = $this->Html->image($path, $options);
 		return $output;
 	}
@@ -182,7 +153,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function url($url = null, $options = array()) {
 		//URLの設定
-		$url = $this->__getUrl($url);
+		$url = NetCommonsUrl::blockUrl($url);
 		$output = $this->Html->url($url, $options);
 		return $output;
 	}
@@ -197,7 +168,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function link($title = '', $url = null, $options = array()) {
-		$url = $this->__getUrl($url);
+		$url = NetCommonsUrl::blockUrl($url);
 		$output = $this->Html->link($title, $url, $options);
 		return $output;
 	}
@@ -261,13 +232,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		if (! isset($url['action'])) {
 			$url['action'] = 'edit';
 		}
-		if (! isset($url['block_id']) && Current::read('Block.id')) {
-			$url['block_id'] = Current::read('Block.id');
-		}
-		if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-			$url['frame_id'] = Current::read('Frame.id');
-		}
-		$url = NetCommonsUrl::actionUrl($url);
+		$url = NetCommonsUrl::blockUrl($url);
 
 		return $this->Html->link($title, $url, $options);
 	}

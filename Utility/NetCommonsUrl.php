@@ -223,6 +223,6 @@ class NetCommonsUrl {
 			$url['?']['frame_id'] = $frameId;
 		}
 
-		return $url;
+		return self::actionUrlAsArray($url);
 	}
 }

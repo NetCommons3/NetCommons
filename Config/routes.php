@@ -72,6 +72,16 @@ if ($plugins) {
 		$options
 	);
 	Router::connect(
+		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/:block_id/:key/*',
+		$params,
+		$options
+	);
+	Router::connect(
+		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/:block_id/*',
+		$params,
+		$options
+	);
+	Router::connect(
 		'/:plugin/:controller/:action/:block_id',
 		$params,
 		$options

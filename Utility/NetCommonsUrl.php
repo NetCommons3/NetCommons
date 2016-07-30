@@ -210,12 +210,12 @@ class NetCommonsUrl {
 		}
 
 		if (Hash::get($url, ['?', 'frame_id'])) {
-			return $url;
+			return self::actionUrlAsArray($url);
 		}
 		if (isset($url['frame_id'])) {
 			$url['?']['frame_id'] = $url['frame_id'];
 			unset($url['frame_id']);
-			return $url;
+			return self::actionUrlAsArray($url);
 		}
 
 		$frameId = Current::read('Frame.id');

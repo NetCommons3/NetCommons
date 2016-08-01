@@ -146,15 +146,8 @@ class NetCommonsHtmlHelper extends AppHelper {
 			if (! isset($url['action'])) {
 				$url['action'] = $this->_View->request->params['action'];
 			}
-			if (! isset($url['block_id']) && Current::read('Block.id')) {
-				$url['block_id'] = Current::read('Block.id');
-			}
-			if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-				$url['frame_id'] = Current::read('Frame.id');
-			}
-			$url = NetCommonsUrl::actionUrl($url);
 		}
-		return $url;
+		return NetCommonsUrl::blockUrl($url);
 	}
 
 /**
@@ -261,13 +254,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		if (! isset($url['action'])) {
 			$url['action'] = 'edit';
 		}
-		if (! isset($url['block_id']) && Current::read('Block.id')) {
-			$url['block_id'] = Current::read('Block.id');
-		}
-		if (! isset($url['frame_id']) && Current::read('Frame.id')) {
-			$url['frame_id'] = Current::read('Frame.id');
-		}
-		$url = NetCommonsUrl::actionUrl($url);
+		$url = NetCommonsUrl::blockUrl($url);
 
 		return $this->Html->link($title, $url, $options);
 	}

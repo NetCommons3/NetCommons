@@ -148,6 +148,10 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 	border-right: none;
 }
 
+.form-group .help-block {
+	margin-bottom: 0px;
+}
+
 /**
  * 入力フォーム画面で使用するDropdown
  */

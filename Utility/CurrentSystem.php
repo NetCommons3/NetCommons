@@ -66,6 +66,17 @@ class CurrentSystem {
 	}
 
 /**
+ * 言語データを取得
+ *
+ * @return void
+ */
+	public function getLanguages() {
+		$this->setLanguage();
+
+		return Current::$m17n['Language'];
+	}
+
+/**
  * Set Plugin
  *
  * @return void

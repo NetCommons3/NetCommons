@@ -122,7 +122,9 @@ class NetCommonsAppController extends Controller {
 		}
 
 		//サイトの設定データセット
-		SiteSettingUtil::initialize();
+		if (Configure::read('NetCommons.installed')) {
+			SiteSettingUtil::initialize();
+		}
 	}
 
 /**

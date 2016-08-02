@@ -208,7 +208,8 @@ class TitleIconHelper extends AppHelper {
 				'alt' => __d('net_commons', 'icon_cancel')
 			);
 		}
-		$basePath = $this->NetCommonsHtml->url('/') . 'net_commons/img/title_icon/';
+		$this->log(Router::fullBaseUrl(), 'debug');
+		$basePath = Router::fullBaseUrl() . '/net_commons/img/title_icon/';
 		foreach ($iconFileNames as $file) {
 			$path = $basePath . $file;
 			$alt = $this->_getAltName($file);

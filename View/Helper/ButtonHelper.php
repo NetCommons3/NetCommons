@@ -258,11 +258,20 @@ class ButtonHelper extends FormHelper {
 		$label = Hash::get($cancelOptions, 'label', __d('net_commons', 'Cancel'));
 		$cancelOptions = Hash::remove($cancelOptions, 'label');
 
-		$output .= $this->Html->link(
-			'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $label,
-			$cancelUrl,
-			$cancelOptions
-		);
+		if ($this->_View->request->is('ajax')) {
+			$cancelOptions['ng-click'] = 'cancel()';
+			$output .= $this->Html->link(
+				'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $label,
+				'#',
+				$cancelOptions
+			);
+		} else {
+			$output .= $this->Html->link(
+				'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' . $label,
+				$cancelUrl,
+				$cancelOptions
+			);
+		}
 
 		//前へボタン
 		if (isset($backUrl)) {

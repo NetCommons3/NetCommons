@@ -188,15 +188,13 @@ class WizardHelper extends AppHelper {
 		list($prev, $next) = $this->__wizardStep($activeKey);
 
 		//キャンセルボタン
-		$cancelUrl = $this->NetCommonsHtml->url(
-			Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
-		);
+		$cancelUrl = Hash::get($cancelOpt, 'url', $this->settings['cancelUrl']);
 		$cancelTitle = Hash::get($cancelOpt, 'title', __d('net_commons', 'Cancel'));
 		$output .= $this->Button->cancel($cancelTitle, $cancelUrl, $cancelOpt);
 
 		//前へボタン
 		if ($prev) {
-			$prevUrl = $this->NetCommonsHtml->url(Hash::get($prevOpt, 'url', $prev['url']));
+			$prevUrl = Hash::get($prevOpt, 'url', $prev['url']);
 			$prevlTitle = Hash::get($prevOpt, 'title', __d('net_commons', 'BACK'));
 			$prevOpt['icon'] = Hash::get($prevOpt, 'icon', 'chevron-left');
 			$output .= $this->Button->cancel($prevlTitle, $prevUrl, $prevOpt);
@@ -240,7 +238,7 @@ class WizardHelper extends AppHelper {
 
 		//前へURL
 		if (! $prevUrl && $prev) {
-			$prevUrl = $this->NetCommonsHtml->url($prev['url']);
+			$prevUrl = $prev['url'];
 		}
 
 		$output .= $this->Workflow->buttons($statusName, $cancelUrl, $panel, $prevUrl);

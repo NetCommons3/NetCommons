@@ -7,8 +7,8 @@
     "license":     "NetCommons License",
     "authors": [
         {
-            "name":     "NetCommons Community",
-            "homepage": "https://github.com/NetCommons3/NetCommons/graphs/contributors"
+            "name": "NetCommons Community",
+            "homepage": "http://www.netcommons.org"
         }
     ],
     "extra": {

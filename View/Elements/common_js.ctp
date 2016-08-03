@@ -19,3 +19,8 @@ echo $this->Html->script(
 	),
 	array('plugin' => false)
 );
+?>
+
+<script>
+NetCommonsApp.constant('NC3_URL', '<?php echo h(Router::url('/', true)); ?>');
+</script>

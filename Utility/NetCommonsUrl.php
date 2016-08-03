@@ -97,30 +97,12 @@ class NetCommonsUrl {
 		if (!is_array($params)) {
 			return $params;
 		}
-		$request = Router::getRequest(true);
 
-		$url = array();
+		$url = self::__getCommonAction($params);
 		$query['?'] = null;
-		if (isset($params['plugin'])) {
-			$url['plugin'] = $params['plugin'];
-			unset($params['plugin']);
-		} elseif (is_object($request)) {
-			$url['plugin'] = $request->params['plugin'];
-		} elseif (Current::read('Plugin.key')) {
-			$url['plugin'] = Current::read('Plugin.key');
-		}
-		if (isset($params['controller'])) {
-			$url['controller'] = $params['controller'];
-			unset($params['controller']);
-		} elseif (is_object($request)) {
-			$url['controller'] = $request->params['controller'];
-		}
-		if (isset($params['action'])) {
-			$url['action'] = $params['action'];
-			unset($params['action']);
-		} elseif (is_object($request)) {
-			$url['action'] = $request->params['action'];
-		}
+		$params = Hash::remove($params, 'plugin');
+		$params = Hash::remove($params, 'controller');
+		$params = Hash::remove($params, 'action');
 
 		if (isset($params['block_id'])) {
 			$url[] = $params['block_id'];
@@ -140,6 +122,37 @@ class NetCommonsUrl {
 			unset($params['frame_id']);
 		}
 		return Hash::merge($url, $query, $params);
+	}
+
+/**
+ * NetCommonsプラグインのアクションURL配列を生成
+ *
+ * @param array $params Action url array
+ * @return array
+ */
+	private static function __getCommonAction($params) {
+		$request = Router::getRequest(true);
+
+		$url = array();
+		if (isset($params['plugin'])) {
+			$url['plugin'] = $params['plugin'];
+		} elseif (is_object($request)) {
+			$url['plugin'] = $request->params['plugin'];
+		} elseif (Current::read('Plugin.key')) {
+			$url['plugin'] = Current::read('Plugin.key');
+		}
+		if (isset($params['controller'])) {
+			$url['controller'] = $params['controller'];
+		} elseif (is_object($request)) {
+			$url['controller'] = $request->params['controller'];
+		}
+		if (isset($params['action'])) {
+			$url['action'] = $params['action'];
+		} elseif (is_object($request)) {
+			$url['action'] = $request->params['action'];
+		}
+
+		return $url;
 	}
 
 /**

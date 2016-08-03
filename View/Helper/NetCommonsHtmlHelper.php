@@ -149,7 +149,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 			}
 		}
 
-		if (Hash::get($options, 'hasBlock', true)) {
+		if (! is_array($options) || Hash::get($options, 'hasBlock', true)) {
 			$url = NetCommonsUrl::blockUrl($url);
 		} else {
 			$url = NetCommonsUrl::actionUrlAsArray($url);

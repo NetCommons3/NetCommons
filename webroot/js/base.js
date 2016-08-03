@@ -82,14 +82,14 @@ NetCommonsApp.factory('NetCommonsModal', ['$uibModal', function($uibModal) {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    ['$scope', '$location', function($scope, $location) {
+    ['$scope', '$location', 'NC3_URL', function($scope, $location, NC3_URL) {
 
       /**
        * Base URL
        *
        * @type {string}
        */
-      $scope.baseUrl = '';
+      $scope.baseUrl = NC3_URL;
 
       /**
        * sending

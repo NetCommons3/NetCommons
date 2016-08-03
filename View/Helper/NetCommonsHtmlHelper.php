@@ -132,9 +132,10 @@ class NetCommonsHtmlHelper extends AppHelper {
  * URL生成処理
  *
  * @param mixed $url URL
+ * @param array $options HTML属性オプション
  * @return string URL
  */
-	private function __getUrl($url = null) {
+	private function __getUrl($url = null, $options = array()) {
 		//URLの設定
 		if (is_array($url)) {
 			if (! isset($url['plugin'])) {
@@ -147,7 +148,13 @@ class NetCommonsHtmlHelper extends AppHelper {
 				$url['action'] = $this->_View->request->params['action'];
 			}
 		}
-		return NetCommonsUrl::blockUrl($url);
+
+		if (Hash::get($options, 'hasBlock', true)) {
+			$url = NetCommonsUrl::blockUrl($url);
+		} else {
+			$url = NetCommonsUrl::actionUrlAsArray($url);
+		}
+		return $url;
 	}
 
 /**
@@ -160,7 +167,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function image($path, $options = array()) {
 		//URLの設定
-		$path = $this->__getUrl($path);
+		$path = $this->__getUrl($path, $options);
 		$output = $this->Html->image($path, $options);
 		return $output;
 	}
@@ -175,7 +182,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function url($url = null, $options = array()) {
 		//URLの設定
-		$url = $this->__getUrl($url);
+		$url = $this->__getUrl($url, $options);
 		$output = $this->Html->url($url, $options);
 		return $output;
 	}
@@ -190,7 +197,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
  */
 	public function link($title = '', $url = null, $options = array()) {
-		$url = $this->__getUrl($url);
+		$url = $this->__getUrl($url, $options);
 		$output = $this->Html->link($title, $url, $options);
 		return $output;
 	}

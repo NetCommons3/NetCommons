@@ -44,7 +44,7 @@ class NetCommonsUrl {
 				$url .= h(Hash::get($page, 'Page.permalink'));
 			}
 		}
-		return self::url($url, $full);
+		return $url;
 	}
 
 /**
@@ -65,7 +65,7 @@ class NetCommonsUrl {
 				$url .= '?frame_id=' . Current::read('Frame.id');
 			}
 		}
-		return self::url($url, $full);
+		return $url;
 	}
 
 /**
@@ -94,6 +94,10 @@ class NetCommonsUrl {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function actionUrlAsArray($params = array(), $full = false) {
+		if (!is_array($params)) {
+			return $params;
+		}
+
 		$url = array();
 		$query['?'] = null;
 		if (! isset($params['plugin'])) {
@@ -167,21 +171,15 @@ class NetCommonsUrl {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function url($params = array(), $full = false) {
+		if ($full) {
+			return Router::url($params, $full);
+		}
 		$url = Router::url($params, $full);
 		if (is_array($params) && Current::isSettingMode()) {
 			$url = preg_replace('/\/' . Current::SETTING_MODE_WORD . '/', '', $url);
 		}
-
-		$request = Router::getRequest(true);
-		$base = '';
-		if ($request) {
-			$base = $request->base;
-		}
-		if (! $full) {
-			return preg_replace('/&amp;/', '&', h(substr($url, strlen($base))));
-		} else {
-			return $url;
-		}
+		$url = preg_replace('/^' . preg_quote(substr(Router::url('/'), 0, -1), '/') . '/', '', $url);
+		return $url;
 	}
 
 /**

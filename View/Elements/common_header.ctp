@@ -44,8 +44,7 @@ if (! isset($isSettingMode)) {
 						); ?>
 				<?php endif; ?>
 
-				<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'),
-						NetCommonsUrl::actionUrl('/'), array('class' => 'navbar-brand')); ?>
+				<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -92,19 +91,16 @@ if (! isset($isSettingMode)) {
 
 					<?php if (AuthComponent::user()) : ?>
 						<li>
-							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'),
-									NetCommonsUrl::actionUrl('/auth/logout')); ?>
+							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'), '/auth/logout'); ?>
 						</li>
 					<?php else: ?>
 						<?php if (! SiteSettingUtil::read('App.close_site') && SiteSettingUtil::read('AutoRegist.use_automatic_register', false)) : ?>
 							<li>
-								<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'),
-										NetCommonsUrl::actionUrl('/auth/auto_user_regist/request')); ?>
+								<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'), '/auth/auto_user_regist/request'); ?>
 							</li>
 						<?php endif; ?>
 						<li>
-							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'),
-									NetCommonsUrl::actionUrl('/auth/login')); ?>
+							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'), '/auth/login'); ?>
 						</li>
 					<?php endif; ?>
 

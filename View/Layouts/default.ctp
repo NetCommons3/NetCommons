@@ -29,7 +29,7 @@
 		?>
 	</head>
 
-	<body ng-controller="NetCommons.base" ng-init="baseUrl='<?php echo h(Configure::read('App.fullBaseUrl')) ?>';">
+	<body ng-controller="NetCommons.base">
 		<?php echo $this->Session->flash(); ?>
 
 		<?php echo $this->element('NetCommons.common_header'); ?>

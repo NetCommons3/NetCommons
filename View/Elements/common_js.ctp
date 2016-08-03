@@ -15,7 +15,13 @@ echo $this->Html->script(
 		'/components/angular/angular.min.js',
 		'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		'/net_commons/js/base.js',
-		'/users/js/users.js',
 	),
 	array('plugin' => false)
 );
+?>
+
+<script>
+NetCommonsApp.constant('NC3_URL', '<?php echo h(substr(Router::url('/', true), 0, -1)); ?>');
+</script>
+
+<?php echo $this->NetCommonsHtml->script('/users/js/users.js');

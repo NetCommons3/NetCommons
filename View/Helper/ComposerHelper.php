@@ -97,6 +97,12 @@ class ComposerHelper extends AppHelper {
 		//$html .= $this->Html->tag('li', '', array('class' => 'divider'));
 		foreach ($authors as $author) {
 			$name = '';
+			if ($author['name'] === 'NetCommons Community') {
+				$author['name'] = __d('net_commons', 'NetCommons Community');
+			} else {
+				$author['name'] = __d($plugin, $author['name']);
+			}
+
 			if (isset($author['role']) && strtolower($author['role']) === 'developer') {
 				$author['name'] = h($author['name']) .
 						' <span class="small"><span class="text-danger">' .
@@ -125,7 +131,8 @@ class ComposerHelper extends AppHelper {
  * @return string|array Composer value
  */
 	public function getDescription($plugin) {
-		$description = $this->getComposer($plugin, 'description');
+		//$description = $this->getComposer($plugin, 'description');
+		$description = '';
 		return h(__d($plugin, $description));
 	}
 

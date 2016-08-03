@@ -97,21 +97,29 @@ class NetCommonsUrl {
 		if (!is_array($params)) {
 			return $params;
 		}
+		$request = Router::getRequest(true);
 
 		$url = array();
 		$query['?'] = null;
-		if (! isset($params['plugin'])) {
-			$url['plugin'] = Current::read('Plugin.key');
-		} else {
+		if (isset($params['plugin'])) {
 			$url['plugin'] = $params['plugin'];
+			unset($params['plugin']);
+		} elseif (is_object($request)) {
+			$url['plugin'] = $request->params['plugin'];
+		} elseif (Current::read('Plugin.key')) {
+			$url['plugin'] = Current::read('Plugin.key');
 		}
 		if (isset($params['controller'])) {
 			$url['controller'] = $params['controller'];
 			unset($params['controller']);
+		} elseif (is_object($request)) {
+			$url['controller'] = $request->params['controller'];
 		}
 		if (isset($params['action'])) {
 			$url['action'] = $params['action'];
 			unset($params['action']);
+		} elseif (is_object($request)) {
+			$url['action'] = $request->params['action'];
 		}
 
 		if (isset($params['block_id'])) {

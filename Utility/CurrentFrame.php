@@ -80,10 +80,17 @@ class CurrentFrame {
 
 		$this->Frame = ClassRegistry::init('Frames.Frame');
 		$this->Box = ClassRegistry::init('Boxes.Box');
+		$this->Block = ClassRegistry::init('Blocks.Block');
 
 		if (isset($frameId)) {
 			$result = $this->Frame->findById($frameId);
 			Current::$current = Hash::merge(Current::$current, $result);
+		}
+
+		//ブロック設定の新規の場合の処理
+		if (Current::$layout === 'NetCommons.setting' &&
+				Hash::get(Current::$request->params, 'action') === 'add') {
+			Current::$current['Block'] = $this->Block->create()['Block'];
 		}
 
 		$this->setPageByBox();

@@ -66,6 +66,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	protected $_fixtures = array(
 		'plugin.blocks.block',
 		'plugin.blocks.block_role_permission',
+		'plugin.blocks.block_setting',
 		'plugin.boxes.box',
 		'plugin.boxes.boxes_page',
 		'plugin.categories.category',

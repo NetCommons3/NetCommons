@@ -373,6 +373,13 @@ class Current extends CurrentBase {
 	public static $request;
 
 /**
+ * layout
+ *
+ * @var string
+ */
+	public static $layout;
+
+/**
  * Instance object
  *
  * @var mixed
@@ -389,15 +396,16 @@ class Current extends CurrentBase {
 /**
  * setup current data
  *
- * @param CakeRequest $request CakeRequest
+ * @param Controller $controller コントローラ
  * @return void
  */
-	public static function initialize(CakeRequest $request) {
+	public static function initialize(Controller $controller) {
 		if (! self::$_instance) {
 			self::$_instance = new Current();
 		}
 
-		self::$request = clone $request;
+		self::$request = clone $controller->request;
+		self::$layout = $controller->layout;
 
 		self::$current['User'] = AuthComponent::user();
 

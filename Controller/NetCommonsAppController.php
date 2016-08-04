@@ -144,7 +144,7 @@ class NetCommonsAppController extends Controller {
 		}
 
 		//カレントデータセット
-		Current::initialize($this->request);
+		Current::initialize($this);
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;

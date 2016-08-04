@@ -399,13 +399,15 @@ class Current extends CurrentBase {
  * @param Controller $controller コントローラ
  * @return void
  */
-	public static function initialize(Controller $controller) {
+	public static function initialize($controller) {
 		if (! self::$_instance) {
 			self::$_instance = new Current();
 		}
 
-		self::$request = clone $controller->request;
-		self::$layout = $controller->layout;
+		if (is_object($controller)) {
+			self::$request = clone $controller->request;
+			self::$layout = $controller->layout;
+		}
 
 		self::$current['User'] = AuthComponent::user();
 

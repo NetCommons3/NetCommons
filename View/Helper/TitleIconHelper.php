@@ -148,7 +148,7 @@ class TitleIconHelper extends AppHelper {
 			return '';
 		}
 		$fileName = basename($filePath);
-		if (! file_exists(APP . 'Plugin/NetCommons/webroot/img/title_icon/' . $fileName)) {
+		if (! file_exists(CakePlugin::path('NetCommons') . 'webroot/img/title_icon/' . $fileName)) {
 			return '';
 		}
 		$alt = $this->_getAltName($fileName);
@@ -197,7 +197,7 @@ class TitleIconHelper extends AppHelper {
  */
 	public function getIconFiles($isCancel = true) {
 		// アイコンフォルダー
-		$dir = new Folder(APP . 'Plugin/NetCommons/webroot/img/title_icon');
+		$dir = new Folder(CakePlugin::path('NetCommons') . 'webroot/img/title_icon');
 		// アイコンファイル名取り出し
 		$iconFileNames = $dir->find('.*\.svg', true);
 
@@ -208,8 +208,7 @@ class TitleIconHelper extends AppHelper {
 				'alt' => __d('net_commons', 'icon_cancel')
 			);
 		}
-		$this->log(Router::fullBaseUrl(), 'debug');
-		$basePath = Router::fullBaseUrl() . '/net_commons/img/title_icon/';
+		$basePath = '/net_commons/img/title_icon/';
 		foreach ($iconFileNames as $file) {
 			$path = $basePath . $file;
 			$alt = $this->_getAltName($file);

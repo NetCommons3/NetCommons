@@ -203,6 +203,8 @@ class ButtonHelper extends FormHelper {
 	public function cancel($title, $url, $options = array()) {
 		$defaultOptions = array(
 			'name' => 'cancel',
+			'ng-class' => '{disabled: sending}',
+			'ng-click' => 'sending=true',
 		);
 		$inputOptions = Hash::merge($defaultOptions, $options);
 		return $this->BackTo->button($title, $url, $inputOptions);
@@ -255,6 +257,7 @@ class ButtonHelper extends FormHelper {
 			'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow',
 			'escape' => false,
 			'ng-class' => '{disabled: sending}',
+			'ng-click' => 'sending=true',
 		), $cancelOptions);
 
 		$label = Hash::get($cancelOptions, 'label', __d('net_commons', 'Cancel'));

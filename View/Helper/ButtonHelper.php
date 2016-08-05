@@ -252,7 +252,9 @@ class ButtonHelper extends FormHelper {
 
 		//キャンセル
 		$cancelOptions = Hash::merge(array(
-			'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow', 'escape' => false
+			'class' => 'btn btn-default' . $this->getButtonSize() . ' btn-workflow',
+			'escape' => false,
+			'ng-class' => '{disabled: sending}',
 		), $cancelOptions);
 
 		$label = Hash::get($cancelOptions, 'label', __d('net_commons', 'Cancel'));
@@ -291,6 +293,7 @@ class ButtonHelper extends FormHelper {
 		$saveTempOptions = Hash::merge(array(
 			'class' => 'btn btn-info' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_IN_DRAFT,
+			'ng-class' => '{disabled: sending}',
 		), $saveTempOptions);
 
 		$label = Hash::get($saveTempOptions, 'label', __d('net_commons', 'Save temporally'));
@@ -302,6 +305,7 @@ class ButtonHelper extends FormHelper {
 		$saveOptions = Hash::merge(array(
 			'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
 			'name' => 'save_' . WorkflowComponent::STATUS_PUBLISHED,
+			'ng-class' => '{disabled: sending}',
 		), $saveOptions);
 
 		$label = Hash::get($saveOptions, 'label', __d('net_commons', 'OK'));

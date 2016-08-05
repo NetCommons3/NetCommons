@@ -57,7 +57,7 @@ class TrackableBehavior extends ModelBehavior {
 
 		$dataSource = ConnectionManager::getDataSource($model->useDbConfig);
 		$tables = $dataSource->listSources();
-		if (!in_array($model->useTable, $tables)) {
+		if (!in_array($model->tablePrefix . $model->useTable, $tables)) {
 			return;
 		}
 

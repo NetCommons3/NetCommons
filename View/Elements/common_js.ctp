@@ -22,6 +22,7 @@ echo $this->Html->script(
 
 <script>
 NetCommonsApp.constant('NC3_URL', '<?php echo h(substr(Router::url('/'), 0, -1)); ?>');
+NetCommonsApp.constant('LOGIN_USER', <?php echo json_encode(Current::read('User'), JSON_FORCE_OBJECT); ?>);
 </script>
 
 <?php echo $this->NetCommonsHtml->script('/users/js/users.js');

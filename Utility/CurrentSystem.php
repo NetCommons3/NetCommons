@@ -126,7 +126,7 @@ class CurrentSystem {
 
 		//PluginsRoleデータ取得
 		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
-		if (Current::$current['User']['role_key']) {
+		if (Hash::get(Current::$current, 'User.role_key')) {
 			$result = $this->PluginsRole->find('all', array(
 				'recursive' => -1,
 				'conditions' => array(

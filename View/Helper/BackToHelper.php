@@ -74,7 +74,7 @@ class BackToHelper extends AppHelper {
 		if ($url) {
 			$inputOptions = Hash::merge(array(
 				'class' => 'btn btn-default btn-workflow' . $sizeAttr,
-				'ng-disabled' => 'sending',
+				'ng-class' => '{disabled: sending}',
 				'ng-click' => 'sending=true',
 			), $options);
 
@@ -83,7 +83,7 @@ class BackToHelper extends AppHelper {
 			$inputOptions = Hash::merge(array(
 				'type' => 'button',
 				'class' => 'btn btn-default btn-workflow' . $sizeAttr,
-				'ng-disabled' => 'sending',
+				'ng-class' => '{disabled: sending}',
 			), $options);
 
 			return $this->Form->button($iconElement . $title, $inputOptions);

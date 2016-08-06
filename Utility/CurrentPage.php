@@ -156,7 +156,7 @@ class CurrentPage {
 			$result = $this->Room->getPrivateRoomByUserId(Current::read('User.id'));
 			Current::$current = Hash::merge(Current::$current, $result);
 			$conditions = array(
-				'Page.id' => $result['Room']['page_id_top']
+				'Page.id' => Hash::get($result, 'Room.page_id_top', Page::PUBLIC_ROOT_PAGE_ID)
 			);
 		} else {
 			$conditions = null;

@@ -109,3 +109,7 @@ if (! isset($isSettingMode)) {
 		</div>
 	</nav>
 </header>
+
+<?php
+echo $this->Session->read('appendHtml');
+CakeSession::delete('appendHtml');

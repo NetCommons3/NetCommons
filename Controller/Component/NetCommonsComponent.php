@@ -127,4 +127,14 @@ class NetCommonsComponent extends Component {
 			$this->controller->Session->setFlash($message, $element, $params);
 		}
 	}
+
+/**
+ * bodyタグの直下に強制的に埋め込むHTMLタグ。特にリダイレクト時に使用する
+ *
+ * @param string $html HTML
+ * @return void
+ */
+	public function setAppendHtml($html) {
+		$this->controller->Session->write('appendHtml', $html);
+	}
 }

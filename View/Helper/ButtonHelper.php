@@ -118,7 +118,7 @@ class ButtonHelper extends FormHelper {
 			'name' => 'delete',
 			'class' => 'btn btn-danger' . $this->getButtonSize(),
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
-			'ng-disabled' => 'sending'
+			'ng-class' => '{disabled: sending}',
 		);
 
 		if (isset($options['addClass'])) {
@@ -166,7 +166,7 @@ class ButtonHelper extends FormHelper {
 
 			$inputOptions = Hash::merge(array(
 				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
-				'ng-disabled' => 'sending',
+				'ng-class' => '{disabled: sending}',
 				'ng-click' => 'sending=true'
 			), $options);
 			$inputOptions = Hash::remove($inputOptions, 'url');
@@ -176,7 +176,7 @@ class ButtonHelper extends FormHelper {
 			$inputOptions = Hash::merge(array(
 				'name' => 'save',
 				'class' => 'btn btn-primary' . $this->getButtonSize() . ' btn-workflow',
-				'ng-disabled' => 'sending'
+				'ng-class' => '{disabled: sending}',
 			), $options);
 
 			return $this->Form->button($title, $inputOptions);

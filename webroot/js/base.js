@@ -82,7 +82,7 @@ NetCommonsApp.factory('NetCommonsModal', ['$uibModal', function($uibModal) {
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    ['$scope', '$location', 'NC3_URL', function($scope, $location, NC3_URL) {
+    ['$scope', '$location', '$window', 'NC3_URL', function($scope, $location, $window, NC3_URL) {
 
       /**
        * Base URL
@@ -146,6 +146,20 @@ NetCommonsApp.controller('NetCommons.base',
           $event.preventDefault();
         }
         $scope.sending = true;
+      };
+
+      /**
+       * cancel
+       *
+       * @type {function}
+       */
+      $scope.cancel = function(url) {
+        $scope.sending = true;
+        if ($window.location.href === url) {
+          $window.location.reload();
+        } else {
+          $window.location.href = url;
+        }
       };
 
     }]);

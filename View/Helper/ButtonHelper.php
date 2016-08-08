@@ -112,6 +112,9 @@ class ButtonHelper extends FormHelper {
 	public function delete($title, $confirm, $options = array()) {
 		$output = '';
 
+		if (! $title) {
+			$title = __d('net_commons', 'Delete');
+		}
 		$title = '<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span> ' . $title;
 
 		$defaultOptions = array(

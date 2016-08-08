@@ -123,7 +123,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
-		Current::$current['Permission']['html_not_limited']['value'] = true;
 		parent::setUp();
 
 		Configure::write('NetCommons.installed', true);

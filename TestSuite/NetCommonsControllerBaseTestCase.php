@@ -137,7 +137,6 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	public function setUp() {
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
-		Current::$current['Permission']['html_not_limited']['value'] = true;
 		parent::setUp();
 
 		Configure::write('NetCommons.installed', true);

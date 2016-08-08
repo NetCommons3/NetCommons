@@ -210,9 +210,11 @@ class NetCommonsUrl {
  *   and/or 'plugin', in addition to named arguments (keyed array elements),
  *   and standard URL arguments (indexed array elements).
  *   'autoSetting': Current::SETTING_MODE_WORDを付ける処理を自動で行う。デフォルトfalse
- * @return array block url
+ * @param bool $isArray 配列で戻すかどうか
+ * @return array|string block url
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function blockUrl($url = array()) {
+	public static function blockUrl($url = array(), $isArray = true) {
 		if (!is_array($url)) {
 			return $url;
 		}
@@ -228,20 +230,19 @@ class NetCommonsUrl {
 			$url['block_id'] = $blockId;
 		}
 
-		if (Hash::get($url, ['?', 'frame_id'])) {
-			return self::actionUrlAsArray($url);
-		}
 		if (isset($url['frame_id'])) {
+			//$url['frame_id']がある場合、パラメータとするように設定
 			$url['?']['frame_id'] = $url['frame_id'];
 			unset($url['frame_id']);
+		} elseif (Current::read('Frame.id')) {
+			//デフォルト、Current::readの値を使用
+			$url['?']['frame_id'] = Current::read('Frame.id');
+		}
+
+		if ($isArray) {
 			return self::actionUrlAsArray($url);
+		} else {
+			return self::actionUrl($url);
 		}
-
-		$frameId = Current::read('Frame.id');
-		if ($frameId) {
-			$url['?']['frame_id'] = $frameId;
-		}
-
-		return self::actionUrlAsArray($url);
 	}
 }

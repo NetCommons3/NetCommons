@@ -175,28 +175,40 @@ class WizardHelper extends AppHelper {
 /**
  * ウィザードボタン
  *
- * @param string $activeKey アクティブのキー
+ * @param string $actKey アクティブのキー
  * @param array $cancelOpt キャンセルボタンのオプション
  * @param array $prevOpt 前へボタンのオプション
  * @param array $nextOpt 次へ、決定ボタンのオプション
+ * @param array $isBlock ブロックに関するプラグインのウィザードかどうか
  * @return string HTML
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function buttons($activeKey, $cancelOpt = [], $prevOpt = [], $nextOpt = []) {
+	public function buttons($actKey, $cancelOpt = [], $prevOpt = [], $nextOpt = [], $isBlock = false) {
 		$output = '';
 
 		//ウィザードの状態取得
-		list($prev, $next) = $this->__wizardStep($activeKey);
+		list($prev, $next) = $this->__wizardStep($actKey);
 
 		//キャンセルボタン
-		$cancelUrl = NetCommonsUrl::actionUrlAsArray(
-			Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
-		);
+		if ($isBlock) {
+			$cancelUrl = NetCommonsUrl::blockUrl(
+				Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
+			);
+		} else {
+			$cancelUrl = NetCommonsUrl::actionUrlAsArray(
+				Hash::get($cancelOpt, 'url', $this->settings['cancelUrl'])
+			);
+		}
 		$cancelTitle = Hash::get($cancelOpt, 'title', __d('net_commons', 'Cancel'));
 		$output .= $this->Button->cancel($cancelTitle, $cancelUrl, $cancelOpt);
 
 		//前へボタン
 		if ($prev) {
-			$prevUrl = NetCommonsUrl::actionUrlAsArray(Hash::get($prevOpt, 'url', $prev['url']));
+			if ($isBlock) {
+				$prevUrl = NetCommonsUrl::blockUrl(Hash::get($prevOpt, 'url', $prev['url']));
+			} else {
+				$prevUrl = NetCommonsUrl::actionUrlAsArray(Hash::get($prevOpt, 'url', $prev['url']));
+			}
 			$prevlTitle = Hash::get($prevOpt, 'title', __d('net_commons', 'BACK'));
 			$prevOpt['icon'] = Hash::get($prevOpt, 'icon', 'chevron-left');
 			$output .= $this->Button->cancel($prevlTitle, $prevUrl, $prevOpt);
@@ -243,7 +255,7 @@ class WizardHelper extends AppHelper {
 			$prevUrl = NetCommonsUrl::blockUrl($prev['url']);
 		}
 
-		$output .= $this->Workflow->buttons($statusName, $cancelUrl, $panel, $prevUrl);
+		$output .= $this->Workflow->buttons($statusName, $cancelUrl, $panel, $prevUrl, true);
 
 		return $output;
 	}

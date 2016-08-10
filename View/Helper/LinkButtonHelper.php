@@ -213,8 +213,22 @@ class LinkButtonHelper extends FormHelper {
 		} else {
 			$title = '<span class="hidden-xs">' . $title . '</span>';
 		}
-		$glyphicon = 'glyphicon glyphicon-' . h($options['icon']);
-		$title = '<span ' . 'class="' . $glyphicon . '"' . $ariaHidden . '></span> ' . $title;
+		if (substr($options['icon'], 0, strlen('glyphicon-')) === 'glyphicon-') {
+			$glyphicon = 'glyphicon ' . h($options['icon']);
+		} else {
+			$glyphicon = 'glyphicon glyphicon-' . h($options['icon']);
+		}
+
+		$iconTag = '<span ' . 'class="' . $glyphicon . '"' . $ariaHidden . '></span> ';
+		if (Hash::get($options, 'addIcon')) {
+			if (substr($options['addIcon'], 0, strlen('glyphicon-')) === 'glyphicon-') {
+				$glyphicon = 'glyphicon ' . h($options['addIcon']);
+			} else {
+				$glyphicon = 'glyphicon glyphicon-' . h($options['addIcon']);
+			}
+			$iconTag .= '<span ' . 'class="' . $glyphicon . '"' . $ariaHidden . '></span> ';
+		}
+		$title = $iconTag . $title;
 		unset($options['icon']);
 
 		//ボタンサイズ

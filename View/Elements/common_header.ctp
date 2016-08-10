@@ -48,21 +48,13 @@ if (! isset($isSettingMode)) {
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<?php if (AuthComponent::user()) : ?>
-						<li class="visible-sm">
-							<?php echo $this->NetCommonsHtml->avatarLink(Current::read(), [], [], 'User.id'); ?>
-						</li>
-						<li class="hidden-sm">
-							<?php echo $this->NetCommonsHtml->handleLink(Current::read(), ['avatar' => true], [], 'User'); ?>
-						</li>
-					<?php endif; ?>
-
-					<?php if (Current::hasSettingMode()) : ?>
+					<?php if (Current::hasControlPanel()) : ?>
 						<li>
-							<?php if (! $isSettingMode) : ?>
-								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode on'), NetCommonsUrl::backToPageUrl(true)); ?>
-							<?php else: ?>
-								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
+							<?php if (! Current::isControlPanel()): ?>
+								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Control Panel'),
+										array('plugin' => 'control_panel', 'controller' => 'control_panel', 'action' => 'index')); ?>
+							<?php else : ?>
+								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>
@@ -78,14 +70,22 @@ if (! isset($isSettingMode)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::hasControlPanel()) : ?>
+					<?php if (Current::hasSettingMode()) : ?>
 						<li>
-							<?php if (! Current::isControlPanel()): ?>
-								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Control Panel'),
-										array('plugin' => 'control_panel', 'controller' => 'control_panel', 'action' => 'index')); ?>
-							<?php else : ?>
-								<?php echo $this->NetCommonsHtml->link(__d('control_panel', 'Back to the Rooms'), NetCommonsUrl::backToPageUrl()); ?>
+							<?php if (! $isSettingMode) : ?>
+								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode on'), NetCommonsUrl::backToPageUrl(true)); ?>
+							<?php else: ?>
+								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
 							<?php endif; ?>
+						</li>
+					<?php endif; ?>
+
+					<?php if (AuthComponent::user()) : ?>
+						<li class="visible-sm">
+							<?php echo $this->NetCommonsHtml->avatarLink(Current::read(), [], [], 'User.id'); ?>
+						</li>
+						<li class="hidden-sm">
+							<?php echo $this->NetCommonsHtml->handleLink(Current::read(), ['avatar' => true], [], 'User'); ?>
 						</li>
 					<?php endif; ?>
 

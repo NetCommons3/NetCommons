@@ -220,14 +220,28 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
- * Assert Date time
+ * 日時の評価
  *
- * @param string $result Result data
+ * @param string $result 期待値
  * @param string $message メッセージ
  * @return void
  */
 	public function assertDatetime($result, $message = null) {
 		(new NetCommonsCakeTestCase())->assertDatetime($result, $message);
+	}
+
+/**
+ * リダイレクトの評価
+ *
+ * @param string $result 期待値
+ * @param string $message メッセージ
+ * @return void
+ */
+	public function assertRedirect($result, $message = null) {
+		$this->assertNull($this->contents, $message);
+
+		$header = $this->controller->response->header();
+		$this->assertTextContains($result, $header['Location'], $message);
 	}
 
 }

@@ -297,9 +297,17 @@ ul.nav-pills {
 	margin-bottom: 8px;
 }
 
+.nc-not-found {
+	margin-top: 20px;
+	margin-bottom: 4px;
+}
+
 /**
  * コンテンツリストの各コンテンツのスタイル
  */
+.frame .nc-content-list > article:first-child {
+	margin-top: 24px;
+}
 .frame .nc-content-list > article {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 8px;

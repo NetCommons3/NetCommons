@@ -127,6 +127,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
+		Current::write('Language.id', '2');
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;
@@ -147,6 +148,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 
 		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
+		Current::write('Language.id', null);
 		SiteSettingUtil::reset();
 
 		parent::tearDown();

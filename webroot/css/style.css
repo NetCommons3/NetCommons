@@ -474,12 +474,12 @@ ul.nav-pills {
 .nc-loading {
 	width: 100%;
 	height: 100%;
-	background: #cccccc;
+	background: transparent;
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 99999;
-	opacity: 0.3;
+	/*opacity: 0.3;*/
 }
 .nc-loading img {
 	position: absolute;

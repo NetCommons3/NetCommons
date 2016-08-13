@@ -191,6 +191,23 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 }
 
 /**
+ * エラー出力
+ */
+.error-title {
+	margin-top: 40px;
+}
+.error-body {
+	font-size: 20px;
+	margin-left: 40px;
+}
+.error-redirect {
+	margin-top: 16px;
+	padding: 16px 0px;
+	font-size: 24px;
+	margin-left: 40px;
+}
+
+/**
  * 削除パネル
  */
 .nc-danger-zone .panel-title > a.accordion-toggle {

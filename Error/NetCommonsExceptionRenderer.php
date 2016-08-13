@@ -61,20 +61,31 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  */
 	public function error400($error) {
 		$message = $error->getMessage();
-		if (!Configure::read('debug') && $error instanceof CakeException) {
-			$message = __d('cake', 'Not Found');
+		if (! Configure::read('debug') && $error instanceof CakeException) {
+			$message = __d('net_commons', 'Not Found');
 		}
-		$url = $this->controller->request->here();
 		$this->controller->response->statusCode($error->getCode());
-		$this->controller->set(array(
-			'code' => $error->getCode(),
-			'name' => h($message),
+
+		if ($message === 'The request has been black-holed') {
+			$message = __d('net_commons', 'The request has been black-holed');
+			$redirect = $this->controller->request->referer(true);
+		} elseif (get_class($error) === 'ForbiddenException') {
+			$redirect = Router::url('/auth/login');
+			$this->controller->Session->destroy();
+			if (! $this->controller->request->is('ajax')) {
+				$this->controller->Auth->redirectUrl($this->controller->request->here(false));
+			}
+		} else {
+			$redirect = Router::url('/');
+			$this->controller->Session->destroy();
+		}
+
+		$results = array(
 			'message' => h($message),
-			'url' => h($url),
-			'error' => $error,
-			'_serialize' => array('name', 'message', 'url', 'code')
-		));
-		$this->_outputMessage('error400');
+			'redirect' => $redirect,
+			'interval' => '3'
+		);
+		$this->__setError('NetCommons.error400', $error, $results);
 	}
 
 /**
@@ -85,20 +96,60 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  */
 	public function error500($error) {
 		$message = $error->getMessage();
-		if (!Configure::read('debug')) {
-			$message = __d('cake', 'An Internal Error Has Occurred.');
+		if (! Configure::read('debug')) {
+			$message = __d('net_commons', 'An Internal Error Has Occurred.');
 		}
-		$url = $this->controller->request->here();
-		$code = ($error->getCode() > 500 && $error->getCode() < 506) ? $error->getCode() : 500;
+
+		if ($error->getCode() > 500 && $error->getCode() < 506) {
+			$code = $error->getCode();
+		} else {
+			$code = 500;
+		}
 		$this->controller->response->statusCode($code);
-		$this->controller->set(array(
-			'code' => $error->getCode(),
-			'name' => h($message),
+
+		$results = array(
 			'message' => h($message),
-			'url' => h($url),
-			'error' => $error,
-			'_serialize' => array('name', 'message', 'url', 'code')
-		));
-		$this->_outputMessage('error500');
+		);
+		$this->__setError('NetCommons.error500', $error, $results);
 	}
+
+/**
+ * エラーをコントローラにセット
+ *
+ * @param string $template viewテンプレート
+ * @param Exception $error Exception
+ * @param array $results viewにセットする配列
+ * @return void
+ */
+	private function __setError($template, $error, $results) {
+		$url = $this->controller->request->here();
+
+		$name = preg_replace('/Exception$/', '', get_class($error));
+		if ($name === '') {
+			$name = get_class($error);
+		}
+
+		$results = Hash::merge(array(
+			'code' => $error->getCode(),
+			'name' => Inflector::humanize(Inflector::underscore($name)),
+			'url' => h($url),
+		), $results);
+
+		if ($this->controller->request->is('ajax')) {
+			$this->controller->viewClass = 'Json';
+			$this->controller->layout = false;
+			if (Configure::read('debug')) {
+				$results['error'] = ['trace' => explode("\n", $error->getTraceAsString())];
+			}
+			$this->controller->set(compact('results'));
+		} else {
+			$this->controller->layout = 'NetCommons.error';
+			$results['error'] = $error;
+			$this->controller->set($results);
+		}
+		$this->controller->set('_serialize', 'results');
+
+		$this->_outputMessage($template);
+	}
+
 }

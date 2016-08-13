@@ -113,3 +113,8 @@ if (! isset($isSettingMode)) {
 <?php
 echo $this->Session->read('appendHtml');
 CakeSession::delete('appendHtml');
+?>
+
+<div id="loading" class="nc-loading" ng-show="sending" ng-cloak>
+	<?php echo $this->NetCommonsHtml->image('/net_commons/img/loading.svg'); ?>
+</div>

@@ -162,4 +162,26 @@ NetCommonsApp.controller('NetCommons.base',
         }
       };
 
+      /**
+       * hashChange
+       *
+       * @return {void}
+       */
+      $scope.hashChange = function() {
+        $($window).bind('hashchange', function() {
+          var hash = $location.path();
+          if (! hash) {
+            $window.scrollTo(0, 0);
+            return;
+          }
+          var el = $('#' + hash.substr(1));
+          if (! el) {
+            $window.scrollTo(0, 0);
+            return;
+          }
+          var pos = el.offset().top;
+          $window.scrollTo(0, pos - 100);
+        }).trigger('hashchange');
+      };
+
     }]);

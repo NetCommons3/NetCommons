@@ -79,14 +79,24 @@ msgstr "NetCommonsプロジェクト"
 #: Videos/Model/Behavior/VideoBehavior.php:67
 #: Videos/Model/Behavior/VideoFileBehavior.php:112;115;142;145
 msgid "Internal Server Error"
-msgstr "Internal Server Error"
+msgstr "内部サーバエラーが発生しました。"
+
+msgid "Internal Error"
+msgstr "内部エラーが発生しました。"
+
+msgid "An Internal Error Has Occurred."
+msgstr "内部エラーが発生しました。"
+
+msgid "The request has been black-holed"
+msgstr "予期しないトークンにより、登録が正常にできませんでした。"
+
 
 #: Blogs/Controller/BlogEntriesEditController.php:148;185
 #: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
 #: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
 #: Questionnaires/Controller/QuestionnairesController.php:216
 msgid "Permission denied"
-msgstr "アクセスができません。"
+msgstr "アクセスができません。指定したURLに移動するには、ログインが必要です。"
 
 #: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
 #: NetCommons/Controller/NetCommonsAppController.php:287;324;330
@@ -95,6 +105,18 @@ msgstr "アクセスができません。"
 #: Questionnaires/Controller/QuestionnairesController.php:321;368
 msgid "Bad Request"
 msgstr "不正なリクエストの可能性があります。"
+
+msgid "Not found"
+msgstr "ページが見つかりません。"
+
+msgid "Error"
+msgstr "エラー"
+
+msgid "The requested address '%s' was not found on this server."
+msgstr "%s"
+
+msgid "The page will be automatically reloaded. If otherwise, please click <a href=\"%s\">here</a>."
+msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こちら</a>をクリックしてください。"
 
 
 #

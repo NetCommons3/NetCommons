@@ -17,9 +17,9 @@
         }
     },
     "require": {
-        "cakedc/migrations":            "~2.2",
-        "cakephp/debug_kit":            "~2.2",
-        "chronon/mobile_detect":        "*",
+        "cakedc/migrations":            "~2.2@stable",
+        "cakephp/debug_kit":            "~2.2@stable",
+        "chronon/mobile_detect":        "*@stable",
         "mustangostang/spyc":           "dev-master",
         "netcommons/blocks":            "@dev",
         "netcommons/boxes":             "@dev",

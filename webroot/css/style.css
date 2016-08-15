@@ -488,3 +488,10 @@ ul.nav-pills {
 	margin: -32px 0 0 -32px;
 	width: 32px;
 }
+
+/**
+ * Popupover
+ */
+.popover {
+	min-width: 274px;
+}

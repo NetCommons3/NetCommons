@@ -69,6 +69,8 @@ class ButtonHelper extends FormHelper {
  */
 	public function button($title, $options = array()) {
 		$icon = Hash::get($options, 'icon');
+		$title = '<span class="hidden-xs">' . $title . '</span>';
+
 		if ($icon) {
 			$title = '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span> ' . $title;
 			$options = Hash::remove($options, 'icon');
@@ -89,6 +91,7 @@ class ButtonHelper extends FormHelper {
 			}
 			$options = Hash::insert($options, 'class', $class);
 		}
+
 		return $this->Form->button($title, $options);
 	}
 

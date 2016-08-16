@@ -69,7 +69,7 @@ class ButtonHelper extends FormHelper {
  */
 	public function button($title, $options = array()) {
 		$icon = Hash::get($options, 'icon');
-		
+
 		if ($icon) {
 			if (Hash::get($options, 'mobileHide')) {
 				$title = '<span class="hidden-xs">' . $title . '</span>';

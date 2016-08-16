@@ -69,9 +69,11 @@ class ButtonHelper extends FormHelper {
  */
 	public function button($title, $options = array()) {
 		$icon = Hash::get($options, 'icon');
-		$title = '<span class="hidden-xs">' . $title . '</span>';
 
 		if ($icon) {
+			if (Hash::get($options, 'mobileHide')) {
+				$title = '<span class="hidden-xs">' . $title . '</span>';
+			}
 			$title = '<span class="glyphicon ' . $icon . '" aria-hidden="true"></span> ' . $title;
 			$options = Hash::remove($options, 'icon');
 			$options = Hash::insert($options, 'escape', false);

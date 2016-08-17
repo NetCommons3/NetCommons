@@ -69,13 +69,13 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		if ($message === 'The request has been black-holed') {
 			$message = __d('net_commons', 'The request has been black-holed');
 			$redirect = $this->controller->request->referer(true);
-		} elseif (get_class($error) === 'ForbiddenException' &&
-				! in_array($this->controller->request->params['action'], ['download'], true)) {
-			$redirect = Router::url('/auth/login');
-			$this->controller->Session->destroy();
-			if (! $this->controller->request->is('ajax')) {
-				$this->controller->Auth->redirectUrl($this->controller->request->here(false));
-			}
+		//} elseif (get_class($error) === 'ForbiddenException' &&
+		//		! in_array($this->controller->request->params['action'], ['download'], true)) {
+		//	$redirect = Router::url('/auth/login');
+		//	$this->controller->Session->destroy();
+		//	if (! $this->controller->request->is('ajax')) {
+		//		$this->controller->Auth->redirectUrl($this->controller->request->here(false));
+		//	}
 		} else {
 			$redirect = Router::url('/');
 			$this->controller->Session->destroy();

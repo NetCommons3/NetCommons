@@ -186,7 +186,7 @@ class PermissionComponent extends Component {
 		}
 
 		//if ($controller->Auth->user('id')) {
-			throw new ForbiddenException(__d('net_commons', 'Permission denied'));
+			throw new ForbiddenException('Permission denied');
 		//} else {
 		//	return $controller->redirect($controller->Auth->redirect());
 		//}

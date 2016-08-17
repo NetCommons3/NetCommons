@@ -359,7 +359,7 @@ msgstr "削除"
 
 #: AccessCounters/View/AccessCounterBlocks/index.ctp:43
 msgid "Created datetime"
-msgstr "作成日時"
+msgstr "作成日"
 
 msgid "Created user"
 msgstr "作成者"
@@ -375,7 +375,7 @@ msgid "Updated date"
 msgstr "更新日"
 
 msgid "Modified datetime"
-msgstr "更新日時"
+msgstr "更新日"
 
 msgid "Modified user"
 msgstr "更新者"
@@ -585,7 +585,7 @@ msgstr "承認する"
 
 #: Comments/View/Elements/form.ctp:19;27
 msgid "Comments to the person in charge."
-msgstr "担当者へのコメント"
+msgstr "担当者への連絡"
 
 
 #

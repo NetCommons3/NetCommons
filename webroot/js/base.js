@@ -79,6 +79,27 @@ NetCommonsApp.factory('NetCommonsModal', ['$uibModal', function($uibModal) {
 
 
 /**
+ * focus directive
+ */
+NetCommonsApp.directive('ncFocus', ['$timeout', function($timeout) {
+  return {
+    scope: {
+      trigger: '@ncFocus'
+    },
+    link: function(scope, element) {
+      scope.$watch('trigger', function(value) {
+        if (value === 'true' || value === true) {
+          $timeout(function() {
+            element[0].focus();
+          });
+        }
+      });
+    }
+  };
+}]);
+
+
+/**
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',

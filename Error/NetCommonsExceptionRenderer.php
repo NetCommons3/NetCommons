@@ -69,7 +69,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		if ($message === 'The request has been black-holed') {
 			$message = __d('net_commons', 'The request has been black-holed');
 			$redirect = $this->controller->request->referer(true);
-		} elseif (get_class($error) === 'ForbiddenException' && $message === 'Permission denied') {
+		} elseif ($message === 'Permission denied' ||
+				in_array($this->controller->params['action'], ['index', 'view'])) {
 			$message = __d('net_commons', 'Permission denied');
 			$redirect = Router::url('/auth/login');
 			$this->controller->Session->destroy();

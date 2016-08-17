@@ -319,6 +319,10 @@ ul.nav-pills {
 	margin-bottom: 4px;
 }
 
+.frame iframe {
+	max-width: 100%;
+}
+
 /**
  * コンテンツリストの各コンテンツのスタイル
  */

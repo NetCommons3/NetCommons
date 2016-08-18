@@ -50,33 +50,6 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 
 					<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
 				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<?php if (Current::read('User')) : ?>
-							<li class="visible-sm">
-								<?php echo $this->NetCommonsHtml->avatarLink(Current::read(), [], [], 'User.id'); ?>
-							</li>
-							<li class="hidden-sm">
-								<?php echo $this->NetCommonsHtml->handleLink(Current::read(), ['avatar' => true], [], 'User'); ?>
-							</li>
-						<?php endif; ?>
-
-						<?php if (AuthComponent::user()) : ?>
-							<li>
-								<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Logout'), '/auth/logout'); ?>
-							</li>
-						<?php else: ?>
-							<?php if (! SiteSettingUtil::read('App.close_site') && SiteSettingUtil::read('AutoRegist.use_automatic_register', false)) : ?>
-								<li>
-									<?php echo $this->NetCommonsHtml->link(__d('auth', 'Sign up'), '/auth/auto_user_regist/request'); ?>
-								</li>
-							<?php endif; ?>
-							<li>
-								<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'), '/auth/login'); ?>
-							</li>
-						<?php endif; ?>
-					</ul>
-				</div>
 			</div>
 		</nav>
 	</header>

@@ -119,10 +119,10 @@ class SnsButtonHelper extends AppHelper {
 		$out = $this->_twitterScript();
 		$dataText = '';
 		if ($text !== null) {
-			$dataText = ' data-text="' . $text . '"';
-			// サイト名を追加する
-			$dataText .= ' - ';
-			$dataText .= SiteSettingUtil::read('App.site_name');
+			$dataText = sprintf(' data-text="%s - %s"',
+				$text,
+				SiteSettingUtil::read('App.site_name')
+			);
 		}
 		$out .= '<a href="https://twitter.com/share" ' .
 						'class="twitter-share-button" data-url="' . $permLink . '"' .

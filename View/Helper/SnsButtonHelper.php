@@ -112,12 +112,21 @@ class SnsButtonHelper extends AppHelper {
  * twitter ボタン
  *
  * @param string $permLink コンテンツのパーマリンク
+ * @param string $text コンテンツタイトル
  * @return string ボタンタグ
  */
-	public function twitter($permLink) {
+	public function twitter($permLink, $text = null) {
 		$out = $this->_twitterScript();
+		$dataText = '';
+		if ($text !== null) {
+			$dataText = ' data-text="' . $text . '"';
+			// サイト名を追加する
+			$dataText .= ' - ';
+			$dataText .= SiteSettingUtil::read('App.site_name');
+		}
 		$out .= '<a href="https://twitter.com/share" ' .
-						'class="twitter-share-button" data-url="' . $permLink . '">Tweet</a>';
+						'class="twitter-share-button" data-url="' . $permLink . '"' .
+			$dataText . '>Tweet</a>';
 		return $out;
 	}
 }

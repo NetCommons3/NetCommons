@@ -234,7 +234,13 @@ class PermissionComponent extends Component {
 		}
 
 		if (! $this->__checkBlockAccess($controller)) {
-			$controller->setAction('emptyRender');
+			if (! empty($controller->request->params['requested'])) {
+				//フレーム等、setActionから実行された場合、空値を戻すため、return trueとする。
+				$controller->setAction('emptyRender');
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		return true;

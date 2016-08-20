@@ -96,7 +96,13 @@ msgstr "予期しないトークンにより、登録が正常にできません
 #: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
 #: Questionnaires/Controller/QuestionnairesController.php:216
 msgid "Permission denied"
+msgstr "アクセスができません。"
+
+msgid "Permission denied. You must be logged."
 msgstr "アクセスができません。指定したURLに移動するには、ログインが必要です。"
+
+msgid "Permission denied. Bad account."
+msgstr "このアカウントでは、指定したURLにアクセスができません。"
 
 #: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
 #: NetCommons/Controller/NetCommonsAppController.php:287;324;330

@@ -69,25 +69,61 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		if ($message === 'The request has been black-holed') {
 			$message = __d('net_commons', 'The request has been black-holed');
 			$redirect = $this->controller->request->referer(true);
-		} elseif ($message === 'Permission denied' ||
-				in_array($this->controller->params['action'], ['index', 'view'])) {
-			$message = __d('net_commons', 'Permission denied');
-			$redirect = Router::url('/auth/login');
-			$this->controller->Session->destroy();
+
+		} elseif ($message === 'Permission denied' || $error->getCode() === 403) {
+			list($redirect, $redirectUrl, $message) = $this->__get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {
-				$this->controller->Auth->redirectUrl($this->controller->request->here(false));
+				$this->controller->Auth->redirectUrl($redirectUrl);
 			}
+
 		} else {
-			$redirect = Router::url('/');
+			$redirect = '/';
 			$this->controller->Session->destroy();
 		}
 
 		$results = array(
 			'message' => h($message),
-			'redirect' => $redirect,
+			'redirect' => Router::url($redirect),
 			'interval' => '3'
 		);
 		$this->__setError('NetCommons.error400', $error, $results);
+	}
+
+/**
+ * リダイレクトURLを取得する。
+ *
+ * @return array array($redirect, $redirectUrl, $message)
+ */
+	private function __get403And404Redirect() {
+		if ($this->controller->Auth->user()) {
+			$message = __d('net_commons', 'Permission denied. Bad account.');
+			$referer = Router::parse($this->controller->request->referer(true));
+			$here = Router::parse($this->controller->request->here(false));
+
+			if ($referer['action'] === 'login' || $here['action'] === 'login') {
+				$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+				$redirect = $SiteSetting->getDefaultStartPage();
+				$redirectUrl = $redirect;
+			} else {
+				$redirect = '/';
+				$redirectUrl = '/';
+			}
+		} else {
+			$message = __d('net_commons', 'Permission denied. You must be logged.');
+			$redirect = '/auth/login';
+			$this->controller->Session->destroy();
+
+			App::uses('Current', 'NetCommons.Utility');
+			if (in_array($this->controller->params['action'], ['index', 'view'], true)) {
+				$redirectUrl = $this->controller->request->here(false);
+			} elseif (Current::read('Page.permalink')) {
+				$redirectUrl = '/' . Current::read('Page.permalink');
+			} else {
+				$redirectUrl = '/';
+			}
+		}
+
+		return array($redirect, $redirectUrl, $message);
 	}
 
 /**

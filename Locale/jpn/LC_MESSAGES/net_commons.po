@@ -104,11 +104,9 @@ msgstr "アクセスができません。指定したURLに移動するには、
 msgid "Permission denied. Bad account."
 msgstr "このアカウントでは、指定したURLにアクセスができません。"
 
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:138;141
-#: NetCommons/Controller/NetCommonsAppController.php:287;324;330
-#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:45;48
-#: Questionnaires/Controller/QuestionnaireQuestionsController.php:85;123;148;178
-#: Questionnaires/Controller/QuestionnairesController.php:321;368
+msgid "Under maintenance. Nobody is allowed to login except for administrators."
+msgstr "メンテナンス中のため、管理者しかログインできません。"
+
 msgid "Bad Request"
 msgstr "不正なリクエストの可能性があります。"
 

@@ -70,6 +70,13 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d('net_commons', 'The request has been black-holed');
 			$redirect = $this->controller->request->referer(true);
 
+		} elseif ($message === 'Maintenance error.') {
+			$message = __d(
+				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
+			);
+			$redirect = '/net_commons/site_close/index';
+			$this->controller->Session->destroy();
+
 		} elseif ($message === 'Permission denied' || $error->getCode() === 403) {
 			list($redirect, $redirectUrl, $message) = $this->__get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {

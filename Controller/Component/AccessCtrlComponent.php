@@ -62,9 +62,12 @@ class AccessCtrlComponent extends Component {
 
 		//サイト閉鎖のチェック
 		if ($netCommonsSecurity->isCloseSite($controller->request)) {
-			$controller->Auth->logout();
-			$controller->redirect('/net_commons/site_close/index');
-			return false;
+			if ($controller->Auth->user()) {
+				throw new ForbiddenException('Maintenance error.');
+			} else {
+				$controller->redirect('/net_commons/site_close/index');
+				return false;
+			}
 		}
 
 		return true;

@@ -27,14 +27,10 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 		echo $this->fetch('meta');
 
 		echo $this->element('NetCommons.common_css');
-		echo $this->fetch('css');
-
-		echo $this->element('NetCommons.common_js');
-		echo $this->fetch('script');
 	?>
 </head>
 
-<body ng-controller="NetCommons.base">
+<body>
 	<?php echo $this->Session->flash(); ?>
 
 	<header id="nc-system-header">

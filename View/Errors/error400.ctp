@@ -22,21 +22,23 @@
 	</article>
 <?php endif; ?>
 
-<div class="error-redirect">
-	<?php echo __d('net_commons', 'The page will be automatically reloaded. If otherwise, please click <a href="%s">here</a>.', $redirect); ?>
-</div>
+<?php if (isset($redirect)) : ?>
+	<div class="error-redirect">
+		<?php echo __d('net_commons', 'The page will be automatically reloaded. If otherwise, please click <a href="%s">here</a>.', $redirect); ?>
+	</div>
+<?php endif; ?>
 
 <?php
 if (Configure::read('debug') > 0) {
 	echo $this->element('exception_stack_trace');
-} else {
+} elseif (isset($redirect)) {
 	echo $this->NetCommonsHtml->meta(
 		null, null, array('http-equiv' => 'refresh', 'content' => $interval, 'url' => $redirect, 'inline' => false)
 	);
 }
 ?>
 
-<?php if (! Configure::read('debug')) : ?>
+<?php if (! Configure::read('debug') && isset($redirect)) : ?>
 	<script type="text/javascript">
 		setTimeout(
 			function() {

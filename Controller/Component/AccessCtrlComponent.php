@@ -36,6 +36,8 @@ class AccessCtrlComponent extends Component {
  * アクセスチェック
  *
  * @return void
+ * @throws ForbiddenException
+ * @throws BadRequestException
  */
 	public function allowAccess() {
 		$controller = $this->controller;
@@ -48,22 +50,18 @@ class AccessCtrlComponent extends Component {
 
 		//不正IPアドレスチェック
 		if (! $netCommonsSecurity->enableBadIps()) {
-			$controller->Auth->logout();
-			$controller->throwBadRequest();
-			return false;
+			throw new BadRequestException('Bad ip address');
 		}
 
 		//IP変動の禁止チェック
 		if (! $netCommonsSecurity->denyIpMove()) {
-			$controller->Auth->logout();
-			$controller->throwBadRequest();
-			return false;
+			throw new BadRequestException('Bad ip address');
 		}
 
 		//サイト閉鎖のチェック
 		if ($netCommonsSecurity->isCloseSite($controller->request)) {
 			if ($controller->Auth->user()) {
-				throw new ForbiddenException('Maintenance error.');
+				throw new ForbiddenException('Under maintenance');
 			} else {
 				$controller->redirect('/net_commons/site_close/index');
 				return false;

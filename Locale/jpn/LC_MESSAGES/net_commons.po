@@ -107,6 +107,9 @@ msgstr "このアカウントでは、指定したURLにアクセスができま
 msgid "Under maintenance. Nobody is allowed to login except for administrators."
 msgstr "メンテナンス中のため、管理者しかログインできません。"
 
+msgid "Bad ip address"
+msgstr "不正なリクエストの可能性があります。"
+
 msgid "Bad Request"
 msgstr "不正なリクエストの可能性があります。"
 

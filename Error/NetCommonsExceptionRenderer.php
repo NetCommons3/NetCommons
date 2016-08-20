@@ -61,24 +61,21 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  */
 	public function error400($error) {
 		$message = $error->getMessage();
-		if (! Configure::read('debug') && $error instanceof CakeException) {
-			$message = __d('net_commons', 'Not Found');
-		}
 		$this->controller->response->statusCode($error->getCode());
 
 		if ($message === 'The request has been black-holed') {
-			$message = __d('net_commons', 'The request has been black-holed');
 			$redirect = $this->controller->request->referer(true);
 
-		} elseif ($message === 'Maintenance error.') {
-			$message = __d(
-				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
-			);
+		} elseif ($message === 'Bad ip address') {
+			$this->controller->Session->destroy();
+			$redirect = null;
+
+		} elseif ($message === 'Under maintenance') {
 			$redirect = '/net_commons/site_close/index';
 			$this->controller->Session->destroy();
 
 		} elseif ($message === 'Permission denied' || $error->getCode() === 403) {
-			list($redirect, $redirectUrl, $message) = $this->__get403And404Redirect();
+			list($redirect, $redirectUrl) = $this->__get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {
 				$this->controller->Auth->redirectUrl($redirectUrl);
 			}
@@ -87,23 +84,54 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$redirect = '/';
 			$this->controller->Session->destroy();
 		}
+		if (isset($redirect)) {
+			$redirect = Router::url($redirect);
+		}
 
 		$results = array(
-			'message' => h($message),
-			'redirect' => Router::url($redirect),
+			'message' => $this->__get400Message($error),
+			'redirect' => $redirect,
 			'interval' => '3'
 		);
 		$this->__setError('NetCommons.error400', $error, $results);
 	}
 
 /**
+ * エラーメッセージ取得
+ *
+ * @param Exception $error Exception
+ * @return string $message
+ */
+	private function __get400Message($error) {
+		$message = $error->getMessage();
+		if (! Configure::read('debug') && $error instanceof CakeException) {
+			$message = 'Not Found';
+		}
+
+		if ($message === 'Under maintenance') {
+			$message = __d(
+				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
+			);
+		} elseif ($message === 'Permission denied') {
+			if ($this->controller->Auth->user()) {
+				$message = __d('net_commons', 'Permission denied. Bad account.');
+			} else {
+				$message = __d('net_commons', 'Permission denied. You must be logged.');
+			}
+		} else {
+			$message = __d('net_commons', $message);
+		}
+
+		return h($message);
+	}
+
+/**
  * リダイレクトURLを取得する。
  *
- * @return array array($redirect, $redirectUrl, $message)
+ * @return array array($redirect, $redirectUrl)
  */
 	private function __get403And404Redirect() {
 		if ($this->controller->Auth->user()) {
-			$message = __d('net_commons', 'Permission denied. Bad account.');
 			$referer = Router::parse($this->controller->request->referer(true));
 			$here = Router::parse($this->controller->request->here(false));
 
@@ -116,7 +144,6 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 				$redirectUrl = '/';
 			}
 		} else {
-			$message = __d('net_commons', 'Permission denied. You must be logged.');
 			$redirect = '/auth/login';
 			$this->controller->Session->destroy();
 
@@ -130,7 +157,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			}
 		}
 
-		return array($redirect, $redirectUrl, $message);
+		return array($redirect, $redirectUrl);
 	}
 
 /**

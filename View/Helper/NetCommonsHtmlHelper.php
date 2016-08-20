@@ -63,6 +63,9 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$helper = $this->Date;
 		} elseif (in_array($method, ['handleLink', 'avatarLink'], true)) {
 			$helper = $this->_View->loadHelper('Users.DisplayUser');
+		} elseif (in_array($method, ['blockTitle', 'getBlockStatus'], true)) {
+			$this->css('/blocks/css/style.css');
+			$helper = $this->_View->loadHelper('Blocks.Blocks');
 		} else {
 			$helper = $this->Html;
 		}
@@ -199,40 +202,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 	public function link($title = '', $url = null, $options = array()) {
 		$url = $this->__getUrl($url, $options);
 		$output = $this->Html->link($title, $url, $options);
-		return $output;
-	}
-
-/**
- * タイトル（ブロックタイトル）の出力
- *
- * #### サンプル
- * ```
- * echo $this->NetCommonsHtml->blockTitle($bbs['name'])
- * ```
- * ##### 出力結果
- * ```
- * <h1>新しい掲示板 20160513074815</h1>
- * ```
- *
- * @param string $text タイトル
- * @param string $titleIcon タイトルアイコン
- * @param array $options HTML属性オプション
- * @return string `<h1>`タグ
- */
-	public function blockTitle($text = '', $titleIcon = null, $options = array()) {
-		$output = '';
-
-		$escape = Hash::get($options, 'escape', true);
-		if ($escape) {
-			$text = h($text);
-		}
-		$options = Hash::insert($options, 'escape', false);
-
-		if ($titleIcon) {
-			$text = $this->titleIcon($titleIcon) . ' ' . $text;
-		}
-
-		$output .= $this->Html->tag('h1', $text, $options);
 		return $output;
 	}
 

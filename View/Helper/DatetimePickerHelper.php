@@ -146,6 +146,8 @@ class DatetimePickerHelper extends AppHelper {
 		$options['datetimepicker'] = true;
 		$options['convert_timezone'] = true;
 		$options['data-toggle'] = 'dropdown';
+		$options['childDiv']['style'] = 'position:relative;' . Hash::get($options, 'childDiv.style', '');
+		$options['childDiv']['style'] .= Hash::get($options, 'childDiv.style', '');
 		// ng-modelを指定してなくてもdatetimepickerが動くようにする
 		if (!isset($options['ng-model'])) {
 			$options['ng-model'] = 'NetCommonsFormDatetimePickerModel_' . str_replace('.', '_', $fieldName);

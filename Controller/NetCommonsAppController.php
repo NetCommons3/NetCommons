@@ -135,14 +135,8 @@ class NetCommonsAppController extends Controller {
 	public function beforeFilter() {
 		Security::setHash('sha512');
 
-		//言語の取得
-		if (isset($this->request->query['language']) &&
-				! array_key_exists('search', $this->request->query)) {
-			Configure::write('Config.language', $this->request->query['language']);
-			$this->Session->write('Config.language', $this->request->query['language']);
-		} elseif ($this->Session->check('Config.language')) {
-			Configure::write('Config.language', $this->Session->read('Config.language'));
-		}
+		//言語のセット
+		$this->__setLanguage();
 
 		//カレントデータセット
 		Current::initialize($this);
@@ -175,6 +169,22 @@ class NetCommonsAppController extends Controller {
 
 		//モバイルかどうかの判定処理
 		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
+	}
+
+/**
+ * リクエストもしくはSessionから言語をセットする。
+ *
+ * @return void
+ */
+	private function __setLanguage() {
+		if (isset($this->request->query['language']) &&
+				! array_key_exists('search', $this->request->query)) {
+			Configure::write('Config.language', $this->request->query['language']);
+			$this->Session->write('Config.language', $this->request->query['language']);
+
+		} elseif ($this->Session->check('Config.language')) {
+			Configure::write('Config.language', $this->Session->read('Config.language'));
+		}
 	}
 
 /**

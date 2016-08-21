@@ -136,7 +136,7 @@ class NetCommonsAppController extends Controller {
 		Security::setHash('sha512');
 
 		//言語の取得
-		if (isset($this->request->query['language'])) {
+		if (isset($this->request->query['language']) && ! array_key_exists('search', $this->request->query)) {
 			Configure::write('Config.language', $this->request->query['language']);
 			$this->Session->write('Config.language', $this->request->query['language']);
 		} elseif ($this->Session->check('Config.language')) {

@@ -80,7 +80,7 @@ if (! isset($isSettingMode)) {
 						</li>
 					<?php endif; ?>
 
-					<?php if (Current::read('User')) : ?>
+					<?php if (AuthComponent::user()) : ?>
 						<li class="visible-sm">
 							<?php echo $this->NetCommonsHtml->avatarLink(Current::read(), [], [], 'User.id'); ?>
 						</li>

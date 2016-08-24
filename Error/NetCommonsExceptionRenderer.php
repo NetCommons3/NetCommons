@@ -112,7 +112,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d(
 				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
 			);
-		} elseif ($message === 'Permission denied') {
+		} elseif ($message === 'Permission denied' ||
+				in_array($this->controller->params['action'], ['index', 'view'])) {
 			if ($this->controller->Auth->user()) {
 				$message = __d('net_commons', 'Permission denied. Bad account.');
 			} else {

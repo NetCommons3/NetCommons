@@ -294,6 +294,10 @@ msgid "Only alphabets and numbers are allowed."
 msgstr "半角英数字または記号を入力してください。"
 
 #: Edumap/Model/EdumapSocialMedium.php:74
+msgid "Only alphabets and numbers are allowed to use for %s."
+msgstr "%sは半角英数字または記号を入力してください。"
+
+#: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Please choose at least %s characters string."
 msgstr "%s文字以上で入力してください。"
 

@@ -10,6 +10,7 @@
  */
 
 App::uses('Container', 'Containers.Model');
+App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
  * CurrentFrame Utility
@@ -185,6 +186,7 @@ class CurrentFrame {
  */
 	public function setBlockRolePermissions() {
 		$this->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
+		$this->BlockSetting = ClassRegistry::init('Blocks.BlockSetting');
 
 		if (isset(Current::$current['BlockRolePermission'])) {
 			return;
@@ -206,14 +208,39 @@ class CurrentFrame {
 		}
 
 		$permission = array();
-		if (isset(Current::$current['DefaultRolePermission'])) {
-			$permission = Hash::merge($permission, Current::$current['DefaultRolePermission']);
-		}
-		if (isset(Current::$current['RoomRolePermission'])) {
-			$permission = Hash::merge($permission, Current::$current['RoomRolePermission']);
-		}
+		$permission = Hash::merge(
+			$permission, Hash::get(Current::$current, 'DefaultRolePermission', array())
+		);
+		$permission = Hash::merge(
+			$permission, Hash::get(Current::$current, 'RoomRolePermission', array())
+		);
 		if (isset(Current::$current['BlockRolePermission'])) {
 			$permission = Hash::merge($permission, Current::$current['BlockRolePermission']);
+		} elseif (! Current::read('Room.need_approval')) {
+			$setPermissions = array(
+				'content_publishable' => array('value' => true),
+				'content_comment_publishable' => array('value' => true),
+			);
+			if (isset(Current::$current['Block']['key'])) {
+				$blockSetting = $this->BlockSetting->find('list', array(
+					'recursive' => -1,
+					'fields' => array('field_name', 'value'),
+					'conditions' => array(
+						'block_key' => Current::$current['Block']['key'],
+						'field_name' => array(
+							BlockSettingBehavior::FIELD_USE_WORKFLOW,
+							BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL
+						),
+					),
+				));
+				$setPermissions['content_publishable']['value'] = !(bool)Hash::get(
+					$blockSetting, BlockSettingBehavior::FIELD_USE_WORKFLOW, '0'
+				);
+				$setPermissions['content_comment_publishable']['value'] = !(bool)Hash::get(
+					$blockSetting, BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL, '0'
+				);
+			}
+			$permission = Hash::merge($permission, $setPermissions);
 		}
 
 		Current::$current['Permission'] = $permission;

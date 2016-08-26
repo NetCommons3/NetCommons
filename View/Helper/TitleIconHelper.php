@@ -169,11 +169,11 @@ class TitleIconHelper extends AppHelper {
 		$icons = $this->getIconFiles();
 		$html = '<div class="input-group"' .
 					' ng-controller="ncTitleIconPickerCtrl"' .
-					' title-icon="' . $titleIcon . '"' .
+					' title-icon="' . h($titleIcon) . '"' .
 				'>';
 		$html .= '<nc-title-icon-picker' .
 					' class="input-group-btn"' .
-					' title-icon="' . $titleIcon . '"' .
+					' title-icon="' . h($titleIcon) . '"' .
 					' ' . $ngModelAttribute .
 					' icons="' . str_replace('"', '\'', $icons) . '"' .
 				'>';

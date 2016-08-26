@@ -82,8 +82,10 @@ class NetCommonsTime {
 		$userDatetimeData = $data;
 		$convertKeyNameList = Hash::filter($convertKeyNameList);
 		foreach ($convertKeyNameList as $keyName) {
-			$_userDatetime = $this->toUserDatetime(Hash::get($data, $keyName));
-			$userDatetimeData = Hash::insert($userDatetimeData, $keyName, $_userDatetime);
+			if (Hash::get($data, $keyName)) {
+				$_userDatetime = $this->toUserDatetime(Hash::get($data, $keyName));
+				$userDatetimeData = Hash::insert($userDatetimeData, $keyName, $_userDatetime);
+			}
 		}
 		//
 		//foreach ($userDatetimeData as $key => $value) {
@@ -127,8 +129,10 @@ class NetCommonsTime {
 		$serverDatetimeData = $data;
 		$convertKeyNameList = Hash::filter($convertKeyNameList);
 		foreach ($convertKeyNameList as $keyName) {
-			$_serverDatetime = $this->toServerDatetime(Hash::get($data, $keyName), $userTimezone);
-			$serverDatetimeData = Hash::insert($serverDatetimeData, $keyName, $_serverDatetime);
+			if (Hash::get($data, $keyName)) {
+				$_serverDatetime = $this->toServerDatetime(Hash::get($data, $keyName), $userTimezone);
+				$serverDatetimeData = Hash::insert($serverDatetimeData, $keyName, $_serverDatetime);
+			}
 		}
 
 		//foreach ($serverDatetimeData as $key => $value) {

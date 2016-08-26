@@ -323,6 +323,11 @@ ul.nav-pills {
 	max-width: 100%;
 }
 
+.frame {
+	word-wrap : break-word;
+	overflow-wrap : break-word;
+}
+
 /**
  * コンテンツリストの各コンテンツのスタイル
  */

@@ -389,6 +389,8 @@ class FormInputHelper extends AppHelper {
 
 		$divOption = $this->getDivOption('password', $options, 'div');
 
+		$current = Hash::get($options, 'current', false);
+		$options = Hash::remove($options, 'current');
 		$again = Hash::get($options, 'again', false);
 		$options = Hash::remove($options, 'again');
 
@@ -403,8 +405,30 @@ class FormInputHelper extends AppHelper {
 			$options
 		);
 
-		//入力フォーム
-		$input .= $this->Form->input($fieldName, $options);
+		if ($current) {
+			$options = Hash::merge(
+				$options,
+				array(
+					'placeholder' => __d('net_commons', 'Enter current password.'),
+					'class' => 'form-control form-input-again'
+				)
+			);
+			$input .= $this->Form->input($fieldName . '_current', $options);
+
+			$options = Hash::merge(
+				$options,
+				array(
+					'placeholder' => __d('net_commons', 'Enter new password.'),
+					'class' => 'form-control form-input-again'
+				)
+			);
+			//入力フォーム
+			$input .= $this->Form->input($fieldName, $options);
+
+		} else {
+			//入力フォーム
+			$input .= $this->Form->input($fieldName, $options);
+		}
 
 		//再度入力フォーム
 		if ($again) {

@@ -317,6 +317,12 @@ msgid "Successfully deleted."
 msgstr "正常に削除しました。"
 
 #:
+msgid "Enter current password."
+msgstr "現在のパスワードを入力してください。"
+
+msgid "Enter new password."
+msgstr "新しいパスワードを入力してください。"
+
 msgid "For confirmation, please re-enter."
 msgstr "確認のため、再度入力してください。"
 

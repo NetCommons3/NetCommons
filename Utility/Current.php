@@ -407,6 +407,23 @@ class Current extends CurrentBase {
 		self::$request = clone $controller->request;
 		self::$layout = $controller->layout;
 
+		if (Hash::get(self::$current, 'User.modified') !== AuthComponent::user('modified')) {
+			$User = ClassRegistry::init('Users.User');
+			$changeUser = $User->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'User.id' => AuthComponent::user('id'),
+					'User.modified !=' => AuthComponent::user('modified'),
+				),
+			));
+			if ($changeUser) {
+				$sessionUser = $changeUser['User'];
+				unset($changeUser['User']);
+				CakeSession::write(
+					AuthComponent::$sessionKey, array_merge_recursive($sessionUser, $changeUser)
+				);
+			}
+		}
 		self::$current['User'] = AuthComponent::user();
 
 		(new CurrentSystem())->initialize();

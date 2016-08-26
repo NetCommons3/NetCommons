@@ -450,6 +450,7 @@ class NetCommonsFormHelper extends AppHelper {
 
 		//error出力
 		if (is_array($options['error'])) {
+			$options['error']['current'] = Hash::get($options, 'type') === 'password';
 			$options['error']['again'] = Hash::get($options, 'type') === 'password';
 			$input .= $this->error($fieldName, null, $options['error']);
 		}
@@ -601,6 +602,9 @@ class NetCommonsFormHelper extends AppHelper {
 	public function error($fieldName, $text = null, $options = array()) {
 		$output = '';
 
+		$current = Hash::get($options, 'current', false);
+		$options = Hash::remove($options, 'current');
+
 		$again = Hash::get($options, 'again', false);
 		$options = Hash::remove($options, 'again');
 
@@ -609,6 +613,11 @@ class NetCommonsFormHelper extends AppHelper {
 			$fieldName, $text, Hash::merge(['class' => 'help-block'], $options)
 		);
 
+		if ($current) {
+			$output .= $this->Form->error(
+				$fieldName . '_current', $text, Hash::merge(['class' => 'help-block'], $options)
+			);
+		}
 		if ($again) {
 			$output .= $this->Form->error(
 				$fieldName . '_again', $text, Hash::merge(['class' => 'help-block'], $options)

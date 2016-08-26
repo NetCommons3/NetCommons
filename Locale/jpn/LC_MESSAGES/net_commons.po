@@ -317,8 +317,17 @@ msgid "Successfully deleted."
 msgstr "正常に削除しました。"
 
 #:
+msgid "Current password"
+msgstr "現在のパスワード"
+
 msgid "Enter current password."
 msgstr "現在のパスワードを入力してください。"
+
+msgid "Current password is wrong."
+msgstr "現在のパスワードが間違ってます。入力した内容を確認してください。"
+
+msgid "New password"
+msgstr "新しいパスワード"
 
 msgid "Enter new password."
 msgstr "新しいパスワードを入力してください。"

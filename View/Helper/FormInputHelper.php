@@ -391,6 +391,7 @@ class FormInputHelper extends AppHelper {
 
 		$current = Hash::get($options, 'current', false);
 		$options = Hash::remove($options, 'current');
+
 		$again = Hash::get($options, 'again', false);
 		$options = Hash::remove($options, 'again');
 

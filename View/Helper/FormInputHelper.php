@@ -115,6 +115,8 @@ class FormInputHelper extends AppHelper {
 		$input .= '<div class="' . $radioClass . '"><label class="control-label">' . $befor;
 
 		$attributes = Hash::remove($attributes, 'outer');
+
+		$options = array_map('h', $options);
 		$input .= $this->Form->radio($fieldName, $options, $attributes);
 		$input .= $after . '</label></div>';
 

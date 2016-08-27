@@ -283,6 +283,14 @@ ul.nav-pills {
 	text-align: right;
 }
 
+.nc-table-text {
+	/*max-height: 2em;*/
+	max-width: 320px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/*white-space: nowrap;*/
+}
+
 .nc-table-center {
 	text-align: center;
 }

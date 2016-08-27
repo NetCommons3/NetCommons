@@ -34,23 +34,6 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 <body ng-controller="NetCommons.base">
 	<?php echo $this->Session->flash(); ?>
 
-	<header id="nc-system-header">
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container clearfix text-nowrap">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-
-					<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
-				</div>
-			</div>
-		</nav>
-	</header>
-
 	<main class="container">
 		<?php echo $this->fetch('content'); ?>
 	</main>

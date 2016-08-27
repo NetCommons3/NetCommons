@@ -525,9 +525,9 @@ class FormInputHelper extends AppHelper {
 
 		$input .= '<div class="form-label-input-outer form-control">';
 		if (isset($options['value'])) {
-			$input .= Hash::get($options, 'value');
+			$input .= h(Hash::get($options, 'value'));
 		} else {
-			$input .= Hash::get($this->_View->request->data, $fieldName);
+			$input .= h(Hash::get($this->_View->request->data, $fieldName));
 		}
 		$input .= '</div>';
 

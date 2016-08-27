@@ -66,6 +66,12 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		if ($message === 'The request has been black-holed') {
 			$redirect = $this->controller->request->referer(true);
 
+		} elseif ($message === 'Not found file') {
+			$this->controller->autoRender = false;
+			$this->_shutdown();
+			$this->controller->response->send();
+			return;
+
 		} elseif ($message === 'Bad ip address') {
 			$this->controller->Session->destroy();
 			$redirect = null;

@@ -29,10 +29,12 @@ class NetCommonsMigration extends CakeMigration {
  * @return bool Should process continue
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function updateRecords($model, $records, $clear = true) {
+	public function updateRecords($model, $records, $clear = false) {
 		$Model = $this->generateModel($model);
 		if ($clear) {
-			$Model->deleteAll(array(), false, false);
+			if (!$Model->deleteAll(array('1 = 1'), false, false)) {
+				return false;
+			}
 		}
 		foreach ($records as $record) {
 			$Model->create();

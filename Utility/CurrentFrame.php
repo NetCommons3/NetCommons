@@ -15,11 +15,8 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 /**
  * CurrentFrame Utility
  *
- * ※PHPMのSuppressWarningsは暫定
- *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CurrentFrame {
 
@@ -144,8 +141,11 @@ class CurrentFrame {
 /**
  * Set Block
  *
+ * ※PHPMのSuppressWarningsは暫定
+ *
  * @param int $blockId Blocks.id
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setBlock($blockId = null) {
 		$this->Block = ClassRegistry::init('Blocks.Block');

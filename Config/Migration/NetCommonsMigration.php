@@ -21,11 +21,18 @@ App::uses('I18n', 'I18n');
 class NetCommonsMigration extends CakeMigration {
 
 /**
+ * plugin data
+ *
+ * @var array $migration
+ */
+	public $records = array();
+
+/**
  * Update model records
  *
  * @param string $model model name to update
- * @param string $records records to be stored
- * @param string $clear 初期化するかどうか
+ * @param array $records records to be stored
+ * @param bool $clear 初期化するかどうか
  * @return bool Should process continue
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
@@ -47,6 +54,29 @@ class NetCommonsMigration extends CakeMigration {
 	}
 
 /**
+ * Delete model records
+ *
+ * @param string $model model name to delete
+ * @param array $records records to be stored
+ * @param string $key 削除条件項目
+ * @return bool Should process continue
+ */
+	public function deleteRecords($model, $records, $key = 'id') {
+		$Model = $this->generateModel($model);
+		foreach ($records as $record) {
+			$id = Hash::get($record, $key);
+			if (!$id) {
+				continue;
+			}
+			$conditions = array($key => $id);
+			if (!$Model->deleteAll($conditions, false, false)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+/**
  * Load models
  *
  * @param array $models models to load
@@ -62,4 +92,25 @@ class NetCommonsMigration extends CakeMigration {
 		}
 	}
 
+/**
+ * データ投入のマイグレーションupの更新と,downの削除
+ *
+ * @param string $direction Direction of migration process (up or down)
+ * @return bool Should process continue
+ */
+	public function updateAndDeleteRecords($direction) {
+		foreach ($this->records as $model => $records) {
+			if ($direction === 'up') {
+				if (!$this->updateRecords($model, $records)) {
+					return false;
+				}
+			} elseif ($direction === 'down') {
+				if (!$this->deleteRecords($model, $records)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }

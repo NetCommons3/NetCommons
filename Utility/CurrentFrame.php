@@ -67,10 +67,13 @@ class CurrentFrame {
 /**
  * Set Frame
  *
+ * @param string $frameId フレームID
  * @return void
  */
-	public function setFrame() {
-		if (! Hash::get(Current::$request->params, 'requested') &&
+	public function setFrame($frameId = null) {
+		if ($frameId) {
+			//何もしない
+		} elseif (! Hash::get(Current::$request->params, 'requested') &&
 					Hash::get(Current::$request->data, 'Frame.id')) {
 			$frameId = Current::$request->data['Frame']['id'];
 		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
@@ -163,10 +166,26 @@ class CurrentFrame {
 		));
 		if ($result) {
 			Current::$current = Hash::merge(Current::$current, $result);
-			return;
 		}
 
-		if (isset(Current::$current['Frame']['block_id'])) {
+		if (! isset(Current::$current['Frame'])) {
+			$frame = $this->Frame->find('first', array(
+				'fields' => array('id'),
+				'recursive' => -1,
+				'conditions' => array(
+					'block_id' => $blockId,
+					'is_deleted' => false
+				),
+				'order' => array('id' => 'asc')
+			));
+
+			$frameId = Hash::get($frame, 'Frame.id');
+			if ($frameId) {
+				$this->setFrame($frameId);
+			}
+		}
+
+		if (! isset(Current::$current['Block']) && isset(Current::$current['Frame']['block_id'])) {
 			$result = $this->Block->find('first', array(
 				'recursive' => 0,
 				'conditions' => array(

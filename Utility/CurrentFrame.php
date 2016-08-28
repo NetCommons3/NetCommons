@@ -15,8 +15,11 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 /**
  * CurrentFrame Utility
  *
+ * ※PHPMのSuppressWarningsは暫定
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CurrentFrame {
 

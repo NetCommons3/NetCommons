@@ -194,6 +194,39 @@ class LinkButtonHelper extends FormHelper {
 	}
 
 /**
+ * 一覧へボタンHTMLの出力
+ *
+ * @param string $title タイトル
+ * @param mixed $url URL
+ * @param array $options HTML属性オプション
+ * @return string HTMLタグ
+ */
+	public function toList($title = '', $url = null, $options = array()) {
+		$output = '';
+
+		if (! isset($url)) {
+			$url = NetCommonsUrl::backToPageUrl();
+		}
+
+		//Linkオプションの設定
+		$inputOptions = Hash::merge(array(
+			'icon' => 'arrow-left',
+			'iconSize' => $this->Button->getButtonSize(),
+			'class' => 'btn btn-default nc-btn-style',
+		), $options, array('escapeTitle' => false));
+
+		if (Hash::get($options, 'escapeTitle', true)) {
+			$title = h($title);
+		}
+		if (! $title && $title !== false) {
+			$title = __d('net_commons', 'To list');
+		}
+
+		$output .= $this->__getLinkHtml($title, $url, $inputOptions);
+		return $output;
+	}
+
+/**
  * ソートボタンHTMLの出力
  *
  * @param string $title タイトル

@@ -171,6 +171,7 @@ class BackToHelper extends AppHelper {
 
 /**
  * 一覧へボタンHTMLの出力
+ * ※後で削除予定
  *
  * @param string $title タイトル文字列
  * @param array $options HTML属性オプション

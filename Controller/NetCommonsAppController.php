@@ -133,6 +133,8 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
+		$this->request->allowMethod('get', 'post', 'put', 'delete');
+
 		Security::setHash('sha512');
 
 		//言語のセット

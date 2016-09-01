@@ -43,7 +43,12 @@ class NetCommonsTestSuite extends CakeTestSuite {
 			//	break;
 		}
 		$db = new PDO(
-			sprintf('%s:host=%s;port=%s', $driver, $dbObject['test']['host'], $dbObject['test']['port']),
+			sprintf(
+				'%s:host=%s;port=%s',
+				$driver,
+				$dbObject['test']['host'],
+				Hash::get($dbObject['test'], 'port', '3306')
+			),
 			$dbObject['test']['login'],
 			$dbObject['test']['password']
 		);
@@ -52,7 +57,7 @@ class NetCommonsTestSuite extends CakeTestSuite {
 			sprintf(
 				'CREATE DATABASE IF NOT EXISTS `%s` /*!40100 DEFAULT CHARACTER SET %s */',
 				$dbObject['test']['database'],
-				$dbObject['test']['encoding']
+				Hash::get($dbObject['test'], 'encoding', 'utf8')
 			)
 		);
 

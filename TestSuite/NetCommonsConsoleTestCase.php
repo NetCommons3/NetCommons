@@ -112,7 +112,7 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 		}
 
 		return $this->getMock($shell,
-			Hash::merge(array('out', 'hr', 'err', 'createFile', '_stop'), $methods),
+			Hash::merge(array('out', 'hr', 'err', 'error', 'createFile', '_stop'), $methods),
 			array($stdout, $stderr, $stdin), '', $construct
 		);
 	}

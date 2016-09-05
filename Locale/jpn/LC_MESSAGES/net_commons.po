@@ -367,6 +367,16 @@ msgstr "{X-SITE_NAME} : サイト名"
 
 
 #
+#: コンソールメッセージ
+#
+
+msgid "What would you like to do?"
+msgstr ""
+
+msgid "You have made an invalid selection. Please choose a command to execute by entering %s."
+msgstr ""
+
+#
 #: 一覧表示のヘッダー
 #
 

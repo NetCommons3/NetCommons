@@ -367,6 +367,14 @@ msgstr "{X-SITE_NAME} : サイト名"
 
 
 #
+#: コンソールメッセージ
+#
+
+msgid "What would you like to do?"
+msgstr ""
+
+
+#
 #: 一覧表示のヘッダー
 #
 

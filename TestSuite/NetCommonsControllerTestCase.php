@@ -214,7 +214,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
- * @param int $count Mockの呼び出し回数
+ * @param int|string $count Mockの呼び出し回数
  * @return void
  */
 	protected function _mockForReturnFalse($mockModel, $mockMethod, $count = 1) {
@@ -226,7 +226,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  *
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
- * @param int $count Mockの呼び出し回数
+ * @param int|string $count Mockの呼び出し回数
  * @return void
  */
 	protected function _mockForReturnTrue($mockModel, $mockMethod, $count = 1) {
@@ -239,7 +239,7 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
  * @param string $mockModel Mockのモデル
  * @param string $mockMethod Mockのメソッド
  * @param bool $return 戻り値
- * @param int $count Mockの呼び出し回数
+ * @param int|string $count Mockの呼び出し回数
  * @return void
  */
 	protected function _mockForReturn($mockModel, $mockMethod, $return, $count = 1) {
@@ -247,10 +247,14 @@ class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 
 		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
 			$this->controller->$mockModel = $this->getMockForModel(
-				$mockPlugin . '.' . $mockModel, array($mockMethod)
+				$mockPlugin . '.' . $mockModel,
+				array($mockMethod),
+				array('plugin' => Inflector::underscore($mockPlugin))
 			);
 		}
-		if ($count === 1) {
+		if ($count === 'any') {
+			$funcCount = $this->any();
+		} elseif ($count === 1) {
 			$funcCount = $this->once();
 		} else {
 			$funcCount = $this->exactly($count);

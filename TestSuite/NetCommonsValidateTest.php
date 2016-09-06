@@ -57,10 +57,13 @@ class NetCommonsValidateTest extends NetCommonsModelTestCase {
 		//validate処理実行
 		$this->$model->set($data);
 		$result = $this->$model->validates();
-		$this->assertFalse($result);
-
-		if ($message) {
-			$this->assertEquals($this->$model->validationErrors[$field][0], $message);
+		if ($message === true) {
+			$this->assertTrue($result);
+		} else {
+			$this->assertFalse($result);
+			if ($message) {
+				$this->assertEquals($this->$model->validationErrors[$field][0], $message);
+			}
 		}
 	}
 

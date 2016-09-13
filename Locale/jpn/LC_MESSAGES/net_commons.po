@@ -289,12 +289,16 @@ msgstr "担当者へコメントがあれば、入力してください。"
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
 msgstr "%sの書式が不正です。%s形式で入力してください。"
 
-#: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Only alphabets and numbers are allowed."
+msgstr "半角英数字を入力してください。"
+
+msgid "Only alphabets, numbers and symbols are allowed."
 msgstr "半角英数字または記号を入力してください。"
 
-#: Edumap/Model/EdumapSocialMedium.php:74
 msgid "Only alphabets and numbers are allowed to use for %s."
+msgstr "%sは半角英数字を入力してください。"
+
+msgid "Only alphabets, numbers and symbols are allowed to use for %s."
 msgstr "%sは半角英数字または記号を入力してください。"
 
 #: Edumap/Model/EdumapSocialMedium.php:74

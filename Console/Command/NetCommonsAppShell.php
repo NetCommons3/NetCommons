@@ -1,29 +1,25 @@
 <?php
 /**
- * AppShell file
+ * NetCommonsApp Shell
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         CakePHP(tm) v 2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
+//@codeCoverageIgnoreStart
 App::uses('Shell', 'Console');
+//@codeCoverageIgnoreEnd
 
 /**
- * Application Shell
+ * NetCommonsApp Shell
  *
- * Add your application-wide methods in the class below, your shells
- * will inherit them.
+ * ※処理がないため、codeCoverageIgnoreを追加する。処理を追加したらcodeCoverageIgnoreを削除する
  *
- * @package       app.Console.Command
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\NetCommons\Controller
+ * @codeCoverageIgnore
  */
 class NetCommonsAppShell extends Shell {
 

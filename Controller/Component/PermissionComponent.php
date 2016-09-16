@@ -44,7 +44,8 @@ class PermissionComponent extends Component {
  */
 	const CHECK_TYEP_GENERAL_PLUGIN = 'general_plugin',
 			CHECK_TYEP_CONTROL_PANEL = 'control_panel',
-			CHECK_TYEP_SYSTEM_PLUGIN = 'system_plugin';
+			CHECK_TYEP_SYSTEM_PLUGIN = 'system_plugin',
+			CHECK_TYEP_NOCHECK_PLUGIN = 'no_check';
 
 /**
  * チェックタイプ
@@ -60,6 +61,9 @@ class PermissionComponent extends Component {
  * * CHECK_TYEP_SYSTEM_PLUGIN<br>
  * 管理プラグインを表示・設定する際に指定します。<br>
  * ユーザーが使用できる管理プラグインか否かで判定します。
+ *
+ * * CHECK_TYEP_NOCHECK_PLUGIN<br>
+ * チェックをスキップする。主にusersプラグインで使用する。
  *
  * @var string
  */
@@ -182,6 +186,8 @@ class PermissionComponent extends Component {
 				if (! $this->__allowAction($controller)) {
 					break;
 				}
+				return;
+			case self::CHECK_TYEP_NOCHECK_PLUGIN:
 				return;
 		}
 

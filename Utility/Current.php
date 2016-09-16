@@ -431,6 +431,9 @@ class Current extends CurrentBase {
 		if (! self::isControlPanel()) {
 			(new CurrentFrame())->initialize();
 		}
+
+		//会員権限に紐づくパーミッションのセット
+		(new CurrentPage())->setDefaultRolePermissions(self::$current['User']['role_key'], true);
 	}
 
 /**

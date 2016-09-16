@@ -70,15 +70,23 @@ class CurrentPage {
 /**
  * Set BlockRolePermissions
  *
+ * @param string $roleKey ロールキー
  * @return void
  */
-	public function setDefaultRolePermissions() {
+	public function setDefaultRolePermissions($roleKey = null) {
 		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 
-		if (isset(Current::$current['DefaultRolePermission'])) {
+		if (! isset(Current::$current['DefaultRolePermission'])) {
+			Current::$current['DefaultRolePermission'] = array();
+		}
+
+		if (! $roleKey && Current::$current['DefaultRolePermission']) {
 			return;
 		}
-		if (isset(Current::$current['RolesRoom'])) {
+
+		if ($roleKey) {
+			$roomRoleKey = $roleKey;
+		} elseif (isset(Current::$current['RolesRoom'])) {
 			$roomRoleKey = Current::$current['RolesRoom']['role_key'];
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
@@ -90,8 +98,11 @@ class CurrentPage {
 			)
 		));
 		if ($result) {
-			Current::$current['DefaultRolePermission'] = Hash::combine(
+			$result = Hash::combine(
 				$result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission'
+			);
+			Current::$current['DefaultRolePermission'] = Hash::merge(
+				Current::$current['DefaultRolePermission'], $result
 			);
 		}
 	}

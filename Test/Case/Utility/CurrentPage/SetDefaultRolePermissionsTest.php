@@ -133,11 +133,78 @@ class NetCommonsUtilityCurrentPageSetDefaultRolePermissionsTest extends NetCommo
 		$this->assertArrayNotHasKey('DefaultRolePermission', Current::$current);
 
 		$this->CurrentPage->setDefaultRolePermissions();
-		$this->CurrentPage->setDefaultRolePermissions('administrator');
+		$this->CurrentPage->setDefaultRolePermissions('administrator', true);
 
 		//チェック
 		$expected = $this->__assertData('room_administrator');
 		$expected = Hash::merge($expected, $this->__assertData('administrator'));
+		$expected['Permission'] = array(
+			'group_creatable' => array (
+				'id' => '72',
+				'role_key' => 'administrator',
+				'type' => 'user_role',
+				'permission' => 'group_creatable',
+				'value' => true,
+				'fixed' => false,
+			),
+		);
+
+		$this->assertEquals(Current::$current, $expected);
+	}
+
+/**
+ * DefaultRolePermissionが既に存在しているテスト
+ *
+ * @return void
+ */
+	public function testGroupCraetableWithPermission() {
+		//テスト実施
+		Current::$current['RolesRoom']['role_key'] = 'room_administrator';
+		$this->assertArrayNotHasKey('DefaultRolePermission', Current::$current);
+
+		$this->CurrentPage->setDefaultRolePermissions();
+		Current::$current['Permission'] = array(
+			'page_editable' => array(
+				'id' => '1', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'page_editable', 'value' => true, 'fixed' => true,
+			),
+			'block_editable' => array(
+				'id' => '2', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'block_editable', 'value' => true, 'fixed' => true,
+			),
+			'content_readable' => array(
+				'id' => '3', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'content_readable', 'value' => true, 'fixed' => true,
+			),
+		);
+
+		$this->CurrentPage->setDefaultRolePermissions('administrator', true);
+
+		//チェック
+		$expected = $this->__assertData('room_administrator');
+		$expected = Hash::merge($expected, $this->__assertData('administrator'));
+		$expected['Permission'] = array(
+			'page_editable' => array(
+				'id' => '1', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'page_editable', 'value' => true, 'fixed' => true,
+			),
+			'block_editable' => array(
+				'id' => '2', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'block_editable', 'value' => true, 'fixed' => true,
+			),
+			'content_readable' => array(
+				'id' => '3', 'role_key' => 'room_administrator', 'type' => 'room_role',
+				'permission' => 'content_readable', 'value' => true, 'fixed' => true,
+			),
+			'group_creatable' => array (
+				'id' => '72',
+				'role_key' => 'administrator',
+				'type' => 'user_role',
+				'permission' => 'group_creatable',
+				'value' => true,
+				'fixed' => false,
+			),
+		);
 
 		$this->assertEquals(Current::$current, $expected);
 	}
@@ -162,6 +229,20 @@ class NetCommonsUtilityCurrentPageSetDefaultRolePermissionsTest extends NetCommo
 		Current::$current['DefaultRolePermission'] = Hash::remove(
 			Current::$current['DefaultRolePermission'], '{s}.modified_user'
 		);
+		if (isset(Current::$current['Permission'])) {
+			Current::$current['Permission'] = Hash::remove(
+				Current::$current['Permission'], '{s}.created'
+			);
+			Current::$current['Permission'] = Hash::remove(
+				Current::$current['Permission'], '{s}.created_user'
+			);
+			Current::$current['Permission'] = Hash::remove(
+				Current::$current['Permission'], '{s}.modified'
+			);
+			Current::$current['Permission'] = Hash::remove(
+				Current::$current['Permission'], '{s}.modified_user'
+			);
+		}
 
 		$result = array();
 		if ($roleKey === 'administrator') {

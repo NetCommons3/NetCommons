@@ -71,9 +71,11 @@ class CurrentPage {
  * Set BlockRolePermissions
  *
  * @param string $roleKey ロールキー
+ * @param bool $isMerge マージするかどうか
  * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function setDefaultRolePermissions($roleKey = null) {
+	public function setDefaultRolePermissions($roleKey = null, $isMerge = false) {
 		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 
 		if (! isset(Current::$current['DefaultRolePermission'])) {
@@ -104,6 +106,13 @@ class CurrentPage {
 			Current::$current['DefaultRolePermission'] = Hash::merge(
 				Current::$current['DefaultRolePermission'], $result
 			);
+
+			if ($isMerge) {
+				if (! isset(Current::$current['Permission'])) {
+					Current::$current['Permission'] = array();
+				}
+				Current::$current['Permission'] = Hash::merge(Current::$current['Permission'], $result);
+			}
 		}
 	}
 

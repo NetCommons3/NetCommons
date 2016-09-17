@@ -433,7 +433,7 @@ class Current extends CurrentBase {
 		}
 
 		//会員権限に紐づくパーミッションのセット
-		(new CurrentPage())->setDefaultRolePermissions(self::$current['User']['role_key'], true);
+		(new CurrentPage())->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
 	}
 
 /**

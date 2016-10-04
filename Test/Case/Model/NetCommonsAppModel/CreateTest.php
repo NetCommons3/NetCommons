@@ -22,6 +22,7 @@ class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
 	public $fixtures = array(
 		'plugin.site_manager.site_setting',
 		'plugin.net_commons.create_profile',
+		'plugin.net_commons.create_default_value',
 	);
 
 /**
@@ -113,4 +114,76 @@ class NetCommonsAppModelCreateTest extends NetCommonsCakeTestCase {
 		$this->assertEquals($newData, $newDataWithModelName);
 		$this->assertEquals(5, $newData['TestCreateProfile']['language_id']);
 	}
+
+/**
+ * create()でデフォルト値のセットテスト
+ *
+ * @return void
+ */
+	public function testCreateDefaultValue() {
+		//事前準備
+		$Model = ClassRegistry::init('TestNetCommons.TestCreateDefaultValue');
+
+		//テストデータ
+		Current::write('Room.id', '1');
+		Current::write('Language.id', '2');
+		Current::write('Block.id', '3');
+		Current::write('Block.key', 'block_key1');
+		Current::write('Frame.id', '6');
+		Current::write('Frame.key', 'frame_key1');
+
+		$data = array('name' => 'foo');
+
+		//テスト実施
+		$newData = $Model->create($data);
+
+		$expected = array(
+			'TestCreateDefaultValue' => array(
+				'room_id' => '1',
+				'language_id' => '2',
+				'block_id' => '3',
+				'block_key' => 'block_key1',
+				'frame_id' => '6',
+				'frame_key' => 'frame_key1',
+				'plugin_key' => 'test_net_commons',
+				'name' => 'foo',
+				'created_user' => null,
+				'created' => null,
+				'modified_user' => null,
+				'modified' => null,
+			)
+		);
+		$this->assertEquals($newData, $expected);
+	}
+
+/**
+ * useTableがfalseの場合、デフォルト値をセットしないテスト
+ *
+ * @return void
+ */
+	public function testCreateWOTable() {
+		//事前準備
+		$Model = ClassRegistry::init('TestNetCommons.TestCreateNotTable');
+
+		//テストデータ
+		Current::write('Room.id', '1');
+		Current::write('Language.id', '2');
+		Current::write('Block.id', '3');
+		Current::write('Block.key', 'block_key1');
+		Current::write('Frame.id', '6');
+		Current::write('Frame.key', 'frame_key1');
+
+		$data = array('name' => 'foo');
+
+		//テスト実施
+		$newData = $Model->create($data);
+
+		$expected = array(
+			'TestCreateNotTable' => array(
+				'name' => 'foo',
+			)
+		);
+		$this->assertEquals($newData, $expected);
+	}
+
 }

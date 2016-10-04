@@ -243,7 +243,7 @@ class NetCommonsAppModel extends Model {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function create($data = array(), $filterKey = false) {
-		if ($data !== null && $data !== false) {
+		if ($data !== null && $data !== false && $this->useTable !== false) {
 			if (empty($data[$this->alias])) {
 				$data = $this->_setAliasData($data);
 			}
@@ -368,7 +368,8 @@ class NetCommonsAppModel extends Model {
 		foreach ($this->schema() as $fieldName => $fieldDetail) {
 			if ($fieldName !== $this->primaryKey) {
 				if (($fieldDetail['null'] === false) && ($fieldDetail['default'] === null)) {
-					// not nullカラムのdefault指定がなかったら空文字にしておく。 @see https://github.com/NetCommons3/NetCommons3/issues/7
+					// not nullカラムのdefault指定がなかったら空文字にしておく。
+					// @see https://github.com/NetCommons3/NetCommons3/issues/7
 					$options[$fieldName] = '';
 				} else {
 					$options[$fieldName] = $fieldDetail['default'];

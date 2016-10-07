@@ -47,17 +47,7 @@ class CurrentSystem {
 		}
 		$this->Language = ClassRegistry::init('M17n.Language');
 
-		Current::$m17n['Language'] = $this->Language->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'is_active' => true
-			),
-			'order' => array('weight' => 'asc')
-		));
-		if (! Current::$m17n['Language']) {
-			return;
-		}
-
+		Current::$m17n['Language'] = $this->Language->getLanguage();
 		foreach (Current::$m17n['Language'] as $language) {
 			if ($language['Language']['code'] === Configure::read('Config.language')) {
 				Current::$current = Hash::merge(Current::$current, $language);

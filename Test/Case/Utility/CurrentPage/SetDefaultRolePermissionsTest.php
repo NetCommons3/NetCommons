@@ -10,6 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
+App::uses('CurrentPage', 'NetCommons.Utility');
 
 /**
  * CurrentPage::setDefaultRolePermissions()のテスト

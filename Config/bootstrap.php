@@ -44,7 +44,17 @@ App::uses('Router', 'Routing');
 Router::parseExtensions();
 
 //インストールのapplication.ymlがない場合、Noticeになるため
-if (! Configure::read('NetCommons.installed') && CakePlugin::loaded('Install')) {
-	App::uses('InstallUtil', 'Install.Utility');
-	$InstallUtil = new InstallUtil();
+if (! Configure::read('NetCommons.installed')) {
+	if (CakePlugin::loaded('Install')) {
+		App::uses('InstallUtil', 'Install.Utility');
+		$InstallUtil = new InstallUtil();
+	}
+} else {
+	App::uses('CakeSession', 'Model/Datasource');
+	CakeSession::start();
+
+	$debug = CakeSession::read('debug');
+	if (isset($debug) && is_numeric($debug) && $debug !== false) {
+		Configure::write('debug', $debug);
+	}
 }

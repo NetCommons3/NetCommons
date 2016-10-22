@@ -119,6 +119,7 @@ class CurrentFrame {
 		}
 
 		$result = $this->Box->find('first', array(
+			'recursive' => 0,
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),
@@ -127,9 +128,9 @@ class CurrentFrame {
 			return;
 		}
 
-		if ($result['Container']['type'] === Container::TYPE_MAIN) {
-			Current::$current['Page'] = $result['Page'][0];
-		}
+		//if ($result['Container']['type'] === Container::TYPE_MAIN) {
+		//	Current::$current['Page'] = $result['Page'][0];
+		//}
 
 		if (! isset(Current::$current['Room'])) {
 			Current::$current['Room'] = $result['Room'];

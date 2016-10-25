@@ -90,7 +90,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		'plugin.mails.mail_queue',
 		'plugin.mails.mail_queue_user',
 		'plugin.mails.mail_setting',
-		'plugin.pages.languages_page',
+		'plugin.pages.pages_language',
 		'plugin.pages.page',
 		'plugin.plugin_manager.plugin',
 		'plugin.plugin_manager.plugins_role',

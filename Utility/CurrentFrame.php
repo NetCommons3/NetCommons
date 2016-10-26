@@ -136,7 +136,7 @@ class CurrentFrame {
 			Current::$current['Room'] = $result['Room'];
 		}
 
-		Current::$current['Container'] = $result['Container'];
+//		Current::$current['Container'] = $result['Container'];
 	}
 
 /**

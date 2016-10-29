@@ -233,6 +233,13 @@ class CurrentBase {
 	public static $current = array();
 
 /**
+ * Permission data
+ *
+ * @var array
+ */
+	protected static $_permission = array();
+
+/**
  * 指定された$keyの値を返します。
  *
  * 現在のBlockKeyを取得したい場合
@@ -305,14 +312,51 @@ class CurrentBase {
  * ```
  *
  * @param string $key Hashクラスのpath
+ * @param int|null $roomId ルームID
  * @return bool permission value
  */
-	public static function permission($key) {
+	public static function permission($key, $roomId = null) {
 		if (! isset(self::$current)) {
 			return false;
 		}
+
 		$path = 'Permission.' . $key . '.value';
-		return (bool)Hash::get(self::$current, $path);
+		if (Hash::get(self::$_permission, $roomId . '.' . $path) !== null) {
+			return Hash::get(self::$_permission, $roomId . '.' . $path);
+		}
+
+		if (! $roomId || $roomId == Hash::get(self::$current, 'Room.id')) {
+			$result = (bool)self::read($path);
+		} else {
+			$RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
+			$RoomRolePermission->bindModel(array(
+				'belongsTo' => array(
+					'RolesRoomsUser' => array(
+						'className' => 'Rooms.RolesRoomsUser',
+						//'fields' => array('id', 'name'),
+						'foreignKey' => false,
+						'type' => 'LEFT',
+						'conditions' => array(
+							'RolesRoom.id' . ' = ' .  'RolesRoomsUser.roles_room_id',
+						),
+					),
+				)
+			), true);
+
+			$query = array(
+				'recursive' => 0,
+				'conditions' => array(
+					'RolesRoomsUser.user_id' => self::read('User.id'),
+					'RolesRoomsUser.room_id' => $roomId,
+					$RoomRolePermission->alias . '.permission' => $key,
+				),
+			);
+			$roomRolePermission = $RoomRolePermission->find('first', $query);
+			$result = (bool)Hash::get($roomRolePermission, 'RoomRolePermission.value');
+		}
+
+		self::$_permission = Hash::insert(self::$_permission, $roomId . '.' . $path, $result);
+		return $result;
 	}
 
 }

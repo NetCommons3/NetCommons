@@ -157,6 +157,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		Configure::write('Config.language', null);
 		SiteSettingUtil::reset();
 
+		Current::$current = array();
+		Current::$permission = array();
+
 		parent::tearDown();
 	}
 

@@ -237,7 +237,7 @@ class CurrentBase {
  *
  * @var array
  */
-	protected static $_permission = array();
+	public static $permission = array();
 
 /**
  * 指定された$keyの値を返します。
@@ -321,8 +321,8 @@ class CurrentBase {
 		}
 
 		$path = 'Permission.' . $key . '.value';
-		if (Hash::get(self::$_permission, $roomId . '.' . $path) !== null) {
-			return Hash::get(self::$_permission, $roomId . '.' . $path);
+		if (Hash::get(self::$permission, $roomId . '.' . $path) !== null) {
+			return Hash::get(self::$permission, $roomId . '.' . $path);
 		}
 
 		if (! $roomId || $roomId == Hash::get(self::$current, 'Room.id')) {
@@ -355,7 +355,7 @@ class CurrentBase {
 			$result = (bool)Hash::get($roomRolePermission, 'RoomRolePermission.value');
 		}
 
-		self::$_permission = Hash::insert(self::$_permission, $roomId . '.' . $path, $result);
+		self::$permission = Hash::insert(self::$permission, $roomId . '.' . $path, $result);
 		return $result;
 	}
 

@@ -167,6 +167,8 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 
 		Current::$current = array();
+		Current::$permission = array();
+
 		SiteSettingUtil::reset();
 		parent::tearDown();
 	}

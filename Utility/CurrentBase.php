@@ -319,13 +319,16 @@ class CurrentBase {
 		if (! isset(self::$current)) {
 			return false;
 		}
+		if (! $roomId) {
+			$roomId = Hash::get(self::$current, 'Room.id');
+		}
 
 		$path = 'Permission.' . $key . '.value';
 		if (Hash::get(self::$permission, $roomId . '.' . $path) !== null) {
 			return Hash::get(self::$permission, $roomId . '.' . $path);
 		}
 
-		if (! $roomId || $roomId == Hash::get(self::$current, 'Room.id')) {
+		if ($roomId == self::read('Room.id')) {
 			$result = (bool)self::read($path);
 		} else {
 			$RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');

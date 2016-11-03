@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('CurrentFrame', 'NetCommons.Utility');
+
 /**
  * CurrentPage Utility
  *
@@ -231,7 +233,7 @@ class CurrentPage {
 			Current::$current = Hash::merge(Current::$current, $result);
 		}
 
-		$this->setBoxPageContainer();
+		(new CurrentFrame())->setBoxPageContainer();
 	}
 
 /**
@@ -307,45 +309,6 @@ class CurrentPage {
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
-		Current::$current = Hash::merge(Current::$current, $result);
-	}
-
-/**
- * Set BoxPageContainer
- *
- * @return void
- */
-	public function setBoxPageContainer() {
-		if (isset(Current::$current['BoxesPageContainer'])) {
-			return;
-		}
-
-		if (! isset(Current::$current['Box']['id'])) {
-			return;
-		}
-		if (isset(Current::$current['Page'])) {
-			$pageId = Current::$current['Page']['id'];
-		} elseif (! Current::$current['Box']['page_id']) {
-			$pageId = Current::$current['Box']['page_id'];
-		} else {
-			return;
-		}
-
-		$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
-
-		$result = $this->BoxesPageContainer->find('first', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'BoxesPageContainer.box_id' => Current::$current['Box']['id'],
-				'BoxesPageContainer.page_id' => $pageId,
-				'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
-			),
-		));
-		if (! $result) {
-			return;
-		}
-
-		//BoxesPageContainer、Box、PageContainer、Page更新
 		Current::$current = Hash::merge(Current::$current, $result);
 	}
 

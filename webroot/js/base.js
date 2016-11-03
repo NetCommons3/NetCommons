@@ -192,18 +192,15 @@ NetCommonsApp.controller('NetCommons.base',
         console.log('hashChange');
         $($window).bind('hashchange', function() {
           var hash = $location.path();
-        console.log(hash);
           if (! hash) {
             $window.scrollTo(0, 0);
             return;
           }
           var el = $('#' + hash.substr(1));
-        console.log(el);
           if (! el) {
             $window.scrollTo(0, 0);
             return;
           }
-        console.log(el.offset());
           var pos = el.offset().top;
           $window.scrollTo(0, pos - 100);
         }).trigger('hashchange');

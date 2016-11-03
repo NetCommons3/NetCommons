@@ -340,7 +340,7 @@ class CurrentBase {
 						'foreignKey' => false,
 						'type' => 'LEFT',
 						'conditions' => array(
-							'RolesRoom.id' . ' = ' .  'RolesRoomsUser.roles_room_id',
+							'RolesRoom.id' . ' = ' . 'RolesRoomsUser.roles_room_id',
 						),
 					),
 				)

@@ -38,6 +38,7 @@ class CurrentPage {
 			}
 			$this->setRoom($roomId);
 		}
+
 		$this->setPage();
 		$this->setPageByRoomPageTopId();
 		$this->setRolesRoomsUser();
@@ -169,6 +170,10 @@ class CurrentPage {
 			}
 			$conditions = array($field => $value);
 
+		} elseif (Hash::get(Current::$request->query, 'page_id')) {
+			$pageId = Hash::get(Current::$request->query, 'page_id');
+			$conditions = array('Page.id' => $pageId);
+
 		} elseif (in_array(Current::$request->params['plugin'],
 								[Current::PLUGIN_USERS, Current::PLUGIN_GROUPS], true) &&
 					! Current::$request->is('ajax')) {
@@ -225,6 +230,8 @@ class CurrentPage {
 			));
 			Current::$current = Hash::merge(Current::$current, $result);
 		}
+
+		$this->setBoxPageContainer();
 	}
 
 /**
@@ -302,4 +309,44 @@ class CurrentPage {
 		));
 		Current::$current = Hash::merge(Current::$current, $result);
 	}
+
+/**
+ * Set BoxPageContainer
+ *
+ * @return void
+ */
+	public function setBoxPageContainer() {
+		if (isset(Current::$current['BoxesPageContainer'])) {
+			return;
+		}
+
+		if (! isset(Current::$current['Box']['id'])) {
+			return;
+		}
+		if (isset(Current::$current['Page'])) {
+			$pageId = Current::$current['Page']['id'];
+		} elseif (! Current::$current['Box']['page_id']) {
+			$pageId = Current::$current['Box']['page_id'];
+		} else {
+			return;
+		}
+
+		$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
+
+		$result = $this->BoxesPageContainer->find('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'BoxesPageContainer.box_id' => Current::$current['Box']['id'],
+				'BoxesPageContainer.page_id' => $pageId,
+				'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
+			),
+		));
+		if (! $result) {
+			return;
+		}
+
+		//BoxesPageContainer、Box、PageContainer、Page更新
+		Current::$current = Hash::merge(Current::$current, $result);
+	}
+
 }

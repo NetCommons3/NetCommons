@@ -10,6 +10,7 @@
  */
 
 App::uses('Container', 'Containers.Model');
+App::uses('CurrentPage', 'NetCommons.Utility');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 
 /**
@@ -97,7 +98,7 @@ class CurrentFrame {
 			Current::$current['Block'] = $this->Block->create()['Block'];
 		}
 
-		$this->setPageByBox();
+		$this->setBox();
 	}
 
 /**
@@ -105,21 +106,18 @@ class CurrentFrame {
  *
  * @return void
  */
-	public function setPageByBox() {
+	public function setBox() {
 		if (isset(Current::$current['Box']['id'])) {
 			$boxId = Current::$current['Box']['id'];
 		} elseif (isset(Current::$request->data['Frame']) &&
 					isset(Current::$request->data['Frame']['box_id'])) {
 			$boxId = Current::$request->data['Frame']['box_id'];
-		} elseif (isset(Current::$request->data['Box']) &&
-					isset(Current::$request->data['Box']['id'])) {
-			$boxId = Current::$request->data['Box']['id'];
 		} else {
 			return;
 		}
 
 		$result = $this->Box->find('first', array(
-			'recursive' => 0,
+			'recursive' => -1,
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),
@@ -128,8 +126,11 @@ class CurrentFrame {
 			return;
 		}
 
-		if (! isset(Current::$current['Room'])) {
-			Current::$current['Room'] = $result['Room'];
+		//Box、Room、Space更新
+		Current::$current = Hash::merge(Current::$current, $result);
+
+		if (Current::$current['Box']['page_id']) {
+			(new CurrentPage())->setBoxPageContainer();
 		}
 	}
 

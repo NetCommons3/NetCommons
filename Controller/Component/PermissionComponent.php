@@ -232,7 +232,7 @@ class PermissionComponent extends Component {
 				$plugin = Inflector::camelize($space['Space']['plugin_key']);
 				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
 				if (! method_exists($this->SpaceComponent, 'accessCheck')) {
-					return false;
+					return true;
 				}
 				if (! $this->SpaceComponent->accessCheck($controller)) {
 					return false;

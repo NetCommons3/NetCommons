@@ -77,10 +77,8 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.blocks.block_setting',
 		'plugin.boxes.box',
-		'plugin.boxes.boxes_page',
+		'plugin.boxes.boxes_page_container',
 		'plugin.categories.category',
-		'plugin.containers.container',
-		'plugin.containers.containers_page',
 		'plugin.data_types.data_type',
 		'plugin.data_types.data_type_choice',
 		'plugin.files.upload_file',
@@ -90,8 +88,9 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		'plugin.mails.mail_queue',
 		'plugin.mails.mail_queue_user',
 		'plugin.mails.mail_setting',
-		'plugin.pages.languages_page',
+		'plugin.pages.pages_language',
 		'plugin.pages.page',
+		'plugin.pages.page_container',
 		'plugin.plugin_manager.plugin',
 		'plugin.plugin_manager.plugins_role',
 		'plugin.plugin_manager.plugins_room',
@@ -168,6 +167,8 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 
 		Current::$current = array();
+		Current::$permission = array();
+
 		SiteSettingUtil::reset();
 		parent::tearDown();
 	}

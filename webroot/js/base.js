@@ -189,6 +189,7 @@ NetCommonsApp.controller('NetCommons.base',
        * @return {void}
        */
       $scope.hashChange = function() {
+        console.log('hashChange');
         $($window).bind('hashchange', function() {
           var hash = $location.path();
           if (! hash) {

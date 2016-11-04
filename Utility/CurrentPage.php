@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('CurrentFrame', 'NetCommons.Utility');
+
 /**
  * CurrentPage Utility
  *
@@ -38,6 +40,7 @@ class CurrentPage {
 			}
 			$this->setRoom($roomId);
 		}
+
 		$this->setPage();
 		$this->setPageByRoomPageTopId();
 		$this->setRolesRoomsUser();
@@ -169,6 +172,10 @@ class CurrentPage {
 			}
 			$conditions = array($field => $value);
 
+		} elseif (Hash::get(Current::$request->query, 'page_id')) {
+			$pageId = Hash::get(Current::$request->query, 'page_id');
+			$conditions = array('Page.id' => $pageId);
+
 		} elseif (in_array(Current::$request->params['plugin'],
 								[Current::PLUGIN_USERS, Current::PLUGIN_GROUPS], true) &&
 					! Current::$request->is('ajax')) {
@@ -225,6 +232,8 @@ class CurrentPage {
 			));
 			Current::$current = Hash::merge(Current::$current, $result);
 		}
+
+		(new CurrentFrame())->setBoxPageContainer();
 	}
 
 /**
@@ -302,4 +311,5 @@ class CurrentPage {
 		));
 		Current::$current = Hash::merge(Current::$current, $result);
 	}
+
 }

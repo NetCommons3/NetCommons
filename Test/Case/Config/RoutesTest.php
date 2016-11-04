@@ -25,12 +25,11 @@ class RoutesTest extends NetCommonsRoutesTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.pages.box4pages',
-		'plugin.pages.boxes_page4routes',
-		'plugin.pages.container4pages',
-		'plugin.pages.containers_page4routes',
+		'plugin.pages.box4routes',
+		'plugin.pages.boxes_page_container4routes',
+		'plugin.pages.page_container4routes',
 		'plugin.pages.frame4pages',
-		'plugin.pages.languages_page4pages',
+		'plugin.pages.pages_language4pages',
 		'plugin.pages.page4routes',
 		'plugin.pages.plugin4pages',
 		'plugin.pages.plugins_room4pages',

@@ -97,7 +97,7 @@ class CurrentFrame {
 			Current::$current['Block'] = $this->Block->create()['Block'];
 		}
 
-		$this->setPageByBox();
+		$this->setBox();
 	}
 
 /**
@@ -105,21 +105,18 @@ class CurrentFrame {
  *
  * @return void
  */
-	public function setPageByBox() {
+	public function setBox() {
 		if (isset(Current::$current['Box']['id'])) {
 			$boxId = Current::$current['Box']['id'];
 		} elseif (isset(Current::$request->data['Frame']) &&
 					isset(Current::$request->data['Frame']['box_id'])) {
 			$boxId = Current::$request->data['Frame']['box_id'];
-		} elseif (isset(Current::$request->data['Box']) &&
-					isset(Current::$request->data['Box']['id'])) {
-			$boxId = Current::$request->data['Box']['id'];
 		} else {
 			return;
 		}
 
 		$result = $this->Box->find('first', array(
-			'recursive' => 0,
+			'recursive' => -1,
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),
@@ -128,15 +125,49 @@ class CurrentFrame {
 			return;
 		}
 
-		//if ($result['Container']['type'] === Container::TYPE_MAIN) {
-		//	Current::$current['Page'] = $result['Page'][0];
-		//}
+		//Box、Room、Space更新
+		Current::$current = Hash::merge(Current::$current, $result);
 
-		if (! isset(Current::$current['Room'])) {
-			Current::$current['Room'] = $result['Room'];
+		$this->setBoxPageContainer();
+	}
+
+/**
+ * Set BoxPageContainer
+ *
+ * @return void
+ */
+	public function setBoxPageContainer() {
+		if (isset(Current::$current['BoxesPageContainer'])) {
+			return;
 		}
 
-		Current::$current['Container'] = $result['Container'];
+		if (! isset(Current::$current['Box']['id'])) {
+			return;
+		}
+		if (isset(Current::$current['Page'])) {
+			$pageId = Current::$current['Page']['id'];
+		} elseif (! Current::$current['Box']['page_id']) {
+			$pageId = Current::$current['Box']['page_id'];
+		} else {
+			return;
+		}
+
+		$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
+
+		$result = $this->BoxesPageContainer->find('first', array(
+			'recursive' => 0,
+			'conditions' => array(
+				'BoxesPageContainer.box_id' => Current::$current['Box']['id'],
+				'BoxesPageContainer.page_id' => $pageId,
+				'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
+			),
+		));
+		if (! $result) {
+			return;
+		}
+
+		//BoxesPageContainer、Box、PageContainer、Page更新
+		Current::$current = Hash::merge(Current::$current, $result);
 	}
 
 /**

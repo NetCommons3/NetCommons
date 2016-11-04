@@ -71,9 +71,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.blocks.block_role_permission',
 		'plugin.blocks.block_setting',
 		'plugin.boxes.box',
-		'plugin.boxes.boxes_page',
-		'plugin.containers.container',
-		'plugin.containers.containers_page',
+		'plugin.boxes.boxes_page_container',
 		'plugin.data_types.data_type',
 		'plugin.data_types.data_type_choice',
 		'plugin.files.upload_file',
@@ -84,6 +82,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.mails.mail_queue_user',
 		'plugin.mails.mail_setting',
 		'plugin.pages.page',
+		'plugin.pages.page_container',
 		'plugin.plugin_manager.plugin',
 		//'plugin.plugin_manager.plugins_role',
 		//'plugin.roles.default_role_permission',
@@ -157,6 +156,9 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
 		SiteSettingUtil::reset();
+
+		Current::$current = array();
+		Current::$permission = array();
 
 		parent::tearDown();
 	}

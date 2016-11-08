@@ -27,12 +27,11 @@ class NetCommonsTestSuite extends CakeTestSuite {
 	public static $plugin;
 
 /**
- * Recursively adds all the files in a directory to the test suite.
+ * テストDBの作成
  *
- * @param string $directory The directory subtree to add tests from.
  * @return void
  */
-	public function addTestDirectoryRecursive($directory = '.') {
+	public function creteTestDb() {
 		$dbObject = ConnectionManager::enumConnectionObjects();
 		switch ($dbObject['test']['datasource']) {
 			case 'Database/Mysql':
@@ -60,6 +59,16 @@ class NetCommonsTestSuite extends CakeTestSuite {
 				Hash::get($dbObject['test'], 'encoding', 'utf8')
 			)
 		);
+	}
+
+/**
+ * Recursively adds all the files in a directory to the test suite.
+ *
+ * @param string $directory The directory subtree to add tests from.
+ * @return void
+ */
+	public function addTestDirectoryRecursive($directory = '.') {
+		$this->creteTestDb();
 
 		$Folder = new Folder($directory);
 		$files = $Folder->tree(null, true, 'files');

@@ -53,15 +53,6 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 	protected $_isFixtureMerged = true;
 
 /**
- * CakePHPv2.5.7以前は強制的にtruncateされていたため、同テーブルで別名のFixtureが定義されていても動作していたが、
- * dropTables=falseにしないとtruncateしなくなった。
- *
- * @var bool
- * @see https://github.com/cakephp/cakephp/blob/2.8.7/lib/Cake/TestSuite/Fixture/CakeFixtureManager.php#L232-L234
- */
-	public $dropTables = false;
-
-/**
  * Fixtures
  *
  * @var array

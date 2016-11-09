@@ -85,7 +85,7 @@ class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
 
 		$helperClass = $helper . 'Helper';
 		App::uses($helperClass, Inflector::camelize($this->plugin) . '.View/Helper');
-		$CakeRequest = new CakeRequest(null, false);
+		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
 		$Controller = new AppController($CakeRequest, $CakeResponse);
 		$Controller->set($viewVars);

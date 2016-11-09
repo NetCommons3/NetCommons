@@ -146,7 +146,7 @@ class CurrentFrame {
 		}
 		if (isset(Current::$current['Page'])) {
 			$pageId = Current::$current['Page']['id'];
-		} elseif (! Current::$current['Box']['page_id']) {
+		} elseif (Current::$current['Box']['page_id']) {
 			$pageId = Current::$current['Box']['page_id'];
 		} else {
 			return;

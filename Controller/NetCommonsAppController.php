@@ -133,7 +133,9 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
-		$this->request->allowMethod('get', 'post', 'put', 'delete');
+		if (empty($this->request->params['requested'])) {
+			$this->request->allowMethod('get', 'post', 'put', 'delete');
+		}
 
 		Security::setHash('sha512');
 

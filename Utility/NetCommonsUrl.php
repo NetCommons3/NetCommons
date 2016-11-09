@@ -61,9 +61,16 @@ class NetCommonsUrl {
 			if (Current::read('Block.id')) {
 				$url .= '/' . Current::read('Block.id');
 			}
+
+			$urlQuery = '';
 			if (Current::read('Frame.id')) {
-				$url .= '?frame_id=' . Current::read('Frame.id');
+				$urlQuery .= '&frame_id=' . Current::read('Frame.id');
 			}
+			if (Current::read('Page.id')) {
+				$urlQuery .= '&page_id=' . Current::read('Page.id');
+			}
+
+			$url = $url . '?' . substr($urlQuery, 1);
 		}
 		return $url;
 	}
@@ -120,6 +127,11 @@ class NetCommonsUrl {
 		if (isset($params['frame_id'])) {
 			$query['?']['frame_id'] = $params['frame_id'];
 			unset($params['frame_id']);
+		}
+
+		if (isset($params['page_id'])) {
+			$query['?']['page_id'] = $params['page_id'];
+			unset($params['page_id']);
 		}
 		return Hash::merge($url, $query, $params);
 	}
@@ -213,6 +225,8 @@ class NetCommonsUrl {
  * @param bool $isArray 配列で戻すかどうか
  * @return array|string block url
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public static function blockUrl($url = array(), $isArray = true) {
 		if (!is_array($url)) {
@@ -237,6 +251,15 @@ class NetCommonsUrl {
 		} elseif (Current::read('Frame.id')) {
 			//デフォルト、Current::readの値を使用
 			$url['?']['frame_id'] = Current::read('Frame.id');
+		}
+
+		if (isset($url['page_id'])) {
+			//$url['page_id']がある場合、パラメータとするように設定
+			$url['?']['page_id'] = $url['page_id'];
+			unset($url['page_id']);
+		} elseif (Current::read('Page.id')) {
+			//デフォルト、Current::readの値を使用
+			$url['?']['page_id'] = Current::read('Page.id');
 		}
 
 		if ($isArray) {

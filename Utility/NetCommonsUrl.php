@@ -70,7 +70,9 @@ class NetCommonsUrl {
 				$urlQuery .= '&page_id=' . Current::read('Page.id');
 			}
 
-			$url = $url . '?' . substr($urlQuery, 1);
+			if ($urlQuery) {
+				$url = $url . '?' . substr($urlQuery, 1);
+			}
 		}
 		return $url;
 	}

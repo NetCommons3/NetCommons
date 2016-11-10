@@ -66,7 +66,7 @@ class NetCommonsUrl {
 			if (Current::read('Frame.id')) {
 				$urlQuery .= '&frame_id=' . Current::read('Frame.id');
 			}
-			if (Current::read('Page.id')) {
+			if (Current::read('Page.id') && ! Current::read('Box.page_id')) {
 				$urlQuery .= '&page_id=' . Current::read('Page.id');
 			}
 
@@ -257,7 +257,7 @@ class NetCommonsUrl {
 			//$url['page_id']がある場合、パラメータとするように設定
 			$url['?']['page_id'] = $url['page_id'];
 			unset($url['page_id']);
-		} elseif (Current::read('Page.id')) {
+		} elseif (Current::read('Page.id') && ! Current::read('Box.page_id')) {
 			//デフォルト、Current::readの値を使用
 			$url['?']['page_id'] = Current::read('Page.id');
 		}

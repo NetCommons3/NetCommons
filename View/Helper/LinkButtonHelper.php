@@ -52,7 +52,7 @@ class LinkButtonHelper extends FormHelper {
 				$url = array(
 					'action' => 'add',
 					'frame_id' => Current::read('Frame.id'),
-					'page_id' => Current::read('Page.id'),
+					//'page_id' => Current::read('Page.id'),
 				);
 				if (isset($this->_View->viewVars['addActionController'])) {
 					$url['controller'] = $this->_View->viewVars['addActionController'];

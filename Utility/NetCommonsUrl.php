@@ -127,6 +127,12 @@ class NetCommonsUrl {
 		if (isset($params['frame_id'])) {
 			$query['?']['frame_id'] = $params['frame_id'];
 			unset($params['frame_id']);
+
+			if (Current::read('Page.id') && ! Current::read('Box.page_id')) {
+				//デフォルト、Current::readの値を使用
+				$url['?']['page_id'] = Current::read('Page.id');
+				$params = Hash::remove($params, 'page_id');
+			}
 		}
 
 		if (isset($params['page_id'])) {

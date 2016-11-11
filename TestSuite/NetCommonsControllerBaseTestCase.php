@@ -221,6 +221,21 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
+ * Viewの結果をスペース等のパースを行う
+ *
+ * @param string $view Viewの結果
+ * @return string
+ */
+	protected function _parseView($view) {
+		$view = preg_replace('/[>][\s\t]+([^a-z])/u', '>$1', $view);
+		$view = preg_replace('/[\s\t]+</u', '<', $view);
+		$view = preg_replace('/[\s\t]+/u', ' ', $view);
+		$view = str_replace("\n", '', $view);
+		$view = trim($view);
+		return $view;
+	}
+
+/**
  * 日時の評価
  *
  * @param string $result 期待値

@@ -128,7 +128,7 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
  * @param bool $created 作成かどうか
  * @return array
  */
-	public function _getExpected($id, $data, $before, $created) {
+	protected function _getExpected($id, $data, $before, $created) {
 		$model = $this->_modelName;
 
 		if ($created && $this->$model->hasField('key')) {

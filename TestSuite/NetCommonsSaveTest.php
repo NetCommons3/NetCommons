@@ -54,8 +54,10 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 			$this->_keyAlias = $this->$model->alias;
 		}
 
+		$created = !isset($data[$this->$model->alias]['id']);
+
 		//チェック用データ取得
-		if (isset($data[$this->$model->alias]['id'])) {
+		if (! $created) {
 			$before = $this->$model->find('first', array(
 				'recursive' => -1,
 				'conditions' => array('id' => $data[$this->$model->alias]['id']),
@@ -66,6 +68,7 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 				'fields' => array('id'),
 				'order' => array('id' => 'desc'),
 			));
+			$before[$this->$model->alias] = array();
 		}
 
 		//テスト実行
@@ -81,39 +84,68 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 			$id = $this->$model->getLastInsertID();
 		}
 
+		//チェック
+		$actual = $this->_getActual($id, $created);
+		$expected = $this->_getExpected($id, $data, $before, $created);
+		$this->assertEquals($expected, $actual);
+	}
+
+/**
+ * 結果データ取得
+ *
+ * @param int $id ID
+ * @param bool $created 作成かどうか
+ * @return array
+ */
+	protected function _getActual($id, $created) {
+		$model = $this->_modelName;
+
 		//登録データ取得
 		$actual = $this->$model->find('first', array(
 			'recursive' => -1,
 			'conditions' => array('id' => $id),
 		));
 
-		if (isset($data[$this->$model->alias]['id'])) {
-			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
-			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
-		} else {
+		if ($created) {
 			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created');
 			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'created_user');
 			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
 			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
-
-			if ($this->$model->hasField('key')) {
-				$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey(
-					$this->_keyAlias, $this->$model->useDbConfig
-				);
-			}
-			$before[$this->$model->alias] = array();
+		} else {
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified');
+			$actual[$this->$model->alias] = Hash::remove($actual[$this->$model->alias], 'modified_user');
 		}
+
+		return $actual;
+	}
+
+/**
+ * 期待値の取得
+ *
+ * @param int $id ID
+ * @param array $data 登録データ
+ * @param array $before 登録前データ
+ * @param bool $created 作成かどうか
+ * @return array
+ */
+	protected function _getExpected($id, $data, $before, $created) {
+		$model = $this->_modelName;
+
+		if ($created && $this->$model->hasField('key')) {
+			$data[$this->$model->alias]['key'] = OriginalKeyBehavior::generateKey(
+				$this->_keyAlias, $this->$model->useDbConfig
+			);
+		}
+
 		$expected[$this->$model->alias] = Hash::merge(
 			$before[$this->$model->alias],
-			$data[$this->$model->alias],
-			array(
-				'id' => $id,
-			)
+			$data[$this->$model->alias]
 		);
+		$expected[$this->$model->alias]['id'] = $id;
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');
 
-		$this->assertEquals($expected, $actual);
+		return $expected;
 	}
 
 /**

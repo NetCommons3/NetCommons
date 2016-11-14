@@ -37,6 +37,9 @@ class CurrentFrame {
  * @return void
  */
 	public function initialize() {
+		if (isset(Current::$current['Room'])) {
+			unset(Current::$current['Room']);
+		}
 		if (isset(Current::$current['Frame'])) {
 			unset(Current::$current['Frame']);
 		}
@@ -45,6 +48,9 @@ class CurrentFrame {
 		}
 		if (isset(Current::$current['BlockRolePermission'])) {
 			unset(Current::$current['BlockRolePermission']);
+		}
+		if (isset(Current::$m17n['Room'])) {
+			unset(Current::$m17n['Room']);
 		}
 		if (isset(Current::$m17n['Frame'])) {
 			unset(Current::$m17n['Frame']);
@@ -85,6 +91,7 @@ class CurrentFrame {
 		$this->Frame = ClassRegistry::init('Frames.Frame');
 		$this->Box = ClassRegistry::init('Boxes.Box');
 		$this->Block = ClassRegistry::init('Blocks.Block');
+var_dump($frameId);
 
 		if (isset($frameId)) {
 			$result = $this->Frame->findById($frameId);

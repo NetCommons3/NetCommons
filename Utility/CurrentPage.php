@@ -193,20 +193,36 @@ class CurrentPage {
 	}
 
 /**
+ * ページ取得
+ *
+ * @return array 条件配列
+ */
+	private function __getPage($query) {
+		$this->Page = ClassRegistry::init('Pages.Page');
+
+		if (isset(Current::$current['Room'])) {
+			$this->Page->unbindModel(array(
+				'belongsTo' => array('Room'),
+			), true);
+		}
+
+		return $this->Page->find('first', $query);
+	}
+
+/**
  * Set Page
  *
  * @return bool
  */
 	public function setPage() {
 		$this->Page = ClassRegistry::init('Pages.Page');
-
 		if (isset(Current::$current['Page'])) {
 			return;
 		}
 
 		$conditions = $this->__getPageConditions();
 		if ($conditions) {
-			$result = $this->Page->find('first', array(
+			$result = $this->__getPage(array(
 				'recursive' => 0,
 				'conditions' => $conditions,
 				'order' => array('Page.lft' => 'asc')
@@ -226,7 +242,7 @@ class CurrentPage {
 			$pageId = null;
 		}
 		if ($pageId) {
-			$result = $this->Page->find('first', array(
+			$result = $this->__getPage(array(
 				'recursive' => 0,
 				'conditions' => array('Page.id' => $pageId),
 			));

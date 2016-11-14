@@ -284,7 +284,7 @@ class CurrentPage {
 		}
 		$this->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
 
-		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
+		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'));
 		Current::$current['PluginsRoom'] = $result;
 	}
 

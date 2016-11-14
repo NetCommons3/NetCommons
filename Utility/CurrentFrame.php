@@ -37,27 +37,7 @@ class CurrentFrame {
  * @return void
  */
 	public function initialize() {
-		if (isset(Current::$current['Room'])) {
-			unset(Current::$current['Room']);
-		}
-		if (isset(Current::$current['Frame'])) {
-			unset(Current::$current['Frame']);
-		}
-		if (isset(Current::$current['Block'])) {
-			unset(Current::$current['Block']);
-		}
-		if (isset(Current::$current['BlockRolePermission'])) {
-			unset(Current::$current['BlockRolePermission']);
-		}
-		if (isset(Current::$m17n['Room'])) {
-			unset(Current::$m17n['Room']);
-		}
-		if (isset(Current::$m17n['Frame'])) {
-			unset(Current::$m17n['Frame']);
-		}
-		if (isset(Current::$m17n['Block'])) {
-			unset(Current::$m17n['Block']);
-		}
+		$this->clear();
 
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
 			$this->setFrame();
@@ -68,6 +48,25 @@ class CurrentFrame {
 		(new CurrentPage())->initialize();
 
 		$this->setBlockRolePermissions();
+	}
+
+/**
+ * setup current data
+ *
+ * @return void
+ */
+	public function clear() {
+		foreach (['Room', 'Frame', 'Block'] as $model) {
+			if (isset(Current::$current[$model])) {
+				unset(Current::$current[$model]);
+			}
+			if (isset(Current::$m17n[$model])) {
+				unset(Current::$m17n[$model]);
+			}
+		}
+		if (isset(Current::$current['BlockRolePermission'])) {
+			unset(Current::$current['BlockRolePermission']);
+		}
 	}
 
 /**
@@ -91,7 +90,6 @@ class CurrentFrame {
 		$this->Frame = ClassRegistry::init('Frames.Frame');
 		$this->Box = ClassRegistry::init('Boxes.Box');
 		$this->Block = ClassRegistry::init('Blocks.Block');
-var_dump($frameId);
 
 		if (isset($frameId)) {
 			$result = $this->Frame->findById($frameId);

@@ -195,6 +195,7 @@ class CurrentPage {
 /**
  * ページ取得
  *
+ * @param array $query クエリ
  * @return array 条件配列
  */
 	private function __getPage($query) {

@@ -193,20 +193,37 @@ class CurrentPage {
 	}
 
 /**
+ * ページ取得
+ *
+ * @param array $query クエリ
+ * @return array 条件配列
+ */
+	private function __getPage($query) {
+		$this->Page = ClassRegistry::init('Pages.Page');
+
+		if (isset(Current::$current['Room'])) {
+			$this->Page->unbindModel(array(
+				'belongsTo' => array('Room'),
+			), true);
+		}
+
+		return $this->Page->find('first', $query);
+	}
+
+/**
  * Set Page
  *
  * @return bool
  */
 	public function setPage() {
 		$this->Page = ClassRegistry::init('Pages.Page');
-
 		if (isset(Current::$current['Page'])) {
 			return;
 		}
 
 		$conditions = $this->__getPageConditions();
 		if ($conditions) {
-			$result = $this->Page->find('first', array(
+			$result = $this->__getPage(array(
 				'recursive' => 0,
 				'conditions' => $conditions,
 				'order' => array('Page.lft' => 'asc')
@@ -226,7 +243,7 @@ class CurrentPage {
 			$pageId = null;
 		}
 		if ($pageId) {
-			$result = $this->Page->find('first', array(
+			$result = $this->__getPage(array(
 				'recursive' => 0,
 				'conditions' => array('Page.id' => $pageId),
 			));
@@ -268,7 +285,7 @@ class CurrentPage {
 		}
 		$this->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
 
-		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'), Current::read('Language.id'));
+		$result = $this->PluginsRoom->getPlugins(Current::read('Room.id'));
 		Current::$current['PluginsRoom'] = $result;
 	}
 

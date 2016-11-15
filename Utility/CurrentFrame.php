@@ -121,7 +121,7 @@ class CurrentFrame {
 		}
 
 		$result = $this->Box->find('first', array(
-			'recursive' => -1,
+			'recursive' => 0,
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),

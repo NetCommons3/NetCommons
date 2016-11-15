@@ -18,6 +18,10 @@
 	display: inline-block;
 }
 
+.img-responsive.nc3-img.inline {
+	display: inline;
+}
+
 .display-number-dropdown-toggle {
 	min-width: 125px;
 	max-width: 300px;

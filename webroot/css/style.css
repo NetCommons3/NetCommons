@@ -18,7 +18,7 @@
 	display: inline-block;
 }
 
-.img-responsive.nc3-img.nc3-inline {
+.img-responsive.nc3-img:not(.center-block) {
 	display: inline;
 }
 

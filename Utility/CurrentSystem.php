@@ -47,23 +47,12 @@ class CurrentSystem {
 		}
 		$this->Language = ClassRegistry::init('M17n.Language');
 
-		Current::$m17n['Language'] = $this->Language->getLanguage();
-		foreach (Current::$m17n['Language'] as $language) {
-			if ($language['Language']['code'] === Configure::read('Config.language')) {
-				Current::$current = Hash::merge(Current::$current, $language);
-			}
-		}
-	}
-
-/**
- * 言語データを取得
- *
- * @return void
- */
-	public function getLanguages() {
-		$this->setLanguage();
-
-		return Current::$m17n['Language'];
+		$language = $this->Language->getLanguage('first', array(
+			'conditions' => array(
+				'code' => Configure::read('Config.language'),
+			)
+		));
+		Current::$current['Language'] = $language['Language'];
 	}
 
 /**

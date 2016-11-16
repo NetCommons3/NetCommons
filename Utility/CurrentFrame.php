@@ -42,7 +42,6 @@ class CurrentFrame {
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
 			$this->setFrame();
 			$this->setBlock();
-			$this->setM17n();
 		}
 
 		(new CurrentPage())->initialize();
@@ -56,16 +55,10 @@ class CurrentFrame {
  * @return void
  */
 	public function clear() {
-		foreach (['Room', 'Frame', 'Block'] as $model) {
+		foreach (['Room', 'Frame', 'Block', 'BlockRolePermission'] as $model) {
 			if (isset(Current::$current[$model])) {
 				unset(Current::$current[$model]);
 			}
-			if (isset(Current::$m17n[$model])) {
-				unset(Current::$m17n[$model]);
-			}
-		}
-		if (isset(Current::$current['BlockRolePermission'])) {
-			unset(Current::$current['BlockRolePermission']);
 		}
 	}
 
@@ -303,33 +296,6 @@ class CurrentFrame {
 		}
 
 		Current::$current['Permission'] = $permission;
-	}
-
-/**
- * 多言語化のデータ取得
- *
- * @return void
- */
-	public function setM17n() {
-		if (isset(Current::$current['Frame'])) {
-			$this->Frame = ClassRegistry::init('Frames.Frame');
-			Current::$m17n['Frame'] = $this->Frame->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'key' => Current::$current['Frame']['key']
-				),
-			));
-		}
-
-		if (isset(Current::$current['Block'])) {
-			$this->Block = ClassRegistry::init('Blocks.Block');
-			Current::$m17n['Block'] = $this->Block->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'key' => Current::$current['Block']['key']
-				),
-			));
-		}
 	}
 
 }

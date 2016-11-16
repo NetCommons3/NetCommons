@@ -287,13 +287,6 @@ class Current extends CurrentBase {
 	protected static $_instance;
 
 /**
- * M17n data
- *
- * @var array
- */
-	public static $m17n = array();
-
-/**
  * setup current data
  *
  * @param Controller $controller コントローラ
@@ -334,43 +327,6 @@ class Current extends CurrentBase {
 
 		//会員権限に紐づくパーミッションのセット
 		(new CurrentPage())->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
-	}
-
-/**
- * 多言語のデータ取得
- *
- * @param string|null $languageId 言語ID
- * @param string|null $model モデル名
- * @param string|null $field フィールド名
- * @return mixed Currentデータ
- */
-	public static function readM17n($languageId, $model = null, $field = null) {
-		if (! isset(self::$m17n)) {
-			return self::$m17n;
-		}
-
-		if (! isset($model)) {
-			return self::$m17n;
-		}
-
-		if (! isset(self::$m17n[$model])) {
-			return null;
-		}
-		if (! isset($languageId)) {
-			return self::$m17n[$model];
-		}
-
-		$pathKey = $model . '.{n}.' . $model . '[language_id=' . $languageId . ']';
-		$result = Hash::extract(self::$m17n, $pathKey);
-		if (! $result) {
-			return null;
-		}
-
-		if (! isset($field)) {
-			return array($model => $result[0]);
-		} else {
-			return $result[0][$field];
-		}
 	}
 
 /**

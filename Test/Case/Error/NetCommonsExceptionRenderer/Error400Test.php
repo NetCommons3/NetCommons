@@ -45,6 +45,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 	public function setUp() {
 		parent::setUp();
 		Current::$current['Language']['id'] = '2';
+		Configure::write('debug', 0);
 	}
 
 /**
@@ -119,8 +120,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testMissingControllerExceptionWOLogin() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new MissingControllerException('TestMissingController')
 		);
@@ -140,8 +139,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testMissingControllerExceptionWithLogin() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new MissingControllerException('TestMissingController')
 		);
@@ -169,8 +166,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testMissingControllerExceptionWithLoginWOPage1() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new MissingControllerException('TestMissingController')
 		);
@@ -202,8 +197,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testMissingControllerExceptionWithLoginWOPage2() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new MissingControllerException('TestMissingController')
 		);
@@ -235,8 +228,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testBlackHoleException() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new BadRequestException('The request has been black-holed')
 		);
@@ -258,8 +249,6 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function testBlackHoleExceptionAjax() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new BadRequestException('The request has been black-holed')
 		);

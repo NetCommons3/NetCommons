@@ -19,8 +19,7 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>
-		<?php echo $code . ' ' . $name; ?> -
-		<?php echo SiteSettingUtil::read('App.site_name'); ?>:
+		<?php echo SiteSettingUtil::read('App.site_name'); ?>
 	</title>
 	<?php
 		echo $this->html->meta('icon', '/net_commons/favicon.ico');

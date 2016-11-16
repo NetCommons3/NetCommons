@@ -30,6 +30,13 @@ class OriginalKeyBehavior extends ModelBehavior {
 	);
 
 /**
+ * PHPUnitで使用するキー配列
+ *
+ * @var mixed
+ */
+	public static $unitTestKeys;
+
+/**
  * beforeSave is called before a model is saved. Returning false from a beforeSave callback
  * will abort the save operation.
  *
@@ -90,7 +97,15 @@ class OriginalKeyBehavior extends ModelBehavior {
 		if ($dataSource !== 'test') {
 			return Security::hash($plugin . mt_rand() . microtime(), 'md5');
 		} else {
-			return Security::hash($plugin, 'md5');
+			if (! self::$unitTestKeys) {
+				self::$unitTestKeys = array();
+			}
+			if (! isset(self::$unitTestKeys[$plugin])) {
+				self::$unitTestKeys[$plugin] = Security::hash($plugin, 'md5');
+				return self::$unitTestKeys[$plugin];
+			} else {
+				return Security::hash($plugin . mt_rand() . microtime(), 'md5');
+			}
 		}
 	}
 

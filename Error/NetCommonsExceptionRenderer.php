@@ -80,7 +80,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$redirect = '/net_commons/site_close/index';
 			$this->controller->Session->destroy();
 
-		} elseif ($message === 'Permission denied' || $error->getCode() === 403) {
+		} elseif ($this->__is403And404($error)) {
 			list($redirect, $redirectUrl) = $this->__get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {
 				$this->controller->Auth->redirectUrl($redirectUrl);
@@ -118,8 +118,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d(
 				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
 			);
-		} elseif ($message === 'Permission denied' ||
-				in_array($this->controller->params['action'], ['index', 'view'])) {
+		} elseif ($this->__is403And404($error)) {
 			if ($this->controller->Auth->user()) {
 				$message = __d('net_commons', 'Permission denied. Bad account.');
 			} else {
@@ -133,6 +132,18 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 	}
 
 /**
+ * 403か404のエラーかチェックする
+ *
+ * @param Exception $error Exception
+ * @return bool
+ */
+	private function __is403And404($error) {
+		return $error->getMessage() === 'Permission denied' ||
+				$error->getCode() === 403 ||
+				get_class($error) === 'MissingControllerException';
+	}
+
+/**
  * リダイレクトURLを取得する。
  *
  * @return array array($redirect, $redirectUrl)
@@ -143,8 +154,13 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$here = Router::parse($this->controller->request->here(false));
 
 			if ($referer['action'] === 'login' || $here['action'] === 'login') {
-				$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
-				$redirect = $SiteSetting->getDefaultStartPage();
+				//テストでMockに差し替えが必要なための処理であるので、カバレッジレポートから除外する。
+				//@codeCoverageIgnoreStart
+				if (empty($this->SiteSetting)) {
+					$this->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
+				}
+				//@codeCoverageIgnoreEnd
+				$redirect = $this->SiteSetting->getDefaultStartPage();
 				$redirectUrl = $redirect;
 			} else {
 				$redirect = '/';
@@ -177,16 +193,15 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		$message = $error->getMessage();
 		if (! Configure::read('debug')) {
 			$message = __d('net_commons', 'An Internal Error Has Occurred.');
+			$code = 500;
+		} else {
+			$code = $error->getCode();
 		}
 
-		if ($error->getCode() > 500 && $error->getCode() < 506) {
-			$code = $error->getCode();
-		} else {
-			$code = 500;
-		}
 		$this->controller->response->statusCode($code);
 
 		$results = array(
+			'code' => $code,
 			'message' => h($message),
 		);
 		$this->__setError('NetCommons.error500', $error, $results);

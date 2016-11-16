@@ -24,7 +24,7 @@ if (! isset($isSettingMode)) {
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="<?php echo $pageContainerCss; ?> clearfix text-nowrap">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nc-system-header-navbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -46,7 +46,7 @@ if (! isset($isSettingMode)) {
 
 				<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
 			</div>
-			<div class="navbar-collapse collapse">
+			<div id="nc-system-header-navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<?php if (Current::hasControlPanel()) : ?>
 						<li>

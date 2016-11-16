@@ -80,7 +80,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$redirect = '/net_commons/site_close/index';
 			$this->controller->Session->destroy();
 
-		} elseif ($message === 'Permission denied' || $error->getCode() === 403) {
+		} elseif ($message === 'Permission denied' || $error->getCode() === 403 ||
+				get_class($error) === 'MissingControllerException') {
 			list($redirect, $redirectUrl) = $this->__get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {
 				$this->controller->Auth->redirectUrl($redirectUrl);

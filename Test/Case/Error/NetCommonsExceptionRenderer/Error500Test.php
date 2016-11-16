@@ -45,6 +45,7 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
 	public function setUp() {
 		parent::setUp();
 		Current::$current['Language']['id'] = '2';
+		Configure::write('debug', 0);
 	}
 
 /**
@@ -53,8 +54,6 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
  * @return void
  */
 	public function testInternalErrorException() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new InternalErrorException(__d('net_commons', 'Internal Server Error'))
 		);
@@ -70,8 +69,6 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
  * @return void
  */
 	public function testInternalErrorExceptionOnStatus502() {
-		Configure::write('debug', 0);
-
 		$exception = new NetCommonsExceptionRenderer(
 			new InternalErrorException(__d('net_commons', 'Internal Server Error'), 502)
 		);
@@ -109,6 +106,7 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
 	private function __assert($exception, $expected) {
 		ob_start();
 		$exception->render();
+		ob_get_clean();
 		//$result = $this->_parseView(ob_get_clean());
 
 		$this->assertEquals('error500', $exception->method);

@@ -109,7 +109,7 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
 	private function __assert($exception, $expected) {
 		ob_start();
 		$exception->render();
-		$result = $this->_parseView(ob_get_clean());
+		//$result = $this->_parseView(ob_get_clean());
 
 		$this->assertEquals('error500', $exception->method);
 		$this->assertEquals('NetCommons.error', $exception->controller->layout);

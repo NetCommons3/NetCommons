@@ -152,7 +152,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		Current::$current = array();
 		Current::$permission = array();
 
-		OriginalKeyBehavior::$unitTestKeys = array();
+		OriginalKeyBehavior::$isUnitRandomKey = false;
 
 		parent::tearDown();
 	}

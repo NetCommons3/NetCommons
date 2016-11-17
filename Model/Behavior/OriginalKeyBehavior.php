@@ -34,7 +34,7 @@ class OriginalKeyBehavior extends ModelBehavior {
  *
  * @var mixed
  */
-	public static $unitTestKeys;
+	public static $isUnitRandomKey = false;
 
 /**
  * beforeSave is called before a model is saved. Returning false from a beforeSave callback
@@ -94,18 +94,10 @@ class OriginalKeyBehavior extends ModelBehavior {
  * @return string Hash key
  */
 	public static function generateKey($plugin, $dataSource) {
-		if ($dataSource !== 'test') {
+		if ($dataSource !== 'test' || self::$isUnitRandomKey) {
 			return Security::hash($plugin . mt_rand() . microtime(), 'md5');
 		} else {
-			if (! self::$unitTestKeys) {
-				self::$unitTestKeys = array();
-			}
-			if (! isset(self::$unitTestKeys[$plugin])) {
-				self::$unitTestKeys[$plugin] = Security::hash($plugin, 'md5');
-				return self::$unitTestKeys[$plugin];
-			} else {
-				return Security::hash($plugin . mt_rand() . microtime(), 'md5');
-			}
+			return Security::hash($plugin, 'md5');
 		}
 	}
 

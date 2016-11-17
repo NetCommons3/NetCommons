@@ -161,7 +161,7 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		Current::$current = array();
 		Current::$permission = array();
 
-		OriginalKeyBehavior::$unitTestKeys = array();
+		OriginalKeyBehavior::$isUnitRandomKey = false;
 
 		SiteSettingUtil::reset();
 		parent::tearDown();

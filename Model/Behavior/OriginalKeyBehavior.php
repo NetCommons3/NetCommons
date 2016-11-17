@@ -30,6 +30,13 @@ class OriginalKeyBehavior extends ModelBehavior {
 	);
 
 /**
+ * PHPUnitで使用するキー配列
+ *
+ * @var mixed
+ */
+	public static $isUnitRandomKey = false;
+
+/**
  * beforeSave is called before a model is saved. Returning false from a beforeSave callback
  * will abort the save operation.
  *
@@ -87,7 +94,7 @@ class OriginalKeyBehavior extends ModelBehavior {
  * @return string Hash key
  */
 	public static function generateKey($plugin, $dataSource) {
-		if ($dataSource !== 'test') {
+		if ($dataSource !== 'test' || self::$isUnitRandomKey) {
 			return Security::hash($plugin . mt_rand() . microtime(), 'md5');
 		} else {
 			return Security::hash($plugin, 'md5');

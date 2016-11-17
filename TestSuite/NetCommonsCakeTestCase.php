@@ -15,6 +15,7 @@ CakeLog::drop('stderr');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
+App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
  * NetCommonsCakeTestCase class
@@ -150,6 +151,8 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 
 		Current::$current = array();
 		Current::$permission = array();
+
+		OriginalKeyBehavior::$isUnitRandomKey = false;
 
 		parent::tearDown();
 	}

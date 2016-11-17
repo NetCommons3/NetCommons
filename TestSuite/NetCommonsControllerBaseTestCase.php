@@ -20,6 +20,7 @@ App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
+App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
  * NetCommonsControllerTestCase
@@ -159,6 +160,8 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 		Current::$current = array();
 		Current::$permission = array();
+
+		OriginalKeyBehavior::$isUnitRandomKey = false;
 
 		SiteSettingUtil::reset();
 		parent::tearDown();

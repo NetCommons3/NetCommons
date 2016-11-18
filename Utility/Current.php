@@ -437,10 +437,17 @@ class Current extends CurrentBase {
  * @return void
  */
 	public static function setCurrent($results, $forceMargeModels = []) {
+		if (! $results) {
+			return;
+		}
 		$models = array_keys($results);
 
 		foreach ($models as $model) {
-			if (! isset(Current::$current[$model]) || in_array($model, $forceMargeModels, true)) {
+			if (array_key_exists('id', $results[$model]) && ! Hash::get($results[$model], 'id')) {
+				continue;
+			}
+			if (! isset(Current::$current[$model]) ||
+					$forceMargeModels === true || in_array($model, $forceMargeModels, true)) {
 				Current::$current[$model] = $results[$model];
 			}
 		}

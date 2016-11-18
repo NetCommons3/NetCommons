@@ -32,6 +32,8 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
  */
 	private $__fixtures = array(
 		'plugin.frames.frame4frames',
+		'plugin.frames.block4frames',
+		'plugin.frames.plugin4frames',
 	);
 
 /**
@@ -40,13 +42,6 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
  * @var array
  */
 	protected $_Controller = null;
-
-/**
- * Plugin name
- *
- * @var string
- */
-	public $plugin = 'net_commons';
 
 /**
  * Fixtures load
@@ -77,6 +72,9 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
 		$CakeResponse = new CakeResponse();
 		$this->_Controller = new AppController($CakeRequest, $CakeResponse);
 		Current::$request = $this->_Controller->request;
+		Current::$request->params['params'] = 'test_frames';
+		Current::$request->params['controller'] = 'test_frames';
+		Current::$request->params['action'] = 'index';
 	}
 
 /**
@@ -87,6 +85,7 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
 	public function tearDown() {
 		Current::$current = array();
 		Current::$request = null;
+		Current::$layout = null;
 		unset($this->_Controller);
 		parent::tearDown();
 	}

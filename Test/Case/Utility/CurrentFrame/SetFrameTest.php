@@ -272,6 +272,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			'Block' => array(
 				'id' => '2',
 				'language_id' => '2',
+				//Frameのroom_idとBlockのroom_idが異なることは、基本あり得ないが。テストで使っているFixtureの関係上、当データの結果となる
 				'room_id' => '2',
 				'plugin_key' => 'test_frames',
 				'key' => 'block_1',

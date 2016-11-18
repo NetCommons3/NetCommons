@@ -179,6 +179,7 @@ class CurrentFrame {
  */
 	public function setBlock($blockId = null) {
 		$this->Block = ClassRegistry::init('Blocks.Block');
+		$this->Frame = ClassRegistry::init('Frames.Frame');
 
 		if (! Hash::get(Current::$request->params, 'requested') &&
 					Hash::get(Current::$request->data, 'Block.id')) {
@@ -197,8 +198,10 @@ class CurrentFrame {
 				'Block.id' => $blockId,
 			),
 		));
+		//Block、Room、Language更新
 		Current::setCurrent($result, true);
 
+		//Frameデータがない場合、block_idから配置しているFrameを探し出してセットする
 		if (! isset(Current::$current['Frame'])) {
 			$frame = $this->Frame->find('first', array(
 				'fields' => array('id'),
@@ -216,15 +219,16 @@ class CurrentFrame {
 			}
 		}
 
-		if (! isset(Current::$current['Block']) && isset(Current::$current['Frame']['block_id'])) {
-			$result = $this->Block->find('first', array(
-				'recursive' => 0,
-				'conditions' => array(
-					'Block.id' => Current::$current['Frame']['block_id'],
-				),
-			));
-			Current::setCurrent($result, true);
-		}
+		//あり得ない？のでコメントアウト
+		//if (! isset(Current::$current['Block']) && isset(Current::$current['Frame']['block_id'])) {
+		//	$result = $this->Block->find('first', array(
+		//		'recursive' => 0,
+		//		'conditions' => array(
+		//			'Block.id' => Current::$current['Frame']['block_id'],
+		//		),
+		//	));
+		//	Current::setCurrent($result, true);
+		//}
 	}
 
 /**

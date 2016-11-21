@@ -150,6 +150,9 @@ class NetCommonsHtmlHelper extends AppHelper {
 			if (! isset($url['action'])) {
 				$url['action'] = $this->_View->request->params['action'];
 			}
+			if ($url['plugin'] === 'pages') {
+				$options['hasBlock'] = false;
+			}
 		}
 
 		if (! is_array($options) || Hash::get($options, 'hasBlock', true)) {

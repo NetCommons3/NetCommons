@@ -429,4 +429,28 @@ class Current extends CurrentBase {
 		return Hash::check(Current::$current['PluginsRole'], '{n}[plugin_key=' . $pluginKey . ']');
 	}
 
+/**
+ * 取得した結果を$currentにセットする
+ *
+ * @param array $results 取得結果
+ * @param array $forceMargeModels 既に取得済みでも強制でマージするModelのリスト
+ * @return void
+ */
+	public static function setCurrent($results, $forceMargeModels = []) {
+		if (! $results) {
+			return;
+		}
+		$models = array_keys($results);
+
+		foreach ($models as $model) {
+			if (array_key_exists('id', $results[$model]) && ! Hash::get($results[$model], 'id')) {
+				continue;
+			}
+			if (! isset(Current::$current[$model]) ||
+					$forceMargeModels === true || in_array($model, $forceMargeModels, true)) {
+				Current::$current[$model] = $results[$model];
+			}
+		}
+	}
+
 }

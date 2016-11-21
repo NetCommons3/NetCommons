@@ -67,6 +67,7 @@ class CurrentFrame {
  *
  * @param string $frameId フレームID
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setFrame($frameId = null) {
 		if ($frameId) {
@@ -81,18 +82,24 @@ class CurrentFrame {
 		}
 
 		$this->Frame = ClassRegistry::init('Frames.Frame');
-		$this->Box = ClassRegistry::init('Boxes.Box');
 		$this->Block = ClassRegistry::init('Blocks.Block');
 
 		if (isset($frameId)) {
-			$result = $this->Frame->findById($frameId);
-			Current::$current = Hash::merge(Current::$current, $result);
+			//Frame、Box、Block、Room、Language更新
+			$result = $this->Frame->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'Frame.id' => $frameId,
+				),
+			));
+			Current::setCurrent($result, true);
 		}
 
 		//ブロック設定の新規の場合の処理
 		if (Current::$layout === 'NetCommons.setting' &&
-				Hash::get(Current::$request->params, 'action') === 'add') {
-			Current::$current['Block'] = $this->Block->create()['Block'];
+				substr(Current::$request->params['controller'], -7) === '_blocks' &&
+				Current::$request->params['action'] === 'add') {
+			Current::$current['Block'] = $this->Block->create(['id' => null])['Block'];
 		}
 
 		$this->setBox();
@@ -104,6 +111,10 @@ class CurrentFrame {
  * @return void
  */
 	public function setBox() {
+		if (empty($this->Box)) {
+			$this->Box = ClassRegistry::init('Boxes.Box');
+		}
+
 		if (isset(Current::$current['Box']['id'])) {
 			$boxId = Current::$current['Box']['id'];
 		} elseif (isset(Current::$request->data['Frame']) &&
@@ -113,18 +124,14 @@ class CurrentFrame {
 			return;
 		}
 
+		//Box、Room、Space更新
 		$result = $this->Box->find('first', array(
 			'recursive' => 0,
 			'conditions' => array(
 				'Box.id' => $boxId,
 			),
 		));
-		if (! $result) {
-			return;
-		}
-
-		//Box、Room、Space更新
-		Current::$current = Hash::merge(Current::$current, $result);
+		Current::setCurrent($result);
 
 		$this->setBoxPageContainer();
 	}
@@ -152,6 +159,7 @@ class CurrentFrame {
 
 		$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
 
+		//BoxesPageContainer、Box、PageContainer、Page更新
 		$result = $this->BoxesPageContainer->find('first', array(
 			'recursive' => 0,
 			'conditions' => array(
@@ -160,25 +168,18 @@ class CurrentFrame {
 				'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
 			),
 		));
-		if (! $result) {
-			return;
-		}
-
-		//BoxesPageContainer、Box、PageContainer、Page更新
-		Current::$current = Hash::merge(Current::$current, $result);
+		Current::setCurrent($result);
 	}
 
 /**
  * Set Block
  *
- * ※PHPMのSuppressWarningsは暫定
- *
  * @param int $blockId Blocks.id
  * @return void
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setBlock($blockId = null) {
 		$this->Block = ClassRegistry::init('Blocks.Block');
+		$this->Frame = ClassRegistry::init('Frames.Frame');
 
 		if (! Hash::get(Current::$request->params, 'requested') &&
 					Hash::get(Current::$request->data, 'Block.id')) {
@@ -197,10 +198,10 @@ class CurrentFrame {
 				'Block.id' => $blockId,
 			),
 		));
-		if ($result) {
-			Current::$current = Hash::merge(Current::$current, $result);
-		}
+		//Block、Room、Language更新
+		Current::setCurrent($result, true);
 
+		//Frameデータがない場合、block_idから配置しているFrameを探し出してセットする
 		if (! isset(Current::$current['Frame'])) {
 			$frame = $this->Frame->find('first', array(
 				'fields' => array('id'),
@@ -218,17 +219,16 @@ class CurrentFrame {
 			}
 		}
 
-		if (! isset(Current::$current['Block']) && isset(Current::$current['Frame']['block_id'])) {
-			$result = $this->Block->find('first', array(
-				'recursive' => 0,
-				'conditions' => array(
-					'Block.id' => Current::$current['Frame']['block_id'],
-				),
-			));
-			if ($result) {
-				Current::$current = Hash::merge(Current::$current, $result);
-			}
-		}
+		//あり得ない？のでコメントアウト
+		//if (! isset(Current::$current['Block']) && isset(Current::$current['Frame']['block_id'])) {
+		//	$result = $this->Block->find('first', array(
+		//		'recursive' => 0,
+		//		'conditions' => array(
+		//			'Block.id' => Current::$current['Frame']['block_id'],
+		//		),
+		//	));
+		//	Current::setCurrent($result, true);
+		//}
 	}
 
 /**

@@ -47,7 +47,7 @@ class CurrentPage {
 		$this->setDefaultRolePermissions();
 		$this->setRoomRolePermissions();
 		$this->setPluginsRoom();
-		$this->setSpace();
+		//$this->setSpace();
 	}
 
 /**
@@ -65,7 +65,8 @@ class CurrentPage {
 				'Room.id' => Current::$current['Room']['id']
 			));
 			if ($result) {
-				Current::$current = Hash::merge(Current::$current, $result[0]);
+				unset($result[0]['Room']);
+				Current::setCurrent($result[0], true);
 			}
 		}
 	}
@@ -181,7 +182,8 @@ class CurrentPage {
 					! Current::$request->is('ajax')) {
 			$this->Room = ClassRegistry::init('Rooms.Room');
 			$result = $this->Room->getPrivateRoomByUserId(Current::read('User.id'));
-			Current::$current = Hash::merge(Current::$current, $result);
+			Current::setCurrent($result);
+
 			$conditions = array(
 				'Page.id' => Hash::get($result, 'Room.page_id_top', Page::PUBLIC_ROOT_PAGE_ID)
 			);
@@ -229,7 +231,7 @@ class CurrentPage {
 				'order' => array('Page.lft' => 'asc')
 			));
 
-			Current::$current = Hash::merge(Current::$current, $result);
+			Current::setCurrent($result);
 			if (isset(Current::$current['Page'])) {
 				return;
 			}
@@ -247,7 +249,7 @@ class CurrentPage {
 				'recursive' => 0,
 				'conditions' => array('Page.id' => $pageId),
 			));
-			Current::$current = Hash::merge(Current::$current, $result);
+			Current::setCurrent($result);
 		}
 
 		(new CurrentFrame())->setBoxPageContainer();
@@ -271,7 +273,7 @@ class CurrentPage {
 			'conditions' => $conditions,
 		));
 
-		Current::$current = Hash::merge(Current::$current, $result);
+		Current::setCurrent($result);
 	}
 
 /**
@@ -305,7 +307,7 @@ class CurrentPage {
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
-		Current::$current = Hash::merge(Current::$current, $result);
+		Current::setCurrent($result);
 	}
 
 /**
@@ -313,20 +315,20 @@ class CurrentPage {
  *
  * @return void
  */
-	public function setSpace() {
-		if (!isset(Current::$current['Room'])) {
-			return;
-		}
-
-		$this->Space = ClassRegistry::init('Rooms.Space');
-		$conditions = array(
-			'Space.id' => Hash::get(Current::$current, 'Room.space_id')
-		);
-		$result = $this->Space->find('first', array(
-			'recursive' => 0,
-			'conditions' => $conditions,
-		));
-		Current::$current = Hash::merge(Current::$current, $result);
-	}
+	//public function setSpace() {
+	//	if (! isset(Current::$current['Room'])) {
+	//		return;
+	//	}
+	//
+	//	$this->Space = ClassRegistry::init('Rooms.Space');
+	//	$conditions = array(
+	//		'Space.id' => Hash::get(Current::$current, 'Room.space_id')
+	//	);
+	//	$result = $this->Space->find('first', array(
+	//		'recursive' => 0,
+	//		'conditions' => $conditions,
+	//	));
+	//	Current::setCurrent($result, true);
+	//}
 
 }

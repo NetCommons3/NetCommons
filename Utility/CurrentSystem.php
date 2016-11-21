@@ -79,10 +79,7 @@ class CurrentSystem {
 				'language_id' => Current::$current['Language']['id']
 			),
 		));
-		if (! $result) {
-			return;
-		}
-		Current::$current = Hash::merge(Current::$current, $result);
+		Current::setCurrent($result, true);
 	}
 
 /**

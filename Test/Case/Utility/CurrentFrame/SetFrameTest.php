@@ -194,6 +194,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'type' => '1',
 				'plugin_key' => null,
 				'default_setting_action' => null,
+				'room_disk_size' => null,
+				'room_id_root' => '2'
 			),
 		);
 		$this->CurrentFrame->Box = $this->getMock('Box', array('find'));
@@ -306,6 +308,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'type' => '1',
 				'plugin_key' => null,
 				'default_setting_action' => null,
+				'room_disk_size' => null,
+				'room_id_root' => '2'
 			),
 		);
 
@@ -399,6 +403,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'type' => '2',
 				'plugin_key' => 'public_space',
 				'default_setting_action' => 'rooms/index/2',
+				'room_disk_size' => null,
+				'room_id_root' => '2'
 			),
 			'BoxesPageContainer' => array(
 				'id' => '58',

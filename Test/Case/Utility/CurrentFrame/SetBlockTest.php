@@ -211,6 +211,8 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'type' => '1',
 				'plugin_key' => null,
 				'default_setting_action' => null,
+				'room_disk_size' => null,
+				'room_id_root' => '2'
 			),
 		);
 

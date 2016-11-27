@@ -36,6 +36,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 		parent::setUp();
 
 		$this->CurrentFrame = new CurrentFrame();
+		Current::$current['Language']['id'] = '2';
 	}
 
 /**
@@ -109,7 +110,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'theme' => null,
 			),
 		);
-		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'Plugin'));
+		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'FramesLanguage'));
 	}
 
 /**
@@ -129,11 +130,9 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 		$default = array(
 			'Block' => array(
 				'id' => '2',
-				'language_id' => '2',
 				'room_id' => '2',
 				'plugin_key' => 'test_frames',
 				'key' => 'block_1',
-				'name' => 'Block name 1',
 				'public_type' => '1',
 				'publish_start' => null,
 				'publish_end' => null,
@@ -141,9 +140,9 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 			),
 			'Language' => array(
 				'id' => '2',
-				'code' => 'ja',
-				'weight' => '2',
-				'is_active' => true,
+			//	'code' => 'ja',
+			//	'weight' => '2',
+			//	'is_active' => true,
 			),
 			'Room' => array(
 				'id' => '1',
@@ -161,15 +160,21 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'page_layout_permitted' => false,
 				'theme' => null,
 			),
+			'BlocksLanguage' => array(
+				//'id' => '2',
+				'language_id' => '2',
+				'block_id' => '2',
+				'name' => 'Block name 1',
+				'is_origin' => true,
+				'is_translation' => false,
+			),
 			'Frame' => array(
 				'id' => '2',
-				'language_id' => '2',
 				'room_id' => '1',
 				'box_id' => '1',
 				'plugin_key' => 'test_frames',
 				'block_id' => '2',
 				'key' => 'frame_header',
-				'name' => 'Test frame header',
 				'header_type' => 'default',
 				'weight' => '1',
 				'is_deleted' => false,
@@ -184,6 +189,14 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'page_id' => null,
 				'container_type' => '1',
 				'weight' => null,
+			),
+			'FramesLanguage' => array(
+				//'id' => '2',
+				'language_id' => '2',
+				'frame_id' => '2',
+				'name' => 'Test frame header',
+				'is_origin' => true,
+				'is_translation' => false,
 			),
 			'Plugin' => array(
 				'id' => '2',

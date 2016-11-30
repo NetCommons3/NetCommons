@@ -315,7 +315,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'serialize_data' => null,
 			),
 			'FramesLanguage' => array(
-				//'id' => '2',
+				'id' => '2',
 				'language_id' => '2',
 				'frame_id' => '2',
 				'name' => 'Test frame header',
@@ -398,7 +398,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'serialize_data' => null,
 			),
 			'FramesLanguage' => array(
-				//'id' => '6',
+				'id' => '6',
 				'language_id' => '2',
 				'frame_id' => '6',
 				'name' => 'Test frame main',

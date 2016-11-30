@@ -191,7 +191,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'weight' => null,
 			),
 			'FramesLanguage' => array(
-				//'id' => '2',
+				'id' => '2',
 				'language_id' => '2',
 				'frame_id' => '2',
 				'name' => 'Test frame header',

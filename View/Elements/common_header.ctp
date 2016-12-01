@@ -44,10 +44,18 @@ if (! isset($isSettingMode)) {
 						); ?>
 				<?php endif; ?>
 
-				<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
+				<?php echo $this->NetCommonsHtml->link(
+						SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')
+					); ?>
 			</div>
 			<div id="nc-system-header-navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<?php if ($hasSwitchLang) : ?>
+						<li>
+							<?php echo $this->element('M17n.switch_language_form'); ?>
+						</li>
+					<?php endif; ?>
+
 					<?php if (Current::hasControlPanel()) : ?>
 						<li>
 							<?php if (! Current::isControlPanel()): ?>

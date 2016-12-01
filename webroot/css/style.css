@@ -38,7 +38,7 @@ blockquote,
  */
 @media (max-width: 767px) {
 	#nc-system-header a.navbar-brand {
-		max-width: 80%;
+		max-width: 70%;
 	}
 }
 @media (min-width: 768px) {

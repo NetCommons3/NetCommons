@@ -36,6 +36,35 @@ blockquote,
 /**
  * ページ
  */
+@media (max-width: 767px) {
+	#nc-system-header a.navbar-brand {
+		max-width: 80%;
+	}
+}
+@media (min-width: 768px) {
+	#nc-system-header a.navbar-brand {
+		max-width: 184px;
+	}
+}
+@media (min-width: 992px) {
+	#nc-system-header a.navbar-brand {
+		max-width: 280px;
+	}
+}
+@media (min-width: 1200px) {
+	#nc-system-header a.navbar-brand {
+		max-width: 480px;
+	}
+}
+#nc-system-header a.navbar-brand {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+#nc-system-header li > form {
+    padding: 15px;
+}
+
 #nc-system-footer {
 	border-top: 1px solid #ccc;
 	padding-top: 30px;

@@ -193,7 +193,7 @@ class NetCommonsAppController extends Controller {
 
 		//多言語の切り替えボックス
 		$languages = $this->Language->getLanguages();
-		$this->set('languages', $languages);
+		$this->set('switchLanguages', $languages);
 
 		$this->set('hasSwitchLang', count($languages) > 1);
 	}

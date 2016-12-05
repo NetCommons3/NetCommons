@@ -1,10 +1,11 @@
 # LANGUAGE translation of CakePHP Application
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"PO-Revision-Date: 2015-12-16 10:20+0900\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +16,7 @@ msgstr ""
 "Language: ja\n"
 "X-Generator: Poedit 1.7.5\n"
 
+#: NetCommons/View/Helper/ComposerHelper.php:101
 msgid "NetCommons Community"
 msgstr "NetCommonsプロジェクト"
 
@@ -23,105 +25,229 @@ msgstr "NetCommonsプロジェクト"
 # Exceptionメッセージ
 #
 
-#: AccessCounters/Model/AccessCounter.php:136;141;207;248
-#: AccessCounters/Model/AccessCounterFrameSetting.php:150
-#: Announcements/Model/Announcement.php:175;182;270
-#: Bbses/Model/Bbs.php:172;177;181;270;274;278;282;329;339;350
-#: Bbses/Model/BbsArticle.php:230;236;244;320;326;373;376
-#: Bbses/Model/BbsArticleTree.php:218 Bbses/Model/BbsArticlesUser.php:102
-#: Bbses/Model/BbsFrameSetting.php:156 Bbses/Model/BbsSetting.php:81;85
-#: Blocks/Model/Block.php:181;195;202;249;254;263
-#: Blogs/Controller/BlogEntriesEditController.php:189
-#: Blogs/Model/Blog.php:181;186;280;284;288
-#: Blogs/Model/BlogEntry.php:279;292;331 Blogs/Model/BlogFrameSetting.php:130
-#: Blogs/Model/BlogSetting.php:79;83
-#: Categories/Model/Category.php:166;169;178;184;263;268
-#: CircularNotices/Model/CircularNoticeChoice.php:84;97
-#: CircularNotices/Model/CircularNoticeContent.php:384;450;453;456
-#: CircularNotices/Model/CircularNoticeFrameSetting.php:111;123;172
-#: CircularNotices/Model/CircularNoticeSetting.php:112;137;156;222;226
-#: CircularNotices/Model/CircularNoticeTargetUser.php:299;329;355;368
-#: Comments/Model/Comment.php:114;129 Containers/Model/ContainersPage.php:64
-#: ContentComments/Model/ContentComment.php:132;166
-#: Edumap/Model/Edumap.php:344;464;467;502;509;556;560;564;568
-#: Edumap/Model/EdumapSocialMedium.php:109 Edumap/Model/EdumapStudent.php:104
-#: Edumap/Model/EdumapVisibilitySetting.php:117
-#: Faqs/Model/Faq.php:181;186;281;285;289;293
-#: Faqs/Model/FaqQuestion.php:196;205;212;278;289
-#: Faqs/Model/FaqQuestionOrder.php:166 Faqs/Model/FaqSetting.php:110;114
-#: Files/Model/FileModel.php:178;258;290;342
-#: Frames/Model/Frame.php:158;200;241;260 Iframes/Model/Iframe.php:188;251
-#: Likes/Model/Like.php:157 Links/Model/Link.php:215;224;231;297;308
-#: Links/Model/LinkBlock.php:110;206;210;214
-#: Links/Model/LinkFrameSetting.php:309 Links/Model/LinkOrder.php:213
-#: Links/Model/LinkSetting.php:110;114
-#: NetCommons/Controller/Component/NetCommonsFrameComponent.php:111
-#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:204;223;249
-#: Notifications/Model/Notification.php:114;119
-#: Pages/Model/Page.php:324;329;334;337;359;364;447;450
-#: Pages/Model/Behavior/PageBehavior.php:217;221;239;243
-#: PluginManager/Model/Plugin.php:328;368;372;376
-#: PluginManager/Model/PluginsRole.php:133
-#: PluginManager/Model/PluginsRoom.php:102
-#: Questionnaires/Model/Questionnaire.php:474;484;490;527;537;544
-#: Questionnaires/Model/QuestionnaireBlocksSetting.php:69;73
-#: Questionnaires/Model/QuestionnaireChoice.php:161
-#: Questionnaires/Model/QuestionnaireFrameSetting.php:137;249;262
-#: Questionnaires/Model/QuestionnairePage.php:237
-#: Questionnaires/Model/QuestionnaireQuestion.php:249
-#: RssReaders/Model/RssReader.php:238;245;249;258;330;334
-#: RssReaders/Model/RssReaderFrameSetting.php:112
-#: RssReaders/Model/RssReaderItem.php:203;207;211
-#: SearchBoxes/Model/SearchBox.php:130 Tags/Model/Behavior/TagBehavior.php:63
-#: Videos/Model/Video.php:310;373;381;456;464;526;532;569;577;582;587;592
-#: Videos/Model/VideoBlockSetting.php:246;311;319;327;332;337;342;347;397;402
-#: Videos/Model/VideoFrameSetting.php:178
-#: Videos/Model/Behavior/VideoBehavior.php:67
-#: Videos/Model/Behavior/VideoFileBehavior.php:112;115;142;145
+#: AccessCounters/Model/AccessCounter.php:153;158;235;272
+#: AccessCounters/Model/AccessCounterFrameSetting.php:173
+#: Announcements/Model/Announcement.php:193;223
+#: Auth/Model/AutoUserRegist.php:504
+#: Auth/Model/ForgotPass.php:210
+#: AuthorizationKeys/Model/AuthorizationKey.php:133;159
+#: AuthorizationKeys/Model/Behavior/AuthorizationKeyBehavior.php:82
+#: Bbses/Model/Bbs.php:174;238;273;279;284
+#: Bbses/Model/BbsArticle.php:201;245;300;308
+#: Bbses/Model/BbsFrameSetting.php:110
+#: Bbses/Model/Behavior/BbsArticleBehavior.php:49;59;65;94;100
+#: Blocks/Model/Behavior/BlockBehavior.php:163;268;294;505;533;542;550
+#: Blocks/Model/Behavior/BlockRolePermissionBehavior.php:188
+#: Blogs/Controller/BlogEntriesEditController.php:199
+#: Blogs/Model/Blog.php:159;245;277;285
+#: Blogs/Model/BlogEntry.php:364;392
+#: Blogs/Model/BlogFrameSetting.php:138
+#: Boxes/Model/BoxesPageContainer.php:134;148
+#: Cabinets/Controller/CabinetFilesEditController.php:596
+#: Cabinets/Model/Cabinet.php:174;268;319;329;336
+#: Cabinets/Model/CabinetFile.php:232;251;313;317;348;356;373;377
+#: Calendars/Model/Calendar.php:185;194;199;247;253;386
+#: Calendars/Model/CalendarActionPlan.php:647;743;764
+#: Calendars/Model/CalendarDeleteActionPlan.php:256
+#: Calendars/Model/CalendarEventContent.php:160
+#: Calendars/Model/CalendarFrameSetting.php:282
+#: Calendars/Model/CalendarFrameSettingSelectRoom.php:196
+#: Calendars/Model/CalendarPermission.php:329
+#: Calendars/Model/Behavior/CalendarAppBehavior.php:125;161;549
+#: Calendars/Model/Behavior/CalendarCrudPlanCommonBehavior.php:50;56;77;82;86;90;137;145;184
+#: Calendars/Model/Behavior/CalendarDeletePlanBehavior.php:105;130;138;157;163;168;173;255;269;276;333;395
+#: Calendars/Model/Behavior/CalendarInsertPlanBehavior.php:65;148;154
+#: Calendars/Model/Behavior/CalendarPlanGenerationBehavior.php:157;163;235;255;343;349;400;406;445
+#: Calendars/Model/Behavior/CalendarRruleEntryBehavior.php:84
+#: Calendars/Model/Behavior/CalendarShareUserEntryBehavior.php:143
+#: Calendars/Model/Behavior/CalendarUpdatePlanBehavior.php:276;390;408;412;551;643;784;806
+#: Categories/Model/Behavior/CategoryBehavior.php:97;107;113;118
+#: CircularNotices/Model/CircularNoticeChoice.php:82
+#: CircularNotices/Model/CircularNoticeContent.php:477;596;600;603
+#: CircularNotices/Model/CircularNoticeFrameSetting.php:108;120;178
+#: CircularNotices/Model/CircularNoticeSetting.php:90;103;116;219
+#: CircularNotices/Model/CircularNoticeTargetUser.php:295;329;380
+#: ContentComments/Model/ContentComment.php:162
+#: ContentComments/Model/Behavior/ContentCommentBehavior.php:151
+#: Faqs/Model/Faq.php:243;278;284;289
+#: Faqs/Model/FaqFrameSetting.php:103
+#: Faqs/Model/FaqQuestion.php:198;251;285;290
+#: Faqs/Model/FaqQuestionOrder.php:145
+#: Frames/Model/Frame.php:210;225;268;311
+#: Groups/Model/Group.php:214;264
+#: Groups/Model/GroupsUser.php:146
+#: Holidays/Model/Holiday.php:158;268;276
+#: Holidays/Model/HolidayRrule.php:213;272;276
+#: Iframes/Model/Iframe.php:127;155
+#: Iframes/Model/IframeFrameSetting.php:139
+#: Likes/Model/Like.php:140;168;236
+#: Links/Model/Link.php:203;248;280;284;320
+#: Links/Model/LinkBlock.php:280;323;328
+#: Links/Model/LinkFrameSetting.php:294
+#: Links/Model/LinkOrder.php:184
+#: Mails/Model/MailQueue.php:131
+#: Mails/Model/MailQueueUser.php:134;165;257;308;363
+#: Mails/Model/MailSetting.php:243;265
+#: Menus/Model/MenuFrameSetting.php:177;183;241
+#: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error500Test.php:58;73
+#: Notifications/Model/Notification.php:154;159
+#: Pages/Config/Migration/1477374183_rename_pages_languages.php:115
+#: Pages/Model/Page.php:319;570;606;647;683;715;720
+#: Pages/Model/PageContainer.php:92;116
+#: Pages/Model/PagesLanguage.php:154
+#: Pages/Model/Behavior/PageAssociationsBehavior.php:73;114;184;278;299;304
+#: Pages/Model/Behavior/PageSaveBehavior.php:119
+#: PhotoAlbums/Controller/Component/PhotoAlbumsComponent.php:56;80
+#: PhotoAlbums/Model/PhotoAlbum.php:192;228;246;256;373;385;391
+#: PhotoAlbums/Model/PhotoAlbumFrameSetting.php:157;163;174
+#: PhotoAlbums/Model/PhotoAlbumPhoto.php:133;168;192
+#: PluginManager/Model/Plugin.php:382
+#: PluginManager/Model/PluginsRole.php:118
+#: PluginManager/Model/Behavior/PluginBehavior.php:55;61;65;119;125;131;305;328
+#: PluginManager/Model/Behavior/PluginsRoomBehavior.php:45;89;132
+#: PluginManager/Test/Case/Model/Behavior/PluginBehavior/UpdateVersionTest.php:154;222
+#: PrivateSpace/Model/PrivateSpace.php:128;138
+#: Questionnaires/Model/Questionnaire.php:566;577;584;615;621;626;655
+#: Questionnaires/Model/QuestionnaireAnswer.php:244
+#: Questionnaires/Model/QuestionnaireAnswerSummary.php:142;221;227
+#: Questionnaires/Model/QuestionnaireChoice.php:157
+#: Questionnaires/Model/QuestionnaireFrameDisplayQuestionnaire.php:204;260;284
+#: Questionnaires/Model/QuestionnaireFrameSetting.php:189;198
+#: Questionnaires/Model/QuestionnairePage.php:283
+#: Questionnaires/Model/QuestionnaireQuestion.php:303
+#: Questionnaires/Model/QuestionnaireSetting.php:143;150
+#: Quizzes/Model/Quiz.php:597;604;611;644;670;679;684
+#: Quizzes/Model/QuizAnswer.php:245;263;327
+#: Quizzes/Model/QuizAnswerGrade.php:157;194
+#: Quizzes/Model/QuizAnswerSummary.php:296;327;392;503
+#: Quizzes/Model/QuizChoice.php:136
+#: Quizzes/Model/QuizCorrect.php:148
+#: Quizzes/Model/QuizFrameDisplayQuiz.php:183;237;258
+#: Quizzes/Model/QuizFrameSetting.php:211;219
+#: Quizzes/Model/QuizPage.php:225
+#: Quizzes/Model/QuizQuestion.php:271
+#: Quizzes/Model/QuizSetting.php:140;147
+#: Registrations/Model/Registration.php:589;600;610;647;658;691
+#: Registrations/Model/RegistrationAnswer.php:264
+#: Registrations/Model/RegistrationAnswerSummary.php:202;281;287
+#: Registrations/Model/RegistrationChoice.php:157
+#: Registrations/Model/RegistrationPage.php:283
+#: Registrations/Model/RegistrationQuestion.php:303
+#: Registrations/Model/RegistrationSetting.php:160
+#: Registrations/Model/Behavior/MailSettingBehavior.php:80;91
+#: Rooms/Model/RolesRoomsUser.php:243;249;302;309;312;315;454
+#: Rooms/Model/Room.php:332;357;403;452;496;522;553;582;614
+#: Rooms/Model/RoomRolePermission.php:115
+#: Rooms/Model/Behavior/DeleteRoomAssociationsBehavior.php:75
+#: Rooms/Model/Behavior/SaveRoomAssociationsBehavior.php:92;143;193;241;306;353;360;442
+#: RssReaders/Model/RssReader.php:224;231;304;347;353
+#: RssReaders/Model/RssReaderFrameSetting.php:109
+#: RssReaders/Model/RssReaderItem.php:238;242;258
+#: Searches/Model/SearchFrameSetting.php:110;171
+#: Searches/Model/SearchFramesPlugin.php:127;142
+#: SiteManager/Model/SiteSetting.php:440;475
+#: SiteManager/Model/Behavior/SiteManagerSaveBehavior.php:38;79
+#: SiteManager/Model/Behavior/SystemManagerSaveBehavior.php:50
+#: Tags/Model/Behavior/TagBehavior.php:63
+#: Tasks/Controller/TaskContentEditController.php:247
+#: Tasks/Model/Task.php:202;235;243;284
+#: Tasks/Model/TaskCharge.php:89;101
+#: Tasks/Model/TaskContent.php:589;595;677;715;718
+#: Topics/Model/TopicFrameSetting.php:243;253;263;319
+#: Topics/Model/TopicFramesBlock.php:132;142;150
+#: Topics/Model/TopicFramesPlugin.php:174;189
+#: Topics/Model/TopicFramesRoom.php:175;190
+#: Topics/Model/TopicUserStatus.php:114
+#: Topics/Model/Behavior/TopicsBaseBehavior.php:153;388;422;437
+#: Topics/Model/Behavior/TopicsBehavior.php:202;209;216
+#: UserAttributes/Model/UserAttribute.php:454;470;617;622;629
+#: UserAttributes/Model/UserAttributeChoice.php:207;221
+#: UserAttributes/Model/UserAttributeLayout.php:83
+#: UserAttributes/Model/UserAttributeSetting.php:242;278;315
+#: UserAttributes/Model/Behavior/UserAttributeBehavior.php:109;148
+#: UserManager/Model/UserMail.php:133
+#: UserRoles/Model/UserAttributesRole.php:142
+#: UserRoles/Model/UserRole.php:222;231;277;292;305;370;375;380;426
+#: UserRoles/Model/UserRoleSetting.php:134;139
+#: UserRoles/Model/Behavior/UserRoleBehavior.php:43;56;92;123;169
+#: Users/Model/User.php:574
+#: Users/Model/UserSelectCount.php:148;166
+#: Users/Model/Behavior/DeleteUserBehavior.php:44;82
+#: Users/Model/Behavior/SaveUserBehavior.php:281;296;302;340;391
+#: Videos/Model/Video.php:344;401;415;421;427
+#: Videos/Model/VideoFrameSetting.php:149
+#: Videos/Model/VideoSetting.php:185;264;278;284;290
+#: Workflow/Model/Behavior/WorkflowCommentBehavior.php:95;153;158;206
 msgid "Internal Server Error"
 msgstr "内部サーバエラーが発生しました。"
 
+#:
 msgid "Internal Error"
 msgstr "内部エラーが発生しました。"
 
+#: NetCommons/Error/NetCommonsExceptionRenderer.php:195
+#: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error500Test.php:62;77
+#: NetCommons/View/Errors/error500.ctp:21
 msgid "An Internal Error Has Occurred."
 msgstr "内部エラーが発生しました。"
 
+#: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:241;262
 msgid "The request has been black-holed"
 msgstr "予期しないトークンにより、登録が正常にできませんでした。"
 
-
-#: Blogs/Controller/BlogEntriesEditController.php:148;185
-#: NetCommons/Controller/Component/NetCommonsRoomRoleComponent.php:141
-#: Questionnaires/Controller/QuestionnaireAnswerSummariesController.php:110
-#: Questionnaires/Controller/QuestionnairesController.php:216
+#: Blocks/Test/test_app/Plugin/TestBlocks/Controller/TestSuiteBlocksControllerTestErrorController.php:30
+#: Cabinets/Controller/CabinetFilesEditController.php:357;503
+#: Calendars/Controller/Component/CalendarPermissionComponent.php:62
 msgid "Permission denied"
 msgstr "アクセスができません。"
 
+#: NetCommons/Error/NetCommonsExceptionRenderer.php:125
+#: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:131
 msgid "Permission denied. You must be logged."
 msgstr "アクセスができません。指定したURLに移動するには、ログインが必要です。"
 
+#: NetCommons/Error/NetCommonsExceptionRenderer.php:123
+#: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:158;189;220
 msgid "Permission denied. Bad account."
 msgstr "このアカウントでは、指定したURLにアクセスができません。"
 
+#: NetCommons/Error/NetCommonsExceptionRenderer.php:118
 msgid "Under maintenance. Nobody is allowed to login except for administrators."
 msgstr "メンテナンス中のため、管理者しかログインできません。"
 
+#:
 msgid "Bad ip address"
 msgstr "不正なリクエストの可能性があります。"
 
+#: Auth/Model/AutoUserRegist.php:599;644
+#: Calendars/Model/Calendar.php:161
+#: Links/Test/Case/Controller/LinksController/GetTest.php:119;140
+#: NetCommons/Controller/NetCommonsAppController.php:280;284
+#: NetCommons/Test/Case/Controller/NetCommonsApp/NetCommonsAppControllerThrowBadRequestTest.php:65
+#: Searches/Model/SearchFrameSetting.php:87
+#: Topics/Model/TopicFrameSetting.php:200;210;220
+#: UserManager/Controller/UserManagerController.php:246
+#: UserRoles/Model/UserRole.php:413
+#: Users/Model/Behavior/SaveUserBehavior.php:149;156
+#: Wysiwyg/Controller/WysiwygFileController.php:66
+#: Wysiwyg/Test/Case/Controller/WysiwygFileController/UploadTest.php:88
 msgid "Bad Request"
 msgstr "不正なリクエストの可能性があります。"
 
+#:
 msgid "Not found"
 msgstr "ページが見つかりません。"
 
+#: NetCommons/View/Errors/error400.ctp:20
+#: NetCommons/View/Errors/error500.ctp:20
 msgid "Error"
 msgstr "エラー"
 
+#: NetCommons/View/Errors/error400.ctp:21
 msgid "The requested address '%s' was not found on this server."
 msgstr "%s"
 
+#: NetCommons/View/Errors/error400.ctp:27
 msgid "The page will be automatically reloaded. If otherwise, please click <a href=\"%s\">here</a>."
 msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こちら</a>をクリックしてください。"
 
@@ -130,253 +256,672 @@ msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こち
 # メッセージ
 #
 
-#: AccessCounters/View/AccessCounterBlocks/not_found.ctp:24
-#: Announcements/View/AnnouncementBlocks/not_found.ctp:24
-#: Bbses/View/BbsBlocks/not_found.ctp:24
-#: Blogs/View/BlogBlocks/not_found.ctp:24
-#: Edumap/View/EdumapBlocks/not_found.ctp:24
-#: Faqs/View/FaqBlocks/not_found.ctp:24
-#: Faqs/View/FaqQuestionOrders/edit.ctp:43
-#: Iframes/View/IframeBlocks/not_found.ctp:24
-#: Links/View/LinkBlocks/not_found.ctp:24
-#: PluginManager/View/Elements/PluginManager/plugins.ctp:16
+#: Blocks/Test/Case/View/Blocks/NotFoundTest.php:62
+#: Blocks/View/Blocks/not_found.ctp:33
+#: Cabinets/View/CabinetBlocks/not_found.ctp:26
+#: Faqs/Test/Case/Controller/FaqQuestionOrdersController/EditTest.php:377
+#: Faqs/View/FaqQuestionOrders/edit.ctp:38
+#: PluginManager/View/Elements/PluginManager/plugins.ctp:26
 #: Questionnaires/View/QuestionnaireBlocks/not_found.ctp:24
 #: RssReaders/View/RssReaderBlocks/not_found.ctp:24
 #: Videos/View/VideoBlockSettings/not_found.ctp:25
 msgid "Not found."
 msgstr "登録されていません。"
 
+#: Blogs/View/BlogEntries/index.ctp:87
+#: Cabinets/View/CabinetFiles/index.ctp:201
+#: Registrations/View/RegistrationBlocks/answer_list.ctp:6
+#: Videos/View/Videos/index.ctp:113
 msgid "%s is not."
 msgstr "%sがありません。"
 
+#: Announcements/View/Announcements/view.ctp:29
 msgid "Not found %s."
 msgstr "%sがありません。"
 
-#: AccessCounters/Model/AccessCounter.php:60;68;75
-#: AccessCounters/Model/AccessCounterFrameSetting.php:84;90;97;101
-#: Announcements/Model/Announcement.php:80;94;100 Bbses/Model/Bbs.php:97
-#: Bbses/Model/BbsArticleTree.php:114;121;128;134;140
-#: Bbses/Model/BbsArticlesUser.php:63;70
-#: Bbses/Model/BbsFrameSetting.php:90;97;104 Blocks/Model/Block.php:121;131
-#: Blocks/Model/BlockRolePermission.php:71;81;91;101
-#: Blogs/Model/Blog.php:93;102;118 Blogs/Model/BlogFrameSetting.php:84;91
-#: Categories/Model/Category.php:84;93
+#: AccessCounters/Model/AccessCounter.php:75;83
+#: AccessCounters/Model/AccessCounterFrameSetting.php:99;105;112;116
+#: AccessCounters/Test/Case/Controller/AccessCounterFrameSettingsController/EditTest.php:317
+#: AccessCounters/Test/Case/Model/AccessCounter/ValidateTest.php:102;108
+#: AccessCounters/Test/Case/Model/AccessCounterFrameSetting/ValidateTest.php:101;103;105;107;109
+#: Announcements/Model/Announcement.php:100
+#: Announcements/Test/Case/Model/Announcement/ValidateTest.php:101
+#: Auth/Model/AutoUserRegist.php:386
+#: AuthorizationKeys/Model/AuthorizationKey.php:50;60;70
+#: AuthorizationKeys/Test/Case/Model/AuthorizationKey/SaveAuthorizationKeyTest.php:237;239;241
+#: Bbses/Model/Bbs.php:113
+#: Bbses/Model/BbsArticleTree.php:77;84;91;97;103
+#: Bbses/Model/BbsFrameSetting.php:45;52
+#: Bbses/Test/Case/Controller/BbsFrameSettingsController/EditTest.php:300
+#: Bbses/Test/Case/Model/Bbs/ValidateTest.php:144
+#: Bbses/Test/Case/Model/BbsArticleTree/ValidateTest.php:88;90;92;94;96
+#: Bbses/Test/Case/Model/BbsFrameSetting/ValidateTest.php:102;104
+#: Blocks/Model/Block.php:182;188;196
+#: Blocks/Model/BlockRolePermission.php:74;82;90;98
+#: Blocks/Model/BlockSetting.php:41;48;55
+#: Blocks/Model/BlocksLanguage.php:70;86;92
+#: Blocks/Model/Behavior/BlockSettingBehavior.php:455
+#: Blocks/Test/Case/Model/Behavior/BlockBehavior/ValidatesTest.php:160
+#: Blocks/Test/Case/Model/Behavior/BlockRolePermissionBehavior/ValidatesTest.php:148
+#: Blocks/Test/Case/Model/Block/ValidateTest.php:72;74;77;79;81
+#: Blocks/Test/Case/Model/BlockRolePermission/ValidateTest.php:72;74;77;80;83;85;87
+#: Blocks/Test/Case/Model/BlockSetting/ValidateTest.php:70;72;74
+#: Blogs/Model/Blog.php:95
+#: Blogs/Model/BlogEntry.php:169
+#: Blogs/Model/BlogFrameSetting.php:60;67;72
+#: Blogs/Test/Case/Model/Blog/ValidateTest.php:76
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:85;88
+#: Blogs/Test/Case/Model/BlogFrameSetting/ValidateTest.php:76;78;80
+#: Boxes/Model/BoxesPageContainer.php:70;76;82;94;100
+#: Cabinets/Model/Cabinet.php:104
+#: Calendars/Model/Calendar.php:119
+#: Calendars/Model/CalendarEvent.php:165;171;178;184;204;210;216;228;284;290
+#: Calendars/Model/CalendarEventShareUser.php:88;95
+#: Calendars/Model/CalendarFrameSetting.php:141;152;159;166;173;177;181;188;195;202;206;213;217;221
+#: Calendars/Model/CalendarFrameSettingSelectRoom.php:88;95;99
+#: Calendars/Model/CalendarRrule.php:146;153
+#: Calendars/Test/Case/Controller/CalendarFrameSettings/EditTest.php:303
+#: Calendars/Test/Case/Model/Calendar/ValidateTest.php:78
+#: Calendars/Test/Case/Model/CalendarEvent/ValidateTest.php:80;86;90;108;110;114;116;118;120
+#: Calendars/Test/Case/Model/CalendarFrameSetting/ValidateTest.php:78;80;82;84;86;88;90;92;94;96;98;100
+#: Calendars/Test/Case/Model/CalendarFrameSettingSelectRoom/ValidateTest.php:78;80;82
+#: Calendars/Test/Case/Model/CalendarEventShareUser/ValidateTest.php:77;79
+#: Categories/Model/Category.php:77;86
 #: Categories/Model/CategoryOrder.php:43;52;61
-#: Categories/Test/Case/Model/CategoryOrderValidateCategoryOrderTest.php:96;124;152
-#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:93;150;178
 #: CircularNotices/Model/CircularNoticeChoice.php:43;49
-#: CircularNotices/Model/CircularNoticeContent.php:64;84;94;98;118;125
-#: CircularNotices/Model/CircularNoticeFrameSetting.php:54;61
-#: Comments/Model/Comment.php:43
-#: ContentComments/Controller/Component/ContentCommentsComponent.php:137
-#: ContentComments/Model/ContentComment.php:56;63;70;77
-#: Edumap/Model/Edumap.php:116;125;137;173
-#: Edumap/Model/EdumapSocialMedium.php:56;62;68
-#: Edumap/Model/EdumapStudent.php:52;60;68
-#: Edumap/Model/EdumapVisibilitySetting.php:62
-#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:101;421
-#: Faqs/Model/Faq.php:93;102;118 Faqs/Model/FaqQuestion.php:94;103
-#: Faqs/Model/FaqQuestionOrder.php:43;52;61 Faqs/Model/FaqSetting.php:43;52
-#: Faqs/Test/Case/Model/FaqQuestionOrderValidateFaqQuestionOrderTest.php:81;109;137
-#: Faqs/Test/Case/Model/FaqQuestionSaveFaqQuestionTest.php:333;364;502
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:139;170;239;295;324;423
-#: Faqs/Test/Case/Model/FaqSettingValidateFaqSettingTest.php:80;108
-#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:121;206;228
-#: Files/Model/FileModel.php:77;85;93;102;110;118;126;134;140
-#: Iframes/Model/Iframe.php:121;128 Likes/Model/Like.php:56;63;70;77
-#: Links/Model/Link.php:94;103;115
+#: CircularNotices/Model/CircularNoticeContent.php:139;154;159;184;227;241;250
+#: CircularNotices/Model/CircularNoticeFrameSetting.php:52;59
+#: CircularNotices/Test/Case/Controller/CircularNoticeFrameSettingsController/EditTest.php:297
+#: CircularNotices/Test/Case/Model/CircularNoticeChoice/ValidateTest.php:73;75
+#: CircularNotices/Test/Case/Model/CircularNoticeFrameSetting/ValidateTest.php:74
+#: ContentComments/Model/ContentComment.php:66;73;80;87
+#: ContentComments/Test/Case/Model/ContentComment/ValidateTest.php:71;73;75;77
+#: DataTypes/Model/DataType.php:93;101;108;115
+#: DataTypes/Model/DataTypeChoice.php:71;77;83;89;95;101
+#: DataTypes/Test/Case/Model/DataType/ValidateTest.php:69;70;71;72
+#: DataTypes/Test/Case/Model/DataTypeChoice/ValidateTest.php:69;70;71;72;73;74
+#: Faqs/Model/Faq.php:123;132
+#: Faqs/Model/FaqFrameSetting.php:43;51
+#: Faqs/Model/FaqQuestion.php:125;134
+#: Faqs/Model/FaqQuestionOrder.php:43;52;61
+#: Faqs/Test/Case/Model/Faq/ValidateFaqTest.php:119;121
+#: Faqs/Test/Case/Model/FaqQuestion/SaveFaqQuestionTest.php:199;201
+#: Faqs/Test/Case/Model/FaqQuestionOrder/SaveFaqQuestionOrdersTest.php:158;160;162
+#: Faqs/Test/Case/Model/FaqSetting/SaveFaqSettingTest.php:171;173;175
+#: Frames/Model/FramesLanguage.php:70;76;82;88
+#: Holidays/Model/Holiday.php:187;195;203;219
+#: Holidays/Model/HolidayRrule.php:97;108;116;124;132;143
+#: Holidays/Test/Case/Controller/HolidaysController/AddTest.php:291
+#: Holidays/Test/Case/Controller/HolidaysController/EditTest.php:326
+#: Holidays/Test/Case/Model/Holiday/SaveHolidayTest.php:133;135;137;139;141;143
+#: Holidays/Test/Case/Model/HolidayRrule/SaveHolidayRruleTest.php:178;180;182;184;186;188
+#: Iframes/Model/IframeFrameSetting.php:57;80;87
+#: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:59;62;65;70;73;76
+#: Install/Utility/InstallValidatorUtil.php:52;57;63
+#: Likes/Model/Like.php:79;86;93;100;106
+#: Likes/Model/LikesUser.php:62
+#: Likes/Test/Case/Model/Like/SaveLikeTest.php:146;148;150;152;154
+#: Likes/Test/Case/Model/Like/ValidateTest.php:146;148;150;152;154
+#: Likes/Test/Case/Model/LikesUser/ValidateTest.php:89
+#: Links/Model/Link.php:114;123;132;139
+#: Links/Model/LinkBlock.php:169;176
 #: Links/Model/LinkFrameSetting.php:173;182;192;198;204;212;221
-#: Links/Model/LinkOrder.php:43;52;61 Links/Model/LinkSetting.php:43;52
-#: NetCommons/Controller/Component/NetCommonsWorkflowComponent.php:44
-#: NetCommons/Model/Behavior/PublishableBehavior.php:136;143
-#: Pages/Model/LanguagesPage.php:73;83 Pages/Model/Page.php:173
-#: Questionnaires/Model/Questionnaire.php:102;109;122;148;164;170;176;186;192;198
-#: Questionnaires/Model/QuestionnaireQuestion.php:91;97;103;115;121;127;133;137;143;149
-#: Questionnaires/Test/Case/Model/QuestionnaireQuestionBehaviorTest.php:90;116
-#: Questionnaires/Test/Case/Model/QuestionnaireQuestionValidationTest.php:85;107;129;173;195;217;239
-#: Questionnaires/Test/Case/Model/QuestionnaireValidationBoolTest.php:75;95;118;141;164;187;210;234
-#: Questionnaires/Test/Case/Model/QuestionnaireValidationTest.php:74
-#: RssReaders/Model/RssReader.php:102
-#: RssReaders/Model/RssReaderFrameSetting.php:52;60
-#: RssReaders/Model/RssReaderItem.php:61
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:67
-#: Videos/Model/VideoBlockSetting.php:43;49;55;61;67;73;79;85;91
-#: Videos/Model/VideoFrameSetting.php:71;78;85
-#: Videos/Model/Behavior/VideoValidationBehavior.php:28;82
+#: Links/Model/LinkOrder.php:43;52;61
+#: Links/Test/Case/Model/Link/ValidateTest.php:73;75;77;79;81;83;112
+#: Links/Test/Case/Model/LinkBlock/ValidateTest.php:71;73;75;77;101
+#: Links/Test/Case/Model/LinkFrameSetting/ValidateTest.php:70;72;74;76;78;80;82
+#: Links/Test/Case/Model/LinkOrder/ValidateTest.php:76;78;80
+#: M17n/Model/Language.php:50;56;62
+#: M17n/Test/Case/Model/Language/ValidateTest.php:72;77;81;90;94;106
+#: Mails/Model/MailQueue.php:43;54;61;68
+#: Mails/Model/MailQueueUser.php:46;60;67;74;81
+#: Mails/Model/MailSetting.php:54;61;67
+#: Mails/Model/MailSettingFixedPhrase.php:49;56
+#: Mails/Test/Case/Controller/MailSettingsController/EditTest.php:228
+#: Mails/Test/Case/Model/MailQueue/ValidateTest.php:71;73;75;77
+#: Mails/Test/Case/Model/MailQueueUser/ValidateTest.php:69;71;73;75;77
+#: Mails/Test/Case/Model/MailSetting/ValidateTest.php:69;71;73
+#: Mails/Test/Case/Model/MailSettingFixedPhrase/ValidateTest.php:71;73
+#: Menus/Model/MenuFrameSetting.php:133;139;143
+#: Menus/Model/MenuFramesPage.php:62
+#: Menus/Model/MenuFramesRoom.php:62
+#: Menus/Test/Case/Model/MenuFrameSetting/ValidateTest.php:74;76;78;100
+#: Menus/Test/Case/Model/MenuFramesPage/ValidateTest.php:72
+#: Menus/Test/Case/Model/MenuFramesRoom/ValidateTest.php:72
+#: Pages/Model/Page.php:252;258;264
+#: Pages/Model/PageContainer.php:69
+#: Pages/Model/PagesLanguage.php:82;88
+#: Pages/Test/Case/Model/Page/ValidateTest.php:203;206;208;211
+#: Pages/Test/Case/Model/PagesLanguage/ValidateTest.php:75;78
+#: PhotoAlbums/Model/PhotoAlbumDisplayAlbum.php:50
+#: PhotoAlbums/Model/PhotoAlbumFrameSetting.php:50;64;71;85;92;99
+#: Questionnaires/Model/Questionnaire.php:151;169;200;209;230;236;242;276;293
+#: Questionnaires/Model/QuestionnaireChoice.php:90
+#: Questionnaires/Model/QuestionnaireFrameDisplayQuestionnaire.php:100;108
+#: Questionnaires/Model/QuestionnaireFrameSetting.php:75;81;85;91
+#: Questionnaires/Model/QuestionnaireQuestion.php:114;124;136;142;148;157;163;169
+#: Questionnaires/Model/Behavior/QuestionnaireAnswerDatetimeBehavior.php:104
+#: Questionnaires/Test/Case/Controller/QuestionnaireEditController/EditResultTest.php:495
+#: Questionnaires/Test/Case/Controller/QuestionnaireEditController/EditTest.php:473;494;509;516;523;537
+#: Questionnaires/Test/Case/Controller/QuestionnaireFrameSettingsController/EditTest.php:315
+#: Questionnaires/Test/Case/Model/QuestionnaireAnswer/ValidateAnswerDatetimeTest.php:91
+#: Questionnaires/Test/Case/Model/QuestionnaireChoice/SaveQuestionnaireChoiceTest.php:161
+#: Questionnaires/Test/Case/Model/QuestionnaireFrameDisplayQuestionnaire/SaveFrameDisplayQuestionnaireTest.php:262
+#: Questionnaires/Test/Case/Model/QuestionnaireFrameDisplayQuestionnaire/ValidateFrameDisplayQuestionnaireTest.php:131;134
+#: Questionnaires/Test/Case/Model/QuestionnaireFrameSetting/ValidateQuestionnaireFrameSettingTest.php:102;104;106;108
+#: Questionnaires/Test/Case/Model/QuestionnaireQuestion/SaveQuestionnaireQuestionTest.php:219
+#: Questionnaires/Test/Case/Model/Questionnaires/SaveQuestionnaireTest.php:290
+#: Quizzes/Model/Quiz.php:154;186;192;198;204;210;216;222;228;234;240
+#: Quizzes/Model/QuizAnswer.php:99;107
+#: Quizzes/Model/QuizAnswerGrade.php:87;105;111;120
+#: Quizzes/Model/QuizFrameDisplayQuiz.php:79;87
+#: Quizzes/Model/QuizFrameSetting.php:69;82;88;92;98
+#: Quizzes/Model/QuizQuestion.php:137;147;159;165;171
+#: Quizzes/Model/Behavior/QuizAnswerValidateBehavior.php:61
+#: Quizzes/Test/Case/Controller/QuizAnswersController/GradingTest.php:371;381
+#: Quizzes/Test/Case/Controller/QuizEditController/EditTest.php:516;523;530;537;544;551;583
+#: Quizzes/Test/Case/Controller/QuizFrameSettingsController/EditTest.php:121
+#: Quizzes/Test/Case/Model/Quiz/ValidateTest.php:84;100;102;105;122;127
+#: Quizzes/Test/Case/Model/QuizAnswer/ValidateTest.php:119
+#: Quizzes/Test/Case/Model/QuizAnswerGrade/SaveGradeTest.php:234
+#: Quizzes/Test/Case/Model/QuizFrameDisplayQuiz/SaveFrameDisplayQuizTest.php:265
+#: Quizzes/Test/Case/Model/QuizFrameDisplayQuiz/ValidateTest.php:80;82;84
+#: Quizzes/Test/Case/Model/QuizFrameSetting/ValidateTest.php:80;82;84;86;88
+#: Quizzes/Test/Case/Model/QuizQuestion/ValidateTest.php:127;134;155;162;169
+#: Registrations/Model/Registration.php:155;172;245;279;296;302
+#: Registrations/Model/RegistrationChoice.php:90
+#: Registrations/Model/RegistrationQuestion.php:114;124;136;142;148;157;163;169
+#: Registrations/Model/Behavior/RegistrationAnswerDatetimeBehavior.php:104
+#: Registrations/Test/Case/Controller/RegistrationEditController/EditTest.php:488;502
+#: Registrations/Test/Case/Model/RegistrationAnswer/ValidateAnswerDatetimeTest.php:91
+#: Registrations/Test/Case/Model/RegistrationChoice/SaveRegistrationChoiceTest.php:161
+#: Registrations/Test/Case/Model/RegistrationQuestion/SaveRegistrationQuestionTest.php:219
+#: Registrations/Test/Case/Model/Registrations/SaveRegistrationTest.php:290
+#: Roles/Model/DefaultRolePermission.php:57;63;69;75;81
+#: Roles/Model/Role.php:93;99;105;113
+#: Roles/Test/Case/Model/DefaultRolePermission/ValidateTest.php:68;69;70;71;72
+#: Roles/Test/Case/Model/Role/ValidateTest.php:68;69;70;71
+#: Rooms/Model/RolesRoom.php:120;127
+#: Rooms/Model/RolesRoomsUser.php:72;79;86;93;100;108
+#: Rooms/Model/Room.php:190;196;203;211;217;223;229;236;244;251;262;272
+#: Rooms/Model/RoomRole.php:43;50;57
+#: Rooms/Model/RoomRolePermission.php:62;69;77
+#: Rooms/Model/RoomsLanguage.php:70;78
+#: Rooms/Model/Space.php:134;144;153
+#: Rooms/Test/Case/Model/RolesRoom/ValidateTest.php:76;78;80
+#: Rooms/Test/Case/Model/RolesRoomsUser/ValidateTest.php:76;78;80;82;84;86;88;90;92
+#: Rooms/Test/Case/Model/Room/ValidateTest.php:78;80;82;84;86;88;90;92;94;96;98;100
+#: Rooms/Test/Case/Model/RoomRole/ValidateTest.php:76;78;80;82;84;86
+#: Rooms/Test/Case/Model/RoomRolePermission/ValidateTest.php:76;78;80;82
+#: Rooms/Test/Case/Model/RoomsLanguage/ValidateTest.php:76;78;80;82
+#: Rooms/Test/Case/Model/Space/ValidateTest.php:76;78;80
+#: RssReaders/Model/RssReader.php:126
+#: RssReaders/Model/RssReaderFrameSetting.php:50;58
+#: RssReaders/Model/RssReaderItem.php:60
+#: Searches/Model/SearchFrameSetting.php:70;76
+#: Searches/Model/SearchFramesPlugin.php:45;51
+#: SiteManager/Model/Behavior/IpAddressManagerBehavior.php:35;69
+#: SiteManager/Model/Behavior/SiteManagerValidateBehavior.php:41;48;69;101;154;163;169;175;247;256
+#: SiteManager/Model/Behavior/SystemManagerValidateBehavior.php:37;69;76;83;105;128;153;160;218
+#: Tasks/Model/Task.php:88
+#: Tasks/Model/TaskCharge.php:45;51
+#: Tasks/Model/TaskContent.php:189;199;205;211;217;230;237;252;271;276;295;306;311
+#: Tasks/Test/Case/Controller/TaskContentEditController/AddTest.php:248;255;262;269;276;283;290
+#: Tasks/Test/Case/Controller/TaskContentEditController/EditTest.php:372;379;386;393;400;407;414;421
+#: Tasks/Test/Case/Model/Task/ValidateTest.php:76
+#: Topics/Model/Topic.php:350;356;362;369;376;383;391;397;403;410;417
+#: Topics/Model/TopicFrameSetting.php:95;105;111;117;123;129;135;141;147;153;159;165;171;177;183;189
+#: Topics/Model/TopicFramesBlock.php:62;68
+#: Topics/Model/TopicFramesPlugin.php:43;49
+#: Topics/Model/TopicFramesRoom.php:62;68
+#: Topics/Model/TopicReadable.php:70;78
+#: Topics/Model/TopicUserStatus.php:63;69
+#: Topics/Test/Case/Controller/TopicFrameSettingsController/EditTest.php:182
+#: Topics/Test/Case/Model/Topic/ValidateTest.php:80;83;86;89;92;97;100;103;106;109;111;113;120;122;124
+#: Topics/Test/Case/Model/TopicFrameSetting/ValidateTest.php:81;90;93;95;97;104;107;110;112;114;121;123;125;132;134;136;143;145;147;154;156;158;165;167;169;176;178;180;187;189;191;198;200;202;209;211;213;220;222;224
+#: Topics/Test/Case/Model/TopicFramesBlock/ValidateTest.php:80;83
+#: Topics/Test/Case/Model/TopicFramesPlugin/ValidateTest.php:80;83
+#: Topics/Test/Case/Model/TopicFramesRoom/ValidateTest.php:80;83
+#: Topics/Test/Case/Model/TopicReadable/ValidateTest.php:80;83
+#: Topics/Test/Case/Model/TopicUserStatus/ValidateTest.php:80;83
+#: UserAttributes/Model/UserAttribute.php:174;181
+#: UserAttributes/Model/UserAttributeChoice.php:115;122;139;147
+#: UserAttributes/Model/UserAttributeLayout.php:48;53
+#: UserAttributes/Model/UserAttributeSetting.php:67;75;80;87;94;101;108;115;122;129;136;143;150;157
+#: UserAttributes/Test/Case/Model/UserAttribute/ValidateTest.php:73;75;77;79
+#: UserAttributes/Test/Case/Model/UserAttributeChoice/ValidateTest.php:73;75;77;79;85;87;89
+#: UserAttributes/Test/Case/Model/UserAttributeLayout/ValidateTest.php:73;75;77;79
+#: UserAttributes/Test/Case/Model/UserAttributeSetting/ValidateTest.php:73;75;77;79;81;83;85;87;89;91;93;95;97;99
+#: UserManager/Model/UserMail.php:57;62
+#: UserRoles/Model/UserAttributesRole.php:52;60;67;74;81;88
+#: UserRoles/Model/UserRole.php:120;127;132;157
+#: UserRoles/Model/UserRoleSetting.php:52;60;68
+#: UserRoles/Test/Case/Model/UserAttributesRole/ValidateTest.php:71;73;75;77;79;81
+#: UserRoles/Test/Case/Model/UserRole/ValidateTest.php:71;73;75;77;79;83
+#: UserRoles/Test/Case/Model/UserRoleSetting/ValidateTest.php:71;73;75
+#: Users/Model/UserSelectCount.php:69;78;88
+#: Users/Model/UsersLanguage.php:72;81
+#: Users/Model/Behavior/SaveUserBehavior.php:216;232
+#: Videos/Model/VideoFrameSetting.php:63;70;77
+#: Videos/Model/Behavior/VideoValidationBehavior.php:191;198;212
+#: Videos/Test/Case/Controller/VideoBlockRolePermissionsController/EditTest.php:182
+#: Videos/Test/Case/Controller/VideoFrameSettingsController/EditTest.php:165;179
+#: Videos/Test/Case/Model/Video/ValidateTest.php:79;83;91;95
+#: Videos/Test/Case/Model/VideoFrameSetting/ValidateTest.php:71;73;75
+#: Videos/Test/Case/Model/VideoSetting/ValidateTest.php:92;94;96;98;100;102
+#: Workflow/Model/WorkflowComment.php:50;57;64
+#: Workflow/Model/Behavior/WorkflowBehavior.php:156;163
+#: Workflow/Test/Case/Model/Behavior/WorkflowBehavior/ValidatesTest.php:121;152
+#: Workflow/Test/Case/Model/WorkflowComment/ValidateTest.php:70;72;74
 msgid "Invalid request."
 msgstr "入力値が不正です。"
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
-#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
-#: Blogs/View/Elements/Blocks/delete_form.ctp:14
-#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:14
+#: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64
+#: Blogs/View/Elements/BlogBlocks/delete_form.ctp:14
+#: Cabinets/View/Elements/CabinetBlocks/delete_form.ctp:15
 #: Faqs/View/Elements/FaqBlocks/delete_form.ctp:14
+#: Groups/View/Elements/delete_form.ctp:36
+#: Holidays/View/Elements/HolidayRrules/delete_form.ctp:28
 #: Iframes/View/Elements/IframeBlocks/delete_form.ctp:14
 #: Links/View/Elements/LinkBlocks/delete_form.ctp:14
-#: Pages/View/Elements/Pages/delete_form.ctp:28
+#: Pages/View/Elements/PagesEdit/delete_form.ctp:33
+#: Rooms/View/Elements/Rooms/delete_form.ctp:28
 #: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:14
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:17
+#: Tasks/View/Elements/TaskBlocks/delete_form.ctp:14
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:26
+#: UserRoles/View/Elements/UserRoles/delete_form.ctp:32
+#: Users/View/Elements/Users/delete_form.ctp:29
+#: Videos/View/Elements/VideoBlocks/delete_form.ctp:18
 msgid "Delete all data associated with the %s."
 msgstr "この%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
 
-#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:25
-#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:28
-#: Bbses/View/Elements/BbsArticles/delete_form.ctp:35
-#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:28
-#: Blogs/View/BlogEntriesEdit/form.ctp:195
-#: Blogs/View/Elements/Blocks/delete_form.ctp:28
-#: CircularNotices/View/Elements/CircularNotices/delete_form.ctp:17
-#: ContentComments/View/Elements/index.ctp:238
-#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:28
-#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:28
-#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:38
-#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:28
-#: Links/View/Elements/LinkBlocks/delete_form.ctp:25
-#: Links/View/Elements/Links/delete_form.ctp:38
-#: Pages/View/Elements/Pages/delete_form.ctp:38
-#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:28
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:22
-#: Videos/View/VideosEdit/edit.ctp:147
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
+#: Announcements/View/Elements/Announcements/delete_form.ctp:21
+#: Bbses/View/Elements/BbsArticles/delete_form.ctp:30
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:22
+#: Blogs/View/BlogEntriesEdit/form.ctp:113
+#: Blogs/View/Elements/BlogBlocks/delete_form.ctp:28
+#: Cabinets/View/CabinetFilesEdit/folder_form.ctp:130
+#: Cabinets/View/CabinetFilesEdit/form.ctp:175
+#: Cabinets/View/Elements/CabinetBlocks/delete_form.ctp:43
+#: CircularNotices/View/Elements/CircularNotices/delete_form.ctp:26
+#: ContentComments/View/Elements/editAndDeleteButton.ctp:55
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:23
+#: Faqs/View/Elements/FaqQuestions/delete_form.ctp:27
+#: Groups/View/Elements/delete_form.ctp:43
+#: Holidays/View/Elements/HolidayRrules/delete_form.ctp:34
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:23
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:22
+#: Links/View/Elements/Links/delete_form.ctp:22
+#: Pages/View/Elements/PagesEdit/delete_form.ctp:43
+#: PhotoAlbums/View/PhotoAlbumPhotos/edit.ctp:96
+#: PhotoAlbums/View/PhotoAlbums/edit.ctp:79
+#: Questionnaires/View/Elements/QuestionnaireEdit/Edit/delete_form.ctp:26
+#: Quizzes/View/Elements/QuizEdit/Edit/delete_form.ctp:25
+#: Registrations/View/Elements/RegistrationEdit/Edit/delete_form.ctp:26
+#: Registrations/View/RegistrationBlocks/answer_list.ctp:90
+#: Rooms/View/Elements/Rooms/delete_form.ctp:34
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:22
+#: RssReaders/View/Elements/RssReaders/delete_form.ctp:21
+#: Tasks/View/Elements/TaskBlocks/delete_form.ctp:34
+#: Tasks/View/Elements/TaskContentEdit/delete_form.ctp:26
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:32
+#: UserRoles/View/Elements/UserRoles/delete_form.ctp:39
+#: Users/View/Elements/Users/delete_form.ctp:35
+#: Videos/View/Elements/VideoBlocks/delete_form.ctp:22
+#: Videos/View/VideosEdit/edit.ctp:125
 msgid "Deleting the %s. Are you sure to proceed?"
 msgstr "%sを削除します。本当によろしいですか。"
 
-#: Announcements/Model/Announcement.php:106 Bbses/Model/Bbs.php:109
-#: Bbses/Model/BbsArticle.php:113;120 Blogs/Model/Blog.php:110
-#: Blogs/Model/BlogEntry.php:70;80;90 Categories/Model/Category.php:102
-#: Categories/Test/Case/Model/CategoryValidateCategoryTest.php:121
-#: CircularNotices/Model/CircularNoticeContent.php:48;54;68;74;80;90;114
-#: CircularNotices/Model/CircularNoticeTargetUser.php:53
-#: ContentComments/Model/ContentComment.php:83
-#: Edumap/Model/Edumap.php:143;150;157;168;179;186;204
-#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:125;162;199;236;273;310;347
-#: Faqs/Model/Faq.php:110 Faqs/Model/FaqQuestion.php:115;123
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:357;390
-#: Faqs/Test/Case/Model/FaqValidateFaqTest.php:149;178
-#: Iframes/Model/Iframe.php:101
-#: Iframes/Test/Case/Model/IframeValidateTest.php:80
-#: Links/Model/Link.php:125;139 Links/Model/LinkBlock.php:142
-#: Pages/Model/LanguagesPage.php:66 Pages/Model/Page.php:166
-#: Questionnaires/Model/Questionnaire.php:115
-#: Questionnaires/Test/Case/Model/QuestionnaireValidationTest.php:93
-#: RssReaders/Model/RssReader.php:116;129
-#: RssReaders/Model/RssReaderItem.php:70;77
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:34;80
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:92;133
-#: Videos/Model/VideoBlockSetting.php:221
-#: Videos/Model/Behavior/VideoValidationBehavior.php:35;89
+#: AccessCounters/Model/AccessCounter.php:187
+#: AccessCounters/Test/Case/Controller/AccessCountersController/EditTest.php:325
+#: Announcements/Model/Announcement.php:114
+#: Announcements/Test/Case/Controller/AnnouncementBlocksController/EditTest.php:113;141
+#: Announcements/Test/Case/Controller/AnnouncementsController/EditTest.php:317
+#: Announcements/Test/Case/Model/Announcement/ValidateTest.php:99
+#: Auth/Model/AutoUserRegist.php:135;369
+#: Auth/Model/ForgotPass.php:68;83
+#: Auth/Test/Case/Controller/ForgotPassController/ConfirmTest.php:257;267
+#: Auth/Test/Case/Controller/ForgotPassController/RequestTest.php:335;342
+#: Auth/Test/Case/Model/ForgotPass/ValidateAuthorizationKeyTest.php:86
+#: Auth/Test/Case/Model/ForgotPass/ValidateTest.php:71;96
+#: Bbses/Model/Bbs.php:123
+#: Bbses/Model/BbsArticle.php:154;161
+#: Bbses/Test/Case/Controller/BbsArticlesController/AddTest.php:254;261
+#: Bbses/Test/Case/Controller/BbsArticlesController/EditTest.php:345;352
+#: Bbses/Test/Case/Controller/BbsArticlesController/ReplyPostTest.php:242;249
+#: Bbses/Test/Case/Controller/BbsBlocksController/EditTest.php:143;171
+#: Bbses/Test/Case/Model/Bbs/ValidateTest.php:146
+#: Bbses/Test/Case/Model/BbsArticle/SaveBbsArticleTest.php:201;203
+#: Bbses/Test/Case/Model/BbsArticle/ValidateTest.php:136;138
+#: Blogs/Model/Blog.php:107
+#: Blogs/Model/BlogEntry.php:139;149;159
+#: Blogs/Test/Case/Controller/BlogBlocksController/EditTest.php:132;161
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/AddTest.php:232
+#: Blogs/Test/Case/Controller/BlogEntriesEditController/EditTest.php:353
+#: Blogs/Test/Case/Model/Blog/ValidateTest.php:78
+#: Blogs/Test/Case/Model/BlogEntry/ValidateTest.php:77;80;83
+#: Cabinets/Model/Cabinet.php:117
+#: Cabinets/Model/CabinetFile.php:103;115
+#: Cabinets/Test/Case/Controller/CabinetBlocksController/EditTest.php:127;156
+#: Cabinets/Test/Case/Controller/CabinetFilesEditController/AddFolderTest.php:237
+#: Cabinets/Test/Case/Controller/CabinetFilesEditController/EditFolderTest.php:364
+#: Cabinets/Test/Case/Controller/CabinetFilesEditController/EditTest.php:355
+#: Calendars/Model/CalendarEventContent.php:90;98;106
+#: Calendars/Model/CalendarMailSetting.php:82;90
+#: Calendars/Test/Case/Model/CalendarEventContent/ValidateTest.php:80;82;84
+#: Calendars/Test/Case/Model/CalendarMailSetting/ValidateTest.php:77;79
+#: Categories/Model/Category.php:95
+#: CircularNotices/Model/CircularNoticeContent.php:134;149;179;209;216;231
+#: CircularNotices/Model/CircularNoticeTargetUser.php:319
+#: ContentComments/Model/ContentComment.php:93
+#: ContentComments/Test/Case/Model/ContentComment/ValidateTest.php:79
+#: Faqs/Model/Faq.php:140
+#: Faqs/Model/FaqQuestion.php:146;154
+#: Faqs/Test/Case/Controller/FaqBlocksController/EditTest.php:124;152
+#: Faqs/Test/Case/Controller/FaqQuestionsController/AddTest.php:247;254
+#: Faqs/Test/Case/Controller/FaqQuestionsController/EditTest.php:349;356
+#: Faqs/Test/Case/Model/Faq/ValidateFaqTest.php:123
+#: Faqs/Test/Case/Model/FaqQuestion/SaveFaqQuestionTest.php:195;197
+#: Iframes/Model/Iframe.php:75
+#: Iframes/Model/IframeFrameSetting.php:64
+#: Install/Test/Case/Controller/InstallController/InitDbTest.php:218
+#: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:82;87;100;105;136;141;162;167;177;182
+#: Install/Utility/InstallValidatorUtil.php:70;84;102;122;136
+#: Links/Controller/LinksController.php:154
+#: Links/Model/Link.php:149;167
+#: Links/Model/LinkBlock.php:184
+#: Links/Test/Case/Controller/LinkBlocksController/EditTest.php:128;157
+#: Links/Test/Case/Controller/LinksController/AddTest.php:236
+#: Links/Test/Case/Controller/LinksController/EditTest.php:346
+#: Links/Test/Case/Controller/LinksController/GetTest.php:120
+#: Links/Test/Case/Model/Link/ValidateTest.php:85;89
+#: Links/Test/Case/Model/LinkBlock/ValidateTest.php:79
+#: Mails/Model/MailSettingFixedPhrase.php:63;70
+#: Mails/Test/Case/Model/MailSettingFixedPhrase/ValidateTest.php:75;77
+#: Pages/Model/Page.php:216;232
+#: Pages/Model/PagesLanguage.php:75;94
+#: Pages/Test/Case/Controller/PagesEditController/AddTest.php:151;154;163;166
+#: Pages/Test/Case/Controller/PagesEditController/EditTest.php:181;184;198;201
+#: Pages/Test/Case/Controller/PagesEditController/MetaTest.php:146;156
+#: Pages/Test/Case/Model/Behavior/PageSaveBehavior/ValidatesTest.php:93
+#: Pages/Test/Case/Model/Page/ValidateTest.php:88;193
+#: Pages/Test/Case/Model/PagesLanguage/ValidateTest.php:72;81
+#: PhotoAlbums/Model/PhotoAlbum.php:65
+#: Questionnaires/Model/ActionQuestionnaireAdd.php:63
+#: Questionnaires/Model/Questionnaire.php:158
+#: Questionnaires/Test/Case/Controller/QuestionnaireAddController/AddTest.php:353
+#: Questionnaires/Test/Case/Controller/QuestionnaireEditController/EditTest.php:466
+#: Quizzes/Model/ActionQuizAdd.php:60
+#: Quizzes/Model/Quiz.php:161
+#: Quizzes/Test/Case/Controller/QuizEditController/EditTest.php:495
+#: Quizzes/Test/Case/Controller/QuizzesController/AddTest.php:413
+#: Quizzes/Test/Case/Model/ActionQuizAdd/ValidateTest.php:87
+#: Quizzes/Test/Case/Model/Quiz/ValidateTest.php:86
+#: Registrations/Model/ActionRegistrationAdd.php:62
+#: Registrations/Model/Registration.php:162
+#: Registrations/Test/Case/Controller/RegistrationAddController/AddTest.php:296
+#: Registrations/Test/Case/Controller/RegistrationEditController/EditTest.php:431
+#: Rooms/Model/RoomsLanguage.php:87
+#: Rooms/Test/Case/Controller/RoomsController/EditTest.php:348
+#: Rooms/Test/Case/Model/RoomsLanguage/ValidateTest.php:84;86
+#: RssReaders/Model/RssReader.php:141;160
+#: RssReaders/Model/RssReaderItem.php:70;79
+#: SiteManager/Model/Behavior/SiteSettingValidateBehavior.php:52
+#: Tasks/Model/Task.php:98
+#: Tasks/Model/TaskContent.php:181
+#: Tasks/Test/Case/Controller/TaskBlocksController/EditTest.php:153;182
+#: Tasks/Test/Case/Controller/TaskContentEditController/AddTest.php:241
+#: Tasks/Test/Case/Controller/TaskContentEditController/EditTest.php:365
+#: Tasks/Test/Case/Model/Task/ValidateTest.php:78
+#: UserAttributes/Model/UserAttribute.php:190
+#: UserAttributes/Model/UserAttributeChoice.php:131
+#: UserAttributes/Test/Case/Controller/UserAttributesController/AddTest.php:204
+#: UserAttributes/Test/Case/Controller/UserAttributesController/EditTest.php:228
+#: UserAttributes/Test/Case/Model/UserAttribute/ValidateTest.php:81;83
+#: UserAttributes/Test/Case/Model/UserAttributeChoice/ValidateTest.php:81;83
+#: UserManager/Model/UserMail.php:81;89
+#: UserManager/Test/Case/Controller/UserAddController/BasicTest.php:242
+#: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:242;246
+#: UserManager/Test/Case/Controller/UserManagerController/EditTest.php:295
+#: UserRoles/Model/UserRole.php:140;149
+#: UserRoles/Test/Case/Controller/UserRolesController/EditTest.php:224
+#: UserRoles/Test/Case/Model/UserRole/ValidateTest.php:81
+#: Users/Model/User.php:295;336;360;379
+#: Users/Model/Behavior/SaveUserBehavior.php:177
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:166;174;184
+#: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:126;134
+#: Videos/Model/VideoSetting.php:112
+#: Videos/Model/Behavior/VideoValidationBehavior.php:205
+#: Videos/Test/Case/Controller/VideoBlocksController/EditTest.php:156;186
+#: Videos/Test/Case/Controller/VideosEditController/AddTest.php:269
+#: Videos/Test/Case/Controller/VideosEditController/EditTest.php:351
+#: Videos/Test/Case/Model/Video/ValidateTest.php:87
 msgid "Please input %s."
 msgstr "%sを入力してください。"
 
-#: Comments/Model/Comment.php:57 Comments/View/Elements/form.ctp:28
-#: Faqs/Test/Case/Model/FaqQuestionValidateFaqQuestionTest.php:458
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:271
+#: Workflow/Model/WorkflowComment.php:71
+#: Workflow/Test/Case/Model/Behavior/WorkflowCommentBehavior/ValidatesTest.php:144
+#: Workflow/Test/Case/Model/WorkflowComment/ValidateTest.php:78
+#: Workflow/Test/Case/View/Elements/FormTest.php:83
+#: Workflow/View/Elements/form.ctp:13
 msgid "If it is not approved, comment is a required input."
 msgstr "差し戻す場合は、必ずコメントを入力してください。"
 
-#: Comments/View/Elements/form.ctp:28
+#: Workflow/Test/Case/View/Elements/FormTest.php:64
+#: Workflow/View/Elements/form.ctp:15
 msgid "Please enter comments to the person in charge."
 msgstr "担当者へコメントがあれば、入力してください。"
 
-#: Edumap/Model/Edumap.php:162;191;197;209;215;222;229;236;243
-#: Edumap/Test/Case/Model/EdumapValidateEdumapTest.php:384;458;495;532;569;606;643;680;683;720
-#: Iframes/Model/Iframe.php:106
-#: Iframes/Test/Case/Model/IframeValidateTest.php:126 Links/Model/Link.php:131
-#: RssReaders/Model/RssReader.php:121;136
-#: RssReaders/Model/RssReaderItem.php:82
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
+#: Users/Model/Behavior/SaveUserBehavior.php:200
+msgid "Unauthorized pattern for %s."
+msgstr "%sの書式が不正です。"
+
+#: Auth/Model/ForgotPass.php:74
+#: Auth/Test/Case/Model/ForgotPass/ValidateTest.php:77
+#: Iframes/Model/Iframe.php:81
+#: Links/Model/Link.php:156
+#: Links/Test/Case/Controller/LinksController/AddTest.php:229
+#: Links/Test/Case/Controller/LinksController/EditTest.php:339
+#: Links/Test/Case/Model/Link/ValidateTest.php:87
+#: Quizzes/Model/Quiz.php:290;299
+#: Quizzes/Test/Case/Controller/QuizEditController/EditTest.php:558;567
+#: Quizzes/Test/Case/Model/Quiz/ValidateTest.php:130
+#: RssReaders/Model/RssReader.php:148;169
+#: RssReaders/Model/RssReaderItem.php:86
+#: SiteManager/Model/Behavior/IpAddressManagerBehavior.php:158
+#: UserManager/Model/UserMail.php:69
+#: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:250
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
 msgstr "%sの書式が不正です。%s形式で入力してください。"
 
+#:
 msgid "Only alphabets and numbers are allowed."
 msgstr "半角英数字を入力してください。"
 
+#: Auth/View/ForgotPass/update.ctp:34
+#: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:91;94;171;186
+#: Install/Utility/InstallValidatorUtil.php:76;128;142
 msgid "Only alphabets, numbers and symbols are allowed."
 msgstr "半角英数字または記号を入力してください。"
 
+#:
 msgid "Only alphabets and numbers are allowed to use for %s."
 msgstr "%sは半角英数字を入力してください。"
 
+#: Users/Model/User.php:303;344
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:194
+#: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:144
 msgid "Only alphabets, numbers and symbols are allowed to use for %s."
 msgstr "%sは半角英数字または記号を入力してください。"
 
-#: Edumap/Model/EdumapSocialMedium.php:74
+#: Users/Model/User.php:311;352
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:205
+#: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:155
 msgid "Please choose at least %s characters string."
 msgstr "%s文字以上で入力してください。"
 
+#: NetCommons/View/Helper/NetCommonsFormHelper.php:482
 msgid "Only numbers are allowed."
 msgstr "数字を入力してください。"
 
+#:
 msgid "Please enter more than %s."
 msgstr "%s以上の数値を入力してください。"
 
+#: AccessCounters/Model/AccessCounter.php:90
+#: AccessCounters/Test/Case/Controller/AccessCountersController/AddTest.php:289
+#: AccessCounters/Test/Case/Model/AccessCounter/ValidateTest.php:104
+#: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:110;118;126
+#: Install/Utility/InstallValidatorUtil.php:91
 msgid "The input %s must be a number bigger than %d and less than %d."
 msgstr "%sは%d～%dまでの数値を入力してください。"
 
+#: Auth/Controller/ForgotPassController.php:227
+#: Bbses/Controller/BbsArticlesController.php:469
+#: Boxes/Controller/BoxesController.php:46
+#: Calendars/Controller/CalendarBlockRolePermissionsController.php:92
+#: Frames/Controller/FramesController.php:139
+#: Frames/Test/Case/Controller/FramesController/EditTest.php:108
+#: Groups/Controller/GroupsController.php:125;169;210
+#: Mails/Controller/MailSettingsController.php:89
+#: Pages/Controller/PagesEditController.php:185;208;245;273;322
+#: Pages/Test/Case/Controller/PagesEditController/LayoutTest.php:122
+#: Pages/Test/Case/Controller/PagesEditController/MetaTest.php:112
+#: Pages/Test/Case/Controller/PagesEditController/ThemeTest.php:131
+#: PluginManager/Controller/PluginManagerController.php:189;234;275
+#: Questionnaires/Controller/QuestionnaireBlockRolePermissionsController.php:99
+#: Questionnaires/Controller/QuestionnaireFrameSettingsController.php:96
+#: Quizzes/Controller/QuizBlockRolePermissionsController.php:94
+#: Quizzes/Controller/QuizFrameSettingsController.php:85
+#: Registrations/Controller/RegistrationBlockRolePermissionsController.php:109
+#: Rooms/Controller/PluginsRoomsController.php:64
+#: Rooms/Controller/RoomAddController.php:281
+#: Rooms/Controller/RoomsController.php:222;264;286
+#: Rooms/Controller/RoomsRolesUsersController.php:81
+#: SiteManager/Controller/DefaultPageSettingsController.php:70
+#: SiteManager/Controller/Component/SiteManagerComponent.php:124
+#: SiteManager/Test/Case/Controller/MailSignatureSettingsController/EditTest.php:155
+#: SiteManager/Test/Case/Controller/MetaSettingsController/EditTest.php:263
+#: SystemManager/Controller/DeveloperController.php:67
+#: UserAttributes/Controller/UserAttributeLayoutsController.php:48
+#: UserAttributes/Controller/UserAttributeSettingsController.php:48;69
+#: UserManager/Controller/UserAddController.php:208
+#: UserManager/Controller/UserManagerController.php:172;277
+#: UserManager/Controller/UsersRolesRoomsController.php:80
+#: UserManager/Test/Case/Controller/UserAddController/UserRolesRoomsTest.php:223;262
+#: UserRoles/Controller/UserAttributesRolesController.php:114
+#: UserRoles/Controller/UserRoleAddController.php:281
+#: UserRoles/Controller/UserRolesController.php:172;220
+#: UserRoles/Controller/UserRolesPluginsController.php:60
+#: Users/Controller/UsersController.php:196
 msgid "Successfully saved."
 msgstr "正常に登録しました。"
 
+#: UserManager/Controller/UserManagerController.php:209
+#: UserManager/Test/Case/Controller/UserManagerController/DeleteTest.php:100
 msgid "Successfully deleted."
 msgstr "正常に削除しました。"
 
-#:
+#: Users/Model/User.php:379
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:184
 msgid "Current password"
 msgstr "現在のパスワード"
 
+#: NetCommons/View/Helper/FormInputHelper.php:415
 msgid "Enter current password."
 msgstr "現在のパスワードを入力してください。"
 
+#: Users/Model/User.php:385
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:225
 msgid "Current password is wrong."
 msgstr "現在のパスワードが間違ってます。入力した内容を確認してください。"
 
+#:
 msgid "New password"
 msgstr "新しいパスワード"
 
+#: NetCommons/View/Helper/FormInputHelper.php:424
 msgid "Enter new password."
 msgstr "新しいパスワードを入力してください。"
 
+#: NetCommons/View/Helper/FormInputHelper.php:441;496
 msgid "For confirmation, please re-enter."
 msgstr "確認のため、再度入力してください。"
 
-#: NetCommons/Controller/NetCommonsAppController.php:289
+#: CircularNotices/Model/Behavior/CircularNoticeTargetUserBehavior.php:63
+#: Groups/Model/GroupsUser.php:91
+#: Groups/Test/Case/GroupsModelTestBase.php:94
+#: Install/Controller/InstallController.php:170
+#: Install/Test/Case/Controller/InstallController/InitDbTest.php:214
+#: NetCommons/Controller/Component/NetCommonsComponent.php:77
+#: Tasks/Model/Behavior/TaskChargeBehavior.php:50
+#: Tasks/Test/Case/Controller/TaskContentEditController/AddTest.php:297
+#: Tasks/Test/Case/Controller/TaskContentEditController/EditTest.php:428
+#: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:204
 msgid "Failed on validation errors. Please check the input data."
 msgstr "入力した内容に誤りがあります。内容を確認してください。"
 
+#: Users/Model/Behavior/SaveUserBehavior.php:87;187
+#: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:165
 msgid "%s is already in use. Please choose another."
 msgstr "入力した%sは既に存在します。他の内容を入力してください。"
 
+#: Auth/Model/AutoUserRegist.php:376
+#: Registrations/Model/RegistrationAnswer.php:166
+#: Users/Model/User.php:365
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:214
 msgid "The input data does not match. Please try again."
 msgstr "入力した内容と確認項目の内容が一致しません。再度、入力してください。"
 
-#: Pages/Model/Page.php:178
+#: Pages/Model/Page.php:237
+#: Pages/Test/Case/Model/Page/ValidateTest.php:195
 msgid "%s is already in use."
 msgstr "%sは既に使われています。"
 
+#:
 msgid "No results found."
 msgstr "条件に一致するデータはありませんでした。"
 
-#: CircularNotices/Model/CircularNoticeContent.php:104
+#: CircularNotices/Model/CircularNoticeContent.php:169
 msgid "Pleas input boolean."
 msgstr ""
 
+#: Pages/View/Helper/PagesEditHelper.php:91
+#: SiteManager/View/Helper/SiteManagerHelper.php:370
 msgid "Each of the embedded keywords, will be converted to the corresponding content. <br />"
 msgstr "それぞれの埋め込みキーワードは、対応する内容に変換されます。<br />"
 
+#: SiteManager/View/Helper/SiteManagerHelper.php:373
 msgid "Can use an embedded keyword."
 msgstr "埋め込みキーワードが使えます。"
 
+#: Pages/View/Helper/PagesEditHelper.php:88
+#: SiteManager/View/Helper/SiteManagerHelper.php:369
+#: Topics/View/Elements/TopicFrameSettings/edit_form.ctp:272
 msgid "{X-SITE_NAME} : Site name"
 msgstr "{X-SITE_NAME} : サイト名"
+
+#: PluginManager/Controller/PluginManagerController.php:193
+msgid "Failed to proceed the %s."
+msgstr ""
 
 
 #
 #: コンソールメッセージ
 #
 
+#: Install/Console/Command/InstallShell.php:65
+#: PluginManager/Console/Command/UpdateAllShell.php:44
+#: Users/Console/Command/UsersShell.php:54
 msgid "What would you like to do?"
 msgstr ""
 
+#: Install/Console/Command/InstallShell.php:87
+#: PluginManager/Console/Command/UpdateAllShell.php:81
+#: Users/Console/Command/UsersShell.php:67
 msgid "You have made an invalid selection. Please choose a command to execute by entering %s."
 msgstr ""
 
@@ -384,46 +929,92 @@ msgstr ""
 #: 一覧表示のヘッダー
 #
 
-#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
-#: Announcements/View/Elements/AnnouncementBlocks/delete_form.ctp:25
-#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:25
-#: Blogs/View/BlogEntriesEdit/form.ctp:194
-#: Blogs/View/Elements/Blocks/delete_form.ctp:25
-#: Categories/View/Elements/edit_form.ctp:59
+#: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:21
+#: Bbses/View/Elements/BbsBlocks/delete_form.ctp:21
+#: Blogs/View/Elements/BlogBlocks/delete_form.ctp:25
+#: Cabinets/View/Elements/CabinetBlocks/delete_form.ctp:38
+#: Calendars/View/CalendarPlans/delete.ctp:109
+#: Categories/View/Elements/edit_form.ctp:81
 #: CircularNotices/View/Elements/CircularNotices/choice_edit_form.ctp:58
-#: Edumap/View/Elements/EdumapBlocks/delete_form.ctp:25
-#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:25
-#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:25
-#: Links/View/Elements/LinkBlocks/delete_form.ctp:22
-#: Pages/View/Elements/Pages/delete_form.ctp:35
-#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:25
-#: Videos/View/Elements/VideoBlockSettings/delete_form.ctp:19
+#: ContentComments/View/Elements/editAndDeleteButton.ctp:52
+#: Faqs/View/Elements/FaqBlocks/delete_form.ctp:22
+#: Files/View/Helper/FilesFormHelper.php:119
+#: Groups/View/Elements/delete_form.ctp:42
+#: Holidays/View/Elements/HolidayRrules/delete_form.ctp:33
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:22
+#: Links/View/Elements/LinkBlocks/delete_form.ctp:21
+#: NetCommons/View/Helper/ButtonHelper.php:121
+#: Pages/View/Elements/PagesEdit/delete_form.ctp:42
+#: PluginManager/View/Elements/PluginManager/plugins.ctp:114
+#: PluginManager/View/PluginManager/view.ctp:80
+#: Rooms/View/Elements/Rooms/delete_form.ctp:33
+#: RssReaders/View/Elements/RssReaderBlocks/delete_form.ctp:21
+#: Tasks/View/Elements/TaskBlocks/delete_form.ctp:30
+#: UserAttributes/View/Elements/UserAttributes/choice_edit_form.ctp:76
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:31
+#: UserRoles/View/Elements/UserRoles/delete_form.ctp:38
+#: Users/View/Elements/Users/delete_form.ctp:34
+#: Videos/View/Elements/VideoBlocks/delete_form.ctp:21
 msgid "Delete"
 msgstr "削除"
 
-#: AccessCounters/View/AccessCounterBlocks/index.ctp:43
+#: Cabinets/View/CabinetFiles/folder_detail.ctp:89
+#: Cabinets/View/CabinetFiles/view.ctp:82
 msgid "Created datetime"
 msgstr "作成日"
 
+#: Cabinets/View/CabinetFiles/folder_detail.ctp:83
+#: Cabinets/View/CabinetFiles/view.ctp:76
 msgid "Created user"
 msgstr "作成者"
 
-#: Announcements/View/AnnouncementBlocks/index.ctp:43
-#: Blogs/View/BlogBlocks/index.ctp:43 Edumap/View/EdumapBlocks/index.ctp:40
-#: Faqs/View/FaqBlocks/index.ctp:40 Iframes/View/IframeBlocks/index.ctp:40
-#: Links/View/LinkBlocks/index.ctp:40
-#: Questionnaires/View/Elements/FrameSettings/edit_display_questionnaire.ctp:36
-#: Questionnaires/View/QuestionnaireBlocks/index.ctp:41
-#: RssReaders/View/RssReaderBlocks/index.ctp:40
+#: Questionnaires/View/Elements/FrameSettings/edit_display_questionnaire.ctp:46
+#: Questionnaires/View/QuestionnaireBlocks/index.ctp:43
+#: Quizzes/View/Elements/QuizFrameSettings/edit_display_quiz.ctp:42
+#: Quizzes/View/QuizBlocks/index.ctp:44
+#: Registrations/View/RegistrationBlocks/index.ctp:49
 msgid "Updated date"
 msgstr "更新日"
 
+#: AccessCounters/View/AccessCounterBlocks/index.ctp:45
+#: Announcements/View/AnnouncementBlocks/index.ctp:43
+#: Bbses/View/BbsBlocks/index.ctp:50
+#: Blogs/View/BlogBlocks/index.ctp:46
+#: Cabinets/View/CabinetBlocks/index.ctp:46
+#: Cabinets/View/CabinetFiles/folder_detail.ctp:102
+#: Cabinets/View/CabinetFiles/index.ctp:153
+#: Cabinets/View/CabinetFiles/view.ctp:95
+#: Faqs/View/FaqBlocks/index.ctp:45
+#: Iframes/View/IframeBlocks/index.ctp:41
+#: Links/View/LinkBlocks/index.ctp:46
+#: PhotoAlbums/View/Elements/album_setting_list.ctp:19
+#: RssReaders/View/RssReaderBlocks/index.ctp:41
+#: Tasks/View/TaskBlocks/index.ctp:46
+#: Videos/View/VideoBlocks/index.ctp:50
 msgid "Modified datetime"
 msgstr "更新日"
 
+#: AccessCounters/View/AccessCounterBlocks/index.ctp:41
+#: Announcements/View/AnnouncementBlocks/index.ctp:39
+#: Bbses/View/BbsBlocks/index.ctp:46
+#: Blogs/View/BlogBlocks/index.ctp:42
+#: Cabinets/View/CabinetBlocks/index.ctp:42
+#: Cabinets/View/CabinetFiles/folder_detail.ctp:94
+#: Cabinets/View/CabinetFiles/view.ctp:87
+#: Faqs/View/FaqBlocks/index.ctp:41
+#: Iframes/View/IframeBlocks/index.ctp:37
+#: Links/View/LinkBlocks/index.ctp:42
+#: PhotoAlbums/View/Elements/album_setting_list.ctp:18
+#: RssReaders/View/RssReaderBlocks/index.ctp:37
+#: Tasks/View/TaskBlocks/index.ctp:42
+#: Videos/View/VideoBlocks/index.ctp:46
 msgid "Modified user"
 msgstr "更新者"
 
+#: Blogs/View/BlogBlocks/index.ctp:33
+#: Faqs/View/FaqBlocks/index.ctp:33
+#: Links/View/LinkBlocks/index.ctp:34
+#: Tasks/View/TaskBlocks/index.ctp:33
 msgid "Number"
 msgstr "件数"
 
@@ -432,123 +1023,266 @@ msgstr "件数"
 #: ボタン
 #
 
-#: Announcements/View/Announcements/view.ctp:16
-#: Bbses/View/Elements/BbsArticles/breadcrumb.ctp:63
-#: Bbses/View/Elements/BbsArticles/edit_link.ctp:26
-#: CircularNotices/View/CircularNotices/index.ctp:107
-#: Edumap/View/Edumap/view.ctp:23
-#: Faqs/View/Elements/FaqQuestions/article.ctp:59
-#: RssReaders/View/RssReaders/view.ctp:36 Videos/View/Videos/view.ctp:37
+#: Cabinets/View/Elements/CabinetFiles/file_row.ctp:134
+#: Cabinets/View/Elements/CabinetFiles/folder_row.ctp:102
+#: CircularNotices/View/CircularNotices/index.ctp:91
+#: ContentComments/View/Elements/editAndDeleteButton.ctp:29
+#: Links/View/LinkOrders/edit.ctp:74
+#: NetCommons/View/Helper/LinkButtonHelper.php:117
+#: Rooms/View/Rooms/view.ctp:77;97;109
+#: UserManager/View/UserManager/view.ctp:51
+#: UserRoles/View/UserRoles/view.ctp:56;68;83
+#: Videos/View/Videos/view.ctp:28
 msgid "Edit"
 msgstr "編集"
 
-#: Bbses/View/Elements/BbsArticles/comment_status_label.ctp:15
-#: CircularNotices/View/Elements/CircularNotices/status_label.ctp:23
-#: NetCommons/View/Elements/status_label.ctp:16
-#: Questionnaires/View/Elements/edit_status_selector.ctp:19
-#: Questionnaires/View/Elements/questionnaire_status_label.ctp:19
-#: Questionnaires/View/Elements/status_label.ctp:13
+#: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:33
+#: CircularNotices/View/Elements/CircularNotices/status_label.ctp:22
+#: PhotoAlbums/View/Elements/album_frame_setting_list.ctp:131
+#: Questionnaires/View/Elements/ng_status_label.ctp:13
 #: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:36
+#: Quizzes/View/Elements/ng_status_label.ctp:13
+#: Quizzes/View/Helper/QuizStatusLabelHelper.php:36
+#: Registrations/View/Elements/ng_status_label.ctp:13
+#: Registrations/View/Helper/RegistrationStatusLabelHelper.php:36
+#: Topics/Model/Topic.php:265
+#: Topics/Test/Case/View/Helper/TopicsHelper/PrivateGetStatusLabelTest.php:138
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:73
+#: Workflow/View/Helper/WorkflowHelper.php:62
 msgid "Temporary"
 msgstr "一時保存"
 
-#: Blocks/View/Elements/delete_form.ctp:28
-#: Pages/View/Elements/Pages/delete_form.ctp:22
+#: Blocks/View/Elements/delete_form.ctp:31
+#: Groups/View/Elements/delete_form.ctp:30
+#: Holidays/View/Elements/HolidayRrules/delete_form.ctp:22
+#: Pages/View/Elements/PagesEdit/delete_form.ctp:27
+#: Rooms/View/Elements/Rooms/delete_form.ctp:22
+#: UserAttributes/View/Elements/UserAttributes/delete_form.ctp:20
+#: UserRoles/View/Elements/UserRoles/delete_form.ctp:18
+#: Users/View/Elements/Users/delete_form.ctp:23
 msgid "Danger Zone"
 msgstr "削除処理"
 
-#: Blocks/View/Elements/edit_form.ctp:32
-#: CircularNotices/View/CircularNotices/view.ctp:219
-#: ContentComments/View/Elements/index.ctp:163
-#: Faqs/View/FaqQuestionOrders/edit.ctp:89 Links/View/LinkOrders/edit.ctp:84
-#: NetCommons/View/Elements/workflow_buttons.ctp:14
-#: Pages/View/Elements/edit_layout.ctp:98 Pages/View/Pages/edit.ctp:36
-#: PluginManager/View/Elements/PluginManager/plugins.ctp:84
-#: PluginManager/View/PluginManager/view.ctp:135
-#: Questionnaires/View/Elements/FrameSettings/edit_form.ctp:47
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:12
-#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:93
-#: Questionnaires/View/QuestionnaireAnswers/test_mode.ctp:121
-#: Questionnaires/View/QuestionnairePage/setting.ctp:31
-#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:365
-#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:198
-#: Questionnaires/View/Questionnaires/add.ctp:117
+#: AuthorizationKeys/View/AuthorizationKeys/popup.ctp:30
+#: AuthorizationKeys/View/AuthorizationKeys/view.ctp:24
+#: Blocks/View/Elements/edit_form.ctp:45
+#: Cabinets/View/CabinetFilesEdit/folder_form.ctp:97
+#: Calendars/View/CalendarPlans/delete.ctp:102
+#: CircularNotices/View/CircularNotices/view.ctp:236
+#: ContentComments/View/Elements/edit.ctp:80
+#: Faqs/View/FaqQuestionOrders/edit.ctp:87
+#: Groups/View/Elements/edit_form.ctp:68;76
+#: Groups/View/Groups/select.ctp:78
+#: Holidays/View/Elements/HolidayRrules/edit_form.ctp:32
+#: Links/View/LinkOrders/edit.ctp:84
+#: Mails/View/Elements/edit_form.ctp:163
+#: Menus/View/MenuFrameSettings/edit.ctp:23
+#: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:143
+#: NetCommons/View/Helper/ButtonHelper.php:271
+#: NetCommons/View/Helper/WizardHelper.php:202
+#: Pages/View/PagesEdit/edit.ctp:29
+#: Pages/View/PagesEdit/layout.ctp:84
+#: Pages/View/PagesEdit/meta.ctp:33
+#: Pages/View/PagesEdit/move.ctp:64
+#: PluginManager/View/Elements/PluginManager/plugins.ctp:126
+#: Questionnaires/View/QuestionnaireAdd/add.ctp:52
+#: Questionnaires/View/QuestionnaireAnswers/img_auth.ctp:30
+#: Questionnaires/View/QuestionnaireAnswers/key_auth.ctp:28
+#: Questionnaires/View/QuestionnaireAnswers/test_mode.ctp:132
+#: Questionnaires/View/QuestionnaireEdit/edit_not_found.ctp:16
+#: Quizzes/View/QuizAnswers/start.ctp:48
+#: Quizzes/View/QuizAnswers/test_mode.ctp:110
+#: Quizzes/View/QuizEdit/edit_not_found.ctp:16
+#: Quizzes/View/Quizzes/add.ctp:50
+#: Registrations/View/RegistrationAdd/add.ctp:54
+#: Registrations/View/RegistrationAnswers/test_mode.ctp:116
+#: Rooms/View/PluginsRooms/edit.ctp:46
+#: Rooms/View/RoomAdd/basic.ctp:44
+#: Rooms/View/Rooms/edit.ctp:43
+#: Rooms/View/RoomsRolesUsers/edit.ctp:51
+#: SiteManager/View/MailSignatureSettings/edit.ctp:28
+#: SiteManager/View/Membership/edit.ctp:46
+#: SiteManager/View/MetaSettings/edit.ctp:32
+#: SiteManager/View/SiteManager/edit.ctp:53
+#: SiteManager/View/Workflow/edit.ctp:32
+#: SystemManager/View/Developer/edit.ctp:26
+#: SystemManager/View/MailServer/edit.ctp:28
+#: SystemManager/View/SecuritySettings/edit.ctp:48
+#: SystemManager/View/SystemManager/edit.ctp:26
+#: SystemManager/View/WebServer/edit.ctp:36
+#: UserAttributes/View/UserAttributes/edit.ctp:58
+#: UserManager/View/UserManager/edit.ctp:29
+#: UserManager/View/UserManager/export.ctp:50
+#: UserManager/View/UserManager/import.ctp:123
+#: UserManager/View/UsersRolesRooms/edit.ctp:38
+#: UserRoles/View/UserAttributesRoles/edit.ctp:37
+#: UserRoles/View/UserRoles/edit.ctp:36
+#: UserRoles/View/UserRolesPlugins/edit.ctp:55
+#: Users/View/UserSearch/conditions.ctp:42
+#: Users/View/Users/edit.ctp:45
+#: Users/View/Users/select.ctp:93
+#: VisualCaptcha/View/VisualCaptcha/view.ctp:13
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:146
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: Blocks/View/Elements/edit_form.ctp:35
-#: CircularNotices/View/CircularNotices/view.ctp:227
-#: Faqs/View/FaqQuestionOrders/edit.ctp:92
-#: Frames/View/Elements/setting_header.ctp:101
-#: Links/View/LinkOrders/edit.ctp:87
-#: NetCommons/View/Elements/workflow_buttons.ctp:45;52
-#: Pages/View/Elements/edit_layout.ctp:101 Pages/View/Pages/edit.ctp:39
-#: PluginManager/View/Elements/PluginManager/plugins.ctp:87
-#: Questionnaires/View/Elements/FrameSettings/edit_form.ctp:50
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:47;57
+#: AuthorizationKeys/View/AuthorizationKeys/popup.ctp:31
+#: AuthorizationKeys/View/AuthorizationKeys/view.ctp:26
+#: Bbses/View/Helper/BbsesFormHelper.php:72;79
+#: Blocks/View/Elements/edit_form.ctp:45
+#: Cabinets/View/CabinetFilesEdit/folder_form.ctp:98
+#: Calendars/View/Helper/CalendarPlanHelper.php:167
+#: ContentComments/View/Elements/edit.ctp:81
+#: Faqs/View/FaqQuestionOrders/edit.ctp:88
+#: Frames/View/Elements/setting_frame.ctp:97
+#: Groups/View/Elements/edit_form.ctp:68;77
+#: Holidays/View/Elements/HolidayRrules/edit_form.ctp:33
+#: Links/View/LinkOrders/edit.ctp:84
+#: Mails/View/Elements/edit_form.ctp:163
+#: Menus/View/MenuFrameSettings/edit.ctp:23
+#: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:107;180;190
+#: NetCommons/View/Helper/ButtonHelper.php:322
+#: NetCommons/View/Helper/WizardHelper.php:222
+#: Pages/View/Elements/PagesEdit/theme_form.ctp:32
+#: Pages/View/PagesEdit/edit.ctp:30
+#: Pages/View/PagesEdit/layout.ctp:85
+#: Pages/View/PagesEdit/meta.ctp:34
+#: Pages/View/PagesEdit/move.ctp:67
+#: PluginManager/View/Elements/PluginManager/plugins.ctp:127
+#: Rooms/View/PluginsRooms/edit.ctp:47
+#: Rooms/View/RoomAdd/basic.ctp:45
+#: Rooms/View/Rooms/edit.ctp:44
+#: Rooms/View/RoomsRolesUsers/edit.ctp:52
+#: SiteManager/View/Elements/DefaultPageSettings/theme_form.ctp:32
+#: SiteManager/View/MailSignatureSettings/edit.ctp:29
+#: SiteManager/View/Membership/edit.ctp:47
+#: SiteManager/View/MetaSettings/edit.ctp:33
+#: SiteManager/View/SiteManager/edit.ctp:54
+#: SiteManager/View/Workflow/edit.ctp:33
+#: SystemManager/View/Developer/edit.ctp:27
+#: SystemManager/View/MailServer/edit.ctp:29
+#: SystemManager/View/SecuritySettings/edit.ctp:49
+#: SystemManager/View/SystemManager/edit.ctp:27
+#: SystemManager/View/WebServer/edit.ctp:37
+#: UserAttributes/View/UserAttributes/edit.ctp:59
+#: UserManager/View/UserAdd/user_roles_rooms.ctp:39
+#: UserManager/View/UserManager/edit.ctp:30
+#: UserManager/View/UserManager/export.ctp:51
+#: UserManager/View/UserManager/import.ctp:124
+#: UserManager/View/UsersRolesRooms/edit.ctp:39
+#: UserRoles/View/UserAttributesRoles/edit.ctp:38
+#: UserRoles/View/UserRoles/edit.ctp:37
+#: UserRoles/View/UserRolesPlugins/edit.ctp:56
+#: Users/View/Users/edit.ctp:46
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:183;193
+#: Workflow/View/Helper/WorkflowHelper.php:134;141
 msgid "OK"
 msgstr "決定"
 
-#: CircularNotices/View/CircularNotices/index.ctp:45
-#: Pages/View/Elements/add_plugin.ctp:60
-#: Questionnaires/View/Elements/Questionnaires/add_button.ctp:14
-#: Videos/View/Videos/index.ctp:36
+#: CircularNotices/View/CircularNotices/index.ctp:42
+#: Frames/View/Elements/add_plugin.ctp:64
+#: Groups/View/Elements/select.ctp:50
+#: NetCommons/Test/Case/View/Helper/LinkButtonHelper/AddTest.php:64;143;167;204
+#: NetCommons/View/Helper/LinkButtonHelper.php:76
+#: Quizzes/View/Elements/QuizEdit/EditQuestion/options_before_published/word.ctp:45
 msgid "Add"
 msgstr "追加"
 
-#: Frames/View/Elements/setting_header.ctp:23
+#: Frames/View/Helper/FramesHelper.php:115
 msgid "Quit"
 msgstr "終了"
 
-#: NetCommons/View/Elements/workflow_buttons.ctp:20
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:22
+#: Calendars/View/Helper/CalendarPlanHelper.php:184
+#: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:98;170
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:173
+#: Workflow/View/Helper/WorkflowHelper.php:118
 msgid "Disapproval"
 msgstr "差し戻し"
 
-#: NetCommons/View/Elements/workflow_buttons.ctp:28;36
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:30;38
+#: Bbses/View/Helper/BbsesFormHelper.php:64
+#: Calendars/View/Helper/CalendarPlanHelper.php:191
+#: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:160
+#: NetCommons/View/Helper/ButtonHelper.php:310
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:163
+#: Workflow/View/Helper/WorkflowHelper.php:125
 msgid "Save temporally"
 msgstr "一時保存"
 
-#: Pages/View/Elements/add_plugin.ctp:78
+#: Auth/View/AutoUserRegist/acceptance.ctp:25
+#: Auth/View/AutoUserRegist/completion.ctp:35
+#: AuthorizationKeys/View/AuthorizationKeys/popup.ctp:16
+#: Frames/View/Elements/add_plugin.ctp:83
+#: NetCommons/View/Layouts/modal.ctp:16
+#: Pages/View/PagesEdit/move.ctp:77
+#: PhotoAlbums/View/PhotoAlbumPhotos/slide.ctp:103
+#: Registrations/View/RegistrationAnswers/thanks.ctp:75
+#: UserManager/View/UserAdd/notify.ctp:51
 msgid "Close"
 msgstr "終了"
 
-#: Questionnaires/View/Elements/Questionnaires/workflow_buttons.ctp:16
-#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:201
+#: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:150
+#: NetCommons/View/Helper/ButtonHelper.php:293
+#: NetCommons/View/Helper/WizardHelper.php:212
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:153
 msgid "BACK"
 msgstr "前へ"
 
-#: Questionnaires/View/QuestionnaireAnswers/answer.ctp:129
-#: Questionnaires/View/QuestionnaireAnswers/pre_answer.ctp:95
-#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:367
-#: Questionnaires/View/QuestionnaireQuestions/edit_result.ctp:204
-#: Questionnaires/View/Questionnaires/add.ctp:119
+#: NetCommons/View/Helper/WizardHelper.php:219
+#: Questionnaires/View/QuestionnaireAdd/add.ctp:54
+#: Questionnaires/View/QuestionnaireAnswers/img_auth.ctp:33
+#: Questionnaires/View/QuestionnaireAnswers/key_auth.ctp:31
+#: Questionnaires/View/QuestionnaireAnswers/view.ctp:82
+#: Quizzes/View/QuizAnswers/view.ctp:78
+#: Quizzes/View/Quizzes/add.ctp:51
+#: Registrations/View/RegistrationAdd/add.ctp:56
+#: Registrations/View/RegistrationAnswers/img_auth.ctp:30
+#: Registrations/View/RegistrationAnswers/key_auth.ctp:28
+#: Registrations/View/RegistrationAnswers/view.ctp:82
+#: VisualCaptcha/View/VisualCaptcha/view.ctp:15
 msgid "NEXT"
 msgstr "次へ"
 
-#: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:92
+#: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:68
+#: Quizzes/View/QuizAnswers/confirm.ctp:66
+#: Registrations/View/RegistrationAnswers/confirm.ctp:66
 msgid "Confirm"
 msgstr "確認"
 
+#: NetCommons/View/Helper/LinkButtonHelper.php:154
+#: Searches/View/Elements/Searches/conditions.ctp:137
+#: Searches/View/Searches/simple_index.ctp:35
+#: Users/View/UserSearch/conditions.ctp:46
 msgid "Search"
 msgstr "検索"
 
+#: Groups/View/Groups/select.ctp:78
+#: Users/View/Users/select.ctp:93
 msgid "Select"
 msgstr "選択"
 
+#: Pages/View/Elements/PagesEdit/theme_form.ctp:29
+#: SiteManager/View/Elements/DefaultPageSettings/theme_form.ctp:26
 msgid "Preview"
 msgstr "プレビュー"
 
+#: Cabinets/View/CabinetFilesEdit/folder_form.ctp:69
+#: Cabinets/View/CabinetFilesEdit/form.ctp:122
+#: Cabinets/View/Elements/CabinetFiles/file_row.ctp:125
+#: Cabinets/View/Elements/CabinetFiles/folder_row.ctp:95
+#: Pages/View/PagesEdit/index.ctp:88
 msgid "Move"
 msgstr "移動"
 
+#: NetCommons/View/Helper/BackToHelper.php:183
+#: NetCommons/View/Helper/LinkButtonHelper.php:223
 msgid "To list"
 msgstr "一覧へ"
 
+#: NetCommons/View/Helper/LinkButtonHelper.php:190
 msgid "Sort"
 msgstr "並び替え"
 
+#: UserManager/View/Elements/UsersRolesRooms/render_header.ctp:34
 msgid "All select"
 msgstr "全選択"
 
@@ -557,77 +1291,125 @@ msgstr "全選択"
 #: ラベル
 #
 
-#: Iframes/Model/Iframe.php:106
-#: RssReaders/Test/Case/Model/RssReaderItemValidateRssReaderItemsTest.php:126
-#: RssReaders/Test/Case/Model/RssReaderValidateRssReaderTest.php:174;211
+#: Iframes/Model/Iframe.php:82;83
+#: RssReaders/Model/RssReader.php:150;171
+#: RssReaders/Model/RssReaderItem.php:88
 msgid "URL"
 msgstr ""
 
+#: SiteManager/Model/Behavior/IpAddressManagerBehavior.php:173
 msgid "IP Address"
 msgstr "IPアドレス"
 
+#: Auth/Model/AutoUserRegist.php:369
+#: Users/Model/User.php:360
+#: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:174
 msgid "Re-enter"
 msgstr "確認項目"
 
-#: NetCommons/View/Elements/required.ctp:14
-#: Questionnaires/View/QuestionnaireQuestions/edit.ctp:189
-# 必須マーク
+#: NetCommons/View/Elements/required.ctp:15
+#: Questionnaires/View/Elements/QuestionnaireEdit/EditQuestion/accordion_heading.ctp:57
+#: Registrations/View/Elements/RegistrationEdit/EditQuestion/accordion_heading.ctp:45
+#: SiteManager/View/Elements/Membership/automatic_input_items.ctp:98
+#: @see 必須マーク
 msgid "*"
 msgstr ""
 
+#: SiteManager/View/Elements/Membership/automatic_registration_form.ctp:30;53
+#: SiteManager/View/Elements/Membership/membership_cancellation_form.ctp:21;40
+#: SiteManager/View/Elements/SiteManager/close_site_form.ctp:21
+#: SiteManager/View/Elements/SiteManager/notification_password_form.ctp:21
+#: SystemManager/View/Elements/MailServer/mail_server_form.ctp:64
+#: SystemManager/View/Elements/SecuritySettings/allow_system_plugin_ips_form.ctp:20
+#: SystemManager/View/Elements/SecuritySettings/bad_ips_form.ctp:20
+#: SystemManager/View/Elements/WebServer/proxy_form.ctp:21
 msgid "Yes"
 msgstr "はい"
 
+#: SiteManager/View/Elements/Membership/automatic_registration_form.ctp:31;54
+#: SiteManager/View/Elements/Membership/membership_cancellation_form.ctp:22;41
+#: SiteManager/View/Elements/SiteManager/close_site_form.ctp:22
+#: SiteManager/View/Elements/SiteManager/notification_password_form.ctp:22
+#: SystemManager/View/Elements/MailServer/mail_server_form.ctp:65
+#: SystemManager/View/Elements/SecuritySettings/allow_system_plugin_ips_form.ctp:21
+#: SystemManager/View/Elements/SecuritySettings/bad_ips_form.ctp:21
+#: SystemManager/View/Elements/WebServer/proxy_form.ctp:22
 msgid "No"
 msgstr "いいえ"
 
+#: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:20
+#: Faqs/View/Elements/FaqFrameSettings/edit_form.ctp:18
+#: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
 msgid "Display the number of each page"
 msgstr "１ページ毎の表示件数"
 
+#: Links/View/Links/view.ctp:68
 msgid "Created:"
 msgstr "作成:"
 
+#: Links/View/Links/view.ctp:76
 msgid "Modified:"
 msgstr "更新:"
+
+#: Rooms/View/Helper/RoomsHelper.php:341
+msgid "..."
+msgstr ""
 
 
 #
 #: 承認の文言
 #
 
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:25
-#: Questionnaires/View/Elements/edit_status_selector.ctp:17
-#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:73
+#: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:74
+#: Quizzes/View/Helper/QuizStatusLabelHelper.php:73
+#: Registrations/View/Helper/RegistrationStatusLabelHelper.php:74
 msgid "Published"
 msgstr "公開"
 
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:29
+#: Calendars/View/Helper/CalendarCommonHelper.php:126
 msgid "In draft"
 msgstr "一時保存"
 
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:33
-#: NetCommons/View/Elements/status_label.ctp:20
-#: Questionnaires/View/Elements/edit_status_selector.ctp:18
-#: Questionnaires/View/Elements/questionnaire_status_label.ctp:23
-#: Questionnaires/View/Elements/status_label.ctp:14
+#: Calendars/View/Helper/CalendarCommonHelper.php:121
+#: Links/Test/Case/View/Elements/Links/LinkTest.php:143;146
+#: PhotoAlbums/View/Elements/album_frame_setting_list.ctp:134
+#: Questionnaires/View/Elements/ng_status_label.ctp:14
 #: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:40
+#: Quizzes/View/Elements/ng_status_label.ctp:14
+#: Quizzes/View/Helper/QuizStatusLabelHelper.php:40
+#: Registrations/View/Elements/ng_status_label.ctp:14
+#: Registrations/View/Helper/RegistrationStatusLabelHelper.php:40
+#: Topics/Model/Topic.php:271
+#: Topics/Test/Case/View/Helper/TopicsHelper/PrivateGetStatusLabelTest.php:104
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:70
+#: Workflow/View/Helper/WorkflowHelper.php:66
 msgid "Approving"
 msgstr "承認待ち"
 
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:37
-#: NetCommons/View/Elements/status_label.ctp:24
-#: Questionnaires/View/Elements/edit_status_selector.ctp:20
-#: Questionnaires/View/Elements/questionnaire_status_label.ctp:27
-#: Questionnaires/View/Elements/status_label.ctp:15
+#: Calendars/View/Helper/CalendarCommonHelper.php:131
+#: PhotoAlbums/View/Elements/album_frame_setting_list.ctp:137
+#: Questionnaires/View/Elements/ng_status_label.ctp:15
 #: Questionnaires/View/Helper/QuestionnaireStatusLabelHelper.php:44
+#: Quizzes/View/Elements/ng_status_label.ctp:15
+#: Quizzes/View/Helper/QuizStatusLabelHelper.php:44
+#: Registrations/View/Elements/ng_status_label.ctp:15
+#: Registrations/View/Helper/RegistrationStatusLabelHelper.php:44
+#: Topics/Model/Topic.php:277
+#: Topics/Test/Case/View/Helper/TopicsHelper/PrivateGetStatusLabelTest.php:121
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:76
+#: Workflow/View/Helper/WorkflowHelper.php:70
 msgid "Disapproving"
 msgstr "差し戻し"
 
-#: NetCommons/View/Elements/publish_button.ctp:14
+#: Bbses/View/Elements/BbsArticles/comment_approving_link.ctp:31
+#: Workflow/Test/Case/View/Helper/WorkflowHelper/PublishLinkButtonTest.php:203
+#: Workflow/View/Helper/WorkflowHelper.php:274
 msgid "Accept"
 msgstr "承認する"
 
-#: Comments/View/Elements/form.ctp:19;27
+#: Mails/Test/Case/Model/Behavior/MailQueueBehavior/SaveTest.php:298
+#: Mails/Utility/NetCommonsExtentionTag.php:98
+#: Workflow/View/Elements/form.ctp:25
 msgid "Comments to the person in charge."
 msgstr "担当者への連絡"
 
@@ -636,15 +1418,15 @@ msgstr "担当者への連絡"
 #: ヘッダー
 #
 
-#: NetCommons/View/Elements/common_header.ctp:39
+#:
 msgid "Home"
 msgstr "ホーム"
 
-#: Auth/View/Auth/login.ctp:26 NetCommons/View/Elements/common_header.ctp:54
+#: NetCommons/View/Elements/common_header.ctp:111
 msgid "Login"
 msgstr "ログイン"
 
-#: NetCommons/View/Elements/common_header.ctp:50
+#: NetCommons/View/Elements/common_header.ctp:102
 msgid "Logout"
 msgstr "ログアウト"
 
@@ -653,12 +1435,14 @@ msgstr "ログアウト"
 #: 画面遷移等
 #
 
-#: NetCommons/View/Elements/goto_top_button.ctp:15
+#:
 msgid "Go to Top"
 msgstr "トップへ"
 
-#: Comments/View/Elements/index.ctp:48
-#: ContentComments/View/Elements/index.ctp:251 Videos/View/Videos/view.ctp:255
+#: Rooms/View/Elements/Rooms/view_rooms_roles_users.ctp:45
+#: Topics/View/Elements/Topics/index_article.ctp:22
+#: Videos/View/Videos/view.ctp:173
+#: Workflow/View/Elements/index.ctp:31
 msgid "More"
 msgstr "もっと見る"
 
@@ -667,17 +1451,18 @@ msgstr "もっと見る"
 #: ブロック編集画面のタブ
 #
 
-#: Blocks/View/Elements/setting_tabs.ctp:32
-#: NetCommons/View/Elements/setting_tabs.ctp:42
+#: Blocks/Test/Case/View/Helper/BlockTabsHelper/BlockTest.php:154
+#: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:166
 msgid "Role permission settings"
 msgstr "権限設定"
 
-#: CircularNotices/Controller/CircularNoticesAppController.php:125
-#: NetCommons/View/Elements/setting_tabs.ctp:31
+#: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:159
+#: PhotoAlbums/View/PhotoAlbums/setting.ctp:17
 msgid "Frame settings"
 msgstr "表示方法変更"
 
-#: NetCommons/View/Elements/setting_tabs.ctp:20
+#: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:156
+#: Pages/View/PagesEdit/theme.ctp:25
 msgid "List"
 msgstr "一覧表示"
 
@@ -686,32 +1471,43 @@ msgstr "一覧表示"
 #: 選択肢
 #
 
-#: Faqs/View/Elements/FaqQuestions/select_status.ctp:21
+#: PhotoAlbums/View/Elements/photo_list_operation.ctp:66;76
 msgid "Display all"
 msgstr "全て表示"
 
-#: Questionnaires/View/Elements/edit_status_selector.ctp:28
+#:
 msgid "All Display"
 msgstr ""
 
+#:
 msgid "All Plugins"
 msgstr "全てのプラグイン"
 
+#: Topics/View/Helper/TopicsHelper.php:247
 msgid "All Statuses"
 msgstr "全てのステータス"
 
+#:
 msgid "All Duration"
 msgstr "全ての期間"
 
+#: NetCommons/View/Helper/DisplayNumberHelper.php:57
+#: Questionnaires/View/Elements/FrameSettings/edit_list_display_option.ctp:16
+#: Quizzes/View/Elements/QuizFrameSettings/edit_list_display_option.ctp:17
 msgid "%s item"
 msgstr "%s件"
 
+#: NetCommons/View/Helper/DisplayNumberHelper.php:58
+#: Questionnaires/View/Elements/FrameSettings/edit_list_display_option.ctp:17
+#: Quizzes/View/Elements/QuizFrameSettings/edit_list_display_option.ctp:18
 msgid "%s items"
 msgstr "%s件"
 
+#: NetCommons/View/Helper/DisplayNumberHelper.php:91
 msgid "%s day"
 msgstr "%s日分"
 
+#: NetCommons/View/Helper/DisplayNumberHelper.php:92
 msgid "%s days"
 msgstr "%s日分"
 
@@ -720,12 +1516,32 @@ msgstr "%s日分"
 #: ソート
 #
 
+#: CircularNotices/Controller/CircularNoticesController.php:107
+#: CircularNotices/Test/Case/View/Elements/CircularNotices/SelectSortTest.php:60
+#: PhotoAlbums/View/Elements/album_list_operation.ctp:40;57
+#: PhotoAlbums/View/Elements/frame_setting.ctp:93;120
+#: PhotoAlbums/View/Elements/photo_list_operation.ctp:124;138
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:416
+#: Registrations/Controller/Component/RegistrationsComponent.php:481
 msgid "Newest"
 msgstr "新着順"
 
+#: CircularNotices/Controller/CircularNoticesController.php:112
+#: CircularNotices/Test/Case/View/Elements/CircularNotices/SelectSortTest.php:65
+#: PhotoAlbums/View/Elements/album_list_operation.ctp:43;69
+#: PhotoAlbums/View/Elements/frame_setting.ctp:94;121
+#: PhotoAlbums/View/Elements/photo_list_operation.ctp:127;150
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:417
+#: Registrations/Controller/Component/RegistrationsComponent.php:482
 msgid "Oldest"
 msgstr "登録順"
 
+#: CircularNotices/Controller/CircularNoticesController.php:117
+#: CircularNotices/Test/Case/View/Elements/CircularNotices/SelectSortTest.php:70
+#: PhotoAlbums/View/Elements/album_list_operation.ctp:46;81
+#: PhotoAlbums/View/Elements/frame_setting.ctp:95
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:418
+#: Registrations/Controller/Component/RegistrationsComponent.php:483
 msgid "Title"
 msgstr "タイトル順"
 
@@ -734,27 +1550,27 @@ msgstr "タイトル順"
 #: 画像認証
 #
 
-#: NetCommons/View/Elements/visual_captcha.ctp:34
+#:
 msgid "Sound icon"
 msgstr ""
 
-#: NetCommons/View/Elements/visual_captcha.ctp:35
+#:
 msgid "Accessibility option: listen to a question and answer it!"
 msgstr ""
 
-#: NetCommons/View/Elements/visual_captcha.ctp:36
+#:
 msgid "Type below the <strong>answer</strong> to what you hear. Numbers or words:"
 msgstr ""
 
-#: NetCommons/View/Elements/visual_captcha.ctp:37
+#:
 msgid "Click or touch the <strong>ANSWER</strong>"
 msgstr ""
 
-#: NetCommons/View/Elements/visual_captcha.ctp:38
+#:
 msgid "Refresh/reload icon"
 msgstr ""
 
-#: NetCommons/View/Elements/visual_captcha.ctp:39
+#:
 msgid "Refresh/reload: get new images and accessibility option!"
 msgstr ""
 
@@ -763,220 +1579,454 @@ msgstr ""
 #: TitleIconName
 #
 
+#: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:60
+#: NetCommons/View/Helper/TitleIconHelper.php:208
 msgid "icon_cancel"
 msgstr "取消し"
+
+#: NetCommons/Test/Case/View/Helper/TitleIconHelper/TitleIconTest.php:63
 msgid "new"
 msgstr "NEW"
+
+#: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:61
 msgid "ok"
 msgstr "OK"
+
+#:
 msgid "ng"
 msgstr "NG"
+
+#:
 msgid "exclamation"
 msgstr "！"
+
+#:
 msgid "question_exclamation"
 msgstr "？！"
+
+#:
 msgid "question"
 msgstr "？"
+
+#:
 msgid "deadline"
 msgstr "締め切り"
+
+#:
 msgid "announce"
 msgstr "お知らせ"
+
+#:
 msgid "information"
 msgstr "インフォメーション"
+
+#:
 msgid "left"
 msgstr "左"
+
+#:
 msgid "right"
 msgstr "右"
+
+#:
 msgid "up"
 msgstr "上"
+
+#:
 msgid "down"
 msgstr "下"
+
+#:
 msgid "circle"
 msgstr "まる"
+
+#:
 msgid "cross"
 msgstr "バツ"
+
+#:
 msgid "triangle"
 msgstr "三角"
+
+#:
 msgid "important"
 msgstr "重要"
+
+#:
 msgid "pass"
 msgstr "合格"
+
+#:
 msgid "celebrate"
 msgstr "お祝い"
+
+#:
 msgid "one_star"
 msgstr "１ツ星"
+
+#:
 msgid "two_stars"
 msgstr "２ツ星"
+
+#:
 msgid "three_stars"
 msgstr "３ツ星"
+
+#:
 msgid "crown"
 msgstr "王冠"
+
+#:
 msgid "hanamaru"
 msgstr "花丸"
+
+#:
 msgid "warning"
 msgstr "注意"
+
+#:
 msgid "restriction"
 msgstr "禁止"
+
+#:
 msgid "roger"
 msgstr "了解"
+
+#:
 msgid "v_sign"
 msgstr "ピース"
+
+#:
 msgid "heart"
 msgstr "ハート"
+
+#:
 msgid "rush"
 msgstr "急ぎ"
+
+#:
 msgid "pow"
 msgstr "動物"
+
+#:
 msgid "glitter"
 msgstr "キラキラ"
+
+#:
 msgid "impatient"
 msgstr "汗・焦る"
+
+#:
 msgid "sunny"
 msgstr "晴れ"
+
+#:
 msgid "cloudy"
 msgstr "曇り"
+
+#:
 msgid "party_cloudy"
 msgstr "晴れのち曇り"
+
+#:
 msgid "rainy"
 msgstr "雨"
+
+#:
 msgid "light_rain"
 msgstr "小雨"
+
+#:
 msgid "heavy_rain"
 msgstr "大雨"
+
+#:
 msgid "storm"
 msgstr "嵐"
+
+#: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetAltNameTest.php:65
 msgid "thunders"
 msgstr "雷"
+
+#:
 msgid "snow"
 msgstr "雪"
+
+#:
 msgid "star"
 msgstr "星"
+
+#:
 msgid "science"
 msgstr "理科・実験"
+
+#:
 msgid "sport"
 msgstr "体育・スポーツ"
+
+#:
 msgid "art"
 msgstr "美術・図工"
+
+#:
 msgid "cooking"
 msgstr "家庭科・調理"
+
+#:
 msgid "music"
 msgstr "音楽"
+
+#:
 msgid "computer"
 msgstr "情報処理・パソコン"
+
+#:
 msgid "audiovisual"
 msgstr "視聴覚"
+
+#:
 msgid "lunch"
 msgstr "給食・食事"
+
+#:
 msgid "trip"
 msgstr "出張・旅行"
+
+#:
 msgid "train"
 msgstr "電車"
+
+#:
 msgid "car"
 msgstr "車"
+
+#:
 msgid "airplane"
 msgstr "飛行機"
+
+#:
 msgid "bus"
 msgstr "バス"
+
+#:
 msgid "examination"
 msgstr "試験"
+
+#:
 msgid "anniversary"
 msgstr "記念日"
+
+#:
 msgid "event"
 msgstr "イベント"
+
+#:
 msgid "picnic"
 msgstr "遠足"
+
+#:
 msgid "business"
 msgstr "ビジネス"
+
+#:
 msgid "meeting"
 msgstr "会議・研修"
+
+#:
 msgid "beer"
 msgstr "飲み会・ビール"
+
+#:
 msgid "mobile"
 msgstr "携帯端末"
+
+#:
 msgid "book"
 msgstr "本"
+
+#:
 msgid "note"
 msgstr "ノート・レポート"
+
+#:
 msgid "pencil"
 msgstr "鉛筆"
+
+#:
 msgid "email"
 msgstr "Eメール"
+
+#:
 msgid "group"
 msgstr "グループ"
+
+#:
 msgid "light"
 msgstr "ひらめき"
+
+#:
 msgid "coffee"
 msgstr "ひと休み"
+
+#:
 msgid "hospital"
 msgstr "病院"
+
+#:
 msgid "school"
 msgstr "学校"
+
+#:
 msgid "morning"
 msgstr "朝"
+
+#:
 msgid "afternoon"
 msgstr "昼"
+
+#:
 msgid "evening"
 msgstr "夜"
+
+#:
 msgid "smile"
 msgstr "にっこり"
+
+#:
 msgid "laugh"
 msgstr "笑う"
+
+#:
 msgid "expect"
 msgstr "期待・ワクワク"
+
+#:
 msgid "pleased"
 msgstr "喜ぶ・デレ"
+
+#:
 msgid "joke"
 msgstr "ニヒヒ"
+
+#:
 msgid "excited"
 msgstr "興奮・ヤッター！"
+
+#:
 msgid "gloat"
 msgstr "ほくそ笑む・ニヤリ"
+
+#:
 msgid "bewilderment"
 msgstr "戸惑う・えっ"
+
+#:
 msgid "worry"
 msgstr "心配・うーん"
+
+#:
 msgid "trouble"
 msgstr "困る"
+
+#:
 msgid "bitter_smile"
 msgstr "苦笑い"
+
+#:
 msgid "shock"
 msgstr "衝撃・ガーン"
+
+#:
 msgid "surprised"
 msgstr "驚く・ビックリ"
+
+#:
 msgid "patience"
 msgstr "我慢"
+
+#:
 msgid "cried_for_joy"
 msgstr "うれし泣き"
+
+#:
 msgid "cry"
 msgstr "泣く"
+
+#:
 msgid "bow"
 msgstr "お辞儀"
+
+#:
 msgid "angry"
 msgstr "怒る"
+
+#:
 msgid "tire"
 msgstr "疲れる・フラフラ"
+
+#: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:62
 msgid "glasses"
 msgstr "眼鏡"
+
+#:
 msgid "search"
 msgstr "虫眼鏡"
 
+
+#
+#: 選択肢
+#
+
+#: CircularNotices/View/Elements/CircularNotices/reply_type_edit_form.ctp:24
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:430
+#: Quizzes/Controller/Component/QuizzesComponent.php:218
+#: Registrations/Controller/Component/RegistrationsComponent.php:495
 msgid "Single choice"
 msgstr "択一式"
+
+#: CircularNotices/View/Elements/CircularNotices/reply_type_edit_form.ctp:25
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:431
+#: Quizzes/Controller/Component/QuizzesComponent.php:219
+#: Registrations/Controller/Component/RegistrationsComponent.php:496
 msgid "Multiple choice"
 msgstr "複数選択"
+
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:434
 msgid "Single choice matrix"
 msgstr "択一式マトリクス"
+
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:435
 msgid "Multiple choice matrix"
 msgstr "複数選択マトリクス"
+
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:436
+#: Registrations/Controller/Component/RegistrationsComponent.php:501
 msgid "Date and time"
 msgstr "日付と時間"
+
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:437
+#: Registrations/Controller/Component/RegistrationsComponent.php:502
 msgid "List select"
 msgstr "リストボックス"
+
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:432
+#: Registrations/Controller/Component/RegistrationsComponent.php:497
 msgid "Text"
 msgstr "テキスト"
+
+#: CircularNotices/View/Elements/CircularNotices/reply_type_edit_form.ctp:23
+#: Questionnaires/Controller/Component/QuestionnairesComponent.php:433
+#: Quizzes/Controller/Component/QuizzesComponent.php:222
+#: Registrations/Controller/Component/RegistrationsComponent.php:498
 msgid "Free style"
 msgstr "記述式"
+
+#: Registrations/Controller/Component/RegistrationsComponent.php:503
+#: UserManager/Model/UserMail.php:71
+#: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:252
 msgid "Email"
 msgstr "メールアドレス"
+
+#: Registrations/Controller/Component/RegistrationsComponent.php:504
 msgid "File"
 msgstr "ファイル"

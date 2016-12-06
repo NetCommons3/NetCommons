@@ -961,7 +961,7 @@ msgstr ""
 #: Cabinets/View/CabinetFiles/folder_detail.ctp:89
 #: Cabinets/View/CabinetFiles/view.ctp:82
 msgid "Created datetime"
-msgstr ""
+msgstr "Created"
 
 #: Cabinets/View/CabinetFiles/folder_detail.ctp:83
 #: Cabinets/View/CabinetFiles/view.ctp:76
@@ -992,7 +992,7 @@ msgstr ""
 #: Tasks/View/TaskBlocks/index.ctp:46
 #: Videos/View/VideoBlocks/index.ctp:50
 msgid "Modified datetime"
-msgstr ""
+msgstr "Modified"
 
 #: AccessCounters/View/AccessCounterBlocks/index.ctp:41
 #: Announcements/View/AnnouncementBlocks/index.ctp:39

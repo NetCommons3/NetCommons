@@ -25,7 +25,6 @@ class OriginalKeyBehaviorTest extends OriginalKeyBehaviorTestBase {
 		$data = array(
 			'title' => 'test1',
 			'key' => '',
-			'origin_id' => 0
 		);
 
 		$this->OriginalKey->save($data, false);
@@ -35,40 +34,6 @@ class OriginalKeyBehaviorTest extends OriginalKeyBehaviorTestBase {
 
 		$expected = $this->OriginalKey->find('first', array('recursive' => -1));
 		$this->assertNotEmpty($expected[$this->OriginalKey->alias]['key']);
-		$this->assertNotEmpty($expected[$this->OriginalKey->alias]['origin_id']);
-	}
-
-/**
- * Expect return value array on OriginalKeyBehavior
- */
-	public function testAfterSave() {
-		$data = array(
-			'title' => 'test1',
-			'origin_id' => 0
-		);
-
-		$result = $this->OriginalKey->save($data, false);
-
-		//チェック
-		$this->assertNotEmpty($result[$this->OriginalKey->alias]['origin_id']);
-	}
-
-/**
- * Expect OriginalKeyBehavior on without key field
- */
-	public function testSaveWithoutKey() {
-		$data = array(
-			'title' => 'test1',
-			'origin_id' => 0
-		);
-
-		$this->OriginalWithoutKey->save($data, false);
-
-		//チェック
-		$this->assertNotEqual(0, $this->OriginalWithoutKey->find('count', array('recursive' => -1)));
-
-		$expected = $this->OriginalWithoutKey->find('first', array('recursive' => -1));
-		$this->assertNotEmpty($expected[$this->OriginalWithoutKey->alias]['origin_id']);
 	}
 
 }

@@ -150,7 +150,8 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 			$expected[$this->$model->alias]['is_translation'] = false;
 		}
 
-		if ($this->$model->hasField('language_id') && ! isset($data[$this->$model->alias]['language_id'])) {
+		if ($this->$model->hasField('language_id') &&
+				! isset($data[$this->$model->alias]['language_id'])) {
 			$expected[$this->$model->alias]['language_id'] = '2';
 		}
 

@@ -50,7 +50,7 @@ if (! isset($isSettingMode)) {
 			</div>
 			<div id="nc-system-header-navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<?php if ($hasSwitchLang) : ?>
+					<?php if (! empty($hasSwitchLang)) : ?>
 						<li>
 							<?php echo $this->element('M17n.switch_language_form'); ?>
 						</li>

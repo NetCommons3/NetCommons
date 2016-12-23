@@ -43,9 +43,8 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function setUp() {
-		//parent::setUp();
-		Current::$current['Language']['id'] = '1';
-		Configure::write('Config.language', 'en');
+		parent::setUp();
+		Current::$current['Language']['id'] = '2';
 		Configure::write('debug', 0);
 	}
 
@@ -316,10 +315,10 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 			'interval' => '3',
 		), $expected);
 
-		var_dump('---------------------');
-		var_export($expected);
-		var_export($actual);
-		var_dump('---------------------');
+//		var_dump('---------------------');
+//		var_export($expected);
+//		var_export($actual);
+//		var_dump('---------------------');
 
 		$this->assertEquals($expected, $actual);
 	}

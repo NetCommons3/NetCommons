@@ -43,7 +43,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return void
  */
 	public function setUp() {
-		parent::setUp();
+		//parent::setUp();
 		Current::$current['Language']['id'] = '1';
 		Configure::write('Config.language', 'en');
 		Configure::write('debug', 0);

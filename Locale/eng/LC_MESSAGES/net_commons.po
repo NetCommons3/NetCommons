@@ -18,7 +18,7 @@ msgstr ""
 
 #: NetCommons/View/Helper/ComposerHelper.php:101
 msgid "NetCommons Community"
-msgstr "NetCommonsプロジェクト"
+msgstr ""
 
 
 #
@@ -179,45 +179,45 @@ msgstr "NetCommonsプロジェクト"
 #: Videos/Model/VideoSetting.php:185;264;278;284;290
 #: Workflow/Model/Behavior/WorkflowCommentBehavior.php:95;153;158;206
 msgid "Internal Server Error"
-msgstr "内部サーバエラーが発生しました。"
+msgstr ""
 
 #:
 msgid "Internal Error"
-msgstr "内部エラーが発生しました。"
+msgstr ""
 
 #: NetCommons/Error/NetCommonsExceptionRenderer.php:195
 #: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error500Test.php:62;77
 #: NetCommons/View/Errors/error500.ctp:21
 msgid "An Internal Error Has Occurred."
-msgstr "内部エラーが発生しました。"
+msgstr ""
 
 #: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:241;262
 msgid "The request has been black-holed"
-msgstr "予期しないトークンにより、登録が正常にできませんでした。"
+msgstr ""
 
 #: Blocks/Test/test_app/Plugin/TestBlocks/Controller/TestSuiteBlocksControllerTestErrorController.php:30
 #: Cabinets/Controller/CabinetFilesEditController.php:357;503
 #: Calendars/Controller/Component/CalendarPermissionComponent.php:62
 msgid "Permission denied"
-msgstr "アクセスができません。"
+msgstr ""
 
 #: NetCommons/Error/NetCommonsExceptionRenderer.php:125
 #: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:131
 msgid "Permission denied. You must be logged."
-msgstr "アクセスができません。指定したURLに移動するには、ログインが必要です。"
+msgstr ""
 
 #: NetCommons/Error/NetCommonsExceptionRenderer.php:123
 #: NetCommons/Test/Case/Error/NetCommonsExceptionRenderer/Error400Test.php:158;189;220
 msgid "Permission denied. Bad account."
-msgstr "このアカウントでは、指定したURLにアクセスができません。"
+msgstr ""
 
 #: NetCommons/Error/NetCommonsExceptionRenderer.php:118
 msgid "Under maintenance. Nobody is allowed to login except for administrators."
-msgstr "メンテナンス中のため、管理者しかログインできません。"
+msgstr ""
 
 #:
 msgid "Bad ip address"
-msgstr "不正なリクエストの可能性があります。"
+msgstr ""
 
 #: Auth/Model/AutoUserRegist.php:599;644
 #: Calendars/Model/Calendar.php:161
@@ -232,24 +232,24 @@ msgstr "不正なリクエストの可能性があります。"
 #: Wysiwyg/Controller/WysiwygFileController.php:66
 #: Wysiwyg/Test/Case/Controller/WysiwygFileController/UploadTest.php:88
 msgid "Bad Request"
-msgstr "不正なリクエストの可能性があります。"
+msgstr ""
 
 #:
 msgid "Not found"
-msgstr "ページが見つかりません。"
+msgstr ""
 
 #: NetCommons/View/Errors/error400.ctp:20
 #: NetCommons/View/Errors/error500.ctp:20
 msgid "Error"
-msgstr "エラー"
+msgstr ""
 
 #: NetCommons/View/Errors/error400.ctp:21
 msgid "The requested address '%s' was not found on this server."
-msgstr "%s"
+msgstr ""
 
 #: NetCommons/View/Errors/error400.ctp:27
 msgid "The page will be automatically reloaded. If otherwise, please click <a href=\"%s\">here</a>."
-msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こちら</a>をクリックしてください。"
+msgstr ""
 
 
 #
@@ -263,21 +263,21 @@ msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こち
 #: Faqs/View/FaqQuestionOrders/edit.ctp:38
 #: PluginManager/View/Elements/PluginManager/plugins.ctp:26
 #: Questionnaires/View/QuestionnaireBlocks/not_found.ctp:24
-#: RssReaders/View/RssReaderBlocks/not_found.ctp:24
-#: Videos/View/VideoBlockSettings/not_found.ctp:25
+#: Quizzes/View/QuizBlocks/not_found.ctp:24
+#: Registrations/View/RegistrationBlocks/not_found.ctp:24
 msgid "Not found."
-msgstr "登録されていません。"
+msgstr ""
 
 #: Blogs/View/BlogEntries/index.ctp:87
 #: Cabinets/View/CabinetFiles/index.ctp:201
 #: Registrations/View/RegistrationBlocks/answer_list.ctp:6
 #: Videos/View/Videos/index.ctp:113
 msgid "%s is not."
-msgstr "%sがありません。"
+msgstr ""
 
 #: Announcements/View/Announcements/view.ctp:29
 msgid "Not found %s."
-msgstr "%sがありません。"
+msgstr ""
 
 #: AccessCounters/Model/AccessCounter.php:75;83
 #: AccessCounters/Model/AccessCounterFrameSetting.php:99;105;112;116
@@ -514,7 +514,7 @@ msgstr "%sがありません。"
 #: Workflow/Test/Case/Model/Behavior/WorkflowBehavior/ValidatesTest.php:121;152
 #: Workflow/Test/Case/Model/WorkflowComment/ValidateTest.php:70;72;74
 msgid "Invalid request."
-msgstr "入力値が不正です。"
+msgstr ""
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
@@ -535,7 +535,7 @@ msgstr "入力値が不正です。"
 #: Users/View/Elements/Users/delete_form.ctp:29
 #: Videos/View/Elements/VideoBlocks/delete_form.ctp:18
 msgid "Delete all data associated with the %s."
-msgstr "この%sに関連するデータをすべて削除します。<br />一度削除すると元に戻せません。"
+msgstr ""
 
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:22
 #: Announcements/View/Elements/Announcements/delete_form.ctp:21
@@ -573,7 +573,7 @@ msgstr "この%sに関連するデータをすべて削除します。<br />一�
 #: Videos/View/Elements/VideoBlocks/delete_form.ctp:22
 #: Videos/View/VideosEdit/edit.ctp:125
 msgid "Deleting the %s. Are you sure to proceed?"
-msgstr "%sを削除します。本当によろしいですか。"
+msgstr ""
 
 #: AccessCounters/Model/AccessCounter.php:187
 #: AccessCounters/Test/Case/Controller/AccessCountersController/EditTest.php:325
@@ -700,7 +700,7 @@ msgstr "%sを削除します。本当によろしいですか。"
 #: Videos/Test/Case/Controller/VideosEditController/EditTest.php:351
 #: Videos/Test/Case/Model/Video/ValidateTest.php:87
 msgid "Please input %s."
-msgstr "%sを入力してください。"
+msgstr ""
 
 #: Workflow/Model/WorkflowComment.php:71
 #: Workflow/Test/Case/Model/Behavior/WorkflowCommentBehavior/ValidatesTest.php:144
@@ -708,16 +708,16 @@ msgstr "%sを入力してください。"
 #: Workflow/Test/Case/View/Elements/FormTest.php:83
 #: Workflow/View/Elements/form.ctp:13
 msgid "If it is not approved, comment is a required input."
-msgstr "差し戻す場合は、必ずコメントを入力してください。"
+msgstr ""
 
 #: Workflow/Test/Case/View/Elements/FormTest.php:64
 #: Workflow/View/Elements/form.ctp:15
 msgid "Please enter comments to the person in charge."
-msgstr "担当者へコメントがあれば、入力してください。"
+msgstr ""
 
 #: Users/Model/Behavior/SaveUserBehavior.php:200
 msgid "Unauthorized pattern for %s."
-msgstr "%sの書式が不正です。"
+msgstr ""
 
 #: Auth/Model/ForgotPass.php:74
 #: Auth/Test/Case/Model/ForgotPass/ValidateTest.php:77
@@ -735,41 +735,41 @@ msgstr "%sの書式が不正です。"
 #: UserManager/Model/UserMail.php:69
 #: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:250
 msgid "Unauthorized pattern for %s. Please input the data in %s format."
-msgstr "%sの書式が不正です。%s形式で入力してください。"
+msgstr ""
 
 #:
 msgid "Only alphabets and numbers are allowed."
-msgstr "半角英数字を入力してください。"
+msgstr ""
 
 #: Auth/View/ForgotPass/update.ctp:34
 #: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:91;94;171;186
 #: Install/Utility/InstallValidatorUtil.php:76;128;142
 msgid "Only alphabets, numbers and symbols are allowed."
-msgstr "半角英数字または記号を入力してください。"
+msgstr ""
 
 #:
 msgid "Only alphabets and numbers are allowed to use for %s."
-msgstr "%sは半角英数字を入力してください。"
+msgstr ""
 
 #: Users/Model/User.php:303;344
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:194
 #: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:144
 msgid "Only alphabets, numbers and symbols are allowed to use for %s."
-msgstr "%sは半角英数字または記号を入力してください。"
+msgstr ""
 
 #: Users/Model/User.php:311;352
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:205
 #: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:155
 msgid "Please choose at least %s characters string."
-msgstr "%s文字以上で入力してください。"
+msgstr ""
 
 #: NetCommons/View/Helper/NetCommonsFormHelper.php:482
 msgid "Only numbers are allowed."
-msgstr "数字を入力してください。"
+msgstr ""
 
 #:
 msgid "Please enter more than %s."
-msgstr "%s以上の数値を入力してください。"
+msgstr ""
 
 #: AccessCounters/Model/AccessCounter.php:90
 #: AccessCounters/Test/Case/Controller/AccessCountersController/AddTest.php:289
@@ -777,7 +777,7 @@ msgstr "%s以上の数値を入力してください。"
 #: Install/Test/Case/Utility/InstallUtil/ValidatesDBConfTest.php:110;118;126
 #: Install/Utility/InstallValidatorUtil.php:91
 msgid "The input %s must be a number bigger than %d and less than %d."
-msgstr "%sは%d～%dまでの数値を入力してください。"
+msgstr ""
 
 #: Auth/Controller/ForgotPassController.php:227
 #: Bbses/Controller/BbsArticlesController.php:469
@@ -818,26 +818,26 @@ msgstr "%sは%d～%dまでの数値を入力してください。"
 #: UserRoles/Controller/UserRolesPluginsController.php:60
 #: Users/Controller/UsersController.php:196
 msgid "Successfully saved."
-msgstr "正常に登録しました。"
+msgstr ""
 
 #: UserManager/Controller/UserManagerController.php:209
 #: UserManager/Test/Case/Controller/UserManagerController/DeleteTest.php:100
 msgid "Successfully deleted."
-msgstr "正常に削除しました。"
+msgstr ""
 
 #: Users/Model/User.php:379
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:184
 msgid "Current password"
-msgstr "現在のパスワード"
+msgstr ""
 
 #: NetCommons/View/Helper/FormInputHelper.php:415
 msgid "Enter current password."
-msgstr "現在のパスワードを入力してください。"
+msgstr ""
 
 #: Users/Model/User.php:385
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:225
 msgid "Current password is wrong."
-msgstr "現在のパスワードが間違ってます。入力した内容を確認してください。"
+msgstr ""
 
 #:
 msgid "New password"
@@ -845,11 +845,11 @@ msgstr "新しいパスワード"
 
 #: NetCommons/View/Helper/FormInputHelper.php:424
 msgid "Enter new password."
-msgstr "新しいパスワードを入力してください。"
+msgstr ""
 
 #: NetCommons/View/Helper/FormInputHelper.php:441;496
 msgid "For confirmation, please re-enter."
-msgstr "確認のため、再度入力してください。"
+msgstr ""
 
 #: CircularNotices/Model/Behavior/CircularNoticeTargetUserBehavior.php:63
 #: Groups/Model/GroupsUser.php:91
@@ -862,28 +862,28 @@ msgstr "確認のため、再度入力してください。"
 #: Tasks/Test/Case/Controller/TaskContentEditController/EditTest.php:428
 #: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:204
 msgid "Failed on validation errors. Please check the input data."
-msgstr "入力した内容に誤りがあります。内容を確認してください。"
+msgstr ""
 
 #: Users/Model/Behavior/SaveUserBehavior.php:87;187
 #: Users/Test/Case/Model/User/PrivateSetUsernameValidateTest.php:165
 msgid "%s is already in use. Please choose another."
-msgstr "入力した%sは既に存在します。他の内容を入力してください。"
+msgstr ""
 
 #: Auth/Model/AutoUserRegist.php:376
 #: Registrations/Model/RegistrationAnswer.php:166
 #: Users/Model/User.php:365
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:214
 msgid "The input data does not match. Please try again."
-msgstr "入力した内容と確認項目の内容が一致しません。再度、入力してください。"
+msgstr ""
 
 #: Pages/Model/Page.php:237
 #: Pages/Test/Case/Model/Page/ValidateTest.php:195
 msgid "%s is already in use."
-msgstr "%sは既に使われています。"
+msgstr ""
 
 #:
 msgid "No results found."
-msgstr "条件に一致するデータはありませんでした。"
+msgstr ""
 
 #: CircularNotices/Model/CircularNoticeContent.php:169
 msgid "Pleas input boolean."
@@ -892,17 +892,17 @@ msgstr ""
 #: Pages/View/Helper/PagesEditHelper.php:91
 #: SiteManager/View/Helper/SiteManagerHelper.php:370
 msgid "Each of the embedded keywords, will be converted to the corresponding content. <br />"
-msgstr "それぞれの埋め込みキーワードは、対応する内容に変換されます。<br />"
+msgstr ""
 
 #: SiteManager/View/Helper/SiteManagerHelper.php:373
 msgid "Can use an embedded keyword."
-msgstr "埋め込みキーワードが使えます。"
+msgstr ""
 
 #: Pages/View/Helper/PagesEditHelper.php:88
 #: SiteManager/View/Helper/SiteManagerHelper.php:369
 #: Topics/View/Elements/TopicFrameSettings/edit_form.ctp:272
 msgid "{X-SITE_NAME} : Site name"
-msgstr "{X-SITE_NAME} : サイト名"
+msgstr ""
 
 #: PluginManager/Controller/PluginManagerController.php:193
 msgid "Failed to proceed the %s."
@@ -956,17 +956,17 @@ msgstr ""
 #: Users/View/Elements/Users/delete_form.ctp:34
 #: Videos/View/Elements/VideoBlocks/delete_form.ctp:21
 msgid "Delete"
-msgstr "削除"
+msgstr ""
 
 #: Cabinets/View/CabinetFiles/folder_detail.ctp:89
 #: Cabinets/View/CabinetFiles/view.ctp:82
 msgid "Created datetime"
-msgstr "作成日"
+msgstr "Created"
 
 #: Cabinets/View/CabinetFiles/folder_detail.ctp:83
 #: Cabinets/View/CabinetFiles/view.ctp:76
 msgid "Created user"
-msgstr "作成者"
+msgstr ""
 
 #: Questionnaires/View/Elements/FrameSettings/edit_display_questionnaire.ctp:46
 #: Questionnaires/View/QuestionnaireBlocks/index.ctp:43
@@ -974,7 +974,7 @@ msgstr "作成者"
 #: Quizzes/View/QuizBlocks/index.ctp:44
 #: Registrations/View/RegistrationBlocks/index.ctp:49
 msgid "Updated date"
-msgstr "更新日"
+msgstr ""
 
 #: AccessCounters/View/AccessCounterBlocks/index.ctp:45
 #: Announcements/View/AnnouncementBlocks/index.ctp:43
@@ -992,7 +992,7 @@ msgstr "更新日"
 #: Tasks/View/TaskBlocks/index.ctp:46
 #: Videos/View/VideoBlocks/index.ctp:50
 msgid "Modified datetime"
-msgstr "更新日"
+msgstr "Modified"
 
 #: AccessCounters/View/AccessCounterBlocks/index.ctp:41
 #: Announcements/View/AnnouncementBlocks/index.ctp:39
@@ -1009,14 +1009,14 @@ msgstr "更新日"
 #: Tasks/View/TaskBlocks/index.ctp:42
 #: Videos/View/VideoBlocks/index.ctp:46
 msgid "Modified user"
-msgstr "更新者"
+msgstr ""
 
 #: Blogs/View/BlogBlocks/index.ctp:33
 #: Faqs/View/FaqBlocks/index.ctp:33
 #: Links/View/LinkBlocks/index.ctp:34
 #: Tasks/View/TaskBlocks/index.ctp:33
 msgid "Number"
-msgstr "件数"
+msgstr ""
 
 
 #
@@ -1034,7 +1034,7 @@ msgstr "件数"
 #: UserRoles/View/UserRoles/view.ctp:56;68;83
 #: Videos/View/Videos/view.ctp:28
 msgid "Edit"
-msgstr "編集"
+msgstr ""
 
 #: Bbses/View/Elements/BbsArticles/view_bbs_article.ctp:33
 #: CircularNotices/View/Elements/CircularNotices/status_label.ctp:22
@@ -1050,7 +1050,7 @@ msgstr "編集"
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:73
 #: Workflow/View/Helper/WorkflowHelper.php:62
 msgid "Temporary"
-msgstr "一時保存"
+msgstr ""
 
 #: Blocks/View/Elements/delete_form.ctp:31
 #: Groups/View/Elements/delete_form.ctp:30
@@ -1061,7 +1061,7 @@ msgstr "一時保存"
 #: UserRoles/View/Elements/UserRoles/delete_form.ctp:18
 #: Users/View/Elements/Users/delete_form.ctp:23
 msgid "Danger Zone"
-msgstr "削除処理"
+msgstr ""
 
 #: AuthorizationKeys/View/AuthorizationKeys/popup.ctp:30
 #: AuthorizationKeys/View/AuthorizationKeys/view.ctp:24
@@ -1124,7 +1124,7 @@ msgstr "削除処理"
 #: VisualCaptcha/View/VisualCaptcha/view.ctp:13
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:146
 msgid "Cancel"
-msgstr "キャンセル"
+msgstr ""
 
 #: AuthorizationKeys/View/AuthorizationKeys/popup.ctp:31
 #: AuthorizationKeys/View/AuthorizationKeys/view.ctp:26
@@ -1177,7 +1177,7 @@ msgstr "キャンセル"
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:183;193
 #: Workflow/View/Helper/WorkflowHelper.php:134;141
 msgid "OK"
-msgstr "決定"
+msgstr ""
 
 #: CircularNotices/View/CircularNotices/index.ctp:42
 #: Frames/View/Elements/add_plugin.ctp:64
@@ -1186,18 +1186,18 @@ msgstr "決定"
 #: NetCommons/View/Helper/LinkButtonHelper.php:76
 #: Quizzes/View/Elements/QuizEdit/EditQuestion/options_before_published/word.ctp:45
 msgid "Add"
-msgstr "追加"
+msgstr ""
 
 #: Frames/View/Helper/FramesHelper.php:115
 msgid "Quit"
-msgstr "終了"
+msgstr ""
 
 #: Calendars/View/Helper/CalendarPlanHelper.php:184
 #: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:98;170
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:173
 #: Workflow/View/Helper/WorkflowHelper.php:118
 msgid "Disapproval"
-msgstr "差し戻し"
+msgstr ""
 
 #: Bbses/View/Helper/BbsesFormHelper.php:64
 #: Calendars/View/Helper/CalendarPlanHelper.php:191
@@ -1206,7 +1206,7 @@ msgstr "差し戻し"
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:163
 #: Workflow/View/Helper/WorkflowHelper.php:125
 msgid "Save temporally"
-msgstr "一時保存"
+msgstr ""
 
 #: Auth/View/AutoUserRegist/acceptance.ctp:25
 #: Auth/View/AutoUserRegist/completion.ctp:35
@@ -1218,14 +1218,14 @@ msgstr "一時保存"
 #: Registrations/View/RegistrationAnswers/thanks.ctp:75
 #: UserManager/View/UserAdd/notify.ctp:51
 msgid "Close"
-msgstr "終了"
+msgstr ""
 
 #: NetCommons/Test/Case/View/Helper/ButtonHelper/CancelAndSaveAndSaveTempTest.php:150
 #: NetCommons/View/Helper/ButtonHelper.php:293
 #: NetCommons/View/Helper/WizardHelper.php:212
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/ButtonsTest.php:153
 msgid "BACK"
-msgstr "前へ"
+msgstr ""
 
 #: NetCommons/View/Helper/WizardHelper.php:219
 #: Questionnaires/View/QuestionnaireAdd/add.ctp:54
@@ -1240,30 +1240,30 @@ msgstr "前へ"
 #: Registrations/View/RegistrationAnswers/view.ctp:82
 #: VisualCaptcha/View/VisualCaptcha/view.ctp:15
 msgid "NEXT"
-msgstr "次へ"
+msgstr ""
 
 #: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:68
 #: Quizzes/View/QuizAnswers/confirm.ctp:66
 #: Registrations/View/RegistrationAnswers/confirm.ctp:66
 msgid "Confirm"
-msgstr "確認"
+msgstr ""
 
 #: NetCommons/View/Helper/LinkButtonHelper.php:154
 #: Searches/View/Elements/Searches/conditions.ctp:137
 #: Searches/View/Searches/simple_index.ctp:35
 #: Users/View/UserSearch/conditions.ctp:46
 msgid "Search"
-msgstr "検索"
+msgstr ""
 
 #: Groups/View/Groups/select.ctp:78
 #: Users/View/Users/select.ctp:93
 msgid "Select"
-msgstr "選択"
+msgstr ""
 
 #: Pages/View/Elements/PagesEdit/theme_form.ctp:29
 #: SiteManager/View/Elements/DefaultPageSettings/theme_form.ctp:26
 msgid "Preview"
-msgstr "プレビュー"
+msgstr ""
 
 #: Cabinets/View/CabinetFilesEdit/folder_form.ctp:69
 #: Cabinets/View/CabinetFilesEdit/form.ctp:122
@@ -1271,20 +1271,20 @@ msgstr "プレビュー"
 #: Cabinets/View/Elements/CabinetFiles/folder_row.ctp:95
 #: Pages/View/PagesEdit/index.ctp:88
 msgid "Move"
-msgstr "移動"
+msgstr ""
 
 #: NetCommons/View/Helper/BackToHelper.php:183
 #: NetCommons/View/Helper/LinkButtonHelper.php:223
 msgid "To list"
-msgstr "一覧へ"
+msgstr ""
 
 #: NetCommons/View/Helper/LinkButtonHelper.php:190
 msgid "Sort"
-msgstr "並び替え"
+msgstr ""
 
 #: UserManager/View/Elements/UsersRolesRooms/render_header.ctp:34
 msgid "All select"
-msgstr "全選択"
+msgstr ""
 
 
 #
@@ -1299,13 +1299,13 @@ msgstr ""
 
 #: SiteManager/Model/Behavior/IpAddressManagerBehavior.php:173
 msgid "IP Address"
-msgstr "IPアドレス"
+msgstr ""
 
 #: Auth/Model/AutoUserRegist.php:369
 #: Users/Model/User.php:360
 #: Users/Test/Case/Model/User/PrivateSetPasswordValidateTest.php:174
 msgid "Re-enter"
-msgstr "確認項目"
+msgstr ""
 
 #: NetCommons/View/Elements/required.ctp:15
 #: Questionnaires/View/Elements/QuestionnaireEdit/EditQuestion/accordion_heading.ctp:57
@@ -1324,7 +1324,7 @@ msgstr ""
 #: SystemManager/View/Elements/SecuritySettings/bad_ips_form.ctp:20
 #: SystemManager/View/Elements/WebServer/proxy_form.ctp:21
 msgid "Yes"
-msgstr "はい"
+msgstr ""
 
 #: SiteManager/View/Elements/Membership/automatic_registration_form.ctp:31;54
 #: SiteManager/View/Elements/Membership/membership_cancellation_form.ctp:22;41
@@ -1335,21 +1335,21 @@ msgstr "はい"
 #: SystemManager/View/Elements/SecuritySettings/bad_ips_form.ctp:21
 #: SystemManager/View/Elements/WebServer/proxy_form.ctp:22
 msgid "No"
-msgstr "いいえ"
+msgstr ""
 
 #: Blogs/View/Elements/BlogFrameSettings/edit_form.ctp:20
 #: Faqs/View/Elements/FaqFrameSettings/edit_form.ctp:18
 #: Videos/View/Elements/VideoFrameSettings/edit_form.ctp:42
 msgid "Display the number of each page"
-msgstr "１ページ毎の表示件数"
+msgstr ""
 
 #: Links/View/Links/view.ctp:68
 msgid "Created:"
-msgstr "作成:"
+msgstr ""
 
 #: Links/View/Links/view.ctp:76
 msgid "Modified:"
-msgstr "更新:"
+msgstr ""
 
 #: Rooms/View/Helper/RoomsHelper.php:341
 msgid "..."
@@ -1364,11 +1364,11 @@ msgstr ""
 #: Quizzes/View/Helper/QuizStatusLabelHelper.php:73
 #: Registrations/View/Helper/RegistrationStatusLabelHelper.php:74
 msgid "Published"
-msgstr "公開"
+msgstr ""
 
 #: Calendars/View/Helper/CalendarCommonHelper.php:126
 msgid "In draft"
-msgstr "一時保存"
+msgstr ""
 
 #: Calendars/View/Helper/CalendarCommonHelper.php:121
 #: Links/Test/Case/View/Elements/Links/LinkTest.php:143;146
@@ -1384,7 +1384,7 @@ msgstr "一時保存"
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:70
 #: Workflow/View/Helper/WorkflowHelper.php:66
 msgid "Approving"
-msgstr "承認待ち"
+msgstr ""
 
 #: Calendars/View/Helper/CalendarCommonHelper.php:131
 #: PhotoAlbums/View/Elements/album_frame_setting_list.ctp:137
@@ -1399,19 +1399,19 @@ msgstr "承認待ち"
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/LabelTest.php:76
 #: Workflow/View/Helper/WorkflowHelper.php:70
 msgid "Disapproving"
-msgstr "差し戻し"
+msgstr ""
 
 #: Bbses/View/Elements/BbsArticles/comment_approving_link.ctp:31
 #: Workflow/Test/Case/View/Helper/WorkflowHelper/PublishLinkButtonTest.php:203
 #: Workflow/View/Helper/WorkflowHelper.php:274
 msgid "Accept"
-msgstr "承認する"
+msgstr ""
 
 #: Mails/Test/Case/Model/Behavior/MailQueueBehavior/SaveTest.php:298
 #: Mails/Utility/NetCommonsExtentionTag.php:98
 #: Workflow/View/Elements/form.ctp:25
 msgid "Comments to the person in charge."
-msgstr "担当者への連絡"
+msgstr ""
 
 
 #
@@ -1420,15 +1420,15 @@ msgstr "担当者への連絡"
 
 #:
 msgid "Home"
-msgstr "ホーム"
+msgstr ""
 
 #: NetCommons/View/Elements/common_header.ctp:111
 msgid "Login"
-msgstr "ログイン"
+msgstr ""
 
 #: NetCommons/View/Elements/common_header.ctp:102
 msgid "Logout"
-msgstr "ログアウト"
+msgstr ""
 
 
 #
@@ -1437,14 +1437,14 @@ msgstr "ログアウト"
 
 #:
 msgid "Go to Top"
-msgstr "トップへ"
+msgstr ""
 
 #: Rooms/View/Elements/Rooms/view_rooms_roles_users.ctp:45
 #: Topics/View/Elements/Topics/index_article.ctp:22
 #: Videos/View/Videos/view.ctp:173
 #: Workflow/View/Elements/index.ctp:31
 msgid "More"
-msgstr "もっと見る"
+msgstr ""
 
 
 #
@@ -1454,17 +1454,17 @@ msgstr "もっと見る"
 #: Blocks/Test/Case/View/Helper/BlockTabsHelper/BlockTest.php:154
 #: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:166
 msgid "Role permission settings"
-msgstr "権限設定"
+msgstr ""
 
 #: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:159
 #: PhotoAlbums/View/PhotoAlbums/setting.ctp:17
 msgid "Frame settings"
-msgstr "表示方法変更"
+msgstr ""
 
 #: Blocks/Test/Case/View/Helper/BlockTabsHelper/MainTest.php:156
 #: Pages/View/PagesEdit/theme.ctp:25
 msgid "List"
-msgstr "一覧表示"
+msgstr ""
 
 
 #
@@ -1473,7 +1473,7 @@ msgstr "一覧表示"
 
 #: PhotoAlbums/View/Elements/photo_list_operation.ctp:66;76
 msgid "Display all"
-msgstr "全て表示"
+msgstr ""
 
 #:
 msgid "All Display"
@@ -1481,35 +1481,35 @@ msgstr ""
 
 #:
 msgid "All Plugins"
-msgstr "全てのプラグイン"
+msgstr ""
 
 #: Topics/View/Helper/TopicsHelper.php:247
 msgid "All Statuses"
-msgstr "全てのステータス"
+msgstr ""
 
 #:
 msgid "All Duration"
-msgstr "全ての期間"
+msgstr ""
 
 #: NetCommons/View/Helper/DisplayNumberHelper.php:57
 #: Questionnaires/View/Elements/FrameSettings/edit_list_display_option.ctp:16
 #: Quizzes/View/Elements/QuizFrameSettings/edit_list_display_option.ctp:17
 msgid "%s item"
-msgstr "%s件"
+msgstr ""
 
 #: NetCommons/View/Helper/DisplayNumberHelper.php:58
 #: Questionnaires/View/Elements/FrameSettings/edit_list_display_option.ctp:17
 #: Quizzes/View/Elements/QuizFrameSettings/edit_list_display_option.ctp:18
 msgid "%s items"
-msgstr "%s件"
+msgstr ""
 
 #: NetCommons/View/Helper/DisplayNumberHelper.php:91
 msgid "%s day"
-msgstr "%s日分"
+msgstr ""
 
 #: NetCommons/View/Helper/DisplayNumberHelper.php:92
 msgid "%s days"
-msgstr "%s日分"
+msgstr ""
 
 
 #
@@ -1524,7 +1524,7 @@ msgstr "%s日分"
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:416
 #: Registrations/Controller/Component/RegistrationsComponent.php:481
 msgid "Newest"
-msgstr "新着順"
+msgstr ""
 
 #: CircularNotices/Controller/CircularNoticesController.php:112
 #: CircularNotices/Test/Case/View/Elements/CircularNotices/SelectSortTest.php:65
@@ -1534,7 +1534,7 @@ msgstr "新着順"
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:417
 #: Registrations/Controller/Component/RegistrationsComponent.php:482
 msgid "Oldest"
-msgstr "登録順"
+msgstr ""
 
 #: CircularNotices/Controller/CircularNoticesController.php:117
 #: CircularNotices/Test/Case/View/Elements/CircularNotices/SelectSortTest.php:70
@@ -1543,7 +1543,7 @@ msgstr "登録順"
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:418
 #: Registrations/Controller/Component/RegistrationsComponent.php:483
 msgid "Title"
-msgstr "タイトル順"
+msgstr ""
 
 
 #
@@ -1582,395 +1582,395 @@ msgstr ""
 #: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:60
 #: NetCommons/View/Helper/TitleIconHelper.php:208
 msgid "icon_cancel"
-msgstr "取消し"
+msgstr ""
 
 #: NetCommons/Test/Case/View/Helper/TitleIconHelper/TitleIconTest.php:63
 msgid "new"
-msgstr "NEW"
+msgstr ""
 
 #: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:61
 msgid "ok"
-msgstr "OK"
+msgstr ""
 
 #:
 msgid "ng"
-msgstr "NG"
+msgstr ""
 
 #:
 msgid "exclamation"
-msgstr "！"
+msgstr ""
 
 #:
 msgid "question_exclamation"
-msgstr "？！"
+msgstr ""
 
 #:
 msgid "question"
-msgstr "？"
+msgstr ""
 
 #:
 msgid "deadline"
-msgstr "締め切り"
+msgstr ""
 
 #:
 msgid "announce"
-msgstr "お知らせ"
+msgstr ""
 
 #:
 msgid "information"
-msgstr "インフォメーション"
+msgstr ""
 
 #:
 msgid "left"
-msgstr "左"
+msgstr ""
 
 #:
 msgid "right"
-msgstr "右"
+msgstr ""
 
 #:
 msgid "up"
-msgstr "上"
+msgstr ""
 
 #:
 msgid "down"
-msgstr "下"
+msgstr ""
 
 #:
 msgid "circle"
-msgstr "まる"
+msgstr ""
 
 #:
 msgid "cross"
-msgstr "バツ"
+msgstr ""
 
 #:
 msgid "triangle"
-msgstr "三角"
+msgstr ""
 
 #:
 msgid "important"
-msgstr "重要"
+msgstr ""
 
 #:
 msgid "pass"
-msgstr "合格"
+msgstr ""
 
 #:
 msgid "celebrate"
-msgstr "お祝い"
+msgstr ""
 
 #:
 msgid "one_star"
-msgstr "１ツ星"
+msgstr ""
 
 #:
 msgid "two_stars"
-msgstr "２ツ星"
+msgstr ""
 
 #:
 msgid "three_stars"
-msgstr "３ツ星"
+msgstr ""
 
 #:
 msgid "crown"
-msgstr "王冠"
+msgstr ""
 
 #:
 msgid "hanamaru"
-msgstr "花丸"
+msgstr ""
 
 #:
 msgid "warning"
-msgstr "注意"
+msgstr ""
 
 #:
 msgid "restriction"
-msgstr "禁止"
+msgstr ""
 
 #:
 msgid "roger"
-msgstr "了解"
+msgstr ""
 
 #:
 msgid "v_sign"
-msgstr "ピース"
+msgstr ""
 
 #:
 msgid "heart"
-msgstr "ハート"
+msgstr ""
 
 #:
 msgid "rush"
-msgstr "急ぎ"
+msgstr ""
 
 #:
 msgid "pow"
-msgstr "動物"
+msgstr ""
 
 #:
 msgid "glitter"
-msgstr "キラキラ"
+msgstr ""
 
 #:
 msgid "impatient"
-msgstr "汗・焦る"
+msgstr ""
 
 #:
 msgid "sunny"
-msgstr "晴れ"
+msgstr ""
 
 #:
 msgid "cloudy"
-msgstr "曇り"
+msgstr ""
 
 #:
 msgid "party_cloudy"
-msgstr "晴れのち曇り"
+msgstr ""
 
 #:
 msgid "rainy"
-msgstr "雨"
+msgstr ""
 
 #:
 msgid "light_rain"
-msgstr "小雨"
+msgstr ""
 
 #:
 msgid "heavy_rain"
-msgstr "大雨"
+msgstr ""
 
 #:
 msgid "storm"
-msgstr "嵐"
+msgstr ""
 
 #: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetAltNameTest.php:65
 msgid "thunders"
-msgstr "雷"
+msgstr ""
 
 #:
 msgid "snow"
-msgstr "雪"
+msgstr ""
 
 #:
 msgid "star"
-msgstr "星"
+msgstr ""
 
 #:
 msgid "science"
-msgstr "理科・実験"
+msgstr ""
 
 #:
 msgid "sport"
-msgstr "体育・スポーツ"
+msgstr ""
 
 #:
 msgid "art"
-msgstr "美術・図工"
+msgstr ""
 
 #:
 msgid "cooking"
-msgstr "家庭科・調理"
+msgstr ""
 
 #:
 msgid "music"
-msgstr "音楽"
+msgstr ""
 
 #:
 msgid "computer"
-msgstr "情報処理・パソコン"
+msgstr ""
 
 #:
 msgid "audiovisual"
-msgstr "視聴覚"
+msgstr ""
 
 #:
 msgid "lunch"
-msgstr "給食・食事"
+msgstr ""
 
 #:
 msgid "trip"
-msgstr "出張・旅行"
+msgstr ""
 
 #:
 msgid "train"
-msgstr "電車"
+msgstr ""
 
 #:
 msgid "car"
-msgstr "車"
+msgstr ""
 
 #:
 msgid "airplane"
-msgstr "飛行機"
+msgstr ""
 
 #:
 msgid "bus"
-msgstr "バス"
+msgstr ""
 
 #:
 msgid "examination"
-msgstr "試験"
+msgstr ""
 
 #:
 msgid "anniversary"
-msgstr "記念日"
+msgstr ""
 
 #:
 msgid "event"
-msgstr "イベント"
+msgstr ""
 
 #:
 msgid "picnic"
-msgstr "遠足"
+msgstr ""
 
 #:
 msgid "business"
-msgstr "ビジネス"
+msgstr ""
 
 #:
 msgid "meeting"
-msgstr "会議・研修"
+msgstr ""
 
 #:
 msgid "beer"
-msgstr "飲み会・ビール"
+msgstr ""
 
 #:
 msgid "mobile"
-msgstr "携帯端末"
+msgstr ""
 
 #:
 msgid "book"
-msgstr "本"
+msgstr ""
 
 #:
 msgid "note"
-msgstr "ノート・レポート"
+msgstr ""
 
 #:
 msgid "pencil"
-msgstr "鉛筆"
+msgstr ""
 
 #:
 msgid "email"
-msgstr "Eメール"
+msgstr ""
 
 #:
 msgid "group"
-msgstr "グループ"
+msgstr ""
 
 #:
 msgid "light"
-msgstr "ひらめき"
+msgstr ""
 
 #:
 msgid "coffee"
-msgstr "ひと休み"
+msgstr ""
 
 #:
 msgid "hospital"
-msgstr "病院"
+msgstr ""
 
 #:
 msgid "school"
-msgstr "学校"
+msgstr ""
 
 #:
 msgid "morning"
-msgstr "朝"
+msgstr ""
 
 #:
 msgid "afternoon"
-msgstr "昼"
+msgstr ""
 
 #:
 msgid "evening"
-msgstr "夜"
+msgstr ""
 
 #:
 msgid "smile"
-msgstr "にっこり"
+msgstr ""
 
 #:
 msgid "laugh"
-msgstr "笑う"
+msgstr ""
 
 #:
 msgid "expect"
-msgstr "期待・ワクワク"
+msgstr ""
 
 #:
 msgid "pleased"
-msgstr "喜ぶ・デレ"
+msgstr ""
 
 #:
 msgid "joke"
-msgstr "ニヒヒ"
+msgstr ""
 
 #:
 msgid "excited"
-msgstr "興奮・ヤッター！"
+msgstr ""
 
 #:
 msgid "gloat"
-msgstr "ほくそ笑む・ニヤリ"
+msgstr ""
 
 #:
 msgid "bewilderment"
-msgstr "戸惑う・えっ"
+msgstr ""
 
 #:
 msgid "worry"
-msgstr "心配・うーん"
+msgstr ""
 
 #:
 msgid "trouble"
-msgstr "困る"
+msgstr ""
 
 #:
 msgid "bitter_smile"
-msgstr "苦笑い"
+msgstr ""
 
 #:
 msgid "shock"
-msgstr "衝撃・ガーン"
+msgstr ""
 
 #:
 msgid "surprised"
-msgstr "驚く・ビックリ"
+msgstr ""
 
 #:
 msgid "patience"
-msgstr "我慢"
+msgstr ""
 
 #:
 msgid "cried_for_joy"
-msgstr "うれし泣き"
+msgstr ""
 
 #:
 msgid "cry"
-msgstr "泣く"
+msgstr ""
 
 #:
 msgid "bow"
-msgstr "お辞儀"
+msgstr ""
 
 #:
 msgid "angry"
-msgstr "怒る"
+msgstr ""
 
 #:
 msgid "tire"
-msgstr "疲れる・フラフラ"
+msgstr ""
 
 #: NetCommons/Test/Case/View/Helper/TitleIconHelper/GetIconFilesTest.php:62
 msgid "glasses"
-msgstr "眼鏡"
+msgstr ""
 
 #:
 msgid "search"
-msgstr "虫眼鏡"
+msgstr ""
 
 
 #
@@ -1982,51 +1982,51 @@ msgstr "虫眼鏡"
 #: Quizzes/Controller/Component/QuizzesComponent.php:218
 #: Registrations/Controller/Component/RegistrationsComponent.php:495
 msgid "Single choice"
-msgstr "択一式"
+msgstr ""
 
 #: CircularNotices/View/Elements/CircularNotices/reply_type_edit_form.ctp:25
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:431
 #: Quizzes/Controller/Component/QuizzesComponent.php:219
 #: Registrations/Controller/Component/RegistrationsComponent.php:496
 msgid "Multiple choice"
-msgstr "複数選択"
+msgstr ""
 
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:434
 msgid "Single choice matrix"
-msgstr "択一式マトリクス"
+msgstr ""
 
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:435
 msgid "Multiple choice matrix"
-msgstr "複数選択マトリクス"
+msgstr ""
 
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:436
 #: Registrations/Controller/Component/RegistrationsComponent.php:501
 msgid "Date and time"
-msgstr "日付と時間"
+msgstr ""
 
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:437
 #: Registrations/Controller/Component/RegistrationsComponent.php:502
 msgid "List select"
-msgstr "リストボックス"
+msgstr ""
 
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:432
 #: Registrations/Controller/Component/RegistrationsComponent.php:497
 msgid "Text"
-msgstr "テキスト"
+msgstr ""
 
 #: CircularNotices/View/Elements/CircularNotices/reply_type_edit_form.ctp:23
 #: Questionnaires/Controller/Component/QuestionnairesComponent.php:433
 #: Quizzes/Controller/Component/QuizzesComponent.php:222
 #: Registrations/Controller/Component/RegistrationsComponent.php:498
 msgid "Free style"
-msgstr "記述式"
+msgstr ""
 
 #: Registrations/Controller/Component/RegistrationsComponent.php:503
 #: UserManager/Model/UserMail.php:71
 #: UserManager/Test/Case/Controller/UserAddController/NotifyTest.php:252
 msgid "Email"
-msgstr "メールアドレス"
+msgstr ""
 
 #: Registrations/Controller/Component/RegistrationsComponent.php:504
 msgid "File"
-msgstr "ファイル"
+msgstr ""

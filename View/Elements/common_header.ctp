@@ -44,10 +44,18 @@ if (! isset($isSettingMode)) {
 						); ?>
 				<?php endif; ?>
 
-				<?php echo $this->NetCommonsHtml->link(SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')); ?>
+				<?php echo $this->NetCommonsHtml->link(
+						SiteSettingUtil::read('App.site_name'), '/', array('class' => 'navbar-brand')
+					); ?>
 			</div>
 			<div id="nc-system-header-navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<?php if (! empty($hasSwitchLang)) : ?>
+						<li>
+							<?php echo $this->element('M17n.switch_language_form'); ?>
+						</li>
+					<?php endif; ?>
+
 					<?php if (Current::hasControlPanel()) : ?>
 						<li>
 							<?php if (! Current::isControlPanel()): ?>
@@ -63,7 +71,7 @@ if (! isset($isSettingMode)) {
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting off'), NetCommonsUrl::backToPageUrl()); ?>
 						</li>
-					<?php elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable')) : ?>
+					<?php elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable', Current::read('Page.room_id'))) : ?>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting on'),
 									'/pages/pages_edit/index/' . Current::read('Page.room_id') . '/' . Current::read('Page.id')); ?>

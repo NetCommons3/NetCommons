@@ -22,7 +22,6 @@ class PublishableFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'key' => array('type' => 'string', 'null' => true, 'default' => null),
-		'origin_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'title' => array('type' => 'string', 'null' => true, 'default' => null),
 		'status' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4),
 		'is_active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),

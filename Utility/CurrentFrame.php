@@ -92,7 +92,7 @@ class CurrentFrame {
 					'Frame.id' => $frameId,
 				),
 			));
-			Current::setCurrent($result, true);
+			Current::setCurrent($result, ['Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin']);
 		}
 
 		//ブロック設定の新規の場合の処理
@@ -198,8 +198,8 @@ class CurrentFrame {
 				'Block.id' => $blockId,
 			),
 		));
-		//Block、Room、Language更新
-		Current::setCurrent($result, true);
+		//Block、Room、Language, Plugin更新
+		Current::setCurrent($result, ['Block', 'Room', 'BlocksLanguage', 'Plugin']);
 
 		//Frameデータがない場合、block_idから配置しているFrameを探し出してセットする
 		if (! isset(Current::$current['Frame'])) {

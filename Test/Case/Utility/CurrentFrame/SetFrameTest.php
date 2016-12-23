@@ -36,6 +36,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 		parent::setUp();
 
 		$this->CurrentFrame = new CurrentFrame();
+		Current::$current['Language']['id'] = '2';
 	}
 
 /**
@@ -45,7 +46,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
  */
 	public function testNoData() {
 		//データ生成
-		//$frameId = null;
+		Current::$current = array();
 
 		//テスト実施
 		$this->CurrentFrame->setFrame();
@@ -123,11 +124,9 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			'Block' => array(
 				'public_type' => '1',
 				'content_count' => '0',
-				'language_id' => '2',
 				'room_id' => '1',
 				'plugin_key' => 'blocks',
 				'key' => '',
-				'name' => null,
 				'publish_start' => null,
 				'publish_end' => null,
 				'id' => null,
@@ -151,7 +150,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 		$this->CurrentFrame->setFrame();
 
 		//チェック
-		$this->__assertFrameHeader(array(), array('Frame', 'Block', 'Language'));
+		$this->__assertFrameHeader(array(), array('Frame', 'Block', 'BlocksLanguage', 'FramesLanguage', 'Plugin'));
 	}
 
 /**
@@ -233,6 +232,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
  * @param array $mergeExpected $expectedにマージするデータ
  * @param array $removeKeys $expectedから削除するデータ
  * @return void
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	private function __assertFrameHeader($mergeExpected = array(), $removeKeys = array()) {
 		Current::$current = Hash::remove(Current::$current, '{s}.created_user');
@@ -243,13 +243,11 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 		$default = array(
 			'Frame' => array(
 				'id' => '2',
-				'language_id' => '2',
 				'room_id' => '1',
 				'box_id' => '1',
 				'plugin_key' => 'test_frames',
 				'block_id' => '2',
 				'key' => 'frame_header',
-				'name' => 'Test frame header',
 				'header_type' => 'default',
 				'weight' => '1',
 				'is_deleted' => false,
@@ -267,18 +265,16 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			),
 			'Language' => array(
 				'id' => '2',
-				'code' => 'ja',
-				'weight' => '2',
-				'is_active' => true,
+				//'code' => 'ja',
+				//'weight' => '2',
+				//'is_active' => true,
 			),
 			'Block' => array(
 				'id' => '2',
-				'language_id' => '2',
 				//Frameのroom_idとBlockのroom_idが異なることは、基本あり得ないが。テストで使っているFixtureの関係上、当データの結果となる
 				'room_id' => '2',
 				'plugin_key' => 'test_frames',
 				'key' => 'block_1',
-				'name' => 'Block name 1',
 				'public_type' => '1',
 				'publish_start' => null,
 				'publish_end' => null,
@@ -299,6 +295,40 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'default_participation' => true,
 				'page_layout_permitted' => false,
 				'theme' => null,
+			),
+			'Plugin' => array(
+				'id' => '2',
+				'language_id' => '2',
+				'key' => 'test_frames',
+				'name' => 'Lorem ipsum dolor sit amet',
+				'namespace' => 'Lorem ipsum dolor sit amet',
+				'weight' => '1',
+				'type' => '1',
+				'version' => null,
+				'commit_version' => null,
+				'commited' => null,
+				'default_action' => '',
+				'default_setting_action' => '',
+				'frame_add_action' => null,
+				'display_topics' => false,
+				'display_search' => false,
+				'serialize_data' => null,
+			),
+			'FramesLanguage' => array(
+				'id' => '2',
+				'language_id' => '2',
+				'frame_id' => '2',
+				'name' => 'Test frame header',
+				'is_origin' => true,
+				'is_translation' => false,
+			),
+			'BlocksLanguage' => array(
+				//'id' => '2',
+				'language_id' => '2',
+				'block_id' => '2',
+				'name' => 'Block name 1',
+				'is_origin' => true,
+				'is_translation' => false,
 			),
 			'Space' => array(
 				'id' => '1',
@@ -339,17 +369,41 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 		$default = array(
 			'Frame' => array(
 				'id' => '6',
-				'language_id' => '2',
 				'room_id' => '2',
 				'box_id' => '28',
 				'plugin_key' => 'test_frames',
 				'block_id' => '2',
 				'key' => 'frame_3',
-				'name' => 'Test frame main',
 				'header_type' => 'default',
 				'weight' => '1',
 				'is_deleted' => false,
 				'default_action' => '',
+			),
+			'Plugin' => array(
+				'id' => '2',
+				'language_id' => '2',
+				'key' => 'test_frames',
+				'name' => 'Lorem ipsum dolor sit amet',
+				'namespace' => 'Lorem ipsum dolor sit amet',
+				'weight' => '1',
+				'type' => '1',
+				'version' => null,
+				'commit_version' => null,
+				'commited' => null,
+				'default_action' => '',
+				'default_setting_action' => '',
+				'frame_add_action' => null,
+				'display_topics' => false,
+				'display_search' => false,
+				'serialize_data' => null,
+			),
+			'FramesLanguage' => array(
+				'id' => '6',
+				'language_id' => '2',
+				'frame_id' => '6',
+				'name' => 'Test frame main',
+				'is_origin' => true,
+				'is_translation' => false,
 			),
 			'Box' => array(
 				'id' => '28',
@@ -363,21 +417,27 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			),
 			'Language' => array(
 				'id' => '2',
-				'code' => 'ja',
-				'weight' => '2',
-				'is_active' => true,
+				//'code' => 'ja',
+				//'weight' => '2',
+				//'is_active' => true,
 			),
 			'Block' => array(
 				'id' => '2',
-				'language_id' => '2',
 				'room_id' => '2',
 				'plugin_key' => 'test_frames',
 				'key' => 'block_1',
-				'name' => 'Block name 1',
 				'public_type' => '1',
 				'publish_start' => null,
 				'publish_end' => null,
 				'content_count' => '0',
+			),
+			'BlocksLanguage' => array(
+				//'id' => '2',
+				'language_id' => '2',
+				'block_id' => '2',
+				'name' => 'Block name 1',
+				'is_origin' => true,
+				'is_translation' => false,
 			),
 			'Room' => array(
 				'id' => '2',

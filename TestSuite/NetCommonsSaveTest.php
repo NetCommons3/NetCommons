@@ -145,6 +145,16 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified');
 		$expected[$this->$model->alias] = Hash::remove($expected[$this->$model->alias], 'modified_user');
 
+		if ($this->$model->hasField('is_origin') && ! isset($data[$this->$model->alias]['is_origin'])) {
+			$expected[$this->$model->alias]['is_origin'] = true;
+			$expected[$this->$model->alias]['is_translation'] = false;
+		}
+
+		if ($this->$model->hasField('language_id') &&
+				! isset($data[$this->$model->alias]['language_id'])) {
+			$expected[$this->$model->alias]['language_id'] = '2';
+		}
+
 		return $expected;
 	}
 

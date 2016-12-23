@@ -32,6 +32,7 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
  */
 	private $__fixtures = array(
 		'plugin.frames.frame4frames',
+		'plugin.frames.frames_language4frames',
 		'plugin.frames.block4frames',
 		'plugin.frames.plugin4frames',
 	);

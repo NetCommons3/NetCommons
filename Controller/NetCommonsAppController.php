@@ -97,6 +97,7 @@ class NetCommonsAppController extends Controller {
 		'Html' => array(
 			'className' => 'NetCommons.SingletonViewBlockHtml'
 		),
+		'M17n.M17n',
 		'NetCommons.BackTo',
 		'NetCommons.Button',
 		'NetCommons.LinkButton',
@@ -189,6 +190,12 @@ class NetCommonsAppController extends Controller {
 		} elseif ($this->Session->check('Config.language')) {
 			Configure::write('Config.language', $this->Session->read('Config.language'));
 		}
+
+		//多言語の切り替えボックス
+		$languages = $this->Language->getLanguages();
+		$this->set('switchLanguages', $languages);
+
+		$this->set('hasSwitchLang', count($languages) > 1);
 	}
 
 /**

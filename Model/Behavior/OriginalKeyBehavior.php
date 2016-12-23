@@ -20,14 +20,18 @@ App::uses('ModelBehavior', 'Model');
 class OriginalKeyBehavior extends ModelBehavior {
 
 /**
- * ビヘイビアの設定
+ * Setup this behavior with the specified configuration settings.
  *
- * @var array
- * @see ModelBehavior::$settings
+ * @param Model $model Model using this behavior
+ * @param array $config Configuration settings for $model
+ * @return void
  */
-	public $settings = array(
-		'priority' => 8
-	);
+	public function setup(Model $model, $config = array()) {
+		parent::setup($model, $config);
+
+		//ビヘイビアの優先順位
+		$this->settings['priority'] = 7;
+	}
 
 /**
  * PHPUnitで使用するキー配列
@@ -58,32 +62,6 @@ class OriginalKeyBehavior extends ModelBehavior {
 			$model->data[$model->alias]['key'] = self::generateKey($model->alias, $model->useDbConfig);
 		}
 		return true;
-	}
-
-/**
- * afterSave is called after a model is saved.
- *
- * @param Model $model Model using this behavior
- * @param bool $created True if this save created a new record
- * @param array $options Options passed from Model::save().
- * @return bool
- * @see Model::save()
- */
-	public function afterSave(Model $model, $created, $options = array()) {
-		if ($created && $model->hasField('origin_id')) {
-			if (isset($model->data[$model->alias]['origin_id']) &&
-					(int)$model->data[$model->alias]['origin_id'] === 0) {
-				// origin_id がセットされてなかったらkey=idでupdate
-				$backupData = $model->data;
-				$result = $model->saveField(
-					'origin_id', $model->data[$model->alias]['id'], array('callbacks' => false)
-				);
-				$model->data = $backupData;
-				$model->data[$model->alias]['origin_id'] = $result[$model->alias]['origin_id'];
-
-				//$model->saveField('origin_id', $model->data[$model->alias]['id']);
-			}
-		}
 	}
 
 /**

@@ -369,7 +369,7 @@ class Current extends CurrentBase {
  * @return bool
  */
 	public static function hasSettingMode() {
-		return self::permission('page_editable');
+		return self::permission('page_editable', Current::read('Page.room_id'));
 	}
 
 /**

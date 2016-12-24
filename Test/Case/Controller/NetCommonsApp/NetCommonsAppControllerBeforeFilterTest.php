@@ -117,6 +117,8 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
 		CakeSession::write('Config.language', 'en');
 		$this->testAction('/test_net_commons/test_net_commons/index', array());
 		$this->assertEquals(Configure::read('Config.language'), 'en');
+
+		CakeSession::write('Config.language', 'ja');
 	}
 
 }

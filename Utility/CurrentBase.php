@@ -331,30 +331,24 @@ class CurrentBase {
 		if ($roomId == self::read('Room.id')) {
 			$result = (bool)self::read($path);
 		} else {
-			$RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
-			$RoomRolePermission->bindModel(array(
-				'belongsTo' => array(
-					'RolesRoomsUser' => array(
-						'className' => 'Rooms.RolesRoomsUser',
-						//'fields' => array('id', 'name'),
-						'foreignKey' => false,
-						'type' => 'LEFT',
-						'conditions' => array(
-							'RolesRoom.id' . ' = ' . 'RolesRoomsUser.roles_room_id',
-						),
-					),
-				)
-			), true);
-
-			$query = array(
-				'recursive' => 0,
+			$RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
+			$roleRoomUser = $RolesRoomsUser->find('first', array(
+				'recursive' => -1,
 				'conditions' => array(
 					'RolesRoomsUser.user_id' => self::read('User.id'),
 					'RolesRoomsUser.room_id' => $roomId,
+				),
+			));
+			$rolesRoomId = Hash::get($roleRoomUser, 'RolesRoomsUser.roles_room_id', '0');
+
+			$RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
+			$roomRolePermission = $RoomRolePermission->find('first', array(
+				'recursive' => -1,
+				'conditions' => array(
+					$RoomRolePermission->alias . '.roles_room_id' => $rolesRoomId,
 					$RoomRolePermission->alias . '.permission' => $key,
 				),
-			);
-			$roomRolePermission = $RoomRolePermission->find('first', $query);
+			));
 			$result = (bool)Hash::get($roomRolePermission, 'RoomRolePermission.value');
 		}
 

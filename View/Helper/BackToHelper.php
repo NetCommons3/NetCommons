@@ -169,21 +169,4 @@ class BackToHelper extends AppHelper {
 		return $this->linkButton($title, $url, $options);
 	}
 
-/**
- * 一覧へボタンHTMLの出力
- * ※後で削除予定
- *
- * @param string $title タイトル文字列
- * @param array $options HTML属性オプション
- * @return string HTMLタグ
- */
-	public function listLinkButton($title, $options = array()) {
-		$options = Hash::merge(['icon' => 'arrow-left'], $options);
-		if (! is_string($title)) {
-			$title = __d('net_commons', 'To list');
-		}
-
-		return $this->pageLinkButton($title, $options);
-	}
-
 }

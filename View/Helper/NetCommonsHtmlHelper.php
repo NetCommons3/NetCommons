@@ -208,34 +208,4 @@ class NetCommonsHtmlHelper extends AppHelper {
 		return $output;
 	}
 
-/**
- * Creates a `<a>` tag for add link. The type attribute defaults
- * 後で削除予定(現状、ブロック設定の一覧のリンクで使っている)
- *
- * @param string $title The anchor's caption. Not automatically HTML encoded
- * @param mixed $url Link url
- * @param array $options Array of options and HTML attributes.
- * @return string A HTML button tag.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::button
- */
-	public function editLink($title = '', $url = null, $options = array()) {
-		//URLの設定
-		if (! isset($url['plugin'])) {
-			$url['plugin'] = $this->_View->request->params['plugin'];
-		}
-		if (! isset($url['controller'])) {
-			if (! isset($this->_View->viewVars['editActionController'])) {
-				$url['controller'] = $this->_View->request->params['controller'];
-			} else {
-				$url['controller'] = $this->_View->viewVars['editActionController'];
-			}
-		}
-		if (! isset($url['action'])) {
-			$url['action'] = 'edit';
-		}
-		$url = NetCommonsUrl::blockUrl($url);
-
-		return $this->Html->link($title, $url, $options);
-	}
-
 }

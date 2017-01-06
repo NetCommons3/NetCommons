@@ -167,7 +167,7 @@ class NetCommonsTime {
  */
 	public function getUserTimezone() {
 		$userTimezone = Current::read('User.timezone');
-		if ($userTimezone === null) {
+		if (! $userTimezone) {
 			$userTimezone = $this->getSiteTimezone();
 		}
 		return $userTimezone;

@@ -190,15 +190,19 @@ NetCommonsApp.controller('NetCommons.base',
        */
       $scope.hashChange = function() {
         $($window).bind('hashchange', function() {
-          var hash = $location.path();
+          var hash = $location.hash();
           var frameId = $window.location.href.match('frame_id=([0-9]+)');
           var element = null;
-          if (hash) {
-            element = $('#' + hash.substr(1));
-          } else if (frameId) {
-            element = $('#frame-' + frameId[1]);
-          }
           try {
+            if (hash) {
+              if (hash.substr(0, 1) === '/') {
+                element = $('#' + hash.substr(1));
+              } else {
+                element = $('#' + hash);
+              }
+            } else if (frameId) {
+              element = $('#frame-' + frameId[1]);
+            }
             var pos = element.offset().top;
             $window.scrollTo(0, pos - 100);
           } catch (err) {
@@ -206,5 +210,4 @@ NetCommonsApp.controller('NetCommons.base',
           }
         }).trigger('hashchange');
       };
-
     }]);

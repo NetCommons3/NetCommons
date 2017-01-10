@@ -20,6 +20,7 @@
 
 .img-responsive.nc3-img:not(.center-block) {
 	display: inline;
+	margin: 8px;
 }
 
 .display-number-dropdown-toggle {

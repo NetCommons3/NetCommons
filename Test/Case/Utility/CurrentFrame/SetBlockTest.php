@@ -201,6 +201,8 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 			'Plugin' => array(
 				'id' => '2',
 				'language_id' => '2',
+				'is_origin' => true,
+				'is_translation' => false,
 				'key' => 'test_frames',
 				'name' => 'Lorem ipsum dolor sit amet',
 				'namespace' => 'Lorem ipsum dolor sit amet',
@@ -225,7 +227,9 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'plugin_key' => null,
 				'default_setting_action' => null,
 				'room_disk_size' => null,
-				'room_id_root' => '2'
+				'room_id_root' => '2',
+				'permalink' => '',
+				'is_m17n' => false
 			),
 		);
 

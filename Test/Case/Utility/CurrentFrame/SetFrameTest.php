@@ -194,7 +194,9 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'plugin_key' => null,
 				'default_setting_action' => null,
 				'room_disk_size' => null,
-				'room_id_root' => '2'
+				'room_id_root' => '2',
+				'permalink' => '',
+				'is_m17n' => false
 			),
 		);
 		$this->CurrentFrame->Box = $this->getMock('Box', array('find'));
@@ -299,6 +301,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			'Plugin' => array(
 				'id' => '2',
 				'language_id' => '2',
+				'is_origin' => true,
+				'is_translation' => false,
 				'key' => 'test_frames',
 				'name' => 'Lorem ipsum dolor sit amet',
 				'namespace' => 'Lorem ipsum dolor sit amet',
@@ -339,7 +343,9 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'plugin_key' => null,
 				'default_setting_action' => null,
 				'room_disk_size' => null,
-				'room_id_root' => '2'
+				'room_id_root' => '2',
+				'permalink' => '',
+				'is_m17n' => false
 			),
 		);
 
@@ -384,6 +390,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'language_id' => '2',
 				'key' => 'test_frames',
 				'name' => 'Lorem ipsum dolor sit amet',
+				'is_origin' => true,
+				'is_translation' => false,
 				'namespace' => 'Lorem ipsum dolor sit amet',
 				'weight' => '1',
 				'type' => '1',
@@ -464,7 +472,9 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'plugin_key' => 'public_space',
 				'default_setting_action' => 'rooms/index/2',
 				'room_disk_size' => null,
-				'room_id_root' => '2'
+				'room_id_root' => '2',
+				'permalink' => '',
+				'is_m17n' => true
 			),
 			'BoxesPageContainer' => array(
 				'id' => '58',

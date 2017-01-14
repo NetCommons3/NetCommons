@@ -161,19 +161,24 @@ class NetCommonsAppController extends Controller {
 			$this->theme = $theme;
 		}
 
-		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest');
+		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest', 'emptyFrame');
 
 		if ($this->RequestHandler->accepts('json')) {
 			$this->viewClass = 'Json';
 			$this->layout = false;
 		}
 
-		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest'])) {
+		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
 			$this->params['pass'] = array();
 		}
 
 		//モバイルかどうかの判定処理
 		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
+
+		if ($this->params['plugin'] !== 'frames' &&
+				Current::read('Frame.id') && ! Current::read('FramePublicLanguage.is_public')) {
+			return $this->setAction('emptyFrame');
+		}
 	}
 
 /**
@@ -298,6 +303,19 @@ class NetCommonsAppController extends Controller {
  */
 	public function emptyRender() {
 		$this->autoRender = false;
+	}
+
+/**
+ * Empty render
+ *
+ * @return void
+ */
+	public function emptyFrame() {
+		if (Current::isSettingMode() || $this->layout === 'NetCommons.setting') {
+			$this->view = 'Frames.Frames/emptyRender';
+		} else {
+			$this->autoRender = false;
+		}
 	}
 
 }

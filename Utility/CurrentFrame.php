@@ -85,14 +85,16 @@ class CurrentFrame {
 		$this->Block = ClassRegistry::init('Blocks.Block');
 
 		if (isset($frameId)) {
-			//Frame、Box、Block、Room、Language更新
+			//'Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin', 'FramePublicLanguage' 更新
 			$result = $this->Frame->find('first', array(
 				'recursive' => 0,
 				'conditions' => array(
 					'Frame.id' => $frameId,
 				),
 			));
-			Current::setCurrent($result, ['Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin']);
+			Current::setCurrent(
+				$result, ['Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin', 'FramePublicLanguage']
+			);
 		}
 
 		//ブロック設定の新規の場合の処理

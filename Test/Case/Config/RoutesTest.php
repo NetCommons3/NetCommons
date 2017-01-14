@@ -29,6 +29,7 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 		'plugin.pages.boxes_page_container4routes',
 		'plugin.pages.page_container4routes',
 		'plugin.pages.frame4pages',
+		'plugin.pages.frame_public_language4pages',
 		'plugin.pages.pages_language4pages',
 		'plugin.pages.page4routes',
 		'plugin.pages.plugin4pages',

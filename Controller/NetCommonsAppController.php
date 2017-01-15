@@ -129,6 +129,33 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
+ * 事前準備
+ *
+ * @return void
+ */
+	protected function _prepare() {
+		if (Current::read('Block') &&
+				! $this->Components->loaded('NetCommons.Permission')) {
+			$this->Components->load('NetCommons.Permission');
+		}
+
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
+		}
+
+		if ($this->RequestHandler->accepts('json')) {
+			$this->viewClass = 'Json';
+			$this->layout = false;
+		}
+
+		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
+			$this->params['pass'] = array();
+		}
+	}
+
+/**
  * beforeFilter
  *
  * @return void
@@ -150,27 +177,9 @@ class NetCommonsAppController extends Controller {
 			return;
 		}
 
-		if (Current::read('Block') &&
-				! $this->Components->loaded('NetCommons.Permission')) {
-			$this->Components->load('NetCommons.Permission');
-		}
-
-		//現在のテーマを取得
-		$theme = $this->Asset->getSiteTheme($this);
-		if ($theme) {
-			$this->theme = $theme;
-		}
-
 		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest', 'emptyFrame');
 
-		if ($this->RequestHandler->accepts('json')) {
-			$this->viewClass = 'Json';
-			$this->layout = false;
-		}
-
-		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
-			$this->params['pass'] = array();
-		}
+		$this->_prepare();
 
 		//モバイルかどうかの判定処理
 		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));

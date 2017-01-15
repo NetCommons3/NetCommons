@@ -150,7 +150,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 		$this->CurrentFrame->setFrame();
 
 		//チェック
-		$this->__assertFrameHeader(array(), array('Frame', 'Block', 'BlocksLanguage', 'FramesLanguage', 'Plugin'));
+		$this->__assertFrameHeader(array(), array('Frame', 'Block', 'BlocksLanguage', 'FramePublicLanguage', 'FramesLanguage', 'Plugin'));
 	}
 
 /**
@@ -304,6 +304,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'is_origin' => true,
 				'is_translation' => false,
 				'key' => 'test_frames',
+				'is_m17n' => true,
 				'name' => 'Lorem ipsum dolor sit amet',
 				'namespace' => 'Lorem ipsum dolor sit amet',
 				'weight' => '1',
@@ -317,6 +318,12 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'display_topics' => false,
 				'display_search' => false,
 				'serialize_data' => null,
+			),
+			'FramePublicLanguage' => array(
+				'id' => '1',
+				'language_id' => '0',
+				'frame_id' => '2',
+				'is_public' => true,
 			),
 			'FramesLanguage' => array(
 				'id' => '2',
@@ -388,6 +395,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 			'Plugin' => array(
 				'id' => '2',
 				'language_id' => '2',
+				'is_m17n' => true,
 				'key' => 'test_frames',
 				'name' => 'Lorem ipsum dolor sit amet',
 				'is_origin' => true,
@@ -404,6 +412,12 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'display_topics' => false,
 				'display_search' => false,
 				'serialize_data' => null,
+			),
+			'FramePublicLanguage' => array(
+				'id' => '5',
+				'language_id' => '0',
+				'frame_id' => '6',
+				'is_public' => true,
 			),
 			'FramesLanguage' => array(
 				'id' => '6',

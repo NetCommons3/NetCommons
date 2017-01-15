@@ -110,7 +110,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'theme' => null,
 			),
 		);
-		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'FramesLanguage'));
+		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'FramePublicLanguage', 'FramesLanguage'));
 	}
 
 /**
@@ -190,6 +190,12 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'container_type' => '1',
 				'weight' => null,
 			),
+			'FramePublicLanguage' => array(
+				'id' => '1',
+				'language_id' => '0',
+				'frame_id' => '2',
+				'is_public' => true,
+			),
 			'FramesLanguage' => array(
 				'id' => '2',
 				'language_id' => '2',
@@ -204,6 +210,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'is_origin' => true,
 				'is_translation' => false,
 				'key' => 'test_frames',
+				'is_m17n' => true,
 				'name' => 'Lorem ipsum dolor sit amet',
 				'namespace' => 'Lorem ipsum dolor sit amet',
 				'weight' => '1',

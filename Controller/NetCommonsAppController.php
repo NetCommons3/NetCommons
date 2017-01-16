@@ -133,7 +133,7 @@ class NetCommonsAppController extends Controller {
  *
  * @return void
  */
-	protected function _prepare() {
+	private function __prepare() {
 		if (Current::read('Block') &&
 				! $this->Components->loaded('NetCommons.Permission')) {
 			$this->Components->load('NetCommons.Permission');
@@ -179,7 +179,7 @@ class NetCommonsAppController extends Controller {
 
 		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest', 'emptyFrame');
 
-		$this->_prepare();
+		$this->__prepare();
 
 		//モバイルかどうかの判定処理
 		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));

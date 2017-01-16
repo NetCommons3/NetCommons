@@ -207,6 +207,9 @@ class CurrentPage {
 			$this->Page->unbindModel(array(
 				'belongsTo' => array('Room'),
 			), true);
+			$this->Page->unbindModel(array(
+				'belongsTo' => array('Space'),
+			), true);
 		}
 
 		return $this->Page->find('first', $query);

@@ -122,9 +122,12 @@ class ButtonHelper extends FormHelper {
 		}
 		$title = '<span class="glyphicon glyphicon-trash" aria-hidden="true"> </span> ' . $title;
 
+		$btnType = Hash::get($options, 'btnType', 'btn-danger');
+		$options = Hash::remove($options, 'btnType');
+
 		$defaultOptions = array(
 			'name' => 'delete',
-			'class' => 'btn btn-danger' . $this->getButtonSize(),
+			'class' => 'btn ' . $btnType . $this->getButtonSize(),
 			'onclick' => 'return confirm(\'' . $confirm . '\')',
 			'ng-class' => '{disabled: sending}',
 		);

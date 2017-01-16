@@ -70,6 +70,7 @@ class NetCommonsCakeTestCase extends CakeTestCase {
 		'plugin.files.upload_file',
 		'plugin.files.upload_files_content',
 		'plugin.frames.frame',
+		'plugin.frames.frame_public_language',
 		'plugin.frames.frames_language',
 		'plugin.m17n.language',
 		'plugin.mails.mail_queue',

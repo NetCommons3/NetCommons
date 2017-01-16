@@ -129,6 +129,33 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
+ * 事前準備
+ *
+ * @return void
+ */
+	protected function _prepare() {
+		if (Current::read('Block') &&
+				! $this->Components->loaded('NetCommons.Permission')) {
+			$this->Components->load('NetCommons.Permission');
+		}
+
+		//現在のテーマを取得
+		$theme = $this->Asset->getSiteTheme($this);
+		if ($theme) {
+			$this->theme = $theme;
+		}
+
+		if ($this->RequestHandler->accepts('json')) {
+			$this->viewClass = 'Json';
+			$this->layout = false;
+		}
+
+		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
+			$this->params['pass'] = array();
+		}
+	}
+
+/**
  * beforeFilter
  *
  * @return void
@@ -150,30 +177,17 @@ class NetCommonsAppController extends Controller {
 			return;
 		}
 
-		if (Current::read('Block') &&
-				! $this->Components->loaded('NetCommons.Permission')) {
-			$this->Components->load('NetCommons.Permission');
-		}
+		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest', 'emptyFrame');
 
-		//現在のテーマを取得
-		$theme = $this->Asset->getSiteTheme($this);
-		if ($theme) {
-			$this->theme = $theme;
-		}
-
-		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest');
-
-		if ($this->RequestHandler->accepts('json')) {
-			$this->viewClass = 'Json';
-			$this->layout = false;
-		}
-
-		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest'])) {
-			$this->params['pass'] = array();
-		}
+		$this->_prepare();
 
 		//モバイルかどうかの判定処理
 		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
+
+		if ($this->params['plugin'] !== 'frames' &&
+				Current::read('Frame.id') && ! Current::read('FramePublicLanguage.is_public')) {
+			return $this->setAction('emptyFrame');
+		}
 	}
 
 /**
@@ -298,6 +312,19 @@ class NetCommonsAppController extends Controller {
  */
 	public function emptyRender() {
 		$this->autoRender = false;
+	}
+
+/**
+ * Empty render
+ *
+ * @return void
+ */
+	public function emptyFrame() {
+		if (Current::isSettingMode() || $this->layout === 'NetCommons.setting') {
+			$this->view = 'Frames.Frames/emptyRender';
+		} else {
+			$this->autoRender = false;
+		}
 	}
 
 }

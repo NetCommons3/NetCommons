@@ -148,7 +148,9 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 		if ($this->$model->hasField('is_origin') && ! isset($data[$this->$model->alias]['is_origin'])) {
 			$expected[$this->$model->alias]['is_origin'] = true;
 			$expected[$this->$model->alias]['is_translation'] = false;
-			$expected[$this->$model->alias]['is_original_copy'] = false;
+			if ($this->$model->hasField('is_original_copy')) {
+				$expected[$this->$model->alias]['is_original_copy'] = false;
+			}
 		}
 
 		if ($this->$model->hasField('language_id') &&

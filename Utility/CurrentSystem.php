@@ -59,7 +59,8 @@ class CurrentSystem {
 		}
 
 		Current::$current['Language'] = $language['Language'];
-		if ($language['Language']['code'] !== Configure::write('Config.language')) {
+		if (is_object(Current::$session) &&
+				$language['Language']['code'] !== Configure::write('Config.language')) {
 			Configure::write('Config.language', $language['Language']['code']);
 			Current::$session->write('Config.language', $language['Language']['code']);
 		}

@@ -52,7 +52,17 @@ class CurrentSystem {
 				'code' => Configure::read('Config.language'),
 			)
 		));
+		if (! isset($language['Language'])) {
+			$language = $this->Language->getLanguage('first', array(
+				'order' => 'weight'
+			));
+		}
+
 		Current::$current['Language'] = $language['Language'];
+		if ($language['Language']['code'] !== Configure::write('Config.language')) {
+			Configure::write('Config.language', $language['Language']['code']);
+			Current::$session->write('Config.language', $language['Language']['code']);
+		}
 	}
 
 /**

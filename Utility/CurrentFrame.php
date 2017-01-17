@@ -200,6 +200,7 @@ class CurrentFrame {
 				'Block.id' => $blockId,
 			),
 		));
+
 		//Block、Room、Language, Plugin更新
 		Current::setCurrent($result, ['Block', 'Room', 'BlocksLanguage', 'Plugin']);
 

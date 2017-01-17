@@ -167,6 +167,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'name' => 'Block name 1',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Frame' => array(
 				'id' => '2',
@@ -199,16 +200,19 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 			'FramesLanguage' => array(
 				'id' => '2',
 				'language_id' => '2',
+				'is_original_copy' => false,
 				'frame_id' => '2',
 				'name' => 'Test frame header',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Plugin' => array(
 				'id' => '2',
 				'language_id' => '2',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 				'key' => 'test_frames',
 				'is_m17n' => true,
 				'name' => 'Lorem ipsum dolor sit amet',

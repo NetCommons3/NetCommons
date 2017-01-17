@@ -303,6 +303,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'language_id' => '2',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 				'key' => 'test_frames',
 				'is_m17n' => true,
 				'name' => 'Lorem ipsum dolor sit amet',
@@ -332,6 +333,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Test frame header',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'BlocksLanguage' => array(
 				//'id' => '2',
@@ -340,6 +342,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Block name 1',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Space' => array(
 				'id' => '1',
@@ -400,6 +403,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Lorem ipsum dolor sit amet',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 				'namespace' => 'Lorem ipsum dolor sit amet',
 				'weight' => '1',
 				'type' => '1',
@@ -426,6 +430,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Test frame main',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Box' => array(
 				'id' => '28',
@@ -460,6 +465,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Block name 1',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Room' => array(
 				'id' => '2',

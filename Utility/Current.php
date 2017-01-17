@@ -273,6 +273,13 @@ class Current extends CurrentBase {
 	public static $request;
 
 /**
+ * Session object
+ *
+ * @var mixed
+ */
+	public static $session;
+
+/**
  * layout
  *
  * @var string
@@ -298,6 +305,7 @@ class Current extends CurrentBase {
 		}
 
 		self::$request = clone $controller->request;
+		self::$session = clone $controller->Session;
 		self::$layout = $controller->layout;
 
 		if (Hash::get(self::$current, 'User.modified') !== AuthComponent::user('modified')) {

@@ -54,64 +54,64 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 		//チェック
 		$this->__assertBlockHeader();
 	}
-//
-///**
-// * 引数$blockIdがある場合のテスト
-// *
-// * @return void
-// */
-//	public function testWithFrameId() {
-//		//データ生成
-//		$blockId = '2';
-//
-//		//テスト実施
-//		$this->CurrentFrame->setBlock($blockId);
-//
-//		//チェック
-//		$this->__assertBlockHeader();
-//	}
-//
-///**
-// * Current::$current['Frame']がある場合のテスト
-// *
-// * @return void
-// */
-//	public function testWithFrame() {
-//		//データ生成
-//		$blockId = '2';
-//		Current::$current['Frame'] = array(
-//			'id' => '9999',
-//			'key' => 'frame_9999',
-//		);
-//
-//		//テスト実施
-//		$this->CurrentFrame->setBlock($blockId);
-//
-//		//チェック
-//		$expected = array(
-//			'Frame' => array(
-//				'id' => '9999',
-//				'key' => 'frame_9999',
-//			),
-//			'Room' => array(
-//				'id' => '2',
-//				'space_id' => '2',
-//				'page_id_top' => '1',
-//				'root_id' => null,
-//				'parent_id' => '1',
-//				'lft' => '2',
-//				'rght' => '7',
-//				'active' => true,
-//				'in_draft' => false,
-//				'default_role_key' => 'visitor',
-//				'need_approval' => true,
-//				'default_participation' => true,
-//				'page_layout_permitted' => true,
-//				'theme' => null,
-//			),
-//		);
-//		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'FramePublicLanguage', 'FramesLanguage'));
-//	}
+
+/**
+ * 引数$blockIdがある場合のテスト
+ *
+ * @return void
+ */
+	public function testWithFrameId() {
+		//データ生成
+		$blockId = '2';
+
+		//テスト実施
+		$this->CurrentFrame->setBlock($blockId);
+
+		//チェック
+		$this->__assertBlockHeader();
+	}
+
+/**
+ * Current::$current['Frame']がある場合のテスト
+ *
+ * @return void
+ */
+	public function testWithFrame() {
+		//データ生成
+		$blockId = '2';
+		Current::$current['Frame'] = array(
+			'id' => '9999',
+			'key' => 'frame_9999',
+		);
+
+		//テスト実施
+		$this->CurrentFrame->setBlock($blockId);
+
+		//チェック
+		$expected = array(
+			'Frame' => array(
+				'id' => '9999',
+				'key' => 'frame_9999',
+			),
+			'Room' => array(
+				'id' => '2',
+				'space_id' => '2',
+				'page_id_top' => '1',
+				'root_id' => null,
+				'parent_id' => '1',
+				'lft' => '2',
+				'rght' => '7',
+				'active' => true,
+				'in_draft' => false,
+				'default_role_key' => 'visitor',
+				'need_approval' => true,
+				'default_participation' => true,
+				'page_layout_permitted' => true,
+				'theme' => null,
+			),
+		);
+		$this->__assertBlockHeader($expected, array('Frame', 'Box', 'Space', 'FramePublicLanguage', 'FramesLanguage'));
+	}
 
 /**
  * block_id=2の評価
@@ -126,7 +126,6 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 		Current::$current = Hash::remove(Current::$current, '{s}.created');
 		Current::$current = Hash::remove(Current::$current, '{s}.modified_user');
 		Current::$current = Hash::remove(Current::$current, '{s}.modified');
-var_dump(Current::$current);
 
 		$default = array(
 			'Block' => array(
@@ -206,6 +205,7 @@ var_dump(Current::$current);
 				'name' => 'Test frame header',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 			),
 			'Plugin' => array(
 				'id' => '2',

@@ -334,6 +334,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'is_origin' => true,
 				'is_translation' => false,
 				'is_original_copy' => false,
+				'is_original_copy' => false,
 			),
 			'BlocksLanguage' => array(
 				//'id' => '2',
@@ -342,6 +343,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'name' => 'Block name 1',
 				'is_origin' => true,
 				'is_translation' => false,
+				'is_original_copy' => false,
 				'is_original_copy' => false,
 			),
 			'Space' => array(

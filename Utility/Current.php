@@ -305,7 +305,7 @@ class Current extends CurrentBase {
 		}
 
 		self::$request = clone $controller->request;
-		self::$session = clone $controller->Session;
+		self::$session = $controller->Session;
 		self::$layout = $controller->layout;
 
 		if (Hash::get(self::$current, 'User.modified') !== AuthComponent::user('modified')) {

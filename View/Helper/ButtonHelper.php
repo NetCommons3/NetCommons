@@ -235,7 +235,7 @@ class ButtonHelper extends FormHelper {
 	public function cancelAndSave($cancelTitle, $saveTitle, $cancelUrl = null,
 									$cancelOptions = [], $saveOptions = []) {
 		if (! isset($cancelUrl)) {
-			$cancelUrl = NetCommonsUrl::backToPageUrl();
+			$cancelUrl = NetCommonsUrl::backToPageUrl(null);
 		}
 
 		$output = '';
@@ -259,7 +259,7 @@ class ButtonHelper extends FormHelper {
 		App::uses('WorkflowComponent', 'Workflow.Controller/Component');
 
 		if (! isset($cancelUrl)) {
-			$cancelUrl = NetCommonsUrl::backToPageUrl();
+			$cancelUrl = NetCommonsUrl::backToPageUrl(null);
 		}
 		$output = '';
 

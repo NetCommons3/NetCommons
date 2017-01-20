@@ -10,6 +10,7 @@
  */
 
 App::uses('CurrentFrame', 'NetCommons.Utility');
+App::uses('Space', 'Rooms.Space');
 
 /**
  * CurrentPage Utility
@@ -42,6 +43,7 @@ class CurrentPage {
 		}
 
 		$this->setPage();
+		$this->setTopPage();
 		$this->setPageByRoomPageTopId();
 		$this->setRolesRoomsUser();
 		$this->setDefaultRolePermissions();
@@ -192,6 +194,28 @@ class CurrentPage {
 		}
 
 		return $conditions;
+	}
+
+/**
+ * Set TopPage
+ *
+ * @return bool
+ */
+	public function setTopPage() {
+		$this->Page = ClassRegistry::init('Pages.Page');
+		if (isset(Current::$current['TopPage'])) {
+			return;
+		}
+
+		$result = $this->__getPage(array(
+			'recursive' => -1,
+			'conditions' => array(
+				'Page.room_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
+				'Page.parent_id NOT' => null,
+			),
+			'order' => array('Page.lft' => 'asc')
+		));
+		Current::$current['TopPage'] = $result['Page'];
 	}
 
 /**

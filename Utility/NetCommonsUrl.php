@@ -17,6 +17,7 @@ App::uses('Page', 'Pages.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsUrl {
 
@@ -33,12 +34,15 @@ class NetCommonsUrl {
 
 		$url = '/';
 		if (! Current::isControlPanel()) {
-			if ($settingMode) {
+			if ($settingMode || $settingMode === null && Current::isSettingMode()) {
 				$url .= Current::SETTING_MODE_WORD . '/';
 			}
 
-			if (Hash::get($page, 'Page.parent_id') === Page::PUBLIC_ROOT_PAGE_ID &&
-					Hash::get($page, 'Page.id') === Current::read('Room.page_id_top')) {
+			if (Current::read('Space.permalink')) {
+				$url .= Current::read('Space.permalink') . '/';
+			}
+
+			if (Hash::get($page, 'Page.id') === Current::read('TopPage.id')) {
 				$url .= '';
 			} else {
 				$url .= h(Hash::get($page, 'Page.permalink'));

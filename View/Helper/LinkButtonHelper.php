@@ -206,7 +206,7 @@ class LinkButtonHelper extends FormHelper {
 		$output = '';
 
 		if (! isset($url)) {
-			$url = NetCommonsUrl::backToPageUrl();
+			$url = NetCommonsUrl::backToPageUrl(null);
 		}
 
 		//Linkオプションの設定

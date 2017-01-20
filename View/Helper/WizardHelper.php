@@ -96,7 +96,7 @@ class WizardHelper extends AppHelper {
 			$this->settings['navibar'] = array();
 		}
 		if (! isset($this->settings['cancelUrl'])) {
-			$this->settings['cancelUrl'] = NetCommonsUrl::backToPageUrl();
+			$this->settings['cancelUrl'] = NetCommonsUrl::backToPageUrl(null);
 		}
 	}
 

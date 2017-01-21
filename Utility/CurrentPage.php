@@ -215,7 +215,7 @@ class CurrentPage {
 			),
 			'order' => array('Page.lft' => 'asc')
 		));
-		Current::$current['TopPage'] = $result['Page'];
+		Current::$current['TopPage'] = Hash::get($result, 'Page');
 	}
 
 /**

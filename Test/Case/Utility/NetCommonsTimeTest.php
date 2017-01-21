@@ -177,7 +177,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function testGetSiteTimezone() {
-		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', '_siteTimezone');
+		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', 'siteTimezone');
 		$siteTimezoneProperty->setAccessible(true);
 		$siteTimezoneProperty->setValue(null);
 
@@ -197,7 +197,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 
 		$method->invoke($netCommonsTime); // 2回目はSiteSettingを呼び出さない
 
-		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', '_siteTimezone');
+		$siteTimezoneProperty = new ReflectionProperty('NetCommonsTime', 'siteTimezone');
 		$siteTimezoneProperty->setAccessible(true);
 		$siteTimezoneProperty->setValue(null);
 	}

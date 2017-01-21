@@ -25,11 +25,12 @@ class NetCommonsUrl {
  * ページに戻るURLを生成
  *
  * @param bool $settingMode セッティングモード
+ * @param array $options URLオプション
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function backToPageUrl($settingMode = false, $full = false) {
+	public static function backToPageUrl($settingMode = false, $options = [], $full = false) {
 		$page['Page'] = Current::read('Page');
 
 		$url = '/';
@@ -48,6 +49,11 @@ class NetCommonsUrl {
 				$url .= h(Hash::get($page, 'Page.permalink'));
 			}
 		}
+
+		if (isset($options['frame_id'])) {
+			$url .= '?frame_id=' . $options['frame_id'];
+		}
+
 		return $url;
 	}
 

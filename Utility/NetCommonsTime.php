@@ -37,12 +37,14 @@ class NetCommonsTime {
 /**
  * @var int 現在日時 unixtime
  */
-	static protected $_now = null;
+	protected static $_now = null;
 
 /**
+ * Unitテストで自由に変更できるようするため、publicにする
+ *
  * @var string サイトデフォルトタイムゾーン
  */
-	static protected $_siteTimezone = null;
+	public static $siteTimezone = null;
 
 /**
  * サイトのデフォルトタイムゾーンを返す
@@ -50,11 +52,11 @@ class NetCommonsTime {
  * @return string タイムゾーン
  */
 	public function getSiteTimezone() {
-		if (self::$_siteTimezone === null) {
+		if (self::$siteTimezone === null) {
 			$SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
-			self::$_siteTimezone = $SiteSetting->getSiteTimezone();
+			self::$siteTimezone = $SiteSetting->getSiteTimezone();
 		}
-		return self::$_siteTimezone;
+		return self::$siteTimezone;
 	}
 
 /**

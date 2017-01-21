@@ -206,7 +206,7 @@ class LinkButtonHelper extends FormHelper {
 		$output = '';
 
 		if (! isset($url)) {
-			$url = NetCommonsUrl::backToPageUrl(null);
+			$url = NetCommonsUrl::backToPageUrl(null, ['frame_id' => Current::read('Frame.id')]);
 		}
 
 		//Linkオプションの設定

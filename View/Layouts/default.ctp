@@ -34,7 +34,7 @@
 
 		<?php echo $this->element('NetCommons.common_header'); ?>
 
-		<main class="container">
+		<main class="container" ng-init="hashChange()">
 			<?php echo $this->fetch('content'); ?>
 		</main>
 

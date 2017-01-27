@@ -28,6 +28,43 @@ class NetCommonsMigration extends CakeMigration {
 	public $records = array();
 
 /**
+ * This method will invoke the before/afterAction callbacks, it is good when
+ * you need track every action.
+ *
+ * @param string $callback Callback name, beforeMigration, beforeAction, afterAction
+ * 		or afterMigration.
+ * @param string $type Type of action. i.e: create_table, drop_table, etc.
+ * 		Or also can be the direction, for before and after Migration callbacks
+ * @param array $data Data to send to the callback
+ * @return void
+ * @throws MigrationException
+ */
+	protected function _invokeCallbacks($callback, $type, $data = array()) {
+		try {
+			parent::_invokeCallbacks($callback, $type, $data);
+		} catch (Exception $ex) {
+			CakeLog::error($ex);
+			throw $ex;
+		}
+	}
+
+/**
+ * Generate a instance of model for given options
+ *
+ * @param string $name Model name to be initialized
+ * @param string $table Table name to be initialized
+ * @param array $options Model constructor options
+ * @return Model
+ */
+	public function generateModel($name, $table = null, $options = array()) {
+		$Model = parent::generateModel($name, $table, $options);
+		$Model->unbindModel(array(
+			'belongsTo' => array('TrackableCreator', 'TrackableUpdater')
+		), false);
+		return $Model;
+	}
+
+/**
  * Update model records
  *
  * @param string $model model name to update

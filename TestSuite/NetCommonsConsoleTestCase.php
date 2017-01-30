@@ -11,6 +11,7 @@
 
 App::uses('Shell', 'Console');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
+App::uses('File', 'Utility');
 
 /**
  * NetCommonsConsoleTestCase class
@@ -102,9 +103,9 @@ class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 		$stdout = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$stderr = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		if ($stdinValue) {
-			$file = fopen(TMP . 'tests' . DS . 'test_stdin', 'w');
-			fwrite($file, $stdinValue);
-			fclose($file);
+			$File = new File(TMP . 'tests' . DS . 'test_stdin', true);
+			$File->write($stdinValue, 'w');
+			$File->close();
 			$stdin = new ConsoleInput(TMP . 'tests' . DS . 'test_stdin');
 		} else {
 			$stdin = $this->getMock('ConsoleInput', array(), array(), '', false);

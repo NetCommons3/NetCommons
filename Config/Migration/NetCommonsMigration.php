@@ -117,15 +117,15 @@ class NetCommonsMigration extends CakeMigration {
  * Load models
  *
  * @param array $models models to load
- * @param string $source data source
  * @return void
  */
-	public function loadModels(array $models = [], $source = 'master') {
+	public function loadModels(array $models = []) {
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class, true);
-			if ($this->$model->useDbConfig !== 'test') {
-				$this->$model->setDataSource($source);
-			}
+			$this->$model->setDataSource($this->connection);
+			//if ($this->$model->useDbConfig !== 'test') {
+			//	$this->$model->setDataSource($source);
+			//}
 		}
 	}
 

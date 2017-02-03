@@ -19,11 +19,15 @@ $plugins = App::objects('plugins');
 foreach ($plugins as $plugin) {
 	$options = array();
 
-	$pluginPath = ROOT . DS . 'app' . DS . 'Plugin' . DS . $plugin;
-	is_readable($pluginPath . DS . 'Config' . DS . 'bootstrap.php') && $options['bootstrap'] = true;
-	is_readable($pluginPath . DS . 'Config' . DS . 'routes.php') && $options['routes'] = true;
-	if (!CakePlugin::loaded($plugin)) {
-		CakePlugin::load($plugin, $options);
+	foreach (App::path('plugins') as $path) {
+		if (is_dir($path . $plugin)) {
+			$pluginPath = $path . $plugin;
+			is_readable($pluginPath . DS . 'Config' . DS . 'bootstrap.php') && $options['bootstrap'] = true;
+			is_readable($pluginPath . DS . 'Config' . DS . 'routes.php') && $options['routes'] = true;
+			if (!CakePlugin::loaded($plugin)) {
+				CakePlugin::load($plugin, $options);
+			}
+		}
 	}
 }
 

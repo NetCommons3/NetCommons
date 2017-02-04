@@ -9,7 +9,9 @@
  */
 
 App::uses('SlugRoute', 'Pages.Routing/Route');
+App::uses('SlugPluginRoute', 'Pages.Routing/Route');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('NetCommonsRouter', 'NetCommons.Routing');
 
 Router::connect(
 	'/' . Current::SETTING_MODE_WORD . '/',
@@ -33,79 +35,63 @@ if (! Current::isSettingMode()) {
 }
 $indexParams = $params + array('action' => 'index');
 
-$plugins = CakePlugin::loaded();
+$plugins = NetCommonsRouter::getGeneralPlugins();
 if ($plugins) {
 	App::uses('PluginShortRoute', 'Routing/Route');
 
-	$managerPlugins = Configure::read('ManagerPlugins');
-	if (! $managerPlugins) {
-		$managerPlugins = array();
-	}
-
-	foreach ($plugins as $key => $value) {
-		if (in_array($value, $managerPlugins, true)) {
-			continue;
-		}
-		$plugins[$key] = Inflector::underscore($value);
-	}
 	$pluginPattern = implode('|', $plugins);
 	$options = array(
 		'plugin' => $pluginPattern,
 		'block_id' => '[0-9]+',
 		'key' => '[a-zA-Z0-9_]+', //_は、UnitTestで使用するため
 	);
-	$shortParams = array('routeClass' => 'PluginShortRoute', 'plugin' => $pluginPattern);
+	$shortOptions = array('routeClass' => 'PluginShortRoute', 'plugin' => $pluginPattern);
+	$pluginOptions = array('routeClass' => 'SlugPluginRoute') + $options;
 
 	Router::connect(
 		'/' . Current::SETTING_MODE_WORD . '/:plugin',
 		$indexParams,
-		$shortParams
+		$shortOptions
 	);
 	Router::connect(
 		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller',
 		$indexParams,
 		$options
 	);
-	Router::connect(
-		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/:block_id/:key',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/:block_id/:key/*',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/:block_id/*',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/:plugin/:controller/:action/:block_id',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/:plugin/:controller/:action/:block_id/:key',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/:plugin/:controller/:action/:block_id/:key/*',
-		$params,
-		$options
-	);
-	Router::connect(
-		'/:plugin/:controller/:action/:block_id/*',
-		$params,
-		$options
-	);
 
-	Router::connect(
-		'/' . Current::SETTING_MODE_WORD . '/:plugin/:controller/:action/*',
+	$pageOptions = NetCommonsRouter::getPagePermalinkOptions();
+	$spaceOptions = NetCommonsRouter::getSpacePermalinkOptions();
+	if ($pageOptions) {
+		$pathParams = array_map(function ($value) {
+			return ':' . $value;
+		}, array_keys($pageOptions));
+
+		NetCommonsRouter::connectBlock(
+			'/' . implode('/', $pathParams),
+			$params,
+			$pageOptions + $pluginOptions
+		);
+
+		if ($spaceOptions) {
+			NetCommonsRouter::connectBlock(
+				'/:spacePermalink/' . implode('/', $pathParams),
+				$params,
+				$spaceOptions + $pageOptions + $pluginOptions
+			);
+		}
+	}
+	if ($spaceOptions) {
+		NetCommonsRouter::connectBlock(
+			'/:spacePermalink',
+			$params,
+			$spaceOptions + $pluginOptions
+		);
+	}
+
+	NetCommonsRouter::connectBlock(
+		'/',
 		$params,
-		$options
+		$pluginOptions
 	);
 }
 

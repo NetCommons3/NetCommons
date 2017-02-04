@@ -78,7 +78,8 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 			array('url' => '/test4/',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test4')
+					'pass' => array('test4'),
+					'pagePermalink' => array('test4'),
 				)
 			),
 			array('url' => '/test_pages/test_page/index',
@@ -94,13 +95,15 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 			array('url' => '/test_err/test_error',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test_err', 'test_error')
+					'pass' => array('test_err', 'test_error'),
+					'pagePermalink' => array('test_err', 'test_error'),
 				)
 			),
 			array('url' => '/test_err/test_error/index',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test_err', 'test_error', 'index')
+					'pass' => array('test_err', 'test_error', 'index'),
+					'pagePermalink' => array('test_err', 'test_error', 'index'),
 				)
 			),
 			array('url' => '/aaaaa/',
@@ -111,20 +114,23 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 			//セッティングON
 			array('url' => '/setting/',
 				'expected' => array(
-					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index'
+					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
+					'pagePermalink' => array(),
 				),
 				'settingMode' => true
 			),
 			array('url' => '/setting/test4/',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test4')
+					'pass' => array('test4'),
+					'pagePermalink' => array('test4'),
 				),
 				'settingMode' => true
 			),
 			array('url' => '/setting/test_pages/test_page/index',
 				'expected' => array(
-					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index'
+					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index',
+					'pagePermalink' => array(),
 				),
 				'settingMode' => true
 			),
@@ -132,19 +138,22 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 				'expected' => array(
 					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index',
 				),
+				'pagePermalink' => array(),
 				'settingMode' => true
 			),
 			array('url' => '/setting/test_err/test_error',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test_err', 'test_error')
+					'pass' => array('test_err', 'test_error'),
+					'pagePermalink' => array('test_err', 'test_error'),
 				),
 				'settingMode' => true
 			),
 			array('url' => '/setting/test_err/test_error/index',
 				'expected' => array(
 					'plugin' => 'pages', 'controller' => 'pages', 'action' => 'index',
-					'pass' => array('test_err', 'test_error', 'index')
+					'pass' => array('test_err', 'test_error', 'index'),
+					'pagePermalink' => array('test_err', 'test_error', 'index')
 				),
 				'settingMode' => true
 			),

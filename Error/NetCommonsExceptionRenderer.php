@@ -80,8 +80,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$redirect = '/net_commons/site_close/index';
 			$this->controller->Session->destroy();
 
-		} elseif ($this->__is403And404($error)) {
-			list($redirect, $redirectUrl) = $this->__get403And404Redirect();
+		} elseif ($this->_is403And404($error)) {
+			list($redirect, $redirectUrl) = $this->_get403And404Redirect();
 			if (! $this->controller->request->is('ajax')) {
 				$this->controller->Auth->redirectUrl($redirectUrl);
 			}
@@ -95,11 +95,11 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		}
 
 		$results = array(
-			'message' => $this->__get400Message($error),
+			'message' => $this->_get400Message($error),
 			'redirect' => $redirect,
 			'interval' => '3'
 		);
-		$this->__setError('NetCommons.error400', $error, $results);
+		$this->_setError('NetCommons.error400', $error, $results);
 	}
 
 /**
@@ -108,7 +108,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  * @param Exception $error Exception
  * @return string $message
  */
-	private function __get400Message($error) {
+	protected function _get400Message($error) {
 		$message = $error->getMessage();
 		if (! Configure::read('debug') && $error instanceof CakeException) {
 			$message = 'Not Found';
@@ -118,7 +118,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d(
 				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
 			);
-		} elseif ($this->__is403And404($error)) {
+		} elseif ($this->_is403And404($error)) {
 			if ($this->controller->Auth->user()) {
 				$message = __d('net_commons', 'Permission denied. Bad account.');
 			} else {
@@ -137,7 +137,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  * @param Exception $error Exception
  * @return bool
  */
-	private function __is403And404($error) {
+	protected function _is403And404($error) {
 		return $error->getMessage() === 'Permission denied' ||
 				$error->getCode() === 403 ||
 				get_class($error) === 'MissingControllerException';
@@ -148,7 +148,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  *
  * @return array array($redirect, $redirectUrl)
  */
-	private function __get403And404Redirect() {
+	protected function _get403And404Redirect() {
 		if ($this->controller->Auth->user()) {
 			$referer = Router::parse($this->controller->request->referer(true));
 			$here = Router::parse($this->controller->request->here(false));
@@ -204,7 +204,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			'code' => $code,
 			'message' => h($message),
 		);
-		$this->__setError('NetCommons.error500', $error, $results);
+		$this->_setError('NetCommons.error500', $error, $results);
 	}
 
 /**
@@ -215,7 +215,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  * @param array $results viewにセットする配列
  * @return void
  */
-	private function __setError($template, $error, $results) {
+	protected function _setError($template, $error, $results) {
 		$url = $this->controller->request->here();
 
 		$name = preg_replace('/Exception$/', '', get_class($error));

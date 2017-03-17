@@ -1,6 +1,6 @@
 <?php
 /**
- * Element of common javascript
+ * Element of common css
  *
  * @copyright Copyright 2014, NetCommons Project
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

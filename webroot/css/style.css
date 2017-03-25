@@ -551,10 +551,16 @@ ul.nav-pills {
  * ドロップダウン枠内文字表示制限
  */
 .nc-category-ellipsis {
-	max-width: 180px;
+	max-width: 164px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	margin-right: 8px;
+}
+@media screen and (max-width: 480px) {
+	.nc-category-ellipsis {
+		max-width: 80px;
+	}
 }
 .nc-drop-down-ellipsis {
 	min-width: 5px;

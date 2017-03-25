@@ -555,6 +555,7 @@ ul.nav-pills {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	margin-right: 8px;
 }
 .nc-drop-down-ellipsis {
 	min-width: 5px;

@@ -74,7 +74,8 @@ class NetCommonsRouter {
 
 		//ページのチェック
 		$conditions = array(
-			'Page.permalink' => array()
+			'Page.permalink' => array(),
+			'Page.parent_id !=' => null
 		);
 		$path = '';
 		foreach ($urls as $i => $pass) {

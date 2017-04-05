@@ -86,7 +86,6 @@
  * 		[id] => 1
  * 		[space_id] => 2
  * 		[page_id_top] => 1
- * 		[root_id] =>
  * 		[parent_id] =>
  * 		[lft] => 1
  * 		[rght] => 2

@@ -237,6 +237,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'default_setting_action' => null,
 				'room_disk_size' => null,
 				'room_id_root' => '2',
+				'page_id_top' => '1',
 				'permalink' => '',
 				'is_m17n' => false,
 				'after_user_save_model' => null,

@@ -55,7 +55,8 @@ class CurrentFrame {
  * @return void
  */
 	public function clear() {
-		foreach (['Room', 'Frame', 'Block', 'BlockRolePermission'] as $model) {
+		$models = ['Room', 'RoomRolePermission', 'RolesRoom', 'Frame', 'Block', 'BlockRolePermission'];
+		foreach ($models as $model) {
 			if (isset(Current::$current[$model])) {
 				unset(Current::$current[$model]);
 			}
@@ -75,6 +76,8 @@ class CurrentFrame {
 		} elseif (! Hash::get(Current::$request->params, 'requested') &&
 					Hash::get(Current::$request->data, 'Frame.id')) {
 			$frameId = Current::$request->data['Frame']['id'];
+		} elseif (Hash::get(Current::$request->params, 'frame_id')) {
+			$frameId = Hash::get(Current::$request->params, 'frame_id');
 		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
 			$frameId = Hash::get(Current::$request->params, '?.frame_id');
 		} elseif (isset(Current::$request->query['frame_id'])) {
@@ -238,6 +241,7 @@ class CurrentFrame {
  * Set BlockRolePermissions
  *
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setBlockRolePermissions() {
 		$this->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
@@ -288,12 +292,21 @@ class CurrentFrame {
 						),
 					),
 				));
-				$setPermissions['content_publishable']['value'] = !(bool)Hash::get(
+
+				$publishable = !(bool)Hash::get(
 					$blockSetting, BlockSettingBehavior::FIELD_USE_WORKFLOW, '0'
 				);
-				$setPermissions['content_comment_publishable']['value'] = !(bool)Hash::get(
+				if ($publishable) {
+					$publishable = Current::permission('content_publishable');
+					$setPermissions['content_publishable']['value'] = $publishable;
+				}
+				$publishable = !(bool)Hash::get(
 					$blockSetting, BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL, '0'
 				);
+				if ($publishable) {
+					$publishable = Current::permission('content_comment_publishable');
+					$setPermissions['content_publishable']['content_comment_publishable'] = $publishable;
+				}
 			}
 			$permission = Hash::merge($permission, $setPermissions);
 		}

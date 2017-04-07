@@ -334,6 +334,20 @@ class Current extends CurrentBase {
 
 		//会員権限に紐づくパーミッションのセット
 		(new CurrentPage())->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
+
+		if (empty($controller->request->params['requested'])) {
+			self::$originalCurrent = self::$current;
+		}
+	}
+
+/**
+ * setup current data
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public static function terminate(Controller $controller) {
+		self::$current = self::$originalCurrent;
 	}
 
 /**

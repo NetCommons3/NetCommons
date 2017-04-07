@@ -11,6 +11,7 @@
 
 App::uses('PluginShortRoute', 'Routing/Route');
 App::uses('Router', 'Routing');
+App::uses('Space', 'Rooms.Model');
 
 /**
  * Automatically slugs routes based on named parameters
@@ -58,25 +59,35 @@ class NetCommonsRouter {
 			array_shift($urls);
 		}
 
-		//スペースのチェック
-		if (count($urls) > 0) {
-			$Space = ClassRegistry::init('Rooms.Space');
-			$count = $Space->find('count', array(
-				'conditions' => array('permalink' => $urls[0]),
-				'recursive' => -1
-			));
-			if ($count > 0) {
-				$params['spacePermalink'] = $urls[0];
-				unset($urls[0]);
-			}
-			$urls = array_values($urls);
-		}
-
-		//ページのチェック
 		$conditions = array(
 			'Page.permalink' => array(),
 			'Page.parent_id !=' => null
 		);
+
+		//スペースのチェック
+		if (count($urls) > 0) {
+			$Space = ClassRegistry::init('Rooms.Space');
+			$result = $Space->find('first', array(
+				'conditions' => array('permalink' => $urls[0], 'id !=' => Space::WHOLE_SITE_ID),
+				'recursive' => -1
+			));
+			if ($result) {
+				$params['spacePermalink'] = $urls[0];
+				unset($urls[0]);
+
+				$conditions['Room.space_id'] = $result['Space']['id'];
+			}
+			$urls = array_values($urls);
+		}
+		if (! isset($conditions['Room.space_id'])) {
+			$result = $Space->find('first', array(
+				'conditions' => array('permalink' => '', 'id !=' => Space::WHOLE_SITE_ID),
+				'recursive' => -1
+			));
+			$conditions['Room.space_id'] = $result['Space']['id'];
+		}
+
+		//ページのチェック
 		$path = '';
 		foreach ($urls as $i => $pass) {
 			$path .= '/' . $pass;
@@ -85,7 +96,7 @@ class NetCommonsRouter {
 		$count = $PageModel->find('count', array(
 			'fields' => ['Page.permalink'],
 			'conditions' => $conditions,
-			'recursive' => -1,
+			'recursive' => 0,
 			'order' => ['Page.lft' => 'asc']
 		));
 

@@ -31,6 +31,8 @@ class NetCommonsRouter {
  *
  * @param string $url The URL to attempt to parse.
  * @return mixed Boolean false on failure, otherwise an array or parameters
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public static function parse($url = null) {
 		if (! $url) {
@@ -64,9 +66,9 @@ class NetCommonsRouter {
 			'Page.parent_id !=' => null
 		);
 
-		//スペースのチェック
+		//スペースのチェック＆条件生成
+		$Space = ClassRegistry::init('Rooms.Space');
 		if (count($urls) > 0) {
-			$Space = ClassRegistry::init('Rooms.Space');
 			$result = $Space->find('first', array(
 				'conditions' => array('permalink' => $urls[0], 'id !=' => Space::WHOLE_SITE_ID),
 				'recursive' => -1

@@ -227,7 +227,7 @@ class CurrentPage {
 	private function __getPage($query) {
 		$this->Page = ClassRegistry::init('Pages.Page');
 
-		if (isset(Current::$current['Room'])) {
+		if (! empty(Current::$request->params['requested'])) {
 			$this->Page->unbindModel(array(
 				'belongsTo' => array('Room'),
 			), true);
@@ -236,7 +236,8 @@ class CurrentPage {
 			), true);
 		}
 
-		return $this->Page->find('first', $query);
+		$result = $this->Page->find('first', $query);
+		return $result;
 	}
 
 /**

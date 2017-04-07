@@ -191,6 +191,17 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
+ * Called after the controller action is run and rendered.
+ *
+ * @return void
+ * @link http://book.cakephp.org/2.0/ja/controllers.html#request-life-cycle-callbacks
+ */
+	public function afterFilter() {
+		//カレントデータセット
+		Current::terminate($this);
+	}
+
+/**
  * リクエストもしくはSessionから言語をセットする。
  *
  * @return void

@@ -232,6 +232,13 @@ class CurrentBase {
 	public static $current = array();
 
 /**
+ * Current data
+ *
+ * @var array
+ */
+	public static $originalCurrent = array();
+
+/**
  * Permission data
  *
  * @var array

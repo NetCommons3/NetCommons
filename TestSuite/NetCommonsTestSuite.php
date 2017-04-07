@@ -32,6 +32,8 @@ class NetCommonsTestSuite extends CakeTestSuite {
  * @return void
  */
 	public function creteTestDb() {
+		ini_set('memory_limit', '1024M');
+
 		$dbObject = ConnectionManager::enumConnectionObjects();
 		switch ($dbObject['test']['datasource']) {
 			case 'Database/Mysql':

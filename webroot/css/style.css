@@ -22,6 +22,9 @@
 	display: inline;
 	margin: 8px;
 }
+p:only-child > .img-responsive.nc3-img:not(.center-block) {
+	margin: 0px;
+}
 
 .display-number-dropdown-toggle {
 	min-width: 125px;

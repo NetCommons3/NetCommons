@@ -55,7 +55,7 @@ class CurrentFrame {
  * @return void
  */
 	public function clear() {
-		$models = array('Room', 'RoomRolePermission', 'RolesRoom', 'Frame', 'Block', 'BlockRolePermission');
+		$models = ['Room', 'RoomRolePermission', 'RolesRoom', 'Frame', 'Block', 'BlockRolePermission'];
 		foreach ($models as $model) {
 			if (isset(Current::$current[$model])) {
 				unset(Current::$current[$model]);
@@ -310,6 +310,7 @@ class CurrentFrame {
 			}
 			$permission = Hash::merge($permission, $setPermissions);
 		}
+
 		Current::$current['Permission'] = $permission;
 	}
 

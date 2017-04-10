@@ -274,7 +274,7 @@ class CurrentFrame {
 			$permission, Hash::get(Current::$current, 'RoomRolePermission', array())
 		);
 		if (isset(Current::$current['BlockRolePermission'])) {
-			$permission = Hash::merge($permission, Current::$current['BlockRolePermission']);
+			$permission = Hash::merge($permission, Current::$current['BlockRolePermission'], []);
 		} elseif (! Current::read('Room.need_approval')) {
 			$setPermissions = array(
 				'content_publishable' => array('value' => true),
@@ -293,19 +293,19 @@ class CurrentFrame {
 					),
 				));
 
-				$publishable = !(bool)Hash::get(
+				$useWorkflow = (bool)Hash::get(
 					$blockSetting, BlockSettingBehavior::FIELD_USE_WORKFLOW, '0'
 				);
-				if ($publishable) {
+				if ($useWorkflow) {
 					$publishable = Hash::get($permission, 'content_publishable.value');
 					$setPermissions['content_publishable']['value'] = $publishable;
 				}
-				$publishable = !(bool)Hash::get(
+				$useApproval = (bool)Hash::get(
 					$blockSetting, BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL, '0'
 				);
-				if ($publishable) {
+				if ($useApproval) {
 					$publishable = Hash::get($permission, 'content_comment_publishable.value');
-					$setPermissions['content_publishable']['content_comment_publishable'] = $publishable;
+					$setPermissions['content_comment_publishable']['value'] = $publishable;
 				}
 			}
 			$permission = Hash::merge($permission, $setPermissions);

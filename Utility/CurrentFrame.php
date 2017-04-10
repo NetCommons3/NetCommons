@@ -297,14 +297,14 @@ class CurrentFrame {
 					$blockSetting, BlockSettingBehavior::FIELD_USE_WORKFLOW, '0'
 				);
 				if ($publishable) {
-					$publishable = Current::permission('content_publishable');
+					$publishable = Hash::get($permission, 'content_publishable.value');
 					$setPermissions['content_publishable']['value'] = $publishable;
 				}
 				$publishable = !(bool)Hash::get(
 					$blockSetting, BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL, '0'
 				);
 				if ($publishable) {
-					$publishable = Current::permission('content_comment_publishable');
+					$publishable = Hash::get($permission, 'content_comment_publishable.value');
 					$setPermissions['content_publishable']['content_comment_publishable'] = $publishable;
 				}
 			}

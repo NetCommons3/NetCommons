@@ -160,20 +160,24 @@ class CurrentPage {
 			if (Current::$request->params['controller'] === 'pages') {
 				$value = implode('/', Current::$request->params['pass']);
 				if ($value === '') {
-					$field = 'Page.root_id';
 					$value = Page::PUBLIC_ROOT_PAGE_ID;
+					$conditions = array('Page.root_id' => $value);
 				} else {
-					$field = 'Page.permalink';
+					$conditions = array(
+						'Page.permalink' => $value,
+						'Room.space_id' => Hash::get(
+							Current::$request->params, 'spaceId', Space::PUBLIC_SPACE_ID
+						),
+					);
 				}
 			} else {
-				$field = 'Page.id';
 				$value = Hash::get(Current::$request->params, 'pass.1', '');
 				if (! $value) {
 					$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
 					$value = Hash::get(Current::$current, 'Room.page_id_top', '');
 				}
+				$conditions = array('Page.id' => $value);
 			}
-			$conditions = array($field => $value);
 
 		} elseif (Hash::get(Current::$request->query, 'page_id')) {
 			$pageId = Hash::get(Current::$request->query, 'page_id');

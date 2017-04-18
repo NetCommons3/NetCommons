@@ -8,7 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-echo $this->Html->script(
+echo $this->NetCommonsHtml->script(
 	array(
 		'/components/jquery/dist/jquery.min.js',
 		'/components/bootstrap/dist/js/bootstrap.min.js',
@@ -16,7 +16,7 @@ echo $this->Html->script(
 		'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		'/net_commons/js/base.js',
 	),
-	array('plugin' => false)
+	array('plugin' => false, 'inline' => true, 'once' => false)
 );
 ?>
 

@@ -502,7 +502,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'after_user_save_model' => null,
 			),
 			'BoxesPageContainer' => array(
-				'id' => '58',
+				'id' => '50',
 				'page_container_id' => '8',
 				'page_id' => '2',
 				'container_type' => '3',

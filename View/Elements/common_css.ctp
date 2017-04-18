@@ -8,7 +8,7 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  */
 
-echo $this->Html->css(
+echo $this->NetCommonsHtml->css(
 	array(
 		'/components/bootstrap/dist/css/bootstrap.min.css',
 		'/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
@@ -21,5 +21,5 @@ echo $this->Html->css(
 		'/user_attributes/css/style.css',
 		'/wysiwyg/css/style.css',
 	),
-	array('plugin' => false)
+	array('plugin' => false, 'inline' => true, 'once' => false)
 );

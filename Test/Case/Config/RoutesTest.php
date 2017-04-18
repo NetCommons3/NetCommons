@@ -66,6 +66,7 @@ class RoutesTest extends NetCommonsRoutesTestCase {
  * - exception ExceptionError文字列(省略可)
  *
  * @return array テストデータ
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function dataProvider() {
 		return array(

@@ -45,7 +45,7 @@ if (isset($colors)) {
 			<input type="text"
 				ng-attr-name="<?php echo $ngAttrName; ?>"
 				class="form-control"
-				<?php echo $ngModelAttribute; ?>"
+				<?php echo $ngModelAttribute; ?>
 				size="8" />
 		<?php endif ?>
 

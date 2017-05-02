@@ -114,10 +114,12 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @param array $results 出力結果配列
  * @param string $name レスポンスメッセージ
  * @param int $status ステータスコード
+ * @param bool $camelConv キャメル形式にコンバートするかどうか
  * @return string JSON形式の文字列
  * @link https://google.github.io/styleguide/jsoncstyleguide.xml Google JSON Style Guide
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function json($results = [], $name = 'OK', $status = 200) {
+	public function json($results = [], $name = 'OK', $status = 200, $camelConv = true) {
 		//if (! $results) {
 		//	$results = $this->_View->viewVars;
 		//}
@@ -126,7 +128,11 @@ class NetCommonsHtmlHelper extends AppHelper {
 			'code' => $status,
 		], $results);
 
-		$camelizeData = NetCommonsAppController::camelizeKeyRecursive($results);
+		if ($camelConv) {
+			$camelizeData = NetCommonsAppController::camelizeKeyRecursive($results);
+		} else {
+			$camelizeData = $results;
+		}
 
 		return json_encode($camelizeData);
 	}

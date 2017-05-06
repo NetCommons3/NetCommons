@@ -39,14 +39,17 @@ class NetCommonsUrl {
 				$url .= Current::SETTING_MODE_WORD . '/';
 			}
 
-			if (Current::read('Space.permalink')) {
-				$url .= Current::read('Space.permalink') . '/';
-			}
-
-			if (Hash::get($page, 'Page.id') === Current::read('TopPage.id')) {
-				$url .= '';
+			if (Hash::get($page, 'Page.full_permalink')) {
+				$url .= h(Hash::get($page, 'Page.full_permalink'));
 			} else {
-				$url .= h(Hash::get($page, 'Page.permalink'));
+				if (Current::read('Space.permalink')) {
+					$url .= Current::read('Space.permalink') . '/';
+				}
+				if (Hash::get($page, 'Page.id') === Current::read('TopPage.id')) {
+					$url .= '';
+				} else {
+					$url .= h(Hash::get($page, 'Page.permalink'));
+				}
 			}
 		}
 

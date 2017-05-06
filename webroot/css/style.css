@@ -17,10 +17,12 @@
 .inline-block {
 	display: inline-block;
 }
-
 .img-responsive.nc3-img:not(.center-block) {
 	display: inline;
 	margin: 8px;
+}
+.img-responsive.nc3-img:not(.center-block).nc3-img-block {
+	margin: 0px;
 }
 p:only-child > .img-responsive.nc3-img:not(.center-block) {
 	margin: 0px;

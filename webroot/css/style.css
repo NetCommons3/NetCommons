@@ -9,6 +9,9 @@
 .checkbox.nc-checkbox {
 	padding-left: 20px;
 }
+.form-input-outer > .checkbox-inline.nc-checkbox {
+	margin-right: 16px;
+}
 .nc-checkbox label {
 	padding-left: 0px;
 	font-weight: normal;

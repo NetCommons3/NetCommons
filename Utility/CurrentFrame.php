@@ -55,7 +55,10 @@ class CurrentFrame {
  * @return void
  */
 	public function clear() {
-		$models = ['Room', 'RoomRolePermission', 'RolesRoom', 'Frame', 'Block', 'BlockRolePermission'];
+		$models = [
+			'Room', 'RoomRolePermission', 'RolesRoom', 'Frame', 'Block', 'BlockRolePermission',
+			'RolesRoomsUser', 'Permission'
+		];
 		foreach ($models as $model) {
 			if (isset(Current::$current[$model])) {
 				unset(Current::$current[$model]);

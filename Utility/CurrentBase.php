@@ -326,7 +326,7 @@ class CurrentBase {
 			return false;
 		}
 		if (! $roomId) {
-			$roomId = Hash::get(self::$current, 'Room.id');
+			$roomId = self::read('Room.id');
 		}
 
 		$path = 'Permission.' . $key . '.value';

@@ -74,15 +74,30 @@ class NetCommonsMigration extends CakeMigration {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function updateRecords($model, $records, $clear = false) {
-		$Model = $this->generateModel($model);
+		$objModel = $this->generateModel($model);
 		if ($clear) {
-			if (!$Model->deleteAll(array('1 = 1'), false, false)) {
+			if (!$objModel->deleteAll(array('1 = 1'), false, false)) {
 				return false;
 			}
 		}
+
 		foreach ($records as $record) {
-			$Model->create();
-			if (!$Model->save($record, false)) {
+			foreach ($record as $field => $foreign) {
+				if (! is_array($foreign)) {
+					continue;
+				}
+
+				foreach ($foreign as $model2 => $options) {
+					$objModel2 = $this->generateModel($model2);
+					$result = $objModel2->find('first', $options);
+					$record[$field] = Hash::get($result, $options['fields']);
+
+					continue;
+				}
+			}
+
+			$objModel->create();
+			if (!$objModel->save($record, false)) {
 				return false;
 			}
 		}

@@ -122,6 +122,7 @@ class PermissionComponent extends Component {
  * @return void
  */
 	public function initialize(Controller $controller) {
+		$allowActions = [];
 		foreach ($this->allow as $allow => $permission) {
 			if (isset($permission) && ! is_array($permission)) {
 				$permission = array($permission);

@@ -180,7 +180,7 @@ class PermissionComponent extends Component {
 				}
 				break;
 			case self::CHECK_TYEP_GENERAL_PLUGIN:
-				if (! $this->__accessCheck($controller)) {
+				if (! $this->checkSpaceAccess($controller)) {
 					break;
 				}
 				if (! $this->__allowAction($controller)) {
@@ -218,12 +218,12 @@ class PermissionComponent extends Component {
 	}
 
 /**
- * アクセスチェック
+ * スペースへのアクセスチェック
  *
  * @param Controller $controller Controller with components to startup
  * @return bool
  */
-	private function __accessCheck(Controller $controller) {
+	public function checkSpaceAccess(Controller $controller) {
 		try {
 			$Room = ClassRegistry::init('Rooms.Room');
 			$spaces = $Room->getSpaces();
@@ -242,7 +242,7 @@ class PermissionComponent extends Component {
 			CakeLog::error($ex);
 		}
 
-		if (! $this->__checkBlockAccess($controller)) {
+		if (! $this->checkBlockAccess($controller)) {
 			if (! empty($controller->request->params['requested'])) {
 				//フレーム等、setActionから実行された場合、空値を戻すため、return trueとする。
 				$controller->setAction('emptyRender');
@@ -256,12 +256,12 @@ class PermissionComponent extends Component {
 	}
 
 /**
- * ブロックのアクセスチェック
+ * ブロックへのアクセスチェック
  *
  * @param Controller $controller Controller with components to startup
  * @return bool
  */
-	private function __checkBlockAccess(Controller $controller) {
+	public function checkBlockAccess(Controller $controller) {
 		//ブロックがない場合、trueとする
 		if (! Current::read('Block')) {
 			return true;

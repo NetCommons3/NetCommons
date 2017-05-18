@@ -14,6 +14,16 @@ if (ini_get('xdebug.max_nesting_level')) {
 	ini_set('xdebug.max_nesting_level', 200);
 }
 
+// Load application configurations
+$conf = array();
+$files = array('application.yml', 'application.local.yml');
+foreach ($files as $file) {
+	if (file_exists(APP . 'Config' . DS . $file)) {
+		$conf = array_merge($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));
+		Configure::write($conf);
+	}
+}
+
 // Load all plugins
 $plugins = App::objects('plugins');
 foreach ($plugins as $plugin) {
@@ -28,16 +38,6 @@ foreach ($plugins as $plugin) {
 				CakePlugin::load($plugin, $options);
 			}
 		}
-	}
-}
-
-// Load application configurations
-$conf = array();
-$files = array('application.yml', 'application.local.yml');
-foreach ($files as $file) {
-	if (file_exists(APP . 'Config' . DS . $file)) {
-		$conf = array_merge($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));
-		Configure::write($conf);
 	}
 }
 if (! Configure::read('Config.language')) {

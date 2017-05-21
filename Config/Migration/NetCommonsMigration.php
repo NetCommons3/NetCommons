@@ -11,6 +11,8 @@
 
 App::uses('CakeMigration', 'Migrations.Lib');
 App::uses('I18n', 'I18n');
+App::uses('Space', 'Rooms.Space');
+class_exists('Space');
 
 /**
  * NetCommonsMigration
@@ -26,6 +28,23 @@ class NetCommonsMigration extends CakeMigration {
  * @var array $migration
  */
 	public $records = array();
+
+/**
+ * Run migration
+ *
+ * @param string $direction Direction of migration process (up or down)
+ * @return bool Status of the process
+ * @throws MigrationException
+ */
+	public function run($direction) {
+		if (class_exists('Space') &&
+				isset($this->records['Plugin']) && Hash::extract($this->records['Plugin'], '{n}[type=1]')) {
+			Space::getInstance('Space', ['testing' => ($this->connection === 'test')]);
+			Space::getInstance('Room', ['testing' => ($this->connection === 'test')]);
+		}
+
+		return parent::run($direction);
+	}
 
 /**
  * This method will invoke the before/afterAction callbacks, it is good when
@@ -136,7 +155,15 @@ class NetCommonsMigration extends CakeMigration {
  */
 	public function loadModels(array $models = []) {
 		foreach ($models as $model => $class) {
-			$this->$model = ClassRegistry::init($class, true);
+			if ($class === 'Rooms.Space') {
+				Space::getInstance('Space', ['testing' => ($this->connection === 'test')]);
+				Space::getInstance('Room', ['testing' => ($this->connection === 'test')]);
+			}
+
+			$this->$model = ClassRegistry::init([
+				'class' => $class,
+				'testing' => ($this->connection === 'test')
+			], true);
 			$this->$model->setDataSource($this->connection);
 			//if ($this->$model->useDbConfig !== 'test') {
 			//	$this->$model->setDataSource($source);

@@ -337,7 +337,13 @@ class NetCommonsAppModel extends Model {
  */
 	public function loadModels(array $models = []) {
 		foreach ($models as $model => $class) {
-			$this->$model = ClassRegistry::init($class, true);
+			$this->$model = ClassRegistry::init([
+				'class' => $class,
+				'testing' => ($this->useDbConfig === 'test')
+			], true);
+			if ($this->$model->useDbConfig === 'test' && $this->useDbConfig !== 'test') {
+				$this->setDataSource($this->$model->useDbConfig);
+			}
 			//if ($this->$model->useDbConfig !== 'test') {
 			//	$this->$model->setDataSource($source);
 			//}

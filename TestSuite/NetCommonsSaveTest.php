@@ -54,6 +54,14 @@ class NetCommonsSaveTest extends NetCommonsModelTestCase {
 			$this->_keyAlias = $this->$model->alias;
 		}
 
+		if (array_key_exists('block_id', $data[$this->$model->alias]) && ! isset($data['Block'])) {
+			$this->Block = ClassRegistry::init('Blocks.Block');
+			$data['Block'] = $this->Block->find('first', [
+				'recursive' => -1,
+				'conditions' => ['id' => $data[$this->$model->alias]['block_id']]
+			]);
+		}
+
 		$created = !isset($data[$this->$model->alias]['id']);
 
 		//チェック用データ取得

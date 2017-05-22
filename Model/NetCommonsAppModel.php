@@ -336,7 +336,6 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function loadModels(array $models = []) {
-		var_dump($models);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init([
 				'class' => $class,

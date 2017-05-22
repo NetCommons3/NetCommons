@@ -336,13 +336,16 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function loadModels(array $models = []) {
+		var_dump($models);
 		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init([
 				'class' => $class,
 				'testing' => ($this->useDbConfig === 'test')
 			], true);
-			if ($this->$model->useDbConfig === 'test' && $this->useDbConfig !== 'test') {
-				$this->setDataSource($this->$model->useDbConfig);
+			if (is_object($this->$model)) {
+				if ($this->$model->useDbConfig === 'test' && $this->useDbConfig !== 'test') {
+					$this->setDataSource($this->$model->useDbConfig);
+				}
 			}
 			//if ($this->$model->useDbConfig !== 'test') {
 			//	$this->$model->setDataSource($source);

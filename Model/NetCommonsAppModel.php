@@ -341,8 +341,10 @@ class NetCommonsAppModel extends Model {
 				'class' => $class,
 				'testing' => ($this->useDbConfig === 'test')
 			], true);
-			if ($this->$model->useDbConfig === 'test' && $this->useDbConfig !== 'test') {
-				$this->setDataSource($this->$model->useDbConfig);
+			if (is_object($this->$model)) {
+				if ($this->$model->useDbConfig === 'test' && $this->useDbConfig !== 'test') {
+					$this->setDataSource($this->$model->useDbConfig);
+				}
 			}
 			//if ($this->$model->useDbConfig !== 'test') {
 			//	$this->$model->setDataSource($source);

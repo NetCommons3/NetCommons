@@ -168,7 +168,7 @@ class NetCommonsAppController extends Controller {
 		Security::setHash('sha512');
 
 		//言語のセット
-		$this->__setLanguage();
+		$this->_setLanguage();
 
 		//カレントデータセット
 		Current::initialize($this);
@@ -206,7 +206,7 @@ class NetCommonsAppController extends Controller {
  *
  * @return void
  */
-	private function __setLanguage() {
+	protected function _setLanguage() {
 		if (isset($this->request->query['language']) &&
 				! array_key_exists('search', $this->request->query)) {
 			Configure::write('Config.language', $this->request->query['language']);

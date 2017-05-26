@@ -11,8 +11,7 @@
 
 App::uses('CakeMigration', 'Migrations.Lib');
 App::uses('I18n', 'I18n');
-App::uses('Space', 'Rooms.Space');
-class_exists('Space');
+App::uses('Space', 'Rooms.Model');
 
 /**
  * NetCommonsMigration

@@ -10,7 +10,7 @@
  */
 
 App::uses('CurrentFrame', 'NetCommons.Utility');
-App::uses('Space', 'Rooms.Space');
+App::uses('Space', 'Rooms.Model');
 
 /**
  * CurrentPage Utility

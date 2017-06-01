@@ -37,9 +37,6 @@ class AssetComponent extends Component {
  */
 	public function getSiteTheme(Controller $controller) {
 		$theme = null;
-		if (! empty($controller->request->params['requested'])) {
-			return $theme;
-		}
 		if (Current::read('Page.theme')) {
 			return Current::read('Page.theme');
 		}

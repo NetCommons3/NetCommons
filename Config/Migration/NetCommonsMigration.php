@@ -86,13 +86,23 @@ class NetCommonsMigration extends CakeMigration {
  * Update model records
  *
  * @param string $model model name to update
- * @param array $records records to be stored
+ * @param array $argRecords records to be stored
  * @param bool $clear 初期化するかどうか
  * @return bool Should process continue
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function updateRecords($model, $records, $clear = false) {
-		$objModel = $this->generateModel($model);
+	public function updateRecords($model, $argRecords, $clear = false) {
+		if (isset($argRecords['class']) && isset($argRecords['records'])) {
+			$this->loadModels([
+				$model => $argRecords['class']
+			]);
+			$objModel = $this->$model;
+			$records = $argRecords['records'];
+		} else {
+			$records = $argRecords;
+			$objModel = $this->generateModel($model);
+		}
+
 		if ($clear) {
 			if (!$objModel->deleteAll(array('1 = 1'), false, false)) {
 				return false;

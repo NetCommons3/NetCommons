@@ -141,7 +141,6 @@ class RoutesTest extends NetCommonsRoutesTestCase {
 			array('url' => '/setting/test_pages/test_page/index',
 				'expected' => array(
 					'plugin' => 'test_pages', 'controller' => 'test_page', 'action' => 'index',
-					'pagePermalink' => array(),
 				),
 				'settingMode' => true
 			),

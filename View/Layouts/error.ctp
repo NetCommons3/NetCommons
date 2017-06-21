@@ -26,6 +26,7 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 		echo $this->fetch('meta');
 
 		echo $this->element('NetCommons.common_css');
+		echo $this->element('NetCommons.common_theme_css');
 		echo $this->element('NetCommons.common_js');
 	?>
 </head>

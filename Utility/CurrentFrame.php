@@ -276,9 +276,11 @@ class CurrentFrame {
 		$permission = Hash::merge(
 			$permission, Hash::get(Current::$current, 'RoomRolePermission', array())
 		);
-		if (isset(Current::$current['BlockRolePermission'])) {
-			$permission = Hash::merge($permission, Current::$current['BlockRolePermission'], []);
-		} elseif (! Current::read('Room.need_approval')) {
+		$permission = Hash::merge(
+			$permission, Hash::get(Current::$current, 'BlockRolePermission', array())
+		);
+
+		if (! Current::read('Room.need_approval')) {
 			$setPermissions = array(
 				'content_publishable' => array('value' => true),
 				'content_comment_publishable' => array('value' => true),

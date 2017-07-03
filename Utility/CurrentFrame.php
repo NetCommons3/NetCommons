@@ -288,11 +288,11 @@ class CurrentFrame {
 			return;
 		}
 
-		// ルームの承認不要の場合はここで公開権限付与
-		$permission['content_publishable']['value'] = true;
-		$permission['content_comment_publishable']['value'] = true;
 		if (!isset(Current::$current['Block']['key'])) {
+			$permission['content_publishable']['value'] = true;
+			$permission['content_comment_publishable']['value'] = true;
 			Current::$current['Permission'] = $permission;
+
 			return;
 		}
 

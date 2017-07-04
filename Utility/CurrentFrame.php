@@ -244,7 +244,6 @@ class CurrentFrame {
  * Set BlockRolePermissions
  *
  * @return void
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setBlockRolePermissions() {
 		$this->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
@@ -254,23 +253,7 @@ class CurrentFrame {
 			return;
 		}
 
-		if (isset(Current::$current['RolesRoom']) && isset(Current::$current['Block']['key'])) {
-			$result = $this->BlockRolePermission->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'roles_room_id' => Current::$current['RolesRoom']['id'],
-					'block_key' => Current::$current['Block']['key'],
-					// content_publishable は BlockRolePermission から無くなったが、取得時に除外しとく条件
-					// なんかあったらコメント外して対応
-					//'permission !=' => 'content_publishable'
-				)
-			));
-			if ($result) {
-				Current::$current['BlockRolePermission'] = Hash::combine(
-					$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
-				);
-			}
-		}
+		$this->__setCurrentBlockRolePermission();
 
 		$permission = array();
 		$permission = Hash::merge(
@@ -296,6 +279,47 @@ class CurrentFrame {
 			return;
 		}
 
+		Current::$current['Permission'] = $this->__getPermissionFromBlockSetting($permission);
+	}
+
+/**
+ * Set current BlockRolePermissions
+ *
+ * @return void
+ */
+	private function __setCurrentBlockRolePermission() {
+		if (!isset(Current::$current['RolesRoom']) ||
+			!isset(Current::$current['Block']['key'])
+		) {
+			return;
+		}
+
+		$result = $this->BlockRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'roles_room_id' => Current::$current['RolesRoom']['id'],
+				'block_key' => Current::$current['Block']['key'],
+				// content_publishable は BlockRolePermission から無くなったが、取得時に除外しとく条件
+				// なんかあったらコメント外して対応
+				//'permission !=' => 'content_publishable'
+			)
+		));
+		if (!$result) {
+			return;
+		}
+
+		Current::$current['BlockRolePermission'] = Hash::combine(
+			$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
+		);
+	}
+
+/**
+ * Get permission from BlockSetting
+ *
+ * @param array $permission permission data
+ * @return void
+ */
+	private function __getPermissionFromBlockSetting($permission) {
 		$blockSetting = $this->BlockSetting->find('list', array(
 			'recursive' => -1,
 			'fields' => array('field_name', 'value'),
@@ -310,9 +334,8 @@ class CurrentFrame {
 		if (!$blockSetting) {
 			$permission['content_publishable']['value'] = true;
 			$permission['content_comment_publishable']['value'] = true;
-			Current::$current['Permission'] = $permission;
 
-			return;
+			return $permission;
 		}
 
 		$useWorkflow = Hash::get($blockSetting, [BlockSettingBehavior::FIELD_USE_WORKFLOW]);
@@ -325,7 +348,7 @@ class CurrentFrame {
 			$permission['content_comment_publishable']['value'] = true;
 		}
 
-		Current::$current['Permission'] = $permission;
+		return $permission;
 	}
 
 }

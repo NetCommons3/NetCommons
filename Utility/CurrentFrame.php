@@ -308,7 +308,10 @@ class CurrentFrame {
 			),
 		));
 		if (!$blockSetting) {
+			$permission['content_publishable']['value'] = true;
+			$permission['content_comment_publishable']['value'] = true;
 			Current::$current['Permission'] = $permission;
+
 			return;
 		}
 

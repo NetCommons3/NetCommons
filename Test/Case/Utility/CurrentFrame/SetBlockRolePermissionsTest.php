@@ -197,17 +197,21 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'room_administrator' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				]
@@ -216,17 +220,21 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'chief_editor content true' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				]
@@ -234,17 +242,21 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'chief_editor content false' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				]
@@ -253,22 +265,27 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor both true' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'BlockRolePermission' => [
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				]
@@ -276,22 +293,27 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor content true only' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'BlockRolePermission' => [
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				]
@@ -299,22 +321,27 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor comment true only' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'BlockRolePermission' => [
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				]
@@ -322,22 +349,27 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor both false' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'BlockRolePermission' => [
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				]
@@ -345,17 +377,21 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor content true and comment is null' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => true,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
@@ -363,17 +399,21 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'editor content false and comment is null' => [
 				'DefaultRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
+						'permission' => 'content_publishable',
 						'value' => false,
 					],
 					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
 						'value' => false,
 					],
 				],
@@ -391,33 +431,41 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		return [
 			'both true' => [
 				'content_publishable' => [
+					'permission' => 'content_publishable',
 					'value' => true,
 				],
 				'content_comment_publishable' => [
+					'permission' => 'content_comment_publishable',
 					'value' => true,
 				],
 			],
 			'content true only' => [
 				'content_publishable' => [
+					'permission' => 'content_publishable',
 					'value' => true,
 				],
 				'content_comment_publishable' => [
+					'permission' => 'content_comment_publishable',
 					'value' => false,
 				],
 			],
 			'comment true only' => [
 				'content_publishable' => [
+					'permission' => 'content_publishable',
 					'value' => false,
 				],
 				'content_comment_publishable' => [
+					'permission' => 'content_comment_publishable',
 					'value' => true,
 				],
 			],
-			'both fale' => [
+			'both false' => [
 				'content_publishable' => [
+					'permission' => 'content_publishable',
 					'value' => false,
 				],
 				'content_comment_publishable' => [
+					'permission' => 'content_comment_publishable',
 					'value' => false,
 				],
 			],
@@ -425,11 +473,11 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 	}
 
 /**
- * Get room_administrator data
+ * room_administrator data provider
  *
  * @return array
  */
-	private function __getRoomAdministratorDataForDataProvider() {
+	public function roomAdministratorProvider() {
 		$data = [];
 		$roomData = $this->__getRoomTestData();
 		$blockData = $this->__getBlockTestData();
@@ -440,11 +488,12 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		// Role.key:room_administrator のデータ
 		$rolePermission = $rolePermissionData['room_administrator'];
 		foreach ($roomData as $roomDataName => $room) {
-			$dataName = $roomDataName;
 			foreach ($blockData as $blockDataName => $block) {
-				$dataName .= ',' . $blockDataName;
 				foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-					$dataName .= ',' . $blockSettingDataName . ',room_administrator';
+					$dataName = $roomDataName . ',' .
+						$blockDataName . ',' .
+						$blockSettingDataName . ',' .
+						'room_administrator';
 					$data[$dataName] = [
 						$room + $block + $blockSetting + $rolePermission,
 						$expectedData['both true']
@@ -457,11 +506,11 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 	}
 
 /**
- * Get chief_editor data
+ * chief_editor data provider
  *
  * @return array
  */
-	private function __getChiefEditorDataForDataProvider() {
+	public function chiefEditorProvider() {
 		$data = [];
 		$roomData = $this->__getRoomTestData();
 		$blockData = $this->__getBlockTestData();
@@ -472,11 +521,12 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		// chief_editor content true のデータ
 		$rolePermission = $rolePermissionData['chief_editor content true'];
 		foreach ($roomData as $roomDataName => $room) {
-			$dataName = $roomDataName;
 			foreach ($blockData as $blockDataName => $block) {
-				$dataName .= ',' . $blockDataName;
 				foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-					$dataName .= ',' . $blockSettingDataName . ',chief_editor content true';
+					$dataName = $roomDataName . ',' .
+						$blockDataName . ',' .
+						$blockSettingDataName . ',' .
+						'chief_editor content true';
 					$data[$dataName] = [
 						$room + $block + $blockSetting + $rolePermission,
 						$expectedData['both true']
@@ -489,9 +539,11 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		$room = $roomData['Room approval is required'];
 		$rolePermission = $rolePermissionData['chief_editor content false'];
 		foreach ($blockData as $blockDataName => $block) {
-			$dataName .= 'Room approval is required,' . $blockDataName;
 			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-				$dataName .= ',' . $blockSettingDataName . ',chief_editor content false';
+				$dataName = 'Room approval is required,' .
+					$blockDataName . ',' .
+					$blockSettingDataName . ',' .
+					'chief_editor content false';
 				$data[$dataName] = [
 					$room + $block + $blockSetting + $rolePermission,
 					$expectedData['comment true only']
@@ -499,7 +551,8 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			}
 		}
 
-		// Room approval is not required,Block exists,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting use both,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,chief_editor content false のデータ
 		$room = $roomData['Room approval is not required'];
 		$block = $blockData['Block exists'];
 		$blockSettings = [
@@ -507,7 +560,7 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'BlockSetting use content and comment is null' => $blockSettingData['BlockSetting use content and comment is null'],
 		];
 		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
-			$dataName .= 'Room approval is not required,' .
+			$dataName = 'Room approval is not required,' .
 				'Block exists,' .
 				$blockSettingDataName . ',' .
 				'chief_editor content false';
@@ -517,8 +570,10 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			];
 		}
 
-		// Room approval is not required,Block not exists,chief_editor content false のデータ
-		$block = $blockData['Block not exists'];
+		// Room approval is not required,Block exists,BlockSetting use comment only,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse both,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,chief_editor content false のデータ
 		$blockSettings = [
 			'BlockSetting use comment only' => $blockSettingData['BlockSetting use comment only'],
 			'BlockSetting unuse both' => $blockSettingData['BlockSetting unuse both'],
@@ -526,7 +581,20 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'BlockSetting both are null' => $blockSettingData['BlockSetting both are null'],
 		];
 		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
-			$dataName .= 'Room approval is not required,' .
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
+				$blockSettingDataName . ',' .
+				'chief_editor content false';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['both true']
+			];
+		}
+
+		// Room approval is not required,Block not exists,chief_editor content false のデータ
+		$block = $blockData['Block not exists'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is not required,' .
 				'Block not exists,' .
 				$blockSettingDataName . ',' .
 				'chief_editor content false';
@@ -540,11 +608,11 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 	}
 
 /**
- * Get editor data
+ * editor data provider
  *
  * @return array
  */
-	private function __getEditorDataForDataProvider() {
+	public function editorProvider() {
 		$data = [];
 		$roomData = $this->__getRoomTestData();
 		$blockData = $this->__getBlockTestData();
@@ -552,36 +620,90 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		$rolePermissionData = $this->__getRolePermissionTestData();
 		$expectedData = $this->__getExpectedData();
 
-		// editor both true のデータ
-		// editor content true and comment is null のデータ
+		// Room approval is not required,Block not exists のデータ
+		$room = $roomData['Room approval is not required'];
+		$block = $blockData['Block not exists'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			foreach ($rolePermissionData as $rPermissionDataName => $rolePermission) {
+				$dataName = 'Room approval is not required,' .
+					'Block not exists,' .
+					$blockSettingDataName . ',' .
+					$rPermissionDataName;
+				$data[$dataName] = [
+					$room + $block + $blockSetting + $rolePermission,
+					$expectedData['both true']
+				];
+			}
+		}
+
+		// Block exists,editor both true のデータ
+		$block = $blockData['Block exists'];
+		$rolePermission = $rolePermissionData['editor both true'];
+		foreach ($roomData as $roomDataName => $room) {
+			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+				$dataName = $roomDataName . ',' .
+					'Block exists,' .
+					$blockSettingDataName . ',' .
+					'editor both true';
+				$data[$dataName] = [
+					$room + $block + $blockSetting + $rolePermission,
+					$expectedData['both true']
+				];
+			}
+		}
+
+		// Room approval is required,Block not exists,editor both true のデータ
+		$room = $roomData['Room approval is required'];
+		$block = $blockData['Block not exists'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is required,' .
+				'Block not exists,' .
+				$blockSettingDataName . ',' .
+				'editor both true';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['content true only']
+			];
+		}
+
+		// Room approval is required,editor content true only のデータ
+		// Room approval is required,editor content true and comment is null のデータ
+		$room = $roomData['Room approval is required'];
 		$rolePermissions = [
 			'editor content true only' => $rolePermissionData['editor content true only'],
-			'editor content true and comment is null' => $rolePermissionData['editor content true and comment is null']
+			'editor content true and comment is null' => $rolePermissionData['editor content true and comment is null'],
 		];
-		foreach ($roomData as $roomDataName => $room) {
-			$dataName = $roomDataName;
-			foreach ($blockData as $blockDataName => $block) {
-				$dataName .= ',' . $blockDataName;
-				foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-					$dataName .= ',' . $blockSettingDataName;
-					foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
-						$dataName .= ',' . $rPermissionDataName;
-						$data[$dataName] = [
-							$room + $block + $blockSetting + $rolePermission,
-							$expectedData['both true']
-						];
-					}
+		foreach ($blockData as $blockDataName => $block) {
+			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+				foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+					$dataName = 'Room approval is required,' .
+						$blockDataName . ',' .
+						$blockSettingDataName . ',' .
+						$rPermissionDataName;
+					$data[$dataName] = [
+						$room + $block + $blockSetting + $rolePermission,
+						$expectedData['content true only']
+					];
 				}
 			}
 		}
 
-		// Room approval is required,editor content true only のデータ
-		$room = $roomData['Room approval is required'];
-		$rolePermission = $rolePermissions['editor content true only'];
-		foreach ($blockData as $blockDataName => $block) {
-			$dataName .= 'Room approval is required,' . $blockDataName;
-			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-				$dataName .= ',' . $blockSettingDataName . ',editor content true only';
+		// Room approval is not required,Block exists,BlockSetting use both,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting use comment only,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting use both,editor editor content true and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting use comment only,editor editor content true and comment is null のデータ
+		$room = $roomData['Room approval is not required'];
+		$block = $blockData['Block exists'];
+		$blockSettings = [
+			'BlockSetting use both' => $blockSettingData['BlockSetting use both'],
+			'BlockSetting use comment only' => $blockSettingData['BlockSetting use comment only'],
+		];
+		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
+			foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+				$dataName = 'Room approval is not required,' .
+					'Block exists,' .
+					$blockSettingDataName . ',' .
+					$rPermissionDataName;
 				$data[$dataName] = [
 					$room + $block + $blockSetting + $rolePermission,
 					$expectedData['content true only']
@@ -589,56 +711,63 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			}
 		}
 
-		// Room approval is required,editor comment true only のデータ
-		$room = $roomData['Room approval is required'];
-		$rolePermission = $rolePermissionData['editor comment true only'];
-		foreach ($blockData as $blockDataName => $block) {
-			$dataName .= 'Room approval is required,' . $blockDataName;
-			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-				$dataName .= ',' . $blockSettingDataName . ',editor comment true only';
-				$data[$dataName] = [
-					$room + $block + $blockSetting + $rolePermission,
-					$expectedData['comment true only']
-				];
-			}
-		}
-
-		// Room approval is required,editor both false のデータ
-		// Room approval is required,editor content false and comment is null のデータ
-		$rolePermissions = [
-				'editor content true only' => $rolePermissionData['editor content true only'],
-				'editor content true and comment is null' => $rolePermissionData['editor content true and comment is null']
+		// Room approval is not required,Block exists,BlockSetting unuse both,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse both,editor editor content true and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,editor editor content true and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,editor editor content true and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,editor editor content true and comment is null のデータ
+		$blockSettings = [
+			'BlockSetting unuse both' => $blockSettingData['BlockSetting unuse both'],
+			'BlockSetting use content and comment is null' => $blockSettingData['BlockSetting use content and comment is null'],
+			'BlockSetting unuse content and comment is null' => $blockSettingData['BlockSetting unuse content and comment is null'],
+			'BlockSetting both are null' => $blockSettingData['BlockSetting both are null'],
 		];
-		$room = $roomData['Room approval is required'];
-		$rolePermission = $rolePermissionData['editor both false'];
-		foreach ($blockData as $blockDataName => $block) {
-			$dataName .= 'Room approval is required,' . $blockDataName;
-			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-				$dataName .= ',' . $blockSettingDataName . ',editor both false';
+		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
+			foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+				$dataName = 'Room approval is not required,' .
+					'Block exists,' .
+					$blockSettingDataName . ',' .
+					$rPermissionDataName;
 				$data[$dataName] = [
 					$room + $block + $blockSetting + $rolePermission,
-					$expectedData['both false']
+					$expectedData['both true']
 				];
 			}
 		}
 
-		// Room approval is required,editor content true and comment is null のデータ
+		// Room approval is required,Block exists,editor comment true only のデータ
 		$room = $roomData['Room approval is required'];
-		$rolePermission = $rolePermissionData['editor content true and comment is null'];
-		foreach ($blockData as $blockDataName => $block) {
-			$dataName .= 'Room approval is required,' . $blockDataName;
-			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-				$dataName .= ',' . $blockSettingDataName . ',editor both false';
-				$data[$dataName] = [
-						$room + $block + $blockSetting + $rolePermission,
-						$expectedData['both false']
-				];
-			}
+		$block = $blockData['Block exists'];
+		$rolePermission = $rolePermissionData['editor comment true only'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is required,' .
+				'Block exists,' .
+				$blockSettingDataName . ',' .
+				'editor comment true only';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['comment true only']
+			];
 		}
 
+		// Room approval is required,Block not exists,editor comment true only のデータ
+		$block = $blockData['Block not exists'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is required,' .
+				'Block not exists,' .
+				$blockSettingDataName . ',' .
+				'editor comment true only';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['both false']
+			];
+		}
 
-
-		// Room approval is not required,Block exists,chief_editor content false のデータ
+		// Room approval is not required,Block exists,BlockSetting use both,editor comment true only のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,editor comment true only のデータ
 		$room = $roomData['Room approval is not required'];
 		$block = $blockData['Block exists'];
 		$blockSettings = [
@@ -646,18 +775,20 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'BlockSetting use content and comment is null' => $blockSettingData['BlockSetting use content and comment is null'],
 		];
 		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
-			$dataName .= 'Room approval is not required,' .
+			$dataName = 'Room approval is not required,' .
 				'Block exists,' .
 				$blockSettingDataName . ',' .
-				'chief_editor content false';
+				'editor comment true only';
 			$data[$dataName] = [
 				$room + $block + $blockSetting + $rolePermission,
 				$expectedData['comment true only']
 			];
 		}
 
-		// Room approval is not required,Block not exists,chief_editor content false のデータ
-		$block = $blockData['Block not exists'];
+		// Room approval is not required,Block exists,BlockSetting use comment only,editor comment true only のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse both,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,editor content true only のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,editor content true only のデータ
 		$blockSettings = [
 			'BlockSetting use comment only' => $blockSettingData['BlockSetting use comment only'],
 			'BlockSetting unuse both' => $blockSettingData['BlockSetting unuse both'],
@@ -665,29 +796,123 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			'BlockSetting both are null' => $blockSettingData['BlockSetting both are null'],
 		];
 		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
-			$dataName .= 'Room approval is not required,' .
-				'Block not exists,' .
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
 				$blockSettingDataName . ',' .
-				'chief_editor content false';
+				'editor comment true only';
 			$data[$dataName] = [
 				$room + $block + $blockSetting + $rolePermission,
 				$expectedData['both true']
 			];
 		}
 
-		return $data;
-	}
+		// Room approval is required,editor both false のデータ
+		// Room approval is required,editor content false and comment is null のデータ
+		$room = $roomData['Room approval is required'];
+		$rolePermissions = [
+			'editor both false' => $rolePermissionData['editor both false'],
+			'editor content false and comment is null' => $rolePermissionData['editor content false and comment is null'],
+		];
+		$rolePermission = $rolePermissionData['editor both false'];
+		foreach ($blockData as $blockDataName => $block) {
+			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+				foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+					$dataName = 'Room approval is required,' .
+						$blockDataName . ',' .
+						$blockSettingDataName . ',' .
+						$rPermissionDataName;
+					$data[$dataName] = [
+						$room + $block + $blockSetting + $rolePermission,
+						$expectedData['both false']
+					];
+				}
+			}
+		}
 
-/**
- * Data provider
- *
- * @return array
- */
-	public function dataProvider() {
-		$data = [];
+		// Room approval is not required,Block exists,BlockSetting use both,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting use both,editor content false and comment is null のデータ
+		$room = $roomData['Room approval is not required'];
+		$block = $blockData['Block exists'];
+		$blockSetting = $blockSettingData['BlockSetting use both'];
+		foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
+				'BlockSetting use both,' .
+				$rPermissionDataName;
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['both false']
+			];
+		}
 
-		$data += $this->__getRoomAdministratorDataForDataProvider();	// Role.key:room_administrator のデータ
-		$data += $this->__getChiefEditorDataForDataProvider();			// Role.key:chief_editor のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,editor content false and comment is null のデータ
+		$blockSetting = $blockSettingData['BlockSetting use content and comment is null'];
+		foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
+				'BlockSetting use content and comment is null,' .
+				$rPermissionDataName;
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['comment true only']
+			];
+		}
+
+		// Room approval is not required,Block exists,BlockSetting use comment only,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting use comment only,editor content false and comment is null のデータ
+		$blockSetting = $blockSettingData['BlockSetting use comment only'];
+		foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
+				'BlockSetting use comment only,' .
+				$rPermissionDataName;
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['content true only']
+			];
+		}
+
+		// Room approval is not required,Block exists,BlockSetting unuse both,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,editor both false のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse both,editor content false and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,editor content false and comment is null のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,editor content false and comment is null のデータ
+		$blockSettings = [
+			'BlockSetting unuse both' => $blockSettingData['BlockSetting unuse both'],
+			'BlockSetting unuse content and comment is null' => $blockSettingData['BlockSetting unuse content and comment is null'],
+			'BlockSetting both are null' => $blockSettingData['BlockSetting both are null'],
+		];
+		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
+			foreach ($rolePermissions as $rPermissionDataName => $rolePermission) {
+				$dataName = 'Room approval is not required,' .
+					'Block exists,' .
+					$blockSettingDataName . ',' .
+					$rPermissionDataName;
+				$data[$dataName] = [
+					$room + $block + $blockSetting + $rolePermission,
+					$expectedData['both true']
+				];
+			}
+		}
+
+
+		// Room approval is required,Block not exists,editor both false のデータ
+/*		$room = $roomData['Room approval is required'];
+		$block = $blockData['Block not exists'];
+		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is required,' .
+				'Block not exists,' .
+				$blockSettingDataName . ',' .
+				'editor both false';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['content true only']
+			];
+		}*/
+
+
 
 		return $data;
 	}
@@ -695,7 +920,9 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 /**
  * testRoomAdministrator method
  *
- * @dataProvider dataProvider
+ * @param array $data test data
+ * @param array $expected permission data
+ * @dataProvider roomAdministratorProvider
  * @return void
  */
 	public function testRoomAdministrator($data, $expected) {
@@ -708,8 +935,44 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 	}
 
 /**
+ * testChiefEditor method
+ *
+ * @param array $data test data
+ * @param array $expected permission data
+ * @dataProvider chiefEditorProvider
+ * @return void
+ */
+	public function testChiefEditor($data, $expected) {
+		Current::$current = $data;
+		$this->__setMockBlockSetting($data);
+
+		$this->CurrentFrame->setBlockRolePermissions();
+
+		$this->assertEquals($expected, Current::$current['Permission']);
+	}
+
+/**
+ * testEditor method
+ *
+ * @param array $data test data
+ * @param array $expected permission data
+ * @dataProvider editorProvider
+ * @return void
+ */
+	public function testEditor($data, $expected) {
+		Current::$current = $data;
+		$this->__setMockBlockSetting($data);
+		$this->__setMockBlockRolePermission($data);
+
+		$this->CurrentFrame->setBlockRolePermissions();
+
+		$this->assertEquals($expected, Current::$current['Permission']);
+	}
+
+/**
  * Set MockBlockSetting
  *
+ * @param array $data test data
  * @return void
  */
 	private function __setMockBlockSetting($data) {
@@ -741,6 +1004,51 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 				]
 			)
 			->will($this->returnValue($data['BlockSetting']));
+	}
+
+/**
+ * Set MockBlockRolePermission
+ *
+ * @param array $data test data
+ * @return void
+ */
+	private function __setMockBlockRolePermission($data) {
+		unset(Current::$current['BlockRolePermission']);
+
+		if (!isset(Current::$current['Block']['key'])) {
+			$this->MockBlockRolePermission
+				->expects($this->never())
+				->method('find');
+
+			return;
+		}
+
+		Current::$current['RolesRoom']['id'] = 'dummy';
+		$blockRolePermissions = Hash::get($data, ['BlockRolePermission'], []);
+		$value = [];
+		foreach ($blockRolePermissions as $permission => $blockRolePermission) {
+			$value[] = [
+				'BlockRolePermission' => [
+					'permission' =>	$permission,
+					'value' => $blockRolePermission['value'],
+				]
+			];
+		}
+		$this->MockBlockRolePermission
+			->expects($this->once())
+			->method('find')
+			->with(
+				'all',
+				[
+					'recursive' => -1,
+					'conditions' => [
+						'roles_room_id' => Current::$current['RolesRoom']['id'],
+						'block_key' => Current::$current['Block']['key'],
+					],
+				]
+			)
+			->will($this->returnValue($value));
+
 	}
 
 }

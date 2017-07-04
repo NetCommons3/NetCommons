@@ -419,6 +419,29 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 				],
 			],
 
+			'general_user' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+			],
+
 		];
 	}
 
@@ -618,6 +641,13 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		$blockData = $this->__getBlockTestData();
 		$blockSettingData = $this->__getBlockSettingTestData();
 		$rolePermissionData = $this->__getRolePermissionTestData();
+		unset(
+			$rolePermissionData['room_administrator'],
+			$rolePermissionData['room_administrator'],
+			$rolePermissionData['chief_editor content true'],
+			$rolePermissionData['chief_editor content false'],
+			$rolePermissionData['general_user']
+		);
 		$expectedData = $this->__getExpectedData();
 
 		// Room approval is not required,Block not exists のデータ
@@ -897,22 +927,104 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 			}
 		}
 
+		return $data;
+	}
 
-		// Room approval is required,Block not exists,editor both false のデータ
-/*		$room = $roomData['Room approval is required'];
+/**
+ * general_user data provider
+ *
+ * @return array
+ */
+	public function generalUserProvider() {
+		$data = [];
+		$roomData = $this->__getRoomTestData();
+		$blockData = $this->__getBlockTestData();
+		$blockSettingData = $this->__getBlockSettingTestData();
+		$rolePermissionData = $this->__getRolePermissionTestData();
+		$expectedData = $this->__getExpectedData();
+
+		// Room approval is required,general_user のデータ
+		$room = $roomData['Room approval is required'];
+		$rolePermission = $rolePermissionData['general_user'];
+		foreach ($blockData as $blockDataName => $block) {
+			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
+				$dataName = 'Room approval is required,' .
+					$blockDataName . ',' .
+					$blockSettingDataName . ',' .
+					'general_user';
+				$data[$dataName] = [
+					$room + $block + $blockSetting + $rolePermission,
+					$expectedData['both false']
+				];
+			}
+		}
+
+		// Room approval is not required,Block not exists,general_user のデータ
+		$room = $roomData['Room approval is not required'];
 		$block = $blockData['Block not exists'];
 		foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {
-			$dataName = 'Room approval is required,' .
+			$dataName = 'Room approval is not required,' .
 				'Block not exists,' .
 				$blockSettingDataName . ',' .
-				'editor both false';
+				'general_user';
 			$data[$dataName] = [
 				$room + $block + $blockSetting + $rolePermission,
-				$expectedData['content true only']
+				$expectedData['both true']
 			];
-		}*/
+		}
 
+		// Room approval is not required,Block exists,BlockSetting use both,general_user のデータ
+		$block = $blockData['Block exists'];
+		$blockSetting = $blockSettingData['BlockSetting use both'];
+		$dataName = 'Room approval is not required,' .
+			'Block exists,' .
+			'BlockSetting use both,' .
+			'general_user';
+		$data[$dataName] = [
+			$room + $block + $blockSetting + $rolePermission,
+			$expectedData['both false']
+		];
 
+		// Room approval is not required,Block exists,BlockSetting use content and comment is null,general_user のデータ
+		$blockSetting = $blockSettingData['BlockSetting use content and comment is null'];
+		$dataName = 'Room approval is not required,' .
+			'Block exists,' .
+			'BlockSetting use content and comment is null,' .
+			'general_user';
+		$data[$dataName] = [
+			$room + $block + $blockSetting + $rolePermission,
+			$expectedData['comment true only']
+		];
+
+		// Room approval is not required,Block exists,BlockSetting use comment only,general_user のデータ
+		$blockSetting = $blockSettingData['BlockSetting use comment only'];
+		$dataName = 'Room approval is not required,' .
+			'Block exists,' .
+			'BlockSetting use comment only,' .
+			'general_user';
+		$data[$dataName] = [
+			$room + $block + $blockSetting + $rolePermission,
+			$expectedData['content true only']
+		];
+
+		// Room approval is not required,Block exists,BlockSetting unuse both,general_user のデータ
+		// Room approval is not required,Block exists,BlockSetting unuse content and comment is null,general_user のデータ
+		// Room approval is not required,Block exists,BlockSetting both are null,general_user のデータ
+		$blockSettings = [
+			'BlockSetting unuse both' => $blockSettingData['BlockSetting unuse both'],
+			'BlockSetting unuse content and comment is null' => $blockSettingData['BlockSetting unuse content and comment is null'],
+			'BlockSetting both are null' => $blockSettingData['BlockSetting both are null'],
+		];
+		foreach ($blockSettings as $blockSettingDataName => $blockSetting) {
+			$dataName = 'Room approval is not required,' .
+				'Block exists,' .
+				$blockSettingDataName . ',' .
+				'general_user';
+			$data[$dataName] = [
+				$room + $block + $blockSetting + $rolePermission,
+				$expectedData['both true']
+			];
+		}
 
 		return $data;
 	}
@@ -963,6 +1075,23 @@ class NetCommonsUtilityCurrentFrameSetBlockRolePermissionsTest extends CakeTestC
 		Current::$current = $data;
 		$this->__setMockBlockSetting($data);
 		$this->__setMockBlockRolePermission($data);
+
+		$this->CurrentFrame->setBlockRolePermissions();
+
+		$this->assertEquals($expected, Current::$current['Permission']);
+	}
+
+/**
+ * testGeneralUser method
+ *
+ * @param array $data test data
+ * @param array $expected permission data
+ * @dataProvider generalUserProvider
+ * @return void
+ */
+	public function testGeneralUser($data, $expected) {
+		Current::$current = $data;
+		$this->__setMockBlockSetting($data);
 
 		$this->CurrentFrame->setBlockRolePermissions();
 

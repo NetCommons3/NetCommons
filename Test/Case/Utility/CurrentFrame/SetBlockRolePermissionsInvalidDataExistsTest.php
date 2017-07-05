@@ -25,22 +25,10 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 		return [
 			'BlockRolePermission content_publishable true with same value as RoomRolePermission' => [
 				'DefaultRolePermission' => [
-					'content_publishable' => [
-						'permission' => 'content_publishable',
-						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => false,
-					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
-						'value' => true,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				],
@@ -53,23 +41,11 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 			],
 			'BlockRolePermission content_publishable true with different from RoomRolePermission' => [
 				'DefaultRolePermission' => [
-					'content_publishable' => [
-						'permission' => 'content_publishable',
-						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => false,
-					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
 						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => true,
 					],
 				],
 				'BlockRolePermission' => [
@@ -81,22 +57,10 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 			],
 			'BlockRolePermission content_publishable false with different from RoomRolePermission' => [
 				'DefaultRolePermission' => [
-					'content_publishable' => [
-						'permission' => 'content_publishable',
-						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => false,
-					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
-						'value' => true,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
 						'value' => true,
 					],
 				],
@@ -109,23 +73,11 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 			],
 			'BlockRolePermission content_publishable false with same value as RoomRolePermission' => [
 				'DefaultRolePermission' => [
-					'content_publishable' => [
-						'permission' => 'content_publishable',
-						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => false,
-					],
 				],
 				'RoomRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
 						'value' => false,
-					],
-					'content_comment_publishable' => [
-						'permission' => 'content_comment_publishable',
-						'value' => true,
 					],
 				],
 				'BlockRolePermission' => [
@@ -135,8 +87,6 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 					],
 				]
 			],
-
-
 		];
 	}
 
@@ -151,9 +101,8 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
 		$rolePermissionData = $this->__getRolePermissionTestDataForInvalid();
-		$expectedData = $this->_getExpectedData();
 
-		// Block not exists,oomRolePermission content_publishable true のデータ
+		// Block not exists,RoomRolePermission content_publishable true のデータ
 		$rolePermissions = [
 			'BlockRolePermission content_publishable true with same value as RoomRolePermission' =>
 				$rolePermissionData['BlockRolePermission content_publishable true with same value as RoomRolePermission'],
@@ -226,15 +175,8 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
 		$rolePermissionData = $this->__getRolePermissionTestDataForInvalid();
-		$expectedData = $this->_getExpectedData();
 
-		// Block not exists,oomRolePermission content_publishable true のデータ
-		$rolePermissions = [
-			'BlockRolePermission content_publishable true with same value as RoomRolePermission' =>
-				$rolePermissionData['BlockRolePermission content_publishable true with same value as RoomRolePermission'],
-			'BlockRolePermission content_publishable false with different from RoomRolePermission' =>
-				$rolePermissionData['BlockRolePermission content_publishable false with different from RoomRolePermission'],
-		];
+		// Block not exists のデータ
 		$block = $blockData['Block exists'];
 		foreach ($roomData as $roomDataName => $room) {
 			foreach ($blockSettingData as $blockSettingDataName => $blockSetting) {

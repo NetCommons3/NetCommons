@@ -17,6 +17,60 @@ App::uses('SetBlockRolePermissionsTestBase', 'NetCommons.Test/Case/Utility/Curre
 class SetBlockRolePermissionsChiefEditorTest extends SetBlockRolePermissionsTestBase {
 
 /**
+ * Get RolePermission test data for chief_editor
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForChiefEditor() {
+		return [
+			'chief_editor content true' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				]
+			],
+			'chief_editor content false' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				]
+			],
+		];
+	}
+
+/**
  * chief_editor data provider
  *
  * @return array
@@ -26,7 +80,7 @@ class SetBlockRolePermissionsChiefEditorTest extends SetBlockRolePermissionsTest
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForChiefEditor();
+		$rolePermissionData = $this->__getRolePermissionTestDataForChiefEditor();
 		$expectedData = $this->_getExpectedData();
 
 		// chief_editor content true のデータ

@@ -17,6 +17,39 @@ App::uses('SetBlockRolePermissionsTestBase', 'NetCommons.Test/Case/Utility/Curre
 class SetBlockRolePermissionsGeneralUserTest extends SetBlockRolePermissionsTestBase {
 
 /**
+ * Get RolePermission test data for general_user
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForGeneralUser() {
+		return [
+			'general_user' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+			],
+
+		];
+	}
+
+/**
  * general_user data provider
  *
  * @return array
@@ -26,7 +59,7 @@ class SetBlockRolePermissionsGeneralUserTest extends SetBlockRolePermissionsTest
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForGeneralUser();
+		$rolePermissionData = $this->__getRolePermissionTestDataForGeneralUser();
 		$expectedData = $this->_getExpectedData();
 
 		// Room approval is required,general_user のデータ

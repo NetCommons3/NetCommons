@@ -17,6 +17,192 @@ App::uses('SetBlockRolePermissionsTestBase', 'NetCommons.Test/Case/Utility/Curre
 class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase {
 
 /**
+ * Get RolePermission test data for editor of comment not null content true
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() {
+		return [
+			'editor both true' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'BlockRolePermission' => [
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				]
+			],
+			'editor content true only' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'BlockRolePermission' => [
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				]
+			],
+		];
+	}
+
+/**
+ * Get RolePermission test data for editor of comment not null content false
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() {
+		return [
+			'editor comment true only' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'BlockRolePermission' => [
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				]
+			],
+			'editor both false' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'BlockRolePermission' => [
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				]
+			]
+		];
+	}
+
+/**
+ * Get RolePermission test data for editor of comment null
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForEditorOfCommentNull() {
+		return [
+			'editor content true and comment is null' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+			],
+			'editor content false and comment is null' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => false,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => false,
+					],
+				],
+			],
+		];
+	}
+
+/**
  * editor data provider
  *
  * @return array
@@ -42,8 +228,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Room approval is not required,Block not exists のデータ
 		$room = $roomData['Room approval is not required'];
@@ -74,8 +263,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Block exists,editor both true のデータ
 		$block = $blockData['Block exists'];
@@ -120,8 +312,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Room approval is required,editor content true only のデータ
 		// Room approval is required,editor content true and comment is null のデータ
@@ -208,8 +403,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Room approval is required,Block exists,editor comment true only のデータ
 		$room = $roomData['Room approval is required'];
@@ -292,8 +490,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Room approval is required,editor both false のデータ
 		// Room approval is required,editor content false and comment is null のデータ
@@ -331,8 +532,11 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForEditor();
 		$expectedData = $this->_getExpectedData();
+
+		$rolePermissionData = $this->__getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() +
+			$this->__getRolePermissionTestDataForEditorOfCommentNull();
 
 		// Room approval is not required,Block exists,BlockSetting use both,editor both false のデータ
 		// Room approval is not required,Block exists,BlockSetting use both,editor content false and comment is null のデータ

@@ -17,6 +17,38 @@ App::uses('SetBlockRolePermissionsTestBase', 'NetCommons.Test/Case/Utility/Curre
 class SetBlockRolePermissionsRoomAdministratorTest extends SetBlockRolePermissionsTestBase {
 
 /**
+ * Get RolePermission test data for room_administrator
+ *
+ * @return array
+ */
+	private function __getRolePermissionTestDataForRoomAdministrator() {
+		return [
+			'room_administrator' => [
+				'DefaultRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				],
+				'RoomRolePermission' => [
+					'content_publishable' => [
+						'permission' => 'content_publishable',
+						'value' => true,
+					],
+					'content_comment_publishable' => [
+						'permission' => 'content_comment_publishable',
+						'value' => true,
+					],
+				]
+			]
+		];
+	}
+
+/**
  * room_administrator data provider
  *
  * @return array
@@ -26,7 +58,7 @@ class SetBlockRolePermissionsRoomAdministratorTest extends SetBlockRolePermissio
 		$roomData = $this->_getRoomTestData();
 		$blockData = $this->_getBlockTestData();
 		$blockSettingData = $this->_getBlockSettingTestData();
-		$rolePermissionData = $this->_getRolePermissionTestDataForRoomAdministrator();
+		$rolePermissionData = $this->__getRolePermissionTestDataForRoomAdministrator();
 		$expectedData = $this->_getExpectedData();
 
 		// Role.key:room_administrator のデータ

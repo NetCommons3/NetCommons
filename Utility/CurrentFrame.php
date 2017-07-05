@@ -299,9 +299,6 @@ class CurrentFrame {
 			'conditions' => array(
 				'roles_room_id' => Current::$current['RolesRoom']['id'],
 				'block_key' => Current::$current['Block']['key'],
-				// content_publishable は BlockRolePermission から無くなったが、取得時に除外しとく条件
-				// なんかあったらコメント外して対応
-				//'permission !=' => 'content_publishable'
 			)
 		));
 		if (!$result) {
@@ -311,6 +308,11 @@ class CurrentFrame {
 		Current::$current['BlockRolePermission'] = Hash::combine(
 			$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
 		);
+
+		// content_publishable は BlockRolePermission から無くなったが、あった場合throw Exception しとく
+		if (isset(Current::$current['BlockRolePermission']['content_publishable'])) {
+			throw new InternalErrorException('BlockRolePermission.content_publishable exists');
+		}
 	}
 
 /**

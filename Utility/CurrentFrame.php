@@ -285,6 +285,7 @@ class CurrentFrame {
 /**
  * Set current BlockRolePermissions
  *
+ * @throws InternalErrorException
  * @return void
  */
 	private function __setCurrentBlockRolePermission() {
@@ -310,6 +311,9 @@ class CurrentFrame {
 		);
 
 		// content_publishable は BlockRolePermission から無くなったが、あった場合throw Exception しとく
+		// アップデート時にMigrationで削除するのでありえない。
+		// unsetして継続させた方が良いのか？アップデート時は管理者で操作するので問題なし。
+		// アップデート時に、ファイル上書きして、プラグイン管理のアップデートを実行するまでの間あり得る
 		if (isset(Current::$current['BlockRolePermission']['content_publishable'])) {
 			throw new InternalErrorException('BlockRolePermission.content_publishable exists');
 		}

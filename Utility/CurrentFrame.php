@@ -244,7 +244,6 @@ class CurrentFrame {
  * Set BlockRolePermissions
  *
  * @return void
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setBlockRolePermissions() {
 		$this->BlockRolePermission = ClassRegistry::init('Blocks.BlockRolePermission');
@@ -254,20 +253,7 @@ class CurrentFrame {
 			return;
 		}
 
-		if (isset(Current::$current['RolesRoom']) && isset(Current::$current['Block']['key'])) {
-			$result = $this->BlockRolePermission->find('all', array(
-				'recursive' => -1,
-				'conditions' => array(
-					'roles_room_id' => Current::$current['RolesRoom']['id'],
-					'block_key' => Current::$current['Block']['key'],
-				)
-			));
-			if ($result) {
-				Current::$current['BlockRolePermission'] = Hash::combine(
-					$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
-				);
-			}
-		}
+		$this->__setCurrentBlockRolePermission();
 
 		$permission = array();
 		$permission = Hash::merge(
@@ -276,45 +262,100 @@ class CurrentFrame {
 		$permission = Hash::merge(
 			$permission, Hash::get(Current::$current, 'RoomRolePermission', array())
 		);
-		if (isset(Current::$current['BlockRolePermission'])) {
-			$permission = Hash::merge($permission, Current::$current['BlockRolePermission'], []);
-		} elseif (! Current::read('Room.need_approval')) {
-			$setPermissions = array(
-				'content_publishable' => array('value' => true),
-				'content_comment_publishable' => array('value' => true),
-			);
-			if (isset(Current::$current['Block']['key'])) {
-				$blockSetting = $this->BlockSetting->find('list', array(
-					'recursive' => -1,
-					'fields' => array('field_name', 'value'),
-					'conditions' => array(
-						'block_key' => Current::$current['Block']['key'],
-						'field_name' => array(
-							BlockSettingBehavior::FIELD_USE_WORKFLOW,
-							BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL
-						),
-					),
-				));
+		$permission = Hash::merge(
+			$permission, Hash::get(Current::$current, 'BlockRolePermission', array())
+		);
 
-				$useWorkflow = (bool)Hash::get(
-					$blockSetting, BlockSettingBehavior::FIELD_USE_WORKFLOW, '0'
-				);
-				if ($useWorkflow) {
-					$publishable = Hash::get($permission, 'content_publishable.value');
-					$setPermissions['content_publishable']['value'] = $publishable;
-				}
-				$useApproval = (bool)Hash::get(
-					$blockSetting, BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL, '0'
-				);
-				if ($useApproval) {
-					$publishable = Hash::get($permission, 'content_comment_publishable.value');
-					$setPermissions['content_comment_publishable']['value'] = $publishable;
-				}
-			}
-			$permission = Hash::merge($permission, $setPermissions);
+		if (Current::read('Room.need_approval')) {
+			Current::$current['Permission'] = $permission;
+			return;
 		}
 
-		Current::$current['Permission'] = $permission;
+		// お知らせの新規作成時に発生するケース
+		if (!isset(Current::$current['Block']['key'])) {
+			$permission['content_publishable']['value'] = true;
+			$permission['content_comment_publishable']['value'] = true;
+			Current::$current['Permission'] = $permission;
+
+			return;
+		}
+
+		Current::$current['Permission'] = $this->__getPermissionFromBlockSetting($permission);
+	}
+
+/**
+ * Set current BlockRolePermissions
+ *
+ * @throws InternalErrorException
+ * @return void
+ */
+	private function __setCurrentBlockRolePermission() {
+		if (!isset(Current::$current['RolesRoom']) ||
+			!isset(Current::$current['Block']['key'])
+		) {
+			return;
+		}
+
+		$result = $this->BlockRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'roles_room_id' => Current::$current['RolesRoom']['id'],
+				'block_key' => Current::$current['Block']['key'],
+			)
+		));
+		if (!$result) {
+			return;
+		}
+
+		Current::$current['BlockRolePermission'] = Hash::combine(
+			$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
+		);
+
+		// content_publishable は BlockRolePermission から無くなったが、あった場合throw Exception しとく
+		// アップデート時にMigrationで削除するのでありえない。
+		// unsetして継続させた方が良いのか？アップデート時は管理者で操作するので問題なし。
+		// アップデート時に、ファイル上書きして、プラグイン管理のアップデートを実行するまでの間あり得る
+		if (isset(Current::$current['BlockRolePermission']['content_publishable'])) {
+			throw new InternalErrorException('BlockRolePermission.content_publishable exists');
+		}
+	}
+
+/**
+ * Get permission from BlockSetting
+ *
+ * @param array $permission permission data
+ * @return void
+ */
+	private function __getPermissionFromBlockSetting($permission) {
+		$blockSetting = $this->BlockSetting->find('list', array(
+			'recursive' => -1,
+			'fields' => array('field_name', 'value'),
+			'conditions' => array(
+				'block_key' => Current::$current['Block']['key'],
+				'field_name' => array(
+					BlockSettingBehavior::FIELD_USE_WORKFLOW,
+					BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL
+				),
+			),
+		));
+		if (!$blockSetting) {
+			$permission['content_publishable']['value'] = true;
+			$permission['content_comment_publishable']['value'] = true;
+
+			return $permission;
+		}
+
+		$useWorkflow = Hash::get($blockSetting, [BlockSettingBehavior::FIELD_USE_WORKFLOW]);
+		if (!$useWorkflow) {
+			$permission['content_publishable']['value'] = true;
+		}
+
+		$useApproval = Hash::get($blockSetting, [BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL]);
+		if (!$useApproval) {
+			$permission['content_comment_publishable']['value'] = true;
+		}
+
+		return $permission;
 	}
 
 }

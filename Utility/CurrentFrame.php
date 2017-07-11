@@ -271,6 +271,7 @@ class CurrentFrame {
 			return;
 		}
 
+		// お知らせの新規作成時に発生するケース
 		if (!isset(Current::$current['Block']['key'])) {
 			$permission['content_publishable']['value'] = true;
 			$permission['content_comment_publishable']['value'] = true;

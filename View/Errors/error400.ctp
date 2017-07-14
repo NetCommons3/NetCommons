@@ -10,8 +10,8 @@
  */
 ?>
 
-<h2 class="error-title">
-	<?php echo $this->NetCommonsHtml->image('/net_commons/img/redirect_arrow.gif'); ?>
+<h2 class="error-title" style="background-image: url(<?php echo $this->NetCommonsHtml->url('/net_commons/img/redirect_arrow.gif'); ?>)">
+
 	<?php echo $message; ?>
 </h2>
 

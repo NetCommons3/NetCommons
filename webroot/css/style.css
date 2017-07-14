@@ -237,6 +237,8 @@ span.input-group-addon:not(:first-child):not(:last-child) {
  */
 .error-title {
 	margin-top: 40px;
+	padding-left: 40px;
+	background-repeat: no-repeat;
 }
 .error-body {
 	font-size: 20px;

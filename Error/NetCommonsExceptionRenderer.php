@@ -128,7 +128,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d('net_commons', $message);
 		}
 
-		return h($message);
+		return nl2br(h($message));
 	}
 
 /**

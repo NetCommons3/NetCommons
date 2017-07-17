@@ -20,7 +20,7 @@
         "cakedc/migrations":            "~2.2@stable",
         "cakephp/debug_kit":            "~2.2@stable",
         "chronon/mobile_detect":        "*@stable",
-        "mustangostang/spyc":           "~0.6@stable",
+        "mustangostang/spyc":           "~0.6.2@stable",
         "netcommons/blocks":            "@dev",
         "netcommons/boxes":             "@dev",
         "netcommons/community-space":   "@dev",

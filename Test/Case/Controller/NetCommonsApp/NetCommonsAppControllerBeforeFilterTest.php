@@ -94,7 +94,7 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
  * @return void
  */
 	public function testLanguageConfiguredThroughQuery() {
-		$this->testAction('/test_net_commons/test_net_commons/index?language=en', array());
+		$this->testAction('/test_net_commons/test_net_commons/index?lang=en', array());
 		$this->assertEquals(Configure::read('Config.language'), 'en');
 	}
 
@@ -104,7 +104,7 @@ class NetCommonsAppControllerBeforeFilterTest extends NetCommonsControllerTestCa
  * @return void
  */
 	public function testLanguageConfiguredThroughQuerySession() {
-		$this->testAction('/test_net_commons/test_net_commons/index?language=en', array());
+		$this->testAction('/test_net_commons/test_net_commons/index?lang=en', array());
 		$this->assertEquals(CakeSession::read('Config.language'), 'en');
 	}
 

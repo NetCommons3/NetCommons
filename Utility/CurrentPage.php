@@ -17,6 +17,7 @@ App::uses('Space', 'Rooms.Model');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CurrentPage {
 
@@ -163,28 +164,27 @@ class CurrentPage {
 			$pageId = Current::$request->data['Page']['id'];
 			$conditions = array('Page.id' => $pageId);
 
-		} elseif (Current::$request->params['plugin'] === Current::PLUGIN_PAGES) {
-			if (Current::$request->params['controller'] === 'pages') {
-				$value = implode('/', Current::$request->params['pass']);
-				if ($value === '') {
-					$value = Page::PUBLIC_ROOT_PAGE_ID;
-					$conditions = array('Page.root_id' => $value);
-				} else {
-					$conditions = array(
-						'Page.permalink' => $value,
-						'Room.space_id' => Hash::get(
-							Current::$request->params, 'spaceId', Space::PUBLIC_SPACE_ID
-						),
-					);
-				}
+		} elseif (!empty(Current::$request->params['pageView'])) {
+			$value = implode('/', Current::$request->params['pass']);
+			if ($value === '') {
+				$value = Page::PUBLIC_ROOT_PAGE_ID;
+				$conditions = array('Page.root_id' => $value);
 			} else {
-				$value = Hash::get(Current::$request->params, 'pass.1', '');
-				if (! $value) {
-					$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
-					$value = Hash::get(Current::$current, 'Room.page_id_top', '');
-				}
-				$conditions = array('Page.id' => $value);
+				$conditions = array(
+					'Page.permalink' => $value,
+					'Room.space_id' => Hash::get(
+						Current::$request->params, 'spaceId', Space::PUBLIC_SPACE_ID
+					),
+				);
 			}
+
+		} elseif (!empty(Current::$request->params['pageEdit'])) {
+			$value = Hash::get(Current::$request->params, 'pass.1', '');
+			if (! $value) {
+				$this->setRoom(Hash::get(Current::$request->params, 'pass.0', ''));
+				$value = Hash::get(Current::$current, 'Room.page_id_top', '');
+			}
+			$conditions = array('Page.id' => $value);
 
 		} elseif (Hash::get(Current::$request->query, 'page_id')) {
 			$pageId = Hash::get(Current::$request->query, 'page_id');

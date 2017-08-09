@@ -113,6 +113,7 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 		Current::$request->params['plugin'] = 'pages';
 		Current::$request->params['controller'] = 'pages';
 		Current::$request->params['pass'] = [];
+		Current::$request->params['pageView'] = true;
 
 		//テスト実施
 		$this->CurrentPage->setPage();
@@ -131,6 +132,7 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 		Current::$request->params['plugin'] = 'pages';
 		Current::$request->params['controller'] = 'pages';
 		Current::$request->params['pass'] = ['test4'];
+		Current::$request->params['pageView'] = true;
 
 		//テスト実施
 		$this->CurrentPage->setPage();
@@ -174,6 +176,7 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 		Current::$request->params['plugin'] = 'pages';
 		Current::$request->params['controller'] = 'pages_edit';
 		Current::$request->params['pass'] = ['2', '4'];
+		Current::$request->params['pageEdit'] = true;
 
 		//テスト実施
 		$this->CurrentPage->setPage();
@@ -192,6 +195,7 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 		Current::$request->params['plugin'] = 'pages';
 		Current::$request->params['controller'] = 'pages_edit';
 		Current::$request->params['pass'] = ['2'];
+		Current::$request->params['pageEdit'] = true;
 
 		//テスト実施
 		$this->CurrentPage->setPage();

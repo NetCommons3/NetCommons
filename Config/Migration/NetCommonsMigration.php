@@ -90,6 +90,7 @@ class NetCommonsMigration extends CakeMigration {
  * @param bool $clear 初期化するかどうか
  * @return bool Should process continue
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function updateRecords($model, $argRecords, $clear = false) {
 		if (isset($argRecords['class']) && isset($argRecords['records'])) {

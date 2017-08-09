@@ -36,6 +36,12 @@ class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
 		'plugin.frames.frames_language4frames',
 		'plugin.frames.block4frames',
 		'plugin.frames.plugin4frames',
+		'plugin.pages.box4pages',
+		'plugin.pages.boxes_page_container4pages',
+		'plugin.pages.page4pages',
+		'plugin.pages.page_container4pages',
+		'plugin.pages.roles_rooms_user4pages',
+		'plugin.pages.room4pages',
 	);
 
 /**

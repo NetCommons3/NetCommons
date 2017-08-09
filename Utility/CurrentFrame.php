@@ -11,6 +11,7 @@
 
 App::uses('Container', 'Containers.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
+App::uses('CurrentPage', 'NetCommons.Utility');
 
 /**
  * CurrentFrame Utility
@@ -32,11 +33,22 @@ class CurrentFrame {
 	);
 
 /**
+ * CurrentPage Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instancePage;
+
+/**
  * setup current data
  *
  * @return void
  */
 	public function initialize() {
+		if (! self::$_instancePage) {
+			self::$_instancePage = new CurrentPage();
+		}
+
 		$this->clear();
 
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
@@ -44,7 +56,7 @@ class CurrentFrame {
 			$this->setBlock();
 		}
 
-		(new CurrentPage())->initialize();
+		self::$_instancePage->initialize();
 
 		$this->setBlockRolePermissions();
 	}

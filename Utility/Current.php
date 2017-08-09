@@ -293,6 +293,27 @@ class Current extends CurrentBase {
 	protected static $_instance;
 
 /**
+ * CurrentSystem Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instanceSystem;
+
+/**
+ * CurrentFrame Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instanceFrame;
+
+/**
+ * CurrentPage Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instancePage;
+
+/**
  * setup current data
  *
  * @param Controller $controller コントローラ
@@ -301,6 +322,15 @@ class Current extends CurrentBase {
 	public static function initialize(Controller $controller) {
 		if (! self::$_instance) {
 			self::$_instance = new Current();
+		}
+		if (! self::$_instanceSystem) {
+			self::$_instanceSystem = new CurrentSystem();
+		}
+		if (! self::$_instanceFrame) {
+			self::$_instanceFrame = new CurrentFrame();
+		}
+		if (! self::$_instancePage) {
+			self::$_instancePage = new CurrentPage();
 		}
 
 		self::$request = clone $controller->request;
@@ -326,14 +356,14 @@ class Current extends CurrentBase {
 		}
 		self::$current['User'] = AuthComponent::user();
 
-		(new CurrentSystem())->initialize();
+		self::$_instanceSystem->initialize();
 
 		if (! self::isControlPanel()) {
-			(new CurrentFrame())->initialize();
+			self::$_instanceFrame->initialize();
 		}
 
 		//会員権限に紐づくパーミッションのセット
-		(new CurrentPage())->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
+		self::$_instancePage->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
 
 		if (empty($controller->request->params['requested'])) {
 			self::$originalCurrent = self::$current;

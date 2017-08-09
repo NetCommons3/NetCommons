@@ -28,6 +28,13 @@ class CurrentPage {
 	const DEFAULT_ROOM_ROLE_KEY = 'visitor';
 
 /**
+ * CurrentFrame Instance object
+ *
+ * @var mixed
+ */
+	protected static $_instanceFrame;
+
+/**
  * setup current data
  *
  * @return void
@@ -284,7 +291,10 @@ class CurrentPage {
 			Current::setCurrent($result);
 		}
 
-		(new CurrentFrame())->setBoxPageContainer();
+		if (! self::$_instanceFrame) {
+			self::$_instanceFrame = new CurrentFrame();
+		}
+		self::$_instanceFrame->setBoxPageContainer();
 	}
 
 /**

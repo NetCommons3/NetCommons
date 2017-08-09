@@ -96,7 +96,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 			'Room' => array(
 				'id' => '2',
 				'space_id' => '2',
-				'page_id_top' => '1',
+				'page_id_top' => '4',
 				'parent_id' => '1',
 				'lft' => '2',
 				'rght' => '7',

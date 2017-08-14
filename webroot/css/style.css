@@ -558,6 +558,17 @@ ul.nav-pills {
 }
 
 /**
+ * 引用
+ */
+.nc-btn-blockquote {
+	padding: 0 10px;
+	font-size: 0.7em;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	border-radius: 0;
+}
+
+/**
  * ドロップダウン枠内文字表示制限
  */
 .nc-category-ellipsis {

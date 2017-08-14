@@ -19,5 +19,10 @@ $(function() {
 	$(document).on('keypress', 'input:not(.allow-submit)', function(event) {
 		return event.which !== 13;
 	});
+	$('article > blockquote').css('display', 'none');
+	$('<button class="btn btn-default nc-btn-blockquote"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span> </button>')
+		.insertBefore('article > blockquote').on('click', function(event) {
+			$(this).next('blockquote').toggle();
+		});
 });
 </script>

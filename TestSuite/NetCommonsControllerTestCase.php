@@ -19,7 +19,7 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
+abstract class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 
 /**
  * Load TestPlugin

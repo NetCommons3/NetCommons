@@ -19,7 +19,7 @@ App::uses('File', 'Utility');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
+abstract class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 
 /**
  * Plugin name

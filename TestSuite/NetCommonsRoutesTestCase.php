@@ -17,7 +17,7 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsRoutesTestCase extends NetCommonsCakeTestCase {
+abstract class NetCommonsRoutesTestCase extends NetCommonsCakeTestCase {
 
 /**
  * Plugin name

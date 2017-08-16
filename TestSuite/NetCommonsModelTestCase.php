@@ -19,7 +19,7 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
+abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 
 /**
  * setUp method

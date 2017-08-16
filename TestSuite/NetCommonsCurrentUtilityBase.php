@@ -23,7 +23,7 @@ App::uses('Current', 'NetCommons.Utility');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
+abstract class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures

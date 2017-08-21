@@ -110,7 +110,7 @@ class NetCommonsTime {
  * @return string サーバタイムゾーンに変換された日時
  */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
-		if ($userTimezone === null) {
+		if (! $userTimezone) {
 			$userTimezone = $this->getUserTimezone();
 		}
 		$date = new DateTime($userDatetime, new DateTimeZone($userTimezone));

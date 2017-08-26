@@ -24,7 +24,7 @@ App::uses('CurrentSystem', 'NetCommons.Utility');
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @codeCoverageIgnore
  */
-abstract class NetCommonsHelperTestCase extends NetCommonsCakeTestCase {
+abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 
 /**
  * Plugin name

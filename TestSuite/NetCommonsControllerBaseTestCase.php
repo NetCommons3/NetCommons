@@ -29,7 +29,7 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsControllerBaseTestCase extends ControllerTestCase {
+abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 /**
  * Plugin name
@@ -197,12 +197,12 @@ class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 		if (Hash::check($mocks, 'components.Session')) {
 			$default = array('components' => array(
-				'Auth' => array('user'),
+				//'Auth' => array('user'),
 				'Security',
 			));
 		} else {
 			$default = array('components' => array(
-				'Auth' => array('user'),
+				//'Auth' => array('user'),
 				'Session',
 				'Security',
 			));

@@ -23,7 +23,7 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsCakeTestCase extends CakeTestCase {
+abstract class NetCommonsCakeTestCase extends CakeTestCase {
 
 /**
  * Plugin name

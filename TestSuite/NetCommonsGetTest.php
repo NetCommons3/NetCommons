@@ -17,6 +17,6 @@ App::uses('NetCommonsModelTestCase', 'NetCommons.TestSuite');
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
  */
-class NetCommonsGetTest extends NetCommonsModelTestCase {
+abstract class NetCommonsGetTest extends NetCommonsModelTestCase {
 
 }

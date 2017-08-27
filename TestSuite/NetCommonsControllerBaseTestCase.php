@@ -28,6 +28,7 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 

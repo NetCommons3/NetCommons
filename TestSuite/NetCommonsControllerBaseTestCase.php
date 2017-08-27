@@ -146,6 +146,8 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		Configure::write('Config.language', 'ja');
 		(new CurrentSystem())->setLanguage();
 
+		AuthComponent::$sessionKey = false;
+
 		if ($this->_controller) {
 			$this->generateNc(Inflector::camelize($this->_controller));
 		}

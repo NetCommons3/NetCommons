@@ -162,6 +162,7 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
+		AuthComponent::$sessionKey = 'Auth.User';
 
 		Current::$current = array();
 		Current::$permission = array();

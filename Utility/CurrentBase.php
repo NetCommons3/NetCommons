@@ -269,6 +269,29 @@ class CurrentBase {
 	}
 
 /**
+ * 指定された$keyの値を$originalCurrentから返します。
+ *
+ * 現在のBlockKeyを取得したい場合
+ * ```
+ * Cuurent::readOrignal('Block.key')
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath
+ * @param mixed $default デフォルト値
+ * @return array|null Current data.
+ */
+	public static function raedOriginal($key = null, $default = null) {
+		if (! isset(self::$originalCurrent)) {
+			return self::$originalCurrent;
+		}
+
+		if (! isset($key)) {
+			return self::$originalCurrent;
+		}
+		return Hash::get(self::$originalCurrent, $key, $default);
+	}
+
+/**
  * 指定された$keyの値をセットします
  *
  * 現在のBlockKeyをセットしたい場合
@@ -288,6 +311,29 @@ class CurrentBase {
 			self::$current = Hash::merge(self::$current, $value);
 		} else {
 			self::$current = Hash::insert(self::$current, $key, $value);
+		}
+	}
+
+/**
+ * 指定された$keyの値を$originalCurrentにセットします
+ *
+ * 現在のBlockKeyをセットしたい場合
+ * ```
+ * Cuurent::writeOriginal('Block.key', 'block_key)
+ * ```
+ *
+ * @param string|null $key Hashクラスのpath、nullの場合、Hash::mergeする
+ * @param mixted $value セットする値
+ * @return void
+ */
+	public static function writeOriginal($key, $value) {
+		if (! isset(self::$originalCurrent)) {
+			self::$originalCurrent = array();
+		}
+		if (! isset($key)) {
+			self::$originalCurrent = Hash::merge(self::$originalCurrent, $value);
+		} else {
+			self::$originalCurrent = Hash::insert(self::$originalCurrent, $key, $value);
 		}
 	}
 

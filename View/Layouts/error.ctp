@@ -32,7 +32,7 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 </head>
 
 <body ng-controller="NetCommons.base">
-	<?php echo $this->Session->flash(); ?>
+	<?php echo $this->Flash->render(); ?>
 
 	<main class="container">
 		<?php echo $this->fetch('content'); ?>

@@ -113,7 +113,6 @@ class NetCommonsComponent extends Component {
 		$params = Hash::merge(array(
 			'class' => 'danger',
 			'interval' => null,
-			'plugin' => 'NetCommons',
 			'ajax' => $this->controller->request->is('ajax'),
 		), $params);
 
@@ -124,7 +123,9 @@ class NetCommonsComponent extends Component {
 		if ($params['ajax']) {
 			$this->renderJson($params, $message, $status);
 		} else {
-			$this->controller->Session->setFlash($message, $element, $params);
+			$this->controller->Flash->set($message, [
+				'element' => 'NetCommons.' . $element, 'params' => $params
+			]);
 		}
 	}
 

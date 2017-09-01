@@ -123,7 +123,9 @@ class NetCommonsComponent extends Component {
 		if ($params['ajax']) {
 			$this->renderJson($params, $message, $status);
 		} else {
-			$this->controller->Flash->set($message, ['element' => 'NetCommons.' . $element, 'params' => $params]);
+			$this->controller->Flash->set($message, [
+				'element' => 'NetCommons.' . $element, 'params' => $params
+			]);
 		}
 	}
 

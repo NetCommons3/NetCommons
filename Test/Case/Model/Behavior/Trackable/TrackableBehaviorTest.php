@@ -9,6 +9,9 @@
  */
 
 App::uses('TrackableBehaviorTestBase', 'NetCommons.Test/Case/Model/Behavior/Trackable');
+App::uses('AuthComponent', 'Controller/Component');
+App::uses('Role', 'Roles.Model');
+App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 
 /**
  * TrackableBehaviorTest
@@ -22,8 +25,13 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
  * @return void
  */
 	protected function _testFieldPopulation($authCallback) {
+		$reflectionClass = new ReflectionClass('AuthComponent');
+		$property = $reflectionClass->getProperty('_user');
+		$property->setAccessible(true);
+
 		$this->{$authCallback}();
 
+		$property->setValue($this, TestAuthGeneral::$roles[Role::ROOM_ROLE_KEY_ROOM_ADMINISTRATOR]);
 		$this->model->create(array('id' => 1, 'title' => 'foobar'));
 		$result = $this->model->save();
 		$data = $result['TestModel'];
@@ -35,6 +43,7 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
 		unset($data['modified_user']);
 		unset($data['modified']);
 
+		$property->setValue($this, TestAuthGeneral::$roles[Role::ROOM_ROLE_KEY_CHIEF_EDITOR]);
 		$this->{$authCallback}('id', 2);
 
 		$data['title'] = 'spameggs';
@@ -47,6 +56,8 @@ class TrackableBehaviorTest extends TrackableBehaviorTestBase {
 		$this->assertTrue(array_key_exists('TrackableUpdater', $result));
 		$this->assertEquals(1, $data['created_user']);
 		$this->assertEquals(2, $data['modified_user']);
+
+		$property->setValue($this, []);
 	}
 
 /**

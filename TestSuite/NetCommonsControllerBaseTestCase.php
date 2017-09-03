@@ -263,14 +263,15 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
- * 日時の評価
+ * Assert Date time
  *
- * @param string $result 期待値
+ * @param string $result Result data
  * @param string $message メッセージ
  * @return void
  */
 	public function assertDatetime($result, $message = null) {
-		(new NetCommonsCakeTestCase())->assertDatetime($result, $message);
+		$pattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/';
+		$this->assertRegExp($pattern, $result, $message);
 	}
 
 /**

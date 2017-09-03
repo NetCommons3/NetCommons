@@ -21,6 +21,7 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('Role', 'Roles.Model');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
+App::uses('AuthComponent', 'Controller/Component');
 
 /**
  * NetCommonsControllerTestCase
@@ -141,11 +142,16 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	public function setUp() {
 		NetCommonsCakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
 
+		$this->_clear();
+
 		parent::setUp();
 
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
-		(new CurrentSystem())->setLanguage();
+		Current::$current['Language'] = [
+			'id' => '2',
+			'code' => 'ja',
+		];
 
 		AuthComponent::$sessionKey = false;
 
@@ -155,11 +161,11 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
- * tearDown method
+ * 初期化
  *
  * @return void
  */
-	public function tearDown() {
+	protected function _clear() {
 		Configure::write('NetCommons.installed', false);
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
@@ -171,6 +177,14 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		OriginalKeyBehavior::$isUnitRandomKey = false;
 
 		SiteSettingUtil::reset();
+	}
+
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
 		parent::tearDown();
 	}
 
@@ -213,6 +227,9 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		}
 
 		$this->generate($plugin . '.' . $controller, Hash::merge($default, $mocks));
+
+		//throwが実行されるとログイン情報が残っているため、初期化する
+		TestAuthGeneral::logout($this);
 	}
 
 /**
@@ -246,14 +263,15 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 	}
 
 /**
- * 日時の評価
+ * Assert Date time
  *
- * @param string $result 期待値
+ * @param string $result Result data
  * @param string $message メッセージ
  * @return void
  */
 	public function assertDatetime($result, $message = null) {
-		(new NetCommonsCakeTestCase())->assertDatetime($result, $message);
+		$pattern = '/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/';
+		$this->assertRegExp($pattern, $result, $message);
 	}
 
 /**

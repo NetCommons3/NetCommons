@@ -66,7 +66,7 @@ class TrackableUserModel extends AppModel {
 /**
  * Base class of TrackableBehavior test case
  */
-class TrackableBehaviorTestBase extends NetCommonsCakeTestCase {
+abstract class TrackableBehaviorTestBase extends NetCommonsCakeTestCase {
 
 /**
  * Fixtures

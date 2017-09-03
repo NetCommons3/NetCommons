@@ -126,6 +126,8 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		$this->_clear();
+
 		parent::setUp();
 
 		Configure::write('NetCommons.installed', true);
@@ -142,7 +144,7 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown() {
+	protected function _clear() {
 		if ($this->_modelName) {
 			$model = $this->_modelName;
 			unset($this->$model);
@@ -156,7 +158,14 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
 		Current::$permission = array();
 
 		OriginalKeyBehavior::$isUnitRandomKey = false;
+	}
 
+/**
+ * tearDown method
+ *
+ * @return void
+ */
+	public function tearDown() {
 		parent::tearDown();
 	}
 

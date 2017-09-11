@@ -16,6 +16,8 @@ App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
+App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
+App::uses('AuthComponent', 'Controller/Component');
 
 /**
  * NetCommonsCakeTestCase class
@@ -158,6 +160,12 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
 		Current::$permission = array();
 
 		OriginalKeyBehavior::$isUnitRandomKey = false;
+
+		//throwが実行されるとログイン情報が残っているため、初期化する
+		$reflectionClass = new ReflectionClass('AuthComponent');
+		$property = $reflectionClass->getProperty('_user');
+		$property->setAccessible(true);
+		$property->setValue([]);
 	}
 
 /**

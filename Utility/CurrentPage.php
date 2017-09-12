@@ -158,6 +158,7 @@ class CurrentPage {
  * ページ取得の条件取得
  *
  * @return array 条件配列
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	private function __getPageConditions() {
 		if (Hash::get(Current::$request->data, 'Page.id')) {
@@ -188,6 +189,10 @@ class CurrentPage {
 
 		} elseif (Hash::get(Current::$request->query, 'page_id')) {
 			$pageId = Hash::get(Current::$request->query, 'page_id');
+			$conditions = array('Page.id' => $pageId);
+
+		} elseif (Hash::get(Current::$request->params, 'page_id')) {
+			$pageId = Hash::get(Current::$request->params, 'page_id');
 			$conditions = array('Page.id' => $pageId);
 
 		} elseif (in_array(Current::$request->params['plugin'],

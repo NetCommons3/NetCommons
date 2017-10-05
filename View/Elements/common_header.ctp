@@ -14,13 +14,19 @@ if (! isset($pageContainerCss)) {
 if (! isset($isSettingMode)) {
 	$isSettingMode = Current::isSettingMode();
 }
+/* 未ログイン時にはヘッダーメニューを表示しないこともカスタマイズでできるようにcss追加 */
+if (AuthComponent::user()) {
+	$ncSystemHeaderCss = 'nc-system-header-loggedin';
+} else {
+	$ncSystemHeaderCss = 'nc-system-header-nologgedin';
+}
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
 	<?php echo $flashMessage; ?>
 <?php endif; ?>
 
-<header id="nc-system-header">
+<header id="nc-system-header" class="<?php echo $ncSystemHeaderCss; ?>">
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="<?php echo $pageContainerCss; ?> clearfix text-nowrap">
 			<div class="navbar-header">

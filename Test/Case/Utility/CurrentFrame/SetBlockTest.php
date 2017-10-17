@@ -178,6 +178,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'weight' => '1',
 				'is_deleted' => false,
 				'default_action' => '',
+				'default_setting_action' => '',
 			),
 			'Box' => array(
 				'id' => '1',

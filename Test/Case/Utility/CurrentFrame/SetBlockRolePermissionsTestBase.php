@@ -16,7 +16,7 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * SetBlockRolePermissionsTestBase
  *
  */
-class SetBlockRolePermissionsTestBase extends CakeTestCase {
+abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 
 /**
  * CurrentFrame

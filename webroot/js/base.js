@@ -100,6 +100,61 @@ NetCommonsApp.directive('ncFocus', ['$timeout', function($timeout) {
 
 
 /**
+ * AJAXのPOSTリクエスト送信処理 factory Javascript
+ *
+ * @param {string} Controller name
+ * @param {function('$http', '$q', 'NC3_URL')} Controller
+ */
+NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http, $q, NC3_URL) {
+  return function(method, url, post) {
+
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
+        .then(function(response) {
+          var token = response.data;
+          post._Token.key = token.data._Token.key;
+
+          //POSTリクエスト
+          $http.post(
+              NC3_URL + url,
+              $.param({_method: method, data: post}),
+              {cache: false,
+                headers:
+                    {'Content-Type': 'application/x-www-form-urlencoded'}
+              }
+          ).then(
+          function(response) {
+                //success condition
+                deferred.resolve(response);
+              },
+          function(response) {
+                //error condition
+                deferred.reject(response);
+              });
+        },
+        function(response) {
+          //Token error condition
+          deferred.reject(response);
+        });
+
+    promise.success = function(fn) {
+      promise.then(fn);
+      return promise;
+    };
+
+    promise.error = function(fn) {
+      promise.then(null, fn);
+      return promise;
+    };
+
+    return promise;
+  };
+}]);
+
+
+/**
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',

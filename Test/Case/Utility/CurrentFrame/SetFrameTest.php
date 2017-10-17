@@ -255,6 +255,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'weight' => '1',
 				'is_deleted' => false,
 				'default_action' => '',
+				'default_setting_action' => '',
 			),
 			'Box' => array(
 				'id' => '1',
@@ -398,6 +399,7 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'weight' => '1',
 				'is_deleted' => false,
 				'default_action' => '',
+				'default_setting_action' => '',
 			),
 			'Plugin' => array(
 				'id' => '2',

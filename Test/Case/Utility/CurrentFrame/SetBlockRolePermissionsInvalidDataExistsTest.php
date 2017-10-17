@@ -219,10 +219,11 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
  * @param array $data test data
  * @param array $expected permission data
  * @dataProvider blockExistsProvider
- * @expectedException InternalErrorException
  * @return void
  */
 	public function testInvalidDataBlockExists($data) {
+		$this->setExpectedException('InternalErrorException');
+
 		Current::$current = $data;
 		$this->_setMockBlockRolePermission($data);
 

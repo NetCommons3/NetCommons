@@ -74,10 +74,11 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
  * @param array $reqestData $helper->_View->request->dataに値をセットする配列
  * @param array $params $helper->_View->paramsに値をセットする配列
  * @param array $helpers ヘルパー配列
+ * @param array $validationErrors バリデーションエラー
  * @return void
  */
 	public function loadHelper($helper, $viewVars = [],
-								$reqestData = [], $params = [], $helpers = []) {
+						$reqestData = [], $params = [], $helpers = [], $validationErrors = null) {
 		list($plugin, $helper) = pluginSplit($helper);
 		if (! $plugin) {
 			$plugin = $this->plugin;
@@ -98,6 +99,9 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 		$View = new View($Controller);
 		$View->plugin = Inflector::camelize($this->plugin);
 		$View->helpers = $helpers;
+		if ($validationErrors) {
+			$View->validationErrors = $validationErrors;
+		}
 		$View->loadHelpers();
 		$this->$helper = new $helperClass($View);
 	}

@@ -99,7 +99,7 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 		$View = new View($Controller);
 		$View->plugin = Inflector::camelize($this->plugin);
 		$View->helpers = $helpers;
-		if ($errors) {
+		if ($validationErrors) {
 			$View->validationErrors = $validationErrors;
 		}
 		$View->loadHelpers();

@@ -77,7 +77,7 @@ abstract class NetCommonsControllerTestCase extends NetCommonsControllerBaseTest
  * @param array $paramsOptions リクエストパラメータオプション
  * @param string|null $exception Exception
  * @param string $return testActionの実行後の結果
- * @return void
+ * @return mixed
  */
 	protected function _testNcAction($url = [], $paramsOptions = [],
 										$exception = null, $return = 'view') {

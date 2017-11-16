@@ -77,7 +77,8 @@ if (AuthComponent::user()) {
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting off'), NetCommonsUrl::backToPageUrl()); ?>
 						</li>
-					<?php elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable', Current::read('Page.room_id'))) : ?>
+					<?php /* elseif (Current::hasSettingMode() && $isSettingMode && Current::permission('page_editable', Current::read('Page.room_id'))) : */ ?>
+					<?php elseif (Current::hasSettingMode() && Current::permission('page_editable', Current::read('Page.room_id'))) : ?>
 						<li>
 							<?php echo $this->NetCommonsHtml->link(__d('pages', 'Page Setting on'),
 									'/pages/pages_edit/index/' . Current::read('Page.room_id') . '/' . Current::read('Page.id')); ?>

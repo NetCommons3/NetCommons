@@ -47,4 +47,27 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		return !(bool)preg_match('/[^' . $pattern . ']/', $value);
 	}
 
+/**
+ * notBlankをNC3用にカスタマイズ
+ *
+ * @param Model $model 呼び出し元モデル
+ * @param array $check チェック値
+ * @return bool
+ */
+	public function notBlank(Model $model, $check) {
+		$value = array_shift($check);
+		$value = preg_replace('/((' . preg_quote('&nbsp;', '/') . ')+)/', ' ', $value);
+
+		if (empty($value) && !is_bool($value) && !is_numeric($value)) {
+			return false;
+		}
+
+		$regex = '/[^\s　' . preg_quote('$`', '/') . ']+/m';
+		if (is_string($regex) && is_scalar($value) && preg_match($regex, $value)) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

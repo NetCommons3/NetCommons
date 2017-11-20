@@ -48,8 +48,8 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 /**
  * notBlank()バリデーションのテストデータ
  *
- * ### テストケース1
- * エラーでない正常値
+ * ### テストケース1(エラーでない正常値)
+ * not_blank_1
  *
  * ### テストケース2
  * 空値
@@ -80,6 +80,9 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  *
  * ### テストケース11
  * `␣`
+ *
+ * ### テストケース12(エラーでない正常値)
+ * $aaaa$
  *
  * @return void
  */
@@ -161,6 +164,13 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 					'value' => 'Value Not blank',
 				],
 				'isError' => true,
+			],
+			'not_blank_12' => [
+				'data' => [
+					'key' => '$aaaa$',
+					'value' => 'Value Not blank',
+				],
+				'isError' => false,
 			],
 		];
 	}

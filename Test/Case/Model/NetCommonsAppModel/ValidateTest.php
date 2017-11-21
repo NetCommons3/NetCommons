@@ -86,7 +86,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * `␣`
  *
  * ### テストケース12(エラーでない正常値)
- * $aaaa$
+ * '$aaaa$'
  *
  * @return void
  */

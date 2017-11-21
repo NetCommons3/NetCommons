@@ -46,25 +46,29 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 	}
 
 /**
- * notBlank()バリデーションのテストデータ
+ * notBlankバリデーションのテストデータ
+ *
+ * ※わかりやすく、全角・半角スペース
+ * ␣：半角スペース
+ * □：全角スペース
  *
  * ### テストケース1
- * エラーでない正常値
+ * 'not_blank_1'
  *
  * ### テストケース2
- * 空値
+ * ''
  *
  * ### テストケース3
- * 半角スペース1つ
+ * '␣'
  *
  * ### テストケース4
- * 半角スペース2つ
+ * '␣␣'
  *
  * ### テストケース5
- * 全角スペース1つ
+ * '□'
  *
  * ### テストケース6
- * 全角スペース2つ
+ * '□□'
  *
  * ### テストケース7
  * $$
@@ -166,7 +170,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 	}
 
 /**
- * notBlank()バリデーションのテスト
+ * notBlankバリデーションのテスト
  *
  * @param array $data テストデータ
  * @param bool $isError エラーかどうか
@@ -192,6 +196,141 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 			$expected = [
 				'key' => [
 					0 => 'Not Blank'
+				],
+			];
+			$this->assertEquals($expected, $this->TestModel->validationErrors);
+		} else {
+			$this->assertTrue($result);
+		}
+	}
+
+/**
+ * booleanバリデーションのテストデータ
+ *
+ * ### テストケース1
+ * true
+ *
+ * ### テストケース2
+ * false
+ *
+ * ### テストケース3
+ * '1'
+ *
+ * ### テストケース4
+ * '0',
+ *
+ * ### テストケース5
+ * 1
+ *
+ * ### テストケース6
+ * 0
+ *
+ * ### テストケース7
+ * 'a'
+ *
+ * ### テストケース8
+ * 'true'
+ *
+ * ### テストケース9
+ * 'false'
+ *
+ * ### テストケース10
+ * 2
+ *
+ * @return void
+ */
+	public function dataProviderBoolean() {
+		return [
+			'boolean_1' => [
+				'data' => [
+					'key' => true,
+				],
+				'isError' => false,
+			],
+			'boolean_2' => [
+				'data' => [
+					'key' => false,
+				],
+				'isError' => false,
+			],
+			'boolean_3' => [
+				'data' => [
+					'key' => '1',
+				],
+				'isError' => false,
+			],
+			'boolean_4' => [
+				'data' => [
+					'key' => '0',
+				],
+				'isError' => false,
+			],
+			'boolean_5' => [
+				'data' => [
+					'key' => 1,
+				],
+				'isError' => false,
+			],
+			'boolean_6' => [
+				'data' => [
+					'key' => 0,
+				],
+				'isError' => false,
+			],
+			'boolean_7' => [
+				'data' => [
+					'key' => 'a',
+				],
+				'isError' => true,
+			],
+			'boolean_8' => [
+				'data' => [
+					'key' => 'true',
+				],
+				'isError' => true,
+			],
+			'boolean_9' => [
+				'data' => [
+					'key' => 'false',
+				],
+				'isError' => true,
+			],
+			'boolean_10' => [
+				'data' => [
+					'key' => 2,
+				],
+				'isError' => true,
+			],
+		];
+	}
+
+/**
+ * booleanバリデーションのテスト
+ *
+ * @param array $data テストデータ
+ * @param bool $isError エラーかどうか
+ * @return void
+ * @dataProvider dataProviderBoolean
+ */
+	public function testBoolean($data, $isError) {
+		$this->assertEmpty($this->TestModel->validationErrors);
+
+		$this->TestModel->validate = [
+			'key' => [
+				'boolean' => [
+					'rule' => ['boolean'],
+					'message' => 'Not boolean'
+				]
+			]
+		];
+		$this->TestModel->set($data);
+
+		$result = $this->TestModel->validates();
+		if ($isError) {
+			$this->assertFalse($result);
+			$expected = [
+				'key' => [
+					0 => 'Not boolean'
 				],
 			];
 			$this->assertEquals($expected, $this->TestModel->validationErrors);

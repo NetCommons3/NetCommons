@@ -85,6 +85,9 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * ### テストケース11
  * `␣`
  *
+ * ### テストケース12(エラーでない正常値)
+ * $aaaa$
+ *
  * @return void
  */
 	public function dataProviderNotBlank() {
@@ -165,6 +168,13 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 					'value' => 'Value Not blank',
 				],
 				'isError' => true,
+			],
+			'not_blank_12' => [
+				'data' => [
+					'key' => '$aaaa$',
+					'value' => 'Value Not blank',
+				],
+				'isError' => false,
 			],
 		];
 	}

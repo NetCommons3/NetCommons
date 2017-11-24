@@ -218,34 +218,40 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * booleanバリデーションのテストデータ
  *
  * ### テストケース1
- * true
+ * true => OK
  *
  * ### テストケース2
- * false
+ * false => OK
  *
  * ### テストケース3
- * '1'
+ * '1' => OK
  *
  * ### テストケース4
- * '0',
+ * '0' => OK
  *
  * ### テストケース5
- * 1
+ * 1 => OK
  *
  * ### テストケース6
- * 0
+ * 0 => OK
  *
  * ### テストケース7
- * 'a'
+ * 'a' => Error
  *
  * ### テストケース8
- * 'true'
+ * 'true' => Error
  *
  * ### テストケース9
- * 'false'
+ * 'false' => Error
  *
  * ### テストケース10
- * 2
+ * 2 => Error
+ *
+ * ### テストケース11
+ * '' => Error
+ *
+ * ### テストケース12(allowEmpty=trueにした場合)
+ * '' => OK
  *
  * @return void
  */
@@ -311,6 +317,19 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 				],
 				'isError' => true,
 			],
+			'boolean_11' => [
+				'data' => [
+					'key' => '',
+				],
+				'isError' => true,
+			],
+			'boolean_12' => [
+				'data' => [
+					'key' => '',
+				],
+				'isError' => false,
+				'allowEmpty' => true,
+			],
 		];
 	}
 
@@ -322,14 +341,15 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * @return void
  * @dataProvider dataProviderBoolean
  */
-	public function testBoolean($data, $isError) {
+	public function testBoolean($data, $isError, $allowEmpty = null) {
 		$this->assertEmpty($this->TestModel->validationErrors);
 
 		$this->TestModel->validate = [
 			'key' => [
 				'boolean' => [
 					'rule' => ['boolean'],
-					'message' => 'Not boolean'
+					'message' => 'Not boolean',
+					'allowEmpty' => $allowEmpty,
 				]
 			]
 		];

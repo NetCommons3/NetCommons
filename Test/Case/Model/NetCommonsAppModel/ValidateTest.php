@@ -53,40 +53,40 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * □：全角スペース
  *
  * ### テストケース1
- * 'not_blank_1'
+ * 'not_blank_1' => OK
  *
  * ### テストケース2
- * ''
+ * '' => Error
  *
  * ### テストケース3
- * '␣'
+ * '␣' => Error
  *
  * ### テストケース4
- * '␣␣'
+ * '␣␣' => Error
  *
  * ### テストケース5
- * '□'
+ * '□' => Error
  *
  * ### テストケース6
- * '□□'
+ * '□□' => Error
  *
  * ### テストケース7
- * $$
+ * $$ => Error
  *
  * ### テストケース8
- * $␣$
+ * $␣$ => Error
  *
  * ### テストケース9
- * ␣&nbsp␣;
+ * ␣&nbsp␣; => Error
  *
  * ### テストケース10
- * ``
+ * `` => Error
  *
  * ### テストケース11
- * `␣`
+ * `␣` => Error
  *
- * ### テストケース12(エラーでない正常値)
- * '$aaaa$'
+ * ### テストケース12
+ * '$aaaa$' => OK
  *
  * @return void
  */

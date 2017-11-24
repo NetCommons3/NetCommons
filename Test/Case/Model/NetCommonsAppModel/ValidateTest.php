@@ -337,7 +337,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * booleanバリデーションのテスト
  *
  * @param array $data テストデータ
- * @param bool $isError エラーかどうか
+ * @param boolean|null $isError エラーかどうか
  * @return void
  * @dataProvider dataProviderBoolean
  */

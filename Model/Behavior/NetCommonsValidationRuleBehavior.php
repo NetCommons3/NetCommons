@@ -70,4 +70,37 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		return false;
 	}
 
+/**
+ * 複数チェックボックス等の配列項目に対するinListバリデーション
+ *
+ * @param Model $model 呼び出し元モデル
+ * @param array $check チェック値
+ * @param array $list 確認するリスト
+ * @param bool $caseInsensitive 大文字小文字を区別しない比較の場合はtrueに設定する
+ * @return bool
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function inListForArrayItems(Model $model, $check, $list, $caseInsensitive = false) {
+		$values = current($check);
+
+		if (! is_array($values)) {
+			$values = [$values];
+		}
+
+		if ($caseInsensitive) {
+			$list = array_map('mb_strtolower', $list);
+			$values = array_map('mb_strtolower', $values);
+		} else {
+			$list = array_map('strval', $list);
+		}
+
+		foreach ($values as $value) {
+			if (! in_array((string)$value, $list, true)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

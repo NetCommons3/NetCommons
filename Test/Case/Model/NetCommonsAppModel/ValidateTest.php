@@ -255,7 +255,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  *
  * @return void
  */
-	public function dataProviderBoolean() {
+	public function dataProviderBool() {
 		return [
 			'boolean_1' => [
 				'data' => [
@@ -337,9 +337,10 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  * booleanバリデーションのテスト
  *
  * @param array $data テストデータ
- * @param boolean|null $isError エラーかどうか
+ * @param bool $isError エラーかどうか
+ * @param bool|null $allowEmpty 空文字を許可するかどうか
  * @return void
- * @dataProvider dataProviderBoolean
+ * @dataProvider dataProviderBool
  */
 	public function testBoolean($data, $isError, $allowEmpty = null) {
 		$this->assertEmpty($this->TestModel->validationErrors);
@@ -361,6 +362,107 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 			$expected = [
 				'key' => [
 					0 => 'Not boolean'
+				],
+			];
+			$this->assertEquals($expected, $this->TestModel->validationErrors);
+		} else {
+			$this->assertTrue($result);
+		}
+	}
+
+/**
+ * inListForArrayItemsバリデーションのテストデータ
+ *
+ * ### テストケース1
+ * ['key_1', 'key_2'] => OK
+ *
+ * ### テストケース2
+ * ['key_1'] => OK
+ *
+ * ### テストケース3
+ * [] => OK
+ *
+ * ### テストケース4
+ * 'key_1' => OK
+ *
+ * ### テストケース5
+ * ['key_1', 'key_3'] => Error
+ *
+ * ### テストケース6
+ * 'key_3' => OK
+ *
+ * @return void
+ */
+	public function dataProviderInListForArrayItems() {
+		return [
+			'inListForArrayItems_1' => [
+				'data' => [
+					'key' => ['key_1', 'key_2'],
+				],
+				'isError' => false,
+			],
+			'inListForArrayItems_2' => [
+				'data' => [
+					'key' => ['key_1'],
+				],
+				'isError' => false,
+			],
+			'inListForArrayItems_3' => [
+				'data' => [
+					'key' => [],
+				],
+				'isError' => false,
+			],
+			'inListForArrayItems_4' => [
+				'data' => [
+					'key' => 'key_1',
+				],
+				'isError' => false,
+			],
+			'inListForArrayItems_5' => [
+				'data' => [
+					'key' => ['key_1', 'key_3'],
+				],
+				'isError' => true,
+			],
+			'inListForArrayItems_6' => [
+				'data' => [
+					'key' => 'key_3',
+				],
+				'isError' => true,
+			],
+		];
+	}
+
+/**
+ * オリジナル(inListForArrayItems)バリデーションのテスト
+ *
+ * @param array $data テストデータ
+ * @param bool $isError エラーかどうか
+ * @param bool|null $allowEmpty 空文字を許可するかどうか
+ * @return void
+ * @dataProvider dataProviderInListForArrayItems
+ */
+	public function testInListForArrayItems($data, $isError, $allowEmpty = null) {
+		$this->assertEmpty($this->TestModel->validationErrors);
+
+		$this->TestModel->validate = [
+			'key' => [
+				'inListForArrayItems' => [
+					'rule' => ['inListForArrayItems', ['key_1', 'key_2']],
+					'message' => 'Error inListForArrayItems',
+					'allowEmpty' => $allowEmpty,
+				]
+			]
+		];
+		$this->TestModel->set($data);
+
+		$result = $this->TestModel->validates();
+		if ($isError) {
+			$this->assertFalse($result);
+			$expected = [
+				'key' => [
+					0 => 'Error inListForArrayItems'
 				],
 			];
 			$this->assertEquals($expected, $this->TestModel->validationErrors);

@@ -38,8 +38,18 @@ class TrackableBehavior extends ModelBehavior {
 		'fields' => array(
 			'created_by' => 'created_user',
 			'updated_by' => 'modified_user',
-			),
-		);
+		),
+		'foreignFields' => [
+			'created_by' => [
+				'TrackableCreator.id',
+				'TrackableCreator.handlename'
+			],
+			'updated_by' => [
+				'TrackableUpdater.id',
+				'TrackableUpdater.handlename'
+			],
+		]
+	);
 
 /**
  * Setup
@@ -97,20 +107,12 @@ class TrackableBehavior extends ModelBehavior {
 				'TrackableCreator' => array(
 					'className' => $className,
 					'foreignKey' => $config['fields']['created_by'],
-					'fields' => array(
-						'TrackableCreator.id',
-						//'TrackableCreator.username',
-						'TrackableCreator.handlename'
-					)
+					'fields' => $config['foreignFields']['created_by'],
 				),
 				'TrackableUpdater' => array(
 					'className' => $className,
 					'foreignKey' => $config['fields']['updated_by'],
-					'fields' => array(
-						'TrackableUpdater.id',
-						//'TrackableUpdater.username',
-						'TrackableUpdater.handlename'
-					)
+					'fields' => $config['foreignFields']['updated_by'],
 				),
 			)
 		), false);

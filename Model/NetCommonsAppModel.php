@@ -124,6 +124,9 @@ class NetCommonsAppModel extends Model {
 		}
 		$this->useDbConfig = $_useDbConfig;
 
+		//actsAsをマージする
+		$this->_mergeVars(['actsAs'], get_class(), false);
+
 		parent::__construct($id, $table, $ds);
 	}
 

@@ -42,10 +42,10 @@ class PermissionComponent extends Component {
  *
  * @var string
  */
-	const CHECK_TYEP_GENERAL_PLUGIN = 'general_plugin',
-			CHECK_TYEP_CONTROL_PANEL = 'control_panel',
-			CHECK_TYEP_SYSTEM_PLUGIN = 'system_plugin',
-			CHECK_TYEP_NOCHECK_PLUGIN = 'no_check';
+	const CHECK_TYPE_GENERAL_PLUGIN = 'general_plugin',
+			CHECK_TYPE_CONTROL_PANEL = 'control_panel',
+			CHECK_TYPE_SYSTEM_PLUGIN = 'system_plugin',
+			CHECK_TYPE_NOCHECK_PLUGIN = 'no_check';
 
 /**
  * チェックタイプ
@@ -67,7 +67,7 @@ class PermissionComponent extends Component {
  *
  * @var string
  */
-	public $type = self::CHECK_TYEP_GENERAL_PLUGIN;
+	public $type = self::CHECK_TYPE_GENERAL_PLUGIN;
 
 /**
  * 許可アクションリスト
@@ -170,17 +170,17 @@ class PermissionComponent extends Component {
  */
 	public function startup(Controller $controller) {
 		switch ($this->type) {
-			case self::CHECK_TYEP_SYSTEM_PLUGIN:
+			case self::CHECK_TYPE_SYSTEM_PLUGIN:
 				if (Current::allowSystemPlugin($controller->params['plugin'])) {
 					return;
 				}
 				break;
-			case self::CHECK_TYEP_CONTROL_PANEL:
+			case self::CHECK_TYPE_CONTROL_PANEL:
 				if (Current::hasControlPanel()) {
 					return;
 				}
 				break;
-			case self::CHECK_TYEP_GENERAL_PLUGIN:
+			case self::CHECK_TYPE_GENERAL_PLUGIN:
 				if (! $this->checkSpaceAccess($controller)) {
 					break;
 				}
@@ -188,7 +188,7 @@ class PermissionComponent extends Component {
 					break;
 				}
 				return;
-			case self::CHECK_TYEP_NOCHECK_PLUGIN:
+			case self::CHECK_TYPE_NOCHECK_PLUGIN:
 				return;
 		}
 

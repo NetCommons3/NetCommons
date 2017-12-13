@@ -763,6 +763,9 @@ msgstr "%sは半角英数字または記号を入力してください。"
 msgid "Please choose at least %s characters string."
 msgstr "%s文字以上で入力してください。"
 
+msgid "Please choose with less than %s characters string."
+msgstr "%s文字までで入力してください。"
+
 #: NetCommons/View/Helper/NetCommonsFormHelper.php:482
 msgid "Only numbers are allowed."
 msgstr "数字を入力してください。"

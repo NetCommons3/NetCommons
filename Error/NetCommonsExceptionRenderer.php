@@ -195,7 +195,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d('net_commons', 'An Internal Error Has Occurred.');
 			$code = 500;
 		} else {
-			$code = $error->getCode();
+			// @see ExceptionRenderer::error500()
+			$code = ($error->getCode() > 500 && $error->getCode() < 506) ? $error->getCode() : 500;
 		}
 
 		$this->controller->response->statusCode($code);

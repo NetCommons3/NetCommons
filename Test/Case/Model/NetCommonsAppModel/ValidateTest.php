@@ -371,7 +371,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 	}
 
 /**
- * inListForArrayItemsバリデーションのテストデータ
+ * inListForMultipleChoiceバリデーションのテストデータ
  *
  * ### テストケース1
  * ['key_1', 'key_2'] => OK
@@ -395,37 +395,37 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
  */
 	public function dataProviderInListForArrayItems() {
 		return [
-			'inListForArrayItems_1' => [
+			'inListForMultipleChoice_1' => [
 				'data' => [
 					'key' => ['key_1', 'key_2'],
 				],
 				'isError' => false,
 			],
-			'inListForArrayItems_2' => [
+			'inListForMultipleChoice_2' => [
 				'data' => [
 					'key' => ['key_1'],
 				],
 				'isError' => false,
 			],
-			'inListForArrayItems_3' => [
+			'inListForMultipleChoice_3' => [
 				'data' => [
 					'key' => [],
 				],
 				'isError' => false,
 			],
-			'inListForArrayItems_4' => [
+			'inListForMultipleChoice_4' => [
 				'data' => [
 					'key' => 'key_1',
 				],
 				'isError' => false,
 			],
-			'inListForArrayItems_5' => [
+			'inListForMultipleChoice_5' => [
 				'data' => [
 					'key' => ['key_1', 'key_3'],
 				],
 				'isError' => true,
 			],
-			'inListForArrayItems_6' => [
+			'inListForMultipleChoice_6' => [
 				'data' => [
 					'key' => 'key_3',
 				],
@@ -435,7 +435,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 	}
 
 /**
- * オリジナル(inListForArrayItems)バリデーションのテスト
+ * オリジナル(inListForMultipleChoice)バリデーションのテスト
  *
  * @param array $data テストデータ
  * @param bool $isError エラーかどうか
@@ -448,9 +448,9 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 
 		$this->TestModel->validate = [
 			'key' => [
-				'inListForArrayItems' => [
-					'rule' => ['inListForArrayItems', ['key_1', 'key_2']],
-					'message' => 'Error inListForArrayItems',
+				'inListForMultipleChoice' => [
+					'rule' => ['inListForMultipleChoice', ['key_1', 'key_2']],
+					'message' => 'Error inListForMultipleChoice',
 					'allowEmpty' => $allowEmpty,
 				]
 			]
@@ -462,7 +462,7 @@ class NetCommonsAppModelValidateTest extends NetCommonsCakeTestCase {
 			$this->assertFalse($result);
 			$expected = [
 				'key' => [
-					0 => 'Error inListForArrayItems'
+					0 => 'Error inListForMultipleChoice'
 				],
 			];
 			$this->assertEquals($expected, $this->TestModel->validationErrors);

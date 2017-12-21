@@ -80,7 +80,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  * @return bool
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public function inListForArrayItems(Model $model, $check, $list, $caseInsensitive = false) {
+	public function inListForMultipleChoice(Model $model, $check, $list, $caseInsensitive = false) {
 		$values = current($check);
 
 		if (! is_array($values)) {

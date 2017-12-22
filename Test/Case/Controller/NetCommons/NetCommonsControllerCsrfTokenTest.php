@@ -33,7 +33,13 @@ class NetCommonsControllerCsrfTokenTest extends NetCommonsControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->generate('NetCommons.NetCommons');
+		$this->generate(
+			'NetCommons.NetCommons', array(
+				'components' => array(
+					'Auth' => array(),
+				)
+			)
+		);
 	}
 
 /**
@@ -52,6 +58,12 @@ class NetCommonsControllerCsrfTokenTest extends NetCommonsControllerTestCase {
  */
 	public function testCsrfToken() {
 		Router::parseExtensions();
+
+		$reflectionClass = new ReflectionClass('AuthComponent');
+		$property = $reflectionClass->getProperty('_user');
+		$property->setAccessible(true);
+		$property->setValue($this->controller->Components->Auth, []);
+
 		$this->testAction('/net_commons/net_commons/csrfToken.json', array('return' => 'contents'));
 
 		$this->assertArrayHasKey('_Token', $this->controller->viewVars['data']);

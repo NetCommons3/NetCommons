@@ -2030,3 +2030,6 @@ msgstr ""
 #: Registrations/Controller/Component/RegistrationsComponent.php:504
 msgid "File"
 msgstr ""
+
+msgid "URL"
+msgstr ""

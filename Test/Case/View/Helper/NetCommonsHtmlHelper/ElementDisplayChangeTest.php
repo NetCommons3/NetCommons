@@ -22,8 +22,17 @@ class NetCommonsHtmlHelperElementDisplayChangeTest extends NetCommonsHelperTestC
  * Fixtures
  *
  * @var array
+ * @see MenuHelperRenderMainTest よりコピー
  */
-	public $fixtures = array();
+	public $fixtures = array(
+		'plugin.menus.menu_frame_setting',
+		'plugin.menus.menu_frames_page',
+		'plugin.menus.menu_frames_room',
+		'plugin.menus.page4menu',
+		'plugin.menus.pages_language4menu',
+		'plugin.rooms.room4test',
+		'plugin.rooms.rooms_language4test',
+	);
 
 /**
  * Plugin name
@@ -33,33 +42,37 @@ class NetCommonsHtmlHelperElementDisplayChangeTest extends NetCommonsHelperTestC
 	public $plugin = 'net_commons';
 
 /**
- * setUp method
+ * viewVarsのデータ取得
  *
- * @return void
+ * @param int $pageId ページID
+ * @return array
+ * @see MenuHelperRenderMainTest よりコピー
  */
-	public function setUp() {
-		parent::setUp();
+	private function __getViewVars($pageId) {
+		$MenuFrameSetting = ClassRegistry::init('Menus.MenuFrameSetting');
+		$MenuFramesRoom = ClassRegistry::init('Menus.MenuFramesRoom');
+		$MenuFramesPage = ClassRegistry::init('Menus.MenuFramesPage');
+		$Page = ClassRegistry::init('Pages.Page');
 
-		//テストデータ生成
-		// $viewVarsの値は本来の値ではなく、テストを通すための適当な値です
-		$viewVars = array(
-			'options' => array(
-				'topics' => ''
-			),
-			'current' => 'topics',
-			'url' => array('http://example/'),
-		);
-		$requestData = array();
-		$params = array(
-			// composer.jsonで参照している他プラグインでテスト
-			'plugin' => 'topics',
-			'controller' => 'topics',
-			// 本来 select_status というアクションはtopicsプラグインにないけど、アクションからElementを参照してるので、存在するElement名をセット
-			'action' => 'select_status',
-		);
+		$roomIds = array('2', '5', '6');
+		Current::$current = Hash::insert(Current::$current, 'Page.id', $pageId);
 
-		//Helperロード
-		$this->loadHelper('NetCommons.NetCommonsHtml', $viewVars, $requestData, $params);
+		$viewVars = array();
+		$viewVars['menus'] = $MenuFramesPage->getMenuData(array(
+			'conditions' => array('Page.room_id' => $roomIds)
+		));
+		$viewVars['menuFrameSetting'] = $MenuFrameSetting->getMenuFrameSetting();
+		$menuFrameRooms = $MenuFramesRoom->getMenuFrameRooms(array(
+			'conditions' => array('Room.id' => $roomIds)
+		));
+		$viewVars['menuFrameRooms'] = Hash::combine($menuFrameRooms, '{n}.Room.id', '{n}');
+		$viewVars['pageTreeList'] = $Page->generateTreeList(
+			array('Page.room_id' => $roomIds), null, null, Page::$treeParser);
+		$viewVars['treeList4Disp'] = $viewVars['pageTreeList'];
+		$viewVars['pages'] = $Page->getPages($roomIds);
+		$viewVars['parentPages'] = $Page->getPath(Current::read('Page.id'));
+
+		return $viewVars;
 	}
 
 /**
@@ -68,8 +81,23 @@ class NetCommonsHtmlHelperElementDisplayChangeTest extends NetCommonsHelperTestC
  * @return void
  */
 	public function testElementDisplayChange() {
+		//Helperロード
+		$viewVars = $this->__getViewVars('2');
+		$viewVars['parentPages'] = array();
+		$requestData = array();
+		$params = array(
+			// composer.jsonで参照しているmenusプラグインでテスト
+			'plugin' => 'menus',
+			'controller' => 'menus',
+			'action' => 'index',
+		);
+		$this->loadHelper('NetCommons.NetCommonsHtml', $viewVars, $requestData, $params);
+
+		$this->NetCommonsHtml->_View->helpers[] = 'Menus.Menu';
+		$this->NetCommonsHtml->_View->loadHelpers();
+
 		//データ生成
-		$displayType = null;
+		$displayType = 'major';
 
 		//テスト実施
 		$result = $this->NetCommonsHtml->elementDisplayChange($displayType);
@@ -78,5 +106,4 @@ class NetCommonsHtmlHelperElementDisplayChangeTest extends NetCommonsHelperTestC
 		//var_export($result);
 		$this->assertNotEmpty($result);
 	}
-
 }

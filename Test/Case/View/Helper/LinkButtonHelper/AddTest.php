@@ -216,4 +216,73 @@ class LinkButtonHelperAddTest extends NetCommonsHelperTestCase {
 		$this->assertEqual($expected, $result);
 	}
 
+/**
+ * add()のテスト(hiddenTitle=falseのテスト)
+ *
+ * @return void
+ */
+	public function testAddWithHiddenTitleFalse() {
+		//データ生成
+		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
+		$url = null;
+		$options = array('hiddenTitle' => false);
+
+		//テスト実施
+		$result = $this->LinkButton->add($title, $url, $options);
+
+		//チェック
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						$expectedTitle .
+					'</a>';
+		$this->assertEqual($expected, $result);
+	}
+
+/**
+ * add()のテスト(hiddenTitle=trueのテスト)
+ *
+ * @return void
+ */
+	public function testAddWithHiddenTitleTrue() {
+		//データ生成
+		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
+		$url = null;
+		$options = array('hiddenTitle' => true);
+
+		//テスト実施
+		$result = $this->LinkButton->add($title, $url, $options);
+
+		//チェック
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
+					'</a>';
+		$this->assertEqual($expected, $result);
+	}
+
+/**
+ * add()のテスト(hiddenTitle=trueのテスト)
+ *
+ * @return void
+ */
+	public function testAddWithHiddenTitleNull() {
+		//データ生成
+		$title = '';
+		$expectedTitle = __d('net_commons', 'Add');
+		$url = null;
+		$options = array('hiddenTitle' => null);
+
+		//テスト実施
+		$result = $this->LinkButton->add($title, $url, $options);
+
+		//チェック
+		$expected = '<a href="/net_commons/net_commons_ctrl/add" class="btn btn-success nc-btn-style">' .
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' .
+						'<span class="hidden-xs">' . $expectedTitle . '</span>' .
+					'</a>';
+		$this->assertEqual($expected, $result);
+	}
+
 }

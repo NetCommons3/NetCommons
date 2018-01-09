@@ -244,9 +244,13 @@ class LinkButtonHelper extends FormHelper {
 				! empty($this->_View->request->params['requested'])) {
 			$options['aria-label'] = $title;
 			$title = '';
+		} elseif (Hash::get($options, 'hiddenTitle', true) === false) {
+			//hiddenTitle = falseにした場合、携帯の場合でもタイトルを表示する
 		} else {
 			$title = '<span class="hidden-xs">' . $title . '</span>';
 		}
+		$options = Hash::remove($options, 'hiddenTitle');
+
 		if (substr($options['icon'], 0, strlen('glyphicon-')) === 'glyphicon-') {
 			$glyphicon = 'glyphicon ' . h($options['icon']);
 		} else {

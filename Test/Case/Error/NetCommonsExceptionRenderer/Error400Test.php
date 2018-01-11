@@ -66,9 +66,9 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return NetCommonsExceptionRenderer
  */
 	protected function _mockSession($error) {
-		$error->controller->Session = $this->getMock('Session', array('destroy'));
-		$error->controller->Session
-			->expects($this->once())->method('destroy');
+		//$error->controller->Session = $this->getMock('Session', array('destroy'));
+		//$error->controller->Session
+		//	->expects($this->once())->method('destroy');
 		return $error;
 	}
 

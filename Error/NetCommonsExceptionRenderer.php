@@ -168,7 +168,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			}
 		} else {
 			$redirect = '/auth/login';
-			$this->controller->Session->destroy();
+			//$this->controller->Session->destroy();
 
 			App::uses('Current', 'NetCommons.Utility');
 			if (in_array($this->controller->params['action'], ['index', 'view'], true)) {

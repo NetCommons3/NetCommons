@@ -2033,3 +2033,6 @@ msgstr "メールアドレス"
 #: Registrations/Controller/Component/RegistrationsComponent.php:504
 msgid "File"
 msgstr "ファイル"
+
+msgid "URL"
+msgstr ""

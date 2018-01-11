@@ -42,7 +42,8 @@
         "netcommons/categories":        "@dev",
         "netcommons/containers":        "@dev",
         "netcommons/mails":             "@dev",
-        "netcommons/topics":            "@dev"
+        "netcommons/topics":            "@dev",
+        "netcommons/menus":             "@dev"
     },
     "config": {
         "vendor-dir": "vendors",

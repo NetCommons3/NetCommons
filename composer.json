@@ -1,10 +1,14 @@
 {
-    "name":        "netcommons/net-commons",
+    "name": "netcommons/net-commons",
     "description": "NetCommons Plugin",
-    "type":        "cakephp-plugin",
-    "keywords":    ["cakephp", "netcommons"],
-    "homepage":    "http://www.netcommons.org/",
-    "license":     "NetCommons License",
+    "type": "cakephp-plugin",
+    "keywords": [
+        "cakephp",
+        "netcommons"
+    ],
+    "homepage": "http://www.netcommons.org/",
+    "license": "LicenseRef-NetCommons",
+    "license-ref-net-commons": "https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/license.txt",
     "authors": [
         {
             "name": "NetCommons Community",
@@ -13,37 +17,39 @@
     ],
     "extra": {
         "installer-paths": {
-            "app/Plugin/{$name}": ["type:cakephp-plugin"]
+            "app/Plugin/{$name}": [
+                "type:cakephp-plugin"
+            ]
         }
     },
     "require": {
-        "cakedc/migrations":            "~2.2@stable",
-        "cakephp/debug_kit":            "~2.2@stable",
-        "chronon/mobile_detect":        "*@stable",
-        "mustangostang/spyc":           "~0.6.2@stable",
-        "netcommons/blocks":            "@dev",
-        "netcommons/boxes":             "@dev",
-        "netcommons/community-space":   "@dev",
-        "netcommons/files":             "@dev",
-        "netcommons/frames":            "@dev",
-        "netcommons/m17n":              "@dev",
-        "netcommons/pages":             "@dev",
-        "netcommons/plugin-manager":    "@dev",
-        "netcommons/private-space":     "@dev",
-        "netcommons/public-space":      "@dev",
-        "netcommons/roles":             "@dev",
-        "netcommons/rooms":             "@dev",
-        "netcommons/site-manager":      "@dev",
-        "netcommons/user-roles":        "@dev",
-        "netcommons/users":             "@dev",
-        "netcommons/workflow":          "@dev",
-        "netcommons/wysiwyg":           "@dev",
-        "netcommons/auth-general":      "@dev",
-        "netcommons/categories":        "@dev",
-        "netcommons/containers":        "@dev",
-        "netcommons/mails":             "@dev",
-        "netcommons/topics":            "@dev",
-        "netcommons/menus":             "@dev"
+        "cakedc/migrations": "~2.2@stable",
+        "cakephp/debug_kit": "~2.2@stable",
+        "chronon/mobile_detect": "*@stable",
+        "mustangostang/spyc": "~0.6.2@stable",
+        "netcommons/blocks": "@dev",
+        "netcommons/boxes": "@dev",
+        "netcommons/community-space": "@dev",
+        "netcommons/files": "@dev",
+        "netcommons/frames": "@dev",
+        "netcommons/m17n": "@dev",
+        "netcommons/pages": "@dev",
+        "netcommons/plugin-manager": "@dev",
+        "netcommons/private-space": "@dev",
+        "netcommons/public-space": "@dev",
+        "netcommons/roles": "@dev",
+        "netcommons/rooms": "@dev",
+        "netcommons/site-manager": "@dev",
+        "netcommons/user-roles": "@dev",
+        "netcommons/users": "@dev",
+        "netcommons/workflow": "@dev",
+        "netcommons/wysiwyg": "@dev",
+        "netcommons/auth-general": "@dev",
+        "netcommons/categories": "@dev",
+        "netcommons/containers": "@dev",
+        "netcommons/mails": "@dev",
+        "netcommons/topics": "@dev",
+        "netcommons/menus": "@dev"
     },
     "config": {
         "vendor-dir": "vendors",

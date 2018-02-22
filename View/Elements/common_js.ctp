@@ -13,6 +13,7 @@ echo $this->NetCommonsHtml->script(
 		'/components/jquery/dist/jquery.min.js',
 		'/components/bootstrap/dist/js/bootstrap.min.js',
 		'/components/angular/angular.min.js',
+		'/components/angular-animate/angular-animate.js',
 		'/components/angular-bootstrap/ui-bootstrap-tpls.min.js',
 		'/net_commons/js/base.js',
 	),

@@ -3,7 +3,7 @@
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
  */
 
-var NetCommonsApp = angular.module('NetCommonsApp', ['ui.bootstrap']);
+var NetCommonsApp = angular.module('NetCommonsApp', ['ngAnimate', 'ui.bootstrap']);
 
 //CakePHPがX-Requested-Withで判断しているため
 NetCommonsApp.config(['$httpProvider', function($httpProvider) {

@@ -225,22 +225,18 @@ class PermissionComponent extends Component {
  * @return bool
  */
 	public function checkSpaceAccess(Controller $controller) {
-		try {
-			$Room = ClassRegistry::init('Rooms.Room');
-			$spaces = $Room->getSpaces();
-			if ($spaces && Current::read('Room')) {
-				$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
-				$plugin = Inflector::camelize($space['Space']['plugin_key']);
-				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
-				if (! method_exists($this->SpaceComponent, 'accessCheck')) {
-					return true;
-				}
-				if (! $this->SpaceComponent->accessCheck($controller)) {
-					return false;
-				}
+		$Room = ClassRegistry::init('Rooms.Room');
+		$spaces = $Room->getSpaces();
+		if ($spaces && Current::read('Room')) {
+			$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
+			$plugin = Inflector::camelize($space['Space']['plugin_key']);
+			$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
+			if (! method_exists($this->SpaceComponent, 'accessCheck')) {
+				return true;
 			}
-		} catch (Exception $ex) {
-			CakeLog::error($ex);
+			if (! $this->SpaceComponent->accessCheck($controller)) {
+				return false;
+			}
 		}
 
 		if (! $this->checkBlockAccess($controller)) {

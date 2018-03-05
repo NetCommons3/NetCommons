@@ -227,10 +227,17 @@ class PermissionComponent extends Component {
 	public function checkSpaceAccess(Controller $controller) {
 		$Room = ClassRegistry::init('Rooms.Room');
 		$spaces = $Room->getSpaces();
-		if ($spaces && Current::read('Room')) {
-			$space = Hash::get($spaces, Hash::get(Current::read('Room'), 'space_id'));
-			$plugin = Inflector::camelize($space['Space']['plugin_key']);
-			$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
+		$curRoom = Current::read('Room');
+		if ($spaces && $curRoom) {
+			if (empty($this->SpaceComponent)) {
+				$space = $spaces[$curRoom['space_id']];
+				$plugin = Inflector::camelize($space['Space']['plugin_key']);
+				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
+			} elseif (is_string($this->SpaceComponent)) {
+				$this->SpaceComponent = $controller->Components->load($this->SpaceComponent);
+			}
+			$this->SpaceComponent->initialize($controller);
+			$this->SpaceComponent->startup($controller);
 			if (! method_exists($this->SpaceComponent, 'accessCheck')) {
 				return true;
 			}

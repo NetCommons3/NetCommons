@@ -10,6 +10,7 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('NetCommonsUrl', 'NetCommons.Utility');
 
 /**
  * DisplayNumber Helper
@@ -176,7 +177,11 @@ class DisplayNumberHelper extends AppHelper {
 		if (! isset($attributes['url'])) {
 			$named = $this->_View->Paginator->params['named'];
 			$named['page'] = '1';
-			$attributes['url'] = $named;
+			if (Current::read('Block.id')) {
+				$attributes['url'] = NetCommonsUrl::blockUrl($named);
+			} else {
+				$attributes['url'] = NetCommonsUrl::actionUrlAsArray($named);
+			}
 		}
 
 		return $this->_View->element('NetCommons.limit_dropdown_toggle', array(
@@ -203,7 +208,11 @@ class DisplayNumberHelper extends AppHelper {
 		if (! isset($attributes['url'])) {
 			$named = $this->_View->Paginator->params['named'];
 			$named['page'] = '1';
-			$attributes['url'] = $named;
+			if (Current::read('Block.id')) {
+				$attributes['url'] = NetCommonsUrl::blockUrl($named);
+			} else {
+				$attributes['url'] = NetCommonsUrl::actionUrlAsArray($named);
+			}
 		}
 
 		return $this->_View->element('NetCommons.limit_dropdown_toggle_days', array(

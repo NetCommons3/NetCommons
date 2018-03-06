@@ -460,6 +460,7 @@ class Current extends CurrentBase {
 /**
  * コントロールパネルとするプラグインキーのセット
  *
+ * @param array $controlPanelKeys セットするプラグインタイプキー
  * @return bool
  */
 	public static function setControlPanelKeys($controlPanelKeys) {

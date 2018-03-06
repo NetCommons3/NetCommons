@@ -67,6 +67,7 @@ class NetCommonsUrl {
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
 		if (Current::read('Frame.' . $defaultField)) {

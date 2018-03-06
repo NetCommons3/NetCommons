@@ -314,6 +314,15 @@ class Current extends CurrentBase {
 	protected static $_instancePage;
 
 /**
+ * コントロールパネルのプラグインタイプキー
+ *
+ * @var mixed
+ */
+	protected static $_controlPanelKeys = [
+		Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER
+	];
+
+/**
  * setup current data
  *
  * @param Controller $controller コントローラ
@@ -441,14 +450,21 @@ class Current extends CurrentBase {
 			return false;
 		}
 
-		$controlPanelKeys = array(
-			Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER
-		);
-		if (in_array(self::$current['Plugin']['type'], $controlPanelKeys, true)) {
+		if (in_array(self::$current['Plugin']['type'], self::$_controlPanelKeys, true)) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+/**
+ * コントロールパネルとするプラグインキーのセット
+ *
+ * @param array $controlPanelKeys セットするプラグインタイプキー
+ * @return bool
+ */
+	public static function setControlPanelKeys($controlPanelKeys) {
+		self::$_controlPanelKeys = $controlPanelKeys;
 	}
 
 /**

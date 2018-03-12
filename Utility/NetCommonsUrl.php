@@ -30,7 +30,7 @@ class NetCommonsUrl {
  * @return string Full translated URL with base path.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-	public static function backToPageUrl($settingMode = false, $options = [], $full = false) {
+	public static function backToPageUrl($settingMode = null, $options = [], $full = false) {
 		$page['Page'] = Current::read('Page');
 
 		$url = '/';

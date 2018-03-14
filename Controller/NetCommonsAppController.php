@@ -108,6 +108,15 @@ class NetCommonsAppController extends Controller {
 	);
 
 /**
+ * リクエストの許可メソッド
+ *
+ * @var array
+ */
+	protected $_allowMethods = [
+		'get', 'post', 'put', 'delete'
+	];
+
+/**
  * Constructor.
  *
  * @param CakeRequest $request Request object for this controller. Can be null for testing,
@@ -162,7 +171,7 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		if (empty($this->request->params['requested'])) {
-			$this->request->allowMethod('get', 'post', 'put', 'delete');
+			$this->request->allowMethod($this->_allowMethods);
 		}
 
 		Security::setHash('sha512');

@@ -90,7 +90,7 @@ if (AuthComponent::user()) {
 							<?php if (! $isSettingMode) : ?>
 								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode on'), NetCommonsUrl::backToPageUrl(true)); ?>
 							<?php else: ?>
-								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
+								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl(false)); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

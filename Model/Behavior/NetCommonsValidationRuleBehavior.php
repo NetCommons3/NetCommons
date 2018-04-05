@@ -50,9 +50,18 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		if (isset($options['allowSymbols'])) {
 			$pattern .= preg_quote($options['allowSymbols'], '/');
 		} else {
-			if (isset($options['errorSymbols']) &&
-					preg_match('/[' . preg_quote($options['errorSymbols'], '/') . ']/', $value)) {
-				return false;
+			if (isset($options['errorSymbols'])) {
+				if (strlen($options['errorSymbols']) > 1 &&
+						in_array(substr($options['errorSymbols'], 0, 1), ['/', '#'], true) &&
+						in_array(substr($options['errorSymbols'], -1), ['/', '#'], true)) {
+					$symbolsPerttern = $options['errorSymbols'];
+				} else {
+					$symbolsPerttern = '/[' . preg_quote($options['errorSymbols'], '/') . ']/';
+				}
+
+				if (preg_match($symbolsPerttern, $value)) {
+					return false;
+				}
 			}
 			$pattern .= preg_quote('_-<>,.$%#@!\\\'"+&?=~:;|][()*^{}/', '/');
 		}

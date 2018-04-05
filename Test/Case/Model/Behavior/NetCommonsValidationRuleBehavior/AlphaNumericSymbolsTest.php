@@ -27,6 +27,13 @@ class NetCommonsValidationRuleBehaviorAlphaNumericSymbolsTest extends NetCommons
 	public $fixtures = array();
 
 /**
+ * Fixture merge
+ *
+ * @var array
+ */
+	//protected $_isFixtureMerged = false;
+
+/**
  * Plugin name
  *
  * @var string

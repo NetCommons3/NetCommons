@@ -24,14 +24,20 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  *
  * @param Model $model 呼び出し元モデル
  * @param array $check チェック値
- * @param string|false $errorPattern エラーパタン文字列。falseの場合、処理しない
+ * @param array|null $options allowSymbolsとerrorSymbolsが指定できます。
+ *								allowSymbolsは、許可する記号(指定しなかった記号をエラーにする)、
+ *								errorSymbolsは、エラーとする記号を設定できます。
  * @return bool
  */
-	public function alphaNumericSymbols(Model $model, $check, $errorPattern) {
+	public function alphaNumericSymbols(Model $model, $check, $options = []) {
 		$value = array_shift($check);
 
-		if ($errorPattern && preg_match('/[' . preg_quote($errorPattern, '/') . ']/', $value)) {
-			return false;
+		if (is_string($options)) {
+			$options = [
+				'errorSymbols' => $options
+			];
+		} elseif (! is_array($options)) {
+			$options = [];
 		}
 
 		//許可する記号
@@ -40,9 +46,25 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		//
 		//(NC3で追加)
 		//「+」「&」「?」「=」「~」「:」「;」「|」「]」「[」「(」「)」「*」「^」「{」「}」「/」
-		$pattern = 'a-zA-Z0-9' .
-					preg_quote('_-<>,.$%#@!\\\'"', '/') .
-					preg_quote('+&?=~:;|][()*^{}/', '/');
+		$pattern = 'a-zA-Z0-9';
+		if (isset($options['allowSymbols'])) {
+			$pattern .= preg_quote($options['allowSymbols'], '/');
+		} else {
+			if (isset($options['errorSymbols'])) {
+				if (strlen($options['errorSymbols']) > 1 &&
+						in_array(substr($options['errorSymbols'], 0, 1), ['/', '#'], true) &&
+						in_array(substr($options['errorSymbols'], -1), ['/', '#'], true)) {
+					$symbolsPerttern = $options['errorSymbols'];
+				} else {
+					$symbolsPerttern = '/[' . preg_quote($options['errorSymbols'], '/') . ']/';
+				}
+
+				if (preg_match($symbolsPerttern, $value)) {
+					return false;
+				}
+			}
+			$pattern .= preg_quote('_-<>,.$%#@!\\\'"+&?=~:;|][()*^{}/', '/');
+		}
 
 		return !(bool)preg_match('/[^' . $pattern . ']/', $value);
 	}

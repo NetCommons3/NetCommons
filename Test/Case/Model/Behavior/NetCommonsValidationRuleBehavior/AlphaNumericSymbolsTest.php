@@ -31,7 +31,7 @@ class NetCommonsValidationRuleBehaviorAlphaNumericSymbolsTest extends NetCommons
  *
  * @var array
  */
-	protected $_isFixtureMerged = false;
+	//protected $_isFixtureMerged = false;
 
 /**
  * Plugin name

@@ -30,6 +30,9 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  * @return bool
  */
 	public function alphaNumericSymbols(Model $model, $check, $options = []) {
+		if (isset($options['rule'])) {
+			$options = [];
+		}
 		$value = array_shift($check);
 
 		if (is_string($options)) {

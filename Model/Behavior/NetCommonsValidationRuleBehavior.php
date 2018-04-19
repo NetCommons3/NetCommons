@@ -28,18 +28,16 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  *								allowSymbolsは、許可する記号(指定しなかった記号をエラーにする)、
  *								errorSymbolsは、エラーとする記号を設定できます。
  * @return bool
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function alphaNumericSymbols(Model $model, $check, $options = []) {
-		if (isset($options['rule'])) {
-			$options = [];
-		}
 		$value = array_shift($check);
 
 		if (is_string($options)) {
 			$options = [
 				'errorSymbols' => $options
 			];
-		} elseif (! is_array($options)) {
+		} elseif (! is_array($options) || isset($options['rule'])) {
 			$options = [];
 		}
 

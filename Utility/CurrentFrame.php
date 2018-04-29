@@ -339,10 +339,14 @@ class CurrentFrame {
  * @return void
  */
 	private function __getPermissionFromBlockSetting($permission) {
+		$roomId = Current::read('Room.id');
+		$pluginKey = Current::read('Plugin.key');
 		$blockSetting = $this->BlockSetting->find('list', array(
 			'recursive' => -1,
 			'fields' => array('field_name', 'value'),
 			'conditions' => array(
+				'room_id' => $roomId,
+				'plugin_key' => $pluginKey,
 				'block_key' => Current::$current['Block']['key'],
 				'field_name' => array(
 					BlockSettingBehavior::FIELD_USE_WORKFLOW,

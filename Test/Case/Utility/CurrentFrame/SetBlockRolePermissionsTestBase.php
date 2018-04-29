@@ -75,12 +75,14 @@ abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 		return [
 			'Room approval is required' => [
 				'Room' => [
+					'id' => '1',
 					'need_approval' => '1'
 				]
 			],
 			'Room approval is not required' => [
 				'Room' => [
-						'need_approval' => '0'
+					'id' => '1',
+					'need_approval' => '0'
 				]
 			],
 		];
@@ -96,7 +98,13 @@ abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 			'Block exists' => [
 				'Block' => [
 					'key' => 'dummy'
-				]
+				],
+				'Room' => [
+					'id' => '1',
+				],
+				'Plugin' => [
+					'key' => 'dummy'
+				],
 			],
 			'Block not exists' => [
 				'Block' => [
@@ -223,6 +231,8 @@ abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 					'recursive' => -1,
 					'fields' => ['field_name', 'value'],
 					'conditions' => [
+						'room_id' => Current::$current['Room']['id'],
+						'plugin_key' => Current::$current['Plugin']['key'],
 						'block_key' => Current::$current['Block']['key'],
 						'field_name' => [
 							BlockSettingBehavior::FIELD_USE_WORKFLOW,

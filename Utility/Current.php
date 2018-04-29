@@ -323,12 +323,11 @@ class Current extends CurrentBase {
 	];
 
 /**
- * setup current data
+ * 各インスタンスのセット
  *
- * @param Controller $controller コントローラ
  * @return void
  */
-	public static function initialize(Controller $controller) {
+	private static function __setInstance() {
 		if (! self::$_instance) {
 			self::$_instance = new Current();
 		}
@@ -341,12 +340,23 @@ class Current extends CurrentBase {
 		if (! self::$_instancePage) {
 			self::$_instancePage = new CurrentPage();
 		}
+	}
+
+/**
+ * setup current data
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public static function initialize(Controller $controller) {
+		self::__setInstance();
 
 		self::$request = clone $controller->request;
 		self::$session = $controller->Session;
 		self::$layout = $controller->layout;
 
-		if (Hash::get(self::$current, 'User.modified') !== AuthComponent::user('modified')) {
+		if (isset(self::$current['User']['modified']) &&
+				(self::$current['User']['modified']) !== AuthComponent::user('modified')) {
 			$User = ClassRegistry::init('Users.User');
 			$changeUser = $User->find('first', array(
 				'recursive' => 0,
@@ -372,7 +382,12 @@ class Current extends CurrentBase {
 		}
 
 		//会員権限に紐づくパーミッションのセット
-		self::$_instancePage->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
+		if (isset(self::$current['User']['role_key'])) {
+			$roleKey = self::$current['User']['role_key'];
+		} else {
+			$roleKey = null;
+		}
+		self::$_instancePage->setDefaultRolePermissions($roleKey, true);
 
 		if (empty($controller->request->params['requested'])) {
 			self::$originalCurrent = self::$current;
@@ -510,7 +525,7 @@ class Current extends CurrentBase {
 		$models = array_keys($results);
 
 		foreach ($models as $model) {
-			if (array_key_exists('id', $results[$model]) && ! Hash::get($results[$model], 'id')) {
+			if (array_key_exists('id', $results[$model]) && ! $results[$model]['id']) {
 				continue;
 			}
 			if (! isset(Current::$current[$model]) ||

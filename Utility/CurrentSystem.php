@@ -48,12 +48,18 @@ class CurrentSystem {
 		$this->Language = ClassRegistry::init('M17n.Language');
 
 		$language = $this->Language->getLanguage('first', array(
+			'fields' => [
+				'id', 'code', 'weight', 'is_active'
+			],
 			'conditions' => array(
 				'code' => Configure::read('Config.language'),
 			)
 		));
 		if (! isset($language['Language'])) {
 			$language = $this->Language->getLanguage('first', array(
+				'fields' => [
+					'id', 'code', 'weight', 'is_active'
+				],
 				'order' => 'weight'
 			));
 		}
@@ -116,6 +122,9 @@ class CurrentSystem {
 		if (Hash::get(Current::$current, 'User.role_key')) {
 			$result = $this->PluginsRole->find('all', array(
 				'recursive' => -1,
+				'fields' => [
+					'id', 'role_key', 'plugin_key'
+				],
 				'conditions' => array(
 					'role_key' => Current::$current['User']['role_key'],
 				),

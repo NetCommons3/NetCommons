@@ -26,6 +26,13 @@ class HashSpeedupTest extends CakeTestCase {
  *
  * @var array
  */
+	const MEASUREMENT_NUMBER = 1;
+
+/**
+ * データ
+ *
+ * @var array
+ */
 	private $__data = [];
 
 /**
@@ -96,14 +103,14 @@ class HashSpeedupTest extends CakeTestCase {
  * @return void
  */
 	public function testGet() {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 			Hash::get($this->__data, 'AAAAAA.10.child.grandchild.4.key');
 			$etime = microtime(true);
 			debug($etime - $stime);
 		}
 
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 			Hash::get($this->__data, 'AAAAAA10.child.grandchild.4.key');
 			$etime = microtime(true);
@@ -117,7 +124,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @return void
  */
 	public function testExpand() {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$test = [
 				'0.key' => 'aaaaa_key_10',
 				'0.value' => 'aaaaa_value_10',
@@ -171,7 +178,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @dataProvider dataProviderForExtract
  */
 	public function testExtract($pathKey) {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 			Hash::extract($this->__data, $pathKey);
 			$etime = microtime(true);
@@ -242,7 +249,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @dataProvider dataProviderForCombine
  */
 	public function testCombine($model, $keyPath, $valuePath, $groupPath) {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 
 			if ($model) {
@@ -324,7 +331,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @dataProvider dataProviderForMerge
  */
 	public function testMerge($merge) {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 			Hash::merge($this->__data, $merge);
 			$etime = microtime(true);
@@ -387,7 +394,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @dataProvider dataProviderForInsert
  */
 	public function testInsert($model, $path, $data) {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 
 			if ($model) {
@@ -460,7 +467,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @dataProvider dataProviderForRemove
  */
 	public function testRemove($model, $path) {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 
 			if ($model) {
@@ -480,7 +487,7 @@ class HashSpeedupTest extends CakeTestCase {
  * @return void
  */
 	public function testSort() {
-		for ($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
 			$stime = microtime(true);
 			Hash::sort($this->__data['AAAAAA'], '{n}.child.key', 'desc');
 			$etime = microtime(true);

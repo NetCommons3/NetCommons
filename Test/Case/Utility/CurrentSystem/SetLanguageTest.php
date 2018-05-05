@@ -73,10 +73,10 @@ class NetCommonsUtilityCurrentSystemSetLanguageTest extends NetCommonsCakeTestCa
 			'code' => 'ja',
 			'weight' => '2',
 			'is_active' => true,
-			'created_user' => null,
-			'created' => '2014-07-03 05:00:39',
-			'modified_user' => null,
-			'modified' => '2014-07-03 05:00:39',
+			//'created_user' => null,
+			//'created' => '2014-07-03 05:00:39',
+			//'modified_user' => null,
+			//'modified' => '2014-07-03 05:00:39',
 		);
 		$this->assertEquals(Current::$current['Language'], $expected);
 	}

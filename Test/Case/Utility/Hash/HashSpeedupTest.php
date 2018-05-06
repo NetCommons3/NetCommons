@@ -26,7 +26,21 @@ class HashSpeedupTest extends CakeTestCase {
  *
  * @var array
  */
-	const MEASUREMENT_NUMBER = 1;
+	const MEASUREMENT_NUMBER = 0;
+
+/**
+ * 開始時間
+ *
+ * @var string
+ */
+	private $__startTime = null;
+
+/**
+ * 終了時間
+ *
+ * @var string
+ */
+	private $__endTime = null;
 
 /**
  * データ
@@ -98,23 +112,40 @@ class HashSpeedupTest extends CakeTestCase {
 	}
 
 /**
+ * デバッグの開始
+ *
+ * @return void
+ */
+	private function __debugStart() {
+		$this->__startTime = microtime(true);
+	}
+
+/**
+ * デバッグの終了
+ *
+ * @return void
+ */
+	private function __debugEnd() {
+		$this->__endTime = microtime(true);
+		//debug($this->_endTime - $this->_startTime);
+	}
+
+/**
  * Hash::get()のテスト
  *
  * @return void
  */
 	public function testGet() {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::get($this->__data, 'AAAAAA.10.child.grandchild.4.key');
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::get($this->__data, 'AAAAAA10.child.grandchild.4.key');
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -140,10 +171,9 @@ class HashSpeedupTest extends CakeTestCase {
 				'1.child.grandchild.value' => 'grandchild_aaaaa_value_500',
 			];
 
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::expand($test);
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -179,10 +209,9 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testExtract($pathKey) {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::extract($this->__data, $pathKey);
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -250,16 +279,13 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testCombine($model, $keyPath, $valuePath, $groupPath) {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
-
+			$this->__debugStart();
 			if ($model) {
 				Hash::combine($this->__data[$model], $keyPath, $valuePath, $groupPath);
 			} else {
 				Hash::combine($this->__data, $keyPath, $valuePath, $groupPath);
 			}
-
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -332,10 +358,9 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testMerge($merge) {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::merge($this->__data, $merge);
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -395,16 +420,13 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testInsert($model, $path, $data) {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
-
+			$this->__debugStart();
 			if ($model) {
 				Hash::insert($this->__data[$model], $path, $data);
 			} else {
 				Hash::insert($this->__data, $path, $data);
 			}
-
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -468,16 +490,13 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testRemove($model, $path) {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
-
+			$this->__debugStart();
 			if ($model) {
 				Hash::remove($this->__data[$model], $path);
 			} else {
 				Hash::remove($this->__data, $path);
 			}
-
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 
@@ -488,10 +507,9 @@ class HashSpeedupTest extends CakeTestCase {
  */
 	public function testSort() {
 		for ($i = 0; $i < self::MEASUREMENT_NUMBER; $i++) {
-			$stime = microtime(true);
+			$this->__debugStart();
 			Hash::sort($this->__data['AAAAAA'], '{n}.child.key', 'desc');
-			$etime = microtime(true);
-			debug($etime - $stime);
+			$this->__debugEnd();
 		}
 	}
 

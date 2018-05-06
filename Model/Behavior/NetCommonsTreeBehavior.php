@@ -27,6 +27,13 @@ App::uses('ModelBehavior', 'Model');
 class NetCommonsTreeBehavior extends ModelBehavior {
 
 /**
+ * 桁数
+ *
+ * @var array
+ */
+	const NUMBER_OF_DIGITS = '8';
+
+/**
  * ソートキーのプレフィクス
  *
  * @var array
@@ -324,13 +331,13 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			if ($setKeyIsParent) {
 				$parentKey = $sortKey . self::SORT_KEY_SEPARATOR;
 			} else {
-				$parentKey = substr($sortKey, 0, -8);
+				$parentKey = substr($sortKey, 0, -1 * self::NUMBER_OF_DIGITS);
 			}
 		} else {
 			$parentKey = self::SORT_KEY_PREFIX;
 		}
 
-		return $parentKey . sprintf('%08d', (int)$weight);
+		return $parentKey . sprintf('%0' . self::NUMBER_OF_DIGITS . 'd', (int)$weight);
 	}
 
 /**
@@ -1212,9 +1219,12 @@ class NetCommonsTreeBehavior extends ModelBehavior {
  * @param Model $model Model using this behavior
  * @param array $cakeFileds CakeTreeのため
  * @return bool
+ * @throws InternalErrorException
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function migration(Model $model, $cakeFileds = ['left' => 'lft', 'right' => 'rght']) {
 		$settings = $this->settings[$model->alias];
+		$escapeFields = $this->_escapeFields[$model->alias];
 
 		if (! $model->hasField($settings['parent']) &&
 				! $model->hasField($cakeFileds['left']) &&
@@ -1225,14 +1235,81 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			return true;
 		}
 
-		//$current = $model->find('first', [
-		//	'recursive' => -1,
-		//	'fields' => [$model->primaryKey, $settings['sort_key']],
-		//	'conditions' => [
-		//		$model->primaryKey => $parentId
-		//	],
-		//]);
+		$cakeTrees = $model->find('all', [
+			'recursive' => -1,
+			'fields' => [$model->primaryKey, $settings['parent']],
+			'order' => [
+				$cakeFileds['left'] => 'asc'
+			],
+		]);
+
+		$migratios = [];
+		$weights = [];
+		foreach ($cakeTrees as $cake) {
+			$parentId = $cake[$model->alias][$settings['parent']];
+			$primaryId = $cake[$model->alias][$model->primaryKey];
+
+			if (isset($weights[$parentId])) {
+				$weight = $weights[$parentId];
+			} else {
+				$weight = 0;
+			}
+			$weight++;
+
+			if (! $parentId) {
+				$sortKey = $this->_convertWeightToSortKey($weight, false, false);
+			} else {
+				if (! isset($migratios[$parentId])) {
+					continue;
+				}
+				$sortKey = $this->_convertWeightToSortKey($weight, $migratios[$parentId]['sort_key'], true);
+			}
+			$migratios[$primaryId] = [
+				'parent_id' => $parentId,
+				'weight' => $weight,
+				'sort_key' => $sortKey,
+				'child_count' => 0,
+			];
+
+			$this->__countUpForMigration($migratios, $parentId);
+
+			$weights[$parentId] = $weight;
+		}
+
+		$model->unbindModel(['belongsTo' => array_keys($model->belongsTo)]);
+		foreach ($migratios as $primaryId => $migration) {
+			$update = [
+				$escapeFields['weight'] => $migration['weight'],
+				$escapeFields['sort_key'] => '\'' . $migration['sort_key'] . '\'',
+				$escapeFields['child_count'] => $migration['child_count'],
+			];
+			$conditions = [
+				$escapeFields['id'] => $primaryId
+			];
+			if (! $model->updateAll($update, $conditions)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+		}
+		$model->resetAssociations();
+
 		return true;
+	}
+
+/**
+ * 子供の件数のUP
+ *
+ * @param array &$migratios マイグレーションデータ配列
+ * @param int $parentId 親ID
+ * @return void
+ */
+	private function __countUpForMigration(&$migratios, $parentId) {
+		if (! $parentId) {
+			return;
+		}
+		if (isset($migratios[$parentId])) {
+			$migratios[$parentId]['child_count']++;
+		}
+		$this->__countUpForMigration($migratios, $migratios[$parentId]['parent_id']);
 	}
 
 }

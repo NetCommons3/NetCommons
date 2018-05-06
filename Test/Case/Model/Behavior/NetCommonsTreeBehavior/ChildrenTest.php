@@ -212,7 +212,7 @@ class NetCommonsTreeBehaviorChildrenTest extends NetCommonsTreeBehaviorCase {
 					'id' => '5004', 'parent_id' => null,
 					'lft' => '10007', 'rght' => '10010',
 					'tree_name' => 'Category 7',
-					'weight' => 7, 'sort_key' => '~00000007', 'child_count' => 1
+					'weight' => '7', 'sort_key' => '~00000007', 'child_count' => '1'
 				],
 			],
 		];

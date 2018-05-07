@@ -156,6 +156,13 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
 		Configure::write('Config.language', null);
 		SiteSettingUtil::reset();
 
+		Current::setTestMode();
+
+		$reflectionClass = new ReflectionClass('Current');
+		$property = $reflectionClass->getProperty('__testMode');
+		$property->setAccessible(true);
+		$property->setValue('Current', true);
+
 		Current::$current = array();
 		Current::$permission = array();
 

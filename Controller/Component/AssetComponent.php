@@ -16,6 +16,13 @@
 class AssetComponent extends Component {
 
 /**
+ * 何度も同じデータを取得しないようにキャッシュする
+ *
+ * @var bool
+ */
+	private static $__theme = null;
+
+/**
  * cssの存在チェック
  *
  * @param Controller $controller controller object
@@ -36,8 +43,13 @@ class AssetComponent extends Component {
  * @return mix null or array
  */
 	public function getSiteTheme(Controller $controller) {
+		if (self::$__theme) {
+			return self::$__theme;
+		}
+
 		$theme = null;
 		if (Current::read('Page.theme')) {
+			self::$__theme = Current::read('Page.theme');
 			return Current::read('Page.theme');
 		}
 
@@ -52,6 +64,7 @@ class AssetComponent extends Component {
 			));
 			$theme = Hash::get($page, 'Page.theme');
 			if ($theme) {
+				self::$__theme = $theme;
 				return $theme;
 			}
 		}
@@ -59,11 +72,13 @@ class AssetComponent extends Component {
 		if (! Current::read('Room.id')) {
 			$controller->SiteSetting = ClassRegistry::init('SiteManager.SiteSetting');
 			$theme = $controller->SiteSetting->getSiteTheme();
+			self::$__theme = $theme;
 			return $theme;
 		}
 
 		if (Current::read('Room.theme')) {
 			$theme = Current::read('Room.theme');
+			self::$__theme = $theme;
 			return $theme;
 		}
 
@@ -76,6 +91,7 @@ class AssetComponent extends Component {
 			'order' => array('lft' => 'desc'),
 		));
 		$theme = Hash::get($room, 'Room.theme');
+		self::$__theme = $theme;
 		return $theme;
 	}
 }

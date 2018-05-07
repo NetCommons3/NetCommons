@@ -145,13 +145,20 @@ class CurrentFrame {
 		}
 
 		//Box、Room、Space更新
-		$result = $this->Box->find('first', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'Box.id' => $boxId,
-			),
-		));
-		Current::setCurrent($result);
+		$cacheId = 'box_id_' . $boxId;
+		$cache = Current::getCacheCurrent($cacheId);
+		if ($cache) {
+			Current::setCurrent($cache);
+		} else {
+			$result = $this->Box->find('first', array(
+				'recursive' => 0,
+				'conditions' => array(
+					'Box.id' => $boxId,
+				),
+			));
+			Current::setCurrent($result);
+			Current::setCacheCurrent(array_keys($result), $cacheId);
+		}
 
 		$this->setBoxPageContainer();
 	}
@@ -160,6 +167,7 @@ class CurrentFrame {
  * Set BoxPageContainer
  *
  * @return void
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function setBoxPageContainer() {
 		if (isset(Current::$current['BoxesPageContainer'])) {
@@ -177,18 +185,90 @@ class CurrentFrame {
 			return;
 		}
 
-		$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
+		$cacheId = 'box_page_container_' .
+						Current::$current['Box']['id'] . '_' .
+						$pageId . '_' .
+						Current::$current['Box']['container_type'];
+		$cache = Current::getCacheCurrent($cacheId);
+		if ($cache) {
+			Current::setCurrent($cache);
+		} else {
+			$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
 
-		//BoxesPageContainer、Box、PageContainer、Page更新
-		$result = $this->BoxesPageContainer->find('first', array(
-			'recursive' => 0,
-			'conditions' => array(
-				'BoxesPageContainer.box_id' => Current::$current['Box']['id'],
-				'BoxesPageContainer.page_id' => $pageId,
-				'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
-			),
-		));
-		Current::setCurrent($result);
+			//BoxesPageContainer、Box、PageContainer、Page更新
+			$query = array(
+				'recursive' => -1,
+				'fields' => [
+					$this->BoxesPageContainer->alias . '.id',
+					$this->BoxesPageContainer->alias . '.page_container_id',
+					$this->BoxesPageContainer->alias . '.page_id',
+					$this->BoxesPageContainer->alias . '.container_type',
+					$this->BoxesPageContainer->alias . '.box_id',
+					$this->BoxesPageContainer->alias . '.is_published',
+					$this->BoxesPageContainer->alias . '.weight',
+					$this->BoxesPageContainer->PageContainer->alias . '.id',
+					$this->BoxesPageContainer->PageContainer->alias . '.page_id',
+					$this->BoxesPageContainer->PageContainer->alias . '.container_type',
+					$this->BoxesPageContainer->PageContainer->alias . '.is_published',
+					$this->BoxesPageContainer->PageContainer->alias . '.is_configured',
+					$this->BoxesPageContainer->Page->alias . '.id',
+					$this->BoxesPageContainer->Page->alias . '.room_id',
+					$this->BoxesPageContainer->Page->alias . '.root_id',
+					$this->BoxesPageContainer->Page->alias . '.parent_id',
+					$this->BoxesPageContainer->Page->alias . '.lft',
+					$this->BoxesPageContainer->Page->alias . '.rght',
+					$this->BoxesPageContainer->Page->alias . '.permalink',
+					$this->BoxesPageContainer->Page->alias . '.slug',
+					$this->BoxesPageContainer->Page->alias . '.is_container_fluid',
+					$this->BoxesPageContainer->Page->alias . '.theme',
+					$this->BoxesPageContainer->Box->alias . '.id',
+					$this->BoxesPageContainer->Box->alias . '.container_id',
+					$this->BoxesPageContainer->Box->alias . '.type',
+					$this->BoxesPageContainer->Box->alias . '.space_id',
+					$this->BoxesPageContainer->Box->alias . '.room_id',
+					$this->BoxesPageContainer->Box->alias . '.page_id',
+					$this->BoxesPageContainer->Box->alias . '.container_type',
+					$this->BoxesPageContainer->Box->alias . '.weight',
+				],
+				'conditions' => array(
+					'BoxesPageContainer.box_id' => Current::$current['Box']['id'],
+					'BoxesPageContainer.page_id' => $pageId,
+					'BoxesPageContainer.container_type' => Current::$current['Box']['container_type'],
+				),
+				'joins' => [
+					[
+						'type' => 'INNER',
+						'table' => $this->BoxesPageContainer->PageContainer->table,
+						'alias' => $this->BoxesPageContainer->PageContainer->alias,
+						'conditions' => [
+							$this->BoxesPageContainer->PageContainer->alias . '.id' . '=' .
+											$this->BoxesPageContainer->alias . '.page_container_id',
+						],
+					],
+					[
+						'type' => 'INNER',
+						'table' => $this->BoxesPageContainer->Page->table,
+						'alias' => $this->BoxesPageContainer->Page->alias,
+						'conditions' => [
+							$this->BoxesPageContainer->Page->alias . '.id' . '=' .
+											$this->BoxesPageContainer->alias . '.page_id',
+						],
+					],
+					[
+						'type' => 'INNER',
+						'table' => $this->BoxesPageContainer->Box->table,
+						'alias' => $this->BoxesPageContainer->Box->alias,
+						'conditions' => [
+							$this->BoxesPageContainer->Box->alias . '.id' . '=' .
+											$this->BoxesPageContainer->alias . '.box_id',
+						],
+					],
+				],
+			);
+			$result = $this->BoxesPageContainer->find('first', $query);
+			Current::setCurrent($result);
+			Current::setCacheCurrent(array_keys($result), $cacheId);
+		}
 	}
 
 /**

@@ -126,6 +126,11 @@ class NetCommonsAppController extends Controller {
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 
+		//TODO: 測定用に追加。最後、削除する
+		if (empty($this->request->params['requested'])) {
+			DebugTimer::start('plugin_timer', $this->request->here);
+		}
+
 		if (in_array('Html', $this->helpers, true) &&
 				!isset($this->helpers['Html']['className'])) {
 			$this->helpers['Html']['className'] = 'NetCommons.SingletonViewBlockHtml';

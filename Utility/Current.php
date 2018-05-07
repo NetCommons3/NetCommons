@@ -314,6 +314,13 @@ class Current extends CurrentBase {
 	protected static $_instancePage;
 
 /**
+ * デバッグ
+ *
+ * @var mixed
+ */
+	private static $__testMode = false;
+
+/**
  * コントロールパネルのプラグインタイプキー
  *
  * @var mixed
@@ -321,6 +328,13 @@ class Current extends CurrentBase {
 	protected static $_controlPanelKeys = [
 		Plugin::PLUGIN_TYPE_FOR_SITE_MANAGER, Plugin::PLUGIN_TYPE_FOR_SYSTEM_MANGER
 	];
+
+/**
+ * 同じデータを取得しないようにキャッシュする
+ *
+ * @var bool
+ */
+	private static $__cacheCurrent = [];
 
 /**
  * 各インスタンスのセット
@@ -530,8 +544,49 @@ class Current extends CurrentBase {
 			}
 			if (! isset(Current::$current[$model]) ||
 					$forceMargeModels === true || in_array($model, $forceMargeModels, true)) {
-				Current::$current[$model] = $results[$model];
+				self::$current[$model] = $results[$model];
 			}
+		}
+	}
+
+/**
+ * 取得した結果を$__cacheCurrentにセットする
+ *
+ * @param array $models セットするモデル
+ * @param string $cacheId キャッシュID 指定されていると同じデータを何度も取得しないようにキャッシュ配列にデータを保持する
+ * @return void
+ */
+	public static function setCacheCurrent($models, $cacheId) {
+		if (self::$__testMode) {
+			return;
+		}
+		if (is_array($models)) {
+			foreach ($models as $model) {
+				if (isset(self::$current[$model])) {
+					self::$__cacheCurrent[$cacheId][$model] = self::$current[$model];
+				}
+			}
+		} else {
+			self::$__cacheCurrent[$cacheId] = $models;
+		}
+	}
+
+/**
+ * キャッシュしたデータから取得する
+ *
+ * @param string $cacheId キャッシュID
+ * @param string $model モデル名
+ * @return array
+ */
+	public static function getCacheCurrent($cacheId, $model = null) {
+		if (! isset(self::$__cacheCurrent[$cacheId])) {
+			return false;
+		}
+		if ($model &&
+				isset(self::$__cacheCurrent[$cacheId][$model])) {
+			return self::$__cacheCurrent[$cacheId][$model];
+		} else {
+			return self::$__cacheCurrent[$cacheId];
 		}
 	}
 

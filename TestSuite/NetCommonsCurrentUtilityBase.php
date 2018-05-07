@@ -74,6 +74,7 @@ abstract class NetCommonsCurrentUtilityBase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
 		Current::$current = array();
 
 		$CakeRequest = new CakeRequest();

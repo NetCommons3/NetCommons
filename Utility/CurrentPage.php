@@ -57,7 +57,30 @@ class CurrentPage {
 		$this->setDefaultRolePermissions();
 		$this->setRoomRolePermissions();
 		$this->setPluginsRoom();
-		//$this->setSpace();
+
+		$cacheId = 'room_id_' . Current::read('Room.id');
+		Current::setCacheCurrent(
+			[
+				'DefaultRolePermission',
+				'RolesRoom',
+				'Permission',
+				'RoomRolePermission',
+				'Room',
+				'Space',
+				'ParentRoom',
+				'PluginsRoom',
+			],
+			$cacheId
+		);
+
+		$cacheId = 'page_id_' . Current::read('Page.id');
+		Current::setCacheCurrent(
+			[
+				'PageContainer',
+				'Page',
+			],
+			$cacheId
+		);
 	}
 
 /**
@@ -242,17 +265,95 @@ class CurrentPage {
  */
 	private function __getPage($query) {
 		$this->Page = ClassRegistry::init('Pages.Page');
+		$this->Space = ClassRegistry::init('Rooms.Space');
 
-		if (! empty(Current::$request->params['requested'])) {
-			$this->Page->unbindModel(array(
-				'belongsTo' => array('Room'),
-			), true);
-			$this->Page->unbindModel(array(
-				'belongsTo' => array('Space'),
-			), true);
+		$cacheId = json_encode($query);
+		$cache = Current::getCacheCurrent($cacheId);
+		if ($cache) {
+			$result = json_decode($cache, false);
+		} else {
+			$query['fields'] = [
+				$this->Page->alias . '.id',
+				$this->Page->alias . '.room_id',
+				$this->Page->alias . '.root_id',
+				$this->Page->alias . '.parent_id',
+				$this->Page->alias . '.lft',
+				$this->Page->alias . '.rght',
+				$this->Page->alias . '.permalink',
+				$this->Page->alias . '.slug',
+				$this->Page->alias . '.is_container_fluid',
+				$this->Page->alias . '.theme',
+			];
+
+			if (! empty(Current::$request->params['requested'])) {
+				$this->Page->unbindModel(array(
+					'belongsTo' => array('Room'),
+				), true);
+				$this->Page->unbindModel(array(
+					'belongsTo' => array('Space'),
+				), true);
+			} elseif ($query['recursive'] === 0) {
+				$query['fields'] = array_merge($query['fields'], [
+					$this->Page->Room->alias . '.id',
+					$this->Page->Room->alias . '.space_id',
+					$this->Page->Room->alias . '.page_id_top',
+					$this->Page->Room->alias . '.parent_id',
+					$this->Page->Room->alias . '.lft',
+					$this->Page->Room->alias . '.rght',
+					$this->Page->Room->alias . '.active',
+					$this->Page->Room->alias . '.in_draft',
+					$this->Page->Room->alias . '.default_role_key',
+					$this->Page->Room->alias . '.need_approval',
+					$this->Page->Room->alias . '.default_participation',
+					$this->Page->Room->alias . '.page_layout_permitted',
+					$this->Page->Room->alias . '.theme',
+					$this->Space->alias . '.id',
+					$this->Space->alias . '.parent_id',
+					$this->Space->alias . '.lft',
+					$this->Space->alias . '.rght',
+					$this->Space->alias . '.type',
+					$this->Space->alias . '.plugin_key',
+					$this->Space->alias . '.default_setting_action',
+					$this->Space->alias . '.room_disk_size',
+					$this->Space->alias . '.room_id_root',
+					$this->Space->alias . '.page_id_top',
+					$this->Space->alias . '.permalink',
+					$this->Space->alias . '.is_m17n',
+					$this->Space->alias . '.after_user_save_model',
+				]);
+				$query['recursive'] = -1;
+				$query['joins'] = [
+					[
+						'type' => 'INNER',
+						'table' => $this->Page->Room->table,
+						'alias' => $this->Page->Room->alias,
+						'conditions' => [
+							$this->Page->Room->alias . '.id' . '=' . $this->Page->alias . '.room_id',
+						],
+					],
+					[
+						'type' => 'INNER',
+						'table' => $this->Space->table,
+						'alias' => $this->Space->alias,
+						'conditions' => [
+							$this->Space->alias . '.id' . '=' . $this->Page->Room->alias . '.space_id',
+						],
+					]
+				];
+			}
+			$result = $this->Page->find('first', $query);
+			Current::setCacheCurrent(json_encode($result), $cacheId);
 		}
 
-		$result = $this->Page->find('first', $query);
+		//キャッシュからデータをセット
+		if (isset($result[$this->Page->alias]['id'])) {
+			$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
+			$cache = Current::getCacheCurrent($pageCacheId);
+			if ($cache) {
+				Current::setCurrent($cache);
+			}
+		}
+
 		return $result;
 	}
 
@@ -315,7 +416,7 @@ class CurrentPage {
 		$conditions = array(
 			'Page.id' => Hash::get(Current::$current, 'Room.page_id_top')
 		);
-		$result = $this->Page->find('first', array(
+		$result = $this->__getPage(array(
 			'recursive' => 0,
 			'conditions' => $conditions,
 		));
@@ -347,14 +448,20 @@ class CurrentPage {
 	public function setRoom($roomId) {
 		$this->Room = ClassRegistry::init('Rooms.Room');
 
-		$conditions = array(
-			'Room.id' => $roomId
-		);
-		$result = $this->Room->find('first', array(
-			'recursive' => 0,
-			'conditions' => $conditions,
-		));
-		Current::setCurrent($result);
+		$cacheId = 'room_id_' . $roomId;
+		$cache = Current::getCacheCurrent($cacheId);
+		if ($cache) {
+			Current::setCurrent($cache);
+		} else {
+			$conditions = array(
+				'Room.id' => $roomId
+			);
+			$result = $this->Room->find('first', array(
+				'recursive' => 0,
+				'conditions' => $conditions,
+			));
+			Current::setCurrent($result);
+		}
 	}
 
 /**

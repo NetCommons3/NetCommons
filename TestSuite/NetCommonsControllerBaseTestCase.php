@@ -171,6 +171,11 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 		AuthComponent::$sessionKey = 'Auth.User';
 
+		$reflectionClass = new ReflectionClass('Current');
+		$property = $reflectionClass->getProperty('__testMode');
+		$property->setAccessible(true);
+		$property->setValue('Current', true);
+
 		Current::$current = array();
 		Current::$permission = array();
 

@@ -125,14 +125,15 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
                     {'Content-Type': 'application/x-www-form-urlencoded'}
               }
           ).then(
-          function(response) {
+              function(response) {
                 //success condition
                 deferred.resolve(response);
               },
-          function(response) {
+              function(response) {
                 //error condition
                 deferred.reject(response);
-              });
+              }
+          );
         },
         function(response) {
           //Token error condition

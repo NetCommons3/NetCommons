@@ -37,6 +37,9 @@ class NetCommonsController extends NetCommonsAppController {
  */
 	public function csrfToken() {
 		$security = $this->Components->load('Security');
+		$security->csrfExpires = '+' .
+			SiteSettingUtil::read('Session.ini.[session.gc_maxlifetime]') .
+			' second';
 		$security->generateToken($this->request);
 
 		$data = array(

@@ -188,6 +188,12 @@ class NetCommonsAppController extends Controller {
 
 		$this->Auth->allow('index', 'view', 'emptyRender', 'download', 'throwBadRequest', 'emptyFrame');
 
+		if ($this->Components->loaded('Security')) {
+			$this->Components->Security->csrfExpires = '+' .
+				SiteSettingUtil::read('Session.ini.[session.gc_maxlifetime]') .
+				' second';
+		}
+
 		$this->__prepare();
 
 		//モバイルかどうかの判定処理

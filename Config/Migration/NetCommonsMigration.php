@@ -79,6 +79,7 @@ class NetCommonsMigration extends CakeMigration {
 		$Model->unbindModel(array(
 			'belongsTo' => array('TrackableCreator', 'TrackableUpdater')
 		), false);
+		$Model->setDataSource($this->connection);
 		return $Model;
 	}
 
@@ -174,7 +175,11 @@ class NetCommonsMigration extends CakeMigration {
 				'class' => $class,
 				'testing' => ($this->connection === 'test')
 			], true);
-			$this->$model->setDataSource($this->connection);
+			//$this->$model->setDataSource($this->connection);
+			$this->$model->useDbConfig = $this->connection;
+			if ($this->connection !== 'test') {
+				$this->$model->setMasterDataSource();
+			}
 			//if ($this->$model->useDbConfig !== 'test') {
 			//	$this->$model->setDataSource($source);
 			//}

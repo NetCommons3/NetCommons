@@ -64,30 +64,6 @@ class CurrentPage {
 		$this->setDefaultRolePermissions();
 		$this->setRoomRolePermissions();
 		$this->setPluginsRoom();
-
-		$cacheId = 'room_id_' . Current::read('Room.id');
-		$targetModels = [
-			'DefaultRolePermission',
-			'RolesRoom',
-			'Permission',
-			'RoomRolePermission',
-			'Room',
-			'Space',
-			'ParentRoom',
-			'PluginsRoom',
-		];
-		foreach ($targetModels as $model) {
-			self::$__memoryCache[$cacheId][$model] = Current::read($model);
-		}
-
-		$cacheId = 'page_id_' . Current::read('Page.id');
-		$targetModels = [
-			'PageContainer',
-			'Page',
-		];
-		foreach ($targetModels as $model) {
-			self::$__memoryCache[$cacheId][$model] = Current::read($model);
-		}
 	}
 
 /**
@@ -352,13 +328,13 @@ class CurrentPage {
 		}
 
 		//キャッシュからデータをセット
-		if (isset($result[$this->Page->alias]['id'])) {
-			$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
-			if (isset(self::$__memoryCache[$pageCacheId])) {
-				$cache = self::$__memoryCache[$pageCacheId];
-				Current::setCurrent($cache);
-			}
-		}
+		//if (isset($result[$this->Page->alias]['id'])) {
+		//	$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
+		//	if (isset(self::$__memoryCache[$pageCacheId])) {
+		//		$cache = self::$__memoryCache[$pageCacheId];
+		//		Current::setCurrent($cache);
+		//	}
+		//}
 
 		return $result;
 	}
@@ -455,7 +431,6 @@ class CurrentPage {
 		$this->Room = ClassRegistry::init('Rooms.Room');
 
 		$cacheId = 'room_id_' . $roomId;
-		$cache = Current::getMemoryCache($cacheId);
 		if (isset(self::$__memoryCache[$cacheId])) {
 			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache);
@@ -467,6 +442,7 @@ class CurrentPage {
 				'recursive' => 0,
 				'conditions' => $conditions,
 			));
+			self::$__memoryCache[$cacheId] = $result;
 			Current::setCurrent($result);
 		}
 	}

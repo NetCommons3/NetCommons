@@ -48,7 +48,7 @@ class CurrentSystem {
 		$this->Language = ClassRegistry::init('M17n.Language');
 
 		$cacheId = 'language_' . Configure::read('Config.language');
-		$cache = Current::getCacheCurrent($cacheId);
+		$cache = Current::getMemoryCache($cacheId);
 		if ($cache) {
 			Current::setCurrent($cache, true);
 		} else {
@@ -70,7 +70,7 @@ class CurrentSystem {
 			}
 
 			Current::$current['Language'] = $language['Language'];
-			Current::setCacheCurrent(['Language'], $cacheId);
+			Current::setMemoryCache(['Language'], $cacheId);
 
 			if (is_object(Current::$session) && $this->Language->useDbConfig !== 'test' &&
 					$language['Language']['code'] !== Configure::write('Config.language')) {
@@ -96,7 +96,7 @@ class CurrentSystem {
 		}
 
 		$cacheId = 'plugin_key_' . Current::$request->params['plugin'];
-		$cache = Current::getCacheCurrent($cacheId);
+		$cache = Current::getMemoryCache($cacheId);
 		if ($cache) {
 			Current::setCurrent($cache, true);
 		} else {
@@ -110,7 +110,7 @@ class CurrentSystem {
 				),
 			));
 			Current::setCurrent($result, true);
-			Current::setCacheCurrent(['Plugin'], $cacheId);
+			Current::setMemoryCache(['Plugin'], $cacheId);
 		}
 	}
 
@@ -136,7 +136,7 @@ class CurrentSystem {
 		$userRoleKey = Hash::get(Current::$current, 'User.role_key');
 		if ($userRoleKey) {
 			$cacheId = 'user_role_key_' . $userRoleKey;
-			$cache = Current::getCacheCurrent($cacheId);
+			$cache = Current::getMemoryCache($cacheId);
 			if ($cache) {
 				Current::setCurrent($cache, true);
 			} else {
@@ -154,7 +154,7 @@ class CurrentSystem {
 			Current::$current['PluginsRole'] = Hash::combine(
 				$result, '{n}.PluginsRole.id', '{n}.PluginsRole'
 			);
-			Current::setCacheCurrent(['PluginsRole'], $cacheId);
+			Current::setMemoryCache(['PluginsRole'], $cacheId);
 		} else {
 			return;
 		}

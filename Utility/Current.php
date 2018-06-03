@@ -334,7 +334,7 @@ class Current extends CurrentBase {
  *
  * @var bool
  */
-	private static $__cacheCurrent = [];
+	private static $__memoryCache = [];
 
 /**
  * 各インスタンスのセット
@@ -550,24 +550,24 @@ class Current extends CurrentBase {
 	}
 
 /**
- * 取得した結果を$__cacheCurrentにセットする
+ * 取得した結果を$__memoryCacheにセットする
  *
  * @param array $models セットするモデル
  * @param string $cacheId キャッシュID 指定されていると同じデータを何度も取得しないようにキャッシュ配列にデータを保持する
  * @return void
  */
-	public static function setCacheCurrent($models, $cacheId) {
+	public static function setMemoryCache($models, $cacheId) {
 		if (self::$__testMode) {
 			return;
 		}
 		if (is_array($models)) {
 			foreach ($models as $model) {
 				if (isset(self::$current[$model])) {
-					self::$__cacheCurrent[$cacheId][$model] = self::$current[$model];
+					self::$__memoryCache[$cacheId][$model] = self::$current[$model];
 				}
 			}
 		} else {
-			self::$__cacheCurrent[$cacheId] = $models;
+			self::$__memoryCache[$cacheId] = $models;
 		}
 	}
 
@@ -578,15 +578,15 @@ class Current extends CurrentBase {
  * @param string $model モデル名
  * @return array
  */
-	public static function getCacheCurrent($cacheId, $model = null) {
-		if (! isset(self::$__cacheCurrent[$cacheId])) {
+	public static function getMemoryCache($cacheId, $model = null) {
+		if (! isset(self::$__memoryCache[$cacheId])) {
 			return false;
 		}
 		if ($model &&
-				isset(self::$__cacheCurrent[$cacheId][$model])) {
-			return self::$__cacheCurrent[$cacheId][$model];
+				isset(self::$__memoryCache[$cacheId][$model])) {
+			return self::$__memoryCache[$cacheId][$model];
 		} else {
-			return self::$__cacheCurrent[$cacheId];
+			return self::$__memoryCache[$cacheId];
 		}
 	}
 

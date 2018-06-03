@@ -59,7 +59,7 @@ class CurrentPage {
 		$this->setPluginsRoom();
 
 		$cacheId = 'room_id_' . Current::read('Room.id');
-		Current::setCacheCurrent(
+		Current::setMemoryCache(
 			[
 				'DefaultRolePermission',
 				'RolesRoom',
@@ -74,7 +74,7 @@ class CurrentPage {
 		);
 
 		$cacheId = 'page_id_' . Current::read('Page.id');
-		Current::setCacheCurrent(
+		Current::setMemoryCache(
 			[
 				'PageContainer',
 				'Page',
@@ -268,7 +268,7 @@ class CurrentPage {
 		$this->Space = ClassRegistry::init('Rooms.Space');
 
 		$cacheId = json_encode($query);
-		$cache = Current::getCacheCurrent($cacheId);
+		$cache = Current::getMemoryCache($cacheId);
 		if ($cache) {
 			$result = json_decode($cache, false);
 		} else {
@@ -342,13 +342,13 @@ class CurrentPage {
 				];
 			}
 			$result = $this->Page->find('first', $query);
-			Current::setCacheCurrent(json_encode($result), $cacheId);
+			Current::setMemoryCache(json_encode($result), $cacheId);
 		}
 
 		//キャッシュからデータをセット
 		if (isset($result[$this->Page->alias]['id'])) {
 			$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
-			$cache = Current::getCacheCurrent($pageCacheId);
+			$cache = Current::getMemoryCache($pageCacheId);
 			if ($cache) {
 				Current::setCurrent($cache);
 			}
@@ -449,7 +449,7 @@ class CurrentPage {
 		$this->Room = ClassRegistry::init('Rooms.Room');
 
 		$cacheId = 'room_id_' . $roomId;
-		$cache = Current::getCacheCurrent($cacheId);
+		$cache = Current::getMemoryCache($cacheId);
 		if ($cache) {
 			Current::setCurrent($cache);
 		} else {

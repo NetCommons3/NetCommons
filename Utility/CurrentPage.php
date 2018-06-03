@@ -36,6 +36,13 @@ class CurrentPage {
 	protected static $_instanceFrame;
 
 /**
+ * 同じデータを取得しないようにキャッシュする
+ *
+ * @var array
+ */
+	private static $__memoryCache = [];
+
+/**
  * setup current data
  *
  * @return void
@@ -59,28 +66,28 @@ class CurrentPage {
 		$this->setPluginsRoom();
 
 		$cacheId = 'room_id_' . Current::read('Room.id');
-		Current::setMemoryCache(
-			[
-				'DefaultRolePermission',
-				'RolesRoom',
-				'Permission',
-				'RoomRolePermission',
-				'Room',
-				'Space',
-				'ParentRoom',
-				'PluginsRoom',
-			],
-			$cacheId
-		);
+		$targetModels = [
+			'DefaultRolePermission',
+			'RolesRoom',
+			'Permission',
+			'RoomRolePermission',
+			'Room',
+			'Space',
+			'ParentRoom',
+			'PluginsRoom',
+		];
+		foreach ($targetModels as $model) {
+			self::$__memoryCache[$cacheId][$model] = Current::read($model);
+		}
 
 		$cacheId = 'page_id_' . Current::read('Page.id');
-		Current::setMemoryCache(
-			[
-				'PageContainer',
-				'Page',
-			],
-			$cacheId
-		);
+		$targetModels = [
+			'PageContainer',
+			'Page',
+		];
+		foreach ($targetModels as $model) {
+			self::$__memoryCache[$cacheId][$model] = Current::read($model);
+		}
 	}
 
 /**
@@ -268,9 +275,8 @@ class CurrentPage {
 		$this->Space = ClassRegistry::init('Rooms.Space');
 
 		$cacheId = json_encode($query);
-		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
-			$result = json_decode($cache, false);
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$result = self::$__memoryCache[$cacheId];
 		} else {
 			$query['fields'] = [
 				$this->Page->alias . '.id',
@@ -342,14 +348,14 @@ class CurrentPage {
 				];
 			}
 			$result = $this->Page->find('first', $query);
-			Current::setMemoryCache(json_encode($result), $cacheId);
+			self::$__memoryCache[$cacheId] = $result;
 		}
 
 		//キャッシュからデータをセット
 		if (isset($result[$this->Page->alias]['id'])) {
 			$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
-			$cache = Current::getMemoryCache($pageCacheId);
-			if ($cache) {
+			if (isset(self::$__memoryCache[$pageCacheId])) {
+				$cache = self::$__memoryCache[$pageCacheId];
 				Current::setCurrent($cache);
 			}
 		}
@@ -450,7 +456,8 @@ class CurrentPage {
 
 		$cacheId = 'room_id_' . $roomId;
 		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$conditions = array(

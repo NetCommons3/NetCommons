@@ -33,6 +33,13 @@ class CurrentFrame {
 	);
 
 /**
+ * 同じデータを取得しないようにキャッシュする
+ *
+ * @var array
+ */
+	private static $__memoryCache = [];
+
+/**
  * CurrentPage Instance object
  *
  * @var mixed
@@ -146,8 +153,8 @@ class CurrentFrame {
 
 		//Box、Room、Space更新
 		$cacheId = 'box_id_' . $boxId;
-		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$result = $this->Box->find('first', array(
@@ -156,8 +163,8 @@ class CurrentFrame {
 					'Box.id' => $boxId,
 				),
 			));
+			self::$__memoryCache[$cacheId] = $result;
 			Current::setCurrent($result);
-			Current::setMemoryCache(array_keys($result), $cacheId);
 		}
 
 		$this->setBoxPageContainer();
@@ -189,8 +196,8 @@ class CurrentFrame {
 						Current::$current['Box']['id'] . '_' .
 						$pageId . '_' .
 						Current::$current['Box']['container_type'];
-		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
@@ -266,8 +273,8 @@ class CurrentFrame {
 				],
 			);
 			$result = $this->BoxesPageContainer->find('first', $query);
+			self::$__memoryCache[$cacheId] = $result;
 			Current::setCurrent($result);
-			Current::setMemoryCache(array_keys($result), $cacheId);
 		}
 	}
 

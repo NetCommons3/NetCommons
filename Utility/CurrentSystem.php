@@ -26,6 +26,13 @@ class CurrentSystem {
 	const PLUGIN_CONTROL_PANEL = 'control_panel';
 
 /**
+ * 同じデータを取得しないようにキャッシュする
+ *
+ * @var array
+ */
+	private static $__memoryCache = [];
+
+/**
  * setup current data
  *
  * @return void
@@ -48,8 +55,8 @@ class CurrentSystem {
 		$this->Language = ClassRegistry::init('M17n.Language');
 
 		$cacheId = 'language_' . Configure::read('Config.language');
-		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache, true);
 		} else {
 			$language = $this->Language->getLanguage('first', array(
@@ -69,8 +76,8 @@ class CurrentSystem {
 				));
 			}
 
+			self::$__memoryCache[$cacheId] = $language;
 			Current::$current['Language'] = $language['Language'];
-			Current::setMemoryCache(['Language'], $cacheId);
 
 			if (is_object(Current::$session) && $this->Language->useDbConfig !== 'test' &&
 					$language['Language']['code'] !== Configure::write('Config.language')) {
@@ -96,8 +103,8 @@ class CurrentSystem {
 		}
 
 		$cacheId = 'plugin_key_' . Current::$request->params['plugin'];
-		$cache = Current::getMemoryCache($cacheId);
-		if ($cache) {
+		if (isset(self::$__memoryCache[$cacheId])) {
+			$cache = self::$__memoryCache[$cacheId];
 			Current::setCurrent($cache, true);
 		} else {
 			//Pluginデータ取得
@@ -109,8 +116,8 @@ class CurrentSystem {
 					'language_id' => Current::$current['Language']['id']
 				),
 			));
+			self::$__memoryCache[$cacheId] = $result;
 			Current::setCurrent($result, true);
-			Current::setMemoryCache(['Plugin'], $cacheId);
 		}
 	}
 
@@ -136,9 +143,8 @@ class CurrentSystem {
 		$userRoleKey = Hash::get(Current::$current, 'User.role_key');
 		if ($userRoleKey) {
 			$cacheId = 'user_role_key_' . $userRoleKey;
-			$cache = Current::getMemoryCache($cacheId);
-			if ($cache) {
-				Current::setCurrent($cache, true);
+			if (isset(self::$__memoryCache[$cacheId])) {
+				Current::$current['PluginsRole'] = self::$__memoryCache[$cacheId];
 			} else {
 				$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 				$result = $this->PluginsRole->find('all', array(
@@ -150,11 +156,13 @@ class CurrentSystem {
 						'role_key' => Current::$current['User']['role_key'],
 					),
 				));
+				Current::$current['PluginsRole'] = [];
+				foreach ($result as $pluginsRole) {
+					$key = $pluginsRole['PluginsRole']['id'];
+					Current::$current['PluginsRole'][$key] = $pluginsRole;
+				}
+				self::$__memoryCache[$cacheId] = Current::$current['PluginsRole'];
 			}
-			Current::$current['PluginsRole'] = Hash::combine(
-				$result, '{n}.PluginsRole.id', '{n}.PluginsRole'
-			);
-			Current::setMemoryCache(['PluginsRole'], $cacheId);
 		} else {
 			return;
 		}

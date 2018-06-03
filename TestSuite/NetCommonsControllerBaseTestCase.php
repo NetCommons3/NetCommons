@@ -14,6 +14,8 @@ CakeLog::drop('stderr');
 
 App::uses('TestAuthGeneral', 'AuthGeneral.TestSuite');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('CurrentFrame', 'NetCommons.Utility');
+App::uses('CurrentPage', 'NetCommons.Utility');
 App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
@@ -171,10 +173,12 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 		AuthComponent::$sessionKey = 'Auth.User';
 
-		$reflectionClass = new ReflectionClass('Current');
-		$property = $reflectionClass->getProperty('__testMode');
-		$property->setAccessible(true);
-		$property->setValue('Current', true);
+		foreach (['CurrentFrame', 'CurrentPage', 'CurrentSystem'] as $utility) {
+			$reflectionClass = new ReflectionClass($utility);
+			$property = $reflectionClass->getProperty('__memoryCache');
+			$property->setAccessible(true);
+			$property->setValue($utility, []);
+		}
 
 		Current::$current = array();
 		Current::$permission = array();

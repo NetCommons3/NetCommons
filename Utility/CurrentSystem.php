@@ -159,7 +159,7 @@ class CurrentSystem {
 				Current::$current['PluginsRole'] = [];
 				foreach ($result as $pluginsRole) {
 					$key = $pluginsRole['PluginsRole']['id'];
-					Current::$current['PluginsRole'][$key] = $pluginsRole;
+					Current::$current['PluginsRole'][$key] = $pluginsRole['PluginsRole'];
 				}
 				self::$__memoryCache[$cacheId] = Current::$current['PluginsRole'];
 			}

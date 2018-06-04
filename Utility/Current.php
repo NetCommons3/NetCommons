@@ -326,6 +326,8 @@ class Current extends CurrentBase {
  * 各インスタンスのセット
  *
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	private static function __setInstance() {
 		if (! self::$_instance) {
@@ -368,9 +370,10 @@ class Current extends CurrentBase {
 			if ($changeUser) {
 				$sessionUser = $changeUser['User'];
 				unset($changeUser['User']);
-				CakeSession::write(
-					AuthComponent::$sessionKey, array_merge_recursive($sessionUser, $changeUser)
-				);
+				$sessionUser += $changeUser;
+				foreach ($sessionUser as $key => $value) {
+					CakeSession::write(AuthComponent::$sessionKey . '.' . $key, $value);
+				}
 			}
 		}
 		self::$current['User'] = AuthComponent::user();

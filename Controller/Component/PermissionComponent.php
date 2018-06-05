@@ -116,6 +116,13 @@ class PermissionComponent extends Component {
 	public $allow = array('index,view' => null);
 
 /**
+ * SpaceComponent
+ *
+ * @var string|object
+ */
+	public $SpaceComponent = null;
+
+/**
  * Called before the Controller::beforeFilter().
  *
  * @param Controller $controller Instantiating controller

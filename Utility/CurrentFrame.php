@@ -18,6 +18,7 @@ App::uses('CurrentPage', 'NetCommons.Utility');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CurrentFrame {
 
@@ -95,13 +96,13 @@ class CurrentFrame {
 	public function setFrame($frameId = null) {
 		if ($frameId) {
 			//何もしない
-		} elseif (! Hash::get(Current::$request->params, 'requested') &&
-					Hash::get(Current::$request->data, 'Frame.id')) {
+		} elseif (empty(Current::$request->params['requested']) &&
+				isset(Current::$request->data['Frame']['id'])) {
 			$frameId = Current::$request->data['Frame']['id'];
-		} elseif (Hash::get(Current::$request->params, 'frame_id')) {
-			$frameId = Hash::get(Current::$request->params, 'frame_id');
-		} elseif (Hash::get(Current::$request->params, '?.frame_id')) {
-			$frameId = Hash::get(Current::$request->params, '?.frame_id');
+		} elseif (isset(Current::$request->params['frame_id'])) {
+			$frameId = Current::$request->params['frame_id'];
+		} elseif (isset(Current::$request->params['?']['frame_id'])) {
+			$frameId = Current::$request->params['?']['frame_id'];
 		} elseif (isset(Current::$request->query['frame_id'])) {
 			$frameId = Current::$request->query['frame_id'];
 		}
@@ -113,6 +114,62 @@ class CurrentFrame {
 			//'Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin', 'FramePublicLanguage' 更新
 			$result = $this->Frame->find('first', array(
 				'recursive' => 0,
+				'fields' => [
+					$this->Frame->alias . '.id',
+					$this->Frame->alias . '.room_id',
+					$this->Frame->alias . '.box_id',
+					$this->Frame->alias . '.plugin_key',
+					$this->Frame->alias . '.block_id',
+					$this->Frame->alias . '.key',
+					$this->Frame->alias . '.header_type',
+					$this->Frame->alias . '.weight',
+					$this->Frame->alias . '.is_deleted',
+					$this->Frame->alias . '.default_action',
+					$this->Frame->alias . '.default_setting_action',
+					$this->Frame->Box->alias . '.id',
+					$this->Frame->Box->alias . '.container_id',
+					$this->Frame->Box->alias . '.type',
+					$this->Frame->Box->alias . '.space_id',
+					$this->Frame->Box->alias . '.room_id',
+					$this->Frame->Box->alias . '.page_id',
+					$this->Frame->Box->alias . '.container_type',
+					$this->Frame->Box->alias . '.weight',
+					$this->Frame->Block->alias . '.id',
+					$this->Frame->Block->alias . '.room_id',
+					$this->Frame->Block->alias . '.plugin_key',
+					$this->Frame->Block->alias . '.key',
+					$this->Frame->Block->alias . '.public_type',
+					$this->Frame->Block->alias . '.publish_start',
+					$this->Frame->Block->alias . '.publish_end',
+					$this->Frame->Block->alias . '.content_count',
+					$this->Frame->Room->alias . '.id',
+					$this->Frame->Room->alias . '.space_id',
+					$this->Frame->Room->alias . '.page_id_top',
+					$this->Frame->Room->alias . '.parent_id',
+					$this->Frame->Room->alias . '.active',
+					$this->Frame->Room->alias . '.default_role_key',
+					$this->Frame->Room->alias . '.need_approval',
+					$this->Frame->Room->alias . '.default_participation',
+					$this->Frame->Room->alias . '.page_layout_permitted',
+					$this->Frame->Room->alias . '.theme',
+					'FramesLanguage.language_id',
+					'FramesLanguage.frame_id',
+					'FramesLanguage.name',
+					'Plugin.key',
+					'Plugin.is_m17n',
+					'Plugin.name',
+					'Plugin.default_action',
+					'Plugin.default_setting_action',
+					'Plugin.frame_add_action',
+					'Plugin.display_topics',
+					'Plugin.display_search',
+					'FramePublicLanguage.language_id',
+					'FramePublicLanguage.frame_id',
+					'FramePublicLanguage.is_public',
+					'BlocksLanguage.language_id',
+					'BlocksLanguage.block_id',
+					'BlocksLanguage.name',
+				],
 				'conditions' => array(
 					'Frame.id' => $frameId,
 				),
@@ -159,6 +216,42 @@ class CurrentFrame {
 		} else {
 			$result = $this->Box->find('first', array(
 				'recursive' => 0,
+				'fields' => [
+					$this->Box->alias . '.id',
+					$this->Box->alias . '.container_id',
+					$this->Box->alias . '.type',
+					$this->Box->alias . '.space_id',
+					$this->Box->alias . '.room_id',
+					$this->Box->alias . '.page_id',
+					$this->Box->alias . '.container_type',
+					$this->Box->alias . '.weight',
+					$this->Box->Room->alias . '.id',
+					$this->Box->Room->alias . '.space_id',
+					$this->Box->Room->alias . '.page_id_top',
+					$this->Box->Room->alias . '.parent_id',
+					//$this->Box->Room->alias . '.lft',
+					//$this->Box->Room->alias . '.rght',
+					$this->Box->Room->alias . '.active',
+					//$this->Box->Room->alias . '.in_draft',
+					$this->Box->Room->alias . '.default_role_key',
+					$this->Box->Room->alias . '.need_approval',
+					$this->Box->Room->alias . '.default_participation',
+					$this->Box->Room->alias . '.page_layout_permitted',
+					$this->Box->Room->alias . '.theme',
+					$this->Box->Space->alias . '.id',
+					$this->Box->Space->alias . '.parent_id',
+					//$this->Box->Space->alias . '.lft',
+					//$this->Box->Space->alias . '.rght',
+					$this->Box->Space->alias . '.type',
+					$this->Box->Space->alias . '.plugin_key',
+					$this->Box->Space->alias . '.default_setting_action',
+					$this->Box->Space->alias . '.room_disk_size',
+					$this->Box->Space->alias . '.room_id_root',
+					$this->Box->Space->alias . '.page_id_top',
+					$this->Box->Space->alias . '.permalink',
+					$this->Box->Space->alias . '.is_m17n',
+					$this->Box->Space->alias . '.after_user_save_model',
+				],
 				'conditions' => array(
 					'Box.id' => $boxId,
 				),
@@ -222,8 +315,8 @@ class CurrentFrame {
 					$this->BoxesPageContainer->Page->alias . '.room_id',
 					$this->BoxesPageContainer->Page->alias . '.root_id',
 					$this->BoxesPageContainer->Page->alias . '.parent_id',
-					$this->BoxesPageContainer->Page->alias . '.lft',
-					$this->BoxesPageContainer->Page->alias . '.rght',
+					//$this->BoxesPageContainer->Page->alias . '.lft',
+					//$this->BoxesPageContainer->Page->alias . '.rght',
 					$this->BoxesPageContainer->Page->alias . '.permalink',
 					$this->BoxesPageContainer->Page->alias . '.slug',
 					$this->BoxesPageContainer->Page->alias . '.is_container_fluid',
@@ -301,6 +394,35 @@ class CurrentFrame {
 
 		$result = $this->Block->find('first', array(
 			'recursive' => 0,
+			'fields' => [
+				$this->Block->alias . '.id',
+				$this->Block->alias . '.room_id',
+				$this->Block->alias . '.plugin_key',
+				$this->Block->alias . '.key',
+				$this->Block->alias . '.public_type',
+				$this->Block->alias . '.publish_start',
+				$this->Block->alias . '.publish_end',
+				$this->Block->Room->alias . '.id',
+				$this->Block->Room->alias . '.space_id',
+				$this->Block->Room->alias . '.page_id_top',
+				$this->Block->Room->alias . '.parent_id',
+				$this->Block->Room->alias . '.active',
+				$this->Block->Room->alias . '.default_role_key',
+				$this->Block->Room->alias . '.need_approval',
+				$this->Block->Room->alias . '.default_participation',
+				$this->Block->Room->alias . '.page_layout_permitted',
+				$this->Block->Room->alias . '.theme',
+				'BlocksLanguage.language_id',
+				'BlocksLanguage.block_id',
+				'BlocksLanguage.name',
+				$this->Block->Plugin->alias . '.key',
+				$this->Block->Plugin->alias . '.name',
+				$this->Block->Plugin->alias . '.default_action',
+				$this->Block->Plugin->alias . '.default_setting_action',
+				$this->Block->Plugin->alias . '.frame_add_action',
+				$this->Block->Plugin->alias . '.display_topics',
+				$this->Block->Plugin->alias . '.display_search',
+			],
 			'conditions' => array(
 				'Block.id' => $blockId,
 			),
@@ -355,15 +477,21 @@ class CurrentFrame {
 		$this->__setCurrentBlockRolePermission();
 
 		$permission = array();
-		$permission = Hash::merge(
-			$permission, Hash::get(Current::$current, 'DefaultRolePermission', array())
-		);
-		$permission = Hash::merge(
-			$permission, Hash::get(Current::$current, 'RoomRolePermission', array())
-		);
-		$permission = Hash::merge(
-			$permission, Hash::get(Current::$current, 'BlockRolePermission', array())
-		);
+		if (isset(Current::$current['DefaultRolePermission'])) {
+			$permission = Hash::merge(
+				$permission, Current::$current['DefaultRolePermission']
+			);
+		}
+		if (isset(Current::$current['RoomRolePermission'])) {
+			$permission = Hash::merge(
+				$permission, Current::$current['RoomRolePermission']
+			);
+		}
+		if (isset(Current::$current['BlockRolePermission'])) {
+			$permission = Hash::merge(
+				$permission, Current::$current['BlockRolePermission']
+			);
+		}
 
 		if (Current::read('Room.need_approval')) {
 			Current::$current['Permission'] = $permission;
@@ -395,20 +523,20 @@ class CurrentFrame {
 			return;
 		}
 
-		$result = $this->BlockRolePermission->find('all', array(
+		$results = $this->BlockRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'roles_room_id' => Current::$current['RolesRoom']['id'],
 				'block_key' => Current::$current['Block']['key'],
 			)
 		));
-		if (!$result) {
+		if (!$results) {
 			return;
 		}
-
-		Current::$current['BlockRolePermission'] = Hash::combine(
-			$result, '{n}.BlockRolePermission.permission', '{n}.BlockRolePermission'
-		);
+		foreach ($results as $rolePermission) {
+			$permission = $rolePermission['BlockRolePermission']['permission'];
+			Current::$current['BlockRolePermission'][$permission] = $rolePermission['BlockRolePermission'];
+		}
 
 		// content_publishable は BlockRolePermission から無くなったが、あった場合throw Exception しとく
 		// アップデート時にMigrationで削除するのでありえない。
@@ -448,13 +576,11 @@ class CurrentFrame {
 			return $permission;
 		}
 
-		$useWorkflow = Hash::get($blockSetting, [BlockSettingBehavior::FIELD_USE_WORKFLOW]);
-		if (!$useWorkflow) {
+		if (empty($blockSetting[BlockSettingBehavior::FIELD_USE_WORKFLOW])) {
 			$permission['content_publishable']['value'] = true;
 		}
 
-		$useApproval = Hash::get($blockSetting, [BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL]);
-		if (!$useApproval) {
+		if (empty($blockSetting[BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL])) {
 			$permission['content_comment_publishable']['value'] = true;
 		}
 

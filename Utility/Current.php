@@ -511,7 +511,12 @@ class Current extends CurrentBase {
 		//if (self::read('User.role_key') === UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR) {
 		//	return true;
 		//}
-		return Hash::check(Current::$current['PluginsRole'], '{n}[plugin_key=' . $pluginKey . ']');
+		foreach (Current::$current['PluginsRole'] as $pluginRole) {
+			if ($pluginRole['plugin_key'] === $pluginKey) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 /**

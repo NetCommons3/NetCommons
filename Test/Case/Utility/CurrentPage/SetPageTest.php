@@ -144,8 +144,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '2',
 				'root_id' => '1',
 				'parent_id' => '4',
-				'lft' => '3',
-				'rght' => '4',
+				//'lft' => '3',
+				//'rght' => '4',
 				'permalink' => 'test4',
 				'slug' => 'test4',
 				'full_permalink' => 'test4',
@@ -189,24 +189,7 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 		$this->CurrentPage->setPage();
 
 		//チェック
-		$expected = [
-			'ParentRoom' => [
-				'id' => '1',
-				'space_id' => '1',
-				'page_id_top' => null,
-				'parent_id' => null,
-				'lft' => '1',
-				'rght' => '12',
-				'active' => true,
-				'in_draft' => false,
-				'default_role_key' => 'visitor',
-				'need_approval' => true,
-				'default_participation' => true,
-				'page_layout_permitted' => false,
-				'theme' => null,
-			],
-		];
-		$this->__assertCurrent($expected);
+		$this->__assertCurrent();
 	}
 
 /**
@@ -248,10 +231,10 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'space_id' => '3',
 				'page_id_top' => '10',
 				'parent_id' => '3',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'active' => true,
-				'in_draft' => false,
+				//'in_draft' => false,
 				'default_role_key' => 'room_administrator',
 				'need_approval' => false,
 				'default_participation' => false,
@@ -272,8 +255,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -283,8 +266,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 			'Space' => [
 				'id' => '3',
 				'parent_id' => '1',
-				'lft' => '4',
-				'rght' => '5',
+				//'lft' => '4',
+				//'rght' => '5',
 				'type' => '3',
 				'plugin_key' => 'private_space',
 				'default_setting_action' => '',
@@ -322,10 +305,10 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'space_id' => '3',
 				'page_id_top' => '10',
 				'parent_id' => '3',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'active' => true,
-				'in_draft' => false,
+				//'in_draft' => false,
 				'default_role_key' => 'room_administrator',
 				'need_approval' => false,
 				'default_participation' => false,
@@ -346,8 +329,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -357,8 +340,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 			'Space' => [
 				'id' => '3',
 				'parent_id' => '1',
-				'lft' => '4',
-				'rght' => '5',
+				//'lft' => '4',
+				//'rght' => '5',
 				'type' => '3',
 				'plugin_key' => 'private_space',
 				'default_setting_action' => '',
@@ -385,10 +368,10 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 			'space_id' => '3',
 			'page_id_top' => '10',
 			'parent_id' => '3',
-			'lft' => '10',
-			'rght' => '11',
+			//'lft' => '10',
+			//'rght' => '11',
 			'active' => true,
-			'in_draft' => false,
+			//'in_draft' => false,
 			'default_role_key' => 'room_administrator',
 			'need_approval' => false,
 			'default_participation' => false,
@@ -406,10 +389,10 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'space_id' => '3',
 				'page_id_top' => '10',
 				'parent_id' => '3',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'active' => true,
-				'in_draft' => false,
+				//'in_draft' => false,
 				'default_role_key' => 'room_administrator',
 				'need_approval' => false,
 				'default_participation' => false,
@@ -421,8 +404,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				'lft' => '10',
-				'rght' => '11',
+				//'lft' => '10',
+				//'rght' => '11',
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -432,8 +415,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 			'Space' => [
 				'id' => '3',
 				'parent_id' => '1',
-				'lft' => '4',
-				'rght' => '5',
+				//'lft' => '4',
+				//'rght' => '5',
 				'type' => '3',
 				'plugin_key' => 'private_space',
 				'default_setting_action' => '',
@@ -457,11 +440,6 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	private function __assertCurrent($mergeExpected = array(), $removeKeys = array()) {
-		Current::$current = Hash::remove(Current::$current, '{s}.created_user');
-		Current::$current = Hash::remove(Current::$current, '{s}.created');
-		Current::$current = Hash::remove(Current::$current, '{s}.modified_user');
-		Current::$current = Hash::remove(Current::$current, '{s}.modified');
-
 		$default = array(
 			'Language' => array(
 				'id' => '2',
@@ -471,8 +449,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '2',
 				'root_id' => '1',
 				'parent_id' => '1',
-				'lft' => '2',
-				'rght' => '5',
+				//'lft' => '2',
+				//'rght' => '5',
 				'permalink' => 'home',
 				'slug' => 'home',
 				'is_container_fluid' => false,
@@ -484,10 +462,10 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'space_id' => '2',
 				'page_id_top' => '4',
 				'parent_id' => '1',
-				'lft' => '2',
-				'rght' => '7',
+				//'lft' => '2',
+				//'rght' => '7',
 				'active' => true,
-				'in_draft' => false,
+				//'in_draft' => false,
 				'default_role_key' => 'visitor',
 				'need_approval' => true,
 				'default_participation' => true,
@@ -497,8 +475,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 			'Space' => array(
 				'id' => '2',
 				'parent_id' => '1',
-				'lft' => '2',
-				'rght' => '3',
+				//'lft' => '2',
+				//'rght' => '3',
 				'type' => '2',
 				'plugin_key' => 'public_space',
 				'default_setting_action' => 'rooms/index/2',

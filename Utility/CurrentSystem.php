@@ -140,8 +140,8 @@ class CurrentSystem {
 		}
 
 		//PluginsRoleデータ取得
-		$userRoleKey = Hash::get(Current::$current, 'User.role_key');
-		if ($userRoleKey) {
+		if (isset(Current::$current['User']['role_key'])) {
+			$userRoleKey = Current::$current['User']['role_key'];
 			$cacheId = 'user_role_key_' . $userRoleKey;
 			if (isset(self::$__memoryCache[$cacheId])) {
 				Current::$current['PluginsRole'] = self::$__memoryCache[$cacheId];

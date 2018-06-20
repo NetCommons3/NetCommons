@@ -49,9 +49,8 @@ class CurrentPage {
  */
 	public function initialize() {
 		if (Current::$request->params['plugin'] === Current::PLUGIN_WYSIWYG) {
-			if (Hash::get(Current::$request->data, 'Room.id')) {
-				$roomId = Hash::get(Current::$request->data, 'Room.id');
-			} else {
+			$roomId = Hash::get(Current::$request->data, 'Room.id');
+			if (! $roomId) {
 				$roomId = Hash::get(Current::$request->params, 'pass.0', '');
 			}
 			$this->setRoom($roomId);
@@ -94,6 +93,7 @@ class CurrentPage {
  * @param bool $isMerge マージするかどうか
  * @return void
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function setDefaultRolePermissions($roleKey = null, $isMerge = false) {
 		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
@@ -113,20 +113,19 @@ class CurrentPage {
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
 		}
-		$result = $this->DefaultRolePermission->find('all', array(
+		$results = $this->DefaultRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'role_key' => $roomRoleKey,
 			)
 		));
-		if ($result) {
-			$result = Hash::combine(
-				$result, '{n}.DefaultRolePermission.permission', '{n}.DefaultRolePermission'
-			);
-			Current::$current['DefaultRolePermission'] = Hash::merge(
-				Current::$current['DefaultRolePermission'], $result
-			);
-
+		if ($results) {
+			$result = [];
+			foreach ($results as $rolePermission) {
+				$permission = $rolePermission['DefaultRolePermission']['permission'];
+				$result[$permission] = $rolePermission['DefaultRolePermission'];
+				Current::$current['DefaultRolePermission'][$permission] = $result[$permission];
+			}
 			if ($isMerge) {
 				if (! isset(Current::$current['Permission'])) {
 					Current::$current['Permission'] = array();
@@ -147,16 +146,17 @@ class CurrentPage {
 		if (isset(Current::$current['RoomRolePermission']) || ! isset(Current::$current['RolesRoom'])) {
 			return;
 		}
-		$result = $this->RoomRolePermission->find('all', array(
+		$results = $this->RoomRolePermission->find('all', array(
 			'recursive' => -1,
 			'conditions' => array(
 				'roles_room_id' => Current::$current['RolesRoom']['id'],
 			)
 		));
-		if ($result) {
-			Current::$current['RoomRolePermission'] = Hash::combine(
-				$result, '{n}.RoomRolePermission.permission', '{n}.RoomRolePermission'
-			);
+		if ($results) {
+			foreach ($results as $rolePermission) {
+				$permission = $rolePermission['RoomRolePermission']['permission'];
+				Current::$current['RoomRolePermission'][$permission] = $rolePermission['RoomRolePermission'];
+			}
 		}
 	}
 
@@ -167,8 +167,7 @@ class CurrentPage {
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	private function __getPageConditions() {
-		if (Hash::get(Current::$request->data, 'Page.id')) {
-			$pageId = Current::$request->data['Page']['id'];
+		if ($pageId = Hash::get(Current::$request->data, 'Page.id')) {
 			$conditions = array('Page.id' => $pageId);
 
 		} elseif (!empty(Current::$request->params['pageView'])) {
@@ -193,12 +192,10 @@ class CurrentPage {
 			}
 			$conditions = array('Page.id' => $value);
 
-		} elseif (Hash::get(Current::$request->query, 'page_id')) {
-			$pageId = Hash::get(Current::$request->query, 'page_id');
+		} elseif ($pageId = Hash::get(Current::$request->query, 'page_id')) {
 			$conditions = array('Page.id' => $pageId);
 
-		} elseif (Hash::get(Current::$request->params, 'page_id')) {
-			$pageId = Hash::get(Current::$request->params, 'page_id');
+		} elseif ($pageId = Hash::get(Current::$request->params, 'page_id')) {
 			$conditions = array('Page.id' => $pageId);
 
 		} elseif (in_array(Current::$request->params['plugin'],
@@ -237,7 +234,11 @@ class CurrentPage {
 			),
 			'order' => array('Page.lft' => 'asc')
 		));
-		Current::$current['TopPage'] = Hash::get($result, 'Page');
+		if (isset($result['Page'])) {
+			Current::$current['TopPage'] = $result['Page'];
+		} else {
+			Current::$current['TopPage'] = null;
+		}
 	}
 
 /**
@@ -259,8 +260,8 @@ class CurrentPage {
 				$this->Page->alias . '.room_id',
 				$this->Page->alias . '.root_id',
 				$this->Page->alias . '.parent_id',
-				$this->Page->alias . '.lft',
-				$this->Page->alias . '.rght',
+				//$this->Page->alias . '.lft',
+				//$this->Page->alias . '.rght',
 				$this->Page->alias . '.permalink',
 				$this->Page->alias . '.slug',
 				$this->Page->alias . '.is_container_fluid',
@@ -280,10 +281,10 @@ class CurrentPage {
 					$this->Page->Room->alias . '.space_id',
 					$this->Page->Room->alias . '.page_id_top',
 					$this->Page->Room->alias . '.parent_id',
-					$this->Page->Room->alias . '.lft',
-					$this->Page->Room->alias . '.rght',
+					//$this->Page->Room->alias . '.lft',
+					//$this->Page->Room->alias . '.rght',
 					$this->Page->Room->alias . '.active',
-					$this->Page->Room->alias . '.in_draft',
+					//$this->Page->Room->alias . '.in_draft',
 					$this->Page->Room->alias . '.default_role_key',
 					$this->Page->Room->alias . '.need_approval',
 					$this->Page->Room->alias . '.default_participation',
@@ -291,8 +292,8 @@ class CurrentPage {
 					$this->Page->Room->alias . '.theme',
 					$this->Space->alias . '.id',
 					$this->Space->alias . '.parent_id',
-					$this->Space->alias . '.lft',
-					$this->Space->alias . '.rght',
+					//$this->Space->alias . '.lft',
+					//$this->Space->alias . '.rght',
 					$this->Space->alias . '.type',
 					$this->Space->alias . '.plugin_key',
 					$this->Space->alias . '.default_setting_action',
@@ -326,15 +327,6 @@ class CurrentPage {
 			$result = $this->Page->find('first', $query);
 			self::$__memoryCache[$cacheId] = $result;
 		}
-
-		//キャッシュからデータをセット
-		//if (isset($result[$this->Page->alias]['id'])) {
-		//	$pageCacheId = 'page_id_' . $result[$this->Page->alias]['id'];
-		//	if (isset(self::$__memoryCache[$pageCacheId])) {
-		//		$cache = self::$__memoryCache[$pageCacheId];
-		//		Current::setCurrent($cache);
-		//	}
-		//}
 
 		return $result;
 	}
@@ -396,7 +388,7 @@ class CurrentPage {
 		}
 
 		$conditions = array(
-			'Page.id' => Hash::get(Current::$current, 'Room.page_id_top')
+			'Page.id' => Current::$current['Room']['page_id_top']
 		);
 		$result = $this->__getPage(array(
 			'recursive' => 0,
@@ -440,6 +432,34 @@ class CurrentPage {
 			);
 			$result = $this->Room->find('first', array(
 				'recursive' => 0,
+				'fields' => [
+					$this->Room->alias . '.id',
+					$this->Room->alias . '.space_id',
+					$this->Room->alias . '.page_id_top',
+					$this->Room->alias . '.parent_id',
+					//$this->Room->alias . '.lft',
+					//$this->Room->alias . '.rght',
+					$this->Room->alias . '.active',
+					//$this->Room->alias . '.in_draft',
+					$this->Room->alias . '.default_role_key',
+					$this->Room->alias . '.need_approval',
+					$this->Room->alias . '.default_participation',
+					$this->Room->alias . '.page_layout_permitted',
+					$this->Room->alias . '.theme',
+					$this->Room->Space->alias . '.id',
+					$this->Room->Space->alias . '.parent_id',
+					//$this->Room->Space->alias . '.lft',
+					//$this->Room->Space->alias . '.rght',
+					$this->Room->Space->alias . '.type',
+					$this->Room->Space->alias . '.plugin_key',
+					$this->Room->Space->alias . '.default_setting_action',
+					$this->Room->Space->alias . '.room_disk_size',
+					$this->Room->Space->alias . '.room_id_root',
+					$this->Room->Space->alias . '.page_id_top',
+					$this->Room->Space->alias . '.permalink',
+					$this->Room->Space->alias . '.is_m17n',
+					$this->Room->Space->alias . '.after_user_save_model',
+				],
 				'conditions' => $conditions,
 			));
 			self::$__memoryCache[$cacheId] = $result;

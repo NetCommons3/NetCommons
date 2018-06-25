@@ -66,7 +66,11 @@ class NetCommonsAppView extends View {
 		$remainingBlocks = count($this->Blocks->unclosed());
 
 		if ($initialBlocks !== $remainingBlocks) {
-			throw new CakeException(__d('cake_dev', 'The "%s" block was left open. Blocks are not allowed to cross files.', $this->Blocks->active()));
+			throw new CakeException(__d(
+				'cake_dev',
+				'The "%s" block was left open. Blocks are not allowed to cross files.',
+				$this->Blocks->active()
+			));
 		}
 
 		return $content;

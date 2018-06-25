@@ -323,14 +323,13 @@ class Current extends CurrentBase {
 	];
 
 /**
- * setup current data
+ * 各インスタンスのセット
  *
- * @param Controller $controller コントローラ
  * @return void
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
  */
-	public static function initialize(Controller $controller) {
+	private static function __setInstance() {
 		if (! self::$_instance) {
 			self::$_instance = new Current();
 		}
@@ -343,12 +342,23 @@ class Current extends CurrentBase {
 		if (! self::$_instancePage) {
 			self::$_instancePage = new CurrentPage();
 		}
+	}
+
+/**
+ * setup current data
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public static function initialize(Controller $controller) {
+		self::__setInstance();
 
 		self::$request = clone $controller->request;
 		self::$session = $controller->Session;
 		self::$layout = $controller->layout;
 
-		if (Hash::get(self::$current, 'User.modified') !== AuthComponent::user('modified')) {
+		if (isset(self::$current['User']['modified']) &&
+				(self::$current['User']['modified']) !== AuthComponent::user('modified')) {
 			$User = ClassRegistry::init('Users.User');
 			$changeUser = $User->find('first', array(
 				'recursive' => 0,
@@ -375,7 +385,12 @@ class Current extends CurrentBase {
 		}
 
 		//会員権限に紐づくパーミッションのセット
-		self::$_instancePage->setDefaultRolePermissions(Hash::get(self::$current, 'User.role_key'), true);
+		if (isset(self::$current['User']['role_key'])) {
+			$roleKey = self::$current['User']['role_key'];
+		} else {
+			$roleKey = null;
+		}
+		self::$_instancePage->setDefaultRolePermissions($roleKey, true);
 
 		if (empty($controller->request->params['requested'])) {
 			self::$originalCurrent = self::$current;
@@ -496,7 +511,12 @@ class Current extends CurrentBase {
 		//if (self::read('User.role_key') === UserRole::USER_ROLE_KEY_SYSTEM_ADMINISTRATOR) {
 		//	return true;
 		//}
-		return Hash::check(Current::$current['PluginsRole'], '{n}[plugin_key=' . $pluginKey . ']');
+		foreach (Current::$current['PluginsRole'] as $pluginRole) {
+			if ($pluginRole['plugin_key'] === $pluginKey) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 /**
@@ -513,12 +533,12 @@ class Current extends CurrentBase {
 		$models = array_keys($results);
 
 		foreach ($models as $model) {
-			if (array_key_exists('id', $results[$model]) && ! Hash::get($results[$model], 'id')) {
+			if (array_key_exists('id', $results[$model]) && ! $results[$model]['id']) {
 				continue;
 			}
 			if (! isset(Current::$current[$model]) ||
 					$forceMargeModels === true || in_array($model, $forceMargeModels, true)) {
-				Current::$current[$model] = $results[$model];
+				self::$current[$model] = $results[$model];
 			}
 		}
 	}

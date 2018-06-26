@@ -260,8 +260,8 @@ class CurrentPage {
 				$this->Page->alias . '.room_id',
 				$this->Page->alias . '.root_id',
 				$this->Page->alias . '.parent_id',
-				//$this->Page->alias . '.lft',
-				//$this->Page->alias . '.rght',
+				$this->Page->alias . '.lft', //後で、Page.lft消す
+				$this->Page->alias . '.rght', //後で、Page.lft消す
 				$this->Page->alias . '.permalink',
 				$this->Page->alias . '.slug',
 				$this->Page->alias . '.is_container_fluid',

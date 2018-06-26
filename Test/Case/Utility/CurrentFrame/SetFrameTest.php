@@ -558,8 +558,8 @@ class NetCommonsUtilityCurrentFrameSetFrameTest extends NetCommonsCurrentUtility
 				'room_id' => '2',
 				'root_id' => '1',
 				'parent_id' => '1',
-				//'lft' => '2',
-				//'rght' => '5',
+				'lft' => '2', //後で、Page.lft消す
+				'rght' => '5', //後で、Page.rght消す
 				'permalink' => 'home',
 				'slug' => 'home',
 				'is_container_fluid' => false,

@@ -144,8 +144,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '2',
 				'root_id' => '1',
 				'parent_id' => '4',
-				//'lft' => '3',
-				//'rght' => '4',
+				'lft' => '3', //後で、Page.lft消す
+				'rght' => '4', //後で、Page.rght消す
 				'permalink' => 'test4',
 				'slug' => 'test4',
 				'full_permalink' => 'test4',
@@ -255,8 +255,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				//'lft' => '10',
-				//'rght' => '11',
+				'lft' => '10', //後で、Page.lft消す
+				'rght' => '11', //後で、Page.rght消す
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -329,8 +329,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				//'lft' => '10',
-				//'rght' => '11',
+				'lft' => '10', //後で、Page.lft消す
+				'rght' => '11', //後で、Page.rght消す
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -404,8 +404,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '7',
 				'root_id' => '2',
 				'parent_id' => '2',
-				//'lft' => '10',
-				//'rght' => '11',
+				'lft' => '10', //後で、Page.lft消す
+				'rght' => '11', //後で、Page.rght消す
 				'permalink' => 'user_administrator',
 				'slug' => 'user_administrator',
 				'is_container_fluid' => false,
@@ -449,8 +449,8 @@ class NetCommonsUtilityCurrentPageSetPageTest extends NetCommonsCurrentUtilityBa
 				'room_id' => '2',
 				'root_id' => '1',
 				'parent_id' => '1',
-				//'lft' => '2',
-				//'rght' => '5',
+				'lft' => '2', //後で、Page.lft消す
+				'rght' => '5', //後で、Page.rght消す
 				'permalink' => 'home',
 				'slug' => 'home',
 				'is_container_fluid' => false,

@@ -230,6 +230,7 @@ class PermissionComponent extends Component {
  *
  * @param Controller $controller Controller with components to startup
  * @return bool
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function checkSpaceAccess(Controller $controller) {
 		$Room = ClassRegistry::init('Rooms.Room');
@@ -237,8 +238,12 @@ class PermissionComponent extends Component {
 		$curRoom = Current::read('Room');
 		if ($spaces && $curRoom) {
 			if (empty($this->SpaceComponent)) {
-				$space = $spaces[$curRoom['space_id']];
-				$plugin = Inflector::camelize($space['Space']['plugin_key']);
+				if (isset($spaces[$curRoom['space_id']])) {
+					$space = $spaces[$curRoom['space_id']];
+					$plugin = Inflector::camelize($space['Space']['plugin_key']);
+				} else {
+					$plugin = 'PublicSpace';
+				}
 				$this->SpaceComponent = $controller->Components->load($plugin . '.' . $plugin);
 			} elseif (is_string($this->SpaceComponent)) {
 				$this->SpaceComponent = $controller->Components->load($this->SpaceComponent);

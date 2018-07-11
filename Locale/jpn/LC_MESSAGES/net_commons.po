@@ -1230,6 +1230,9 @@ msgstr "終了"
 msgid "BACK"
 msgstr "前へ"
 
+msgid "Prev"
+msgstr "前へ"
+
 #: NetCommons/View/Helper/WizardHelper.php:219
 #: Questionnaires/View/QuestionnaireAdd/add.ctp:54
 #: Questionnaires/View/QuestionnaireAnswers/img_auth.ctp:33
@@ -1243,6 +1246,9 @@ msgstr "前へ"
 #: Registrations/View/RegistrationAnswers/view.ctp:82
 #: VisualCaptcha/View/VisualCaptcha/view.ctp:15
 msgid "NEXT"
+msgstr "次へ"
+
+msgid "Next"
 msgstr "次へ"
 
 #: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:68

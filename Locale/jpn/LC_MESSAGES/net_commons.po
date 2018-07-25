@@ -1520,6 +1520,17 @@ msgstr "%s日分"
 msgid "%s days"
 msgstr "%s日分"
 
+#: Users/View/Helper/UserSearchFormHelper.php:140
+msgid "Not specified"
+msgstr "指定なし"
+
+#: Users/View/Helper/UserSearchFormHelper.php:186;303;333
+msgid "-- Not specified --"
+msgstr "-- 指定なし --"
+
+#: Users/View/Helper/UserSearchFormHelper.php:140
+msgid "Not condition specified"
+msgstr "条件に含まない"
 
 #
 #: ソート

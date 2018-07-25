@@ -357,9 +357,11 @@ class Current extends CurrentBase {
 		self::$session = $controller->Session;
 		self::$layout = $controller->layout;
 
+		$User = ClassRegistry::init('Users.User');
+		$User->setSlaveDataSource();
+
 		if (isset(self::$current['User']['modified']) &&
 				(self::$current['User']['modified']) !== AuthComponent::user('modified')) {
-			$User = ClassRegistry::init('Users.User');
 			$changeUser = $User->find('first', array(
 				'recursive' => 0,
 				'conditions' => array(

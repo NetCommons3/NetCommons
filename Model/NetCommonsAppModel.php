@@ -139,21 +139,26 @@ class NetCommonsAppModel extends Model {
 		if ($this->useDbConfig === 'test') {
 			return $this->useDbConfig;
 		}
-		// Get all available database-configs
-		$sources = ConnectionManager::enumConnectionObjects();
 
-		// Find the slaves we have
-		$slaves = array();
-		foreach ($sources as $name => $values) {
-			unset($values);
-			// Slaves have to be named "slave1", "slave2", etc...
-			if (preg_match('/^slave[0-9]+$/i', $name) == 1) {
-				$slaves[] = $name;
-			}
-		}
+		//Master<->Slaveは全体的に見直しが必要。
 
-		// Randomly use a slave
-		$dataSource = (count($slaves) !== 0) ? $slaves[rand(0, count($slaves) - 1)] : 'master';
+		//// Get all available database-configs
+		//$sources = ConnectionManager::enumConnectionObjects();
+		//
+		//// Find the slaves we have
+		//$slaves = array();
+		//foreach ($sources as $name => $values) {
+		//	unset($values);
+		//	// Slaves have to be named "slave1", "slave2", etc...
+		//	if (preg_match('/^slave[0-9]+$/i', $name) == 1) {
+		//		$slaves[] = $name;
+		//	}
+		//}
+		//
+		//// Randomly use a slave
+		////$dataSource = (count($slaves) !== 0) ? $slaves[rand(0, count($slaves) - 1)] : 'master';
+
+		$dataSource = 'master';
 		return $dataSource;
 	}
 

@@ -152,6 +152,7 @@ class CurrentFrame {
 					$this->Frame->Room->alias . '.default_participation',
 					$this->Frame->Room->alias . '.page_layout_permitted',
 					$this->Frame->Room->alias . '.theme',
+					'FramesLanguage.id',
 					'FramesLanguage.language_id',
 					'FramesLanguage.frame_id',
 					'FramesLanguage.name',

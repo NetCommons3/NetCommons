@@ -516,6 +516,9 @@ msgstr "%sがありません。"
 msgid "Invalid request."
 msgstr "入力値が不正です。"
 
+msgid "Invalid request for %s."
+msgstr "%sの入力値が不正です。"
+
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
 #: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64

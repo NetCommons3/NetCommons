@@ -516,6 +516,9 @@ msgstr ""
 msgid "Invalid request."
 msgstr ""
 
+msgid "Invalid request for %s."
+msgstr ""
+
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
 #: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64

@@ -519,6 +519,9 @@ msgstr ""
 msgid "Invalid request for %s."
 msgstr ""
 
+msgid "The choice is illegal."
+msgstr ""
+
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
 #: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64

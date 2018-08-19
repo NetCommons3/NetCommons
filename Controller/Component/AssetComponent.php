@@ -60,7 +60,8 @@ class AssetComponent extends Component {
 				'recursive' => -1,
 				'fields' => array('theme'),
 				'conditions' => array('id' => Hash::extract($parentIds, '{n}.Page.id'), 'theme !=' => null),
-				'order' => array('lft' => 'desc'),
+				//'order' => array('lft' => 'desc'),
+				'order' => array('sort_key' => 'desc'),
 			));
 			$theme = Hash::get($page, 'Page.theme');
 			if ($theme) {
@@ -88,7 +89,8 @@ class AssetComponent extends Component {
 			'recursive' => -1,
 			'fields' => array('theme'),
 			'conditions' => array('id' => Hash::extract($parentIds, '{n}.Room.id'), 'theme !=' => null),
-			'order' => array('lft' => 'desc'),
+			//'order' => array('lft' => 'desc'),
+			'order' => array('sort_key' => 'desc'),
 		));
 		$theme = Hash::get($room, 'Room.theme');
 		self::$__theme = $theme;

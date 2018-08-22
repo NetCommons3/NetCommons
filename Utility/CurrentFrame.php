@@ -291,8 +291,8 @@ class CurrentFrame {
 						Current::$current['Box']['id'] . '_' .
 						$pageId . '_' .
 						Current::$current['Box']['container_type'];
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['BoxPageContainer'][$cacheId])) {
+			$cache = self::$__memoryCache['BoxPageContainer'][$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$this->BoxesPageContainer = ClassRegistry::init('Boxes.BoxesPageContainer');
@@ -368,7 +368,7 @@ class CurrentFrame {
 				],
 			);
 			$result = $this->BoxesPageContainer->find('first', $query);
-			self::$__memoryCache[$cacheId] = $result;
+			self::$__memoryCache['BoxPageContainer'][$cacheId] = $result;
 			Current::setCurrent($result);
 		}
 	}
@@ -528,13 +528,13 @@ class CurrentFrame {
 			return;
 		}
 
-		$results = $this->BlockRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'roles_room_id' => Current::$current['RolesRoom']['id'],
-				'block_key' => Current::$current['Block']['key'],
-			)
-		));
+		// ロールルームIDが存在しない場合、ブロックキーで取得する
+		if (!isset(Current::$current['RolesRoom']['id'])) {
+			$results = $this->__getCurrentBlockRolePermissionByBlockKey();
+		} else {
+			$results = $this->__getBlockRolePermissionsByRoleRoomId();
+		}
+
 		if (!$results) {
 			return;
 		}
@@ -550,6 +550,58 @@ class CurrentFrame {
 		if (isset(Current::$current['BlockRolePermission']['content_publishable'])) {
 			throw new InternalErrorException('BlockRolePermission.content_publishable exists');
 		}
+	}
+
+/**
+ * Get current BlockRolePermissionsByBlockKey
+ *
+ * @throws InternalErrorException
+ * @return array
+ */
+	private function __getCurrentBlockRolePermissionByBlockKey() {
+		return $this->BlockRolePermission->find('all', array(
+			'recursive' => -1,
+			'conditions' => array(
+				'block_key' => Current::$current['Block']['key'],
+			)
+		));
+	}
+
+/**
+ * Get current BlockRolePermissionsByRoleRoomId
+ *
+ * @throws InternalErrorException
+ * @return array
+ */
+	private function __getBlockRolePermissionsByRoleRoomId() {
+		$rolesRoomId = Current::$current['RolesRoom']['id'];
+
+		// キャッシュが無い場合
+		if (!isset(self::$__memoryCache['CurrentBlockRolePermission'][$rolesRoomId])) {
+			$results = $this->BlockRolePermission->find('all', array(
+				'recursive' => -1,
+				'conditions' => array(
+					'roles_room_id' => $rolesRoomId,
+				)
+			));
+			self::$__memoryCache['CurrentBlockRolePermission'][$rolesRoomId] = $results;
+		} else {
+			$results = self::$__memoryCache['CurrentBlockRolePermission'][$rolesRoomId];
+		}
+
+		if (!$results) {
+			return [];
+		}
+
+		$rolePermissions = array();
+		foreach ($results as $result) {
+			// 現在のブロックキーのみ抽出する
+			if ($result['BlockRolePermission']['block_key'] == Current::$current['Block']['key']) {
+				$rolePermissions[] = $result;
+			}
+		}
+
+		return $rolePermissions;
 	}
 
 /**

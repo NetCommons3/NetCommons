@@ -48,6 +48,13 @@ class CurrentFrame {
 	protected static $_instancePage;
 
 /**
+ * ページ内で使用するフレームの所属するルームID
+ *
+ * @var array
+ */
+	private static $__roomIds = [];
+
+/**
  * setup current data
  *
  * @return void
@@ -60,6 +67,21 @@ class CurrentFrame {
 		$this->clear();
 
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
+			//ページデータの取得
+			if (empty(self::$__roomIds)) {
+				$Page = ClassRegistry::init('Pages.Page');
+				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), Current::read('Space.id'));
+				$roomIds = [];
+				// フレームが所属するルームID格納
+				foreach ($page['PageContainer'] as $pageContainer) {
+					foreach ($pageContainer['Box'] as $box) {
+						$roomIds[] = $box['Room']['id'];
+					}
+				}
+				// 重複は省く
+				self::$__roomIds = array_unique($roomIds);
+			}
+
 			$this->setFrame();
 			$this->setBlock();
 		}
@@ -112,75 +134,11 @@ class CurrentFrame {
 
 		if (isset($frameId)) {
 			//'Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin', 'FramePublicLanguage' 更新
-			$result = $this->Frame->find('first', array(
-				'recursive' => 0,
-				'fields' => [
-					$this->Frame->alias . '.id',
-					$this->Frame->alias . '.room_id',
-					$this->Frame->alias . '.box_id',
-					$this->Frame->alias . '.plugin_key',
-					$this->Frame->alias . '.block_id',
-					$this->Frame->alias . '.key',
-					$this->Frame->alias . '.header_type',
-					$this->Frame->alias . '.weight',
-					$this->Frame->alias . '.is_deleted',
-					$this->Frame->alias . '.default_action',
-					$this->Frame->alias . '.default_setting_action',
-					$this->Frame->Box->alias . '.id',
-					$this->Frame->Box->alias . '.container_id',
-					$this->Frame->Box->alias . '.type',
-					$this->Frame->Box->alias . '.space_id',
-					$this->Frame->Box->alias . '.room_id',
-					$this->Frame->Box->alias . '.page_id',
-					$this->Frame->Box->alias . '.container_type',
-					$this->Frame->Box->alias . '.weight',
-					$this->Frame->Block->alias . '.id',
-					$this->Frame->Block->alias . '.room_id',
-					$this->Frame->Block->alias . '.plugin_key',
-					$this->Frame->Block->alias . '.key',
-					$this->Frame->Block->alias . '.public_type',
-					$this->Frame->Block->alias . '.publish_start',
-					$this->Frame->Block->alias . '.publish_end',
-					$this->Frame->Block->alias . '.content_count',
-					$this->Frame->Room->alias . '.id',
-					$this->Frame->Room->alias . '.space_id',
-					$this->Frame->Room->alias . '.page_id_top',
-					$this->Frame->Room->alias . '.parent_id',
-					$this->Frame->Room->alias . '.active',
-					$this->Frame->Room->alias . '.default_role_key',
-					$this->Frame->Room->alias . '.need_approval',
-					$this->Frame->Room->alias . '.default_participation',
-					$this->Frame->Room->alias . '.page_layout_permitted',
-					$this->Frame->Room->alias . '.theme',
-					'FramesLanguage.id',
-					'FramesLanguage.language_id',
-					'FramesLanguage.frame_id',
-					'FramesLanguage.name',
-					'Plugin.key',
-					'Plugin.type',
-					'Plugin.name',
-					'Plugin.is_m17n',
-					'Plugin.default_action',
-					'Plugin.default_setting_action',
-					'Plugin.frame_add_action',
-					'Plugin.display_topics',
-					'Plugin.display_search',
-					'FramePublicLanguage.language_id',
-					'FramePublicLanguage.frame_id',
-					'FramePublicLanguage.is_public',
-					'BlocksLanguage.language_id',
-					'BlocksLanguage.block_id',
-					'BlocksLanguage.name',
-				],
-				'conditions' => array(
-					'Frame.id' => $frameId,
-				),
-			));
+			$result = $this->__getFrame($frameId);
 			Current::setCurrent(
 				$result, ['Frame', 'Box', 'Block', 'Room', 'FramesLanguage', 'Plugin', 'FramePublicLanguage']
 			);
 		}
-
 		//ブロック設定の新規の場合の処理
 		if (Current::$layout === 'NetCommons.setting' &&
 				substr(Current::$request->params['controller'], -7) === '_blocks' &&
@@ -189,6 +147,102 @@ class CurrentFrame {
 		}
 
 		$this->setBox();
+	}
+
+/**
+ * Get Frame
+ *
+ * @param string $frameId フレームID
+ * @return array
+ */
+	private function __getFrame($frameId) {
+		$options = array(
+			'recursive' => 0,
+			'fields' => [
+				$this->Frame->alias . '.id',
+				$this->Frame->alias . '.room_id',
+				$this->Frame->alias . '.box_id',
+				$this->Frame->alias . '.plugin_key',
+				$this->Frame->alias . '.block_id',
+				$this->Frame->alias . '.key',
+				$this->Frame->alias . '.header_type',
+				$this->Frame->alias . '.weight',
+				$this->Frame->alias . '.is_deleted',
+				$this->Frame->alias . '.default_action',
+				$this->Frame->alias . '.default_setting_action',
+				$this->Frame->Box->alias . '.id',
+				$this->Frame->Box->alias . '.container_id',
+				$this->Frame->Box->alias . '.type',
+				$this->Frame->Box->alias . '.space_id',
+				$this->Frame->Box->alias . '.room_id',
+				$this->Frame->Box->alias . '.page_id',
+				$this->Frame->Box->alias . '.container_type',
+				$this->Frame->Box->alias . '.weight',
+				$this->Frame->Block->alias . '.id',
+				$this->Frame->Block->alias . '.room_id',
+				$this->Frame->Block->alias . '.plugin_key',
+				$this->Frame->Block->alias . '.key',
+				$this->Frame->Block->alias . '.public_type',
+				$this->Frame->Block->alias . '.publish_start',
+				$this->Frame->Block->alias . '.publish_end',
+				$this->Frame->Block->alias . '.content_count',
+				$this->Frame->Room->alias . '.id',
+				$this->Frame->Room->alias . '.space_id',
+				$this->Frame->Room->alias . '.page_id_top',
+				$this->Frame->Room->alias . '.parent_id',
+				$this->Frame->Room->alias . '.active',
+				$this->Frame->Room->alias . '.default_role_key',
+				$this->Frame->Room->alias . '.need_approval',
+				$this->Frame->Room->alias . '.default_participation',
+				$this->Frame->Room->alias . '.page_layout_permitted',
+				$this->Frame->Room->alias . '.theme',
+				'FramesLanguage.id',
+				'FramesLanguage.language_id',
+				'FramesLanguage.frame_id',
+				'FramesLanguage.name',
+				'Plugin.key',
+				'Plugin.type',
+				'Plugin.name',
+				'Plugin.is_m17n',
+				'Plugin.default_action',
+				'Plugin.default_setting_action',
+				'Plugin.frame_add_action',
+				'Plugin.display_topics',
+				'Plugin.display_search',
+				'FramePublicLanguage.language_id',
+				'FramePublicLanguage.frame_id',
+				'FramePublicLanguage.is_public',
+				'BlocksLanguage.language_id',
+				'BlocksLanguage.block_id',
+				'BlocksLanguage.name',
+			],
+		);
+
+		// キャッシュが存在しない場合、DBから取得する
+		if (!isset(self::$__memoryCache['Frame'][$frameId])) {
+			// スペースが取得できる場合はスペース内の全てのフレームを取得し、キャッシュ化する
+			if (Current::read('Space.id')) {
+				$options['conditions'] = array(
+					'Frame.room_id' => self::$__roomIds,
+				);
+			} else {
+				// スペースが取得できない場合は指定されたframeIdで取得する
+				$options['conditions'] = array(
+					'Frame.id' => $frameId,
+				);
+			}
+			$results = $this->Frame->find('all', $options);
+			foreach ($results as $frame) {
+				self::$__memoryCache['Frame'][$frame['Frame']['id']] = $frame;
+			}
+		}
+
+		// フレームが存在する場合、フレームを返す
+		if (isset(self::$__memoryCache['Frame'][$frameId])) {
+			return self::$__memoryCache['Frame'][$frameId];
+		}
+
+		return [];
 	}
 
 /**

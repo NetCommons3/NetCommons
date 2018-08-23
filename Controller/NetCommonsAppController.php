@@ -197,7 +197,9 @@ class NetCommonsAppController extends Controller {
 		$this->__prepare();
 
 		//モバイルかどうかの判定処理
-		Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
+		if (Configure::read('isMobile') === null) {
+			Configure::write('isMobile', $this->MobileDetect->detect('isMobile'));
+		}
 
 		if ($this->params['plugin'] !== 'frames' &&
 				Current::read('Frame.id') && ! Current::read('FramePublicLanguage.is_public')) {

@@ -167,7 +167,7 @@ class CurrentPage {
 		}
 
 		// ルームロールパーミッション取得
-		$results = $this->__getRoomRolePermissions(Current::$current['RolesRoom']);
+		$results = $this->__getRoomRolePermissions(Current::$current['RolesRoom']['id']);
 
 		if ($results) {
 			foreach ($results as $rolePermission) {

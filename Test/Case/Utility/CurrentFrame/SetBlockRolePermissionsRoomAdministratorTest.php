@@ -24,6 +24,9 @@ class SetBlockRolePermissionsRoomAdministratorTest extends SetBlockRolePermissio
 	private function __getRolePermissionTestDataForRoomAdministrator() {
 		return [
 			'room_administrator' => [
+				'RolesRoom' => [
+					'id' => '1',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -95,7 +98,13 @@ class SetBlockRolePermissionsRoomAdministratorTest extends SetBlockRolePermissio
 
 		$this->CurrentFrame->setBlockRolePermissions();
 
-		$this->assertEquals($expected, Current::$current['Permission']);
+		$assert = [];
+		foreach (Current::$current['Permission'] as $key => $value) {
+			$assert[$key]['permission'] = $value['permission'];
+			$assert[$key]['value'] = $value['value'];
+		}
+
+		$this->assertEquals($expected, $assert);
 	}
 
 }

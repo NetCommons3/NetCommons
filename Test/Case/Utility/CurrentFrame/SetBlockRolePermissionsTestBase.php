@@ -261,7 +261,7 @@ abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 			return;
 		}
 
-		Current::$current['RolesRoom']['id'] = 'dummy';
+		Current::$current['RolesRoom']['id'] = $data['RolesRoom']['id'];
 		$blockRolePermissions = Hash::get($data, ['BlockRolePermission'], []);
 		$value = [];
 		foreach ($blockRolePermissions as $permission => $blockRolePermission) {
@@ -269,22 +269,13 @@ abstract class SetBlockRolePermissionsTestBase extends CakeTestCase {
 				'BlockRolePermission' => [
 					'permission' =>	$permission,
 					'value' => $blockRolePermission['value'],
+					'block_key' => 'dummy',
 				]
 			];
 		}
 		$this->MockBlockRPermission
-			->expects($this->once())
 			->method('find')
-			->with(
-				'all',
-				[
-					'recursive' => -1,
-					'conditions' => [
-						'roles_room_id' => Current::$current['RolesRoom']['id'],
-						'block_key' => Current::$current['Block']['key'],
-					],
-				]
-			)
+			->with($this->anything())
 			->will($this->returnValue($value));
 	}
 

@@ -24,6 +24,9 @@ class SetBlockRolePermissionsChiefEditorTest extends SetBlockRolePermissionsTest
 	private function __getRolePermissionTestDataForChiefEditor() {
 		return [
 			'chief_editor content true' => [
+				'RolesRoom' => [
+					'id' => '1',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -46,6 +49,9 @@ class SetBlockRolePermissionsChiefEditorTest extends SetBlockRolePermissionsTest
 				]
 			],
 			'chief_editor content false' => [
+				'RolesRoom' => [
+					'id' => '2',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -186,7 +192,13 @@ class SetBlockRolePermissionsChiefEditorTest extends SetBlockRolePermissionsTest
 
 		$this->CurrentFrame->setBlockRolePermissions();
 
-		$this->assertEquals($expected, Current::$current['Permission']);
+		$assert = [];
+		foreach (Current::$current['Permission'] as $key => $value) {
+			$assert[$key]['permission'] = $value['permission'];
+			$assert[$key]['value'] = $value['value'];
+		}
+
+		$this->assertEquals($expected, $assert);
 	}
 
 }

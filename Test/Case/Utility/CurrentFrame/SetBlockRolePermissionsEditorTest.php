@@ -24,6 +24,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 	private function __getRolePermissionTestDataForEditorOfCommentNotNullContentTrue() {
 		return [
 			'editor both true' => [
+				'RolesRoom' => [
+					'id' => '1',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -52,6 +55,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 				]
 			],
 			'editor content true only' => [
+				'RolesRoom' => [
+					'id' => '2',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -90,6 +96,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 	private function __getRolePermissionTestDataForEditorOfCommentNotNullContentFalse() {
 		return [
 			'editor comment true only' => [
+				'RolesRoom' => [
+					'id' => '3',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -118,6 +127,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 				]
 			],
 			'editor both false' => [
+				'RolesRoom' => [
+					'id' => '4',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -156,6 +168,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 	private function __getRolePermissionTestDataForEditorOfCommentNull() {
 		return [
 			'editor content true and comment is null' => [
+				'RolesRoom' => [
+					'id' => '5',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -178,6 +193,9 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 				],
 			],
 			'editor content false and comment is null' => [
+				'RolesRoom' => [
+					'id' => '6',
+				],
 				'DefaultRolePermission' => [
 					'content_publishable' => [
 						'permission' => 'content_publishable',
@@ -628,7 +646,13 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
 
 		$this->CurrentFrame->setBlockRolePermissions();
 
-		$this->assertEquals($expected, Current::$current['Permission']);
+		$assert = [];
+		foreach (Current::$current['Permission'] as $key => $value) {
+			$assert[$key]['permission'] = $value['permission'];
+			$assert[$key]['value'] = $value['value'];
+		}
+
+		$this->assertEquals($expected, $assert);
 	}
 
 }

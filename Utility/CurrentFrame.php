@@ -12,6 +12,7 @@
 App::uses('Container', 'Containers.Model');
 App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
 App::uses('CurrentPage', 'NetCommons.Utility');
+App::uses('Space', 'Rooms.Model');
 
 /**
  * CurrentFrame Utility
@@ -69,8 +70,19 @@ class CurrentFrame {
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
 			//ページデータの取得
 			if (empty(self::$__roomIds)) {
+				$path = explode('/', Current::read('Page.full_permalink'));
+				$spacePermalink = $path[0];
+				// トップページの場合空にする
+				if ($spacePermalink == Current::read('TopPage.permalink')) {
+					$spacePermalink = '';
+				}
+				$Space = ClassRegistry::init('Rooms.Space');
+				$space = $Space->find('first', array(
+					'recursive' => -1,
+					'conditions' => array('permalink' => $spacePermalink, 'id !=' => Space::WHOLE_SITE_ID)
+				));
 				$Page = ClassRegistry::init('Pages.Page');
-				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), Current::read('Space.id'));
+				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), $space['Space']['id']);
 				$roomIds = [];
 				// フレームが所属するルームID格納
 				foreach ($page['PageContainer'] as $pageContainer) {

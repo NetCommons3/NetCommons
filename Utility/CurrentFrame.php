@@ -59,6 +59,9 @@ class CurrentFrame {
  * setup current data
  *
  * @return void
+ *
+ * 速度改善の修正に伴って発生したため抑制
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function initialize() {
 		if (! self::$_instancePage) {

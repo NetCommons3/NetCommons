@@ -77,10 +77,15 @@ class CurrentFrame {
 					$spacePermalink = '';
 				}
 				$Space = ClassRegistry::init('Rooms.Space');
-				$space = $Space->find('first', array(
-					'recursive' => -1,
-					'conditions' => array('permalink' => $spacePermalink, 'id !=' => Space::WHOLE_SITE_ID)
-				));
+				$spaces = $Space->getSpaces();
+				$space = [];
+				foreach ($spaces as $row) {
+					if ($row['Space']['permalink'] == $spacePermalink
+							&& $row['Space']['permalink'] == Space::WHOLE_SITE_ID) {
+						$space = $row;
+						break;
+					}
+				}
 				$Page = ClassRegistry::init('Pages.Page');
 				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), $space['Space']['id']);
 				$roomIds = [];

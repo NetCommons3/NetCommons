@@ -81,7 +81,7 @@ class CurrentFrame {
 				$space = [];
 				foreach ($spaces as $row) {
 					if ($row['Space']['permalink'] == $spacePermalink
-							&& $row['Space']['permalink'] == Space::WHOLE_SITE_ID) {
+							&& $row['Space']['id'] != Space::WHOLE_SITE_ID) {
 						$space = $row;
 						break;
 					}

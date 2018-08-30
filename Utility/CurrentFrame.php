@@ -73,24 +73,21 @@ class CurrentFrame {
 		if (!in_array(Current::$request->params['plugin'], self::$skipFramePlugins, true)) {
 			//ページデータの取得
 			if (empty(self::$__roomIds)) {
-				$path = explode('/', Current::read('Page.full_permalink'));
-				$spacePermalink = $path[0];
-				// トップページの場合空にする
-				if ($spacePermalink == Current::read('TopPage.permalink')) {
-					$spacePermalink = '';
+				// ルームを取得
+				$Room = ClassRegistry::init('Rooms.Room');
+				$room = $Room->find('first', array(
+					'recursive' => -1,
+					'conditions' => array(
+						'id' => Current::read('Page.room_id')
+					)
+				));
+				$spaceId = null;
+				if (!empty($room)) {
+					$spaceId = $room['Room']['space_id'];
 				}
-				$Space = ClassRegistry::init('Rooms.Space');
-				$spaces = $Space->getSpaces();
-				$space = [];
-				foreach ($spaces as $row) {
-					if ($row['Space']['permalink'] == $spacePermalink
-							&& $row['Space']['id'] != Space::WHOLE_SITE_ID) {
-						$space = $row;
-						break;
-					}
-				}
+
 				$Page = ClassRegistry::init('Pages.Page');
-				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), $space['Space']['id']);
+				$page = $Page->getPageWithFrame(Current::read('Page.permalink'), $spaceId);
 				$roomIds = [];
 				// フレームが所属するルームID格納
 				foreach ($page['PageContainer'] as $pageContainer) {
@@ -126,6 +123,15 @@ class CurrentFrame {
 				unset(Current::$current[$model]);
 			}
 		}
+	}
+
+/**
+ * reset
+ *
+ * @return void
+ */
+	public function reset() {
+		self::$__memoryCache = [];
 	}
 
 /**
@@ -286,8 +292,8 @@ class CurrentFrame {
 
 		//Box、Room、Space更新
 		$cacheId = 'box_id_' . $boxId;
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['Box'][$cacheId])) {
+			$cache = self::$__memoryCache['Box'][$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$result = $this->Box->find('first', array(
@@ -332,7 +338,7 @@ class CurrentFrame {
 					'Box.id' => $boxId,
 				),
 			));
-			self::$__memoryCache[$cacheId] = $result;
+			self::$__memoryCache['Box'][$cacheId] = $result;
 			Current::setCurrent($result);
 		}
 

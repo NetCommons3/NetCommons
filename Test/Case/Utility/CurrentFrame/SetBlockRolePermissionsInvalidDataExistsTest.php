@@ -217,6 +217,7 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
  */
 	public function testInvalidDataBlockNotExists($data, $expected) {
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockSetting($data);
 		$this->_setMockBlockRolePermission($data);
 
@@ -237,6 +238,7 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 		$this->setExpectedException('InternalErrorException');
 
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockRolePermission($data);
 
 		$this->CurrentFrame->setBlockRolePermissions();

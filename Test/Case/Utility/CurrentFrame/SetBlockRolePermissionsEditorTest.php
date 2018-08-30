@@ -641,6 +641,7 @@ class SetBlockRolePermissionsEditorTest extends SetBlockRolePermissionsTestBase 
  */
 	public function testEditor($data, $expected) {
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockSetting($data);
 		$this->_setMockBlockRolePermission($data);
 

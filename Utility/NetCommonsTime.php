@@ -174,4 +174,20 @@ class NetCommonsTime {
 		}
 		return $userTimezone;
 	}
+
+/**
+ * DateTime型チェック
+ *
+ * @param string $value datetimeの値
+ * @return bool DateTime型
+ */
+	public function isDatetime($value) {
+		try {
+			// DateTime値チェック($value=20150716150000 or 2018-06-26 11:37:39いずれにも対応)
+			new DateTime($value, new DateTimeZone('UTC'));
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
+	}
 }

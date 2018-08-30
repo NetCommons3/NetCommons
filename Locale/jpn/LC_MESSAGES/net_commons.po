@@ -516,6 +516,12 @@ msgstr "%sがありません。"
 msgid "Invalid request."
 msgstr "入力値が不正です。"
 
+msgid "Invalid request for %s."
+msgstr "%sの入力値が不正です。"
+
+msgid "The choice is illegal."
+msgstr "選択肢が不正です。"
+
 #: AccessCounters/View/Elements/AccessCounters/delete_form.ctp:14
 #: Bbses/View/Elements/BbsBlocks/delete_form.ctp:14
 #: Blogs/Test/Case/View/Elements/BlogBlocks/DeleteFormTest.php:64
@@ -1230,6 +1236,9 @@ msgstr "終了"
 msgid "BACK"
 msgstr "前へ"
 
+msgid "Prev"
+msgstr "前へ"
+
 #: NetCommons/View/Helper/WizardHelper.php:219
 #: Questionnaires/View/QuestionnaireAdd/add.ctp:54
 #: Questionnaires/View/QuestionnaireAnswers/img_auth.ctp:33
@@ -1243,6 +1252,9 @@ msgstr "前へ"
 #: Registrations/View/RegistrationAnswers/view.ctp:82
 #: VisualCaptcha/View/VisualCaptcha/view.ctp:15
 msgid "NEXT"
+msgstr "次へ"
+
+msgid "Next"
 msgstr "次へ"
 
 #: Questionnaires/View/QuestionnaireAnswers/confirm.ctp:68
@@ -1514,6 +1526,17 @@ msgstr "%s日分"
 msgid "%s days"
 msgstr "%s日分"
 
+#: Users/View/Helper/UserSearchFormHelper.php:140
+msgid "Not specified"
+msgstr "指定なし"
+
+#: Users/View/Helper/UserSearchFormHelper.php:186;303;333
+msgid "-- Not specified --"
+msgstr "-- 指定なし --"
+
+#: Users/View/Helper/UserSearchFormHelper.php:140
+msgid "Not condition specified"
+msgstr "条件に含まない"
 
 #
 #: ソート

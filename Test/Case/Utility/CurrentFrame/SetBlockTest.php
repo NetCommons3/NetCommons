@@ -197,7 +197,7 @@ class NetCommonsUtilityCurrentFrameSetBlockTest extends NetCommonsCurrentUtility
 				'is_public' => true,
 			),
 			'FramesLanguage' => array(
-				//'id' => '2',
+				'id' => '2',
 				'language_id' => '2',
 				//'is_original_copy' => false,
 				'frame_id' => '2',

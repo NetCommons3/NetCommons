@@ -88,9 +88,13 @@ if (AuthComponent::user()) {
 					<?php if (Current::hasSettingMode()) : ?>
 						<li>
 							<?php if (! $isSettingMode) : ?>
-								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode on'), NetCommonsUrl::backToPageUrl(true)); ?>
+								<?php echo $this->NetCommonsHtml->link(
+									__d('pages', 'Setting mode on'), '/pages/change_setting_mode/?mode=1&page_id=' . Current::read('Page.id')
+								); ?>
 							<?php else: ?>
-								<?php echo $this->NetCommonsHtml->link(__d('pages', 'Setting mode off'), NetCommonsUrl::backToPageUrl()); ?>
+								<?php echo $this->NetCommonsHtml->link(
+									__d('pages', 'Setting mode off'), '/pages/change_setting_mode/?mode=0&page_id=' . Current::read('Page.id')
+								); ?>
 							<?php endif; ?>
 						</li>
 					<?php endif; ?>

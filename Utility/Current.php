@@ -357,9 +357,11 @@ class Current extends CurrentBase {
 		self::$session = $controller->Session;
 		self::$layout = $controller->layout;
 
+		$User = ClassRegistry::init('Users.User');
+		$User->setSlaveDataSource();
+
 		if (isset(self::$current['User']['modified']) &&
 				(self::$current['User']['modified']) !== AuthComponent::user('modified')) {
-			$User = ClassRegistry::init('Users.User');
 			$changeUser = $User->find('first', array(
 				'recursive' => 0,
 				'conditions' => array(
@@ -425,9 +427,16 @@ class Current extends CurrentBase {
 	public static function isSettingMode($settingMode = null) {
 		if (isset($settingMode)) {
 			self::$_isSettingMode = $settingMode;
+			CakeSession::write(Current::SETTING_MODE_WORD, $settingMode);
 		}
 
 		if (isset(self::$_isSettingMode)) {
+			return self::$_isSettingMode;
+		}
+
+		$tmpSettingMode = CakeSession::read(self::SETTING_MODE_WORD);
+		if ($tmpSettingMode !== null) {
+			self::$_isSettingMode = $tmpSettingMode;
 			return self::$_isSettingMode;
 		}
 
@@ -437,6 +446,7 @@ class Current extends CurrentBase {
 		} else {
 			self::$_isSettingMode = false;
 		}
+		CakeSession::write(Current::SETTING_MODE_WORD, self::$_isSettingMode);
 
 		return self::$_isSettingMode;
 	}

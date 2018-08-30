@@ -55,8 +55,8 @@ class CurrentSystem {
 		$this->Language = ClassRegistry::init('M17n.Language');
 
 		$cacheId = 'language_' . Configure::read('Config.language');
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['Language'][$cacheId])) {
+			$cache = self::$__memoryCache['Language'][$cacheId];
 			Current::setCurrent($cache, true);
 		} else {
 			$language = $this->Language->getLanguage('first', array(
@@ -76,7 +76,7 @@ class CurrentSystem {
 				));
 			}
 
-			self::$__memoryCache[$cacheId] = $language;
+			self::$__memoryCache['Language'][$cacheId] = $language;
 			Current::$current['Language'] = $language['Language'];
 
 			if (is_object(Current::$session) && $this->Language->useDbConfig !== 'test' &&
@@ -102,23 +102,27 @@ class CurrentSystem {
 			return;
 		}
 
-		$cacheId = 'plugin_key_' . Current::$request->params['plugin'];
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
-			Current::setCurrent($cache, true);
-		} else {
+		if (!isset(self::$__memoryCache['Plugin'])) {
 			//Pluginデータ取得
 			$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
-			$result = $this->Plugin->find('first', array(
+			self::$__memoryCache['Plugin'] = $this->Plugin->find('all', array(
 				'recursive' => -1,
-				'conditions' => array(
-					'key' => Current::$request->params['plugin'],
-					'language_id' => Current::$current['Language']['id']
-				),
+				'conditions' => array(),
 			));
-			self::$__memoryCache[$cacheId] = $result;
-			Current::setCurrent($result, true);
 		}
+		$results = self::$__memoryCache['Plugin'];
+
+		$plugin = array();
+		foreach ($results as $result) {
+			// プラグインキーと言語で絞り込む
+			if ($result['Plugin']['key'] == Current::$request->params['plugin']
+					&& $result['Plugin']['language_id'] == Current::$current['Language']['id']) {
+				$plugin = $result;
+				break;
+			}
+		}
+
+		Current::setCurrent($plugin, true);
 	}
 
 /**

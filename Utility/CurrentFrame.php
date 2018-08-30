@@ -283,8 +283,8 @@ class CurrentFrame {
 
 		//Box、Room、Space更新
 		$cacheId = 'box_id_' . $boxId;
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['Box'][$cacheId])) {
+			$cache = self::$__memoryCache['Box'][$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$result = $this->Box->find('first', array(
@@ -329,7 +329,7 @@ class CurrentFrame {
 					'Box.id' => $boxId,
 				),
 			));
-			self::$__memoryCache[$cacheId] = $result;
+			self::$__memoryCache['Box'][$cacheId] = $result;
 			Current::setCurrent($result);
 		}
 

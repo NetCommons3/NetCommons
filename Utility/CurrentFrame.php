@@ -126,6 +126,15 @@ class CurrentFrame {
 	}
 
 /**
+ * reset
+ *
+ * @return void
+ */
+	public function reset() {
+		self::$__memoryCache = [];
+	}
+
+/**
  * Set Frame
  *
  * @param string $frameId フレームID

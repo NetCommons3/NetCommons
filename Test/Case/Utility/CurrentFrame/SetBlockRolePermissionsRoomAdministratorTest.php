@@ -94,6 +94,7 @@ class SetBlockRolePermissionsRoomAdministratorTest extends SetBlockRolePermissio
  */
 	public function testRoomAdministrator($data, $expected) {
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockSetting($data);
 
 		$this->CurrentFrame->setBlockRolePermissions();

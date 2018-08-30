@@ -113,12 +113,10 @@ class CurrentPage {
 		} else {
 			$roomRoleKey = self::DEFAULT_ROOM_ROLE_KEY;
 		}
-		$results = $this->DefaultRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'role_key' => $roomRoleKey,
-			)
-		));
+
+		// デフォルトロールパーミッション取得
+		$results = $this->__getDefaultRolePermissions($roomRoleKey);
+
 		if ($results) {
 			$result = [];
 			foreach ($results as $rolePermission) {
@@ -136,6 +134,27 @@ class CurrentPage {
 	}
 
 /**
+ * Get DefaultRolePermissions
+ *
+ * @param string $roleKey ロールキー
+ * @return array
+ */
+	private function __getDefaultRolePermissions($roleKey) {
+		// RoomRoleKey毎にキャッシュする
+		if (!isset(self::$__memoryCache['DefaultRolePermissions'][$roleKey])) {
+			self::$__memoryCache['DefaultRolePermissions'][$roleKey]
+				= $this->DefaultRolePermission->find('all', array(
+					'recursive' => -1,
+					'conditions' => array(
+						'role_key' => $roleKey,
+					)
+				));
+		}
+
+		return self::$__memoryCache['DefaultRolePermissions'][$roleKey];
+	}
+
+/**
  * Set RoomRolePermissions
  *
  * @return void
@@ -146,18 +165,38 @@ class CurrentPage {
 		if (isset(Current::$current['RoomRolePermission']) || ! isset(Current::$current['RolesRoom'])) {
 			return;
 		}
-		$results = $this->RoomRolePermission->find('all', array(
-			'recursive' => -1,
-			'conditions' => array(
-				'roles_room_id' => Current::$current['RolesRoom']['id'],
-			)
-		));
+
+		// ルームロールパーミッション取得
+		$results = $this->__getRoomRolePermissions(Current::$current['RolesRoom']['id']);
+
 		if ($results) {
 			foreach ($results as $rolePermission) {
 				$permission = $rolePermission['RoomRolePermission']['permission'];
 				Current::$current['RoomRolePermission'][$permission] = $rolePermission['RoomRolePermission'];
 			}
 		}
+	}
+
+/**
+ * Get DefaultRolePermissions
+ *
+ * @param string $rolesRoomId ロールルームID
+ * @return array
+ */
+	private function __getRoomRolePermissions($rolesRoomId) {
+		// RoomRoleID毎にキャッシュする
+		if (!isset(self::$__memoryCache['RoomRolePermissions'][$rolesRoomId])) {
+			// ルーム毎にキャッシュする
+			self::$__memoryCache['RoomRolePermissions'][$rolesRoomId]
+				= $this->RoomRolePermission->find('all', array(
+					'recursive' => -1,
+					'conditions' => array(
+						'roles_room_id' => $rolesRoomId,
+					)
+				));
+		}
+
+		return self::$__memoryCache['RoomRolePermissions'][$rolesRoomId];
 	}
 
 /**
@@ -252,8 +291,8 @@ class CurrentPage {
 		$this->Space = ClassRegistry::init('Rooms.Space');
 
 		$cacheId = json_encode($query);
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$result = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['Page'][$cacheId])) {
+			$result = self::$__memoryCache['Page'][$cacheId];
 		} else {
 			$query['fields'] = [
 				$this->Page->alias . '.id',
@@ -325,7 +364,7 @@ class CurrentPage {
 				];
 			}
 			$result = $this->Page->find('first', $query);
-			self::$__memoryCache[$cacheId] = $result;
+			self::$__memoryCache['Page'][$cacheId] = $result;
 		}
 
 		return $result;
@@ -423,8 +462,8 @@ class CurrentPage {
 		$this->Room = ClassRegistry::init('Rooms.Room');
 
 		$cacheId = 'room_id_' . $roomId;
-		if (isset(self::$__memoryCache[$cacheId])) {
-			$cache = self::$__memoryCache[$cacheId];
+		if (isset(self::$__memoryCache['Room'][$cacheId])) {
+			$cache = self::$__memoryCache['Room'][$cacheId];
 			Current::setCurrent($cache);
 		} else {
 			$conditions = array(
@@ -462,7 +501,7 @@ class CurrentPage {
 				],
 				'conditions' => $conditions,
 			));
-			self::$__memoryCache[$cacheId] = $result;
+			self::$__memoryCache['Room'][$cacheId] = $result;
 			Current::setCurrent($result);
 		}
 	}

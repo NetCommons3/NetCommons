@@ -23,7 +23,7 @@ class SetBlockRolePermissionsTest extends SetBlockRolePermissionsTestBase {
  */
 	public function testBlockRolePermissionCurrentDataIsAlreadyExists() {
 		Current::$current['BlockRolePermission'] = ['dummy'];
-
+		$this->CurrentFrame->reset();
 		$this->CurrentFrame->setBlockRolePermissions();
 		$actual = Current::read('Permission');
 
@@ -42,14 +42,17 @@ class SetBlockRolePermissionsTest extends SetBlockRolePermissionsTestBase {
 
 		$this->CurrentFrame->setBlockRolePermissions();
 
+		$this->CurrentFrame->reset();
 		Current::$current = [];
 		Current::$current['RolesRoom']['id'] = 'dummy';
 		$this->CurrentFrame->setBlockRolePermissions();
 
+		$this->CurrentFrame->reset();
 		Current::$current = [];
 		Current::$current['Block']['key'] = 'dummy';
 		$this->CurrentFrame->setBlockRolePermissions();
 
+		$this->CurrentFrame->reset();
 		Current::$current = [];
 		Current::$current['RolesRoom']['id'] = 'dummy';
 		Current::$current['Block']['key'] = 'dummy';

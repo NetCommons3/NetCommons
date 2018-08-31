@@ -24,6 +24,9 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 	private function __getRolePermissionTestDataForInvalid() {
 		return [
 			'BlockRolePermission content_publishable true with same value as RoomRolePermission' => [
+				'RolesRoom' => [
+					'id' => '1',
+				],
 				'DefaultRolePermission' => [
 				],
 				'RoomRolePermission' => [
@@ -40,6 +43,9 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 				]
 			],
 			'BlockRolePermission content_publishable true with different from RoomRolePermission' => [
+				'RolesRoom' => [
+					'id' => '2',
+				],
 				'DefaultRolePermission' => [
 				],
 				'RoomRolePermission' => [
@@ -56,6 +62,9 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 				]
 			],
 			'BlockRolePermission content_publishable false with different from RoomRolePermission' => [
+				'RolesRoom' => [
+					'id' => '3',
+				],
 				'DefaultRolePermission' => [
 				],
 				'RoomRolePermission' => [
@@ -72,6 +81,9 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 				]
 			],
 			'BlockRolePermission content_publishable false with same value as RoomRolePermission' => [
+				'RolesRoom' => [
+					'id' => '4',
+				],
 				'DefaultRolePermission' => [
 				],
 				'RoomRolePermission' => [
@@ -205,6 +217,7 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
  */
 	public function testInvalidDataBlockNotExists($data, $expected) {
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockSetting($data);
 		$this->_setMockBlockRolePermission($data);
 
@@ -225,6 +238,7 @@ class SetBlockRolePermissionsInvalidDataExistsTest extends SetBlockRolePermissio
 		$this->setExpectedException('InternalErrorException');
 
 		Current::$current = $data;
+		$this->CurrentFrame->reset();
 		$this->_setMockBlockRolePermission($data);
 
 		$this->CurrentFrame->setBlockRolePermissions();

@@ -271,7 +271,7 @@ class CurrentPage {
 				'Page.room_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
 				'Page.parent_id NOT' => null,
 			),
-			'order' => array('Page.lft' => 'asc')
+			'order' => array('Page.sort_key' => 'asc')
 		));
 		if (isset($result['Page'])) {
 			Current::$current['TopPage'] = $result['Page'];
@@ -299,8 +299,11 @@ class CurrentPage {
 				$this->Page->alias . '.room_id',
 				$this->Page->alias . '.root_id',
 				$this->Page->alias . '.parent_id',
-				$this->Page->alias . '.lft', //後で、Page.lft消す
-				$this->Page->alias . '.rght', //後で、Page.lft消す
+				//$this->Page->alias . '.lft', //後で、Page.lft消す
+				//$this->Page->alias . '.rght', //後で、Page.rght消す
+				$this->Page->alias . '.weight',
+				$this->Page->alias . '.sort_key',
+				$this->Page->alias . '.child_count',
 				$this->Page->alias . '.permalink',
 				$this->Page->alias . '.slug',
 				$this->Page->alias . '.is_container_fluid',
@@ -386,7 +389,7 @@ class CurrentPage {
 			$result = $this->__getPage(array(
 				'recursive' => 0,
 				'conditions' => $conditions,
-				'order' => array('Page.lft' => 'asc')
+				'order' => array('Page.sort_key' => 'asc')
 			));
 
 			Current::setCurrent($result);

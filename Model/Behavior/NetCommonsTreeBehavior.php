@@ -179,9 +179,8 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			$this->_updateParentCount($model, $sortKey, 1);
 		} else {
 			//既存データの場合
-			if ($model->data[$model->alias][$parentField] === $target[$model->alias][$parentField]) {
-				$this->_addToWhitelist($model, [$parentField, $weightField, $sortKeyField, $childCountField]);
-			} else {
+			$this->_addToWhitelist($model, [$parentField, $weightField, $sortKeyField, $childCountField]);
+			if ($model->data[$model->alias][$parentField] !== $target[$model->alias][$parentField]) {
 				$targetChildCount = ($target[$model->alias][$childCountField] + 1);
 				$childIds = $this->_getChildIds($model, $target);
 

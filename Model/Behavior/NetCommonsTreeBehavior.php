@@ -149,6 +149,13 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 		$parentId = $model->data[$model->alias][$parentField];
 
 		if (! $model->id) {
+			$created = true;
+		} else {
+			$target = $this->_getById($model, $model->id);
+			$created = !(bool)$target;
+		}
+
+		if ($created) {
 			//新規データの場合
 			if ($model->data[$model->alias][$parentField]) {
 				$parentNode = $this->_getById($model, $parentId);
@@ -168,10 +175,10 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			$sortKey = $this->_convertWeightToSortKey($weight, $parentSortKey, true);
 			$model->data[$model->alias][$sortKeyField] = $sortKey;
 
+			//移動先の親のchild_countを増やす
 			$this->_updateParentCount($model, $sortKey, 1);
 		} else {
 			//既存データの場合
-			$target = $this->_getById($model, $model->id);
 			if ($model->data[$model->alias][$parentField] === $target[$model->alias][$parentField]) {
 				$this->_addToWhitelist($model, [$parentField, $weightField, $sortKeyField, $childCountField]);
 			} else {
@@ -1158,21 +1165,88 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 	}
 
 /**
- * Recover a corrupted tree
+ * 破損したツリーを復元する
  *
- * The mode parameter is used to specify the source of info that is valid/correct. The opposite source of data
- * will be populated based upon that source of info. E.g. if the MPTT fields are corrupt or empty, with the $mode
- * 'parent' the values of the parent_id field will be used to populate the left and right fields. The missingParentAction
- * parameter only applies to "parent" mode and determines what to do if the parent field contains an id that is not present.
- *
- * @param Model $model Model using this behavior
- * @param string $mode parent or tree
- * @param string|int|null $missingParentAction 'return' to do nothing and return, 'delete' to
- * delete, or the id of the parent to set as the parent_id
+ * @param Model $model 呼び出し元のModel
+ * @param string $mode parentのみ
+ * @param null $missingParentAction 使用しない
  * @return bool true on success, false on failure
- * @link https://book.cakephp.org/2.0/en/core-libraries/behaviors/tree.html#TreeBehavior::recover
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @link https://book.cakephp.org/2.0/ja/core-libraries/behaviors/tree.html#TreeBehavior::recover
  */
 	public function recover(Model $model, $mode = 'parent', $missingParentAction = null) {
+		$settings = $this->settings[$model->alias];
+
+		if (! $model->hasField($settings['parent']) &&
+				! $model->hasField($settings['weight']) &&
+				! $model->hasField($settings['sort_key']) &&
+				! $model->hasField($settings['child_count'])) {
+			return true;
+		}
+
+		$trees = $model->find('all', [
+			'recursive' => -1,
+			'fields' => [$model->primaryKey, $settings['parent'], $settings['weight']],
+			'order' => [
+				$settings['parent'] => 'asc',
+				$settings['weight'] => 'asc',
+				$model->primaryKey => 'asc',
+			],
+		]);
+
+		$maxWeights = $model->find('all', [
+			'recursive' => -1,
+			'fields' => [$settings['parent'], 'Max(' . $settings['weight'] . ')'],
+			'group' => [
+				$settings['parent'],
+			],
+		]);
+
+		$weights = [];
+		foreach ($maxWeights as $weight) {
+			$parentId = (string)$weight[$model->alias][$settings['parent']];
+
+			if (isset($weight[0]['Max(weight)'])) {
+				$weights[$parentId] = (int)$weight[0]['Max(weight)'];
+			} else {
+				$weights[$parentId] = 0;
+			}
+		}
+
+		$recovers = [];
+		foreach ($trees as $tree) {
+			$parentId = $tree[$model->alias][$settings['parent']];
+			$primaryId = $tree[$model->alias][$model->primaryKey];
+
+			if ($tree[$model->alias][$settings['weight']]) {
+				$weight = $tree[$model->alias][$settings['weight']];
+			} else {
+				$weights[$parentId]++;
+				$weight = $weights[$parentId];
+			}
+
+			if (! $parentId) {
+				$sortKey = $this->_convertWeightToSortKey($weight, false, false);
+			} else {
+				if (! isset($recovers[$parentId])) {
+					continue;
+				}
+				$sortKey = $this->_convertWeightToSortKey($weight, $recovers[$parentId]['sort_key'], true);
+			}
+			$recovers[$primaryId] = [
+				'parent_id' => $parentId,
+				'weight' => $weight,
+				'sort_key' => $sortKey,
+				'child_count' => 0,
+			];
+
+			$this->__countUpForRecover($recovers, $parentId);
+
+			$weights[$parentId] = $weight;
+		}
+
+		$this->__updateRecovers($model, $recovers);
+
 		return true;
 	}
 
@@ -1224,7 +1298,6 @@ class NetCommonsTreeBehavior extends ModelBehavior {
  */
 	public function migration(Model $model, $cakeFileds = ['left' => 'lft', 'right' => 'rght']) {
 		$settings = $this->settings[$model->alias];
-		$escapeFields = $this->_escapeFields[$model->alias];
 
 		if (! $model->hasField($settings['parent']) &&
 				! $model->hasField($cakeFileds['left']) &&
@@ -1271,17 +1344,50 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 				'child_count' => 0,
 			];
 
-			$this->__countUpForMigration($migratios, $parentId);
+			$this->__countUpForRecover($migratios, $parentId);
 
 			$weights[$parentId] = $weight;
 		}
 
+		$this->__updateRecovers($model, $migratios);
+
+		return true;
+	}
+
+/**
+ * 子供の件数のUP
+ *
+ * @param array &$recovers データ配列
+ * @param int $parentId 親ID
+ * @return void
+ */
+	private function __countUpForRecover(&$recovers, $parentId) {
+		if (! $parentId) {
+			return;
+		}
+		if (isset($recovers[$parentId])) {
+			$recovers[$parentId]['child_count']++;
+		}
+		$this->__countUpForRecover($recovers, $recovers[$parentId]['parent_id']);
+	}
+
+/**
+ * CakeのTreeビヘイビアからNC用のTreeビヘイビアのデータ構成にマイグレーションする
+ *
+ * @param Model $model Model using this behavior
+ * @param array $recovers リカバリーデータ
+ * @return bool
+ * @throws InternalErrorException
+ */
+	private function __updateRecovers(Model $model, $recovers) {
+		$escapeFields = $this->_escapeFields[$model->alias];
+
 		$model->unbindModel(['belongsTo' => array_keys($model->belongsTo)]);
-		foreach ($migratios as $primaryId => $migration) {
+		foreach ($recovers as $primaryId => $recover) {
 			$update = [
-				$escapeFields['weight'] => $migration['weight'],
-				$escapeFields['sort_key'] => '\'' . $migration['sort_key'] . '\'',
-				$escapeFields['child_count'] => $migration['child_count'],
+				$escapeFields['weight'] => $recover['weight'],
+				$escapeFields['sort_key'] => '\'' . $recover['sort_key'] . '\'',
+				$escapeFields['child_count'] => $recover['child_count'],
 			];
 			$conditions = [
 				$escapeFields['id'] => $primaryId
@@ -1293,23 +1399,6 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 		$model->resetAssociations();
 
 		return true;
-	}
-
-/**
- * 子供の件数のUP
- *
- * @param array &$migratios マイグレーションデータ配列
- * @param int $parentId 親ID
- * @return void
- */
-	private function __countUpForMigration(&$migratios, $parentId) {
-		if (! $parentId) {
-			return;
-		}
-		if (isset($migratios[$parentId])) {
-			$migratios[$parentId]['child_count']++;
-		}
-		$this->__countUpForMigration($migratios, $migratios[$parentId]['parent_id']);
 	}
 
 }

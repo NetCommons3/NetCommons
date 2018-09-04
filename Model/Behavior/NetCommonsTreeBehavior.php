@@ -132,6 +132,8 @@ class NetCommonsTreeBehavior extends ModelBehavior {
  * @param array $options Model::save()から渡されるオプション
  * @return bool
  * @see Model::save()
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function beforeSave(Model $model, $options = array()) {
 		$settings = $this->settings[$model->alias];
@@ -1057,6 +1059,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
  * @throws InternalErrorException
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  * @SuppressWarnings(PHPMD.NPathComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	protected function _move(Model $model, $type, $id, $number) {
 		if (is_array($id)) {

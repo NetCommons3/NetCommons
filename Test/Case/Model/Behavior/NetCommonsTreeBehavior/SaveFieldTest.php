@@ -51,6 +51,11 @@ class NetCommonsTreeBehaviorSaveFieldTest extends NetCommonsModelTestCase {
 /**
  * saveField()のテスト
  *
+ * @param int $id ID
+ * @param int|null $parentId 親ID
+ * @param array $returnExtected メソッド戻り値の期待値
+ * @param array $afterSaveExtected 登録後のデータの期待値
+ *
  * @dataProvider caseSave1
  * @dataProvider caseSave2
  * @dataProvider caseSave3

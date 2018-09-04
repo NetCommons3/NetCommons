@@ -45,11 +45,61 @@ class NetCommonsTreeModel2Fixture extends CakeTestFixture {
  * @var array
  */
 	public $records = [
-		['id' => '4001', 'parent_id' => null, 'tree_name' => 'Category 6', 'weight' => '1', 'sort_key' => '~00000001', 'child_count' => '3'],
-		['id' => '5001', 'parent_id' => '4001', 'tree_name' => 'Category 6-1000', 'weight' => '1000', 'sort_key' => '~00000001-00001000', 'child_count' => '0'],
-		['id' => '5002', 'parent_id' => '4001', 'tree_name' => 'Category 6-1001', 'weight' => '1001', 'sort_key' => '~00000001-00001001', 'child_count' => '0'],
-		['id' => '5003', 'parent_id' => '4001', 'tree_name' => 'Category 6-1002', 'weight' => '1002', 'sort_key' => '~00000001-00001002', 'child_count' => '0'],
-		['id' => '5004', 'parent_id' => null, 'tree_name' => 'Category 7', 'weight' => '1', 'sort_key' => '~00000002', 'child_count' => '1'],
-		['id' => '5005', 'parent_id' => '5004', 'tree_name' => 'Category 7-1', 'weight' => '1', 'sort_key' => '~00000002-00000001', 'child_count' => '0'],
+		[
+			'id' => '4001',
+			'parent_id' => null,
+			'tree_name' => 'Category 6',
+			'weight' => '1',
+			'sort_key' => '~00000001',
+			'child_count' => '4'
+		],
+		[
+			'id' => '5001',
+			'parent_id' => '4001',
+			'tree_name' => 'Category 6-1000',
+			'weight' => '1',
+			'sort_key' => '~00000001-00000001',
+			'child_count' => '0'
+		],
+		[
+			'id' => '5002',
+			'parent_id' => '4001',
+			'tree_name' => 'Category 6-1001',
+			'weight' => '2',
+			'sort_key' => '~00000001-00000002',
+			'child_count' => '1'
+		],
+		[
+			'id' => '5003',
+			'parent_id' => '5002',
+			'tree_name' => 'Category 6-1001-1',
+			'weight' => '1',
+			'sort_key' => '~00000001-00000002-00000001',
+			'child_count' => '0'
+		],
+		[
+			'id' => '5004',
+			'parent_id' => '4001',
+			'tree_name' => 'Category 6-1002',
+			'weight' => '3',
+			'sort_key' => '~00000001-00000003',
+			'child_count' => '0'
+		],
+		[
+			'id' => '4002',
+			'parent_id' => null,
+			'tree_name' => 'Category 7',
+			'weight' => '1',
+			'sort_key' => '~00000002',
+			'child_count' => '1'
+		],
+		[
+			'id' => '5005',
+			'parent_id' => '4002',
+			'tree_name' => 'Category 7-1',
+			'weight' => '1',
+			'sort_key' => '~00000002-00000001',
+			'child_count' => '0'
+		],
 	];
 }

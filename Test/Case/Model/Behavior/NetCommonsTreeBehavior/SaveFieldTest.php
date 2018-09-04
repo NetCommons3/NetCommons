@@ -51,72 +51,305 @@ class NetCommonsTreeBehaviorSaveFieldTest extends NetCommonsModelTestCase {
 /**
  * saveField()のテスト
  *
+ * @dataProvider caseSave1
+ * @dataProvider caseSave2
+ * @dataProvider caseSave3
+ *
  * @return void
  */
-	public function testSave() {
+	public function testSave($id, $parentId, $returnExtected, $afterSaveExtected) {
 		//テスト実施
-		$this->TestModel->id = '5004';
-		$result = $this->TestModel->saveField('parent_id', '5002');
-		$extected = [
-			$this->TestModel->alias => [
-				'id' => '5004',
-				'parent_id' => '5002',
-				'weight' => 1,
-				'sort_key' => '~00000001-00001001-00000001',
-			],
-		];
-		$this->assertEquals($extected, $result);
+		$this->TestModel->id = $id;
+		$result = $this->TestModel->saveField('parent_id', $parentId);
+		$this->assertEquals($returnExtected, $result);
 
 		$results = $this->TestModel->find('all', [
 			'recursive' => -1,
-			'conditions' => [
-				'id' => ['5002', '5003', '5004', '5005']
-			],
 			'order' => 'sort_key'
 		]);
+		$this->assertEquals($afterSaveExtected, $results);
+	}
 
-		$extected = [
-			0 => [
-				$this->TestModel->alias => [
-					'id' => '5002',
-					'parent_id' => '4001',
-					'tree_name' => 'Category 6-1001',
-					'weight' => '1001',
-					'sort_key' => '~00000001-00001001',
-					'child_count' => '2',
-				],
-			],
-			1 => [
-				$this->TestModel->alias => [
-					'id' => '5004',
+/**
+ * Save用DataProvider
+ *
+ * @return array テストデータ
+ */
+	public function caseSave1() {
+		$case['caseSave1'] = [
+			'id' => '4002',
+			'parentId' => '5002',
+			'returnExtected' => [
+				'TestNetCommonsTreeModel2' => [
+					'id' => '4002',
 					'parent_id' => '5002',
-					'tree_name' => 'Category 7',
-					'weight' => '1',
-					'sort_key' => '~00000001-00001001-00000001',
-					'child_count' => '1',
+					'weight' => '2',
+					'sort_key' => '~00000001-00000002-00000002',
 				],
 			],
-			2 => [
-				$this->TestModel->alias => [
-					'id' => '5005',
-					'parent_id' => '5004',
-					'tree_name' => 'Category 7-1',
-					'weight' => '1',
-					'sort_key' => '~00000001-00001001-00000001-00000001',
-					'child_count' => '0',
+			'afterSaveExtected' => [
+				0 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4001',
+						'parent_id' => null,
+						'tree_name' => 'Category 6',
+						'weight' => '1',
+						'sort_key' => '~00000001',
+						'child_count' => '6'
+					],
 				],
-			],
-			3 => [
-				$this->TestModel->alias => [
-					'id' => '5003',
-					'parent_id' => '4001',
-					'tree_name' => 'Category 6-1002',
-					'weight' => '1002',
-					'sort_key' => '~00000001-00001002',
-					'child_count' => '0',
+				1 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5001',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1000',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000001',
+						'child_count' => '0'
+					],
 				],
-			],
+				2 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5002',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1001',
+						'weight' => '2',
+						'sort_key' => '~00000001-00000002',
+						'child_count' => '3',
+					],
+				],
+				3 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5003',
+						'parent_id' => '5002',
+						'tree_name' => 'Category 6-1001-1',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000002-00000001',
+						'child_count' => '0'
+					],
+				],
+				4 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4002',
+						'parent_id' => '5002',
+						'tree_name' => 'Category 7',
+						'weight' => '2',
+						'sort_key' => '~00000001-00000002-00000002',
+						'child_count' => '1',
+					],
+				],
+				5 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5005',
+						'parent_id' => '4002',
+						'tree_name' => 'Category 7-1',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000002-00000002-00000001',
+						'child_count' => '0',
+					],
+				],
+				6 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5004',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1002',
+						'weight' => '3',
+						'sort_key' => '~00000001-00000003',
+						'child_count' => '0',
+					],
+				],
+			]
 		];
+
+		return $case;
+	}
+
+/**
+ * Save用DataProvider
+ *
+ * @return array テストデータ
+ */
+	public function caseSave2() {
+		$case['caseSave2'] = [
+			'id' => '4001',
+			'parentId' => null,
+			'returnExtected' => [
+				'TestNetCommonsTreeModel2' => [
+					'id' => '4001',
+					'parent_id' => null,
+					//'weight' => '1',
+					//'sort_key' => '~00000001',
+				],
+			],
+			'afterSaveExtected' => [
+				0 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4001',
+						'parent_id' => null,
+						'tree_name' => 'Category 6',
+						'weight' => '1',
+						'sort_key' => '~00000001',
+						'child_count' => '4'
+					],
+				],
+				1 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5001',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1000',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000001',
+						'child_count' => '0'
+					],
+				],
+				2 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5002',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1001',
+						'weight' => '2',
+						'sort_key' => '~00000001-00000002',
+						'child_count' => '1'
+					],
+				],
+				3 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5003',
+						'parent_id' => '5002',
+						'tree_name' => 'Category 6-1001-1',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000002-00000001',
+						'child_count' => '0'
+					],
+				],
+				4 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5004',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1002',
+						'weight' => '3',
+						'sort_key' => '~00000001-00000003',
+						'child_count' => '0'
+					],
+				],
+				5 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4002',
+						'parent_id' => null,
+						'tree_name' => 'Category 7',
+						'weight' => '1',
+						'sort_key' => '~00000002',
+						'child_count' => '1'
+					],
+				],
+				6 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5005',
+						'parent_id' => '4002',
+						'tree_name' => 'Category 7-1',
+						'weight' => '1',
+						'sort_key' => '~00000002-00000001',
+						'child_count' => '0'
+					],
+				],
+			]
+		];
+
+		return $case;
+	}
+
+/**
+ * Save用DataProvider
+ *
+ * @return array テストデータ
+ */
+	public function caseSave3() {
+		$case['caseSave3'] = [
+			'id' => '5002',
+			'parentId' => '5004',
+			'returnExtected' => [
+				'TestNetCommonsTreeModel2' => [
+					'id' => '5002',
+					'parent_id' => '5004',
+					'weight' => '1',
+					'sort_key' => '~00000001-00000002-00000001',
+				],
+			],
+			'afterSaveExtected' => [
+				0 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4001',
+						'parent_id' => null,
+						'tree_name' => 'Category 6',
+						'weight' => '1',
+						'sort_key' => '~00000001',
+						'child_count' => '4'
+					],
+				],
+				1 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5001',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1000',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000001',
+						'child_count' => '0'
+					],
+				],
+				2 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5004',
+						'parent_id' => '4001',
+						'tree_name' => 'Category 6-1002',
+						'weight' => '2',
+						'sort_key' => '~00000001-00000002',
+						'child_count' => '2'
+					],
+				],
+				3 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5002',
+						'parent_id' => '5004',
+						'tree_name' => 'Category 6-1001',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000002-00000001',
+						'child_count' => '1'
+					],
+				],
+				4 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5003',
+						'parent_id' => '5002',
+						'tree_name' => 'Category 6-1001-1',
+						'weight' => '1',
+						'sort_key' => '~00000001-00000002-00000001-00000001',
+						'child_count' => '0'
+					],
+				],
+				5 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '4002',
+						'parent_id' => null,
+						'tree_name' => 'Category 7',
+						'weight' => '1',
+						'sort_key' => '~00000002',
+						'child_count' => '1'
+					],
+				],
+				6 => [
+					'TestNetCommonsTreeModel2' => [
+						'id' => '5005',
+						'parent_id' => '4002',
+						'tree_name' => 'Category 7-1',
+						'weight' => '1',
+						'sort_key' => '~00000002-00000001',
+						'child_count' => '0'
+					],
+				],
+			]
+		];
+
+		return $case;
 	}
 
 }

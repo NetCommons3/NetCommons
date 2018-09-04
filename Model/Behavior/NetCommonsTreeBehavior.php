@@ -157,6 +157,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 
 		if ($created) {
 			//新規データの場合
+			//・親データ取得
 			if ($model->data[$model->alias][$parentField]) {
 				$parentNode = $this->_getById($model, $parentId);
 				if (! $parentNode) {
@@ -167,30 +168,30 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 				$parentSortKey = null;
 			}
 
-			$model->data[$model->alias][$childCountField] = 0;
-
+			//・対象のレコードのweight,sort_keyをセットする
 			$weight = $this->_getMaxWeight($model, $parentId) + 1;
 			$model->data[$model->alias][$weightField] = $weight;
 
 			$sortKey = $this->_convertWeightToSortKey($weight, $parentSortKey, true);
 			$model->data[$model->alias][$sortKeyField] = $sortKey;
 
-			//移動先の親のchild_countを増やす
+			//・移動先の親のchild_countを増やす
 			$this->_updateParentCount($model, $sortKey, 1);
 		} else {
 			//既存データの場合
 			$this->_addToWhitelist($model, [$parentField, $weightField, $sortKeyField, $childCountField]);
 			if ($model->data[$model->alias][$parentField] !== $target[$model->alias][$parentField]) {
+				//親IDが異なる場合、移動するので、各weightやsort_keyの振り直し
 				$targetChildCount = $target[$model->alias][$childCountField] + 1;
 				$childIds = $this->_getChildIds($model, $target);
 
-				//既存の親のchild_countを減らす
+				//・既存の親のchild_countを減らす
 				$this->_updateParentCount(
 					$model,
 					$target[$model->alias][$sortKeyField], -1 * $targetChildCount
 				);
 
-				//番号を詰める処理を実行
+				//・番号を詰める処理を実行
 				$from = $target[$model->alias][$settings['weight']] + 1;
 				$to = null;
 				$order = $escapeFields['weight'] . ' asc';
@@ -199,6 +200,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 					$model, $target[$model->alias][$settings['parent']], $order, $from, $to, $incrementNumber
 				);
 
+				//・移動先の親データ取得
 				if ($model->data[$model->alias][$parentField]) {
 					$parentNode = $this->_getById($model, $parentId);
 					if (! $parentNode) {
@@ -209,23 +211,26 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 					$parentSortKey = null;
 				}
 
-				//対象のレコードのweight,sort_keyをセットする
+				//・対象のレコードのweight,sort_keyをセットする
 				$weight = $this->_getMaxWeight($model, $parentId) + 1;
 				$model->data[$model->alias][$weightField] = $weight;
 
 				$sortKey = $this->_convertWeightToSortKey($weight, $parentSortKey, true);
 				$model->data[$model->alias][$sortKeyField] = $sortKey;
 
-				//対象の子たちのsort_keyを更新する
+				//・対象の子たちのsort_keyを更新する
 				$this->_replaceChildSortKey(
 					$model,
 					$target[$model->alias][$settings['sort_key']],
 					$sortKey,
-					[$escapeFields['parent'] => $childIds]
+					[$escapeFields['id'] => $childIds]
 				);
 
-				//移動先の親のchild_countを増やす
-				$this->_updateParentCount($model, $sortKey, $targetChildCount);
+				//・移動先の親のchild_countを増やす
+				$this->_updateParentCount(
+					$model, $sortKey, $targetChildCount,
+					[$escapeFields['id'] . ' !=' => $target[$model->alias][$model->primaryKey]]
+				);
 			}
 		}
 
@@ -352,10 +357,11 @@ class NetCommonsTreeBehavior extends ModelBehavior {
  * @param Model $model 呼び出し元のModel
  * @param string $sortKey ソートキー
  * @param int $number カウントUP値
+ * @param array $addConditions 取得する追加条件
  * @return bool
  * @throws InternalErrorException
  */
-	protected function _updateParentCount(Model $model, $sortKey, $number) {
+	protected function _updateParentCount(Model $model, $sortKey, $number, $addConditions = []) {
 		$settings = $this->settings[$model->alias];
 		$escapeFields = $this->_escapeFields[$model->alias];
 
@@ -367,7 +373,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 		$conditions = [
 			$settings['scope'],
 			$escapeFields['sort_key'] => [],
-		];
+		] + $addConditions;
 
 		$sort = '';
 		foreach ($sortKeys as $key) {
@@ -545,15 +551,15 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 		if ($target[$model->alias][$settings['child_count']] > 0) {
 			$children = $model->find('all', array(
 				'recursive' => -1,
-				'fields' => [$escapeFields['parent']],
+				'fields' => [$model->primaryKey],
 				'conditions' => [
 					$escapeFields['sort_key'] . ' LIKE' =>
 							$target[$model->alias][$settings['sort_key']] . self::SORT_KEY_SEPARATOR . '%'
 				],
 			));
 			foreach ($children as $child) {
-				if (! in_array($child[$model->alias][$settings['parent']], $childIds, true)) {
-					$childIds[] = $child[$model->alias][$settings['parent']];
+				if (! in_array($child[$model->alias][$model->primaryKey], $childIds, true)) {
+					$childIds[] = $child[$model->alias][$model->primaryKey];
 				}
 			}
 		}
@@ -1121,7 +1127,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 		if ($target[$model->alias][$settings['child_count']] > 0) {
 			//移動対象の子たちのsort_keyを更新する
 			$conditions = [
-				$escapeFields['parent'] => $childIds
+				$escapeFields['id'] => $childIds
 			];
 			$this->_replaceChildSortKey(
 				$model,

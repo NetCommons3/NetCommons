@@ -181,7 +181,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			//既存データの場合
 			$this->_addToWhitelist($model, [$parentField, $weightField, $sortKeyField, $childCountField]);
 			if ($model->data[$model->alias][$parentField] !== $target[$model->alias][$parentField]) {
-				$targetChildCount = ($target[$model->alias][$childCountField] + 1);
+				$targetChildCount = $target[$model->alias][$childCountField] + 1;
 				$childIds = $this->_getChildIds($model, $target);
 
 				//既存の親のchild_countを減らす

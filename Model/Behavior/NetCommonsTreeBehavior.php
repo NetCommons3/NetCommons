@@ -185,6 +185,11 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 				$targetChildCount = $target[$model->alias][$childCountField] + 1;
 				$childIds = $this->_getChildIds($model, $target);
 
+				//・移動先のIDが自分の子供（入れ子になる）の場合、falseを返す。
+				if (in_array($parentId, $childIds, true)) {
+					return false;
+				}
+
 				//・既存の親のchild_countを減らす
 				$this->_updateParentCount(
 					$model,

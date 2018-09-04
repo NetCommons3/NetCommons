@@ -1098,12 +1098,14 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 
 		if ($type === 'down') {
 			if ($maxValue < $target[$model->alias][$settings['weight']] + $number) {
+				//CakeTreeだとExceptionにしていたが、エラーとしない
 				$updateWeight = $maxValue;
 			} else {
 				$updateWeight = $target[$model->alias][$settings['weight']] + $number;
 			}
 		} else {
 			if (1 > $target[$model->alias][$settings['weight']] - $number) {
+				//CakeTreeだとExceptionにしていたが、エラーとしない
 				$updateWeight = 1;
 			} else {
 				$updateWeight = $target[$model->alias][$settings['weight']] - $number;

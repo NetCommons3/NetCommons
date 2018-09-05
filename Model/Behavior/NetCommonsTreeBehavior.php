@@ -171,6 +171,8 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			}
 
 			//・対象のレコードのweight,sort_keyをセットする
+			$model->data[$model->alias][$childCountField] = 0;
+
 			$weight = $this->_getMaxWeight($model, $parentId) + 1;
 			$model->data[$model->alias][$weightField] = $weight;
 

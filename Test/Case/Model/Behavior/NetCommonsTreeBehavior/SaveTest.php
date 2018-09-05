@@ -444,7 +444,7 @@ class NetCommonsTreeBehaviorSaveTest extends NetCommonsTreeBehaviorCase {
 					'tree_name' => 'Update from Category 1-1-1-1',
 					'weight' => '101',
 					'sort_key' => '~00000001-00000001-00000001-00000001-00000101',
-					'child_count' => '11',
+					//'child_count' => '5',
 				]),
 			],
 			6 => [

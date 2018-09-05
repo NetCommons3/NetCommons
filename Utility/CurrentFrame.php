@@ -397,8 +397,11 @@ class CurrentFrame {
 					$this->BoxesPageContainer->Page->alias . '.room_id',
 					$this->BoxesPageContainer->Page->alias . '.root_id',
 					$this->BoxesPageContainer->Page->alias . '.parent_id',
-					$this->BoxesPageContainer->Page->alias . '.lft', //後で、Page.lft消す
-					$this->BoxesPageContainer->Page->alias . '.rght', //後で、Page.rght消す
+					//$this->BoxesPageContainer->Page->alias . '.lft', //後で、Page.lft消す
+					//$this->BoxesPageContainer->Page->alias . '.rght', //後で、Page.rght消す
+					$this->BoxesPageContainer->Page->alias . '.weight',
+					$this->BoxesPageContainer->Page->alias . '.sort_key',
+					$this->BoxesPageContainer->Page->alias . '.child_count',
 					$this->BoxesPageContainer->Page->alias . '.permalink',
 					$this->BoxesPageContainer->Page->alias . '.slug',
 					$this->BoxesPageContainer->Page->alias . '.is_container_fluid',

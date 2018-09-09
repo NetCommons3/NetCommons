@@ -826,6 +826,9 @@ msgstr ""
 msgid "Successfully saved."
 msgstr ""
 
+msgid "Failed to save."
+msgstr ""
+
 #: UserManager/Controller/UserManagerController.php:209
 #: UserManager/Test/Case/Controller/UserManagerController/DeleteTest.php:100
 msgid "Successfully deleted."

@@ -829,6 +829,9 @@ msgstr "%sは%d～%dまでの数値を入力してください。"
 msgid "Successfully saved."
 msgstr "正常に登録しました。"
 
+msgid "Failed to save."
+msgstr "登録に失敗しました。"
+
 #: UserManager/Controller/UserManagerController.php:209
 #: UserManager/Test/Case/Controller/UserManagerController/DeleteTest.php:100
 msgid "Successfully deleted."

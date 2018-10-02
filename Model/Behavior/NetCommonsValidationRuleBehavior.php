@@ -79,14 +79,16 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  */
 	public function notBlank(Model $model, $check) {
 		$value = array_shift($check);
-		$value = preg_replace('/((' . preg_quote('&nbsp;', '/') . ')+)/', ' ', $value);
+		if (is_string($value)) {
+			$value = preg_replace('/((' . preg_quote('&nbsp;', '/') . ')+)/', ' ', $value);
+		}
 
 		if (empty($value) && !is_bool($value) && !is_numeric($value)) {
 			return false;
 		}
 
 		$regex = '/[^\s　' . preg_quote('$`', '/') . ']+/m';
-		if (is_string($regex) && is_scalar($value) && preg_match($regex, $value)) {
+		if (is_string($value) && is_scalar($value) && preg_match($regex, $value)) {
 			return true;
 		}
 

@@ -14,6 +14,7 @@ App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
+App::uses('User', 'Users.Model');
 
 /**
  * NetCommonsApp Controller
@@ -59,7 +60,11 @@ class NetCommonsAppController extends Controller {
 				'plugin' => 'pages',
 				'controller' => 'pages',
 				'action' => 'index',
-			)
+			),
+			'passwordHasher' => [
+				'className' => 'Simple',
+				'hashType' => User::PASSWORD_HASH_TYPE,
+			],
 		),
 		'DebugKit.Toolbar',
 		'Flash',

@@ -100,19 +100,23 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 	public function setup(Model $model, $config = array()) {
 		$settings = $config + $this->_defaults;
 
-		$this->_escapeFields[$model->alias]['id'] = $model->escapeField($model->primaryKey);
+		$this->_escapeFields[$model->alias]['id'] =
+						'`' . $model->alias . '`.`' . $model->primaryKey . '`';
 		if (isset($settings['parent'])) {
-			$this->_escapeFields[$model->alias]['parent'] = $model->escapeField($settings['parent']);
+			$this->_escapeFields[$model->alias]['parent'] =
+								'`' . $model->alias . '`.`' . $settings['parent'] . '`';
 		}
 		if (isset($settings['weight'])) {
-			$this->_escapeFields[$model->alias]['weight'] = $model->escapeField($settings['weight']);
+			$this->_escapeFields[$model->alias]['weight'] =
+								'`' . $model->alias . '`.`' . $settings['weight'] . '`';
 		}
 		if (isset($settings['sort_key'])) {
-			$this->_escapeFields[$model->alias]['sort_key'] = $model->escapeField($settings['sort_key']);
+			$this->_escapeFields[$model->alias]['sort_key'] =
+								'`' . $model->alias . '`.`' . $settings['sort_key'] . '`';
 		}
 		if (isset($settings['child_count'])) {
 			$this->_escapeFields[$model->alias]['child_count'] =
-										$model->escapeField($settings['child_count']);
+								'`' . $model->alias . '`.`' . $settings['child_count'] . '`';
 		}
 
 		$this->settings[$model->alias] = $settings;

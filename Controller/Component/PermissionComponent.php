@@ -233,8 +233,12 @@ class PermissionComponent extends Component {
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function checkSpaceAccess(Controller $controller) {
-		$Room = ClassRegistry::init('Rooms.Room');
-		$spaces = $Room->getSpaces();
+		$Space = ClassRegistry::init('Rooms.Space');
+		$getSpaces = $Space->getSpaces();
+		$spaces = array();
+		foreach ($getSpaces as $space) {
+			$spaces[$space['Space']['id']] = $space;
+		}
 		$curRoom = Current::read('Room');
 		if ($spaces && $curRoom) {
 			if (empty($this->SpaceComponent)) {

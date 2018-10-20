@@ -22,8 +22,18 @@ echo $this->NetCommonsHtml->script(
 ?>
 
 <script>
-NetCommonsApp.constant('NC3_URL', '<?php echo h(substr(Router::url('/'), 0, -1)); ?>');
+<?php
+$nc3Url = substr(Router::url('/'), 0, -1);
+?>
+NetCommonsApp.constant('NC3_URL', '<?php echo h($nc3Url); ?>');
 NetCommonsApp.constant('LOGIN_USER', <?php echo json_encode(['id' => Current::read('User.id')], JSON_FORCE_OBJECT); ?>);
+<?php
+$titleIconUrl = Configure::read('App.titleIconUrl');
+if (! $titleIconUrl) :
+	$titleIconUrl = $nc3Url;
+endif;
+?>
+NetCommonsApp.constant('TITLE_ICON_URL', '<?php echo h($titleIconUrl); ?>');
 </script>
 
 <?php echo $this->NetCommonsHtml->script('/users/js/users.js');

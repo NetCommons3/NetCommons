@@ -2,7 +2,7 @@
  * @fileoverview Questionnaire Javascript
  * @author info@allcreator.net (Allcreator Co.)
  */
-NetCommonsApp.directive('ncTitleIconPicker', ['NC3_URL', function(NC3_URL) {
+NetCommonsApp.directive('ncTitleIconPicker', ['TITLE_ICON_URL', function(TITLE_ICON_URL) {
   return {
     scope: {
       titleIcon: '@',
@@ -34,7 +34,7 @@ NetCommonsApp.directive('ncTitleIconPicker', ['NC3_URL', function(NC3_URL) {
       post: function(scope, element, attr) {
         scope.image = function(icon) {
           if (icon) {
-            return NC3_URL + icon;
+            return TITLE_ICON_URL + icon;
           } else {
             return '';
           }

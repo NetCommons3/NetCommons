@@ -208,7 +208,11 @@ class TitleIconHelper extends AppHelper {
 				'alt' => __d('net_commons', 'icon_cancel')
 			);
 		}
-		$basePath = '/net_commons/img/title_icon/';
+		if (file_exists(IMAGES . 'title_icon')) {
+			$basePath = '/img/title_icon/';
+		} else {
+			$basePath = '/net_commons/img/title_icon/';
+		}
 		foreach ($iconFileNames as $file) {
 			$path = $basePath . $file;
 			$alt = $this->_getAltName($file);

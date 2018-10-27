@@ -32,6 +32,13 @@ class NetCommonsHtmlHelper extends AppHelper {
 	);
 
 /**
+ * 一度変換を行ったものは、何度も変換処理(preg_match)を行わないようにするため
+ *
+ * @var array
+ */
+	private static $__convertPaths = [];
+
+/**
  * HtmlHelperラップ用マジックメソッド。
  *
  * 指定されたメソッドにより、各プラグインのHelperメソッドを呼び出します。
@@ -73,6 +80,45 @@ class NetCommonsHtmlHelper extends AppHelper {
 	}
 
 /**
+ * webrootパスの変換を行う
+ *
+ * @param array $paths URLパス(css,js,img)
+ * @return array
+ */
+	private function __convertWebrootPath($paths) {
+		$paths = (array)$paths;
+		$covPaths = [];
+
+		foreach ($paths as $path) {
+			if (isset(self::$__convertPaths[$path])) {
+				$covPaths[] = self::$__convertPaths[$path];
+				continue;
+			}
+
+			$match = [];
+			$convUrl = $path;
+			if (is_string($path) &&
+					preg_match('#^/([a-z_0-9]+)/(img|css|js)/(.+)$#', $path, $match)) {
+				$wwwWebrootPath = WWW_ROOT . $match[2] . DS . $match[1] . DS . $match[3];
+				$plugin = preg_replace('/_/', '', ucwords($match[1], '_'));
+				$pluginWebrootPath =
+						CakePlugin::path($plugin) . WEBROOT_DIR . DS . $match[2] . DS . $match[3];
+				if (file_exists($wwwWebrootPath) && file_exists($pluginWebrootPath)) {
+					$wwwTimeStamp = filemtime($wwwWebrootPath);
+					$pluginTimeStamp = filemtime($pluginWebrootPath);
+					if ($wwwTimeStamp >= $pluginTimeStamp) {
+						$convUrl = '/' . $match[2] . '/' . $match[1] . DS . $match[3];
+					}
+				}
+			}
+			self::$__convertPaths[$path] = $convUrl;
+			$covPaths[] = $convUrl;
+		}
+
+		return $covPaths;
+	}
+
+/**
  * NetCommonsによるHtmlHelper::script()を共通化
  *
  * @param string|array $url javascriptファイルのURL
@@ -87,7 +133,8 @@ class NetCommonsHtmlHelper extends AppHelper {
 			'inline' => false
 		);
 
-		return $this->Html->script($url, Hash::merge($defaultOptions, $options));
+		$url = $this->__convertWebrootPath($url);
+		return $this->Html->script($url, array_merge($defaultOptions, $options));
 	}
 
 /**
@@ -105,7 +152,8 @@ class NetCommonsHtmlHelper extends AppHelper {
 			'inline' => false
 		);
 
-		return $this->Html->css($path, Hash::merge($defaultOptions, $options));
+		$path = $this->__convertWebrootPath($path);
+		return $this->Html->css($path, array_merge($defaultOptions, $options));
 	}
 
 /**
@@ -179,6 +227,10 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function image($path, $options = array()) {
 		//URLの設定
+		if (is_string($path)) {
+			$paths = $this->__convertWebrootPath($path);
+			$path = $paths[0];
+		}
 		$path = $this->__getUrl($path, $options);
 		$output = $this->Html->image($path, $options);
 		return $output;

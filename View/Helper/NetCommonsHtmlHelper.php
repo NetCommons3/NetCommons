@@ -100,7 +100,10 @@ class NetCommonsHtmlHelper extends AppHelper {
 			if (is_string($path) &&
 					preg_match('#^/([a-z_0-9]+)/(img|css|js)/(.+)$#', $path, $match)) {
 				$wwwWebrootPath = WWW_ROOT . $match[2] . DS . $match[1] . DS . $match[3];
-				$plugin = preg_replace('/_/', '', ucwords($match[1], '_'));
+				// ucwords()の第2引数は、php5.4.32, 5.5.16から追加された。CentOS7のphpは5.4.16 のため、動かない。see) http://php.net/manual/ja/function.ucwords.php
+				//$plugin = preg_replace('/_/', '', ucwords($match[1], '_'));
+				$plugin = preg_replace('/_/', ' ', $match[1]);
+				$plugin = preg_replace('/ /', '', ucwords($plugin));
 				$pluginWebrootPath =
 						CakePlugin::path($plugin) . WEBROOT_DIR . DS . $match[2] . DS . $match[3];
 				if (file_exists($wwwWebrootPath) && file_exists($pluginWebrootPath)) {

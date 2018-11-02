@@ -305,7 +305,9 @@ class NetCommonsAppController extends Controller {
 		$callback = ['Inflector', 'variable'];
 
 		foreach ($orig as $key => $value) {
-			if (is_array($value)) {
+			if ($key === 'validationErrors') {
+				$new[$key] = $value;
+			} elseif (is_array($value)) {
 				$new[call_user_func($callback, $key)] = self::camelizeKeyRecursive($value);
 			} else {
 				$new[call_user_func($callback, $key)] = $value;

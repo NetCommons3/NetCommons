@@ -249,6 +249,11 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function url($url = null, $options = array()) {
 		//URLの設定
+		if (is_string($url)) {
+			$paths = $this->__convertWebrootPath($url);
+			$url = $paths[0];
+		}
+
 		$url = $this->__getUrl($url, $options);
 		$output = $this->Html->url($url, $options);
 		return $output;

@@ -80,24 +80,24 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 	public function loadHelper($helper, $viewVars = [],
 						$reqestData = [], $params = [], $helpers = [], $validationErrors = null) {
 		list($plugin, $helper) = pluginSplit($helper);
-		if (! $plugin) {
-			$plugin = $this->plugin;
-		}
+
+		$camelPlugin = Inflector::camelize($plugin);
+		$snakePlugin = Inflector::underscore($plugin);
 
 		$helperClass = $helper . 'Helper';
-		App::uses($helperClass, Inflector::camelize($this->plugin) . '.View/Helper');
+		App::uses($helperClass, $camelPlugin . '.View/Helper');
 		$CakeRequest = new CakeRequest();
 		$CakeResponse = new CakeResponse();
 		$Controller = new AppController($CakeRequest, $CakeResponse);
 		$Controller->set($viewVars);
 		$Controller->request->data = $reqestData;
 		$Controller->request->params = Hash::merge(
-			array('plugin' => $this->plugin, 'controller' => '', 'action' => ''), $params
+			array('plugin' => $snakePlugin, 'controller' => '', 'action' => ''), $params
 		);
 		Current::$request = $Controller->request;
 
 		$View = new View($Controller);
-		$View->plugin = Inflector::camelize($this->plugin);
+		$View->plugin = $camelPlugin;
 		$View->helpers = $helpers;
 		if ($validationErrors) {
 			$View->validationErrors = $validationErrors;

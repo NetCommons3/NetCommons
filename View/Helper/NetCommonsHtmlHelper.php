@@ -110,7 +110,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 					$wwwTimeStamp = filemtime($wwwWebrootPath);
 					$pluginTimeStamp = filemtime($pluginWebrootPath);
 					if ($wwwTimeStamp >= $pluginTimeStamp) {
-						$convUrl = '/' . $match[2] . '/' . $match[1] . DS . $match[3];
+						$convUrl = '/' . $match[2] . '/' . $match[1] . '/' . $match[3];
 					}
 				}
 			}

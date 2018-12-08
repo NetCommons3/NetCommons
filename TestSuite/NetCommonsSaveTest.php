@@ -81,6 +81,10 @@ abstract class NetCommonsSaveTest extends NetCommonsModelTestCase {
 
 		//テスト実行
 		$result = $this->$model->$method($data);
+		// バリデーションエラー時、出力
+		if (!empty($this->$model->validationErrors)) {
+			var_export($this->$model->validationErrors);
+		}
 		$this->assertNotEmpty($result);
 
 		//idのチェック

@@ -190,6 +190,12 @@ abstract class NetCommonsSaveTest extends NetCommonsModelTestCase {
 
 		$this->setExpectedException('InternalErrorException');
 		$this->$model->$method($data);
+		// バリデーションエラー時、出力。
+		// 例外を想定しているのにバリデーションエラーが出来るのは、他クラスの変更が影響している事が多いため、
+		// エラー解決のヒントとして表示
+		if (!empty($this->$model->validationErrors)) {
+			var_export($this->$model->validationErrors);
+		}
 	}
 
 /**

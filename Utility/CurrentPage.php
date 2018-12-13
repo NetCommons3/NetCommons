@@ -268,7 +268,7 @@ class CurrentPage {
 		$result = $this->__getPage(array(
 			'recursive' => -1,
 			'conditions' => array(
-				'Page.room_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
+				'Page.root_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
 				'Page.parent_id NOT' => null,
 			),
 			'order' => array('Page.sort_key' => 'asc')

@@ -400,4 +400,34 @@ class NetCommonsAppModel extends Model {
 		$options = $this->_setAliasData($options);
 		return $options;
 	}
+
+/**
+ * cakephpの登録処理をオーバーライド
+ *
+ * cakephpのsave時にcreated,modifiedの項目にセットする時間が、date_default_timezone_setに影響してしまうため、
+ * 登録直前にUTCに変更し、登録後にdate_default_timezone_setを元に戻すため、オーバライドする
+ *
+ * @param array $data Data to save.
+ * @param array $options can have following keys:
+ *
+ *   - validate: Set to true/false to enable or disable validation.
+ *   - fieldList: An array of fields you want to allow for saving.
+ *   - callbacks: Set to false to disable callbacks. Using 'before' or 'after'
+ *      will enable only those callbacks.
+ *   - `counterCache`: Boolean to control updating of counter caches (if any)
+ *
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws PDOException
+ * @link https://book.cakephp.org/2.0/en/models/saving-your-data.html
+ */
+	protected function _doSave($data = null, $options = array()) {
+		$nowDefaultTz = date_default_timezone_get();
+
+		date_default_timezone_set('UTC');
+		$result = parent::_doSave($data, $options);
+		date_default_timezone_set($nowDefaultTz);
+
+		return $result;
+	}
+
 }

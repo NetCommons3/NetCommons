@@ -132,7 +132,7 @@ class NetCommonsAppController extends Controller {
 		//Cakeでは、$uses,$component,$helpersが直近の継承しているものしか読み込まれないため、
 		//継承している親クラス全てを読み込む
 		$parentClass = get_class($this);
-		while($parentClass = get_parent_class($parentClass)) {
+		while ($parentClass = get_parent_class($parentClass)) {
 			$this->_mergeVars(['uses', 'components', 'helpers'], $parentClass, false);
 		}
 

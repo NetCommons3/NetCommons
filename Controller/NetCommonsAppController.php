@@ -129,6 +129,13 @@ class NetCommonsAppController extends Controller {
  * @param CakeResponse $response Response object for this controller.
  */
 	public function __construct($request = null, $response = null) {
+		//Cakeでは、$uses,$component,$helpersが直近の継承しているものしか読み込まれないため、
+		//継承している親クラス全てを読み込む
+		$parentClass = get_class($this);
+		while ($parentClass = get_parent_class($parentClass)) {
+			$this->_mergeVars(['uses', 'components', 'helpers'], $parentClass, false);
+		}
+
 		parent::__construct($request, $response);
 
 		if (in_array('Html', $this->helpers, true) &&

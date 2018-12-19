@@ -37,7 +37,7 @@ class AppPaginatorComponent extends PaginatorComponent {
 		if (in_array('Paginator', $this->Controller->helpers, true)) {
 			$index = array_search('Paginator', $this->Controller->helpers, true);
 			unset($this->Controller->helpers[$index]);
-		} elseif (array_key_exists('Paginator', $this->Controller->helpers, true)) {
+		} elseif (array_key_exists('Paginator', $this->Controller->helpers)) {
 			unset($this->Controller->helpers['Paginator']);
 		}
 		$this->Controller->helpers['Paginator'] = array('className' => 'NetCommons.AppPaginator');

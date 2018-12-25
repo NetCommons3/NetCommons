@@ -314,7 +314,20 @@ class CurrentPage {
 				$this->Page->alias . '.theme',
 			];
 
-			if (! empty(Current::$request->params['requested'])) {
+			// conditionsにRoom, Spaceを使ってるか
+			$conditionKeys = array_keys($query['conditions']);
+			$isRoomOrSpace = false;
+			foreach ($conditionKeys as $conditionKey) {
+				$isRoom = preg_match('/^Room\./', $conditionKey);
+				$isSpace = preg_match('/^Space\./', $conditionKey);
+				if ($isRoom || $isSpace) {
+					$isRoomOrSpace = true;
+					break;
+				}
+			}
+
+			// requestedあり, conditionsにRoom, Spaceを使ってない
+			if (! empty(Current::$request->params['requested']) && ! $isRoomOrSpace) {
 				$this->Page->unbindModel(array(
 					'belongsTo' => array('Room'),
 				), true);

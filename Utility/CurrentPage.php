@@ -266,9 +266,13 @@ class CurrentPage {
 		}
 
 		$result = $this->__getPage(array(
-			'recursive' => -1,
+			//'recursive' => -1,
+			'recursive' => 0,
 			'conditions' => array(
-				'Page.room_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
+				// パブリックルームのトップページ取得は、パブリックルームが複数ありえるため、スペースIDを指定して取得する
+				//'Page.root_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
+				'Page.room_id' => 'Room.id',
+				'Room.space_id' => Space::PUBLIC_SPACE_ID,
 				'Page.parent_id NOT' => null,
 			),
 			'order' => array('Page.sort_key' => 'asc')
@@ -310,7 +314,20 @@ class CurrentPage {
 				$this->Page->alias . '.theme',
 			];
 
-			if (! empty(Current::$request->params['requested'])) {
+			// conditionsにRoom, Spaceを使ってるか
+			$conditionKeys = array_keys($query['conditions']);
+			$isRoomOrSpace = false;
+			foreach ($conditionKeys as $conditionKey) {
+				$isRoom = preg_match('/^Room\./', $conditionKey);
+				$isSpace = preg_match('/^Space\./', $conditionKey);
+				if ($isRoom || $isSpace) {
+					$isRoomOrSpace = true;
+					break;
+				}
+			}
+
+			// requestedあり, conditionsにRoom, Spaceを使ってない
+			if (! empty(Current::$request->params['requested']) && ! $isRoomOrSpace) {
 				$this->Page->unbindModel(array(
 					'belongsTo' => array('Room'),
 				), true);

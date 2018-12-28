@@ -271,7 +271,7 @@ class CurrentPage {
 			'conditions' => array(
 				// パブリックルームのトップページ取得は、パブリックルームが複数ありえるため、スペースIDを指定して取得する
 				//'Page.root_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
-				'Page.room_id' => 'Room.id',
+				'Page.room_id = Room.id',
 				'Room.space_id' => Space::PUBLIC_SPACE_ID,
 				'Page.parent_id NOT' => null,
 			),

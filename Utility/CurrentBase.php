@@ -300,7 +300,7 @@ class CurrentBase {
  * ```
  *
  * @param string|null $key Hashクラスのpath、nullの場合、Hash::mergeする
- * @param mixted $value セットする値
+ * @param mixed $value セットする値
  * @return void
  */
 	public static function write($key, $value) {
@@ -323,7 +323,7 @@ class CurrentBase {
  * ```
  *
  * @param string|null $key Hashクラスのpath、nullの場合、Hash::mergeする
- * @param mixted $value セットする値
+ * @param mixed $value セットする値
  * @return void
  */
 	public static function writeOriginal($key, $value) {

@@ -180,10 +180,6 @@ class DisplayNumberHelper extends AppHelper {
 			if (Current::read('Block.id')) {
 				$attributes['url'] = NetCommonsUrl::blockUrl($named);
 			} else {
-				// 新着はこちらに入る。frame_id付加対応
-				if (! isset($named['frame_id']) && Current::read('Frame.id')) {
-					$named['frame_id'] = Current::read('Frame.id');
-				}
 				$attributes['url'] = NetCommonsUrl::actionUrlAsArray($named);
 			}
 		}

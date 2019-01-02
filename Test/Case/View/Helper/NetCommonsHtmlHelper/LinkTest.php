@@ -1,6 +1,6 @@
 <?php
 /**
- * NetCommonsHtmlHelper::elementDisplayChange()のテスト
+ * NetCommonsHtmlHelper::link()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @link http://www.netcommons.org NetCommons Project
@@ -11,20 +11,12 @@
 App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
 
 /**
- * NetCommonsHtmlHelper::elementDisplayChange()のテスト
+ * NetCommonsHtmlHelper::link()のテスト
  *
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\NetCommons\Test\Case\View\Helper\NetCommonsHtmlHelper
  */
 class NetCommonsHtmlHelperLinkTest extends NetCommonsHelperTestCase {
-
-/**
- * Fixtures
- *
- * @var array
- * @see MenuHelperRenderMainTest よりコピー
- */
-	public $fixtures = array();
 
 /**
  * Plugin name

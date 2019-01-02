@@ -16,7 +16,7 @@ App::uses('NetCommonsHelperTestCase', 'NetCommons.TestSuite');
  * @author Mitsuru Mutaguchi <mutaguchi@opensource-workshop.jp>
  * @package NetCommons\NetCommons\Test\Case\View\Helper\NetCommonsHtmlHelper
  */
-class NetCommonsHtmlHelperUrlTest extends NetCommonsHelperTestCase {
+class NetCommonsHtmlHelperImageTest extends NetCommonsHelperTestCase {
 
 /**
  * Plugin name

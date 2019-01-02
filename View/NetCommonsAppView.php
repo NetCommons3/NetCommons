@@ -106,7 +106,11 @@ class NetCommonsAppView extends View {
 		$this->_current = $current;
 
 		if (isset($options['cache'])) {
-			Cache::write($this->elementCacheSettings['key'], $element, $this->elementCacheSettings['config']);
+			Cache::write(
+				$this->elementCacheSettings['key'],
+				$element,
+				$this->elementCacheSettings['config']
+			);
 		}
 		return $element;
 	}

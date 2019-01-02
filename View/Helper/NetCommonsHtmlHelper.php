@@ -16,6 +16,7 @@ App::uses('NetCommonsUrl', 'NetCommons.Utility');
  * NetCommonsでHtmlHelperをOverrideしたHelper
  *
  * @package NetCommons\NetCommons\View\Helper
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsHtmlHelper extends AppHelper {
 
@@ -271,6 +272,7 @@ class NetCommonsHtmlHelper extends AppHelper {
  *
  * @param array|string|null $url URL
  * @return string URL
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	private function __convertUrlString($url) {
 		if (is_array($url) &&

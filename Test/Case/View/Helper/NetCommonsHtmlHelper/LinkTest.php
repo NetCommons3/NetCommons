@@ -39,6 +39,7 @@ class NetCommonsHtmlHelperLinkTest extends NetCommonsHelperTestCase {
  * testLink method
  *
  * @return void
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function testLink() {
 		Router::connect('/:controller/:action/*');

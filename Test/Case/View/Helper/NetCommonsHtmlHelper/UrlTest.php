@@ -40,7 +40,7 @@ class NetCommonsHtmlHelperUrlTest extends NetCommonsHelperTestCase {
  *
  * @return void
  */
-	public function testUrlConversion() {
+	public function testUrl() {
 		$result = $this->NetCommonsHtml->url('/controller/action/1');
 		$this->assertEquals('/controller/action/1', $result);
 

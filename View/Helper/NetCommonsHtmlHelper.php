@@ -104,13 +104,15 @@ class NetCommonsHtmlHelper extends AppHelper {
 				//$plugin = preg_replace('/_/', '', ucwords($match[1], '_'));
 				$plugin = preg_replace('/_/', ' ', $match[1]);
 				$plugin = preg_replace('/ /', '', ucwords($plugin));
-				$pluginWebrootPath =
-						CakePlugin::path($plugin) . WEBROOT_DIR . DS . $match[2] . DS . $match[3];
-				if (file_exists($wwwWebrootPath) && file_exists($pluginWebrootPath)) {
-					$wwwTimeStamp = filemtime($wwwWebrootPath);
-					$pluginTimeStamp = filemtime($pluginWebrootPath);
-					if ($wwwTimeStamp >= $pluginTimeStamp) {
-						$convUrl = '/' . $match[2] . '/' . $match[1] . '/' . $match[3];
+				if (CakePlugin::loaded($plugin)) {
+					$pluginWebrootPath =
+							CakePlugin::path($plugin) . WEBROOT_DIR . DS . $match[2] . DS . $match[3];
+					if (file_exists($wwwWebrootPath) && file_exists($pluginWebrootPath)) {
+						$wwwTimeStamp = filemtime($wwwWebrootPath);
+						$pluginTimeStamp = filemtime($pluginWebrootPath);
+						if ($wwwTimeStamp >= $pluginTimeStamp) {
+							$convUrl = '/' . $match[2] . '/' . $match[1] . '/' . $match[3];
+						}
 					}
 				}
 			}

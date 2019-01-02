@@ -75,10 +75,12 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
  * @param array $params $helper->_View->paramsに値をセットする配列
  * @param array $helpers ヘルパー配列
  * @param array $validationErrors バリデーションエラー
+ * @param array $controllerVars コントローラ変数にセットする配列
  * @return void
  */
 	public function loadHelper($helper, $viewVars = [],
-						$reqestData = [], $params = [], $helpers = [], $validationErrors = null) {
+						$reqestData = [], $params = [], $helpers = [],
+						$validationErrors = null, $controllerVars = []) {
 		list($plugin, $helper) = pluginSplit($helper);
 
 		$camelPlugin = Inflector::camelize($plugin);
@@ -94,6 +96,10 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 		$Controller->request->params = Hash::merge(
 			array('plugin' => $snakePlugin, 'controller' => '', 'action' => ''), $params
 		);
+		foreach ($controllerVars as $key => $value) {
+			$Controller->$key = $value;
+		}
+
 		Current::$request = $Controller->request;
 
 		$View = new View($Controller);

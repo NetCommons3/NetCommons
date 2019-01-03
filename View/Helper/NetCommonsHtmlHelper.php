@@ -16,6 +16,7 @@ App::uses('NetCommonsUrl', 'NetCommons.Utility');
  * NetCommonsでHtmlHelperをOverrideしたHelper
  *
  * @package NetCommons\NetCommons\View\Helper
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsHtmlHelper extends AppHelper {
 
@@ -258,8 +259,92 @@ class NetCommonsHtmlHelper extends AppHelper {
 		}
 
 		$url = $this->__getUrl($url);
-		$output = $this->Html->url($url, $full);
+		if ($full) {
+			$output = $this->Html->url($url, $full);
+		} else {
+			$output = $this->__convertUrlString($url);
+		}
 		return $output;
+	}
+
+/**
+ * URLコンバート処理
+ *
+ * @param array|string|null $url URL
+ * @return string URL
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
+	private function __convertUrlString($url) {
+		if (is_array($url) &&
+				isset($url['plugin']) && isset($url['controller']) && isset($url['action'])) {
+			$urlString = '/' . $url['plugin'] . '/' . $url['controller'] . '/' . $url['action'];
+			unset($url['plugin'], $url['controller'], $url['action']);
+
+			foreach ($url as $k => $u) {
+				if ($k === '?') {
+					continue;
+				}
+				if (is_numeric($k)) {
+					$urlString .= '/' . rawurlencode($u);
+				} else {
+					$urlString .= '/' . rawurlencode($k) . ':' . rawurlencode($u);
+				}
+			}
+			if (!empty($url['?'])) {
+				$urlString .= '?' . http_build_query($url['?'], null, '&');
+			}
+		} else {
+			$urlString = $url;
+		}
+
+		//URLの設定
+		if (is_string($urlString)) {
+			if (substr($urlString, 0, 1) === '/' &&
+					! substr($urlString, 1, 1) === '/') {
+				return $this->_View->request->base . h($urlString);
+			} elseif ($urlString === '#') {
+				return $urlString;
+			} else {
+				return $this->Html->url($urlString);
+			}
+		} else {
+			return $this->Html->url($urlString);
+		}
+	}
+
+/**
+ * タイトル,urlの生成
+ *
+ * @param string $title `<a>`のタイトル
+ * @param string|array $url URL
+ * @param array &$options HTML属性オプション
+ * @return array
+ */
+	private function __parseLink($title, $url, &$options) {
+		$escapeTitle = true;
+		if ($url !== null) {
+			$url = $this->__convertUrlString($url);
+		} else {
+			$url = $this->__convertUrlString($title);
+			$title = htmlspecialchars_decode($url, ENT_QUOTES);
+			$title = h(urldecode($title));
+			$escapeTitle = false;
+		}
+
+		if (isset($options['escapeTitle'])) {
+			$escapeTitle = $options['escapeTitle'];
+			unset($options['escapeTitle']);
+		} elseif (isset($options['escape'])) {
+			$escapeTitle = $options['escape'];
+		}
+
+		if ($escapeTitle === true) {
+			$title = h($title);
+		} elseif (is_string($escapeTitle)) {
+			$title = htmlentities($title, ENT_QUOTES, $escapeTitle);
+		}
+
+		return ['title' => $title, 'url' => $url];
 	}
 
 /**
@@ -273,7 +358,13 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	public function link($title = '', $url = null, $options = array()) {
 		$url = $this->__getUrl($url, $options);
-		$output = $this->Html->link($title, $url, $options);
+		if (!empty($options['confirm']) || array_key_exists('default', $options)) {
+			$output = $this->Html->link($title, $url, $options);
+		} else {
+			$link = $this->__parseLink($title, $url, $options);
+			$parseAttribute = $this->_parseAttributes($options);
+			$output = sprintf('<a href="%s"%s>%s</a>', $link['url'], $parseAttribute, $link['title']);
+		}
 		return $output;
 	}
 

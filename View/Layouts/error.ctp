@@ -25,9 +25,9 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 		echo $this->html->meta('icon', '/net_commons/favicon.ico');
 		echo $this->fetch('meta');
 
-		echo $this->element('NetCommons.common_css');
-		echo $this->element('NetCommons.common_theme_css');
-		echo $this->element('NetCommons.common_js');
+		echo $this->element('NetCommons.common_css', [], ['cache' => true]);
+		echo $this->element('NetCommons.common_theme_css', [], ['cache' => true]);
+		echo $this->element('NetCommons.common_js', [], ['cache' => true]);
 	?>
 </head>
 
@@ -38,6 +38,6 @@ App::uses('SiteSettingUtil', 'SiteManager.Utility');
 		<?php echo $this->fetch('content'); ?>
 	</main>
 
-	<?php echo $this->element('NetCommons.common_footer'); ?>
+	<?php echo $this->element('NetCommons.common_footer', [], ['cache' => true]); ?>
 </body>
 </html>

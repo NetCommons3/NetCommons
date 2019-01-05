@@ -26,6 +26,8 @@ class AllNetCommonsTest extends NetCommonsTestSuite {
  * @codeCoverageIgnore
  */
 	public static function suite() {
+		ini_set('memory_limit', '1024M');
+
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
 		$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', $plugin));
 		$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');

@@ -128,7 +128,7 @@ class NetCommonsCacheBehavior extends ModelBehavior {
 		if (! $result) {
 			//キャッシュの書き込み
 			$result = $model->exists($id);
-			$this->cacheWrite($model, $result, $type, $cacheKey);
+			$this->cacheWrite($model, $result, 'exists', $cacheKey);
 		}
 		return $result;
 	}

@@ -69,9 +69,11 @@ class NetCommonsCache {
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;
 
-		$result = Cache::read($this->__cacheName, $this->__cacheType);
-		if ($result !== false) {
-			$this->__data = $result;
+		if (! $this->__isTest) {
+			$result = Cache::read($this->__cacheName, $this->__cacheType);
+			if ($result !== false) {
+				$this->__data = $result;
+			}
 		}
 	}
 
@@ -163,7 +165,10 @@ class NetCommonsCache {
  */
 	public function clear() {
 		$this->__data = [];
-		Cache::delete($this->__cacheName, $this->__cacheType);
+
+		if (! $this->__isTest) {
+			Cache::delete($this->__cacheName, $this->__cacheType);
+		}
 	}
 
 }

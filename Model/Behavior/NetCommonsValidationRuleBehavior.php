@@ -88,7 +88,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		}
 
 		$regex = '/[^\s　' . preg_quote('$`', '/') . ']+/m';
-		if (is_string($value) && is_scalar($value) && preg_match($regex, $value)) {
+		if (! is_array($value) && is_scalar($value) && preg_match($regex, $value)) {
 			return true;
 		}
 

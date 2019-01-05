@@ -115,6 +115,25 @@ class NetCommonsCacheBehavior extends ModelBehavior {
 	}
 
 /**
+ * $model->exists()に対して、キャッシュからの読み込み
+ * もし、キャッシュに無ければ、exists()で取得し、キャッシュに登録する。
+ *
+ * @param Model $model ビヘイビア呼び出し元モデル
+ * @param string $id 数値型の文字列
+ * @return bool
+ */
+	public function cacheExistsQuery(Model $model, $id) {
+		$cacheKey = (string)$id;
+		$result = $this->cacheRead($model, 'exists', $cacheKey);
+		if (! $result) {
+			//キャッシュの書き込み
+			$result = $model->exists($id);
+			$this->cacheWrite($model, $result, $type, $cacheKey);
+		}
+		return $result;
+	}
+
+/**
  * キャッシュのクリア
  *
  * @param Model $model ビヘイビア呼び出し元モデル

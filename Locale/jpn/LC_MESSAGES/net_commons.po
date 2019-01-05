@@ -216,6 +216,15 @@ msgid "Under maintenance. Nobody is allowed to login except for administrators."
 msgstr "メンテナンス中のため、管理者しかログインできません。"
 
 #:
+msgid "The %s cache file could not be deleted. Check the permissions of the file and delete the cache file."
+msgstr "%sキャッシュファイルを削除することができませんでした。"
+"ファイルのパーミッションを確認し、キャッシュファイルを削除してください。"
+
+#:
+msgid "Could not write to the %s cache file. Please check the file permissions."
+msgstr "%sキャッシュファイルに書き込みすることができませんでした。ファイルのパーミッションを確認して下さい。"
+
+#:
 msgid "Bad ip address"
 msgstr "不正なリクエストの可能性があります。"
 

@@ -65,7 +65,7 @@ class NetCommonsCache {
  * @return void
  */
 	public function __construct($cacheName, $isTest, $cacheType = 'netcommons') {
-		$this->__cacheName = $cacheName;
+		$this->__cacheName = $cacheName . '_' . NC3_VERSION;
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;
 
@@ -154,7 +154,10 @@ class NetCommonsCache {
 		}
 
 		if (! $this->__isTest) {
-			Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
+			$success = Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
+			if (! $success) {
+				$this->__triggerWarning('delete');
+			}
 		}
 	}
 
@@ -167,8 +170,36 @@ class NetCommonsCache {
 		$this->__data = [];
 
 		if (! $this->__isTest) {
-			Cache::delete($this->__cacheName, $this->__cacheType);
+			$success = Cache::delete($this->__cacheName, $this->__cacheType);
+			if (! $success) {
+				$this->__triggerWarning('clear');
+			}
 		}
+	}
+
+/**
+ * キャッシュのクリア処理や削除処理が失敗した際にWarningを発生させる
+ *
+ * @param string $type 種別。'delete' or 'clear'
+ * @return void
+ */
+	private function __triggerWarning($type) {
+		$cacheSetting = Cache::settings($this->__cacheType);
+		if ($type === 'delete') {
+			$message = __d(
+				'net_commons',
+				'Could not write to the %s cache file. Please check the file permissions.',
+				$cacheSetting['path'] . $cacheSetting['prefix'] . $this->__cacheName
+			);
+		} else {
+			$message = __d(
+				'net_commons',
+				'The %s cache file could not be deleted. ' .
+					'Check the permissions of the file and delete the cache file.',
+				$cacheSetting['path'] . $cacheSetting['prefix'] . $this->__cacheName
+			);
+		}
+		trigger_error($message, E_USER_WARNING);
 	}
 
 }

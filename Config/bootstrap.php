@@ -14,6 +14,14 @@ if (ini_get('xdebug.max_nesting_level')) {
 	ini_set('xdebug.max_nesting_level', 200);
 }
 
+if (! defined('NC3_VERSION')) {
+	if (file_exists(APP . 'VERSION')) {
+		define('NC3_VERSION', trim(file_get_contents(APP . 'VERSION')));
+	} else {
+		define('NC3_VERSION', '3.2.1');
+	}
+}
+
 // Load application configurations
 $conf = array();
 $files = array('application.yml', 'application.local.yml');

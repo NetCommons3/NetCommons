@@ -74,10 +74,10 @@ class NetCommonsCacheBehavior extends ModelBehavior {
  *
  * @param Model $model ビヘイビア呼び出し元モデル
  * @param string $mainKey メインキー
- * @param string $subKey サブキー
+ * @param string|null $subKey サブキー
  * @return array
  */
-	public function cacheRead(Model $model, $mainKey, $subKey) {
+	public function cacheRead(Model $model, $mainKey, $subKey = null) {
 		return $this->__cache[$model->alias]->read($mainKey, $subKey);
 	}
 
@@ -87,10 +87,10 @@ class NetCommonsCacheBehavior extends ModelBehavior {
  * @param Model $model ビヘイビア呼び出し元モデル
  * @param array $result 結果
  * @param string $mainKey メインキー
- * @param string $subKey サブキー
+ * @param string|null $subKey サブキー
  * @return void
  */
-	public function cacheWrite(Model $model, $result, $mainKey, $subKey) {
+	public function cacheWrite(Model $model, $result, $mainKey, $subKey = null) {
 		$this->__cache[$model->alias]->write($result, $mainKey, $subKey);
 	}
 

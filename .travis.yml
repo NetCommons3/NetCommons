@@ -7,6 +7,9 @@ php:
   - 7.0
   - 7.1
 
+before_install:
+  - echo "memory_limit=1G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 sudo: false
 
 env:

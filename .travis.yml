@@ -7,11 +7,6 @@ php:
   - 7.0
   - 7.1
 
-before_install:
-  - echo "memory_limit=512M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-install:
-  - php -ini | grep memory_limit
-
 sudo: false
 
 env:

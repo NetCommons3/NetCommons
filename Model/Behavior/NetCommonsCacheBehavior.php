@@ -60,6 +60,16 @@ class NetCommonsCacheBehavior extends ModelBehavior {
 	}
 
 /**
+ * After delete is called after any delete occurs on the attached model.
+ *
+ * @param Model $model Model using this behavior
+ * @return void
+ */
+	public function afterDelete(Model $model) {
+		$this->cacheClear($model);
+	}
+
+/**
  * キャッシュ変数からの読み込み
  *
  * @param Model $model ビヘイビア呼び出し元モデル

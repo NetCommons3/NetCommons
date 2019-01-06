@@ -40,7 +40,7 @@ class NetCommonsCacheBehavior extends ModelBehavior {
 		if (! isset($this->__cache[$model->alias])) {
 			$cacheName = $model->useDbConfig . '_' . $model->tablePrefix . $model->table;
 			$isTest = ($model->useDbConfig === 'test');
-			$this->__cache[$model->alias] = new NetCommonsCache($cacheName, $isTest);
+			$this->__cache[$model->alias] = new NetCommonsCache($cacheName, $isTest, 'netcommons_model');
 		}
 	}
 

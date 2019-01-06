@@ -17,8 +17,15 @@ App::uses('Cache', 'Cache');
  */
 $cacheSetting = Cache::settings('_cake_core_');
 $cacheSetting['duration'] = '+999 days';
-$cacheSetting['prefix'] = preg_replace('/cake_core_/', 'netcommons_', $cacheSetting['prefix']);
-Cache::config('netcommons', $cacheSetting);
+$cacheSetting['prefix'] =
+		preg_replace('/cake_core_/', 'netcommons_core_', $cacheSetting['prefix']);
+Cache::config('netcommons_core', $cacheSetting);
+
+$cacheSetting = Cache::settings('_cake_model_');
+$cacheSetting['duration'] = '+999 days';
+$cacheSetting['prefix'] =
+		preg_replace('/cake_model_/', 'netcommons_model_', $cacheSetting['prefix']);
+Cache::config('netcommons_model', $cacheSetting);
 
 /**
  * NetCommons用キャッシュ Utility
@@ -71,7 +78,7 @@ class NetCommonsCache {
  * @param string $cacheType キャッシュ種別
  * @return void
  */
-	public function __construct($cacheName, $isTest, $cacheType = 'netcommons') {
+	public function __construct($cacheName, $isTest, $cacheType = 'netcommons_core') {
 		$this->__cacheName = $cacheName . '_' . preg_replace('/\./', '_', NC3_VERSION);
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;

@@ -29,6 +29,13 @@ Cache::config('netcommons', $cacheSetting);
 class NetCommonsCache {
 
 /**
+ * キャッシュの設定値
+ *
+ * @var array
+ */
+	private $__setting = [];
+
+/**
  * キャッシュのデータ保持用
  *
  * @var array
@@ -65,9 +72,10 @@ class NetCommonsCache {
  * @return void
  */
 	public function __construct($cacheName, $isTest, $cacheType = 'netcommons') {
-		$this->__cacheName = $cacheName;
+		$this->__cacheName = $cacheName . '_' . preg_replace('/\./', '_', NC3_VERSION);
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;
+		$this->__setting = Cache::settings($this->__cacheType);
 
 		if (! $this->__isTest) {
 			$result = Cache::read($this->__cacheName, $this->__cacheType);
@@ -154,7 +162,10 @@ class NetCommonsCache {
 		}
 
 		if (! $this->__isTest) {
-			Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
+			$success = Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
+			if (! $success) {
+				$this->__triggerWarning('delete');
+			}
 		}
 	}
 
@@ -167,8 +178,39 @@ class NetCommonsCache {
 		$this->__data = [];
 
 		if (! $this->__isTest) {
-			Cache::delete($this->__cacheName, $this->__cacheType);
+			if (file_exists($this->__setting['path'] . $this->__setting['prefix'] . $this->__cacheName)) {
+				$success = Cache::delete($this->__cacheName, $this->__cacheType);
+			} else {
+				$success = true;
+			}
+			if (! $success) {
+				$this->__triggerWarning('clear');
+			}
 		}
+	}
+
+/**
+ * キャッシュのクリア処理や削除処理が失敗した際にWarningを発生させる
+ *
+ * @param string $type 種別。'delete' or 'clear'
+ * @return void
+ */
+	private function __triggerWarning($type) {
+		if ($type === 'delete') {
+			$message = __d(
+				'net_commons',
+				'Could not write to the %s cache file. Please check the file permissions.',
+				$this->__setting['path'] . $this->__setting['prefix'] . $this->__cacheName
+			);
+		} else {
+			$message = __d(
+				'net_commons',
+				'The %s cache file could not be deleted. ' .
+					'Check the permissions of the file and delete the cache file.',
+				$this->__setting['path'] . $this->__setting['prefix'] . $this->__cacheName
+			);
+		}
+		trigger_error($message, E_USER_WARNING);
 	}
 
 }

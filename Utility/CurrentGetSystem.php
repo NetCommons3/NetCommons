@@ -12,13 +12,19 @@
 App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
- * NetCommonsの機能に必要な情報を取得する内容をまとめたUtility
- * ※本来、ここに集約せずに各モデルに書く方が良い。
+ * NetCommonsの機能に必要な情報(システム系)を取得する内容をまとめたUtility
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
 class CurrentGetSystem {
+
+/**
+ * CurrentGetSystemインスタンス
+ *
+ * @var CurrentGetSystem
+ */
+	private static $___instance;
 
 /**
  * クラス内で処理するコントローラを保持
@@ -42,6 +48,13 @@ class CurrentGetSystem {
 	public $PluginsRole;
 
 /**
+ * DefaultRolePermissionモデル
+ *
+ * @var DefaultRolePermission
+ */
+	public $DefaultRolePermission;
+
+/**
  * 一度取得したプラグインデータを保持
  *
  * @var array|null
@@ -60,6 +73,20 @@ class CurrentGetSystem {
 		$this->Language = ClassRegistry::init('M17n.Language');
 		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
+		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
+	}
+
+/**
+ * インスタンスの取得
+ *
+ * @param Controller $controller コントローラ
+ * @return CurrentGetSystem
+ */
+	public static function getInstance(Controller $controller) {
+		if (! self::$___instance) {
+			self::$___instance = new CurrentGetSystem($controller);
+		}
+		return self::$___instance;
 	}
 
 /**
@@ -93,15 +120,6 @@ class CurrentGetSystem {
 		}
 
 		$this->Language->cacheWrite($language, 'current', $langCode);
-
-//		self::$__memoryCache['Language'][$cacheId] = $language;
-//		Current::$current['Language'] = $language['Language'];
-//
-//		if (is_object(Current::$session) && $this->Language->useDbConfig !== 'test' &&
-//				$language['Language']['code'] !== Configure::write('Config.language')) {
-//			Configure::write('Config.language', $language['Language']['code']);
-//			Current::$session->write('Config.language', $language['Language']['code']);
-//		}
 		return $language;
 	}
 
@@ -120,7 +138,7 @@ class CurrentGetSystem {
 				'language_id' => $langId,
 			],
 		];
-		$cacheKey = md5(json_encode($queryOptions));
+		$cacheKey = $this->Plugin->createCacheQueryKey($queryOptions);
 
 		$this->__plugins = $this->Plugin->cacheRead('current', $cacheKey);
 		if ($this->__plugins) {
@@ -137,37 +155,6 @@ class CurrentGetSystem {
 
 		$this->__plugins = $results;
 		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
-
-//		if (isset(Current::$current['Plugin'])) {
-//			unset(Current::$current['Plugin']);
-//		}
-//
-//		if (Current::$request->params['plugin'] === Current::PLUGIN_PAGES ||
-//				Current::$request->params['plugin'] === CurrentSystem::PLUGIN_CONTROL_PANEL) {
-//			return;
-//		}
-//
-//		if (!isset(self::$__memoryCache['Plugin'])) {
-//			//Pluginデータ取得
-//			$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
-//			self::$__memoryCache['Plugin'] = $this->Plugin->find('all', array(
-//				'recursive' => -1,
-//				'conditions' => array(),
-//			));
-//		}
-//		$results = self::$__memoryCache['Plugin'];
-//
-//		$plugin = array();
-//		foreach ($results as $result) {
-//			// プラグインキーと言語で絞り込む
-//			if ($result['Plugin']['key'] == Current::$request->params['plugin']
-//					&& $result['Plugin']['language_id'] == Current::$current['Language']['id']) {
-//				$plugin = $result;
-//				break;
-//			}
-//		}
-//
-//		Current::setCurrent($plugin, true);
 
 		return $results;
 	}
@@ -210,7 +197,7 @@ class CurrentGetSystem {
 				'role_key' => $userRoleKey,
 			),
 		];
-		$cacheKey = md5(json_encode($queryOptions));
+		$cacheKey = $this->PluginsRole->createCacheQueryKey($queryOptions);
 
 		$pluginsRoles = $this->PluginsRole->cacheRead('current', $cacheKey);
 		if ($pluginsRoles) {
@@ -224,7 +211,37 @@ class CurrentGetSystem {
 			$results['PluginsRole'][$key] = $pluginsRole['PluginsRole'];
 		}
 		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
+		return $results;
+	}
 
+/**
+ * デフォルトロールデータ取得
+ *
+ * @param string $roleKey ロールキー
+ * @return array
+ */
+	public function getDefaultRolePermissions($roleKey) {
+		$queryOptions = [
+			'recursive' => -1,
+			'conditions' => [
+				'role_key' => $roleKey,
+			],
+		];
+		$cacheKey = $this->DefaultRolePermission->createCacheQueryKey($queryOptions);
+
+		$permissions = $this->DefaultRolePermission->cacheRead('current', $cacheKey);
+		if ($permissions) {
+			return $permissions;
+		}
+
+		$results = [];
+		$permissions = $this->DefaultRolePermission->cacheFindQuery('all', $queryOptions);
+		foreach ($permissions as $permission) {
+			$key = $permission['DefaultRolePermission']['permission'];
+			$results[$key] = $permission['DefaultRolePermission'];
+		}
+
+		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
 		return $results;
 	}
 

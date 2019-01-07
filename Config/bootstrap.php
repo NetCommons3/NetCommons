@@ -15,7 +15,10 @@ if (ini_get('xdebug.max_nesting_level')) {
 }
 
 if (! defined('NC3_VERSION')) {
-	if (file_exists(APP . 'VERSION')) {
+	App::uses('NetCommonsCache', 'NetCommons.Utility');
+	$ncCache = new NetCommonsCache('version', false, 'netcommons_core');
+	$version = $ncCache->read();
+	if ($version) {
 		define('NC3_VERSION', trim(file_get_contents(APP . 'VERSION')));
 	} else {
 		define('NC3_VERSION', '3.2.1');

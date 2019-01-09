@@ -9,13 +9,15 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('CurrentGetSystem', 'NetCommons.Utility');
+
 /**
  * NetCommonsの機能に必要な情報(ルーム関連)を取得する内容をまとめたUtility
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetRoom {
+class CurrentGetRoom extends CurrentGetAppObject {
 
 /**
  * CurrentGetRoomインスタンス
@@ -38,7 +40,7 @@ class CurrentGetRoom {
  *
  * @var Controller
  */
-	private $__controller;
+	private $_controller;
 
 /**
  * Roomモデル
@@ -76,6 +78,13 @@ class CurrentGetRoom {
 	public $RolesRoomsUser;
 
 /**
+ * RolesRoomsUserモデル
+ *
+ * @var RolesRoomsUser
+ */
+	public $RoomsLanguage;
+
+/**
 	* 一度取得したルームデータを保持
  *
  * @var array|null
@@ -90,13 +99,6 @@ class CurrentGetRoom {
 	private $__space = null;
 
 /**
-	* 一度取得したルームデータを保持
- *
- * @var array|null
- */
-	private $__room = null;
-
-/**
  * 一度取得した参加ルーム(roles_rooms_uses)のIDリストを保持
  *
  * ※カレンダーなどで使用できるように取得する
@@ -108,11 +110,23 @@ class CurrentGetRoom {
 /**
  * 一度取得したルーム権限(roles_rooms)データを保持
  *
- * ※カレンダーなどで使用できるように取得する
+ * @var array|null
+ */
+	private $__roleRooms = null;
+
+/**
+ * ルーム権限IDからルームIDに変換するためのIDを保存
  *
  * @var array|null
  */
-	private $__rolesRooms = null;
+	private $__roomIdById = null;
+
+/**
+ * 一度取得したルームに対するプラグインデータを保持
+ *
+ * @var array|null
+ */
+	private $__plugins = null;
 
 /**
  * ログインしたユーザIDを保持
@@ -122,21 +136,31 @@ class CurrentGetRoom {
 	private $__userId = null;
 
 /**
+ * 表示している言語IDを保持
+ *
+ * @var string 言語ID(intの文字列)
+ */
+	private $__langId = null;
+
+/**
  * コンストラクター
  *
  * @param Controller $controller コントローラ
  * @return void
  */
 	public function __construct(Controller $controller) {
-		$this->__controller = $controller;
+		$this->_controller = $controller;
 
 		$this->Space = ClassRegistry::init('Rooms.Space');
 		$this->Room = ClassRegistry::init('Rooms.Room');
 		$this->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
 		$this->RolesRoom = ClassRegistry::init('Rooms.RolesRoom');
 		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
+		$this->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
+		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
 
 		$this->__userId = Current::read('User.id');
+		$this->__langId = Current::read('Language.id');
 	}
 
 /**
@@ -146,10 +170,7 @@ class CurrentGetRoom {
  * @return CurrentGetRoom
  */
 	public static function getInstance(Controller $controller) {
-		if (! self::$___instance) {
-			self::$___instance = new CurrentGetRoom($controller);
-		}
-		return self::$___instance;
+		return parent::_getInstance($controller, __CLASS__);
 	}
 
 /**
@@ -170,7 +191,7 @@ class CurrentGetRoom {
  * @param string $roomId ルームID(intの文字列)
  * @return array
  */
-	public function getRoom($roomId) {
+	public function findRoom($roomId) {
 		if ($this->__room) {
 			return $this->__room;
 		}
@@ -195,9 +216,10 @@ class CurrentGetRoom {
 			'conditions' => [
 				'id' => $roomId
 			],
+
 		));
 
-		$this->__room = $room['Room'];
+		$this->__room = $room;
 		$this->__space = $this->Space->getSpace($room['Room']['space_id']);
 
 		return $this->__room;
@@ -209,13 +231,13 @@ class CurrentGetRoom {
  * @param string $userId ユーザID(intの文字列)
  * @return array
  */
-	public function getPrivateRoom($userId) {
+	public function findPrivateRoom($userId) {
 		if ($this->__room) {
 			return $this->__room;
 		}
 
 		$room = $this->Room->getPrivateRoomByUserId($userId);
-		$this->__room = $room['Room'];
+		$this->__room = $room;
 		$this->__space = $this->Space->getSpace($room['Room']['space_id']);
 
 		return $this->__room;
@@ -234,7 +256,7 @@ class CurrentGetRoom {
 		}
 
 		if ($this->__userId) {
-			$rolesRoomsUser = $this->RolesRoomsUser->find('all', array(
+			$rolesRoomsUser = $this->RolesRoomsUser->find('all', [
 				'recursive' => -1,
 				'fields' => [
 					$this->RolesRoom->alias . '.id',
@@ -262,48 +284,108 @@ class CurrentGetRoom {
 						],
 					],
 				],
-			));
+			]);
 			$this->__memberRoomIds = [];
 			foreach ($rolesRoomsUser as $roleRoom) {
 				$roomId = $roleRoom['RolesRoom']['room_id'];
+				$roleRoomId = $roleRoom['RolesRoom']['id'];
 				$this->__memberRoomIds[] = $roomId;
-				$this->__rolesRooms[$roomId] = $roleRoom;
+				$this->__roleRooms[$roomId] = $roleRoom;
+				$this->__roomIdById[$roleRoomId] = $roomId;
 			}
 		} else {
 			$this->__memberRoomIds = [];
-			$this->__rolesRooms = [];
+			$this->__roleRooms = [];
+			$this->__roomIdById = [];
 		}
 		return $this->__memberRoomIds;
 	}
 
 /**
- * ルームロール権限データ取得
+ * ルームIDからルーム権限データ取得
  *
- * @return [
+ * @return array
  */
-	public function getRoomRolePermissions($roomId) {
-		if (! isset($this->__rolesRooms[$roomId])) {
+	public function findRoleRoomByRoomId($roomId = null) {
+		if (! isset($this->__roleRooms)) {
 			$roomIds = $this->getMemberRoomIds();
-			if (! in_array($roomId, $roomIds, true)) {
+			if (! $roomIds) {
+				return null;
+			}
+		}
+		if (isset($this->__roleRooms[$roomId])) {
+			return $this->__roleRooms[$roomId];
+		} else {
+			return null;
+		}
+	}
+
+/**
+ * ルーム権限IDからルーム権限データ取得
+ *
+ * @return array
+ */
+	public function findRoleRoomById($roleRoomId = null) {
+		if (! isset($this->__roomIdById)) {
+			$roomIds = $this->getMemberRoomIds();
+			if (! $roomIds) {
 				return [];
 			}
 		}
-		$roleRoomId = $this->__rolesRooms[$roomId];
+		if (isset($this->__roomIdById[$roleRoomId])) {
+			$roomId = $this->__roomIdById[$roleRoomId];
+			return $this->__roleRooms[$roomId];
+		} else {
+			return [];
+		}
+	}
 
+/**
+ * ルーム権限IDリスト取得
+ *
+ * @return array
+ */
+	public function findRoleRoomIds() {
+		if (! isset($this->__roomIdById)) {
+			$roomIds = $this->getMemberRoomIds();
+			if (! $roomIds) {
+				return [];
+			}
+		}
+		return array_keys($this->__roomIdById);
+	}
 
-//		if (isset(Current::$current['RoomRolePermission']) || ! isset(Current::$current['RolesRoom'])) {
-//			return;
-//		}
-//
-//		// ルームロールパーミッション取得
-//		$results = $this->__getRoomRolePermissions(Current::$current['RolesRoom']['id']);
-//
-//		if ($results) {
-//			foreach ($results as $rolePermission) {
-//				$permission = $rolePermission['RoomRolePermission']['permission'];
-//				Current::$current['RoomRolePermission'][$permission] = $rolePermission['RoomRolePermission'];
-//			}
-//		}
+/**
+ * ルームプラグインデータ取得
+ *
+ * @return array
+ */
+	public function findPluginsRoom($roomId) {
+		if (isset($this->__plugins[$roomId])) {
+			return $this->__plugins[$roomId];
+		}
+
+		$pluginsRoom = $this->PluginsRoom->find('all', [
+			'recursive' => -1,
+			'fields' => [
+				//$this->PluginsRoom->alias . '.id',
+				//$this->PluginsRoom->alias . '.room_id',
+				$this->PluginsRoom->alias . '.plugin_key',
+			],
+			'conditions' => [
+				'room_id' => $roomId
+			],
+		]);
+
+		$pluginKeys = [];
+		foreach ($pluginsRoom as $pluginRoom) {
+			$pluginKeys[] = $pluginRoom['PluginsRoom']['plugin_key'];
+		}
+
+		$instance = CurrentGetSystem::getInstance($this->_controller);
+		$this->__plugins[$roomId] = $instance->findPlugins($pluginKeys, $this->__langId);
+
+		return $this->__plugins[$roomId];
 	}
 
 }

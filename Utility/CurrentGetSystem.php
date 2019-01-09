@@ -17,21 +17,7 @@ App::uses('NetCommonsSecurity', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetSystem {
-
-/**
- * CurrentGetSystemインスタンス
- *
- * @var CurrentGetSystem
- */
-	private static $___instance;
-
-/**
- * クラス内で処理するコントローラを保持
- *
- * @var Controller
- */
-	private $__controller;
+class CurrentGetSystem extends CurrentGetAppObject {
 
 /**
  * Languageモデル
@@ -48,11 +34,11 @@ class CurrentGetSystem {
 	public $PluginsRole;
 
 /**
- * DefaultRolePermissionモデル
+ * Pluginモデル
  *
- * @var DefaultRolePermission
+ * @var Plugin
  */
-	public $DefaultRolePermission;
+	public $Plugin;
 
 /**
  * 一度取得したプラグインデータを保持
@@ -68,12 +54,11 @@ class CurrentGetSystem {
  * @return void
  */
 	public function __construct(Controller $controller) {
-		$this->__controller = $controller;
+		$this->_controller = $controller;
 
 		$this->Language = ClassRegistry::init('M17n.Language');
 		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
 		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
-		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
 	}
 
 /**
@@ -83,10 +68,7 @@ class CurrentGetSystem {
  * @return CurrentGetSystem
  */
 	public static function getInstance(Controller $controller) {
-		if (! self::$___instance) {
-			self::$___instance = new CurrentGetSystem($controller);
-		}
-		return self::$___instance;
+		return parent::_getInstance($controller, __CLASS__);
 	}
 
 /**
@@ -94,7 +76,7 @@ class CurrentGetSystem {
  *
  * @return array
  */
-	public function getLanguage() {
+	public function findLanguage() {
 		$langCode = Configure::read('Config.language');
 
 		$rseult = $this->Language->cacheRead('current', $langCode);
@@ -130,7 +112,7 @@ class CurrentGetSystem {
  * @param string $langId 言語ID(intの文字列)
  * @return array
  */
-	public function getPlugins($pluginKeys, $langId) {
+	public function findPlugins($pluginKeys, $langId) {
 		$queryOptions = [
 			'recursive' => -1,
 			'conditions' => [
@@ -165,7 +147,7 @@ class CurrentGetSystem {
  * @param string $pluginKey プラグインキー
  * @return void
  */
-	public function getPlugin($pluginKey) {
+	public function findPlugin($pluginKey) {
 		if (isset($this->__plugins[$pluginKey])) {
 			return $this->__plugins[$pluginKey];
 		} else {
@@ -179,7 +161,7 @@ class CurrentGetSystem {
  * @param string $userRoleKey ユーザ権限
  * @return array
  */
-	public function getPluginRole($userRoleKey) {
+	public function findPluginRole($userRoleKey) {
 		//IPアドレスによる制御
 		$netCommonsSecurity = new NetCommonsSecurity();
 		if (! $netCommonsSecurity->enableAllowSystemPluginIps()) {
@@ -210,37 +192,6 @@ class CurrentGetSystem {
 			$key = $pluginsRole['PluginsRole']['id'];
 			$results['PluginsRole'][$key] = $pluginsRole['PluginsRole'];
 		}
-		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
-		return $results;
-	}
-
-/**
- * デフォルトロールデータ取得
- *
- * @param string $roleKey ロールキー
- * @return array
- */
-	public function getDefaultRolePermissions($roleKey) {
-		$queryOptions = [
-			'recursive' => -1,
-			'conditions' => [
-				'role_key' => $roleKey,
-			],
-		];
-		$cacheKey = $this->DefaultRolePermission->createCacheQueryKey($queryOptions);
-
-		$permissions = $this->DefaultRolePermission->cacheRead('current', $cacheKey);
-		if ($permissions) {
-			return $permissions;
-		}
-
-		$results = [];
-		$permissions = $this->DefaultRolePermission->cacheFindQuery('all', $queryOptions);
-		foreach ($permissions as $permission) {
-			$key = $permission['DefaultRolePermission']['permission'];
-			$results[$key] = $permission['DefaultRolePermission'];
-		}
-
 		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
 		return $results;
 	}

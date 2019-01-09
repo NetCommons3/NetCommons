@@ -10,28 +10,20 @@
  */
 
 App::uses('CurrentGetRoom', 'NetCommons.Utility');
+App::uses('CurrentGetAppObject', 'NetCommons.Utility');
 
 /**
  * NetCommonsの機能に必要な情報(ページ関連)を取得する内容をまとめたUtility
  *
+ * @property Page $Page Pageモデル
+ * @property PagesLanguage $PagesLanguage PagesLanguageモデル
+ * @property PageContainer $PageContainer PageContainerモデル
+ * @property Room $Room Roomモデル
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetPage {
-
-/**
- * クラス内で処理するコントローラを保持
- *
- * @var Controller
- */
-	private $__controller;
-
-/**
- * CurrentGetPageインスタンス
- *
- * @var CurrentGetPage
- */
-	private static $___instance;
+class CurrentGetPage extends CurrentGetAppObject {
 
 /**
  * キャッシュクラスを保持する変数
@@ -41,18 +33,16 @@ class CurrentGetPage {
 	private $__cache;
 
 /**
- * Pageモデル
+ * 使用するモデル
  *
- * @var Page
+ * @var array
  */
-	public $Page;
-
-/**
- * Roomモデル
- *
- * @var Room
- */
-	public $Room;
+	protected $_uses = [
+		'Page' => 'Pages.Page',
+		'PagesLanguage' => 'Pages.PagesLanguage',
+		'PageContainer' => 'Pages.PageContainer',
+		'Room' => 'Rooms.Room',
+	];
 
 /**
  * 一度取得したページデータを保持
@@ -75,19 +65,13 @@ class CurrentGetPage {
  * @return void
  */
 	public function __construct(Controller $controller) {
-		$this->__controller = $controller;
+		parent::__construct($controller);
 
-		$this->Page = ClassRegistry::init('Pages.Page');
 		$cacheName = 'current_' .
 				$this->Page->useDbConfig . '_' . $this->Page->tablePrefix . $this->Page->table;
 		$isTest = ($this->Page->useDbConfig === 'test');
 		$this->__cache[$this->Page->alias] = new NetCommonsCache($cacheName, $isTest, 'netcommons_model');
-
-		$this->Room = ClassRegistry::init('Rooms.Room');
-
-//		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
-//		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
-	}
+}
 
 /**
  * インスタンスの取得
@@ -96,10 +80,7 @@ class CurrentGetPage {
  * @return CurrentGetPage
  */
 	public static function getInstance(Controller $controller) {
-		if (! self::$___instance) {
-			self::$___instance = new CurrentGetPage($controller);
-		}
-		return self::$___instance;
+		return parent::_getInstance($controller, __CLASS__);
 	}
 
 /**
@@ -107,7 +88,7 @@ class CurrentGetPage {
  *
  * @return array
  */
-	public function getTopPage() {
+	public function findTopPage() {
 		if ($this->__topPage) {
 			return $this->__topPage;
 		}
@@ -149,8 +130,8 @@ class CurrentGetPage {
 			],
 		]);
 
-		$this->__cache[$this->Page->alias]->write($topPage['Page'], 'current', 'top_page');
-		$this->__topPage = $topPage['Page'];
+		$this->__cache[$this->Page->alias]->write($topPage, 'current', 'top_page');
+		$this->__topPage = $topPage;
 		return $this->__topPage;
 	}
 
@@ -159,19 +140,29 @@ class CurrentGetPage {
  *
  * @return array
  */
-	public function getCurrentPage() {
+	public function findCurrentPage() {
 		if ($this->__page) {
 			return $this->__page;
 		}
 
-		$page = $this->Page->find('first', [
-			'recursive' => -1,
-			'conditions' => [
-				'id' => $this->__getCurrentPageId(),
-			],
-		]);
+		$pageId = $this->__getCurrentPageId();
+		$topPage = $this->findTopPage();
 
-		$this->__page = $page['Page'];
+		if ($pageId === $topPage['Page']['id']) {
+			$this->__page = $topPage;
+		} else {
+			$page = $this->Page->find('first', [
+				'recursive' => -1,
+				'conditions' => [
+					'id' => $pageId,
+				],
+			]);
+			$this->__page = $page;
+		}
+
+		//ページ言語データ取得
+		$this->__page += $this->__findPagesLanguage($pageId);
+
 		return $this->__page;
 	}
 
@@ -183,34 +174,34 @@ class CurrentGetPage {
 	private function __getCurrentPageId() {
 		$privateRoomPlugins = [Current::PLUGIN_USERS, Current::PLUGIN_GROUPS];
 
-		if (isset($this->__controller->request->data['Page']['id'])) {
-			$pageId = $this->__controller->request->data['Page']['id'];
-		} elseif (!empty($this->__controller->request->params['pageView'])) {
-			$permalink = implode('/', $this->__controller->request->params['pass']);
+		if (isset($this->_controller->request->data['Page']['id'])) {
+			$pageId = $this->_controller->request->data['Page']['id'];
+		} elseif (!empty($this->_controller->request->params['pageView'])) {
+			$permalink = implode('/', $this->_controller->request->params['pass']);
 			$pageId = $this->__getPageIdByPermalink($permalink);
-		} elseif (!empty($this->__controller->request->params['pageEdit'])) {
-			if (isset($this->__controller->request->params['pass'][1])) {
-				$pageId = $this->__controller->request->params['pass'][1];
+		} elseif (!empty($this->_controller->request->params['pageEdit'])) {
+			if (isset($this->_controller->request->params['pass'][1])) {
+				$pageId = $this->_controller->request->params['pass'][1];
 			} else {
-				$roomId = $this->__controller->request->params['pass'][0];
+				$roomId = $this->_controller->request->params['pass'][0];
 				$pageId = $this->__getPageIdByRoomId($roomId);
 			}
-		} elseif (isset($this->__controller->query['page_id'])) {
-			$pageId = $this->__controller->query['page_id'];
-		} elseif (isset($this->__controller->request->params['page_id'])) {
-			$pageId = $this->__controller->request->params['page_id'];
-		} elseif (in_array($this->__controller->request->params['plugin'], $privateRoomPlugins, true) &&
-					! $this->__controller->request->is('ajax')) {
+		} elseif (isset($this->_controller->query['page_id'])) {
+			$pageId = $this->_controller->query['page_id'];
+		} elseif (isset($this->_controller->request->params['page_id'])) {
+			$pageId = $this->_controller->request->params['page_id'];
+		} elseif (in_array($this->_controller->request->params['plugin'], $privateRoomPlugins, true) &&
+					! $this->_controller->request->is('ajax')) {
 			$userId = Current::read('User.id');
 			$pageId = $this->__getPageIdByPrivateRoom($userId);
-		} elseif (isset($this->__controller->request->data['Room']['id'])) {
-			$roomId = $this->__controller->request->data['Room']['id'];
+		} elseif (isset($this->_controller->request->data['Room']['id'])) {
+			$roomId = $this->_controller->request->data['Room']['id'];
 			$pageId = $this->__getPageIdByRoomId($roomId);
-		} elseif (isset($this->__controller->query['room_id'])) {
-			$roomId = $this->__controller->query['room_id'];
+		} elseif (isset($this->_controller->query['room_id'])) {
+			$roomId = $this->_controller->query['room_id'];
 			$pageId = $this->__getPageIdByRoomId($roomId);
-		} elseif (isset($this->__controller->request->params['room_id'])) {
-			$roomId = $this->__controller->request->params['room_id'];
+		} elseif (isset($this->_controller->request->params['room_id'])) {
+			$roomId = $this->_controller->request->params['room_id'];
 			$pageId = $this->__getPageIdByRoomId($roomId);
 		} else {
 			$pageId = null;
@@ -220,18 +211,68 @@ class CurrentGetPage {
 	}
 
 /**
+ * ページ言語データの取得
+ *
+ * @param string $pageId ページID(intの文字列)
+ * @return array
+ */
+	private function __findPagesLanguage($pageId) {
+		$pageLanguage = $this->PagesLanguage->find('first', [
+			'recursive' => -1,
+			'conditions' => [
+				'page_id' => $pageId,
+				'language_id' => $this->_langId,
+			],
+		]);
+		return $pageLanguage;
+	}
+
+/**
+ * ページコンテナ―データの取得
+ *
+ * @param string $pageId ページID(intの文字列)
+ * @return array
+ */
+	private function __findPageContainer($pageId) {
+		$pageContainers = $this->PageContainer->find('all', array(
+			'recursive' => -1,
+			'fields' => [
+				'id', 'page_id', 'container_type', 'is_published', 'is_configured'
+			],
+			'conditions' => array(
+				'page_id' => $pageId,
+			),
+			//'order' => array('container_type' => 'asc'),
+		));
+
+		$results = [];
+		$pageContainerIds = [];
+		foreach ($pageContainers as $container) {
+			$containerType = $container['PageContainer']['container_type'];
+			$pageContainerIds[] = $container['PageContainer']['id'];
+			$results[$containerType] = $container['PageContainer'];
+		}
+		ksort($results);
+
+
+
+
+		return $results;
+	}
+
+/**
  * パーマリンクからページIDを取得
  *
  * @param string $permalink パーマリンク
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByPermalink($permalink) {
-		$permalink = implode('/', $this->__controller->request->params['pass']);
+		$permalink = implode('/', $this->_controller->request->params['pass']);
 		if ($permalink === '') {
-			$page['Page'] = $this->getTopPage();
+			$page['Page'] = $this->findTopPage();
 		} else {
-			if (isset($this->__controller->request->params['spaceId'])) {
-				$spaceId = $this->__controller->request->params['spaceId'];
+			if (isset($this->_controller->request->params['spaceId'])) {
+				$spaceId = $this->_controller->request->params['spaceId'];
 			} else {
 				$spaceId = Space::PUBLIC_SPACE_ID;
 			}
@@ -265,7 +306,7 @@ class CurrentGetPage {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByRoomId($roomId) {
-		$currentGetRoom = CurrentGetRoom::getInstance($this->__controller);
+		$currentGetRoom = CurrentGetRoom::getInstance($this->_controller);
 		$room = $currentGetRoom->getRoom($roomId);
 		if ($room) {
 			return $room['page_id_top'];
@@ -281,7 +322,7 @@ class CurrentGetPage {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByPrivateRoom($userId) {
-		$currentGetRoom = CurrentGetRoom::getInstance($this->__controller);
+		$currentGetRoom = CurrentGetRoom::getInstance($this->_controller);
 		$room = $currentGetRoom->getPrivateRoom($userId);
 		if ($room) {
 			return $room['page_id_top'];

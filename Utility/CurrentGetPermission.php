@@ -14,38 +14,23 @@ App::uses('CurrentGetRoom', 'NetCommons.Utility');
 /**
  * NetCommonsの機能に必要な情報(パーミッション関連)を取得する内容をまとめたUtility
  *
+ * @property DefaultRolePermission $DefaultRolePermission DefaultRolePermissionモデル
+ * @property RoomRolePermission $RoomRolePermission RoomRolePermissionモデル
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
 class CurrentGetPermission extends CurrentGetAppObject {
 
 /**
- * CurrentGetRoomインスタンス
+ * 使用するモデル
  *
- * @var CurrentGetRoom
+ * @var array
  */
-	private static $___instance;
-
-/**
- * クラス内で処理するコントローラを保持
- *
- * @var Controller
- */
-	private $__controller;
-
-/**
- * DefaultRolePermissionモデル
- *
- * @var DefaultRolePermission
- */
-	public $DefaultRolePermission;
-
-/**
- * RoomRolePermissionモデル
- *
- * @var RoomRolePermission
- */
-	public $RoomRolePermission;
+	protected $_uses = [
+		'DefaultRolePermission' => 'Roles.DefaultRolePermission',
+		'RoomRolePermission' => 'Rooms.RoomRolePermission',
+	];
 
 /**
  * 一度取得したルーム権限パーミッション(room_role_permissions)データを保持
@@ -53,19 +38,6 @@ class CurrentGetPermission extends CurrentGetAppObject {
  * @var array|null
  */
 	private $__roomRolePermissions = null;
-
-/**
- * コンストラクター
- *
- * @param Controller $controller コントローラ
- * @return void
- */
-	public function __construct(Controller $controller) {
-		$this->__controller = $controller;
-
-		$this->DefaultRolePermission = ClassRegistry::init('Roles.DefaultRolePermission');
-		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
-	}
 
 /**
  * インスタンスの取得
@@ -83,7 +55,7 @@ class CurrentGetPermission extends CurrentGetAppObject {
  * @param string $roleKey ロールキー
  * @return array
  */
-	public function getDefaultRolePermissions($roleKey) {
+	public function findDefaultRolePermissions($roleKey) {
 		$queryOptions = [
 			'recursive' => -1,
 			'conditions' => [
@@ -113,7 +85,7 @@ class CurrentGetPermission extends CurrentGetAppObject {
  *
  * @return array
  */
-	public function getRoomRolePermissions($roomId) {
+	public function findRoomRolePermissions($roomId) {
 		if (isset($this->__roomRolePermissions[$roomId])) {
 			return $this->__roomRolePermissions[$roomId];
 		}

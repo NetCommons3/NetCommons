@@ -14,75 +14,42 @@ App::uses('CurrentGetSystem', 'NetCommons.Utility');
 /**
  * NetCommonsの機能に必要な情報(ルーム関連)を取得する内容をまとめたUtility
  *
+ * @property Room $Room Roomモデル
+ * @property Space $Space Spaceモデル
+ * @property RolesRoom $RolesRoom RolesRoomモデル
+ * @property RoomRolePermission $RoomRolePermission RoomRolePermissionモデル
+ * @property RolesRoomsUser $RolesRoomsUser RolesRoomsUserモデル
+ * @property RoomsLanguage $RoomsLanguage RoomsLanguageモデル
+ * @property PluginsRoom $PluginsRoom PluginsRoomモデル
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
 class CurrentGetRoom extends CurrentGetAppObject {
 
 /**
- * CurrentGetRoomインスタンス
- *
- * @var CurrentGetRoom
- */
-	private static $___instance;
-
-/**
  * ログインなしで参照できるスペースリストデータ
  *
  * @var array
  */
-	public static $__spacesWOLogin = [
+	private static $__spacesWOLogin = [
 		Space::PUBLIC_SPACE_ID,
 	];
 
 /**
- * クラス内で処理するコントローラを保持
+ * 使用するモデル
  *
- * @var Controller
+ * @var array
  */
-	private $_controller;
-
-/**
- * Roomモデル
- *
- * @var Room
- */
-	public $Room;
-
-/**
- * Roomモデル
- *
- * @var Space
- */
-	public $Space;
-
-/**
- * RolesRoomモデル
- *
- * @var RolesRoom
- */
-	public $RolesRoom;
-
-/**
- * RoomRolePermissionモデル
- *
- * @var RoomRolePermission
- */
-	public $RoomRolePermission;
-
-/**
- * RolesRoomsUserモデル
- *
- * @var RolesRoomsUser
- */
-	public $RolesRoomsUser;
-
-/**
- * RolesRoomsUserモデル
- *
- * @var RolesRoomsUser
- */
-	public $RoomsLanguage;
+	protected $_uses = [
+		'Room' => 'Rooms.Room',
+		'Space' => 'Rooms.Space',
+		'RolesRoom' => 'Rooms.RolesRoom',
+		'RoomRolePermission' => 'Rooms.RoomRolePermission',
+		'RolesRoomsUser' => 'Rooms.RolesRoomsUser',
+		'RoomsLanguage' => 'Rooms.RoomsLanguage',
+		'PluginsRoom' => 'PluginManager.PluginsRoom',
+	];
 
 /**
 	* 一度取得したルームデータを保持
@@ -136,31 +103,15 @@ class CurrentGetRoom extends CurrentGetAppObject {
 	private $__userId = null;
 
 /**
- * 表示している言語IDを保持
- *
- * @var string 言語ID(intの文字列)
- */
-	private $__langId = null;
-
-/**
  * コンストラクター
  *
  * @param Controller $controller コントローラ
  * @return void
  */
 	public function __construct(Controller $controller) {
-		$this->_controller = $controller;
-
-		$this->Space = ClassRegistry::init('Rooms.Space');
-		$this->Room = ClassRegistry::init('Rooms.Room');
-		$this->RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
-		$this->RolesRoom = ClassRegistry::init('Rooms.RolesRoom');
-		$this->RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
-		$this->PluginsRoom = ClassRegistry::init('PluginManager.PluginsRoom');
-		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
+		parent::__construct($controller);
 
 		$this->__userId = Current::read('User.id');
-		$this->__langId = Current::read('Language.id');
 	}
 
 /**

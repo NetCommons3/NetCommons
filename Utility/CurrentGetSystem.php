@@ -14,31 +14,23 @@ App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 /**
  * NetCommonsの機能に必要な情報(システム系)を取得する内容をまとめたUtility
  *
+ * @property Plugin $Plugin Pluginモデル
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
 class CurrentGetSystem extends CurrentGetAppObject {
 
 /**
- * Languageモデル
+ * 使用するモデル
  *
- * @var Language
+ * @var array
  */
-	public $Language;
-
-/**
- * PluginsRoleモデル
- *
- * @var PluginsRole
- */
-	public $PluginsRole;
-
-/**
- * Pluginモデル
- *
- * @var Plugin
- */
-	public $Plugin;
+	protected $_uses = [
+		'Language' => 'M17n.Language',
+		'PluginsRole' => 'PluginManager.PluginsRole',
+		'Plugin' => 'PluginManager.Plugin',
+	];
 
 /**
  * 一度取得したプラグインデータを保持
@@ -46,20 +38,6 @@ class CurrentGetSystem extends CurrentGetAppObject {
  * @var array|null
  */
 	private $__plugins = null;
-
-/**
- * コンストラクター
- *
- * @param Controller $controller コントローラ
- * @return void
- */
-	public function __construct(Controller $controller) {
-		$this->_controller = $controller;
-
-		$this->Language = ClassRegistry::init('M17n.Language');
-		$this->PluginsRole = ClassRegistry::init('PluginManager.PluginsRole');
-		$this->Plugin = ClassRegistry::init('PluginManager.Plugin');
-	}
 
 /**
  * インスタンスの取得

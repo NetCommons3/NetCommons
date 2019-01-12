@@ -79,7 +79,11 @@ class NetCommonsCache {
  * @return void
  */
 	public function __construct($cacheName, $isTest, $cacheType = 'netcommons_core') {
-		$this->__cacheName = $cacheName . '_' . preg_replace('/\./', '_', NC3_VERSION);
+		if (defined('NC3_VERSION') && $cacheName !== 'version') {
+			$this->__cacheName = $cacheName . '_' . preg_replace('/\./', '_', NC3_VERSION);
+		} else {
+			$this->__cacheName = $cacheName;
+		}
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;
 		$this->__setting = Cache::settings($this->__cacheType);

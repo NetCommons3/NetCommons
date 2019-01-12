@@ -25,9 +25,9 @@ class CurrentGetAppObject {
 	protected $_controller;
 
 /**
- * CurrentGetPageインスタンス
+ * インスタンス
  *
- * @var CurrentGetPage
+ * @var object
  */
 	protected static $_instance;
 

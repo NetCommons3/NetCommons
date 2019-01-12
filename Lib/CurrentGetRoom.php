@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetSystem', 'NetCommons.Utility');
+App::uses('CurrentGetAppObject', 'NetCommons.Lib');
+App::uses('CurrentGetSystem', 'NetCommons.Lib');
 
 /**
  * NetCommonsの機能に必要な情報(ルーム関連)を取得する内容をまとめたUtility
@@ -56,14 +57,14 @@ class CurrentGetRoom extends CurrentGetAppObject {
  *
  * @var array|null
  */
-	private $__room = null;
+	private $__rooms = null;
 
 /**
-	* 一度取得したスペースデータを保持
+ * プライベートルームID
  *
- * @var array|null
+ * @var string|null
  */
-	private $__space = null;
+	private $__privateRoomId = null;
 
 /**
  * 一度取得した参加ルーム(roles_rooms_uses)のIDリストを保持
@@ -86,7 +87,7 @@ class CurrentGetRoom extends CurrentGetAppObject {
  *
  * @var array|null
  */
-	private $__roomIdById = null;
+	private $__roomsIdById = null;
 
 /**
  * 一度取得したルームに対するプラグインデータを保持
@@ -143,8 +144,8 @@ class CurrentGetRoom extends CurrentGetAppObject {
  * @return array
  */
 	public function findRoom($roomId) {
-		if ($this->__room) {
-			return $this->__room;
+		if (isset($this->__rooms[$roomId])) {
+			return $this->__rooms[$roomId];
 		}
 
 		$room = $this->Room->find('first', array(
@@ -170,10 +171,28 @@ class CurrentGetRoom extends CurrentGetAppObject {
 
 		));
 
-		$this->__room = $room;
-		$this->__space = $this->Space->getSpace($room['Room']['space_id']);
+		$this->__rooms[$roomId] = $room;
+		$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
+		$this->__rooms[$roomId] += $this->Space->getSpace($room['Room']['space_id']);
 
-		return $this->__room;
+		return $this->__rooms[$roomId];
+	}
+
+/**
+ * ルーム言語データの取得
+ *
+ * @param string $roomId ルームID(intの文字列)
+ * @return array
+ */
+	private function __findRoomsLanguage($roomId) {
+		$roomLanguage = $this->RoomsLanguage->find('first', [
+			'recursive' => -1,
+			'conditions' => [
+				'room_id' => $roomId,
+				'language_id' => $this->_langId,
+			],
+		]);
+		return $roomLanguage;
 	}
 
 /**
@@ -183,15 +202,19 @@ class CurrentGetRoom extends CurrentGetAppObject {
  * @return array
  */
 	public function findPrivateRoom($userId) {
-		if ($this->__room) {
-			return $this->__room;
+		if (isset($this->__privateRoomId)) {
+			return $this->__rooms[$this->__privateRoomId];
 		}
 
 		$room = $this->Room->getPrivateRoomByUserId($userId);
-		$this->__room = $room;
-		$this->__space = $this->Space->getSpace($room['Room']['space_id']);
 
-		return $this->__room;
+		$roomId = $room['Room']['id'];
+		$this->__privateRoomId = $roomId;
+		$this->__rooms[$roomId] = $room;
+		$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
+		$this->__rooms[$roomId] += $this->Space->getSpace($roomId);
+
+		return $this->__rooms[$roomId];
 	}
 
 /**
@@ -242,12 +265,12 @@ class CurrentGetRoom extends CurrentGetAppObject {
 				$roleRoomId = $roleRoom['RolesRoom']['id'];
 				$this->__memberRoomIds[] = $roomId;
 				$this->__roleRooms[$roomId] = $roleRoom;
-				$this->__roomIdById[$roleRoomId] = $roomId;
+				$this->__roomsIdById[$roleRoomId] = $roomId;
 			}
 		} else {
 			$this->__memberRoomIds = [];
 			$this->__roleRooms = [];
-			$this->__roomIdById = [];
+			$this->__roomsIdById = [];
 		}
 		return $this->__memberRoomIds;
 	}
@@ -277,14 +300,14 @@ class CurrentGetRoom extends CurrentGetAppObject {
  * @return array
  */
 	public function findRoleRoomById($roleRoomId = null) {
-		if (! isset($this->__roomIdById)) {
+		if (! isset($this->__roomsIdById)) {
 			$roomIds = $this->getMemberRoomIds();
 			if (! $roomIds) {
 				return [];
 			}
 		}
-		if (isset($this->__roomIdById[$roleRoomId])) {
-			$roomId = $this->__roomIdById[$roleRoomId];
+		if (isset($this->__roomsIdById[$roleRoomId])) {
+			$roomId = $this->__roomsIdById[$roleRoomId];
 			return $this->__roleRooms[$roomId];
 		} else {
 			return [];
@@ -297,13 +320,13 @@ class CurrentGetRoom extends CurrentGetAppObject {
  * @return array
  */
 	public function findRoleRoomIds() {
-		if (! isset($this->__roomIdById)) {
+		if (! isset($this->__roomsIdById)) {
 			$roomIds = $this->getMemberRoomIds();
 			if (! $roomIds) {
 				return [];
 			}
 		}
-		return array_keys($this->__roomIdById);
+		return array_keys($this->__roomsIdById);
 	}
 
 /**

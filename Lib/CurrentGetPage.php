@@ -9,8 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetRoom', 'NetCommons.Utility');
-App::uses('CurrentGetAppObject', 'NetCommons.Utility');
+App::uses('CurrentGetAppObject', 'NetCommons.Lib');
+App::uses('CurrentGetRoom', 'NetCommons.Lib');
+App::uses('Current2', 'NetCommons.Utility');
 
 /**
  * NetCommonsの機能に必要な情報(ページ関連)を取得する内容をまとめたUtility
@@ -19,6 +20,11 @@ App::uses('CurrentGetAppObject', 'NetCommons.Utility');
  * @property PagesLanguage $PagesLanguage PagesLanguageモデル
  * @property PageContainer $PageContainer PageContainerモデル
  * @property Room $Room Roomモデル
+ * @property RoomsLanguage $RoomsLanguage RoomsLanguageモデル
+ * @property Box $Box Boxモデル
+ * @property BoxesPageContainer $BoxesPageContainer BoxesPageContainerモデル
+ *
+ * @property string $__lang 言語ID
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
@@ -42,6 +48,9 @@ class CurrentGetPage extends CurrentGetAppObject {
 		'PagesLanguage' => 'Pages.PagesLanguage',
 		'PageContainer' => 'Pages.PageContainer',
 		'Room' => 'Rooms.Room',
+		'RoomsLanguage' => 'Rooms.RoomsLanguage',
+		'Box' => 'Boxes.Box',
+		'BoxesPageContainer' => 'Boxes.BoxesPageContainer',
 	];
 
 /**
@@ -254,8 +263,111 @@ class CurrentGetPage extends CurrentGetAppObject {
 		}
 		ksort($results);
 
+		//ボックスデータ取得
+		$boxes = $this->__findBoxes($pageContainerIds);
+		foreach ($boxes as $pageContainerId => $boxes) {
+			$results[$pageContainerId]['Box'] += $boxes;
+		}
 
+		return $results;
+	}
 
+/**
+ * ボックスデータの取得
+ *
+ * @param array $pageContainerIds ページコンテナ―IDリスト
+ * @return array
+ */
+	private function __findBoxes($pageContainerIds) {
+		$query = array(
+			'recursive' => -1,
+			'fields' => [
+				$this->BoxesPageContainer->alias . '.id',
+				$this->BoxesPageContainer->alias . '.page_container_id',
+				$this->BoxesPageContainer->alias . '.page_id',
+				$this->BoxesPageContainer->alias . '.container_type',
+				$this->BoxesPageContainer->alias . '.box_id',
+				$this->BoxesPageContainer->alias . '.is_published',
+				$this->BoxesPageContainer->alias . '.weight',
+				$this->Box->alias . '.id',
+				$this->Box->alias . '.container_id',
+				$this->Box->alias . '.type',
+				$this->Box->alias . '.space_id',
+				$this->Box->alias . '.room_id',
+				$this->Box->alias . '.page_id',
+				$this->Box->alias . '.container_type',
+				$this->Box->alias . '.weight',
+				$this->Room->alias . '.id',
+				$this->Room->alias . '.space_id',
+				$this->Room->alias . '.page_id_top',
+				$this->Room->alias . '.parent_id',
+				//$this->Room->alias . '.lft',
+				//$this->Room->alias . '.rght',
+				$this->Room->alias . '.weight',
+				$this->Room->alias . '.sort_key',
+				$this->Room->alias . '.child_count',
+				$this->Room->alias . '.active',
+				$this->Room->alias . '.in_draft',
+				$this->Room->alias . '.default_role_key',
+				$this->Room->alias . '.need_approval',
+				$this->Room->alias . '.default_participation',
+				$this->Room->alias . '.page_layout_permitted',
+				$this->Room->alias . '.theme',
+				$this->RoomsLanguage->alias . '.id',
+				$this->RoomsLanguage->alias . '.name',
+			],
+			'conditions' => array(
+				$this->BoxesPageContainer->alias . '.page_container_id' => $pageContainerIds,
+			),
+			'joins' => [
+				[
+					'type' => 'INNER',
+					'table' => $this->Box->table,
+					'alias' => $this->Box->alias,
+					'conditions' => [
+						$this->Box->alias . '.id' . '=' .
+										$this->BoxesPageContainer->alias . '.box_id',
+					],
+				],
+				[
+					'type' => 'INNER',
+					'table' => $this->Room->table,
+					'alias' => $this->Room->alias,
+					'conditions' => [
+						$this->Box->alias . '.room_id' . '=' . $this->Room->alias . '.id',
+					],
+				],
+				[
+					'type' => 'LEFT',
+					'table' => $this->RoomsLanguage->table,
+					'alias' => $this->RoomsLanguage->alias,
+					'conditions' => [
+						'RoomsLanguage.language_id' => $this->__lang,
+						$this->Room->alias . '.id' . '=' .
+										$this->RoomsLanguage->alias . '.room_id',
+					],
+				],
+			],
+			'order' => $this->BoxesPageContainer->alias . '.weight',
+		);
+
+		//セッティングモードOFFなら公開に設定されているボックスのみ表示する
+		if (! Current2::isSettingMode()) {
+			$query['conditions'][$this->BoxesPageContainer->alias . '.is_published'] = true;
+		}
+
+		$boxes = $this->BoxesPageContainer->find('all', $query);
+
+		$results = [];
+		$boxIds = [];
+		foreach ($boxes as $box) {
+			$pageContainerId = $box['BoxesPageContainer']['page_container_id'];
+			$boxId = $box['Box']['id'];
+			$results[$pageContainerId][$boxId] = $box;
+			$boxIds[] = $boxId;
+		}
+
+		//TODO: Frameデータ取得
 
 		return $results;
 	}

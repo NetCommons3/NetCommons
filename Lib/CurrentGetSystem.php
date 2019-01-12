@@ -9,6 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('CurrentGetAppObject', 'NetCommons.Lib');
 App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
@@ -90,11 +91,11 @@ class CurrentGetSystem extends CurrentGetAppObject {
  * @param string $langId 言語ID(intの文字列)
  * @return array
  */
-	public function findPlugins($pluginKeys, $langId) {
+	public function findPlugins($langId) {
 		$queryOptions = [
 			'recursive' => -1,
 			'conditions' => [
-				'key' => $pluginKeys,
+				//'key' => $pluginKeys,
 				'language_id' => $langId,
 			],
 		];

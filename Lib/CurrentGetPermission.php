@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetRoom', 'NetCommons.Utility');
+App::uses('CurrentGetAppObject', 'NetCommons.Lib');
+App::uses('CurrentGetRoom', 'NetCommons.Lib');
 
 /**
  * NetCommonsの機能に必要な情報(パーミッション関連)を取得する内容をまとめたUtility

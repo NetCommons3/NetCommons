@@ -19,7 +19,7 @@ if (! defined('NC3_VERSION')) {
 	$ncCache = new NetCommonsCache('version', false, 'netcommons_core');
 	$version = $ncCache->read();
 	if ($version) {
-		define('NC3_VERSION', trim(file_get_contents(APP . 'VERSION')));
+		define('NC3_VERSION', trim($version));
 	} else {
 		define('NC3_VERSION', '3.2.1');
 	}

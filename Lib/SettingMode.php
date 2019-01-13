@@ -1,6 +1,6 @@
 <?php
 /**
- * Current Utility
+ * SettingModeを操作するライブラリ
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,6 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('NcPermission', 'NetCommons.Lib');
 
 /**
@@ -17,7 +18,7 @@ App::uses('NcPermission', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Lib
  */
-class SettingMode {
+class SettingMode extends LibAppObject {
 
 /**
  * セッティングモードのワード
@@ -31,21 +32,14 @@ class SettingMode {
  *
  * @var bool
  */
-	public $isSettingMode = null;
+	private $__isSettingMode = null;
 
 /**
  * ページのルームIDを保持する
  *
  * @var string ページのルームID(intの文字列)
  */
-	public $pageRoomId = null;
-
-/**
- * SettingModeインスタンス
- *
- * @var SettingMode
- */
-	private static $__instance;
+	private $__pageRoomId = null;
 
 /**
  * コンストラクター
@@ -53,22 +47,26 @@ class SettingMode {
  * @return void
  */
 	public function __construct() {
-		$this->pageRoomId = Current::read('Page.room_id');
+		parent::__construct();
+		$this->__pageRoomId = Current2::read('Page.room_id');
 	}
 
 /**
  * インスタンスの取得
  *
- * @param Controller $controller コントローラ
- * @param string $className クラス名
- * @return CurrentGetPage
+ * @return SettingMode
  */
-	private static function __getInstance() {
-		if (! self::$__instance) {
-			$className = __CLASS__;
-			self::$__instance = new $className();
-		}
-		return self::$__instance;
+	public static function getInstance() {
+		return parent::_getInstance(__CLASS__);
+	}
+
+/**
+ * インスタンスのクリア
+ *
+ * @return void
+ */
+	public static function resetInstance() {
+		parent::_resetInstance();
 	}
 
 /**
@@ -76,40 +74,37 @@ class SettingMode {
  *
  * @return bool
  */
-	public static function isSettingMode() {
-		$instance = self::__getInstance();
-
-		if (isset($instance->isSettingMode)) {
-			return $instance->isSettingMode;
+	public function __isSettingMode() {
+		if (isset($this->__isSettingMode)) {
+			return $this->__isSettingMode;
 		}
 
 		$tmpSettingMode = CakeSession::read(self::SETTING_MODE_WORD);
 		if ($tmpSettingMode !== null) {
-			$instance->isSettingMode = $tmpSettingMode;
-			return $instance->isSettingMode;
+			$this->__isSettingMode = $tmpSettingMode;
+			return $this->__isSettingMode;
 		}
 
 		$pattern = preg_quote('/' . self::SETTING_MODE_WORD . '/', '/');
 		if (preg_match('/' . $pattern . '/', Router::url())) {
-			$instance->isSettingMode = true;
+			$this->__isSettingMode = true;
 		} else {
-			$instance->isSettingMode = false;
+			$this->__isSettingMode = false;
 		}
-		CakeSession::write(Current::SETTING_MODE_WORD, $instance->isSettingMode);
+		CakeSession::write(self::SETTING_MODE_WORD, $this->__isSettingMode);
 
-		return $instance->isSettingMode;
+		return $this->__isSettingMode;
 	}
 
 /**
  * セッティングモードチェック
  *
  * @param bool|null $settingMode セッティングモードの状態変更
- * @return bool
+ * @return void
  */
-	public static function setSettingMode($settingMode) {
-		$instance = self::__getInstance();
-		$instance->isSettingMode = $settingMode;
-		CakeSession::write(Current::SETTING_MODE_WORD, $settingMode);
+	public function setSettingMode($settingMode) {
+		$this->__isSettingMode = $settingMode;
+		CakeSession::write(self::SETTING_MODE_WORD, $settingMode);
 	}
 
 /**
@@ -117,9 +112,8 @@ class SettingMode {
  *
  * @return bool
  */
-	public static function hasSettingMode() {
-		$instance = self::__getInstance();
-		return NcPermission::permission('page_editable', $this->pageRoomId);
+	public function hasSettingMode() {
+		return NcPermission::read('page_editable', $this->__pageRoomId);
 	}
 
 }

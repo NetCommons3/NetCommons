@@ -9,13 +9,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetAppObject', 'NetCommons.Lib');
-App::uses('CurrentGetRoom', 'NetCommons.Lib');
+App::uses('CurrentAppObject', 'NetCommons.Lib');
+App::uses('CurrentRoom', 'NetCommons.Lib');
+App::uses('CurrentFrame', 'NetCommons.Lib');
 App::uses('Current2', 'NetCommons.Utility');
 
 /**
  * NetCommonsの機能に必要な情報(ページ関連)を取得する内容をまとめたUtility
  *
+ * @property string $_lang 言語ID
+ * @property Controller $_controller コントローラ
  * @property Page $Page Pageモデル
  * @property PagesLanguage $PagesLanguage PagesLanguageモデル
  * @property PageContainer $PageContainer PageContainerモデル
@@ -24,12 +27,10 @@ App::uses('Current2', 'NetCommons.Utility');
  * @property Box $Box Boxモデル
  * @property BoxesPageContainer $BoxesPageContainer BoxesPageContainerモデル
  *
- * @property string $__lang 言語ID
- *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetPage extends CurrentGetAppObject {
+class Current2Page extends CurrentAppObject {
 
 /**
  * キャッシュクラスを保持する変数
@@ -68,28 +69,55 @@ class CurrentGetPage extends CurrentGetAppObject {
 	private $__page = null;
 
 /**
+ * クラス内で処理するCurrentFrameインスタンス
+ *
+ * @var CurrentFrame
+ */
+	protected $_CurrentFrame;
+
+/**
+ * クラス内で処理するCurrentRoomインスタンス
+ *
+ * @var CurrentRoom
+ */
+	protected $_CurrentRoom;
+
+/**
  * コンストラクター
  *
- * @param Controller $controller コントローラ
+ * @param Controller|null $controller コントローラ
  * @return void
  */
-	public function __construct(Controller $controller) {
+	public function __construct($controller = null) {
 		parent::__construct($controller);
 
 		$cacheName = 'current_' .
 				$this->Page->useDbConfig . '_' . $this->Page->tablePrefix . $this->Page->table;
 		$isTest = ($this->Page->useDbConfig === 'test');
 		$this->__cache[$this->Page->alias] = new NetCommonsCache($cacheName, $isTest, 'netcommons_model');
-}
+	}
 
 /**
  * インスタンスの取得
  *
- * @param Controller $controller コントローラ
- * @return CurrentGetPage
+ * @param Controller|null $controller コントローラ
+ * @return CurrentPage
  */
-	public static function getInstance(Controller $controller) {
+	public static function getInstance($controller = null) {
 		return parent::_getInstance($controller, __CLASS__);
+	}
+
+/**
+ * コントローラのセット
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function setController($controller) {
+		parent::setController($controller);
+
+		$this->_CurrentFrame = Current2Frame::getInstance($controller);
+		$this->_CurrentRoom = CurrentRoom::getInstance($controller);
 	}
 
 /**
@@ -111,7 +139,7 @@ class CurrentGetPage extends CurrentGetAppObject {
 					'alias' => $this->Room->alias,
 					'type' => 'INNER',
 					'conditions' => [
-						$this->Page->alias . '.room_id' . ' = ' . $this->Room->alias . ' .id',
+						$this->Page->alias . '.room_id' . ' = ' . ' .id',
 					],
 				],
 			],
@@ -264,9 +292,9 @@ class CurrentGetPage extends CurrentGetAppObject {
 		ksort($results);
 
 		//ボックスデータ取得
-		$boxes = $this->__findBoxes($pageContainerIds);
-		foreach ($boxes as $pageContainerId => $boxes) {
-			$results[$pageContainerId]['Box'] += $boxes;
+		$boxesEachPageContId = $this->__findBoxes($pageContainerIds);
+		foreach ($boxesEachPageContId as $pageContainerId => $boxes) {
+			$results[$pageContainerId]['Boxes'] += $boxes;
 		}
 
 		return $results;
@@ -282,42 +310,40 @@ class CurrentGetPage extends CurrentGetAppObject {
 		$query = array(
 			'recursive' => -1,
 			'fields' => [
-				$this->BoxesPageContainer->alias . '.id',
-				$this->BoxesPageContainer->alias . '.page_container_id',
-				$this->BoxesPageContainer->alias . '.page_id',
-				$this->BoxesPageContainer->alias . '.container_type',
-				$this->BoxesPageContainer->alias . '.box_id',
-				$this->BoxesPageContainer->alias . '.is_published',
-				$this->BoxesPageContainer->alias . '.weight',
-				$this->Box->alias . '.id',
-				$this->Box->alias . '.container_id',
-				$this->Box->alias . '.type',
-				$this->Box->alias . '.space_id',
-				$this->Box->alias . '.room_id',
-				$this->Box->alias . '.page_id',
-				$this->Box->alias . '.container_type',
-				$this->Box->alias . '.weight',
-				$this->Room->alias . '.id',
-				$this->Room->alias . '.space_id',
-				$this->Room->alias . '.page_id_top',
-				$this->Room->alias . '.parent_id',
-				//$this->Room->alias . '.lft',
-				//$this->Room->alias . '.rght',
-				$this->Room->alias . '.weight',
-				$this->Room->alias . '.sort_key',
-				$this->Room->alias . '.child_count',
-				$this->Room->alias . '.active',
-				$this->Room->alias . '.in_draft',
-				$this->Room->alias . '.default_role_key',
-				$this->Room->alias . '.need_approval',
-				$this->Room->alias . '.default_participation',
-				$this->Room->alias . '.page_layout_permitted',
-				$this->Room->alias . '.theme',
-				$this->RoomsLanguage->alias . '.id',
-				$this->RoomsLanguage->alias . '.name',
+				'BoxesPageContainer.id',
+				'BoxesPageContainer.page_container_id',
+				'BoxesPageContainer.page_id',
+				'BoxesPageContainer.container_type',
+				'BoxesPageContainer.box_id',
+				'BoxesPageContainer.is_published',
+				'BoxesPageContainer.weight',
+				'Box.id',
+				'Box.container_id',
+				'Box.type',
+				'Box.space_id',
+				'Box.room_id',
+				'Box.page_id',
+				'Box.container_type',
+				'Box.weight',
+				'Room.id',
+				'Room.space_id',
+				'Room.page_id_top',
+				'Room.parent_id',
+				'Room.weight',
+				'Room.sort_key',
+				'Room.child_count',
+				'Room.active',
+				'Room.in_draft',
+				'Room.default_role_key',
+				'Room.need_approval',
+				'Room.default_participation',
+				'Room.page_layout_permitted',
+				'Room.theme',
+				'RoomsLanguage.id',
+				'RoomsLanguage.name',
 			],
 			'conditions' => array(
-				$this->BoxesPageContainer->alias . '.page_container_id' => $pageContainerIds,
+				'BoxesPageContainer.page_container_id' => $pageContainerIds,
 			),
 			'joins' => [
 				[
@@ -325,8 +351,7 @@ class CurrentGetPage extends CurrentGetAppObject {
 					'table' => $this->Box->table,
 					'alias' => $this->Box->alias,
 					'conditions' => [
-						$this->Box->alias . '.id' . '=' .
-										$this->BoxesPageContainer->alias . '.box_id',
+						'Box.id = BoxesPageContainer.box_id',
 					],
 				],
 				[
@@ -334,7 +359,7 @@ class CurrentGetPage extends CurrentGetAppObject {
 					'table' => $this->Room->table,
 					'alias' => $this->Room->alias,
 					'conditions' => [
-						$this->Box->alias . '.room_id' . '=' . $this->Room->alias . '.id',
+						'Box.room_id = Room.id',
 					],
 				],
 				[
@@ -343,17 +368,16 @@ class CurrentGetPage extends CurrentGetAppObject {
 					'alias' => $this->RoomsLanguage->alias,
 					'conditions' => [
 						'RoomsLanguage.language_id' => $this->__lang,
-						$this->Room->alias . '.id' . '=' .
-										$this->RoomsLanguage->alias . '.room_id',
+						'Room.id = RoomsLanguage.room_id',
 					],
 				],
 			],
-			'order' => $this->BoxesPageContainer->alias . '.weight',
+			'order' => '.weight',
 		);
 
 		//セッティングモードOFFなら公開に設定されているボックスのみ表示する
 		if (! Current2::isSettingMode()) {
-			$query['conditions'][$this->BoxesPageContainer->alias . '.is_published'] = true;
+			$query['conditions']['.is_published'] = true;
 		}
 
 		$boxes = $this->BoxesPageContainer->find('all', $query);
@@ -367,7 +391,13 @@ class CurrentGetPage extends CurrentGetAppObject {
 			$boxIds[] = $boxId;
 		}
 
-		//TODO: Frameデータ取得
+		//Frameデータ取得
+		$framesEachBoxId = $this->_CurrentFrame->findFramesByBoxIds($boxIds);
+		foreach ($pageContainerIds as $pageContainerId) {
+			foreach ($framesEachBoxId as $boxId => $frames) {
+				$results[$pageContainerId][$boxId]['Frames'] = $frames;
+			}
+		}
 
 		return $results;
 	}
@@ -397,7 +427,7 @@ class CurrentGetPage extends CurrentGetAppObject {
 						'alias' => $this->Room->alias,
 						'type' => 'INNER',
 						'conditions' => [
-							$this->Page->alias . '.room_id' . ' = ' . $this->Room->alias . ' .id',
+							$this->Page->alias . '.room_id' . ' = ' . ' .id',
 						],
 					],
 				],
@@ -418,8 +448,7 @@ class CurrentGetPage extends CurrentGetAppObject {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByRoomId($roomId) {
-		$currentGetRoom = CurrentGetRoom::getInstance($this->_controller);
-		$room = $currentGetRoom->getRoom($roomId);
+		$room = $this->_CurrentRoom->getRoom($roomId);
 		if ($room) {
 			return $room['page_id_top'];
 		} else {
@@ -434,8 +463,7 @@ class CurrentGetPage extends CurrentGetAppObject {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByPrivateRoom($userId) {
-		$currentGetRoom = CurrentGetRoom::getInstance($this->_controller);
-		$room = $currentGetRoom->getPrivateRoom($userId);
+		$room = $this->_CurrentRoom->getPrivateRoom($userId);
 		if ($room) {
 			return $room['page_id_top'];
 		} else {

@@ -9,18 +9,22 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetAppObject', 'NetCommons.Lib');
+App::uses('CurrentAppObject', 'NetCommons.Lib');
 App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
  * NetCommonsの機能に必要な情報(システム系)を取得する内容をまとめたUtility
  *
+ * @property string $_lang 言語ID
+ * @property Controller $_controller コントローラ
+ * @property Language $Language Languageモデル
+ * @property PluginsRole $PluginsRole PluginsRoleモデル
  * @property Plugin $Plugin Pluginモデル
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetSystem extends CurrentGetAppObject {
+class Current2System extends CurrentAppObject {
 
 /**
  * 使用するモデル
@@ -41,13 +45,41 @@ class CurrentGetSystem extends CurrentGetAppObject {
 	private $__plugins = null;
 
 /**
+ * コンストラクター
+ *
+ * @param Controller|null $controller コントローラ
+ * @return void
+ */
+	public function __construct($controller = null) {
+		parent::__construct($controller);
+	}
+
+/**
  * インスタンスの取得
  *
- * @param Controller $controller コントローラ
- * @return CurrentGetSystem
+ * @param Controller|null $controller コントローラ
+ * @return CurrentSystem
  */
-	public static function getInstance(Controller $controller) {
-		return parent::_getInstance($controller, __CLASS__);
+	public static function getInstance($controller = null) {
+		$instance = parent::_getInstance($controller, __CLASS__);
+		$instance->setLanguage();
+		return $instance;
+	}
+
+/**
+ * リクエストもしくはSessionから言語をConfigureにセットする。
+ *
+ * @return void
+ */
+	public function setLanguage() {
+		if (isset($this->_controller->request->query['lang']) &&
+				! array_key_exists('search', $this->_controller->request->query)) {
+			$langCode = $this->_controller->request->query['lang'];
+			Configure::write('Config.language', $langCode);
+			$this->_controller->Session->write('Config.language', $langCode);
+		} elseif ($this->_controller->Session->check('Config.language')) {
+			Configure::write('Config.language', $this->_controller->Session->read('Config.language'));
+		}
 	}
 
 /**
@@ -127,8 +159,9 @@ class CurrentGetSystem extends CurrentGetAppObject {
  * @return void
  */
 	public function findPlugin($pluginKey) {
-		if (isset($this->__plugins[$pluginKey])) {
-			return $this->__plugins[$pluginKey];
+		$plugins = $this->findPlugins($this->_langId);
+		if (isset($plugins[$pluginKey])) {
+			return $plugins[$pluginKey];
 		} else {
 			return false;
 		}

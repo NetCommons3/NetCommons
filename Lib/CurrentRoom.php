@@ -9,12 +9,14 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentGetAppObject', 'NetCommons.Lib');
-App::uses('CurrentGetSystem', 'NetCommons.Lib');
+App::uses('CurrentAppObject', 'NetCommons.Lib');
+App::uses('CurrentSystem', 'NetCommons.Lib');
 
 /**
  * NetCommonsの機能に必要な情報(ルーム関連)を取得する内容をまとめたUtility
  *
+ * @property string $_lang 言語ID
+ * @property Controller $_controller コントローラ
  * @property Room $Room Roomモデル
  * @property Space $Space Spaceモデル
  * @property RolesRoom $RolesRoom RolesRoomモデル
@@ -26,7 +28,7 @@ App::uses('CurrentGetSystem', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentGetRoom extends CurrentGetAppObject {
+class CurrentRoom extends CurrentAppObject {
 
 /**
  * ログインなしで参照できるスペースリストデータ
@@ -104,12 +106,19 @@ class CurrentGetRoom extends CurrentGetAppObject {
 	private $__userId = null;
 
 /**
+ * クラス内で処理するCurrentSystemインスタンス
+ *
+ * @var CurrentSystem
+ */
+	protected $_CurrentSystem;
+
+/**
  * コンストラクター
  *
- * @param Controller $controller コントローラ
+ * @param Controller|null $controller コントローラ
  * @return void
  */
-	public function __construct(Controller $controller) {
+	public function __construct($controller = null) {
 		parent::__construct($controller);
 
 		$this->__userId = Current::read('User.id');
@@ -118,11 +127,23 @@ class CurrentGetRoom extends CurrentGetAppObject {
 /**
  * インスタンスの取得
  *
- * @param Controller $controller コントローラ
- * @return CurrentGetRoom
+ * @param Controller|null $controller コントローラ
+ * @return CurrentRoom
  */
-	public static function getInstance(Controller $controller) {
+	public static function getInstance($controller = null) {
 		return parent::_getInstance($controller, __CLASS__);
+	}
+
+/**
+ * コントローラのセット
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function setController($controller) {
+		parent::setController($controller);
+
+		$this->_CurrentSystem = Current2System::getInstance($controller);
 	}
 
 /**
@@ -151,19 +172,16 @@ class CurrentGetRoom extends CurrentGetAppObject {
 		$room = $this->Room->find('first', array(
 			'recursive' => -1,
 			'fields' => [
-				$this->Room->alias . '.id',
-				$this->Room->alias . '.space_id',
-				$this->Room->alias . '.page_id_top',
-				$this->Room->alias . '.parent_id',
-				//$this->Room->alias . '.lft',
-				//$this->Room->alias . '.rght',
-				$this->Room->alias . '.active',
-				//$this->Room->alias . '.in_draft',
-				$this->Room->alias . '.default_role_key',
-				$this->Room->alias . '.need_approval',
-				$this->Room->alias . '.default_participation',
-				$this->Room->alias . '.page_layout_permitted',
-				$this->Room->alias . '.theme',
+				'Room.id',
+				'Room.space_id',
+				'Room.page_id_top',
+				'Room.parent_id',
+				'Room.active',
+				'Room.default_role_key',
+				'Room.need_approval',
+				'Room.default_participation',
+				'Room.page_layout_permitted',
+				'Room.theme',
 			],
 			'conditions' => [
 				'id' => $roomId
@@ -246,7 +264,7 @@ class CurrentGetRoom extends CurrentGetAppObject {
 						'alias' => $this->Room->alias,
 						'type' => 'INNER',
 						'conditions' => [
-							$this->RolesRoomsUser->alias . '.room_id' . ' = ' . $this->Room->alias . ' .id',
+							'RolesRoomsUser.room_id = Room.id',
 						],
 					],
 					[
@@ -254,7 +272,7 @@ class CurrentGetRoom extends CurrentGetAppObject {
 						'alias' => $this->RolesRoom->alias,
 						'type' => 'INNER',
 						'conditions' => [
-							$this->RolesRoomsUser->alias . '.roles_room_id' . ' = ' . $this->RolesRoom->alias . ' .id',
+							'RolesRoomsUser.roles_room_id = RolesRoom.id',
 						],
 					],
 				],
@@ -342,9 +360,7 @@ class CurrentGetRoom extends CurrentGetAppObject {
 		$pluginsRoom = $this->PluginsRoom->find('all', [
 			'recursive' => -1,
 			'fields' => [
-				//$this->PluginsRoom->alias . '.id',
-				//$this->PluginsRoom->alias . '.room_id',
-				$this->PluginsRoom->alias . '.plugin_key',
+				'PluginsRoom.plugin_key',
 			],
 			'conditions' => [
 				'room_id' => $roomId
@@ -356,8 +372,8 @@ class CurrentGetRoom extends CurrentGetAppObject {
 			$pluginKeys[] = $pluginRoom['PluginsRoom']['plugin_key'];
 		}
 
-		$instance = CurrentGetSystem::getInstance($this->_controller);
-		$this->__plugins[$roomId] = $instance->findPlugins($pluginKeys, $this->__langId);
+		$this->__plugins[$roomId] =
+				$this->_CurrentSystem->findPlugins($pluginKeys, $this->__langId);
 
 		return $this->__plugins[$roomId];
 	}

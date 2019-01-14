@@ -356,12 +356,21 @@ class Current2 {
 	}
 
 /**
+ * Currentにセットする
+ *
+ * @return void
+ */
+	private function __setCurrent() {
+
+	}
+
+/**
  * コントローラのセット
  *
  * @param Controller $controller コントローラ
  * @return void
  */
-	public function setController($controller) {
+	private function __setController($controller) {
 		$this->_controller = $controller;
 
 		$this->NcPermission = NcPermission::getInstance();
@@ -384,7 +393,7 @@ class Current2 {
  * @return void
  */
 	public function initialize($controller) {
-		$this->setController($controller);
+		$this->__setController($controller);
 
 		//ログイン情報が変わっている場合、ログイン情報の更新
 		if ($this->CurrentUser->isLoginChanged()) {
@@ -465,14 +474,33 @@ class Current2 {
  * @return array|null
  */
 	public static function read($key = null, $default = null) {
-//		if (! isset(self::$current)) {
-//			return self::$current;
-//		}
-//
-//		if (! isset($key)) {
-//			return self::$current;
-//		}
-//		return Hash::get(self::$current, $key, $default);
+		if (! isset(self::$current) || ! $key) {
+			return self::$current;
+		}
+
+		$keyArray = explode('.', $key);
+		$count = count($keyArray);
+		if ($count === 1) {
+			if (isset(self::$current[$keyArray[0]])) {
+				return self::$current[$keyArray[0]];
+			} else {
+				return $default;
+			}
+		} elseif ($count === 2) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]])) {
+				return self::$current[$keyArray[0]][$keyArray[1]];
+			} else {
+				return $default;
+			}
+		} elseif ($count === 3) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]])) {
+				return self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]];
+			} else {
+				return $default;
+			}
+		} else {
+			return Hash::get(self::$current, $key, $default);
+		}
 	}
 
 /**
@@ -504,14 +532,24 @@ class Current2 {
  * @return void
  */
 	public static function write($key, $value) {
-//		if (! isset(self::$current)) {
-//			self::$current = array();
-//		}
-//		if (! isset($key)) {
-//			self::$current = Hash::merge(self::$current, $value);
-//		} else {
-//			self::$current = Hash::insert(self::$current, $key, $value);
-//		}
+		if (! isset(self::$current)) {
+			self::$current = [];
+		}
+		if (! isset($key)) {
+			self::$current = Hash::merge(self::$current, $value);
+		} else {
+			$keyArray = explode('.', $key);
+			$count = count($keyArray);
+			if ($count === 1) {
+				self::$current[$keyArray[0]] = $value;
+			} elseif ($count === 2) {
+				self::$current[$keyArray[0]][$keyArray[1]] = $value;
+			} elseif ($count === 3) {
+				self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]] = $value;
+			} else {
+				self::$current = Hash::insert(self::$current, $key, $value);
+			}
+		}
 	}
 
 /**
@@ -526,11 +564,28 @@ class Current2 {
  * @return array|null Current data.
  */
 	public static function remove($key = null) {
-//		if (! isset(self::$current) || ! isset($key)) {
-//			self::$current = array();
-//		}
-//
-//		self::$current = Hash::remove(self::$current, $key);
+		if (! isset(self::$current) || ! $key) {
+			self::$current = array();
+			return;
+		}
+
+		$keyArray = explode('.', $key);
+		$count = count($keyArray);
+		if ($count === 1) {
+			if (isset(self::$current[$keyArray[0]])) {
+				unset(self::$current[$keyArray[0]]);
+			}
+		} elseif ($count === 2) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]])) {
+				unset(self::$current[$keyArray[0]][$keyArray[1]]);
+			}
+		} elseif ($count === 3) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]])) {
+				unset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]]);
+			}
+		} else {
+			self::$current = Hash::remove(self::$current, $key);
+		}
 	}
 
 /**

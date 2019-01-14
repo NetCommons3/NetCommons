@@ -48,8 +48,6 @@ abstract class NetCommonsTreeBehaviorCase extends NetCommonsModelTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.net_commons.net_commons_tree_model',
-		'plugin.net_commons.cake_tree_model',
 	);
 
 /**
@@ -58,6 +56,24 @@ abstract class NetCommonsTreeBehaviorCase extends NetCommonsModelTestCase {
  * @var string
  */
 	public $plugin = 'net_commons';
+
+/**
+ * Fixtures load
+ *
+ * @param string $name The name parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param array  $data The data parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param string $dataName The dataName parameter on PHPUnit_Framework_TestCase::__construct()
+ * @return void
+ */
+	public function __construct($name = null, array $data = array(), $dataName = '') {
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			$this->fixtures = [
+				'plugin.net_commons.net_commons_tree_model',
+				'plugin.net_commons.cake_tree_model',
+			];
+		}
+		parent::__construct($name, $data, $dataName);
+	}
 
 /**
  * Runs the test case and collects the results in a TestResult object.

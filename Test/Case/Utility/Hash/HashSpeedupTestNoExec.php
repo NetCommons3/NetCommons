@@ -50,6 +50,21 @@ class HashSpeedupTestNoExec extends CakeTestCase {
 	private $__data = [];
 
 /**
+ * Runs the test case and collects the results in a TestResult object.
+ * If no TestResult object is passed a new one will be created.
+ * This method is run for each test method in this class
+ *
+ * @param PHPUnit_Framework_TestResult $result The test result object
+ * @return PHPUnit_Framework_TestResult
+ * @throws InvalidArgumentException
+ */
+	public function run(PHPUnit_Framework_TestResult $result = null) {
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			return parent::run($result);
+		}
+	}
+
+/**
  * setUp method
  *
  * @return void
@@ -58,7 +73,7 @@ class HashSpeedupTestNoExec extends CakeTestCase {
 		parent::setUp();
 
 		//大量データ作成
-		if (! $this->__data) {
+		if (! $this->__data && self::MEASUREMENT_NUMBER > 0) {
 			for ($i = 1; $i <= 10; $i++) {
 				$this->__data['AAAAAA'][$i] = [
 					'key' => 'aaaaa_key_' . $i,

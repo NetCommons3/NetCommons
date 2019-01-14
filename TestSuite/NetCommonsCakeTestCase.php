@@ -26,6 +26,7 @@ App::uses('AuthComponent', 'Controller/Component');
  * NetCommonsCakeTestCase class
  *
  * @package NetCommons\NetCommons\TestSuite
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @codeCoverageIgnore
  */
 abstract class NetCommonsCakeTestCase extends CakeTestCase {

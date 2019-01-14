@@ -254,18 +254,37 @@ class CurrentBase {
  * ```
  *
  * @param string|null $key Hashクラスのpath
- * @param mixed $default デフォルト値
- * @return array|null Current data.
+ * @param array|string|int|bool|null $default デフォルト値
+ * @return array|null
  */
 	public static function read($key = null, $default = null) {
-		if (! isset(self::$current)) {
+		if (! isset(self::$current) || ! isset($key)) {
 			return self::$current;
 		}
 
-		if (! isset($key)) {
-			return self::$current;
+		$keyArray = explode('.', $key);
+		$count = count($keyArray);
+		if ($count === 1) {
+			if (isset(self::$current[$keyArray[0]])) {
+				return self::$current[$keyArray[0]];
+			} else {
+				return $default;
+			}
+		} elseif ($count === 2) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]])) {
+				return self::$current[$keyArray[0]][$keyArray[1]];
+			} else {
+				return $default;
+			}
+		} elseif ($count === 3) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]])) {
+				return self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]];
+			} else {
+				return $default;
+			}
+		} else {
+			return Hash::get(self::$current, $key, $default);
 		}
-		return Hash::get(self::$current, $key, $default);
 	}
 
 /**
@@ -305,12 +324,22 @@ class CurrentBase {
  */
 	public static function write($key, $value) {
 		if (! isset(self::$current)) {
-			self::$current = array();
+			self::$current = [];
 		}
 		if (! isset($key)) {
 			self::$current = Hash::merge(self::$current, $value);
 		} else {
-			self::$current = Hash::insert(self::$current, $key, $value);
+			$keyArray = explode('.', $key);
+			$count = count($keyArray);
+			if ($count === 1) {
+				self::$current[$keyArray[0]] = $value;
+			} elseif ($count === 2) {
+				self::$current[$keyArray[0]][$keyArray[1]] = $value;
+			} elseif ($count === 3) {
+				self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]] = $value;
+			} else {
+				self::$current = Hash::insert(self::$current, $key, $value);
+			}
 		}
 	}
 
@@ -351,9 +380,26 @@ class CurrentBase {
 	public static function remove($key = null) {
 		if (! isset(self::$current) || ! isset($key)) {
 			self::$current = array();
+			return;
 		}
 
-		self::$current = Hash::remove(self::$current, $key);
+		$keyArray = explode('.', $key);
+		$count = count($keyArray);
+		if ($count === 1) {
+			if (isset(self::$current[$keyArray[0]])) {
+				unset(self::$current[$keyArray[0]]);
+			}
+		} elseif ($count === 2) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]])) {
+				unset(self::$current[$keyArray[0]][$keyArray[1]]);
+			}
+		} elseif ($count === 3) {
+			if (isset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]])) {
+				unset(self::$current[$keyArray[0]][$keyArray[1]][$keyArray[2]]);
+			}
+		} else {
+			self::$current = Hash::remove(self::$current, $key);
+		}
 	}
 
 /**

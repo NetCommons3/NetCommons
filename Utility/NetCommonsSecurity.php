@@ -44,7 +44,7 @@ class NetCommonsSecurity {
 			return true;
 		}
 
-		$currentId = $this->SiteSetting->getCurrentIp();
+		$currentId = $this->getCurrentIp();
 		if (! $currentId) {
 			return true;
 		}
@@ -66,7 +66,7 @@ class NetCommonsSecurity {
 	public function enableBadIps() {
 		if (SiteSettingUtil::read('Security.enable_bad_ips')) {
 			$ips = SiteSettingUtil::read('Security.bad_ips');
-			if ($this->SiteSetting->hasCurrentIp($ips)) {
+			if ($this->hasCurrentIp($ips)) {
 				return false;
 			}
 		}
@@ -82,12 +82,63 @@ class NetCommonsSecurity {
 	public function enableAllowSystemPluginIps() {
 		if (SiteSettingUtil::read('Security.enable_allow_system_plugin_ips')) {
 			$ips = SiteSettingUtil::read('Security.allow_system_plugin_ips');
-			if (! $this->SiteSetting->hasCurrentIp($ips)) {
+			if (! $this->hasCurrentIp($ips)) {
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+/**
+ * 現在アクセスしているIPアドレスの取得
+ *
+ * @return string
+ */
+	public function getCurrentIp() {
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} elseif (isset($_SERVER['REMOTE_ADDR'])) {
+			return $_SERVER['REMOTE_ADDR'];
+		} else {
+			return null;
+		}
+	}
+
+/**
+ * 現在アクセスしているIPアドレスがあるかどうか
+ *
+ * @param array|string $ips IPアドレスリスト
+ * @return bool
+ */
+	public function hasCurrentIp($ips) {
+		if (! $ips) {
+			return false;
+		}
+
+		if (is_string($ips)) {
+			$ips = explode('|', $ips);
+		}
+
+		$currentIp = $this->getCurrentIp();
+		if (! $currentIp) {
+			return false;
+		}
+		foreach ($ips as $accept) {
+			if (strpos($accept, '/')) {
+				list($acceptIp, $mask) = explode('/', $accept);
+			} else {
+				$acceptIp = $accept;
+				$mask = 32;
+			}
+			$acceptLong = ip2long($acceptIp) >> (32 - $mask);
+			$currentLong = ip2long($currentIp) >> (32 - $mask);
+			if ($acceptLong === $currentLong) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 /**

@@ -38,7 +38,7 @@ class DateHelper extends AppHelper {
  * @return array
  */
 	public function dateFormat($date, $format = null) {
-		return  $this->NetCommonsTime->dateFormat($date, $format);
+		return $this->NetCommonsTime->dateFormat($date, $format);
 	}
 
 }

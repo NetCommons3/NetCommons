@@ -228,6 +228,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			'code' => $error->getCode(),
 			'name' => Inflector::humanize(Inflector::underscore($name)),
 			'url' => h($url),
+			'class' => 'danger',
+			'interval' => 6000,
 		), $results);
 
 		if ($this->controller->request->is('ajax')) {

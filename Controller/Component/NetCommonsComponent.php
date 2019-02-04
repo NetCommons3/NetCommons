@@ -51,6 +51,7 @@ class NetCommonsComponent extends Component {
 		$this->controller->response->statusCode($status);
 		$results = array_merge([
 			'name' => $name,
+			'message' => $name,
 			'code' => $status,
 		], $results);
 		$results = NetCommonsAppController::camelizeKeyRecursive($results);
@@ -84,8 +85,6 @@ class NetCommonsComponent extends Component {
 
 		$this->setFlashNotification($message, array(
 			'class' => 'danger',
-			'name' => 'Bad Request',
-			'message' => $message,
 			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
 			'error' => ['validationErrors' => $errors]
 		), 400);

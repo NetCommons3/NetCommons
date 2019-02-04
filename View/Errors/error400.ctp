@@ -43,7 +43,7 @@ if (Configure::read('debug') > 0) {
 			function() {
 				location.href='<?php echo h($redirect); ?>'.replace(/&amp;/ig,"&");
 			},
-			<?php echo (int)$interval; ?>*1000
+			<?php echo (int)$interval; ?>
 		);
 	</script>
 <?php endif;

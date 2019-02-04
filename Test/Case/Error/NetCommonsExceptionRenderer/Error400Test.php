@@ -292,7 +292,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 				'<script type="text/javascript"> ' .
 					'setTimeout( function() { ' .
 						'location.href=\'' . $viewVars['redirect'] . '\'.replace(/&amp;/ig,"&"); ' .
-					'}, ' . $viewVars['interval'] . '*1000 );' .
+					'}, ' . $viewVars['interval'] . ' );' .
 				'</script>';
 		}
 
@@ -312,7 +312,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 			'url' => $exception->controller->request->here(),
 			'message' => '',
 			'redirect' => '',
-			'interval' => '3',
+			'interval' => '6000',
 		), $expected);
 
 		$this->assertEquals($expected, $actual);

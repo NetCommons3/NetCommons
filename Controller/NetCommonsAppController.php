@@ -339,6 +339,8 @@ class NetCommonsAppController extends Controller {
 		if ($this->request->is('ajax')) {
 			$this->NetCommons->setFlashNotification(__d('net_commons', 'Bad Request'), array(
 				'class' => 'danger',
+				'name' => 'Bad Request',
+				'message' => $message,
 				'interval' => NetCommonsComponent::ALERT_VALIDATE_ERROR_INTERVAL,
 				'error' => $message
 			), 400);

@@ -97,7 +97,6 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		$results = array(
 			'message' => $this->_get400Message($error),
 			'redirect' => $redirect,
-			'interval' => '3'
 		);
 		$this->_setError('NetCommons.error400', $error, $results);
 	}

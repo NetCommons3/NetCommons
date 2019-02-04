@@ -218,14 +218,12 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 	protected function _setError($template, $error, $results) {
 		$url = $this->controller->request->here();
 
-		$name = preg_replace('/Exception$/', '', get_class($error));
-		if ($name === '') {
-			$name = get_class($error);
-		}
+		$errorCode = $error->getCode();
+		$exceptionName = get_class($error);
 
-		$results = Hash::merge(array(
-			'code' => $error->getCode(),
-			'name' => Inflector::humanize(Inflector::underscore($name)),
+		$results = array_merge(array(
+			'code' => $errorCode,
+			'name' => $this->_getName($errorCode, $exceptionName),
 			'url' => h($url),
 			'class' => 'danger',
 			'interval' => 6000,
@@ -246,6 +244,38 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		$this->controller->set('_serialize', 'results');
 
 		$this->_outputMessage($template);
+	}
+
+/**
+ * エラー名取得
+ *
+ * @param int $errorCode エラーコード
+ * @param string $exceptionName Exceptionクラス名
+ * @return string
+ */
+	protected function _getName($errorCode, $exceptionName) {
+		if (! Configure::read('debug')) {
+			if ($errorCode === 401) {
+				$name = 'Unauthorixed';
+			} elseif ($errorCode === 403) {
+				$name = 'Forbidden';
+			} elseif ($errorCode === 404) {
+				$name = 'Not Found';
+			} elseif ($errorCode >= 400 && $errorCode < 418) {
+				$name = 'Bad Request';
+			} else {
+				//500番台
+				$name = 'Internal Server Error';
+			}
+		} else {
+			$name = preg_replace('/Exception$/', '', $exceptionName);
+			if ($name === '') {
+				$name = $exceptionName;
+			}
+			$name = Inflector::humanize(Inflector::underscore($name));
+		}
+
+		return $name;
 	}
 
 }

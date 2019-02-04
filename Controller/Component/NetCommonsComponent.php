@@ -85,6 +85,8 @@ class NetCommonsComponent extends Component {
 
 		$this->setFlashNotification($message, array(
 			'class' => 'danger',
+			'name' => 'Bad Request',
+			'message' => $message,
 			'interval' => self::ALERT_VALIDATE_ERROR_INTERVAL,
 			'error' => ['validationErrors' => $errors]
 		), 400);

@@ -235,13 +235,15 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			if (Configure::read('debug')) {
 				$results['error'] = ['trace' => explode("\n", $error->getTraceAsString())];
 			}
-			$this->controller->set(compact('results'));
 		} else {
 			$this->controller->layout = 'NetCommons.error';
 			$results['error'] = $error;
-			$this->controller->set($results);
 		}
-		$this->controller->set('_serialize', 'results');
+		$this->controller->set($results);
+		$this->controller->set(
+			'_serialize',
+			['message', 'code', 'name', 'url', 'class', 'interval', 'error', 'redirect']
+		);
 
 		$this->_outputMessage($template);
 	}

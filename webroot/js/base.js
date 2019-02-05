@@ -113,6 +113,9 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
 
     $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
         .then(function(response) {
+          if (!post._Token) {
+            post._Token = {};
+          }
           var token = response.data;
           post._Token.key = token.data._Token.key;
 

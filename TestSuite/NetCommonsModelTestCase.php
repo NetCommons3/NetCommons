@@ -98,12 +98,19 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 			$mockMethod = array($mockMethod);
 		}
 		if ($mockModel === $model) {
+			// php7.2よりget_class()にnullを設定するとE_WARNING. http://php.net/manual/ja/function.get-class.php
+			if (is_null($this->$mockModel)) {
+				return;
+			}
 			if (get_class($this->$mockModel) === $mockModel) {
 				$this->$model = $this->getMockForModel(
 					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
 				);
 			}
 		} else {
+			if (is_null($this->$model->$mockModel)) {
+				return;
+			}
 			$mockClassName = get_class($this->$model->$mockModel);
 			if (substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
 				$this->$model->$mockModel = $this->getMockForModel(

@@ -78,6 +78,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  *
  * @param Exception $exception The exception to get a controller for.
  * @return Controller
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	protected function _getController($exception) {
 		App::uses('AppController', 'Controller');

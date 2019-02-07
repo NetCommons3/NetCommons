@@ -242,8 +242,16 @@ class PermissionComponent extends Component {
 		$curRoom = Current::read('Room');
 		if ($spaces && $curRoom) {
 			if (empty($this->SpaceComponent)) {
-				if (isset($spaces[$curRoom['space_id']])) {
-					$space = $spaces[$curRoom['space_id']];
+				if (isset($controller->params['space_id'])) {
+					//paramsは、Routerでセットされるものなので、
+					//その値が入ってるときは、そっちを優先してチェックする。
+					//NC3では使用していないが、NC3をカスタマイズした大規模システムの時に使用する場合がある。
+					$spaceId = $controller->params['space_id'];
+				} else {
+					$spaceId = $curRoom['space_id'];
+				}
+				if (isset($spaces[$spaceId])) {
+					$space = $spaces[$spaceId];
 					$plugin = Inflector::camelize($space['Space']['plugin_key']);
 				} else {
 					$plugin = 'PublicSpace';

@@ -54,6 +54,73 @@ App::uses('Error', 'ExceptionRenderer');
 class NetCommonsExceptionRenderer extends ExceptionRenderer {
 
 /**
+ * エラーのインターバル
+ *
+ * @var int
+ */
+	const HTML_INTERVAL = 4000,
+		JSON_INTERVAL = 6000;
+
+/**
+ * Exceptionが発生した場合、ExceptionRenderer.phpでは、
+ * CakeErrorController::startupProcessを呼んでいるため、PermissionComponentが２度処理されてしまう。
+ * NC3ではCakeErrorController::startupProcessを呼ぶ必要がないので、
+ * オーバライドして、startupProcessを呼ばないようにする。
+ *
+ * 例）
+ * １．アクセス不可の画面にログインなしで呼ぶ。
+ * ２．PermissionComponentで設定画面のアクセスチェックが実行され、エラーとなり、ForbiddenExceptionをthrowする。
+ * ３．ExcepitonRendererがnewされ、ExceptionRendererの__construct()が呼ばれる。
+ * ４．下記で、CakeErrorControllerがnewされ、startupProcess()が実行される。
+ * 　　CakeErrorControllerがAppController(NetCommonsAppController)を継承していて、そこで設定されているPermissionComponentが再度呼ばれる。
+ * 　　https://github.com/cakephp/cakephp/blob/2.10.15/lib/Cake/Error/ExceptionRenderer.php#L157-L159
+ * ５．４は、try cacheされてるので、４のPermissionComponentのExceptionは、無視され、処理が継続され、error400()が実行される。
+ *
+ * @param Exception $exception The exception to get a controller for.
+ * @return Controller
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
+	protected function _getController($exception) {
+		App::uses('AppController', 'Controller');
+		App::uses('CakeErrorController', 'Controller');
+		if (!$request = Router::getRequest(true)) {
+			$request = new CakeRequest();
+		}
+		$response = new CakeResponse();
+
+		if (method_exists($exception, 'responseHeader')) {
+			$response->header($exception->responseHeader());
+		}
+
+		if (class_exists('AppController')) {
+			try {
+				$controller = new CakeErrorController($request, $response);
+				//$controller->startupProcess();
+				$startup = true;
+			} catch (Exception $e) {
+				$startup = false;
+			}
+			// Retry RequestHandler, as another aspect of startupProcess()
+			// could have failed. Ignore any exceptions out of startup, as
+			// there could be userland input data parsers.
+			if ($startup === false &&
+				!empty($controller) &&
+				$controller->Components->enabled('RequestHandler')
+			) {
+				try {
+					$controller->RequestHandler->startup($controller);
+				} catch (Exception $e) {
+				}
+			}
+		}
+		if (empty($controller)) {
+			$controller = new Controller($request, $response);
+			$controller->viewPath = 'Errors';
+		}
+		return $controller;
+	}
+
+/**
  * Convenience method to display a 400 series page.
  *
  * @param Exception $error Exception
@@ -97,7 +164,6 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		$results = array(
 			'message' => $this->_get400Message($error),
 			'redirect' => $redirect,
-			'interval' => '3'
 		);
 		$this->_setError('NetCommons.error400', $error, $results);
 	}
@@ -219,15 +285,14 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 	protected function _setError($template, $error, $results) {
 		$url = $this->controller->request->here();
 
-		$name = preg_replace('/Exception$/', '', get_class($error));
-		if ($name === '') {
-			$name = get_class($error);
-		}
+		$errorCode = $error->getCode();
+		$exceptionName = get_class($error);
 
-		$results = Hash::merge(array(
-			'code' => $error->getCode(),
-			'name' => Inflector::humanize(Inflector::underscore($name)),
+		$results = array_merge(array(
+			'code' => $errorCode,
+			'name' => $this->_getName($errorCode, $exceptionName),
 			'url' => h($url),
+			'class' => 'danger',
 		), $results);
 
 		if ($this->controller->request->is('ajax')) {
@@ -236,15 +301,52 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			if (Configure::read('debug')) {
 				$results['error'] = ['trace' => explode("\n", $error->getTraceAsString())];
 			}
-			$this->controller->set(compact('results'));
+			$results['interval'] = self::JSON_INTERVAL;
 		} else {
 			$this->controller->layout = 'NetCommons.error';
 			$results['error'] = $error;
-			$this->controller->set($results);
+			$results['interval'] = self::HTML_INTERVAL;
 		}
-		$this->controller->set('_serialize', 'results');
+
+		$this->controller->set($results);
+		$this->controller->set(
+			'_serialize',
+			['message', 'code', 'name', 'url', 'class', 'interval', 'error', 'redirect']
+		);
 
 		$this->_outputMessage($template);
+	}
+
+/**
+ * エラー名取得
+ *
+ * @param int $errorCode エラーコード
+ * @param string $exceptionName Exceptionクラス名
+ * @return string
+ */
+	protected function _getName($errorCode, $exceptionName) {
+		if (! Configure::read('debug')) {
+			if ($errorCode === 401) {
+				$name = 'Unauthorixed';
+			} elseif ($errorCode === 403) {
+				$name = 'Forbidden';
+			} elseif ($errorCode === 404) {
+				$name = 'Not Found';
+			} elseif ($errorCode >= 400 && $errorCode < 418) {
+				$name = 'Bad Request';
+			} else {
+				//500番台
+				$name = 'Internal Server Error';
+			}
+		} else {
+			$name = preg_replace('/Exception$/', '', $exceptionName);
+			if ($name === '') {
+				$name = $exceptionName;
+			}
+			$name = Inflector::humanize(Inflector::underscore($name));
+		}
+
+		return $name;
 	}
 
 }

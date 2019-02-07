@@ -58,6 +58,10 @@ abstract class NetCommonsValidateTest extends NetCommonsModelTestCase {
 		$this->$model->set($data);
 		$result = $this->$model->validates();
 		if ($message === true) {
+			// trueでvalidateエラーがあった場合、エラー内容をコンソール出力する。テスト修正のヒントになる
+			if (!empty($this->$model->validationErrors)) {
+				var_export($this->$model->validationErrors);
+			}
 			$this->assertTrue($result);
 		} else {
 			$this->assertFalse($result);

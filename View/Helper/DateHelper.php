@@ -28,7 +28,6 @@ class DateHelper extends AppHelper {
  */
 	public $helpers = array(
 		'NetCommons.NetCommonsTime',
-		'Time',
 	);
 
 /**
@@ -39,53 +38,7 @@ class DateHelper extends AppHelper {
  * @return array
  */
 	public function dateFormat($date, $format = null) {
-		if (! Validation::datetime($date)) {
-			return null;
-		}
-		// ユーザタイムゾーンに変換
-		$date = $this->NetCommonsTime->toUserDatetime($date);
-
-		if ($format) {
-			return date($format, strtotime($date));
-
-		} elseif ($this->_isToday($date)) {
-			return date('G:i', strtotime($date));
-
-		} elseif (! $this->_isThisYear($date)) {
-			return date('Y/m/d', strtotime($date));
-
-		} else {
-			return date('m/d', strtotime($date));
-		}
+		return $this->NetCommonsTime->dateFormat($date, $format);
 	}
 
-/**
- * ユーザタイムゾーンで今日の日付かの判定
- *
- * @param string $date user timezone datetime
- * @return bool
- */
-	protected function _isToday($date) {
-		$now = $this->NetCommonsTime->getNowDatetime();
-		$nowUserDatetime = $this->NetCommonsTime->toUserDatetime($now);
-
-		$dateYmd = date('Y-m-d', strtotime($date));
-		$nowYmd = date('Y-m-d', strtotime($nowUserDatetime));
-		return ($dateYmd === $nowYmd);
-	}
-
-/**
- * ユーザタイムゾーンで今年の日時かの判定
- *
- * @param string $date user timezone datetime
- * @return bool
- */
-	protected function _isThisYear($date) {
-		$now = $this->NetCommonsTime->getNowDatetime();
-		$nowUserDatetime = $this->NetCommonsTime->toUserDatetime($now);
-
-		$dateYear = date('Y', strtotime($date));
-		$nowYear = date('Y', strtotime($nowUserDatetime));
-		return ($dateYear === $nowYear);
-	}
 }

@@ -62,7 +62,8 @@ class NetCommonsAppControllerThrowBadRequestTest extends NetCommonsControllerTes
 			array('return' => 'contents')
 		);
 
-		$this->assertEquals(__d('net_commons', 'Bad Request'), $this->controller->viewVars['results']['name']);
+		$this->assertEquals('Bad Request', $this->controller->viewVars['results']['name']);
+		$this->assertEquals(__d('net_commons', 'Bad Request'), $this->controller->viewVars['results']['message']);
 		$this->assertEquals(400, $this->controller->viewVars['results']['code']);
 		$this->assertEquals(400, $this->controller->response->statusCode());
 	}

@@ -54,6 +54,73 @@ App::uses('Error', 'ExceptionRenderer');
 class NetCommonsExceptionRenderer extends ExceptionRenderer {
 
 /**
+ * エラーのインターバル
+ *
+ * @var int
+ */
+	const HTML_INTERVAL = 4000,
+		JSON_INTERVAL = 6000;
+
+/**
+ * Exceptionが発生した場合、ExceptionRenderer.phpでは、
+ * CakeErrorController::startupProcessを呼んでいるため、PermissionComponentが２度処理されてしまう。
+ * NC3ではCakeErrorController::startupProcessを呼ぶ必要がないので、
+ * オーバライドして、startupProcessを呼ばないようにする。
+ *
+ * 例）
+ * １．アクセス不可の画面にログインなしで呼ぶ。
+ * ２．PermissionComponentで設定画面のアクセスチェックが実行され、エラーとなり、ForbiddenExceptionをthrowする。
+ * ３．ExcepitonRendererがnewされ、ExceptionRendererの__construct()が呼ばれる。
+ * ４．下記で、CakeErrorControllerがnewされ、startupProcess()が実行される。
+ * 　　CakeErrorControllerがAppController(NetCommonsAppController)を継承していて、そこで設定されているPermissionComponentが再度呼ばれる。
+ * 　　https://github.com/cakephp/cakephp/blob/2.10.15/lib/Cake/Error/ExceptionRenderer.php#L157-L159
+ * ５．４は、try cacheされてるので、４のPermissionComponentのExceptionは、無視され、処理が継続され、error400()が実行される。
+ *
+ * @param Exception $exception The exception to get a controller for.
+ * @return Controller
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
+	protected function _getController($exception) {
+		App::uses('AppController', 'Controller');
+		App::uses('CakeErrorController', 'Controller');
+		if (!$request = Router::getRequest(true)) {
+			$request = new CakeRequest();
+		}
+		$response = new CakeResponse();
+
+		if (method_exists($exception, 'responseHeader')) {
+			$response->header($exception->responseHeader());
+		}
+
+		if (class_exists('AppController')) {
+			try {
+				$controller = new CakeErrorController($request, $response);
+				//$controller->startupProcess();
+				$startup = true;
+			} catch (Exception $e) {
+				$startup = false;
+			}
+			// Retry RequestHandler, as another aspect of startupProcess()
+			// could have failed. Ignore any exceptions out of startup, as
+			// there could be userland input data parsers.
+			if ($startup === false &&
+				!empty($controller) &&
+				$controller->Components->enabled('RequestHandler')
+			) {
+				try {
+					$controller->RequestHandler->startup($controller);
+				} catch (Exception $e) {
+				}
+			}
+		}
+		if (empty($controller)) {
+			$controller = new Controller($request, $response);
+			$controller->viewPath = 'Errors';
+		}
+		return $controller;
+	}
+
+/**
  * Convenience method to display a 400 series page.
  *
  * @param Exception $error Exception
@@ -226,7 +293,6 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			'name' => $this->_getName($errorCode, $exceptionName),
 			'url' => h($url),
 			'class' => 'danger',
-			'interval' => 6000,
 		), $results);
 
 		if ($this->controller->request->is('ajax')) {
@@ -235,10 +301,13 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			if (Configure::read('debug')) {
 				$results['error'] = ['trace' => explode("\n", $error->getTraceAsString())];
 			}
+			$results['interval'] = self::JSON_INTERVAL;
 		} else {
 			$this->controller->layout = 'NetCommons.error';
 			$results['error'] = $error;
+			$results['interval'] = self::HTML_INTERVAL;
 		}
+
 		$this->controller->set($results);
 		$this->controller->set(
 			'_serialize',

@@ -32,7 +32,7 @@ if (Configure::read('debug') > 0) {
 	echo $this->element('exception_stack_trace');
 } elseif (isset($redirect)) {
 	echo $this->NetCommonsHtml->meta(
-		null, null, array('http-equiv' => 'refresh', 'content' => $interval, 'url' => $redirect, 'inline' => false)
+		null, null, array('http-equiv' => 'refresh', 'content' => ($interval / 1000), 'url' => $redirect, 'inline' => false)
 	);
 }
 ?>

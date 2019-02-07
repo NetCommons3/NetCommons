@@ -94,6 +94,12 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
  * @return NetCommonsExceptionRenderer
  */
 	protected function _mockRequest($error, $methods) {
+		if ($error->controller->Components->loaded('DebugKit.Toolbar')) {
+			$error->controller->Components->unload('DebugKit.Toolbar');
+		}
+
+		unset($error->controller->helpers['Toolbar']);
+
 		$error->controller->request = $this->getMock('CakeRequest', array_keys($methods));
 		if (array_key_exists('is', $methods)) {
 			$error->controller->request
@@ -127,7 +133,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 
 		$this->__assert($exception, array(
 			'code' => 404,
-			'name' => 'Missing Controller',
+			'name' => 'Not Found',
 			'message' => __d('net_commons', 'Permission denied. You must be logged.'),
 			'redirect' => '/auth/login',
 		), false);
@@ -154,7 +160,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 
 		$this->__assert($exception, array(
 			'code' => 404,
-			'name' => 'Missing Controller',
+			'name' => 'Not Found',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/',
 		), false);
@@ -185,7 +191,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 
 		$this->__assert($exception, array(
 			'code' => 404,
-			'name' => 'Missing Controller',
+			'name' => 'Not Found',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/mypage1',
 		), false);
@@ -216,7 +222,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 
 		$this->__assert($exception, array(
 			'code' => 404,
-			'name' => 'Missing Controller',
+			'name' => 'Not Found',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/mypage2',
 		), false);
@@ -282,8 +288,8 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 			$this->assertFalse($exception->controller->layout);
 			$this->assertEquals('Json', $exception->controller->viewClass);
 
-			$viewVars = $exception->controller->viewVars['results'];
-			$needle = json_encode($viewVars);
+			$viewVars = $exception->controller->viewVars;
+			$interval = 6000;
 		} else {
 			$this->assertEquals('NetCommons.error', $exception->controller->layout);
 
@@ -294,9 +300,9 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 						'location.href=\'' . $viewVars['redirect'] . '\'.replace(/&amp;/ig,"&"); ' .
 					'}, ' . $viewVars['interval'] . ' );' .
 				'</script>';
+			$interval = 4000;
+			$this->assertTextContains($needle, $result);
 		}
-
-		$this->assertTextContains($needle, $result);
 
 		$actual = array(
 			'code' => $viewVars['code'],
@@ -312,7 +318,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 			'url' => $exception->controller->request->here(),
 			'message' => '',
 			'redirect' => '',
-			'interval' => '6000',
+			'interval' => $interval,
 		), $expected);
 
 		$this->assertEquals($expected, $actual);

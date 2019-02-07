@@ -92,6 +92,7 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
 
 		$this->__assert($exception, array(
 			'code' => 502,
+			'name' => 'Internal Error',
 			'message' => 'Custom Error',
 		));
 	}
@@ -119,9 +120,10 @@ class NetCommonsErrorNetCommonsExceptionRendererError500Test extends NetCommonsC
 			'url' => $viewVars['url'],
 			'message' => $viewVars['message'],
 		);
+
 		$expected = Hash::merge(array(
 			'code' => 500,
-			'name' => 'Internal Error',
+			'name' => 'Internal Server Error',
 			'url' => $exception->controller->request->here(),
 			'message' => '',
 		), $expected);

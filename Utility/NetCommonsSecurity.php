@@ -159,10 +159,11 @@ class NetCommonsSecurity {
 
 		//サイト停止画面、ログイン画面のみ許可する
 		foreach ($allowUrls as $url) {
-			if ($isAuthController ||
-					$controller->request->params['plugin'] === $url['plugin'] &&
+			if (($isAuthController &&
+					$controller->request->params['action'] === 'login') ||
+				($controller->request->params['plugin'] === $url['plugin'] &&
 					$controller->request->params['controller'] === $url['controller'] &&
-					$controller->request->params['action'] === $url['action']) {
+					$controller->request->params['action'] === $url['action'])) {
 
 				return false;
 			}

@@ -144,21 +144,26 @@ class NetCommonsSecurity {
 /**
  * サイト停止チェック
  *
- * @param CakeRequest $request CakeRequest
+ * @param Controller $controller 実行しているコントローラ
  * @return bool
  */
-	public function isCloseSite(CakeRequest $request) {
+	public function isCloseSite(Controller $controller) {
 		$allowUrls = array(
-			['plugin' => 'auth', 'controller' => 'auth', 'action' => 'login'],
-			['plugin' => 'auth_general', 'controller' => 'auth_general', 'action' => 'login'],
+			//['plugin' => 'auth', 'controller' => 'auth', 'action' => 'login'],
+			//['plugin' => 'auth_general', 'controller' => 'auth_general', 'action' => 'login'],
 			['plugin' => 'net_commons', 'controller' => 'site_close', 'action' => 'index'],
 		);
 
+		$isAuthController = is_a($controller, 'AuthController') ||
+					is_subclass_of($controller, 'AuthController');
+
 		//サイト停止画面、ログイン画面のみ許可する
 		foreach ($allowUrls as $url) {
-			if ($request->params['plugin'] === $url['plugin'] &&
-					$request->params['controller'] === $url['controller'] &&
-					$request->params['action'] === $url['action']) {
+			if (($isAuthController &&
+					$controller->request->params['action'] === 'login') ||
+				($controller->request->params['plugin'] === $url['plugin'] &&
+					$controller->request->params['controller'] === $url['controller'] &&
+					$controller->request->params['action'] === $url['action'])) {
 
 				return false;
 			}

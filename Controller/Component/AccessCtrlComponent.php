@@ -59,7 +59,7 @@ class AccessCtrlComponent extends Component {
 		}
 
 		//サイト閉鎖のチェック
-		if ($netCommonsSecurity->isCloseSite($controller->request)) {
+		if ($netCommonsSecurity->isCloseSite($controller)) {
 			if ($controller->Auth->user()) {
 				throw new ForbiddenException('Under maintenance');
 			} else {

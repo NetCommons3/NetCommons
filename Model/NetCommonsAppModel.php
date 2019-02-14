@@ -30,6 +30,7 @@ App::uses('Model', 'Model');
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsAppModel extends Model {
 
@@ -428,6 +429,42 @@ class NetCommonsAppModel extends Model {
 		date_default_timezone_set($nowDefaultTz);
 
 		return $result;
+	}
+
+/**
+ * Findの結果をキャッシュする際、afterFindは実行させたいので、CakeのModelを継承して、カスタマイズする。
+ *
+ * @param string $type Type of find operation (all / first / count / neighbors / list / threaded)
+ * @param array $query Option fields (conditions / fields / joins / limit / offset / order / page / group / callbacks)
+ * @return array
+ * @see Model::_readDataSource()
+ */
+	protected function _readDataSource($type, $query) {
+		if (! $this->Behaviors->enabled('NetCommons.NetCommonsCache') ||
+				! isset($query['cacheKey'])) {
+			//キャッシュを使用しない場合、親のメソッドを呼ぶ
+			return parent::_readDataSource($type, $query);
+		} else {
+			//キャッシュを使用する場合、キャッシュの有無を確かめ、
+			//キャッシュがあれば、キャッシュの内容を使用し、無ければ、DBから取得する。
+			//その後の処理は、親と同じ処理。
+			$results = $this->cacheRead($type, $query['cacheKey']);
+			if (! $results) {
+				$results = $this->getDataSource()->read($this, $query);
+				$this->cacheWrite($results, $type, $query['cacheKey']);
+			}
+			$this->resetAssociations();
+
+			if ($query['callbacks'] === true || $query['callbacks'] === 'after') {
+				$results = $this->_filterResults($results);
+			}
+
+			$this->findQueryType = null;
+
+			if ($this->findMethods[$type] === true) {
+				return $this->{'_find' . ucfirst($type)}('after', $query, $results);
+			}
+		}
 	}
 
 }

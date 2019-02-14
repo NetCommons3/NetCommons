@@ -30,6 +30,7 @@ App::uses('Model', 'Model');
  * @author Takako Miyagawa <nekoget@gmail.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class NetCommonsAppModel extends Model {
 

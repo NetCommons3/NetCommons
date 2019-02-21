@@ -50,7 +50,7 @@ App::uses('Error', 'ExceptionRenderer');
  * You should place any custom exception renderers in `app/Lib/Error`.
  *
  * @package  NetCommons\NetCommons\Error
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsExceptionRenderer extends ExceptionRenderer {
 

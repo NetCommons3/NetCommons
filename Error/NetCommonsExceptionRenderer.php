@@ -50,6 +50,7 @@ App::uses('Error', 'ExceptionRenderer');
  * You should place any custom exception renderers in `app/Lib/Error`.
  *
  * @package  NetCommons\NetCommons\Error
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsExceptionRenderer extends ExceptionRenderer {
 
@@ -130,10 +131,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		$message = $error->getMessage();
 		$this->controller->response->statusCode($error->getCode());
 
-		if ($message === 'The request has been black-holed') {
-			$redirect = $this->controller->request->referer(true);
-
-		} elseif ($message === 'Not found file') {
+		if ($message === 'Not found file') {
 			$this->controller->autoRender = false;
 			$this->_shutdown();
 			$this->controller->response->send();
@@ -146,6 +144,10 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		} elseif ($message === 'Under maintenance') {
 			$redirect = '/net_commons/site_close/index';
 			$this->controller->Session->destroy();
+
+		} elseif ($message === 'The request has been black-holed' ||
+				get_class($error) === 'BadRequestException') {
+			$redirect = $this->controller->request->referer(true);
 
 		} elseif ($this->_is403And404($error)) {
 			list($redirect, $redirectUrl) = $this->_get403And404Redirect();
@@ -304,6 +306,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$results['interval'] = self::JSON_INTERVAL;
 		} else {
 			$this->controller->layout = 'NetCommons.error';
+			$this->controller->autoLayout = true;
 			$results['error'] = $error;
 			$results['interval'] = self::HTML_INTERVAL;
 		}

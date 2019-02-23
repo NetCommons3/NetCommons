@@ -9,9 +9,9 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
-App::uses('CurrentRoom', 'NetCommons.Lib');
-App::uses('CurrentFrame', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
+App::uses('CurrentLibRoom', 'NetCommons.Lib/Current');
+App::uses('CurrentLibFrame', 'NetCommons.Lib/Current');
 App::uses('Current2', 'NetCommons.Utility');
 
 /**
@@ -30,7 +30,7 @@ App::uses('Current2', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current2Page extends CurrentAppObject {
+class CurrentLibPage extends LibAppObject {
 
 /**
  * キャッシュクラスを保持する変数
@@ -69,18 +69,18 @@ class Current2Page extends CurrentAppObject {
 	private $__page = null;
 
 /**
- * クラス内で処理するCurrentFrameインスタンス
+ * クラス内で処理するCurrentLibFrameインスタンス
  *
- * @var CurrentFrame
+ * @var CurrentLibFrame
  */
-	protected $_CurrentFrame;
+	protected $_CurrentLibFrame;
 
 /**
- * クラス内で処理するCurrentRoomインスタンス
+ * クラス内で処理するCurrentLibRoomインスタンス
  *
- * @var CurrentRoom
+ * @var CurrentLibRoom
  */
-	protected $_CurrentRoom;
+	protected $_CurrentLibRoom;
 
 /**
  * コンストラクター
@@ -104,7 +104,7 @@ class Current2Page extends CurrentAppObject {
  * @return CurrentPage
  */
 	public static function getInstance($controller = null) {
-		return parent::_getInstance($controller, __CLASS__);
+		return parent::_getInstance(__CLASS__, $controller);
 	}
 
 /**
@@ -116,8 +116,8 @@ class Current2Page extends CurrentAppObject {
 	public function setController($controller) {
 		parent::setController($controller);
 
-		$this->_CurrentFrame = Current2Frame::getInstance($controller);
-		$this->_CurrentRoom = CurrentRoom::getInstance($controller);
+		$this->_CurrentLibFrame = Current2Frame::getInstance($controller);
+		$this->_CurrentLibRoom = CurrentLibRoom::getInstance($controller);
 	}
 
 /**
@@ -403,7 +403,7 @@ class Current2Page extends CurrentAppObject {
 		}
 
 		//Frameデータ取得
-		$framesEachBoxId = $this->_CurrentFrame->findFramesByBoxIds($boxIds);
+		$framesEachBoxId = $this->_CurrentLibFrame->findFramesByBoxIds($boxIds);
 		foreach ($pageContainerIds as $pageContainerId) {
 			foreach ($framesEachBoxId as $boxId => $frames) {
 				$results[$pageContainerId][$boxId]['Frames'] = $frames;
@@ -459,7 +459,7 @@ class Current2Page extends CurrentAppObject {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByRoomId($roomId) {
-		$room = $this->_CurrentRoom->getRoom($roomId);
+		$room = $this->_CurrentLibRoom->getRoom($roomId);
 		if ($room) {
 			return $room['page_id_top'];
 		} else {
@@ -474,7 +474,7 @@ class Current2Page extends CurrentAppObject {
  * @return string ページID(intの文字列)
  */
 	private function __getPageIdByPrivateRoom($userId) {
-		$room = $this->_CurrentRoom->getPrivateRoom($userId);
+		$room = $this->_CurrentLibRoom->getPrivateRoom($userId);
 		if ($room) {
 			return $room['page_id_top'];
 		} else {

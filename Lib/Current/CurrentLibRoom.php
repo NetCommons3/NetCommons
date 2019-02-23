@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
-App::uses('CurrentSystem', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
+App::uses('CurrentLibSystem', 'NetCommons.Lib/Current');
 
 /**
  * NetCommonsの機能に必要な情報(ルーム関連)を取得する内容をまとめたUtility
@@ -28,7 +28,7 @@ App::uses('CurrentSystem', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentRoom extends CurrentAppObject {
+class CurrentLibRoom extends LibAppObject {
 
 /**
  * ログインなしで参照できるスペースリストデータ
@@ -106,11 +106,11 @@ class CurrentRoom extends CurrentAppObject {
 	private $__userId = null;
 
 /**
- * クラス内で処理するCurrentSystemインスタンス
+ * クラス内で処理するCurrentLibSystemインスタンス
  *
- * @var CurrentSystem
+ * @var CurrentLibSystem
  */
-	protected $_CurrentSystem;
+	protected $_CurrentLibSystem;
 
 /**
  * コンストラクター
@@ -128,10 +128,10 @@ class CurrentRoom extends CurrentAppObject {
  * インスタンスの取得
  *
  * @param Controller|null $controller コントローラ
- * @return CurrentRoom
+ * @return CurrentLibRoom
  */
 	public static function getInstance($controller = null) {
-		return parent::_getInstance($controller, __CLASS__);
+		return parent::_getInstance(__CLASS__, $controller);
 	}
 
 /**
@@ -143,7 +143,7 @@ class CurrentRoom extends CurrentAppObject {
 	public function setController($controller) {
 		parent::setController($controller);
 
-		$this->_CurrentSystem = Current2System::getInstance($controller);
+		$this->_CurrentLibSystem = CurrentLibSystem::getInstance($controller);
 	}
 
 /**
@@ -373,7 +373,7 @@ class CurrentRoom extends CurrentAppObject {
 		}
 
 		$this->__plugins[$roomId] =
-				$this->_CurrentSystem->findPlugins($pluginKeys, $this->__langId);
+				$this->_CurrentLibSystem->findPlugins($pluginKeys, $this->__langId);
 
 		return $this->__plugins[$roomId];
 	}

@@ -9,8 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
-App::uses('CurrentRoom', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
+App::uses('CurrentLibRoom', 'NetCommons.Lib/Current');
 
 /**
  * NetCommonsの機能に必要な情報(パーミッション関連)を取得する内容をまとめたUtility
@@ -23,7 +23,7 @@ App::uses('CurrentRoom', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentPermission extends CurrentAppObject {
+class CurrentPermission extends LibAppObject {
 
 /**
  * 使用するモデル
@@ -43,11 +43,11 @@ class CurrentPermission extends CurrentAppObject {
 	private $__roomRolePermissions = null;
 
 /**
- * クラス内で処理するCurrentRoomインスタンス
+ * クラス内で処理するCurrentLibRoomインスタンス
  *
- * @var CurrentRoom
+ * @var CurrentLibRoom
  */
-	protected $_CurrentRoom;
+	protected $_CurrentLibRoom;
 
 /**
  * インスタンスの取得
@@ -56,7 +56,7 @@ class CurrentPermission extends CurrentAppObject {
  * @return CurrentPermission
  */
 	public static function getInstance($controller = null) {
-		return parent::_getInstance($controller, __CLASS__);
+		return parent::_getInstance(__CLASS__, $controller);
 	}
 
 /**
@@ -68,7 +68,7 @@ class CurrentPermission extends CurrentAppObject {
 	public function setController($controller) {
 		parent::setController($controller);
 
-		$this->_CurrentRoom = CurrentRoom::getInstance($controller);
+		$this->_CurrentLibRoom = CurrentLibRoom::getInstance($controller);
 	}
 
 /**
@@ -115,7 +115,7 @@ class CurrentPermission extends CurrentAppObject {
 			return [];
 		}
 
-		$roleRoomIds = $this->_CurrentRoom->getRoleRoomIds();
+		$roleRoomIds = $this->_CurrentLibRoom->getRoleRoomIds();
 		if ($roleRoomIds) {
 			// ルーム権限パーミッション取得
 			$results = $this->RoomRolePermission->find('all', [

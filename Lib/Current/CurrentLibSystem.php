@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
@@ -24,7 +24,7 @@ App::uses('NetCommonsSecurity', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current2System extends CurrentAppObject {
+class CurrentLibSystem extends LibAppObject {
 
 /**
  * 使用するモデル
@@ -58,10 +58,10 @@ class Current2System extends CurrentAppObject {
  * インスタンスの取得
  *
  * @param Controller|null $controller コントローラ
- * @return CurrentSystem
+ * @return CurrentLibSystem
  */
 	public static function getInstance($controller = null) {
-		$instance = parent::_getInstance($controller, __CLASS__);
+		$instance = parent::_getInstance(__CLASS__, $controller);
 		$instance->setLanguage();
 		return $instance;
 	}

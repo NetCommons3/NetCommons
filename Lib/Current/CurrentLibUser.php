@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('AuthComponent', 'Controller/Component');
 
 /**
@@ -24,7 +24,7 @@ App::uses('AuthComponent', 'Controller/Component');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentUser extends CurrentAppObject {
+class CurrentLibUser extends LibAppObject {
 
 /**
  * 使用するモデル
@@ -62,10 +62,10 @@ class CurrentUser extends CurrentAppObject {
  * インスタンスの取得
  *
  * @param Controller|null $controller コントローラ
- * @return CurrentUser
+ * @return CurrentLibUser
  */
 	public static function getInstance($controller = null) {
-		return parent::_getInstance($controller, __CLASS__);
+		return parent::_getInstance(__CLASS__, $controller);
 	}
 
 /**

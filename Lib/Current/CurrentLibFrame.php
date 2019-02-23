@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CurrentAppObject', 'NetCommons.Lib');
+App::uses('LibAppObject', 'NetCommons.Lib');
 
 /**
  * NetCommonsの機能に必要な情報(フレーム)を取得する内容をまとめたUtility
@@ -26,7 +26,7 @@ App::uses('CurrentAppObject', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current2Frame extends CurrentAppObject {
+class Current2Frame extends LibAppObject {
 
 /**
  * 使用するモデル
@@ -45,10 +45,10 @@ class Current2Frame extends CurrentAppObject {
  * インスタンスの取得
  *
  * @param Controller|null $controller コントローラ
- * @return CurrentSystem
+ * @return CurrentLibSystem
  */
 	public static function getInstance($controller = null) {
-		return parent::_getInstance($controller, __CLASS__);
+		return parent::_getInstance(__CLASS__, $controller);
 	}
 
 /**

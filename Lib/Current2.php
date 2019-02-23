@@ -9,15 +9,16 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('SettingMode', 'NetCommons.Lib');
 App::uses('ControlPanel', 'NetCommons.Lib');
 App::uses('NcPermission', 'NetCommons.Lib');
-App::uses('Current2Frame', 'NetCommons.Lib');
-App::uses('Current2Page', 'NetCommons.Lib');
-App::uses('CurrentPermission', 'NetCommons.Lib');
-App::uses('CurrentRoom', 'NetCommons.Lib');
-App::uses('Current2System', 'NetCommons.Lib');
-App::uses('CurrentUser', 'NetCommons.Lib');
+App::uses('CurrentLibFrame', 'NetCommons.Lib/Current');
+App::uses('CurrentLibPage', 'NetCommons.Lib/Current');
+App::uses('CurrentLibPermission', 'NetCommons.Lib/Current');
+App::uses('CurrentLibRoom', 'NetCommons.Lib/Current');
+App::uses('CurrentLibSystem', 'NetCommons.Lib/Current');
+App::uses('CurrentLibUser', 'NetCommons.Lib/Current');
 
 /**
  * NetCommonsの機能として必要な情報を操作するライブラリ
@@ -233,7 +234,7 @@ App::uses('CurrentUser', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current2 {
+class Current2 extends LibAppObject {
 
 /**
  * セッティングモードのワード
@@ -241,13 +242,6 @@ class Current2 {
  * @var string
  */
 	const SETTING_MODE_WORD = 'setting';
-
-/**
- * インスタンス
- *
- * @var object
- */
-	private static $__instance;
 
 /**
  * クラス内で処理するコントローラを保持
@@ -299,16 +293,16 @@ class Current2 {
 	public $NcPermission;
 
 /**
- * クラス内で処理するCurrentFrameインスタンス
+ * クラス内で処理するCurrentLibFrameインスタンス
  *
  * @var Current2Frame
  */
-	public $CurrentFrame;
+	public $CurrentLibFrame;
 
 /**
  * クラス内で処理するCurrentPageインスタンス
  *
- * @var Current2Page
+ * @var CurrentLibPage
  */
 	public $CurrentPage;
 
@@ -320,25 +314,25 @@ class Current2 {
 	public $CurrentPermission;
 
 /**
- * クラス内で処理するCurrentRoomインスタンス
+ * クラス内で処理するCurrentLibRoomインスタンス
  *
- * @var CurrentRoom
+ * @var CurrentLibRoom
  */
-	public $CurrentRoom;
+	public $CurrentLibRoom;
 
 /**
- * クラス内で処理するCurrentSystemインスタンス
+ * クラス内で処理するCurrentLibSystemインスタンス
  *
- * @var Current2System
+ * @var CurrentLibSystem
  */
-	public $CurrentSystem;
+	public $CurrentLibSystem;
 
 /**
- * クラス内で処理するCurrentUserインスタンス
+ * クラス内で処理するCurrentLibUserインスタンス
  *
- * @var CurrentUser
+ * @var CurrentLibUser
  */
-	public $CurrentUser;
+	public $CurrentLibUser;
 
 /**
  * インスタンスの取得
@@ -348,11 +342,7 @@ class Current2 {
  * @return Current2
  */
 	public static function getInstance() {
-		if (! self::$__instance) {
-			$className = __CLASS__;
-			self::$__instance = new $className();
-		}
-		return self::$__instance;
+		return parent::_getInstance(__CLASS__);
 	}
 
 /**
@@ -376,14 +366,14 @@ class Current2 {
 		$this->NcPermission = NcPermission::getInstance();
 		$this->SettingMode = SettingMode::getInstance();
 
-		$this->CurrentPage = Current2Page::getInstance($this->_controller);
-		$this->CurrentSystem = Current2System::getInstance($this->_controller);
-		$this->CurrentUser = CurrentUser::getInstance($this->_controller);
+		$this->CurrentPage = CurrentLibPage::getInstance($this->_controller);
+		$this->CurrentLibSystem = CurrentLibSystem::getInstance($this->_controller);
+		$this->CurrentLibUser = CurrentLibUser::getInstance($this->_controller);
 		$this->ControlPanel = ControlPanel::getInstance($this->_controller);
 
-		$this->CurrentFrame = Current2Frame::getInstance($this->_controller);
+		$this->CurrentLibFrame = Current2Frame::getInstance($this->_controller);
 		$this->CurrentPermission = CurrentPermission::getInstance($this->_controller);
-		$this->CurrentRoom = CurrentRoom::getInstance($this->_controller);
+		$this->CurrentLibRoom = CurrentLibRoom::getInstance($this->_controller);
 	}
 
 /**
@@ -396,13 +386,13 @@ class Current2 {
 		$this->__setController($controller);
 
 		//ログイン情報が変わっている場合、ログイン情報の更新
-		if ($this->CurrentUser->isLoginChanged()) {
-			$this->CurrentUser->renewSessionUser();
+		if ($this->CurrentLibUser->isLoginChanged()) {
+			$this->CurrentLibUser->renewSessionUser();
 		}
 
 		//言語のセット
-		$this->CurrentSystem->setLanguage();
-
+		$this->CurrentLibSystem->setLanguage();
+		
 //		self::__setInstance();
 //
 //		self::$request = clone $controller->request;
@@ -595,7 +585,7 @@ class Current2 {
  */
 	public static function isLogin() {
 		$instance = self::getInstance();
-		return $instance->CurrentUser->isLogined();
+		return $instance->CurrentLibUser->isLogined();
 	}
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * ControlPanelを操作するライブラリ
+ * NetCommonsの機能に必要な情報を取得する共通クラス
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,22 +9,13 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('NcPermission', 'NetCommons.Lib');
-
 /**
- * ControlPanelを操作するライブラリ
+ * NetCommonsの機能に必要な情報を取得する共通クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\NetCommons\Lib
+ * @package NetCommons\NetCommons\Utility
  */
 class LibAppObject {
-
-/**
- * インスタンス
- *
- * @var object
- */
-	protected static $_instances;
 
 /**
  * クラス内で処理するコントローラを保持
@@ -34,22 +25,50 @@ class LibAppObject {
 	protected $_controller;
 
 /**
+ * インスタンス
+ *
+ * @var object
+ */
+	protected static $_instances;
+
+/**
+ * 使用するモデル
+ *
+ * @var array
+ */
+	protected $_uses = [];
+
+/**
  * コンストラクター
  *
+ * @param Controller|null $controller コントローラ
  * @return void
  */
-	public function __construct() {
+	public function __construct($controller = null) {
+		$this->_controller = $controller;
+
+		foreach ($this->_uses as $class => $classPath) {
+			$this->$class = ClassRegistry::init($classPath);
+		}
+		$this->_langId = Current::read('Language.id');
 	}
 
 /**
  * インスタンスの取得
  *
+ * @param Controller $controller コントローラ
  * @param string $className クラス名
  * @return object
  */
-	protected static function _getInstance($className) {
+	protected static function _getInstance($className = null, $controller = null) {
+		if (! $className) {
+			return null;
+		}
 		if (! isset(self::$_instances[$className])) {
-			self::$_instances[$className] = new $className();
+			self::$_instances[$className] = new $className($controller);
+		}
+		if ($controller) {
+			self::$_instances[$className]->setController($controller);
 		}
 		return self::$_instances[$className];
 	}

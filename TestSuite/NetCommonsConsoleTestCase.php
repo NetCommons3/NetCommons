@@ -112,10 +112,16 @@ abstract class NetCommonsConsoleTestCase extends NetCommonsCakeTestCase {
 			$methods += array('in');
 		}
 
-		return $this->getMock($shell,
+		$mock = $this->getMock($shell,
 			Hash::merge(array('out', 'hr', 'err', 'error', 'createFile', '_stop'), $methods),
 			array($stdout, $stderr, $stdin), '', $construct
 		);
+
+		// loadShell後にCakeLog::drop()が無効になるため再設定。コンソールにログ出力しない
+		/* @see NetCommonsCakeTestCase の一番上に同様の設定あり */
+		CakeLog::drop('stdout');
+		CakeLog::drop('stderr');
+		return $mock;
 	}
 
 }

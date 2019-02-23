@@ -113,6 +113,9 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
 
     $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
         .then(function(response) {
+          if (!post._Token) {
+            post._Token = {};
+          }
           var token = response.data;
           post._Token.key = token.data._Token.key;
 
@@ -207,7 +210,7 @@ NetCommonsApp.controller('NetCommons.base',
         };
         $('#nc-flash-message').removeClass('hidden');
         if (interval > 0) {
-          $('#nc-flash-message').fadeIn(500).fadeTo(interval, 1).fadeOut(1500);
+          $('#nc-flash-message').fadeIn(500).fadeTo(500, 1).fadeOut(interval);
         } else {
           $('#nc-flash-message').fadeIn(500);
         }

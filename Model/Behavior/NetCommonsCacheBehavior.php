@@ -116,13 +116,10 @@ class NetCommonsCacheBehavior extends ModelBehavior {
  * @return array|false
  */
 	public function cacheFindQuery(Model $model, $type, $queryOptions) {
-		$cacheKey = $this->createCacheQueryKey($model, $queryOptions);
-		$result = $this->cacheRead($model, $type, $cacheKey);
-		if (! $result) {
-			//キャッシュの書き込み
-			$result = $model->find($type, $queryOptions);
-			$this->cacheWrite($model, $result, $type, $cacheKey);
-		}
+		$cacheKey = md5(json_encode($queryOptions));
+		//$result = $this->cacheRead($model, $type, $cacheKey);
+		$queryOptions['cacheKey'] = $cacheKey;
+		$result = $model->find($type, $queryOptions);
 		return $result;
 	}
 

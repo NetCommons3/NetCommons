@@ -130,6 +130,23 @@ class Current2Page extends CurrentAppObject {
 			return $this->__topPage;
 		}
 
+		$cacheTopPageId = $this->__cache[$this->Page->alias]->read('current', 'top_page_id');
+		if ($cacheTopPageId) {
+			$result = $this->Page->find('first', [
+				'fields' => ['id', 'weight'],
+				'recursive' => -1,
+				'conditions' => [
+					'id' => $cacheTopPageId,
+				],
+			]);
+			if ($result[$this->Page->alias]['weight'] == '1') {
+				//キャッシュのトップページの内容と変わってなければ、キャッシュの内容を
+				$this->__topPage = $this->__cache[$this->Page->alias]->read('current', 'top_page');
+				return $this->__topPage;
+			}
+		}
+
+		//キャッシュにトップページが存在しない、もしくは、トップページが変わっている場合、再取得
 		$topPageId = $this->Page->find('first', [
 			'recursive' => -1,
 			'fields' => ['Page.id'],
@@ -151,12 +168,6 @@ class Current2Page extends CurrentAppObject {
 			],
 			'order' => ['Page.sort_key' => 'asc'],
 		]);
-
-		$cacheTopPageId = $this->__cache[$this->Page->alias]->read('current', 'top_page_id');
-		if ($cacheTopPageId === $topPageId['Page']['id']) {
-			$this->__topPage = $this->__cache[$this->Page->alias]->read('current', 'top_page');
-			return $this->__topPage;
-		}
 
 		$this->__cache[$this->Page->alias]->write($topPageId['Page']['id'], 'current', 'top_page_id');
 

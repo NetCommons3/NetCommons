@@ -13,28 +13,59 @@ App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('NetCommonsSecurity', 'NetCommons.Utility');
 
 /**
- * NetCommonsの機能に必要な情報(システム系)を取得する内容をまとめたUtility
+ * NetCommonsの機能に必要な情報(プラグイン関連)を取得する内容をまとめたUtility
  *
- * @property string $_lang 言語ID
  * @property Controller $_controller コントローラ
- * @property Language $Language Languageモデル
  * @property PluginsRole $PluginsRole PluginsRoleモデル
  * @property Plugin $Plugin Pluginモデル
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class CurrentLibSystem extends LibAppObject {
+class CurrentLibPlugin extends LibAppObject {
+
+/**
+ * ControlPanelプラグイン名の定数
+ */
+	const PLUGIN_CONTROL_PANEL = 'control_panel';
+
+/**
+ * Usersプラグイン名の定数
+ */
+	const PLUGIN_USERS = 'users';
+
+/**
+ * Groupsプラグイン名の定数
+ */
+	const PLUGIN_GROUPS = 'groups';
+
+/**
+ * Wysiwygプラグイン名の定数
+ */
+	const PLUGIN_WYSIWYG = 'wysiwyg';
+
+/**
+ * Pagesプラグイン名の定数
+ */
+	const PLUGIN_PAGES = 'pages';
 
 /**
  * 使用するモデル
  *
  * @var array
  */
-	protected $_uses = [
-		'Language' => 'M17n.Language',
+	public $uses = [
 		'PluginsRole' => 'PluginManager.PluginsRole',
 		'Plugin' => 'PluginManager.Plugin',
+	];
+
+/**
+ * 使用するライブラリ
+ *
+ * @var array
+ */
+	public $libs = [
+		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
 	];
 
 /**
@@ -45,82 +76,57 @@ class CurrentLibSystem extends LibAppObject {
 	private $__plugins = null;
 
 /**
- * コンストラクター
+ * セキュリティに関するユーティリティ
  *
- * @param Controller|null $controller コントローラ
- * @return void
+ * @var NetCommonsSecurity
  */
-	public function __construct($controller = null) {
-		parent::__construct($controller);
-	}
+	private $__NetCommonsSecurity = null;
+
+/**
+ * 言語IDを保持
+ *
+ * @var string 数値の文字列
+ */
+	private $__langId = null;
 
 /**
  * インスタンスの取得
  *
- * @param Controller|null $controller コントローラ
- * @return CurrentLibSystem
+ * @return CurrentLibPlugin
  */
-	public static function getInstance($controller = null) {
-		$instance = parent::_getInstance(__CLASS__, $controller);
-		$instance->setLanguage();
-		return $instance;
+	public static function getInstance() {
+		return parent::_getInstance(__CLASS__);
 	}
 
 /**
- * リクエストもしくはSessionから言語をConfigureにセットする。
+ * インスタンスのクリア
  *
  * @return void
  */
-	public function setLanguage() {
-		if (isset($this->_controller->request->query['lang']) &&
-				! array_key_exists('search', $this->_controller->request->query)) {
-			$langCode = $this->_controller->request->query['lang'];
-			Configure::write('Config.language', $langCode);
-			$this->_controller->Session->write('Config.language', $langCode);
-		} elseif ($this->_controller->Session->check('Config.language')) {
-			Configure::write('Config.language', $this->_controller->Session->read('Config.language'));
-		}
+	public static function resetInstance() {
+		parent::_resetInstance(__CLASS__);
 	}
 
 /**
- * 言語データを取得
+ * コントローラのセット
  *
- * @return array
+ * @param Controller $controller コントローラ
+ * @return void
  */
-	public function findLanguage() {
-		$langCode = Configure::read('Config.language');
+	public function initialize($controller = null) {
+		parent::initialize($controller);
 
-		$rseult = $this->Language->cacheRead('current', $langCode);
-		if ($rseult) {
-			return $rseult;
+		if (! $this->__NetCommonsSecurity) {
+		$this->__NetCommonsSecurity = new NetCommonsSecurity();
 		}
-
-		$language = $this->Language->getLanguage('first', array(
-			'fields' => [
-				'id', 'code', 'weight', 'is_active'
-			],
-			'conditions' => array(
-				'code' => $langCode,
-			)
-		));
-		if (! isset($language['Language'])) {
-			$language = $this->Language->getLanguage('first', array(
-				'fields' => [
-					'id', 'code', 'weight', 'is_active'
-				],
-				'order' => 'weight'
-			));
-		}
-
-		$this->Language->cacheWrite($language, 'current', $langCode);
-		return $language;
+		$this->__langId = $this->CurrentLibLanguage->getLangId();
 	}
 
 /**
  * プラグインデータ取得
  *
  * @param array $pluginKeys プラグインキーリスト
- * @param string $langId 言語ID(intの文字列)
+ * @param string|int $langId 言語ID
  * @return array
  */
 	public function findPlugins($langId) {
@@ -159,7 +165,7 @@ class CurrentLibSystem extends LibAppObject {
  * @return void
  */
 	public function findPlugin($pluginKey) {
-		$plugins = $this->findPlugins($this->_langId);
+		$plugins = $this->findPlugins($this->__langId);
 		if (isset($plugins[$pluginKey])) {
 			return $plugins[$pluginKey];
 		} else {
@@ -174,13 +180,11 @@ class CurrentLibSystem extends LibAppObject {
  * @return array
  */
 	public function findPluginRole($userRoleKey) {
-		//IPアドレスによる制御
-		$netCommonsSecurity = new NetCommonsSecurity();
-		if (! $netCommonsSecurity->enableAllowSystemPluginIps()) {
-			unset($netCommonsSecurity);
+		//ログインしていない、IPアドレスによる制御
+		if (! $userRoleKey ||
+				! $this->__NetCommonsSecurity->enableAllowSystemPluginIps()) {
 			return [];
 		}
-		unset($netCommonsSecurity);
 
 		$queryOptions = [
 			'recursive' => -1,

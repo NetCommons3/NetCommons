@@ -14,7 +14,6 @@ App::uses('LibAppObject', 'NetCommons.Lib');
 /**
  * NetCommonsの機能に必要な情報(フレーム)を取得する内容をまとめたUtility
  *
- * @property string $_lang 言語ID
  * @property Controller $_controller コントローラ
  * @property Language $Language Languageモデル
  * @property Frame $Frame Frameモデル
@@ -23,32 +22,140 @@ App::uses('LibAppObject', 'NetCommons.Lib');
  * @property Block $Block Pluginモデル
  * @property BlocksLanguage $BlocksLanguage BlocksLanguageモデル
  *
+ * @property CurrentLibLanguage $CurrentLibLanguage CurrentLibLanguageライブラリ
+ * @property CurrentLibRoom $CurrentLibRoom CurrentLibRoomライブラリ
+ * @property CurrentLibPage $CurrentLibPage CurrentLibPageライブラリ
+ * @property CurrentLibBlock $CurrentLibBlock CurrentLibBlockライブラリ
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class Current2Frame extends LibAppObject {
+class CurrentLibFrame extends LibAppObject {
 
 /**
  * 使用するモデル
  *
  * @var array
  */
-	protected $_uses = [
+	public $uses = [
+		'Language' => 'M17n.Language',
 		'Frame' => 'Frames.Frame',
 		'FramePublicLanguage' => 'Frames.FramePublicLanguage',
 		'FramesLanguage' => 'Frames.FramesLanguage',
 		'Block' => 'Blocks.Block',
-		'BlocksLanguage' => 'Blocks.Frame',
+		'BlocksLanguage' => 'Blocks.BlocksLanguage',
 	];
+
+/**
+ * 使用するライブラリ
+ *
+ * @var array
+ */
+	public $libs = [
+		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
+		'CurrentLibRoom' => 'NetCommons.Lib/Current',
+		'CurrentLibPage' => 'NetCommons.Lib/Current',
+		'CurrentLibBlock' => 'NetCommons.Lib/Current',
+	];
+
+/**
+ * 言語IDを保持
+ *
+ * @var string 数値の文字列
+ */
+	private $__langId = null;
+
+/**
+ * $__pageに保持したフレームデータを取得するための情報保持
+ *
+ * ```
+ * $this->__frameMaps = [
+ *		(フレームID) => [
+ *			'box_id' => (ボックスID),
+ *		]
+ * ];
+ * ```
+ *
+ * @var array
+ */
+	private $__frameMaps = [];
 
 /**
  * インスタンスの取得
  *
- * @param Controller|null $controller コントローラ
- * @return CurrentLibSystem
+ * @return CurrentLibFrame
  */
-	public static function getInstance($controller = null) {
-		return parent::_getInstance(__CLASS__, $controller);
+	public static function getInstance() {
+		return parent::_getInstance(__CLASS__);
+	}
+
+/**
+ * インスタンスのクリア
+ *
+ * @return void
+ */
+	public static function resetInstance() {
+		parent::_resetInstance(__CLASS__);
+	}
+
+/**
+ * コントローラのセット
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function initialize($controller = null) {
+		parent::initialize($controller);
+		$this->__langId = $this->CurrentLibLanguage->getLangId();
+	}
+
+/**
+ * リクエストの中からフレームIDを取得
+ *
+ * @return string|null フレームID。nullの場合、パラメータ等からframe_idが取得できなかった
+ */
+	private function __getFrameIdInRequest() {
+		if (empty($this->_controller->request->params['requested']) &&
+				isset($this->_controller->request->data['Frame']['id'])) {
+			$frameId = $this->_controller->request->data['Frame']['id'];
+		} elseif (isset($this->_controller->request->params['frame_id'])) {
+			$frameId = $this->_controller->request->params['frame_id'];
+		} elseif (isset($this->_controller->request->params['?']['frame_id'])) {
+			$frameId = $this->_controller->request->params['?']['frame_id'];
+		} elseif (isset($this->_controller->request->query['frame_id'])) {
+			$frameId = $this->_controller->request->query['frame_id'];
+		} else {
+			$frameId = null;
+		}
+		return $frameId;
+	}
+
+/**
+ * フレームIDの取得
+ *
+ * @return string|null フレームID。nullの場合、パラメータ等からframe_idが取得できなかった
+ */
+	public function getCurrentFrameId() {
+		$frameId = $this->__getFrameIdInRequest();
+		if (! $frameId) {
+			return null;
+		}
+		$frame = $this->findFrameById($frameId);
+		if (! $frame) {
+			return null;
+		}
+
+		if ($frame['Frame']['block_id'] &&
+				$this->CurrentLibBlock->isBlockIdInRequest()) {
+			//ブロックIDとフレームのblock_idが指定されている場合、そのblock_idが同じかチェックする
+			//異なる場合、blockの方を信じる
+			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
+			$block = $this->CurrentLibBlock->findBlockById($blockId);
+			if ($block['Block']['id'] !== $frame['Frame']['block_id']) {
+				return null;
+			}
+		}
+		return $frame['Frame']['id'];
 	}
 
 /**
@@ -70,9 +177,9 @@ class Current2Frame extends LibAppObject {
 			'Frame.default_action',
 			'Frame.default_setting_action',
 			'FramePublicLanguage.id',
-			'FramePublicLanguagelanguage_id',
-			'FramePublicLanguageframe_id',
-			'FramePublicLanguageis_public',
+			'FramePublicLanguage.language_id',
+			'FramePublicLanguage.frame_id',
+			'FramePublicLanguage.is_public',
 			'FramesLanguage.id',
 			'FramesLanguage.language_id',
 			'FramesLanguage.frame_id',
@@ -80,22 +187,9 @@ class Current2Frame extends LibAppObject {
 			'FramesLanguage.is_origin',
 			'FramesLanguage.is_translation',
 			'FramesLanguage.is_original_copy',
-			'Block.id',
-			'Block.room_id',
-			'Block.plugin_key',
-			'Block.key',
-			'Block.public_type',
-			'Block.publish_start',
-			'Block.publish_end',
-			'Block.content_count',
-			'BlocksLanguage.language_id',
-			'BlocksLanguage.block_id',
-			'BlocksLanguage.name',
-			'BlocksLanguage.is_origin',
-			'BlocksLanguage.is_translation',
-			'BlocksLanguage.is_original_copy',
 		];
-		return $fields;
+
+		return array_merge($fields, $this->CurrentLibBlock->getFindFields());
 	}
 
 /**
@@ -131,7 +225,7 @@ class Current2Frame extends LibAppObject {
 				'alias' => $this->FramePublicLanguage->alias,
 				'conditions' => [
 					'FramePublicLanguage.frame_id' . ' = ' . 'Frame.id',
-					'FramePublicLanguage.language_id' => ['0', $this->_langId],
+					'FramePublicLanguage.language_id' => ['0', $this->__langId],
 					'FramePublicLanguage.is_public' => true,
 				],
 			],
@@ -143,7 +237,7 @@ class Current2Frame extends LibAppObject {
 					'FramesLanguage.frame_id = Frame.id',
 					'OR' => [
 						'FramesLanguage.is_translation' => false,
-						'FramesLanguage.language_id' => $this->_langId,
+						'FramesLanguage.language_id' => $this->__langId,
 					]
 				],
 			],
@@ -163,7 +257,7 @@ class Current2Frame extends LibAppObject {
 					'BlocksLanguage.block_id = Block.id',
 					'OR' => [
 						'BlocksLanguage.is_translation' => false,
-						'BlocksLanguage.language_id' => $this->_langId,
+						'BlocksLanguage.language_id' => $this->__langId,
 					],
 				],
 			],
@@ -185,7 +279,7 @@ class Current2Frame extends LibAppObject {
 				'alias' => $this->FramePublicLanguage->alias,
 				'conditions' => [
 					'FramePublicLanguage.frame_id = Frame.id',
-					'FramePublicLanguage.language_id' => ['0', $this->_langId],
+					'FramePublicLanguage.language_id' => ['0', $this->__langId],
 					'FramePublicLanguage.is_public' => true,
 				],
 			],
@@ -195,7 +289,7 @@ class Current2Frame extends LibAppObject {
 				'alias' => $this->FramesLanguage->alias,
 				'conditions' => [
 					'FramesLanguage.frame_id = Frame.id',
-					'FramesLanguage.language_id' => $this->_langId,
+					'FramesLanguage.language_id' => $this->__langId,
 				],
 			],
 			[
@@ -212,7 +306,7 @@ class Current2Frame extends LibAppObject {
 				'alias' => $this->BlocksLanguage->alias,
 				'conditions' => [
 					'BlocksLanguage.block_id = Block.id',
-					'BlocksLanguage.language_id' => $this->_langId,
+					'BlocksLanguage.language_id' => $this->__langId,
 				],
 			],
 		];
@@ -248,14 +342,63 @@ class Current2Frame extends LibAppObject {
 		]);
 
 		$results = [];
+		$roomIds = [];
 		foreach ($frames as $frame) {
 			$boxId = $frame['Frame']['box_id'];
 			$frameId = $frame['Frame']['id'];
-			//$frame = array_merge($frame, $frame['FramesLanguage'], $frame['Frame']);
 			$results[$boxId][$frameId] = $frame;
+
+			$this->__frameMaps[$frameId] = ['box_id' => $boxId];
+			$roomIds[] = $frame['Frame']['room_id'];
+			$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
 		}
 
+		//CurrentLibRoomにデータを保持する。再取得させないため。
+		$this->CurrentLibRoom->findRoomsByIds($roomIds);
+
 		return $results;
+	}
+
+/**
+ * フレームデータを取得
+ *
+ * @param string|int $frameId フレームID
+ * @return array
+ */
+	public function findFrameById($frameId) {
+		if (isset($this->__frameMaps[$frameId])) {
+			$boxId = $this->__frameMaps[$frameId]['box_id'];
+			$box = $this->CurrentLibPage->findBoxById($boxId);
+			if (! $box) {
+				return $box;
+			}
+
+			if (isset($box[$frameId])) {
+				return $box[$frameId];
+			} else {
+				return [];
+			}
+		} else {
+			$fields = $this->__makeFields();
+			if ($this->Language->isMultipleLang()) {
+				$joins = $this->__makeJoinsByMultipleLang();
+			} else {
+				$joins = $this->__makeJoinsBySingleLang();
+			}
+			$frame = $this->Frame->find('first', [
+				'recursive' => -1,
+				'fields' => $fields,
+				'joins' => $joins,
+				'conditions' => [
+					'Frame.id' => $frameId,
+				],
+			]);
+			$boxId = $frame['Frame']['box_id'];
+			$this->__frameMaps[$frameId] = ['box_id' => $boxId];
+			$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
+
+			return $frame;
+		}
 	}
 
 }

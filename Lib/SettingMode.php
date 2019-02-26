@@ -10,7 +10,7 @@
  */
 
 App::uses('LibAppObject', 'NetCommons.Lib');
-App::uses('NcPermission', 'NetCommons.Lib');
+App::uses('CurrentLib', 'NetCommons.Lib');
 
 /**
  * SettingModeを操作するライブラリ
@@ -28,6 +28,15 @@ class SettingMode extends LibAppObject {
 	const SETTING_MODE_WORD = 'setting';
 
 /**
+ * 使用するライブラリ
+ *
+ * @var array
+ */
+	public $libs = [
+		'NcPermission' => 'NetCommons.Lib',
+	];
+
+/**
  * セッティングモードか否か
  *
  * @var bool
@@ -40,16 +49,6 @@ class SettingMode extends LibAppObject {
  * @var string ページのルームID(intの文字列)
  */
 	private $__pageRoomId = null;
-
-/**
- * コンストラクター
- *
- * @return void
- */
-	public function __construct() {
-		parent::__construct();
-		$this->__pageRoomId = Current2::read('Page.room_id');
-	}
 
 /**
  * インスタンスの取得
@@ -66,7 +65,7 @@ class SettingMode extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
-		parent::_resetInstance();
+		parent::_resetInstance(__CLASS__);
 	}
 
 /**
@@ -74,7 +73,7 @@ class SettingMode extends LibAppObject {
  *
  * @return bool
  */
-	public function __isSettingMode() {
+	public function isSettingMode() {
 		if (isset($this->__isSettingMode)) {
 			return $this->__isSettingMode;
 		}
@@ -113,7 +112,7 @@ class SettingMode extends LibAppObject {
  * @return bool
  */
 	public function hasSettingMode() {
-		return NcPermission::read('page_editable', $this->__pageRoomId);
+		return $this->NcPermission->read('page_editable', CurrentLib::read('Page.room_id'));
 	}
 
 }

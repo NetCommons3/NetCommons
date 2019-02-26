@@ -10,7 +10,6 @@
  */
 
 App::uses('LibAppObject', 'NetCommons.Lib');
-App::uses('NcPermission', 'NetCommons.Lib');
 
 /**
  * パーミッションを操作するライブラリ
@@ -19,6 +18,13 @@ App::uses('NcPermission', 'NetCommons.Lib');
  * @package NetCommons\NetCommons\Lib
  */
 class NcPermission extends LibAppObject {
+
+/**
+ * パーミッションデータ保持
+ *
+ * @var array
+ */
+	public static $permission = array();
 
 /**
  * インスタンスの取得
@@ -35,7 +41,19 @@ class NcPermission extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
-		parent::_resetInstance();
+		parent::_resetInstance(__CLASS__);
+	}
+
+/**
+ * 指定された$keyの値をセットします
+ *
+ * @param int|null $roomId ルームID
+ * @param string $key パーミッションキー
+ * @param bool $value パーミッション値
+ * @return void
+ */
+	public static function write($roomId, $key, $value) {
+		self::$permission[$roomId]['Permission'][$key]['value'] = $value;
 	}
 
 /**
@@ -45,11 +63,11 @@ class NcPermission extends LibAppObject {
  * NcPermission::read('content_publishable')
  * ```
  *
- * @param string $key Hashクラスのpath
  * @param int|null $roomId ルームID
- * @return bool permission value
+ * @param string $key パーミッションキー
+ * @return bool パーミッション値
  */
-	public function read($key, $roomId = null) {
+	public function read($roomId, $key) {
 //		if (! isset(self::$current)) {
 //			return false;
 //		}
@@ -69,7 +87,7 @@ class NcPermission extends LibAppObject {
 //			if (isset(self::$current['Permission'][$key]['value'])) {
 //				$result = self::$current['Permission'][$key]['value'];
 //			} else {
-//				$result = null;
+//				$result = false;
 //			}
 //		} else {
 //			$RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');

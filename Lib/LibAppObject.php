@@ -32,44 +32,66 @@ class LibAppObject {
 	protected static $_instances;
 
 /**
+ * ロードしているか否か
+ *
+ * @var bool
+ */
+	protected $_loaded = false;
+
+/**
  * 使用するモデル
  *
  * @var array
  */
-	protected $_uses = [];
+	public $uses = [];
+
+/**
+ * 使用するライブラリ
+ *
+ * @var array
+ */
+	public $libs = [];
 
 /**
  * コンストラクター
  *
- * @param Controller|null $controller コントローラ
  * @return void
  */
-	public function __construct($controller = null) {
-		$this->_controller = $controller;
+	public function __construct() {
+	}
 
-		foreach ($this->_uses as $class => $classPath) {
-			$this->$class = ClassRegistry::init($classPath);
+/**
+ * ライブラリのロード
+ *
+ * @param array $libs ロードするライブラリ群
+ * @return void
+ */
+	protected static function _loadLibs($libs) {
+		$newClasses = [];
+		foreach ($libs as $class => $path) {
+			if (! isset(self::$_instances[$class])) {
+				App::uses($class, $path);
+				self::$_instances[$class] = self::_getInstance($class);
+			}
 		}
-		$this->_langId = Current::read('Language.id');
 	}
 
 /**
  * インスタンスの取得
  *
- * @param Controller $controller コントローラ
- * @param string $className クラス名
+ * @param string|null $className クラス名
  * @return object
  */
-	protected static function _getInstance($className = null, $controller = null) {
+	protected static function _getInstance($className = null) {
 		if (! $className) {
 			return null;
 		}
 		if (! isset(self::$_instances[$className])) {
-			self::$_instances[$className] = new $className($controller);
+			self::$_instances[$className] = new $className();
+			self::_loadLibs(self::$_instances[$className]->libs);
+			self::$_instances[$className]->load();
 		}
-		if ($controller) {
-			self::$_instances[$className]->setController($controller);
-		}
+
 		return self::$_instances[$className];
 	}
 
@@ -81,18 +103,46 @@ class LibAppObject {
  */
 	protected static function _resetInstance($className) {
 		if (isset(self::$_instances[$className])) {
+			$assosiateClasses = array_keys(self::$_instances[$className]->libs);
+			foreach ($assosiateClasses as $assosiateClass) {
+				if (isset(self::$_instances[$assosiateClass])) {
+					self::$_instances[$assosiateClass]->resetInstance();
+				}
+			}
+		}
+		if (isset(self::$_instances[$className])) {
 			unset(self::$_instances[$className]);
-			self::$_instances[$className] = null;
 		}
 	}
 
 /**
- * コントローラのセット
+ * ライブラリのロード
  *
- * @param Controller $controller コントローラ
  * @return void
  */
-	public function setController($controller) {
+	public function load() {
+		if ($this->_loaded) {
+			return;
+		}
+		foreach ($this->uses as $class => $classPath) {
+			$this->$class = ClassRegistry::init($classPath);
+			ClassRegistry::removeObject($class);
+		}
+		$libs = array_keys($this->libs);
+		foreach ($libs as $class) {
+			$this->$class = self::$_instances[$class];
+		}
+
+		$this->_loaded = true;
+	}
+
+/**
+ * コントローラのイニシャライズ
+ *
+ * @param Controller|null $controller コントローラ
+ * @return void
+ */
+	public function initialize($controller = null) {
 		$this->_controller = $controller;
 	}
 

@@ -10,23 +10,18 @@
  */
 
 App::uses('LibAppObject', 'NetCommons.Lib');
-//App::uses('NcPermission', 'NetCommons.Lib');
-App::uses('CurrentLibSystem', 'NetCommons.Lib');
-App::uses('CurrentLibUser', 'NetCommons.Lib');
-//App::uses('Current2', 'NetCommons.Lib');
+App::uses('Plugin', 'PluginManager.Model');
 
 /**
  * ControlPanelを操作するライブラリ
+ *
+ * @property CurrentLibPlugin $CurrentLibPlugin CurrentLibPluginライブラリ
+ * @property CurrentLibUser $CurrentLibUser CurrentLibUserライブラリ
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Lib
  */
 class ControlPanel extends LibAppObject {
-
-/**
- * ControlPanelプラグイン名の定数
- */
-	const PLUGIN_CONTROL_PANEL = 'control_panel';
 
 /**
  * コントロールパネルのプラグインタイプキー
@@ -39,29 +34,22 @@ class ControlPanel extends LibAppObject {
 	];
 
 /**
- * クラス内で処理するCurrentLibSystemインスタンス
+ * 使用するライブラリ
  *
- * @var CurrentLibSystem
+ * @var array
  */
-	protected $_CurrentLibSystem;
-
-/**
- * クラス内で処理するCurrentLibUserインスタンス
- *
- * @var CurrentLibUser
- */
-	protected $_CurrentLibUser;
+	public $libs = [
+		'CurrentLibPlugin' => 'NetCommons.Lib/Current',
+		'CurrentLibUser' => 'NetCommons.Lib/Current',
+	];
 
 /**
  * インスタンスの取得
  *
- * @param Controller|null $controller コントローラ
- * @return CurrentLibSystem
+ * @return ControlPanel
  */
-	public static function getInstance($controller = null) {
-		$instance = parent::_getInstance(__CLASS__);
-		$instance->setController($controller);
-		return $instance;
+	public static function getInstance() {
+		return parent::_getInstance(__CLASS__);
 	}
 
 /**
@@ -70,20 +58,7 @@ class ControlPanel extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
-		parent::_resetInstance();
-	}
-
-/**
- * コントローラのセット
- *
- * @param Controller $controller コントローラ
- * @return void
- */
-	public function setController($controller) {
-		parent::setController($controller);
-
-		$this->_CurrentLibSystem = CurrentLibSystem::getInstance($controller);
-		$this->_CurrentLibUser = CurrentLibUser::getInstance($controller);
+		parent::_resetInstance(__CLASS__);
 	}
 
 /**
@@ -92,11 +67,12 @@ class ControlPanel extends LibAppObject {
  * @return bool
  */
 	public function isControlPanel() {
-		if ($this->_controller->request->params['plugin'] === self::PLUGIN_CONTROL_PANEL) {
+		$CurrentLibPlugin = $this->CurrentLibPlugin;
+		if ($this->_controller->request->params['plugin'] === $CurrentLibPlugin::PLUGIN_CONTROL_PANEL) {
 			return true;
 		}
 
-		$plugin = $this->_CurrentLibSystem->findPlugin($this->_controller->request->params['plugin']);
+		$plugin = $this->CurrentLibPlugin->findPlugin($this->_controller->request->params['plugin']);
 		if (! $plugin) {
 			return false;
 		}
@@ -124,12 +100,12 @@ class ControlPanel extends LibAppObject {
  * @return bool
  */
 	public function hasControlPanel() {
-		$user = $this->_CurrentLibUser->getLoginUser();
+		$user = $this->CurrentLibUser->getLoginUser();
 		if (! isset($user['role_key'])) {
 			return false;
 		}
 
-		$pluginRoles = $this->_CurrentLibSystem->findPluginRole($user['role_key']);
+		$pluginRoles = $this->CurrentLibPlugin->findPluginRole($user['role_key']);
 		if (! isset($pluginRoles['PluginsRole'])) {
 			return false;
 		} else {
@@ -148,8 +124,8 @@ class ControlPanel extends LibAppObject {
 			return false;
 		}
 
-		$user = $this->_CurrentLibUser->getLoginUser();
-		$pluginRoles = $this->_CurrentLibSystem->findPluginRole($user['role_key']);
+		$user = $this->CurrentLibUser->getLoginUser();
+		$pluginRoles = $this->CurrentLibPlugin->findPluginRole($user['role_key']);
 		foreach ($pluginRoles['PluginsRole'] as $pluginRole) {
 			if ($pluginRole['plugin_key'] === $pluginKey) {
 				return true;

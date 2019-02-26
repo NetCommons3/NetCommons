@@ -13,9 +13,8 @@ App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('AuthComponent', 'Controller/Component');
 
 /**
- * NetCommonsの機能に必要な情報(システム系)を取得する内容をまとめたUtility
+ * NetCommonsの機能に必要な情報(ユーザ)を取得する内容をまとめたUtility
  *
- * @property string $_lang 言語ID
  * @property Controller $_controller コントローラ
  * @property Language $Language Languageモデル
  * @property PluginsRole $PluginsRole PluginsRoleモデル
@@ -31,7 +30,7 @@ class CurrentLibUser extends LibAppObject {
  *
  * @var array
  */
-	protected $_uses = [
+	public $uses = [
 		'User' => 'Users.User'
 	];
 
@@ -43,29 +42,32 @@ class CurrentLibUser extends LibAppObject {
 	private $__user = null;
 
 /**
- * コンストラクター
+ * インスタンスの取得
  *
- * @param Controller|null $controller コントローラ
- * @return void
+ * @return CurrentLibUser
  */
-	public function __construct($controller = null) {
-		parent::__construct($controller);
-
-		if (! $this->_controller->Components->loaded('Session')) {
-			$this->_controller->Components->load('Session');
-		}
-
-		$this->__user = $this->_controller->Session->read(AuthComponent::$sessionKey);
+	public static function getInstance() {
+		return parent::_getInstance(__CLASS__);
 	}
 
 /**
- * インスタンスの取得
+ * インスタンスのクリア
  *
- * @param Controller|null $controller コントローラ
- * @return CurrentLibUser
+ * @return void
  */
-	public static function getInstance($controller = null) {
-		return parent::_getInstance(__CLASS__, $controller);
+	public static function resetInstance() {
+		parent::_resetInstance(__CLASS__);
+	}
+
+/**
+ * コントローラのセット
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function initialize($controller = null) {
+		parent::initialize($controller);
+		$this->__user = $this->_controller->Session->read(AuthComponent::$sessionKey);
 	}
 
 /**
@@ -113,10 +115,36 @@ class CurrentLibUser extends LibAppObject {
 /**
  * ログイン情報の取得
  *
- * @return void
+ * @return array
  */
 	public function getLoginUser() {
 		return $this->__user;
+	}
+
+/**
+ * ログインしているユーザIDの取得
+ *
+ * @return string|null 数値の文字列
+ */
+	public function getLoginUserId() {
+		if (isset($this->__user['id'])) {
+			return $this->__user['id'];
+		} else {
+			return null;
+		}
+	}
+
+/**
+ * ログインしているユーザのロールキーの取得
+ *
+ * @return string|null
+ */
+	public function getLoginUserRoleKey() {
+		if (isset($this->__user['role_key'])) {
+			return $this->__user['role_key'];
+		} else {
+			return null;
+		}
 	}
 
 /**

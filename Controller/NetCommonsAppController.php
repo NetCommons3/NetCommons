@@ -182,6 +182,8 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
+		parent::beforeFilter();
+
 		if (empty($this->request->params['requested'])) {
 			$this->request->allowMethod($this->_allowMethods);
 		}
@@ -228,6 +230,8 @@ class NetCommonsAppController extends Controller {
 	public function afterFilter() {
 		//カレントデータセット
 		Current::terminate($this);
+
+		parent::afterFilter();
 	}
 
 /**

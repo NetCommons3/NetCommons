@@ -119,6 +119,19 @@ class CurrentLibBlock extends LibAppObject {
 	}
 
 /**
+ * ページブロックキーの取得
+ *
+ * @return array
+ */
+	public function getBlockKeysInCurrentPage() {
+		$blockKeys = [];
+		foreach ($this->__blocks as $block) {
+			$blockKeys[] = $block['Block']['key'];
+		}
+		return array_unique($blockKeys);
+	}
+
+/**
  * リクエストパラメータにブロックIDがあるか
  *
  * @return bool
@@ -235,6 +248,7 @@ class CurrentLibBlock extends LibAppObject {
 			'conditions' => [
 				'Block.id' => $blockId,
 			],
+			'callbacks' => false,
 		]);
 
 		$this->setBlock($blockId, $block);
@@ -275,7 +289,8 @@ class CurrentLibBlock extends LibAppObject {
 			],
 			'conditions' => [
 				'block_key' => $blockKey,
-			]
+			],
+			'callbacks' => false,
 		]);
 
 		$this->__rolePermissions[$blockKey] = [];
@@ -297,6 +312,44 @@ class CurrentLibBlock extends LibAppObject {
 	}
 
 /**
+ * ブロックキーからブロックロールパーミッションのデータをローカル変数にセットする
+ *
+ * @param array $blockKeys ブロックキーリスト
+ * @return void
+ */
+	public function setBlockRolePermissions($blockKeys) {
+		$results = $this->BlockRolePermission->find('all', [
+			'recursive' => -1,
+			'fields' => [
+				'id', 'roles_room_id', 'block_key', 'permission', 'value'
+			],
+			'conditions' => [
+				'block_key' => $blockKeys,
+			],
+			'callbacks' => false,
+		]);
+
+		//変数の初期化
+		foreach ($blockKeys as $blockKey) {
+			$this->__rolePermissions[$blockKey] = [];
+		}
+
+		foreach ($results as $permission) {
+			$blockKey = $permission['BlockRolePermission']['block_key'];
+			$key = $permission['BlockRolePermission']['permission'];
+			$this->__rolePermissions[$blockKey][$key] = $permission['BlockRolePermission'];
+
+			// content_publishable は BlockRolePermission から無くなったが、あった場合throw Exception しとく
+			// アップデート時にMigrationで削除するのでありえない。
+			// unsetして継続させた方が良いのか？アップデート時は管理者で操作するので問題なし。
+			// アップデート時に、ファイル上書きして、プラグイン管理のアップデートを実行するまでの間あり得る
+			if (isset($this->__rolePermissions[$blockKey]['content_publishable'])) {
+				throw new InternalErrorException('BlockRolePermission.content_publishable exists');
+			}
+		}
+	}
+
+/**
  * ブロックキーからブロック設定データからワークフローの有無を取得
  *
  * ・承認ありのルームの場合、BlockSettingの承認有無は使用せずに、room_role_permissionsを使用する。
@@ -308,7 +361,7 @@ class CurrentLibBlock extends LibAppObject {
  * @param string $blockKey ブロックキー
  * @return array
  */
-	public function findUseWorkflowPermissions($roomId, $blockKey) {
+	public function findUseWorkflowPermissionsByBlockKey($roomId, $blockKey) {
 		$room = $this->CurrentLibRoom->findRoomById($roomId);
 		if ($room['Room']['need_approval']) {
 			return [];
@@ -325,7 +378,7 @@ class CurrentLibBlock extends LibAppObject {
 			return $this->__rolePermFromSetting[$blockKey];
 		}
 
-		$blockSetting = $this->BlockSetting->find('list', array(
+		$results = $this->BlockSetting->find('all', array(
 			'recursive' => -1,
 			'fields' => array('field_name', 'value'),
 			'conditions' => array(
@@ -336,21 +389,77 @@ class CurrentLibBlock extends LibAppObject {
 					BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL
 				),
 			),
+			'callbacks' => false,
 		));
 
-		if (!$blockSetting) {
+		$blockSettings = [];
+		foreach ($results as $result) {
+			$key = $result['BlockSetting']['field_name'];
+			$value = $result['BlockSetting']['value'];
+			$blockSettings[$key] = $value;
+		}
+		$this->__setUseWorkflowPermission($blockKey, $blockSettings);
+
+		return $this->__rolePermissions[$blockKey];
+	}
+
+/**
+ * ブロック設定データのワークフローの有無をローカル変数にセットする
+ *
+ * @param array $blockKeys ブロックキーリスト
+ * @return array
+ */
+	public function setUseWorkflowPermissions($blockKeys) {
+		$results = $this->BlockSetting->find('all', array(
+			'recursive' => -1,
+			'fields' => array('block_key', 'field_name', 'value'),
+			'conditions' => array(
+				//'room_id' => $roomId,
+				'block_key' => $blockKeys,
+				'field_name' => array(
+					BlockSettingBehavior::FIELD_USE_WORKFLOW,
+					BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL
+				),
+			),
+			'callbacks' => false,
+		));
+		$blockSettings = [];
+		foreach ($results as $result) {
+			$blockKey = $result['BlockSetting']['block_key'];
+			$key = $result['BlockSetting']['field_name'];
+			$value = $result['BlockSetting']['value'];
+			$blockSettings[$blockKey][$key] = $value;
+		}
+
+		foreach ($blockKeys as $blockKey) {
+			if (isset($blockSettings[$blockKey])) {
+				$this->__setUseWorkflowPermission($blockKey, $blockSettings[$blockKey]);
+			} else {
+				$this->__setUseWorkflowPermission($blockKey, []);
+			}
+		}
+	}
+
+/**
+ * ブロック設定データのワークフローの有無をローカル変数をセットする
+ *
+ * @param string $blockKey ブロックキー
+ * @param array $blockSetting ブロック設定のデータ
+ * @return array
+ */
+	public function __setUseWorkflowPermission($blockKey, $blockSettings) {
+		if (!$blockSettings) {
 			$this->__rolePermFromSetting[$blockKey]['content_publishable']['value'] = true;
 			$this->__rolePermFromSetting[$blockKey]['content_comment_publishable']['value'] = true;
 		} else {
 			$this->__rolePermissions[$blockKey] = [];
-			if (empty($blockSetting[BlockSettingBehavior::FIELD_USE_WORKFLOW])) {
+			if (empty($blockSettings[BlockSettingBehavior::FIELD_USE_WORKFLOW])) {
 				$this->__rolePermFromSetting[$blockKey]['content_publishable']['value'] = true;
 			}
-			if (empty($blockSetting[BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL])) {
+			if (empty($blockSettings[BlockSettingBehavior::FIELD_USE_COMMENT_APPROVAL])) {
 				$this->__rolePermFromSetting[$blockKey]['content_comment_publishable']['value'] = true;
 			}
 		}
-		return $this->__rolePermissions[$blockKey];
 	}
 
 }

@@ -66,19 +66,11 @@ class CurrentLibFrame extends LibAppObject {
 	private $__langId = null;
 
 /**
- * $__pageに保持したフレームデータを取得するための情報保持
- *
- * ```
- * $this->__frameMaps = [
- *		(フレームID) => [
- *			'box_id' => (ボックスID),
- *		]
- * ];
- * ```
+ * 取得したフレームデータを保持
  *
  * @var array
  */
-	private $__frameMaps = [];
+	private $__frames = [];
 
 /**
  * インスタンスの取得
@@ -156,6 +148,21 @@ class CurrentLibFrame extends LibAppObject {
 			}
 		}
 		return $frame['Frame']['id'];
+	}
+
+/**
+ * リクエストの中からボックスIDを取得(主にフレーム追加で使用)
+ *
+ * @return string|null ボックスID。nullの場合、パラメータ等からbox_idが取得できなかった
+ */
+	public function getBoxIdByFrameInRequest() {
+		if (empty($this->_controller->request->params['requested']) &&
+				isset($this->_controller->request->data['Frame']['box_id'])) {
+			$boxId = $this->_controller->request->data['Frame']['box_id'];
+		} else {
+			$boxId = null;
+		}
+		return $boxId;
 	}
 
 /**
@@ -339,6 +346,7 @@ class CurrentLibFrame extends LibAppObject {
 			'order' => [
 				'Frame.weight'
 			],
+			'callbacks' => false,
 		]);
 
 		$results = [];
@@ -347,10 +355,11 @@ class CurrentLibFrame extends LibAppObject {
 			$boxId = $frame['Frame']['box_id'];
 			$frameId = $frame['Frame']['id'];
 
+			$this->__frames[$frameId] = $frame;
+
 			$frame = array_merge($frame['FramesLanguage'], $frame['Frame'], $frame);
 			$results[$boxId][$frameId] = $frame;
 
-			$this->__frameMaps[$frameId] = ['box_id' => $boxId];
 			$roomIds[] = $frame['Frame']['room_id'];
 			$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
 		}
@@ -368,18 +377,8 @@ class CurrentLibFrame extends LibAppObject {
  * @return array
  */
 	public function findFrameById($frameId) {
-		if (isset($this->__frameMaps[$frameId])) {
-			$boxId = $this->__frameMaps[$frameId]['box_id'];
-			$box = $this->CurrentLibPage->findBoxById($boxId);
-			if (! $box) {
-				return $box;
-			}
-
-			if (isset($box['Frame'][$frameId])) {
-				return $box['Frame'][$frameId];
-			} else {
-				return [];
-			}
+		if (isset($this->__frames[$frameId])) {
+			return $this->__frames[$frameId];
 		} else {
 			$fields = $this->__makeFields();
 			if ($this->Language->isMultipleLang()) {
@@ -394,10 +393,12 @@ class CurrentLibFrame extends LibAppObject {
 				'conditions' => [
 					'Frame.id' => $frameId,
 				],
+				'callbacks' => false,
 			]);
-			$boxId = $frame['Frame']['box_id'];
-			$this->__frameMaps[$frameId] = ['box_id' => $boxId];
-			$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
+			$this->__frames[$frameId] = $frame;
+			if ($frame['Frame']['block_id']) {
+				$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
+			}
 
 			return $frame;
 		}

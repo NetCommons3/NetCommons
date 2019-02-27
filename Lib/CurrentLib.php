@@ -471,6 +471,10 @@ class CurrentLib extends LibAppObject {
 				self::$current += $page;
 
 				$this->__setCurrentRoom($page['Page']['room_id']);
+
+				$blockKeys = $this->CurrentLibBlock->getBlockKeysInCurrentPage();
+				$this->CurrentLibBlock->setBlockRolePermissions($blockKeys);
+				$this->CurrentLibBlock->setUseWorkflowPermissions($blockKeys);
 			}
 		}
 	}
@@ -528,7 +532,7 @@ class CurrentLib extends LibAppObject {
 			$blockKey = null;
 		}
 
-		$permissions = $this->CurrentLibBlock->findUseWorkflowPermissions($roomId, $blockKey);
+		$permissions = $this->CurrentLibBlock->findUseWorkflowPermissionsByBlockKey($roomId, $blockKey);
 		$this->__mergeCurrentPermissions($roomId, $permissions);
 	}
 

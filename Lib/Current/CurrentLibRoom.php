@@ -268,6 +268,7 @@ class CurrentLibRoom extends LibAppObject {
 				'conditions' => [
 					'id' => $findRoomIds
 				],
+				'callbacks' => false,
 			));
 			foreach ($rooms as $room) {
 				$roomId = $room['Room']['id'];
@@ -301,6 +302,7 @@ class CurrentLibRoom extends LibAppObject {
 			'conditions' => [
 				'id' => $roomId
 			],
+			'callbacks' => false,
 		));
 
 		$this->__rooms[$roomId] = $room;
@@ -335,6 +337,7 @@ class CurrentLibRoom extends LibAppObject {
 				'room_id' => $roomId,
 				'language_id' => $this->__langId,
 			],
+			'callbacks' => false,
 		]);
 
 		//対象の言語の名称がなければ、主になっている言語の名称を取得する
@@ -346,6 +349,7 @@ class CurrentLibRoom extends LibAppObject {
 					'room_id' => $roomId,
 					'is_origin' => true,
 				],
+				'callbacks' => false,
 			]);
 		}
 		return $roomLanguage;
@@ -388,6 +392,9 @@ class CurrentLibRoom extends LibAppObject {
 			$rolesRoomsUser = $this->RolesRoomsUser->find('all', [
 				'recursive' => -1,
 				'fields' => [
+					'Room.id',
+					'Room.active',
+					'Room.in_draft',
 					'RolesRoom.id',
 					'RolesRoom.room_id',
 					'RolesRoom.role_key',
@@ -402,7 +409,9 @@ class CurrentLibRoom extends LibAppObject {
 					'RolesRoomsUser.last_accessed',
 				],
 				'conditions' => [
-					'RolesRoomsUser.user_id' => $this->__userId
+					'RolesRoomsUser.user_id' => $this->__userId,
+					'Room.active' => true,
+					'Room.in_draft' => false
 				],
 				'joins' => [
 					[
@@ -422,9 +431,11 @@ class CurrentLibRoom extends LibAppObject {
 						],
 					],
 				],
+				'callbacks' => false,
 			]);
 			$this->__memberRoomIds = [];
 			foreach ($rolesRoomsUser as $roleRoom) {
+				unset($roleRoom['Room']);
 				$roomId = $roleRoom['RolesRoom']['room_id'];
 				$roleRoomId = $roleRoom['RolesRoom']['id'];
 				$this->__memberRoomIds[] = $roomId;
@@ -540,6 +551,7 @@ class CurrentLibRoom extends LibAppObject {
 			'conditions' => [
 				'room_id' => $roomId
 			],
+			'callbacks' => false,
 		]);
 
 		$pluginKeys = [];
@@ -575,6 +587,7 @@ class CurrentLibRoom extends LibAppObject {
 				'conditions' => [
 					'roles_room_id' => $roleRoomId,
 				],
+				'callbacks' => false,
 			]);
 			foreach ($results as $permission) {
 				$key = $permission['RoomRolePermission']['permission'];

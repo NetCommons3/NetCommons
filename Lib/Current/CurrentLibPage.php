@@ -208,6 +208,7 @@ class CurrentLibPage extends LibAppObject {
 				'conditions' => [
 					'id' => $cacheTopPageId,
 				],
+				'callbacks' => false,
 			]);
 			if ($result[$this->Page->alias]['weight'] == '1') {
 				//キャッシュのトップページの内容と変わってなければ、キャッシュの内容を
@@ -229,14 +230,6 @@ class CurrentLibPage extends LibAppObject {
 						'Page.room_id' . ' = ' . 'Room.id',
 					],
 				],
-				[
-					'table' => $this->Room->table,
-					'alias' => $this->Room->alias,
-					'type' => 'INNER',
-					'conditions' => [
-						'Page.room_id' . ' = ' . 'Room.id',
-					],
-				],
 			],
 			'conditions' => [
 				// パブリックルームのトップページ取得は、パブリックルームが複数ありえるため、スペースIDを指定して取得する
@@ -245,6 +238,7 @@ class CurrentLibPage extends LibAppObject {
 				'Page.parent_id NOT' => null,
 			],
 			'order' => ['Page.sort_key' => 'asc'],
+			'callbacks' => false,
 		]);
 
 		$this->__cache[$this->Page->alias]->write($topPageId['Page']['id'], 'current', 'top_page_id');
@@ -255,6 +249,7 @@ class CurrentLibPage extends LibAppObject {
 			'conditions' => [
 				'id' => $topPageId['Page']['id'],
 			],
+			'callbacks' => false,
 		]);
 
 		$this->__cache[$this->Page->alias]->write($topPage, 'current', 'top_page');
@@ -284,6 +279,7 @@ class CurrentLibPage extends LibAppObject {
 				'conditions' => [
 					'id' => $pageId,
 				],
+				'callbacks' => false,
 			]);
 			//ページ情報がなかった場合、トップページで表示する
 			if ($page) {
@@ -372,11 +368,14 @@ class CurrentLibPage extends LibAppObject {
 		} else {
 			//それ以外は、frame_idもしくはblock_idから取得する。取得できなかった場合、未設定として、nullとする
 			$frameId = $this->CurrentLibFrame->getCurrentFrameId();
+			$boxId = $this->CurrentLibFrame->getBoxIdByFrameInRequest();
 			if ($frameId) {
 				$pageId = $this->__getPageIdByFrameId($frameId);
 			} elseif ($this->CurrentLibBlock->isBlockIdInRequest()) {
 				$blockId = $this->CurrentLibBlock->getCurrentBlockId();
 				$pageId = $this->__getPageIdByBlockId($blockId);
+			} elseif ($boxId) {
+				$pageId = $this->__getPageIdByBoxId($boxId);
 			} else {
 				$pageId = null;
 			}
@@ -403,6 +402,7 @@ class CurrentLibPage extends LibAppObject {
 				'page_id' => $pageId,
 				'language_id' => $this->__langId,
 			],
+			'callbacks' => false,
 		]);
 		return $pageLanguage;
 	}
@@ -423,6 +423,7 @@ class CurrentLibPage extends LibAppObject {
 				'page_id' => $pageId,
 			),
 			//'order' => array('container_type' => 'asc'),
+			'callbacks' => false,
 		));
 
 		$results = [];
@@ -516,6 +517,7 @@ class CurrentLibPage extends LibAppObject {
 				],
 			],
 			'order' => 'BoxesPageContainer.weight',
+			'callbacks' => false,
 		);
 
 		//セッティングモードOFFなら公開に設定されているボックスのみ表示する
@@ -588,6 +590,7 @@ class CurrentLibPage extends LibAppObject {
 					'Room.space_id' => $spaceId,
 					'Page.permalink' => $permalink,
 				],
+				'callbacks' => false,
 			]);
 		}
 
@@ -626,9 +629,9 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
- * frame_idからルームのトップページIDを取得
+ * frame_idからページIDを取得
  *
- * @param string|int $roomId ルームID
+ * @param string|int $frameId フレームID
  * @return string|null ページID。該当するルームのページIDが存在しない場合、nullとする
  */
 	private function __getPageIdByFrameId($frameId) {
@@ -637,8 +640,27 @@ class CurrentLibPage extends LibAppObject {
 			return null;
 		}
 
-		$roomId = $frame['Frame']['room_id'];
-		return $this->__getPageIdByRoomId($roomId);
+		$boxId = $frame['Frame']['box_id'];
+		return $this->__getPageIdByBoxId($boxId);
+	}
+
+/**
+ * box_idからページIDを取得
+ *
+ * @param string|int $roomId ルームID
+ * @return string|null ページID。該当するルームのページIDが存在しない場合、nullとする
+ */
+	private function __getPageIdByBoxId($boxId) {
+		$box = $this->findBoxById($boxId);
+		if (! $box) {
+			return null;
+		}
+
+		if (!empty($box['Box']['page_id'])) {
+			return $box['Box']['page_id'];
+		} else {
+			return $this->__getPageIdByRoomId($box['Box']['room_id']);
+		}
 	}
 
 /**
@@ -663,15 +685,33 @@ class CurrentLibPage extends LibAppObject {
  * @return array
  */
 	public function findBoxById($boxId) {
-		if (! $this->__page || ! isset($this->__boxMaps[$boxId])) {
-			return [];
-		}
-
-		$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
-		if (isset($this->__page['PageContainer'][$pageContainerId]['Box'][$boxId])) {
-			return $this->__page['PageContainer'][$pageContainerId]['Box'][$boxId];
+		if ($this->__page && isset($this->__boxMaps[$boxId])) {
+			$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
+			if (isset($this->__page['PageContainer'][$pageContainerId]['Box'][$boxId])) {
+				return $this->__page['PageContainer'][$pageContainerId]['Box'][$boxId];
+			} else {
+				return [];
+			}
 		} else {
-			return [];
+			//ページデータ前に取得する場合に使用する。
+			$box = $this->Box->find('first', [
+				'recursive' => -1,
+				'fields' => [
+					'Box.id',
+					//'Box.container_id',
+					//'Box.type',
+					'Box.space_id',
+					'Box.room_id',
+					'Box.page_id',
+					//'Box.container_type',
+					//'Box.weight',
+				],
+				'conditions' => [
+					'Box.id' => $boxId,
+				],
+				'callbacks' => false,
+			]);
+			return $box;
 		}
 	}
 

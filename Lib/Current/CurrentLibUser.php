@@ -102,6 +102,7 @@ class CurrentLibUser extends LibAppObject {
 				'User.id' => $sessionUser['id'],
 				'User.modified !=' => $sessionUser['modified'],
 			),
+			'callbacks' => false,
 		));
 		if ($changeUser) {
 			$sessionUser = $changeUser['User'];

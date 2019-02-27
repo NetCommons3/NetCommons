@@ -184,6 +184,8 @@ class NetCommonsAppController extends Controller {
  * @return void
  */
 	public function beforeFilter() {
+		parent::beforeFilter();
+
 		if (empty($this->request->params['requested'])) {
 			$this->request->allowMethod($this->_allowMethods);
 		}
@@ -194,24 +196,9 @@ class NetCommonsAppController extends Controller {
 		$this->_setLanguage();
 
 		//カレントデータセット
-if (empty($this->request->params['requested'])) {
-	CakeLog::debug("");
-	CakeLog::debug("");
-	CakeLog::debug("");
-	CakeLog::debug("");
-	CakeLog::debug("=========================================");
-}
-$this->__key = md5(json_encode($this->request->params) . json_encode($this->request->params) . json_encode($this->request->data));
-CakeLog::debug('##### ' . var_export($this->__key, true));
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->request->params, true));
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->request->query, true));
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->request->data, true));
-
-$this->__startTime = microtime(true);
 //		Current::initialize($this);
 		$instance = CurrentLib::getInstance();
 		$instance->initialize($this);
-$endTime = microtime(true);
 
 //$debug = CurrentLib::$current;
 //ksort($debug);
@@ -219,7 +206,8 @@ $endTime = microtime(true);
 //$debug = NcPermission::$permission;
 //ksort($debug);
 //CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $this->__startTime), true));
+$endTime = microtime(true);
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $this->_startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;
@@ -255,10 +243,7 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $this
 	public function afterFilter() {
 //		//カレントデータセット
 //		Current::terminate($this);
-$endTime = microtime(true);
-CakeLog::debug('##### ' . var_export($this->__key, true));
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ')  ' . var_export(($endTime - $this->__startTime), true));
-CakeLog::debug("--------");
+		parent::afterFilter();
 	}
 
 /**

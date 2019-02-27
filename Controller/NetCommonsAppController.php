@@ -195,6 +195,7 @@ class NetCommonsAppController extends Controller {
 		//言語のセット
 		$this->_setLanguage();
 
+$startTime = microtime(true);
 		//カレントデータセット
 //		Current::initialize($this);
 		$instance = CurrentLib::getInstance();
@@ -207,7 +208,7 @@ class NetCommonsAppController extends Controller {
 //ksort($debug);
 //CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
 $endTime = microtime(true);
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $this->_startTime), true));
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;

@@ -14,6 +14,9 @@ App::uses('LibAppObject', 'NetCommons.Lib');
 /**
  * パーミッションを操作するライブラリ
  *
+ * @property CurrentLibPermission $CurrentLibPermission CurrentLibPermissionライブラリ
+ * @property CurrentLibRoom $CurrentLibRoom CurrentLibRoomライブラリ
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Lib
  */
@@ -25,6 +28,16 @@ class NcPermission extends LibAppObject {
  * @var array
  */
 	public static $permission = array();
+
+/**
+ * 使用するライブラリ
+ *
+ * @var array
+ */
+	public $libs = [
+		'CurrentLibPermission' => 'NetCommons.Lib/Current',
+		'CurrentLibRoom' => 'NetCommons.Lib/Current',
+	];
 
 /**
  * インスタンスの取得
@@ -76,12 +89,27 @@ class NcPermission extends LibAppObject {
 //			//$roomId = self::read('Room.id');
 //			$roomId = $currentRoomId;
 //		}
-//
+
 //		//$path = 'Permission.' . $key . '.value';
-//		if (isset(self::$permission[$roomId]['Permission'][$key]['value'])) {
-//			return self::$permission[$roomId]['Permission'][$key]['value'];
-//		}
-//
+		if (isset(self::$permission[$roomId]['Permission'][$key]['value'])) {
+			return self::$permission[$roomId]['Permission'][$key]['value'];
+		}
+
+		$roomRoleKey = $this->CurrentLibRoom->getRoomRoleKeyByRoomId($roomId);
+
+		// * デフォルトロールパーミッションデータのセット
+		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($roomRoleKey);
+		foreach ($permissions as $key => $permission) {
+			$this->write($roomId, $key, $permission['value']);
+		}
+
+		// * ルームロールパーミッションデータのセット
+		$permissions = $this->CurrentLibRoom->findRoomRolePermissions($roomId);
+		foreach ($permissions as $key => $permission) {
+			$this->write($roomId, $key, $permission['value']);
+		}
+
+
 //		if ($roomId == $currentRoomId) {
 //			//$result = (bool)self::read($path);
 //			if (isset(self::$current['Permission'][$key]['value'])) {

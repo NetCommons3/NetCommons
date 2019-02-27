@@ -58,13 +58,13 @@ class CurrentLibPage extends LibAppObject {
  * @var array
  */
 	public $uses = [
-		'Page' => 'Pages.Page',
-		'PagesLanguage' => 'Pages.PagesLanguage',
-		'PageContainer' => 'Pages.PageContainer',
-		'Room' => 'Rooms.Room',
-		'RoomsLanguage' => 'Rooms.RoomsLanguage',
-		'Box' => 'Boxes.Box',
-		'BoxesPageContainer' => 'Boxes.BoxesPageContainer',
+		'Page',
+		'PagesLanguage',
+		'PageContainer',
+		'Room',
+		'RoomsLanguage',
+		'Box',
+		'BoxesPageContainer',
 	];
 
 /**
@@ -168,6 +168,29 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
+ * フレームデータを取得するカラムを生成する
+ *
+ * @return array
+ */
+	private function __makePageFields() {
+		$fields = [
+			'Page.id',
+			'Page.room_id',
+			'Page.root_id',
+			'Page.parent_id',
+			'Page.weight',
+			'Page.sort_key',
+			'Page.child_count',
+			'Page.permalink',
+			'Page.slug',
+			'Page.is_container_fluid',
+			'Page.theme',
+		];
+
+		return $fields;
+	}
+
+/**
  * トップページのデータを取得する
  *
  * @return array
@@ -206,6 +229,14 @@ class CurrentLibPage extends LibAppObject {
 						'Page.room_id' . ' = ' . 'Room.id',
 					],
 				],
+				[
+					'table' => $this->Room->table,
+					'alias' => $this->Room->alias,
+					'type' => 'INNER',
+					'conditions' => [
+						'Page.room_id' . ' = ' . 'Room.id',
+					],
+				],
 			],
 			'conditions' => [
 				// パブリックルームのトップページ取得は、パブリックルームが複数ありえるため、スペースIDを指定して取得する
@@ -220,6 +251,7 @@ class CurrentLibPage extends LibAppObject {
 
 		$topPage = $this->Page->find('first', [
 			'recursive' => -1,
+			'fields' => $this->__makePageFields(),
 			'conditions' => [
 				'id' => $topPageId['Page']['id'],
 			],
@@ -248,6 +280,7 @@ class CurrentLibPage extends LibAppObject {
 		} else {
 			$page = $this->Page->find('first', [
 				'recursive' => -1,
+				'fields' => $this->__makePageFields(),
 				'conditions' => [
 					'id' => $pageId,
 				],
@@ -260,11 +293,20 @@ class CurrentLibPage extends LibAppObject {
 			}
 		}
 
+		//full_permalinkの設定
+		$space = $this->CurrentLibRoom->findSpaceByRoomId($this->__page['Page']['room_id']);
+		if ($space['permalink']) {
+			$this->__page['Page']['full_permalink'] = $space['permalink'] . '/';
+		} else {
+			$this->__page['Page']['full_permalink'] = '';
+		}
+		$this->__page['Page']['full_permalink'] .= $this->__page['Page']['permalink'];
+
 		//ページ言語データ取得
 		$this->__page += $this->__findPagesLanguage($pageId);
 
 		//ページコンテナーデータ取得
-		$this->__page += $this->__findPageContainer($pageId);
+		$this->__page['PageContainer'] = $this->__findPageContainer($pageId);
 
 		return $this->__page;
 	}
@@ -281,7 +323,7 @@ class CurrentLibPage extends LibAppObject {
 		} elseif (!empty($this->_controller->request->params['pageView'])) {
 			//ページ全体を表示するアクションの場合、permalinkからpage_idから取得
 			$permalink = implode('/', $this->_controller->request->params['pass']);
-			$pageId = $this->__getPageIdByPermalink($permalink);
+			$pageId = $this->getPageIdByPermalink($permalink);
 		} elseif (!empty($this->_controller->request->params['pageEdit'])) {
 			//ページ編集するアクションの場合、URLのパスにpage_idが含まれている
 			if (isset($this->_controller->request->params['pass'][1])) {
@@ -292,9 +334,9 @@ class CurrentLibPage extends LibAppObject {
 				$roomId = $this->_controller->request->params['pass'][0];
 				$pageId = $this->__getPageIdByRoomId($roomId);
 			}
-		} elseif (isset($this->_controller->query['page_id'])) {
+		} elseif (isset($this->_controller->request->query['page_id'])) {
 			//リクエストパラメータにpage_idが含まれる
-			$pageId = $this->_controller->query['page_id'];
+			$pageId = $this->_controller->request->query['page_id'];
 		} elseif (isset($this->_controller->request->params['page_id'])) {
 			//controller->paramsにpage_idが含まれる
 			//※URLのパスに/:page_idが含まれるか、直接controller->params['page_id']にセットされる場合、
@@ -351,6 +393,12 @@ class CurrentLibPage extends LibAppObject {
 	private function __findPagesLanguage($pageId) {
 		$pageLanguage = $this->PagesLanguage->find('first', [
 			'recursive' => -1,
+			'fields' => [
+				'id', 'language_id', 'page_id',
+				//'is_origin', 'is_translation',
+				'name',
+				'meta_title', 'meta_description', 'meta_keywords', 'meta_robots'
+			],
 			'conditions' => [
 				'page_id' => $pageId,
 				'language_id' => $this->__langId,
@@ -389,7 +437,7 @@ class CurrentLibPage extends LibAppObject {
 		//ボックスデータ取得
 		$boxesEachPageContId = $this->__findBoxes($pageContainerIds);
 		foreach ($boxesEachPageContId as $pageContainerId => $boxes) {
-			$results[$pageContainerId]['Boxes'] = $boxes;
+			$results[$pageContainerId]['Box'] = $boxes;
 		}
 
 		return $results;
@@ -467,7 +515,7 @@ class CurrentLibPage extends LibAppObject {
 					],
 				],
 			],
-			'order' => 'Box.weight',
+			'order' => 'BoxesPageContainer.weight',
 		);
 
 		//セッティングモードOFFなら公開に設定されているボックスのみ表示する
@@ -496,10 +544,9 @@ class CurrentLibPage extends LibAppObject {
 
 		//Frameデータ取得
 		$framesEachBoxId = $this->CurrentLibFrame->findFramesByBoxIds($boxIds);
-		foreach ($pageContainerIds as $pageContainerId) {
-			foreach ($framesEachBoxId as $boxId => $frames) {
-				$results[$pageContainerId][$boxId]['Frames'] = $frames;
-			}
+		foreach ($framesEachBoxId as $boxId => $frames) {
+			$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
+			$results[$pageContainerId][$boxId]['Frame'] = $frames;
 		}
 
 		return $results;
@@ -509,14 +556,17 @@ class CurrentLibPage extends LibAppObject {
  * パーマリンクからページIDを取得
  *
  * @param string $permalink パーマリンク
+ * @param string|int|null $spaceId スペースID
  * @return string ページID(intの文字列)
  */
-	private function __getPageIdByPermalink($permalink) {
+	public function getPageIdByPermalink($permalink, $spaceId = null) {
 		$permalink = implode('/', $this->_controller->request->params['pass']);
 		if ($permalink === '') {
 			$page = $this->findTopPage();
 		} else {
-			if (isset($this->_controller->request->params['spaceId'])) {
+			if ($spaceId) {
+				//引数にスペースIDがある場合は、そっちを優先する
+			} elseif (isset($this->_controller->request->params['spaceId'])) {
 				$spaceId = $this->_controller->request->params['spaceId'];
 			} else {
 				$spaceId = Space::PUBLIC_SPACE_ID;
@@ -530,7 +580,7 @@ class CurrentLibPage extends LibAppObject {
 						'alias' => $this->Room->alias,
 						'type' => 'INNER',
 						'conditions' => [
-							$this->Page->alias . '.room_id' . ' = ' . ' .id',
+							'Page.room_id' . ' = ' . 'Room.id',
 						],
 					],
 				],
@@ -618,8 +668,8 @@ class CurrentLibPage extends LibAppObject {
 		}
 
 		$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
-		if (isset($this->__page[$pageContainerId]['Boxes'][$boxId])) {
-			return $this->__page[$pageContainerId]['Boxes'][$boxId];
+		if (isset($this->__page['PageContainer'][$pageContainerId]['Box'][$boxId])) {
+			return $this->__page['PageContainer'][$pageContainerId]['Box'][$boxId];
 		} else {
 			return [];
 		}

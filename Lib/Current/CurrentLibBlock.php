@@ -35,10 +35,10 @@ class CurrentLibBlock extends LibAppObject {
  * @var array
  */
 	public $uses = [
-		'Block' => 'Blocks.Block',
-		'BlocksLanguage' => 'Blocks.Frame',
-		'BlockRolePermission' => 'Blocks.BlockRolePermission',
-		'BlockSetting' => 'Blocks.BlockSetting',
+		'Block',
+		'BlocksLanguage',
+		'BlockRolePermission',
+		'BlockSetting',
 	];
 
 /**
@@ -48,7 +48,6 @@ class CurrentLibBlock extends LibAppObject {
  */
 	public $libs = [
 		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
-//		'CurrentLibPage' => 'NetCommons.Lib/Current',
 		'CurrentLibRoom' => 'NetCommons.Lib/Current',
 	];
 
@@ -65,6 +64,13 @@ class CurrentLibBlock extends LibAppObject {
  * @var array
  */
 	private $__rolePermFromSetting = [];
+
+/**
+ * 一度取得したルーム権限パーミッション(block_role_permissions)データを保持
+ *
+ * @var array|null
+ */
+	private $__rolePermissions = null;
 
 /**
  * インスタンスの取得
@@ -271,6 +277,8 @@ class CurrentLibBlock extends LibAppObject {
 				'block_key' => $blockKey,
 			]
 		]);
+
+		$this->__rolePermissions[$blockKey] = [];
 		foreach ($results as $permission) {
 			$blockKey = $permission['BlockRolePermission']['block_key'];
 			$key = $permission['BlockRolePermission']['permission'];
@@ -291,9 +299,10 @@ class CurrentLibBlock extends LibAppObject {
 /**
  * ブロックキーからブロック設定データからワークフローの有無を取得
  *
- * 承認ありのルームの場合、BlockSettingの承認有無は使用せずに、room_role_permissionsを使用する。
- * 承認なしのルームの場合、BlockSettingにあれば、room_role_permissionsの設定値を使用する。
- * 承認なしのルームのデフォルト値は、承認ありとする。
+ * ・承認ありのルームの場合、BlockSettingの承認有無は使用せずに、room_role_permissionsを使用する。
+ * ・承認なしのルームの場合、BlockSettingにデータは、承認なしのデータとする。
+ * 　ただし、実際に利用するpermissionのデータは、room_role_permissionsの設定値を利用する。
+ * 　逆にBlockSettingにデータがない場合、承認ありとする(元のソースktera)。
  *
  * @param string|int $roomId ルームID
  * @param string $blockKey ブロックキー

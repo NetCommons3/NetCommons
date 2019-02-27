@@ -67,6 +67,7 @@ class CurrentLibUser extends LibAppObject {
  */
 	public function initialize($controller = null) {
 		parent::initialize($controller);
+
 		$this->__user = $this->_controller->Session->read(AuthComponent::$sessionKey);
 	}
 

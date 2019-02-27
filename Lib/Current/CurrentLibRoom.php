@@ -48,13 +48,13 @@ class CurrentLibRoom extends LibAppObject {
  * @var array
  */
 	public $uses = [
-		'Room' => 'Rooms.Room',
+		'Room',
 		'Space' => 'Rooms.Space',
-		'RolesRoom' => 'Rooms.RolesRoom',
-		'RoomRolePermission' => 'Rooms.RoomRolePermission',
-		'RolesRoomsUser' => 'Rooms.RolesRoomsUser',
-		'RoomsLanguage' => 'Rooms.RoomsLanguage',
-		'PluginsRoom' => 'PluginManager.PluginsRoom',
+		'RolesRoom',
+		'RoomRolePermission',
+		'RolesRoomsUser',
+		'RoomsLanguage',
+		'PluginsRoom',
 	];
 
 /**
@@ -273,7 +273,7 @@ class CurrentLibRoom extends LibAppObject {
 				$roomId = $room['Room']['id'];
 				$this->__rooms[$roomId] = $room;
 				$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
-				$this->__rooms[$roomId] += $this->Space->getSpace($room['Room']['space_id']);
+				$this->__rooms[$roomId]['Space'] = $this->Space->getSpace($room['Room']['space_id']);
 			}
 		}
 
@@ -301,14 +301,24 @@ class CurrentLibRoom extends LibAppObject {
 			'conditions' => [
 				'id' => $roomId
 			],
-
 		));
 
 		$this->__rooms[$roomId] = $room;
 		$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
-		$this->__rooms[$roomId] += $this->Space->getSpace($room['Room']['space_id']);
+		$this->__rooms[$roomId]['Space'] = $this->Space->getSpace($room['Room']['space_id']);
 
 		return $this->__rooms[$roomId];
+	}
+
+/**
+ * スペースデータを取得する
+ *
+ * @param string|int $roomId ルームID
+ * @return array
+ */
+	public function findSpaceByRoomId($roomId) {
+		$room = $this->findRoomById($roomId);
+		return $room['Space'];
 	}
 
 /**
@@ -503,6 +513,7 @@ class CurrentLibRoom extends LibAppObject {
 				return null;
 			}
 		}
+
 		if (isset($this->__userRoomRoles[$roomId])) {
 			return $this->__userRoomRoles[$roomId]['RolesRoom']['role_key'];
 		} else {

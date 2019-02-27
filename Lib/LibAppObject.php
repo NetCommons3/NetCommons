@@ -9,6 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('ClassRegistry', 'Utility');
+
 /**
  * NetCommonsの機能に必要な情報を取得する共通クラス
  *
@@ -125,6 +127,9 @@ class LibAppObject {
 			return;
 		}
 		foreach ($this->uses as $class => $classPath) {
+			if (is_int($class)) {
+				$class = $classPath;
+			}
 			$this->$class = ClassRegistry::init($classPath);
 			ClassRegistry::removeObject($class);
 		}

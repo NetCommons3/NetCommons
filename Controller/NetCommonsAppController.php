@@ -10,11 +10,13 @@
 
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
-App::uses('Current', 'NetCommons.Utility');
+//App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
 App::uses('User', 'Users.Model');
+
+App::uses('CurrentLib', 'NetCommons.Lib');
 
 /**
  * NetCommonsApp Controller
@@ -192,7 +194,22 @@ class NetCommonsAppController extends Controller {
 		$this->_setLanguage();
 
 		//カレントデータセット
-		Current::initialize($this);
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->request->params, true));
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->request->query, true));
+
+$startTime = microtime(true);
+//		Current::initialize($this);
+		$instance = CurrentLib::getInstance();
+		$instance->initialize($this);
+$endTime = microtime(true);
+
+//$debug = CurrentLib::$current;
+//ksort($debug);
+//CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+//$debug = NcPermission::$permission;
+//ksort($debug);
+//CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;
@@ -226,8 +243,8 @@ class NetCommonsAppController extends Controller {
  * @link http://book.cakephp.org/2.0/ja/controllers.html#request-life-cycle-callbacks
  */
 	public function afterFilter() {
-		//カレントデータセット
-		Current::terminate($this);
+//		//カレントデータセット
+//		Current::terminate($this);
 	}
 
 /**

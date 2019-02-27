@@ -15,6 +15,8 @@ App::uses('CurrentLib', 'NetCommons.Lib');
 /**
  * SettingModeを操作するライブラリ
  *
+ * @property NcPermission $NcPermission NcPermissionライブラリ
+ *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Lib
  */
@@ -112,7 +114,7 @@ class SettingMode extends LibAppObject {
  * @return bool
  */
 	public function hasSettingMode() {
-		return $this->NcPermission->read('page_editable', CurrentLib::read('Page.room_id'));
+		return $this->NcPermission->read(CurrentLib::read('Page.room_id'), 'page_editable');
 	}
 
 }

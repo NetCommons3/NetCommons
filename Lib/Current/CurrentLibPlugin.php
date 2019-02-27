@@ -69,13 +69,6 @@ class CurrentLibPlugin extends LibAppObject {
 	];
 
 /**
- * 一度取得したプラグインデータを保持
- *
- * @var array|null
- */
-	private $__plugins = null;
-
-/**
  * セキュリティに関するユーティリティ
  *
  * @var NetCommonsSecurity
@@ -129,9 +122,31 @@ class CurrentLibPlugin extends LibAppObject {
  * @param string|int $langId 言語ID
  * @return array
  */
-	public function findPlugins($langId) {
+	public function findPlugins($pluginKeys, $langId) {
 		$queryOptions = [
 			'recursive' => -1,
+			'fields' => [
+				'id',
+				'language_id',
+				//'is_origin',
+				//'is_translation',
+				//'is_original_copy',
+				'key',
+				//'is_m17n',
+				'name',
+				'namespace',
+				//'weight',
+				//'type',
+				'version',
+				'commit_version',
+				'commited',
+				'default_action',
+				'default_setting_action',
+				'frame_add_action',
+				'display_topics',
+				'display_search',
+				'serialize_data',
+			],
 			'conditions' => [
 				//'key' => $pluginKeys,
 				'language_id' => $langId,
@@ -139,22 +154,19 @@ class CurrentLibPlugin extends LibAppObject {
 		];
 		$cacheKey = $this->Plugin->createCacheQueryKey($queryOptions);
 
-		$this->__plugins = $this->Plugin->cacheRead('current', $cacheKey);
-		if ($this->__plugins) {
-			return $this->__plugins;
+		$plugins = $this->Plugin->cacheRead('current', $cacheKey);
+		if (! $plugins) {
+			$plugins = $this->Plugin->cacheFindQuery('all', $queryOptions);
+			$this->Plugin->cacheWrite($plugins, 'current', $cacheKey);
 		}
-
-		$plugins = $this->Plugin->cacheFindQuery('all', $queryOptions);
 
 		$results = [];
 		foreach ($plugins as $plugin) {
 			$pluginKey = $plugin['Plugin']['key'];
-			$results[$pluginKey] = $plugin;
+			if (in_array($pluginKey, $pluginKeys, true)) {
+				$results[$pluginKey] = $plugin;
+			}
 		}
-
-		$this->__plugins = $results;
-		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
-
 		return $results;
 	}
 
@@ -162,10 +174,10 @@ class CurrentLibPlugin extends LibAppObject {
  * プラグインデータ取得
  *
  * @param string $pluginKey プラグインキー
- * @return void
+ * @return array
  */
 	public function findPlugin($pluginKey) {
-		$plugins = $this->findPlugins($this->__langId);
+		$plugins = $this->findPlugins([$pluginKey], $this->__langId);
 		if (isset($plugins[$pluginKey])) {
 			return $plugins[$pluginKey];
 		} else {

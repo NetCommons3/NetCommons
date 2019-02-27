@@ -302,6 +302,8 @@ class CurrentLib extends LibAppObject {
  * @var array
  */
 	public $libs = [
+		'CurrentLibLanguage' => 'NetCommons.Lib/Current', //最初に実行する必要あり
+		'CurrentLibUser' => 'NetCommons.Lib/Current', //最初に実行する必要あり
 		'SettingMode' => 'NetCommons.Lib',
 		'ControlPanel' => 'NetCommons.Lib',
 		'NcPermission' => 'NetCommons.Lib',
@@ -311,8 +313,6 @@ class CurrentLib extends LibAppObject {
 		'CurrentLibRoom' => 'NetCommons.Lib/Current',
 		'CurrentLibBlock' => 'NetCommons.Lib/Current',
 		'CurrentLibPlugin' => 'NetCommons.Lib/Current',
-		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
-		'CurrentLibUser' => 'NetCommons.Lib/Current',
 	];
 
 /**
@@ -394,9 +394,11 @@ class CurrentLib extends LibAppObject {
 
 		//会員関連のパーミッションセット
 		$userRoleKey = $this->CurrentLibUser->getLoginUserRoleKey();
-		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($userRoleKey);
-		self::$current['DefaultRolePermission'] += $permissions;
-		$this->__mergeCurrentPermissions(null, $permissions);
+		if ($userRoleKey) {
+			$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($userRoleKey);
+			self::$current['DefaultRolePermission'] += $permissions;
+			$this->__mergeCurrentPermissions(null, $permissions);
+		}
 	}
 
 /**
@@ -430,7 +432,9 @@ class CurrentLib extends LibAppObject {
 			//管理系のプラグイン取得
 			$userRoleKey = $this->CurrentLibUser->getLoginUserRoleKey();
 			$pluginRoles = $this->CurrentLibPlugin->findPluginRole($userRoleKey);
-			self::$current['PluginsRole'] = $pluginRoles['PluginsRole'];
+			if (isset($pluginRoles['PluginsRole'])) {
+				self::$current['PluginsRole'] = $pluginRoles['PluginsRole'];
+			}
 		}
 	}
 
@@ -463,7 +467,9 @@ class CurrentLib extends LibAppObject {
 				}
 
 				$page = $this->CurrentLibPage->findCurrentPage();
+				unset($page['PageContainer']);
 				self::$current += $page;
+
 				$this->__setCurrentRoom($page['Page']['room_id']);
 			}
 		}
@@ -537,7 +543,7 @@ class CurrentLib extends LibAppObject {
 		self::$current += $this->CurrentLibRoom->findRoomById($roomId);
 
 		//ルームのプラグインデータのセット
-		self::$current += $this->CurrentLibRoom->findPluginsRoom($roomId);
+		self::$current['PluginsRoom'] = $this->CurrentLibRoom->findPluginsRoom($roomId);
 
 		//ユーザのルーム権限データのセット
 		self::$current += $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId);
@@ -545,6 +551,7 @@ class CurrentLib extends LibAppObject {
 		if (! $roomRoleKey) {
 			$roomRoleKey = Role::ROOM_ROLE_KEY_VISITOR;
 		}
+
 		// * デフォルトロールパーミッションデータのセット
 		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($roomRoleKey);
 		self::$current['DefaultRolePermission'] += $permissions;
@@ -595,10 +602,10 @@ class CurrentLib extends LibAppObject {
 			parent::$_instances[$class]->initialize($controller);
 		}
 
-		//メインコントローラの保持
-		if (empty($this->_controller->request->params['requested'])) {
-			self::$__mainController = $this->_controller;
-		}
+//		//メインコントローラの保持
+//		if (empty($this->_controller->request->params['requested'])) {
+//			self::$__mainController = $this->_controller;
+//		}
 
 		//コントローラごとに初期する必要がある$currentの中身を初期化する
 		$this->__clearCurrent();

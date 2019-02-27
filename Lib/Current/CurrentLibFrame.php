@@ -39,11 +39,11 @@ class CurrentLibFrame extends LibAppObject {
  */
 	public $uses = [
 		'Language' => 'M17n.Language',
-		'Frame' => 'Frames.Frame',
-		'FramePublicLanguage' => 'Frames.FramePublicLanguage',
-		'FramesLanguage' => 'Frames.FramesLanguage',
-		'Block' => 'Blocks.Block',
-		'BlocksLanguage' => 'Blocks.BlocksLanguage',
+		'Frame',
+		'FramePublicLanguage',
+		'FramesLanguage',
+		'Block',
+		'BlocksLanguage',
 	];
 
 /**
@@ -346,6 +346,8 @@ class CurrentLibFrame extends LibAppObject {
 		foreach ($frames as $frame) {
 			$boxId = $frame['Frame']['box_id'];
 			$frameId = $frame['Frame']['id'];
+
+			$frame = array_merge($frame['FramesLanguage'], $frame['Frame'], $frame);
 			$results[$boxId][$frameId] = $frame;
 
 			$this->__frameMaps[$frameId] = ['box_id' => $boxId];
@@ -373,8 +375,8 @@ class CurrentLibFrame extends LibAppObject {
 				return $box;
 			}
 
-			if (isset($box[$frameId])) {
-				return $box[$frameId];
+			if (isset($box['Frame'][$frameId])) {
+				return $box['Frame'][$frameId];
 			} else {
 				return [];
 			}

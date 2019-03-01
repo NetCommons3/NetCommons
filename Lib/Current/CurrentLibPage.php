@@ -203,10 +203,10 @@ class CurrentLibPage extends LibAppObject {
 		$cacheTopPageId = $this->__cache[$this->Page->alias]->read('current', 'top_page_id');
 		if ($cacheTopPageId) {
 			$result = $this->Page->find('first', [
-				'fields' => ['id', 'weight'],
+				'fields' => ['weight'],
 				'recursive' => -1,
 				'conditions' => [
-					'id' => $cacheTopPageId,
+					'Page.id' => $cacheTopPageId,
 				],
 				'callbacks' => false,
 			]);
@@ -234,8 +234,8 @@ class CurrentLibPage extends LibAppObject {
 			'conditions' => [
 				// パブリックルームのトップページ取得は、パブリックルームが複数ありえるため、スペースIDを指定して取得する
 				//'Page.root_id' => Space::getRoomIdRoot(Space::PUBLIC_SPACE_ID),
-				'Room.space_id' => Space::PUBLIC_SPACE_ID,
 				'Page.parent_id NOT' => null,
+				'Room.space_id' => Space::PUBLIC_SPACE_ID,
 			],
 			'order' => ['Page.sort_key' => 'asc'],
 			'callbacks' => false,
@@ -247,7 +247,7 @@ class CurrentLibPage extends LibAppObject {
 			'recursive' => -1,
 			'fields' => $this->__makePageFields(),
 			'conditions' => [
-				'id' => $topPageId['Page']['id'],
+				'Page.id' => $topPageId['Page']['id'],
 			],
 			'callbacks' => false,
 		]);
@@ -277,7 +277,7 @@ class CurrentLibPage extends LibAppObject {
 				'recursive' => -1,
 				'fields' => $this->__makePageFields(),
 				'conditions' => [
-					'id' => $pageId,
+					'Page.id' => $pageId,
 				],
 				'callbacks' => false,
 			]);
@@ -399,8 +399,8 @@ class CurrentLibPage extends LibAppObject {
 				'meta_title', 'meta_description', 'meta_keywords', 'meta_robots'
 			],
 			'conditions' => [
-				'page_id' => $pageId,
-				'language_id' => $this->__langId,
+				'PagesLanguage.page_id' => $pageId,
+				'PagesLanguage.language_id' => $this->__langId,
 			],
 			'callbacks' => false,
 		]);
@@ -420,7 +420,7 @@ class CurrentLibPage extends LibAppObject {
 				'id', 'page_id', 'container_type', 'is_published', 'is_configured'
 			],
 			'conditions' => array(
-				'page_id' => $pageId,
+				'PageContainer.page_id' => $pageId,
 			),
 			//'order' => array('container_type' => 'asc'),
 			'callbacks' => false,
@@ -516,7 +516,12 @@ class CurrentLibPage extends LibAppObject {
 					],
 				],
 			],
-			'order' => 'BoxesPageContainer.weight',
+			'order' => [
+				'BoxesPageContainer.page_container_id',
+				'BoxesPageContainer.is_published',
+				'BoxesPageContainer.box_id',
+				'BoxesPageContainer.weight',
+			],
 			'callbacks' => false,
 		);
 
@@ -587,8 +592,8 @@ class CurrentLibPage extends LibAppObject {
 					],
 				],
 				'conditions' => [
-					'Room.space_id' => $spaceId,
 					'Page.permalink' => $permalink,
+					'Room.space_id' => $spaceId,
 				],
 				'callbacks' => false,
 			]);

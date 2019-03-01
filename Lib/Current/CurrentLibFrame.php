@@ -340,10 +340,12 @@ class CurrentLibFrame extends LibAppObject {
 			'fields' => $fields,
 			'joins' => $joins,
 			'conditions' => [
-				'Frame.is_deleted' => false,
 				'Frame.box_id' => $boxIds,
+				'Frame.is_deleted' => false,
 			],
 			'order' => [
+				'Frame.box_id',
+				'Frame.is_deleted',
 				'Frame.weight'
 			],
 			'callbacks' => false,

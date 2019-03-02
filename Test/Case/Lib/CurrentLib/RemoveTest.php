@@ -1,6 +1,6 @@
 <?php
 /**
- * CurrentPage::setPage()のテスト
+ * CurrentLibPage::setPage()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -9,16 +9,17 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
- * CurrentPage::setPage()のテスト
+ * CurrentLibPage::setPage()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
  */
-class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
+class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
 
 /**
  * By default, all fixtures attached to this class will be truncated and reloaded after each test.
@@ -82,24 +83,31 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
 
 		$results['test_case_0'] = [
 			'key' => null,
-			'value' => [
-				'Frame' => [
-					'id' => '9',
-					'name' => 'aaaaa',
-				],
-				'Test2' => [
-					'Test' => [
-						'Block' => [
-							'id' => '7'
-						]
-					],
-				]
-			],
+			'expectedKey' => null,
+			'expectedValue' => [],
+		];
+
+		$results['test_case_1'] = [
+			'key' => 'Test2',
 			'expectedKey' => null,
 			'expectedValue' => [
 				'Frame' => [
-					'id' => '9',
-					'name' => 'aaaaa',
+					'id' => '1',
+				],
+				'Test' => [
+					'Block' => [
+						'id' => '2'
+					]
+				],
+			],
+		];
+
+		$results['test_case_2'] = [
+			'key' => 'Test3',
+			'expectedKey' => null,
+			'expectedValue' => [
+				'Frame' => [
+					'id' => '1',
 				],
 				'Test' => [
 					'Block' => [
@@ -109,167 +117,75 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
 				'Test2' => [
 					'Test' => [
 						'Block' => [
-							'id' => '7'
+							'id' => '3'
 						]
 					],
 				]
 			],
 		];
 
-		$results['test_case_1'] = [
-			'key' => 'Test2',
-			'value' => [
-				'Test' => [
-					'Block' => [
-						'name' => 'aaaa'
-					]
-				],
-				'TestNew' => [
-					'Block' => [
-						'id' => '9'
-					]
-				],
-			],
-			'expectedKey' => 'Test2',
-			'expectedValue' => [
-				'Test' => [
-					'Block' => [
-						'name' => 'aaaa'
-					]
-				],
-				'TestNew' => [
-					'Block' => [
-						'id' => '9'
-					]
-				],
-			],
-		];
-
-		$results['test_case_2'] = [
-			'key' => 'Test3',
-			'value' => [
-				'TestNew2' => [
-					'Block' => [
-						'id' => '9'
-					]
-				],
-			],
-			'expectedKey' => 'Test3',
-			'expectedValue' => [
-				'TestNew2' => [
-					'Block' => [
-						'id' => '9'
-					]
-				],
-			],
-		];
-
 		$results['test_case_3'] = [
 			'key' => 'Frame.id',
-			'value' => '999',
-			'expectedKey' => 'Frame.id',
-			'expectedValue' => '999',
+			'expectedKey' => 'Frame',
+			'expectedValue' => [],
 		];
 
 		$results['test_case_4'] = [
 			'key' => 'Frame.name',
-			'value' => 'aaaaa',
 			'expectedKey' => 'Frame',
 			'expectedValue' => [
 				'id' => '1',
-				'name' => 'aaaaa',
 			],
 		];
 
 		$results['test_case_5'] = [
 			'key' => 'Test.Block',
-			'value' => [
-				'name' => 'aaaaa',
-			],
-			'expectedKey' => 'Test.Block',
-			'expectedValue' => [
-				'name' => 'aaaaa',
-			],
+			'expectedKey' => 'Test',
+			'expectedValue' => [],
 		];
 
 		$results['test_case_6'] = [
 			'key' => 'Test.Block2',
-			'value' => [
-				'name' => 'bbbbb',
-			],
 			'expectedKey' => 'Test',
 			'expectedValue' => [
 				'Block' => [
 					'id' => '2'
 				],
-				'Block2' => [
-					'name' => 'bbbbb',
-				]
-			],
-		];
-
-		$results['test_case_7'] = [
-			'key' => 'Test2.Test',
-			'value' => [
-				'name' => 'ccccc',
-			],
-			'expectedKey' => 'Test2',
-			'expectedValue' => [
-				'Test' => [
-					'name' => 'ccccc',
-				]
 			],
 		];
 
 		$results['test_case_8'] = [
 			'key' => 'Test.Block.id',
-			'value' => '999',
-			'expectedKey' => 'Test.Block.id',
-			'expectedValue' => '999',
+			'expectedKey' => 'Test.Block',
+			'expectedValue' => [],
 		];
 
 		$results['test_case_9'] = [
 			'key' => 'Test.Block.name',
-			'value' => 'aaaaa',
 			'expectedKey' => 'Test.Block',
 			'expectedValue' => [
 				'id' => '2',
-				'name' => 'aaaaa',
 			],
 		];
 
 		$results['test_case_10'] = [
 			'key' => 'Test2.Test.Block',
-			'value' => [
-				'name' => 'bbbbb',
-			],
-			'expectedKey' => 'Test2.Test.Block',
-			'expectedValue' => [
-				'name' => 'bbbbb',
-			],
+			'expectedKey' => 'Test2.Test',
+			'expectedValue' => [],
 		];
 
 		$results['test_case_11'] = [
 			'key' => 'Test2.Test.Block2',
-			'value' => [
-				'name' => 'bbbbb',
-			],
 			'expectedKey' => 'Test2.Test',
 			'expectedValue' => [
 				'Block' => [
 					'id' => '3'
-				],
-				'Block2' => [
-					'name' => 'bbbbb',
 				],
 			],
 		];
 
 		$results['test_case_12'] = [
 			'key' => 'Test2.Test3.Block',
-			'value' => [
-				'name' => 'bbbbb',
-			],
 			'expectedKey' => 'Test2',
 			'expectedValue' => [
 				'Test' => [
@@ -277,30 +193,30 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
 						'id' => '3'
 					]
 				],
-				'Test3' => [
-					'Block' => [
-						'name' => 'bbbbb'
-					]
-				],
 			],
+		];
+
+		$results['test_case_13'] = [
+			'key' => 'Test2.Test.Block.id',
+			'expectedKey' => 'Test2.Test.Block',
+			'expectedValue' => [],
 		];
 
 		return $results;
 	}
 
 /**
- * Current::write()のテスト
+ * CurrentLib::write()のテスト
  *
- * @param string|null $key 書き込みするキー
- * @param string|array $value 書き込みする値
+ * @param string|null $key 削除するキー
  * @param string|null $expectedKey 期待値のチェックするキー
  * @param string|array $expectedValue 期待値のチェックする値
  * @dataProvider dataProvider
  * @return void
  */
-	public function testWrite($key, $value, $expectedKey, $expectedValue) {
+	public function testRemove($key, $expectedKey, $expectedValue) {
 		//テスト実施
-		CurrentLib::write($key, $value);
+		CurrentLib::remove($key);
 
 		if (is_null($expectedKey)) {
 			$result = CurrentLib::read();

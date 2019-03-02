@@ -16,10 +16,17 @@ App::uses('Current', 'NetCommons.Utility');
  * CurrentPage::setPage()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\NetCommons\Test\Case\Utility\CurrentPage
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @package NetCommons\NetCommons\Test\Case\Utility\Current
  */
-class NetCommonsUtilityCurrentWriteTest extends NetCommonsCakeTestCase {
+class NetCommonsUtilityCurrentWriteTest extends CakeTestCase {
+
+/**
+ * By default, all fixtures attached to this class will be truncated and reloaded after each test.
+ * Set this to false to handle manually
+ *
+ * @var array
+ */
+	public $autoFixtures = false;
 
 /**
  * setUp method
@@ -28,6 +35,12 @@ class NetCommonsUtilityCurrentWriteTest extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		//Currentの実態がCurrentLibだったら処理しない
+		if (get_class(new Current()) === 'CurrentLib') {
+			$this->markTestSkipped();
+			return;
+		}
 
 		Current::$current = [
 			'Frame' => [

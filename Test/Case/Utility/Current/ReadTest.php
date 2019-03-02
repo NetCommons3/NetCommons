@@ -29,18 +29,26 @@ class NetCommonsUtilityCurrentReadTest extends CakeTestCase {
 	public $autoFixtures = false;
 
 /**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		//Currentの実態がCurrentLibだったら処理しない
+		if (get_class(new Current()) === 'CurrentLib') {
+			$this->markTestSkipped();
+			return;
+		}
+	}
+
+/**
  * setUp method
  *
  * @return void
  */
 	public function setUp() {
 		parent::setUp();
-
-		//Currentの実態がCurrentLibだったら処理しない
-		if (get_class(new Current()) === 'CurrentLib') {
-			$this->markTestSkipped();
-			return;
-		}
 
 		Current::$current = [
 			'Frame' => [

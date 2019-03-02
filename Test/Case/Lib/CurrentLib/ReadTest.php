@@ -14,7 +14,7 @@ App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
- * CurrentPage::setPage()のテスト
+ * Current::read()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
@@ -30,18 +30,26 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
 	public $autoFixtures = false;
 
 /**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		//Currentの実態がCurrentLibでなかったら処理しない
+		if (get_class(new Current()) !== 'CurrentLib') {
+			$this->markTestSkipped();
+			return;
+		}
+	}
+
+/**
  * setUp method
  *
  * @return void
  */
 	public function setUp() {
 		parent::setUp();
-
-		//Currentの実態がCurrentLibでなかったら処理しない
-		if (get_class(new Current()) !== 'CurrentLib') {
-			$this->markTestSkipped();
-			return;
-		}
 
 		CurrentLib::$current = [
 			'Frame' => [

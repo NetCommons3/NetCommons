@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('Current2', 'NetCommons.Lib');
+App::uses('CurrentLib', 'NetCommons.Lib');
 
 /**
  * CurrentPage::setPage()のテスト
@@ -19,7 +19,7 @@ App::uses('Current2', 'NetCommons.Lib');
  * @package NetCommons\NetCommons\Test\Case\Utility\CurrentPage
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class NetCommonsLibCurrentReadTest extends NetCommonsCakeTestCase {
+class NetCommonsLibCurrentLibReadTest extends NetCommonsCakeTestCase {
 
 /**
  * setUp method
@@ -29,7 +29,7 @@ class NetCommonsLibCurrentReadTest extends NetCommonsCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Current2::$current = [
+		CurrentLib::$current = [
 			'Frame' => [
 				'id' => '1',
 			],
@@ -54,7 +54,7 @@ class NetCommonsLibCurrentReadTest extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current2::$current = [];
+		CurrentLib::$current = [];
 		parent::tearDown();
 	}
 
@@ -286,12 +286,12 @@ class NetCommonsLibCurrentReadTest extends NetCommonsCakeTestCase {
  */
 	public function testWrite($key, $value, $expectedKey, $expectedValue) {
 		//テスト実施
-		Current2::write($key, $value);
+		CurrentLib::write($key, $value);
 
 		if (is_null($expectedKey)) {
-			$result = Current2::read();
+			$result = CurrentLib::read();
 		} else {
-			$result = Current2::read($expectedKey);
+			$result = CurrentLib::read($expectedKey);
 		}
 		$this->assertEquals($result, $expectedValue);
 	}

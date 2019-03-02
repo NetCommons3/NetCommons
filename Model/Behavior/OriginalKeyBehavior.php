@@ -59,7 +59,9 @@ class OriginalKeyBehavior extends ModelBehavior {
 			return true;
 		}
 		if (! isset($model->data[$model->alias]['key']) || $model->data[$model->alias]['key'] === '') {
-			$model->data[$model->alias]['key'] = self::generateKey($model->alias, $model->useDbConfig);
+			$plugin = Inflector::underscore($model->alias);
+			$keyNumber = $model->find('count', ['recursive' => -1]) + 1;
+			$model->data[$model->alias]['key'] = $plugin . '_key_' . $keyNumber;
 		}
 		return true;
 	}
@@ -74,7 +76,7 @@ class OriginalKeyBehavior extends ModelBehavior {
 	public static function generateKey($plugin, $dataSource) {
 		if ($dataSource !== 'test' || self::$isUnitRandomKey) {
 			return Security::hash($plugin . mt_rand() . microtime(), 'md5');
-		} else {
+			} else {
 			return Security::hash($plugin, 'md5');
 		}
 	}

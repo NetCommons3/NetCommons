@@ -55,6 +55,7 @@ class NcPermission extends LibAppObject {
  */
 	public static function resetInstance() {
 		parent::_resetInstance(__CLASS__);
+		self::$permission = [];
 	}
 
 /**
@@ -81,16 +82,6 @@ class NcPermission extends LibAppObject {
  * @return bool パーミッション値
  */
 	public function read($roomId, $key) {
-//		if (! isset(self::$current)) {
-//			return false;
-//		}
-//		$currentRoomId = self::read('Room.id');
-//		if (! $roomId) {
-//			//$roomId = self::read('Room.id');
-//			$roomId = $currentRoomId;
-//		}
-
-//		//$path = 'Permission.' . $key . '.value';
 		if (isset(self::$permission[$roomId]['Permission'][$key]['value'])) {
 			return self::$permission[$roomId]['Permission'][$key]['value'];
 		}
@@ -108,53 +99,6 @@ class NcPermission extends LibAppObject {
 		foreach ($permissions as $key => $permission) {
 			$this->write($roomId, $key, $permission['value']);
 		}
-
-
-//		if ($roomId == $currentRoomId) {
-//			//$result = (bool)self::read($path);
-//			if (isset(self::$current['Permission'][$key]['value'])) {
-//				$result = self::$current['Permission'][$key]['value'];
-//			} else {
-//				$result = false;
-//			}
-//		} else {
-//			$RolesRoomsUser = ClassRegistry::init('Rooms.RolesRoomsUser');
-//			if (isset(self::$current['User']['id'])) {
-//				$userId = self::$current['User']['id'];
-//			} else {
-//				$userId = null;
-//			}
-//			$roleRoomUser = $RolesRoomsUser->find('first', array(
-//				'recursive' => -1,
-//				'conditions' => array(
-//					'RolesRoomsUser.user_id' => $userId,
-//					'RolesRoomsUser.room_id' => $roomId,
-//				),
-//			));
-//			if (isset($roleRoomUser['RolesRoomsUser']['roles_room_id'])) {
-//				$rolesRoomId = $roleRoomUser['RolesRoomsUser']['roles_room_id'];
-//			} else {
-//				$rolesRoomId = '0';
-//			}
-//
-//			$RoomRolePermission = ClassRegistry::init('Rooms.RoomRolePermission');
-//			$roomRolePermission = $RoomRolePermission->find('first', array(
-//				'recursive' => -1,
-//				'conditions' => array(
-//					$RoomRolePermission->alias . '.roles_room_id' => $rolesRoomId,
-//					$RoomRolePermission->alias . '.permission' => $key,
-//				),
-//			));
-//			if (isset($roomRolePermission['RoomRolePermission']['value'])) {
-//				$result = $roomRolePermission['RoomRolePermission']['value'];
-//			} else {
-//				$result = false;
-//			}
-//		}
-//
-//		//self::$permission = Hash::insert(self::$permission, $roomId . '.' . $path, $result);
-//		self::$permission[$roomId]['Permission'][$key]['value'] = $result;
-//		return $result;
 	}
 
 }

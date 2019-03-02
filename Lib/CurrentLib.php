@@ -331,6 +331,7 @@ class CurrentLib extends LibAppObject {
  */
 	public static function resetInstance() {
 		parent::_resetInstance(__CLASS__);
+		self::$current = [];
 	}
 
 /**

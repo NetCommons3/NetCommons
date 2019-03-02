@@ -68,7 +68,7 @@ class CurrentLibUser extends LibAppObject {
 	public function initialize($controller = null) {
 		parent::initialize($controller);
 
-		$this->__user = $this->_controller->Session->read(AuthComponent::$sessionKey);
+		$this->__user = $this->_controller->Auth->user();
 	}
 
 /**
@@ -77,7 +77,7 @@ class CurrentLibUser extends LibAppObject {
  * @return bool
  */
 	public function isLoginChanged() {
-		$sessionUser = $this->_controller->Session->read(AuthComponent::$sessionKey);
+		$sessionUser = $this->_controller->Auth->user();
 		if (! $sessionUser) {
 			return false;
 		}

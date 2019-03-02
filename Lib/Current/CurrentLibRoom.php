@@ -366,13 +366,31 @@ class CurrentLibRoom extends LibAppObject {
 			return $this->__rooms[$this->__privateRoomId];
 		}
 
-		$room = $this->Room->getPrivateRoomByUserId($userId);
+		$room = $this->Room->find('first', [
+			'recursive' => -1,
+			'fields' => [
+				$this->Room->alias . '.id',
+			],
+			'conditions' => [
+				$this->Room->alias . '.space_id' => Space::PRIVATE_SPACE_ID,
+				$this->Room->alias . '.page_id_top NOT' => null,
+			],
+			'joins' => [
+				[
+					'table' => $this->RolesRoomsUser->table,
+					'alias' => $this->RolesRoomsUser->alias,
+					'type' => 'INNER',
+					'conditions' => [
+						$this->RolesRoomsUser->alias . '.room_id' . ' = ' . $this->Room->alias . ' .id',
+						$this->RolesRoomsUser->alias . '.user_id' => $userId,
+					],
+				],
+			],
+		]);
 
 		$roomId = $room['Room']['id'];
 		$this->__privateRoomId = $roomId;
-		$this->__rooms[$roomId] = $room;
-		$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
-		$this->__rooms[$roomId] += $this->Space->getSpace($roomId);
+		$this->__rooms[$roomId] = $this->findRoomById($roomId);
 
 		return $this->__rooms[$roomId];
 	}

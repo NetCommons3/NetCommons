@@ -90,6 +90,7 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @param mixed $return 戻り値
  * @param int $count Mockの呼び出し回数
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	protected function _mockForReturn($model, $mockModel, $mockMethod, $return, $count = 1) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);

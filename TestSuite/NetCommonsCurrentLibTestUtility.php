@@ -149,7 +149,8 @@ class NetCommonsCurrentLibTestUtility {
 	public static function canLoadTables() {
 		$db = ConnectionManager::getDataSource('test');
 		$schemaFile = self::getSchemaFile();
-		return ($db->config['prefix'] === '' || ! file_exists($schemaFile));
+		$installed = Configure::read('NetCommons.installed');
+		return ($db->config['prefix'] === '' && file_exists($schemaFile) && $installed);
 	}
 
 /**

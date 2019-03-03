@@ -270,7 +270,7 @@ class CurrentLibPage extends LibAppObject {
 		$pageId = $this->__getCurrentPageId();
 		$topPage = $this->findTopPage();
 
-		if ($pageId === $topPage['Page']['id']) {
+		if (! $pageId || $pageId === $topPage['Page']['id']) {
 			$this->__page = $topPage;
 		} else {
 			$page = $this->Page->find('first', [

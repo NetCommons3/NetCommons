@@ -100,20 +100,23 @@ class LibAppObject {
 /**
  * インスタンスのクリア
  *
+ * ※メイン処理ではあまり使う機会はないが、主にUnitTestで使用する
+ *
  * @param string $className クラス名
  * @return void
  */
 	protected static function _resetInstance($className) {
 		if (isset(self::$_instances[$className])) {
 			$assosiateClasses = array_keys(self::$_instances[$className]->libs);
+			unset(self::$_instances[$className]);
+		}
+
+		if (!empty($assosiateClasses)) {
 			foreach ($assosiateClasses as $assosiateClass) {
 				if (isset(self::$_instances[$assosiateClass])) {
 					self::$_instances[$assosiateClass]->resetInstance();
 				}
 			}
-		}
-		if (isset(self::$_instances[$className])) {
-			unset(self::$_instances[$className]);
 		}
 	}
 

@@ -1,0 +1,39 @@
+---
+debug: 0
+App:
+  fullBaseUrl: http://html.local:9094
+  imageBaseUrl: img/
+  cssBaseUrl: css/
+  jsBaseUrl: js/
+  base: false
+  baseUrl: false
+  dir: app
+  webroot: webroot
+  www_root: >
+    /var/www/html/nc3speedup-unittest/app/webroot/
+  encoding: UTF-8
+Security:
+  salt: >
+    2a95829d8ad63ca6cb49baaa52e772270dc174a79e090ee0851505c65b21d3ac9d14287e39a2f30fc4606ff1c9b45c7376b02a0b5a5ef0af82cc9f4d344107ec
+  cipherSeed: "142354242720272028881904983643200749000"
+ManagerPlugins:
+  - ControlPanel
+  - UserManager
+  - Rooms
+  - UserAttributes
+  - UserRoles
+  - Holidays
+  - SiteManager
+  - PluginManager
+  - SystemManager
+PhpDocumentor:
+  classHeader: |
+    * @author Noriko Arai <arai@nii.ac.jp>
+    * @author Your Name <yourname@domain.com>
+    * @link http://www.netcommons.org NetCommons Project
+    * @license http://www.netcommons.org/license.txt NetCommons License
+    * @copyright Copyright 2014, NetCommons Project
+Config:
+  language: ja
+NetCommons:
+  installed: true

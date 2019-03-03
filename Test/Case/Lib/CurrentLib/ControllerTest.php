@@ -11,6 +11,7 @@
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestData', 'NetCommons.Test/Fixture/CurrentLib');
+App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
@@ -49,11 +50,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function tearDown() {
-		if (get_class(new Current()) === 'CurrentLib') {
-			CurrentLib::resetInstance();
-		} else {
-			NetCommonsCurrentLibTestUtility::resetCurrentUtility();
-		}
+		NetCommonsCurrentLibTestUtility::resetCurrentLib();
 		parent::tearDown();
 	}
 
@@ -135,8 +132,10 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 						$TestData->getExpectedMenuFrame(),
 						$TestData->getExpectedMenuList(['public'])
 					),
-					'assertNotContains' =>
-							$TestData->getExpectedMenuList(['private', 'community_1', 'community_2']),
+					'assertNotContains' => array_merge(
+						$TestData->getExpectedMenuList(['private', 'community_1', 'community_2']),
+						$TestData->getExpectedSettingMode('on')
+					),
 				],
 				'exception' => false,
 			],
@@ -170,7 +169,8 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 						$TestData->getExpectedMenuFrame(),
 						$TestData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
-						])
+						]),
+						$TestData->getExpectedSettingMode('on')
 					),
 					'assertNotContains' => [],
 				],
@@ -185,7 +185,8 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 						$TestData->getExpectedMenuFrame(),
 						$TestData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
-						])
+						]),
+						$TestData->getExpectedSettingMode('on')
 					),
 					'assertNotContains' => [],
 				],

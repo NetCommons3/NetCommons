@@ -10,6 +10,7 @@
  */
 
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Fixture test_schema.sqlを読み込むんでテストするためのユーティリティ
@@ -52,6 +53,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'system_administrator',
 			'handlename' => 'System administrator',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'system_administrator',
@@ -66,6 +68,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 1',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -80,6 +83,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 2',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -94,6 +98,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 3',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -108,6 +113,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'guest_user',
 			'handlename' => 'Guest user 1',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'guest_user',
@@ -164,7 +170,13 @@ class NetCommonsCurrentLibTestUtility {
  * @return string
  */
 	public static function getSchemaFile() {
-		$schemaFile = CakePlugin::path('NetCommons') . 'Test' . DS . 'Fixture' . DS . 'test_schema.sql';
+		if (get_class(new Current()) === 'CurrentLib') {
+			$schemaFile = CakePlugin::path('NetCommons') .
+					'Test' . DS . 'Fixture' . DS . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
+		} else {
+			$schemaFile = CakePlugin::path('NetCommons') .
+					'Test' . DS . 'Fixture' . DS . 'CurrentLib' . DS . 'test_schema_current_utility.sql';
+		}
 		return $schemaFile;
 	}
 
@@ -219,7 +231,7 @@ class NetCommonsCurrentLibTestUtility {
  *
  * @return void
  */
-	public static function resetCurrentUtility() {
+	private static function __resetOldCurrentUtility() {
 		Current::$current = [];
 		Current::$originalCurrent = [];
 		Current::$permission = [];
@@ -251,15 +263,28 @@ class NetCommonsCurrentLibTestUtility {
 		$Property->setAccessible(true);
 		$Property->setValue(null);
 
-		$class = new ReflectionClass('PageLayoutComponent');
-		$Property = $class->getProperty('_page');
-		$Property->setAccessible(true);
-		$Property->setValue(null);
-
 		$class = new ReflectionClass('GetPageBehavior');
 		$Property = $class->getProperty('__memoryPageWithFrame');
 		$Property->setAccessible(true);
 		$Property->setValue([]);
+	}
+
+/**
+ * Currentライブラリのリセット
+ *
+ * @return void
+ */
+	public static function resetCurrentLib() {
+		if (get_class(new Current()) === 'CurrentLib') {
+			Current::resetInstance();
+		} else {
+			self::__resetOldCurrentUtility();
+		}
+
+		$class = new ReflectionClass('PageLayoutComponent');
+		$Property = $class->getProperty('_page');
+		$Property->setAccessible(true);
+		$Property->setValue(null);
 	}
 
 }

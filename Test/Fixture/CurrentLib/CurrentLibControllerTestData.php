@@ -56,6 +56,20 @@ class CurrentLibControllerTestData {
 	}
 
 /**
+ * セッティングモード
+ *
+ * @param string $type 表示するタイプ
+ * @return array
+ */
+	public function getExpectedSettingMode($type) {
+		if ($type === 'on') {
+			return ['セッティングモードON'];
+		} else {
+			return ['セッティングモードOFF'];
+		}
+	}
+
+/**
  * メニューフレーム
  *
  * @return array

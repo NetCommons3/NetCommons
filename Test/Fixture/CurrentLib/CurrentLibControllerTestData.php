@@ -69,6 +69,7 @@ class CurrentLibControllerTestData {
 /**
  * メニューリスト
  *
+ * @param array $types 表示するタイプ
  * @return array
  */
 	public function getExpectedMenuList($types) {

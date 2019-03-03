@@ -72,12 +72,21 @@ class CurrentLibControllerTestData {
 /**
  * メニューフレーム
  *
+ * @param array $types 表示するタイプ
  * @return array
  */
-	public function getExpectedMenuFrame() {
-		return [
-			'<span>Menu</span>',
-		];
+	public function getExpectedFrame($types) {
+		$results = [];
+
+		foreach ($types as $type) {
+			switch ($type) {
+				case 'menu':
+					$results[] = '<span>Menu frame</span>';
+					break;
+			}
+		}
+
+		return $results;
 	}
 
 /**

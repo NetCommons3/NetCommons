@@ -129,7 +129,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => [
 					'assertContains' => array_merge(
 						$TestData->getExpectedAnnouncement(['toppage']),
-						$TestData->getExpectedMenuFrame(),
+						$TestData->getExpectedFrame(['menu']),
 						$TestData->getExpectedMenuList(['public'])
 					),
 					'assertNotContains' => array_merge(
@@ -166,7 +166,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => [
 					'assertContains' => array_merge(
 						$TestData->getExpectedAnnouncement(['toppage']),
-						$TestData->getExpectedMenuFrame(),
+						$TestData->getExpectedFrame(['menu']),
 						$TestData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),
@@ -182,7 +182,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => [
 					'assertContains' => array_merge(
 						$TestData->getExpectedAnnouncement(['private']),
-						$TestData->getExpectedMenuFrame(),
+						$TestData->getExpectedFrame(['menu']),
 						$TestData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),

@@ -60,17 +60,30 @@ abstract class NetCommonsTreeBehaviorCase extends NetCommonsModelTestCase {
 	public $plugin = 'net_commons';
 
 /**
- * Runs the test case and collects the results in a TestResult object.
- * If no TestResult object is passed a new one will be created.
- * This method is run for each test method in this class
+ * Fixtures load
  *
- * @param PHPUnit_Framework_TestResult $result The test result object
- * @return PHPUnit_Framework_TestResult
- * @throws InvalidArgumentException
+ * @param string $name The name parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param array  $data The data parameter on PHPUnit_Framework_TestCase::__construct()
+ * @param string $dataName The dataName parameter on PHPUnit_Framework_TestCase::__construct()
+ * @return void
  */
-	public function run(PHPUnit_Framework_TestResult $result = null) {
-		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-			return parent::run($result);
+	public function __construct($name = null, array $data = array(), $dataName = '') {
+		if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+			$this->autoFixtures = false;
+			$this->fixtures = null;
+		}
+		parent::__construct($name, $data, $dataName);
+	}
+
+/**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+			$this->markTestSkipped('php 7.x以上でテストができます。');
 		}
 	}
 

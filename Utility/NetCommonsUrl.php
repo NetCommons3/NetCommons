@@ -126,6 +126,8 @@ class NetCommonsUrl {
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return array Full translated URL with base path as array.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public static function actionUrlAsArray($params = array(), $full = false) {
 		if (!is_array($params)) {
@@ -134,38 +136,40 @@ class NetCommonsUrl {
 
 		$url = self::__getCommonAction($params);
 		$query['?'] = null;
-		$params = Hash::remove($params, 'plugin');
-		$params = Hash::remove($params, 'controller');
-		$params = Hash::remove($params, 'action');
 
 		if (isset($params['block_id'])) {
 			$url[] = $params['block_id'];
-			unset($params['block_id']);
 		}
 		if (isset($params['key'])) {
 			$url[] = $params['key'];
-			unset($params['key']);
 		}
 		if (isset($params['key2'])) {
 			$url[] = $params['key2'];
-			unset($params['key2']);
 		}
 
 		if (isset($params['frame_id'])) {
 			$query['?']['frame_id'] = $params['frame_id'];
-			unset($params['frame_id']);
-
 			if (Current::read('Page.id') && ! Current::read('Box.page_id')) {
 				//デフォルト、Current::readの値を使用
 				$url['?']['page_id'] = Current::read('Page.id');
-				$params = Hash::remove($params, 'page_id');
 			}
 		}
 
 		if (isset($params['page_id'])) {
 			$query['?']['page_id'] = $params['page_id'];
-			unset($params['page_id']);
 		}
+
+		$unsetParams = [
+			'plugin', 'controller', 'action',
+			'block_id', 'key', 'key2',
+			'frame_id', 'page_id'
+		];
+		foreach ($unsetParams as $key) {
+			if (array_key_exists($key, $params)) {
+				unset($params[$key]);
+			}
+		}
+
 		return Hash::merge($url, $query, $params);
 	}
 

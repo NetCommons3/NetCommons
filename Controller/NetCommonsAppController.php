@@ -195,20 +195,26 @@ class NetCommonsAppController extends Controller {
 		//言語のセット
 		$this->_setLanguage();
 
-$startTime = microtime(true);
 		//カレントデータセット
-//		Current::initialize($this);
+if (empty($this->request->params['requested'])) {
+	$indent = '';
+} else {
+	$indent = '  ';
+}
+$startTime = microtime(true);
+		//@var $instance CurrentLib
 		$instance = CurrentLib::getInstance();
 		$instance->initialize($this);
 
 //$debug = CurrentLib::$current;
+//unset($debug['PluginsRoom']);
 //ksort($debug);
-//CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
 //$debug = NcPermission::$permission;
 //ksort($debug);
-//CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
 $endTime = microtime(true);
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $startTime), true));
+//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;

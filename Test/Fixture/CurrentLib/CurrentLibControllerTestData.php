@@ -63,6 +63,33 @@ class CurrentLibControllerTestData {
 	}
 
 /**
+ * カレンダーの予定
+ *
+ * @param string $key 当メソッドで内部的に処理するキー
+ * @return array assertContains(assertNotContains)の結果配列
+ */
+	public function getExpectedCalendarPlanView($key) {
+		$results = [];
+
+		switch ($key) {
+			case 'private_plan':
+				$results[] = '<h1 data-calendar-name="dispTitle">Private plan 1</h1>';
+				break;
+//			case 'public_plan':
+//				$results[] = '<p>Public Announcement Content 1</p>';
+//				break;
+//			case 'community_1':
+//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
+//				break;
+//			case 'community_2':
+//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
+//				break;
+		}
+
+		return $results;
+	}
+
+/**
  * セッティングモード
  *
  * dataProviderで使用するため、__d()を行っても英語になってしまう。

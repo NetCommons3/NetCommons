@@ -288,6 +288,7 @@ class CurrentLibPage extends LibAppObject {
 				$this->__page = $topPage;
 			}
 		}
+		$pageId = $this->__page['Page']['id'];
 
 		//full_permalinkの設定
 		$space = $this->CurrentLibRoom->findSpaceByRoomId($this->__page['Page']['room_id']);

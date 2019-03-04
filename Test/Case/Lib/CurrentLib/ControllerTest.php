@@ -69,6 +69,10 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 		}
 
 		$this->testAction($url, ['method' => 'GET', 'return' => 'view']);
+//debug($this->contents);
+
+		$this->contents = str_replace("\n", '', $this->contents);
+		$this->contents = str_replace("\t", '', $this->contents);
 
 		if ($expects !== false) {
 			foreach ($expects as $assert => $expect) {
@@ -151,6 +155,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+			'プライベート(管理者)の予定の表示' => [
+				'controller' => 'Calendars.CalendarPlans',
+				'/calendars/calendar_plans/view/calendar_event_key_472',
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
 		];
 
 		return $results;
@@ -215,7 +225,23 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 						$TestData->getExpectedBlockSettingTabs('announcement', 'block_setting')
 				],
 				'exception' => false,
-			]
+			],
+			'プライベート(管理者)の予定の表示' => [
+				'controller' => 'Calendars.CalendarPlans',
+				'/calendars/calendar_plans/view/calendar_event_key_472',
+				'expects' => [
+					'assertContains' => array_merge(
+						$TestData->getExpectedFrame(['menu']),
+						$TestData->getExpectedMenuList([
+							'public', 'private', 'community_1', 'community_2'
+						]),
+						$TestData->getExpectedSettingMode('on'),
+						$TestData->getExpectedCalendarPlanView('private_plan')
+					),
+					'assertNotContains' => [],
+				],
+				'exception' => false,
+			],
 		];
 
 		return $results;

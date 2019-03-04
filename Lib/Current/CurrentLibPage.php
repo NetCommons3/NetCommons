@@ -297,7 +297,9 @@ class CurrentLibPage extends LibAppObject {
 		} else {
 			$this->__page['Page']['full_permalink'] = '';
 		}
-		$this->__page['Page']['full_permalink'] .= $this->__page['Page']['permalink'];
+		if ($pageId !== $topPage['Page']['id']) {
+			$this->__page['Page']['full_permalink'] .= $this->__page['Page']['permalink'];
+		}
 
 		//ページ言語データ取得
 		$this->__page += $this->__findPagesLanguage($pageId);

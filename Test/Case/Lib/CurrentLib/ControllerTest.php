@@ -10,7 +10,8 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
-App::uses('CurrentLibControllerTestData', 'NetCommons.Test/Fixture/CurrentLib');
+App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
+App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
@@ -63,7 +64,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  * @param string|false $exception Exception文字列
  * @return void
  */
-	private function __testByGet($controller, $url, $expects, $exception) {
+	private function __testByGet($url, $expects, $exception) {
 		if ($expects === false) {
 			$this->setExpectedException($exception);
 		}
@@ -84,6 +85,42 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 	}
 
 /**
+ * GETテスト
+ *
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	private function __testByPost($url, $post, $expects, $exception) {
+		if ($expects === false) {
+			$this->setExpectedException($exception);
+		}
+
+		$this->testAction($url, ['method' => 'POST', 'return' => 'view', 'data' => $post]);
+//debug($this->contents);
+//debug($this->view);
+//debug($this->headers);
+
+		$this->contents = str_replace("\n", '', $this->contents);
+		$this->contents = str_replace("\t", '', $this->contents);
+
+		if ($expects !== false) {
+			foreach ($expects as $assert => $expect) {
+				if ($assert === 'Location') {
+					$this->assertRegExp($expect, $this->headers['Location']);
+				} else {
+					foreach ($expect as $ex) {
+						$this->$assert($ex, $this->contents);
+					}
+				}
+			}
+			NetCommonsCurrentLibTestUtility::dropTables();
+		}
+	}
+
+/**
  * ログインなしのGETテスト
  *
  * @param string $controller generateするコントローラ
@@ -95,7 +132,25 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  */
 	public function testWithoutLoginByGet($controller, $url, $expects, $exception) {
 		$this->generate($controller);
-		$this->__testByGet($controller, $url, $expects, $exception);
+		$this->__testByGet($url, $expects, $exception);
+	}
+
+/**
+ * ログインなしのPOSTテスト
+ *
+ * @param string $controller generateするコントローラ
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @dataProvider caseWithoutLoginByPost
+ * @return void
+ */
+	public function testWithoutLoginByPost($controller, $url, $post, $expects, $exception) {
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		$this->__testByPost($url, $post, $expects, $exception);
 	}
 
 /**
@@ -112,7 +167,29 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 		NetCommonsCurrentLibTestUtility::login('1');
 
 		$this->generate($controller);
-		$this->__testByGet($controller, $url, $expects, $exception);
+		$this->__testByGet($url, $expects, $exception);
+
+		NetCommonsCurrentLibTestUtility::logout();
+	}
+
+/**
+ * 管理者ログインのPOSTテスト
+ *
+ * @param string $controller generateするコントローラ
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @dataProvider caseAdministratorByPost
+ * @return void
+ */
+	public function testAdministratorByPost($controller, $url, $post, $expects, $exception) {
+		NetCommonsCurrentLibTestUtility::login('1');
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		$this->__testByPost($url, $post, $expects, $exception);
 
 		NetCommonsCurrentLibTestUtility::logout();
 	}
@@ -123,8 +200,8 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  * @return array テストデータ
  */
 	public function caseWithoutLoginByGet() {
-		//@var CurrentLibControllerTestData
-		$TestData = new CurrentLibControllerTestData();
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
 		$results = [
 			'トップページ' => [
@@ -132,13 +209,13 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'url' => '/',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedAnnouncement(['toppage']),
-						$TestData->getExpectedFrame(['menu']),
-						$TestData->getExpectedMenuList(['public'])
+						$ExpectedData->getExpectedAnnouncement(['toppage']),
+						$ExpectedData->getExpectedFrame(['menu']),
+						$ExpectedData->getExpectedMenuList(['public'])
 					),
 					'assertNotContains' => array_merge(
-						$TestData->getExpectedMenuList(['private', 'community_1', 'community_2']),
-						$TestData->getExpectedSettingMode('on')
+						$ExpectedData->getExpectedMenuList(['private', 'community_1', 'community_2']),
+						$ExpectedData->getExpectedSettingMode('on')
 					),
 				],
 				'exception' => false,
@@ -178,8 +255,8 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  * @return array テストデータ
  */
 	public function caseAdministratorByGet() {
-		//@var CurrentLibControllerTestData
-		$TestData = new CurrentLibControllerTestData();
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
 		$results = [
 			'トップページ' => [
@@ -187,12 +264,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'url' => '/',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedAnnouncement(['toppage']),
-						$TestData->getExpectedFrame(['menu']),
-						$TestData->getExpectedMenuList([
+						$ExpectedData->getExpectedAnnouncement(['toppage']),
+						$ExpectedData->getExpectedFrame(['menu']),
+						$ExpectedData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),
-						$TestData->getExpectedSettingMode('on')
+						$ExpectedData->getExpectedSettingMode('on')
 					),
 					'assertNotContains' => [],
 				],
@@ -203,12 +280,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'url' => '/private/private_room_system_admistrator',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedAnnouncement(['private']),
-						$TestData->getExpectedFrame(['menu']),
-						$TestData->getExpectedMenuList([
+						$ExpectedData->getExpectedAnnouncement(['private']),
+						$ExpectedData->getExpectedFrame(['menu']),
+						$ExpectedData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),
-						$TestData->getExpectedSettingMode('on')
+						$ExpectedData->getExpectedSettingMode('on')
 					),
 					'assertNotContains' => [],
 				],
@@ -219,16 +296,16 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'/announcements/announcement_blocks/edit/11?frame_id=16',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedFrame(['menu', 'community_1_announcement_edit_1']),
-						$TestData->getExpectedMenuList([
+						$ExpectedData->getExpectedFrame(['menu', 'community_1_announcement_edit_1']),
+						$ExpectedData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),
-						$TestData->getExpectedSettingMode('off'),
-						$TestData->getExpectedAnnouncement(['community_1_edit'])
+						$ExpectedData->getExpectedSettingMode('off'),
+						$ExpectedData->getExpectedAnnouncement(['community_1_edit'])
 					),
 					'assertNotContains' => [],
 					'assertRegExp' =>
-						$TestData->getExpectedBlockSettingTabs('announcement', 'block_setting')
+						$ExpectedData->getExpectedBlockSettingTabs('announcement', 'block_setting')
 				],
 				'exception' => false,
 			],
@@ -237,12 +314,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'/calendars/calendar_plans/view/calendar_event_key_472',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedFrame(['menu']),
-						$TestData->getExpectedMenuList([
+						$ExpectedData->getExpectedFrame(['menu']),
+						$ExpectedData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_2'
 						]),
-						$TestData->getExpectedSettingMode('on'),
-						$TestData->getExpectedCalendarPlanView('private_plan')
+						$ExpectedData->getExpectedSettingMode('on'),
+						$ExpectedData->getExpectedCalendarPlanView('private_plan')
 					),
 					'assertNotContains' => [],
 				],
@@ -253,15 +330,83 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
 				'expects' => [
 					'assertContains' => array_merge(
-						$TestData->getExpectedFrame(['menu']),
-						$TestData->getExpectedMenuList([
+						$ExpectedData->getExpectedFrame(['menu']),
+						$ExpectedData->getExpectedMenuList([
 							'public', 'private', 'community_1', 'community_1_bbs_page', 'community_2'
 						]),
-						$TestData->getExpectedSettingMode('on'),
-						$TestData->getExpectedBbsArticleView('community_1_bbs_article_1')
+						$ExpectedData->getExpectedSettingMode('on'),
+						$ExpectedData->getExpectedBbsArticleView('community_1_bbs_article_1')
 					),
 					'assertNotContains' => [],
-					'assertRegExp' => $TestData->getExpectedToBackLink('community_1_bbs_article_1'),
+					'assertRegExp' => $ExpectedData->getExpectedToBackLink('community_1_bbs_article_1'),
+				],
+				'exception' => false,
+			],
+		];
+
+		return $results;
+	}
+
+/**
+ * ログインなしのGETテストのデータ
+ *
+ * @return array テストデータ
+ */
+	public function caseWithoutLoginByPost() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = [
+			'トップページのお知らせ' => [
+				'controller' => 'Announcements.Announcements',
+				'url' => '/announcements/announcements/edit/12',
+				'post' => $PostData->getPostDataAnnouncement('toppage_announcement'),
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
+			'パブリックスペースのお知らせ1(Announcements Page)' => [
+				'controller' => 'Announcements.Announcements',
+				'url' => '/announcements/announcements/edit/8?frame_id=12',
+				'post' => $PostData->getPostDataAnnouncement('public_announcement_2'),
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
+		];
+
+		return $results;
+	}
+
+/**
+ * 管理者ログインのPOSTテストのデータ
+ *
+ * @return array テストデータ
+ */
+	public function caseAdministratorByPost() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = [
+			'トップページのお知らせ' => [
+				'controller' => 'Announcements.Announcements',
+				'url' => '/announcements/announcements/edit/12',
+				'post' => $PostData->getPostDataAnnouncement('toppage_announcement'),
+				'expects' => [
+					'Location' => $ExpectedData->getExpectedRedirectAfterPost('toppage_announcement'),
+				],
+				'exception' => false,
+			],
+			'パブリックスペースのお知らせ1(Announcements Page)' => [
+				'controller' => 'Announcements.Announcements',
+				'url' => '/announcements/announcements/edit/8?frame_id=12',
+				'post' => $PostData->getPostDataAnnouncement('public_announcement_2'),
+				'expects' => [
+					'Location' => $ExpectedData->getExpectedRedirectAfterPost('public_announcement_page'),
 				],
 				'exception' => false,
 			],

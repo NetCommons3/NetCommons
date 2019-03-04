@@ -15,7 +15,7 @@
  * @package NetCommons\Test\Fixture\CurrentLib
  * @codeCoverageIgnore
  */
-class CurrentLibControllerTestData {
+class CurrentLibControllerTestExpectedData {
 
 /**
  * お知らせ
@@ -254,6 +254,36 @@ class CurrentLibControllerTestData {
 		}
 
 		return $results;
+	}
+
+/**
+ * POST後のリダイレクトURL
+ *
+ * @param string $key 当メソッドで内部的に処理するキー
+ * @return array assetRegExpの結果配列の結果配列
+ */
+	public function getExpectedRedirectAfterPost($key) {
+		switch ($key) {
+			case 'toppage_announcement':
+				$result =
+					'^' . Configure::read('App.fullBaseUrl') . '.*?/$';
+				break;
+			case 'public_announcement_page':
+				$result =
+					'^' . Configure::read('App.fullBaseUrl') . '.*?/announcements_page$';
+				break;
+//			case 'public_plan':
+//				$results[] = '<p>Public Announcement Content 1</p>';
+//				break;
+//			case 'community_1':
+//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
+//				break;
+//			case 'community_2':
+//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
+//				break;
+		}
+
+		return '#' . $result . '#';
 	}
 
 }

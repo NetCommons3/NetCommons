@@ -126,6 +126,8 @@ class NetCommonsUrl {
  * @param bool|array $full If (bool) true, the full base URL will be prepended to the result.
  * @return array Full translated URL with base path as array.
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public static function actionUrlAsArray($params = array(), $full = false) {
 		if (!is_array($params)) {
@@ -137,15 +139,12 @@ class NetCommonsUrl {
 
 		if (isset($params['block_id'])) {
 			$url[] = $params['block_id'];
-			unset($params['block_id']);
 		}
 		if (isset($params['key'])) {
 			$url[] = $params['key'];
-			unset($params['key']);
 		}
 		if (isset($params['key2'])) {
 			$url[] = $params['key2'];
-			unset($params['key2']);
 		}
 
 		if (isset($params['frame_id'])) {

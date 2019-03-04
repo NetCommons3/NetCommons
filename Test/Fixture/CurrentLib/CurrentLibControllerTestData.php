@@ -90,6 +90,65 @@ class CurrentLibControllerTestData {
 	}
 
 /**
+ * 掲示板の記事詳細の予定
+ *
+ * @param string $key 当メソッドで内部的に処理するキー
+ * @return array assertContains(assertNotContains)の結果配列
+ */
+	public function getExpectedBbsArticleView($key) {
+		$results = [];
+
+		switch ($key) {
+			case 'community_1_bbs_article_1':
+				$results[] = 'Community room 1 bbs 1 article 1 title';
+				break;
+//			case 'public_plan':
+//				$results[] = '<p>Public Announcement Content 1</p>';
+//				break;
+//			case 'community_1':
+//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
+//				break;
+//			case 'community_2':
+//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
+//				break;
+		}
+
+		return $results;
+	}
+
+/**
+ * 一覧へのリンク
+ *
+ * @param string $key 当メソッドで内部的に処理するキー
+ * @return array assetRegExpの結果配列の結果配列
+ */
+	public function getExpectedToBackLink($key) {
+		$results = [];
+
+		switch ($key) {
+			case 'community_1_bbs_article_1':
+				$result =
+					'<a href=".*?/community/room_1_bbs_page\?frame_id=20".*?>' .
+						' <span class="hidden-xs">一覧へ</span>' .
+					'</a>';
+				break;
+//			case 'public_plan':
+//				$results[] = '<p>Public Announcement Content 1</p>';
+//				break;
+//			case 'community_1':
+//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
+//				break;
+//			case 'community_2':
+//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
+//				break;
+		}
+
+		$results[] = '#' . $result . '#';
+
+		return $results;
+	}
+
+/**
  * セッティングモード
  *
  * dataProviderで使用するため、__d()を行っても英語になってしまう。
@@ -184,6 +243,9 @@ class CurrentLibControllerTestData {
 					break;
 				case 'community_1':
 					$results[] = '<span class="pull-left">Community room 1</span>';
+					break;
+				case 'community_1_bbs_page':
+					$results[] = '<span class="pull-left">Community room 1 Bbs Page</span>';
 					break;
 				case 'community_2':
 					$results[] = '<span class="pull-left">Community room 2</span>';

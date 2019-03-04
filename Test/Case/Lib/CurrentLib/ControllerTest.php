@@ -161,6 +161,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+			'コミュニティの記事詳細表示' => [
+				'controller' => 'Bbses.BbsArticles',
+				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
 		];
 
 		return $results;
@@ -239,6 +245,23 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 						$TestData->getExpectedCalendarPlanView('private_plan')
 					),
 					'assertNotContains' => [],
+				],
+				'exception' => false,
+			],
+			'コミュニティの記事詳細表示' => [
+				'controller' => 'Bbses.BbsArticles',
+				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
+				'expects' => [
+					'assertContains' => array_merge(
+						$TestData->getExpectedFrame(['menu']),
+						$TestData->getExpectedMenuList([
+							'public', 'private', 'community_1', 'community_1_bbs_page', 'community_2'
+						]),
+						$TestData->getExpectedSettingMode('on'),
+						$TestData->getExpectedBbsArticleView('community_1_bbs_article_1')
+					),
+					'assertNotContains' => [],
+					'assertRegExp' => $TestData->getExpectedToBackLink('community_1_bbs_article_1'),
 				],
 				'exception' => false,
 			],

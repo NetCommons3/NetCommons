@@ -362,10 +362,6 @@ class CurrentLibPage extends LibAppObject {
 			//リクエストパラメータにroom_idが含まれる場合、そのroom_idからpage_idを取得
 			$roomId = $this->CurrentLibRoom->getCurrentRoomId();
 			$pageId = $this->__getPageIdByRoomId($roomId);
-		} elseif ($this->CurrentLibBlock->isBlockIdInRequest()) {
-			//リクエストパラメータにblock_idが含まれる場合、そのblock_idからpage_idを取得
-			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
-			$pageId = $this->__getPageIdByBlockId($blockId);
 		} else {
 			//それ以外は、frame_idもしくはblock_idから取得する。取得できなかった場合、未設定として、nullとする
 			$frameId = $this->CurrentLibFrame->getCurrentFrameId();

@@ -54,9 +54,15 @@ class LinkButtonHelper extends FormHelper {
 					'frame_id' => Current::read('Frame.id'),
 					//'page_id' => Current::read('Page.id'),
 				);
-				if (isset($this->_View->viewVars['addActionController'])) {
-					$url['controller'] = $this->_View->viewVars['addActionController'];
-				}
+			} elseif (count($url) === 1 && isset($url['block_id'])) {
+				$url = array(
+					'action' => 'add',
+					'frame_id' => Current::read('Frame.id'),
+					'block_id' => $url['block_id'],
+				);
+			}
+			if (isset($this->_View->viewVars['addActionController'])) {
+				$url['controller'] = $this->_View->viewVars['addActionController'];
 			}
 			$url = NetCommonsUrl::actionUrl(Hash::merge($defaultUrl, $url));
 		}

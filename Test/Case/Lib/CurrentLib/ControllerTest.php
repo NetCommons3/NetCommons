@@ -38,7 +38,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  */
 	public function startTest($method) {
 		if (! NetCommonsCurrentLibTestUtility::canLoadTables()) {
-			$this->markTestSkipped();
+			$this->markTestSkipped('開発環境でのみテストができます。');
 			return;
 		}
 		NetCommonsCurrentLibTestUtility::loadTables();
@@ -145,6 +145,12 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+			'お知らせのブロック設定表示[Community room 1]' => [
+				'controller' => 'Announcements.AnnouncementBlocks',
+				'/announcements/announcement_blocks/edit/11?frame_id=16',
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
 		];
 
 		return $results;
@@ -192,6 +198,24 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 				],
 				'exception' => false,
 			],
+			'お知らせのブロック設定表示[Community room 1]' => [
+				'controller' => 'Announcements.AnnouncementBlocks',
+				'/announcements/announcement_blocks/edit/11?frame_id=16',
+				'expects' => [
+					'assertContains' => array_merge(
+						$TestData->getExpectedFrame(['menu', 'community_1_announcement_edit_1']),
+						$TestData->getExpectedMenuList([
+							'public', 'private', 'community_1', 'community_2'
+						]),
+						$TestData->getExpectedSettingMode('off'),
+						$TestData->getExpectedAnnouncement(['community_1_edit'])
+					),
+					'assertNotContains' => [],
+					'assertRegExp' =>
+						$TestData->getExpectedBlockSettingTabs('announcement', 'block_setting')
+				],
+				'exception' => false,
+			]
 		];
 
 		return $results;

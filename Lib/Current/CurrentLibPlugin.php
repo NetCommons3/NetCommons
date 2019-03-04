@@ -18,6 +18,8 @@ App::uses('NetCommonsSecurity', 'NetCommons.Utility');
  * @property Controller $_controller コントローラ
  * @property PluginsRole $PluginsRole PluginsRoleモデル
  * @property Plugin $Plugin Pluginモデル
+ * @property CurrentLibLanguage $CurrentLibLanguage CurrentLibLanguageライブラリ
+ * @property CurrentLibUser $CurrentLibUser CurrentLibUserライブラリ
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
@@ -65,6 +67,7 @@ class CurrentLibPlugin extends LibAppObject {
  * @var array
  */
 	public $libs = [
+		'CurrentLibUser' => 'NetCommons.Lib/Current',
 		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
 	];
 
@@ -222,6 +225,27 @@ class CurrentLibPlugin extends LibAppObject {
 		}
 		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
 		return $results;
+	}
+
+/**
+ * 管理系プラグインの許可
+ *
+ * @param string $pluginKey プラグインkey
+ * @return bool
+ */
+	public function allowSystemPlugin($pluginKey) {
+		$user = $this->CurrentLibUser->getLoginUser();
+		$pluginRoles = $this->findPluginRole($user['role_key']);
+		if (! isset($pluginRoles['PluginsRole'])) {
+			return false;
+		}
+
+		foreach ($pluginRoles['PluginsRole'] as $pluginRole) {
+			if ($pluginRole['plugin_key'] === $pluginKey) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

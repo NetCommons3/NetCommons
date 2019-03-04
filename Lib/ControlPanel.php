@@ -120,18 +120,7 @@ class ControlPanel extends LibAppObject {
  * @return bool
  */
 	public function allowSystemPlugin($pluginKey) {
-		if (! $this->hasControlPanel()) {
-			return false;
-		}
-
-		$user = $this->CurrentLibUser->getLoginUser();
-		$pluginRoles = $this->CurrentLibPlugin->findPluginRole($user['role_key']);
-		foreach ($pluginRoles['PluginsRole'] as $pluginRole) {
-			if ($pluginRole['plugin_key'] === $pluginKey) {
-				return true;
-			}
-		}
-		return false;
+		return $this->CurrentLibPlugin->allowSystemPlugin($pluginKey);
 	}
 
 }

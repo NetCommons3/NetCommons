@@ -63,6 +63,7 @@ class CurrentLibRoom extends LibAppObject {
  * @var array
  */
 	public $libs = [
+		'ControlPanel' => 'NetCommons.Lib',
 		'CurrentLibPlugin' => 'NetCommons.Lib/Current',
 		'CurrentLibLanguage' => 'NetCommons.Lib/Current',
 		'CurrentLibUser' => 'NetCommons.Lib/Current',
@@ -407,6 +408,18 @@ class CurrentLibRoom extends LibAppObject {
 		}
 
 		if ($this->__userId) {
+			if ($this->allowRoomManager()) {
+				$conditions = [
+					'RolesRoomsUser.user_id' => $this->__userId,
+				];
+			} else {
+				$conditions = [
+					'RolesRoomsUser.user_id' => $this->__userId,
+					'Room.active' => true,
+					'Room.in_draft' => false
+				];
+			}
+
 			$rolesRoomsUser = $this->RolesRoomsUser->find('all', [
 				'recursive' => -1,
 				'fields' => [
@@ -426,11 +439,7 @@ class CurrentLibRoom extends LibAppObject {
 					'RolesRoomsUser.access_count',
 					'RolesRoomsUser.last_accessed',
 				],
-				'conditions' => [
-					'RolesRoomsUser.user_id' => $this->__userId,
-					'Room.active' => true,
-					'Room.in_draft' => false
-				],
+				'conditions' => $conditions,
 				'joins' => [
 					[
 						'table' => $this->Room->table,
@@ -618,6 +627,15 @@ class CurrentLibRoom extends LibAppObject {
 		} else {
 			return [];
 		}
+	}
+
+/**
+ * ルーム管理が使用できるか否か
+ *
+ * @return bool
+ */
+	public function allowRoomManager() {
+		return $this->CurrentLibPlugin->allowSystemPlugin('rooms');
 	}
 
 }

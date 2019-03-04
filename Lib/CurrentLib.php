@@ -474,8 +474,8 @@ class CurrentLib extends LibAppObject {
 				$this->__setCurrentRoom($page['Page']['room_id']);
 
 				$blockKeys = $this->CurrentLibBlock->getBlockKeysInCurrentPage();
-				$this->CurrentLibBlock->setBlockRolePermissions($blockKeys);
-				$this->CurrentLibBlock->setUseWorkflowPermissions($blockKeys);
+				$this->CurrentLibBlock->setBlockRolePermissions($page['Page']['room_id'], $blockKeys);
+				$this->CurrentLibBlock->setUseWorkflowPermissions($page['Page']['room_id'], $blockKeys);
 			}
 		}
 	}
@@ -522,7 +522,7 @@ class CurrentLib extends LibAppObject {
 			self::$current += $block;
 
 			$blockKey = $block['Block']['key'];
-			$permissions = $this->CurrentLibBlock->findBlockRolePermissionsByBlockKey($blockKey);
+			$permissions = $this->CurrentLibBlock->findBlockRolePermissionsByBlockKey($roomId, $blockKey);
 			if (isset(self::$current['BlockRolePermission'])) {
 				self::$current['BlockRolePermission'] += $permissions;
 			} else {
@@ -576,7 +576,7 @@ class CurrentLib extends LibAppObject {
  * パーミッション関連のデータをCurrentにセットする
  *
  * @param string|int|null $roomId ルームID。nullの場合、roomに紐づかない。
- * @param array $permission パーミッションデータ
+ * @param array $permissions パーミッションデータ
  * @return void
  */
 	private function __mergeCurrentPermissions($roomId, $permissions) {
@@ -606,11 +606,6 @@ class CurrentLib extends LibAppObject {
 		foreach ($libs as $class) {
 			parent::$_instances[$class]->initialize($controller);
 		}
-
-//		//メインコントローラの保持
-//		if (empty($this->_controller->request->params['requested'])) {
-//			self::$__mainController = $this->_controller;
-//		}
 
 		//コントローラごとに初期する必要がある$currentの中身を初期化する
 		$this->__clearCurrent();

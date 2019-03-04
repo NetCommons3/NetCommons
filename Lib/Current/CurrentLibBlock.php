@@ -16,6 +16,7 @@ App::uses('BlockSettingBehavior', 'Blocks.Model/Behavior');
  * NetCommonsの機能に必要な情報(ブロック)を取得する内容をまとめたUtility
  *
  * @property Controller $_controller コントローラ
+ * @property Language $Language Languageモデル
  * @property Block $Block Pluginモデル
  * @property BlocksLanguage $BlocksLanguage BlocksLanguageモデル
  * @property BlockRolePermission $BlockRolePermission BlockRolePermissionモデル
@@ -35,6 +36,7 @@ class CurrentLibBlock extends LibAppObject {
  * @var array
  */
 	public $uses = [
+		'Language' => 'M17n.Language',
 		'Block',
 		'BlocksLanguage',
 		'BlockRolePermission',
@@ -274,10 +276,11 @@ class CurrentLibBlock extends LibAppObject {
 /**
  * ブロックキーからブロックロールパーミッションのデータを取得
  *
+ * @param string|int $roomId ルームID
  * @param string $blockKey ブロックキー
  * @return array
  */
-	public function findBlockRolePermissionsByBlockKey($blockKey) {
+	public function findBlockRolePermissionsByBlockKey($roomId, $blockKey) {
 		if (isset($this->__rolePermissions[$blockKey])) {
 			return $this->__rolePermissions[$blockKey];
 		}
@@ -289,6 +292,7 @@ class CurrentLibBlock extends LibAppObject {
 			],
 			'conditions' => [
 				'block_key' => $blockKey,
+				'roles_room_id' => $this->CurrentLibRoom->getRoleRoomIdByRoomId($roomId),
 			],
 			'callbacks' => false,
 		]);
@@ -314,10 +318,11 @@ class CurrentLibBlock extends LibAppObject {
 /**
  * ブロックキーからブロックロールパーミッションのデータをローカル変数にセットする
  *
+ * @param string|int $roomId ルームID
  * @param array $blockKeys ブロックキーリスト
  * @return void
  */
-	public function setBlockRolePermissions($blockKeys) {
+	public function setBlockRolePermissions($roomId, $blockKeys) {
 		$results = $this->BlockRolePermission->find('all', [
 			'recursive' => -1,
 			'fields' => [
@@ -325,6 +330,7 @@ class CurrentLibBlock extends LibAppObject {
 			],
 			'conditions' => [
 				'block_key' => $blockKeys,
+				'roles_room_id' => $this->CurrentLibRoom->getRoleRoomIdByRoomId($roomId)
 			],
 			'callbacks' => false,
 		]);
@@ -406,15 +412,16 @@ class CurrentLibBlock extends LibAppObject {
 /**
  * ブロック設定データのワークフローの有無をローカル変数にセットする
  *
+ * @param string|int $roomId ルームID
  * @param array $blockKeys ブロックキーリスト
  * @return array
  */
-	public function setUseWorkflowPermissions($blockKeys) {
+	public function setUseWorkflowPermissions($roomId, $blockKeys) {
 		$results = $this->BlockSetting->find('all', array(
 			'recursive' => -1,
 			'fields' => array('block_key', 'field_name', 'value'),
 			'conditions' => array(
-				//'room_id' => $roomId,
+				'room_id' => $roomId,
 				'block_key' => $blockKeys,
 				'field_name' => array(
 					BlockSettingBehavior::FIELD_USE_WORKFLOW,
@@ -444,7 +451,7 @@ class CurrentLibBlock extends LibAppObject {
  * ブロック設定データのワークフローの有無をローカル変数をセットする
  *
  * @param string $blockKey ブロックキー
- * @param array $blockSetting ブロック設定のデータ
+ * @param array $blockSettings ブロック設定データリスト
  * @return array
  */
 	public function __setUseWorkflowPermission($blockKey, $blockSettings) {

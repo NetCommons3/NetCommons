@@ -46,67 +46,128 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 	}
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		NetCommonsCurrentLibTestUtility::login('1');
+	}
+
+/**
  * tearDown method
  *
  * @return void
  */
 	public function tearDown() {
+		NetCommonsCurrentLibTestUtility::logout();
 		NetCommonsCurrentLibTestUtility::resetCurrentLib();
 		parent::tearDown();
 	}
 
 /**
- * 管理者ログインのGETテスト
+ * 管理者でのGETテスト
  *
  * @param string $controller generateするコントローラ
  * @param string $url テストするURL
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
- * @dataProvider caseAdministratorByGet
+ *
+ * @dataProvider dataGetRequestToppageByAdministrator
+ * @dataProvider dataGetRequestMyRoomOfAdministratorByAdministrator
+ * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByAdministrator
+ * @dataProvider dataGetRequestAnnouncementBlockSettingsByAdministrator
+ * @dataProvider dataGetRequestPrivatePlanOfAdministoratorByAdministrator
+ * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByAdministrator
+ * @dataProvider dataGetRequestBbsArticleOfCommunityByAdministrator
+ * @dataProvider dataGetRequestPublicCalendarPageByAdministrator
+ *
  * @return void
  */
-	public function testAdministratorByGet($controller, $url, $expects, $exception) {
-		NetCommonsCurrentLibTestUtility::login('1');
-
+	public function testGetRequestByAdministrator($controller, $url, $expects, $exception) {
 		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetMethod(
+		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
 		);
-
-		NetCommonsCurrentLibTestUtility::logout();
 	}
 
 /**
- * 管理者ログインのPOSTテスト
+ * 管理者でのPOSTテスト
  *
  * @param string $controller generateするコントローラ
  * @param string $url テストするURL
  * @param array $post POSTの内容
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
- * @dataProvider caseAdministratorByPost
+ *
+ * @dataProvider dataPostRequestAnnouncementOfToppageByAdministrator
+ * @dataProvider dataPostRequestAnnouncementOfPublicPageByAdministrator
+ *
  * @return void
  */
-	public function testAdministratorByPost($controller, $url, $post, $expects, $exception) {
-		NetCommonsCurrentLibTestUtility::login('1');
+	public function testPostRequestByAdministrator($controller, $url, $post, $expects, $exception) {
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * 管理者でのFrame追加テスト
+ *
+ * @param array $post POSTの内容
+ * @dataProvider dataPostRequestFrameAdd
+ * @return void
+ */
+	public function testPostRequestFrameAddByAdministrator($post, $expects) {
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/add';
+		$exception = false;
 
 		$this->generate($controller, [
 			'components' => ['Security'],
 		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostMethod(
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
 			$this, $url, $post, $expects, $exception
 		);
-
-		NetCommonsCurrentLibTestUtility::logout();
 	}
 
 /**
- * 管理者ログインのGETテストのデータ
+ * 管理者でのFrame編集テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameEditByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/edit';
+		$post = $PostData->getPostDataByFrameEdit();
+		$expects = [
+			'Location' => $ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
+		];
+		$exception = false;
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * トップページテスト表示のテストデータ
  *
  * @return array テストデータ
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
-	public function caseAdministratorByGet() {
+	public function dataGetRequestToppageByAdministrator() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -127,6 +188,21 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * 管理者のマイルーム表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestMyRoomOfAdministratorByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'管理者のマイルーム' => [
 				'controller' => 'Pages.Pages',
 				'url' => '/private/private_room_system_admistrator',
@@ -146,6 +222,42 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * 一般ユーザ1のマイルーム表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestMyRoomOfGeneralUser1ByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
+			'一般ユーザ1のマイルーム' => [
+				'controller' => 'Pages.Pages',
+				'url' => '/private/private_room_general_user_1',
+				'expects' => false,
+				'exception' => 'ForbiddenException',
+			],
+		];
+
+		return $results;
+	}
+
+/**
+ * お知らせのブロック設定表示[Community room 1]のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestAnnouncementBlockSettingsByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'お知らせのブロック設定表示[Community room 1]' => [
 				'controller' => 'Announcements.AnnouncementBlocks',
 				'/announcements/announcement_blocks/edit/11?frame_id=16',
@@ -164,6 +276,21 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * プライベート(管理者)の予定の表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPrivatePlanOfAdministoratorByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'プライベート(管理者)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',
 				'/calendars/calendar_plans/view/calendar_event_key_472',
@@ -180,12 +307,42 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * プライベート(一般ユーザ1)の予定の表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPrivatePlanOfGeneralUser1ByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'プライベート(一般ユーザ1)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',
 				'/calendars/calendar_plans/view/calendar_event_key_786?frame_id=11',
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * コミュニティの記事詳細表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestBbsArticleOfCommunityByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'コミュニティの記事詳細表示' => [
 				'controller' => 'Bbses.BbsArticles',
 				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
@@ -203,6 +360,21 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * パブリックのカレンダーページの表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPublicCalendarPageByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'パブリックのカレンダーページの表示' => [
 				'controller' => 'Pages.Pages',
 				'/calendars_page',
@@ -235,11 +407,11 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 	}
 
 /**
- * 管理者ログインのPOSTテストのデータ
+ * トップページのお知らせ登録のテストデータ
  *
  * @return array テストデータ
  */
-	public function caseAdministratorByPost() {
+	public function dataPostRequestAnnouncementOfToppageByAdministrator() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -256,6 +428,24 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * パブリックスペースのお知らせ1(Announcements Page)登録のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestAnnouncementOfPublicPageByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = [
 			'パブリックスペースのお知らせ1(Announcements Page)' => [
 				'controller' => 'Announcements.Announcements',
 				'url' => '/announcements/announcements/edit/8?frame_id=12',
@@ -267,6 +457,18 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 			],
 		];
 
+		return $results;
+	}
+
+/**
+ * フレーム追加のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestFrameAdd() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+		$results = $PostData->getDataProviderByFrameAdd();
 		return $results;
 	}
 

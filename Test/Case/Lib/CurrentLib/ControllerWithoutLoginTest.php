@@ -62,12 +62,19 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  * @param string $url テストするURL
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
- * @dataProvider caseWithoutLoginByGet
+ *
+ * @dataProvider dataGetRequestToppageWithoutLogin
+ * @dataProvider dataGetRequestMyRoomOfAdministratorWithoutLogin
+ * @dataProvider dataGetRequestAnnouncementBlockSettingsWithoutLogin
+ * @dataProvider dataGetRequestPrivatePlanOfAdministoratorWithoutLogin
+ * @dataProvider dataGetRequestBbsArticleOfCommunityWithoutLogin
+ * @dataProvider dataGetRequestPublicCalendarPageWithoutLogin
+ *
  * @return void
  */
-	public function testWithoutLoginByGet($controller, $url, $expects, $exception) {
+	public function testGetRequestWithoutLogin($controller, $url, $expects, $exception) {
 		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetMethod(
+		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
 		);
 	}
@@ -80,24 +87,48 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  * @param array $post POSTの内容
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
- * @dataProvider caseWithoutLoginByPost
+ *
+ * @dataProvider dataPostRequestAnnouncementOfToppageWithoutLogin
+ * @dataProvider dataPostRequestAnnouncementOfPublicPageWithoutLogin
+ *
  * @return void
  */
-	public function testWithoutLoginByPost($controller, $url, $post, $expects, $exception) {
+	public function testPostRequestWithoutLogin($controller, $url, $post, $expects, $exception) {
 		$this->generate($controller, [
 			'components' => ['Security'],
 		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostMethod(
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
 			$this, $url, $post, $expects, $exception
 		);
 	}
 
 /**
- * ログインなしのGETテストのデータ
+ * ログインなしのFrame追加テスト
+ *
+ * @param array $post POSTの内容
+ * @dataProvider dataPostRequestFrameAdd
+ * @return void
+ */
+	public function testPostRequestFrameAddWithoutLogin($post, $expects) {
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/add';
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * トップページテスト表示のテストデータ
  *
  * @return array テストデータ
  */
-	public function caseWithoutLoginByGet() {
+	public function dataGetRequestToppageWithoutLogin() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -121,30 +152,93 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * 管理者のマイルーム表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestMyRoomOfAdministratorWithoutLogin() {
+		$results = [
 			'管理者のマイルーム' => [
 				'controller' => 'Pages.Pages',
 				'url' => '/private/private_room_system_admistrator',
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * お知らせのブロック設定表示[Community room 1]のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestAnnouncementBlockSettingsWithoutLogin() {
+		$results = [
 			'お知らせのブロック設定表示[Community room 1]' => [
 				'controller' => 'Announcements.AnnouncementBlocks',
 				'/announcements/announcement_blocks/edit/11?frame_id=16',
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * プライベート(管理者)の予定の表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPrivatePlanOfAdministoratorWithoutLogin() {
+		$results = [
 			'プライベート(管理者)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',
 				'/calendars/calendar_plans/view/calendar_event_key_472',
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * コミュニティの記事詳細表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestBbsArticleOfCommunityWithoutLogin() {
+		$results = [
 			'コミュニティの記事詳細表示' => [
 				'controller' => 'Bbses.BbsArticles',
 				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * パブリックのカレンダーページの表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPublicCalendarPageWithoutLogin() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'パブリックのカレンダーページの表示' => [
 				'controller' => 'Pages.Pages',
 				'/calendars_page',
@@ -179,11 +273,11 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 	}
 
 /**
- * ログインなしのGETテストのデータ
+ * トップページのお知らせ登録のテストデータ
  *
  * @return array テストデータ
  */
-	public function caseWithoutLoginByPost() {
+	public function dataPostRequestAnnouncementOfToppageWithoutLogin() {
 		//@var CurrentLibControllerTestExpectedData
 		//$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -198,6 +292,24 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * パブリックスペースのお知らせ1(Announcements Page)登録のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestAnnouncementOfPublicPageWithoutLogin() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = [
 			'パブリックスペースのお知らせ1(Announcements Page)' => [
 				'controller' => 'Announcements.Announcements',
 				'url' => '/announcements/announcements/edit/8?frame_id=12',
@@ -207,6 +319,19 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 			],
 		];
 
+		return $results;
+	}
+
+/**
+ * フレーム追加のデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestFrameAdd() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = $PostData->getDataProviderByFrameAdd();
 		return $results;
 	}
 

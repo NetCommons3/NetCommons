@@ -296,7 +296,7 @@ class NetCommonsCurrentLibTestUtility {
  * @param string|false $exception Exception文字列
  * @return void
  */
-	public static function testControllerGetMethod(
+	public static function testControllerGetRequest(
 			ControllerTestCase $test, $url, $expects, $exception) {
 		if ($expects === false) {
 			$test->setExpectedException($exception);
@@ -305,15 +305,8 @@ class NetCommonsCurrentLibTestUtility {
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
 //debug($test->contents);
 
-		$test->contents = str_replace("\n", '', $test->contents);
-		$test->contents = str_replace("\t", '', $test->contents);
-
 		if ($expects !== false) {
-			foreach ($expects as $assert => $expect) {
-				foreach ($expect as $ex) {
-					$test->$assert($ex, $test->contents);
-				}
-			}
+			self::__assertController($test, $expects);
 		}
 	}
 
@@ -323,12 +316,13 @@ class NetCommonsCurrentLibTestUtility {
  * Mockにせずにエラーにならないところまでは実行するが、saveした結果まではチェックしない。
  *
  * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
  * @param array $post POSTの内容
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  * @return void
  */
-	public static function testControllerPostMethod(
+	public static function testControllerPostRequest(
 			ControllerTestCase $test, $url, $post, $expects, $exception) {
 		if ($expects === false) {
 			$test->setExpectedException($exception);
@@ -339,20 +333,33 @@ class NetCommonsCurrentLibTestUtility {
 //debug($test->view);
 //debug($test->headers);
 
+		if ($expects !== false) {
+			self::__assertController($test, $expects);
+			self::dropTables();
+		}
+	}
+
+/**
+ * コントローラの検証
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param array|false $expects 期待値リスト
+ * @return void
+ */
+	private static function __assertController(ControllerTestCase $test, $expects) {
+//debug($expects);
+
 		$test->contents = str_replace("\n", '', $test->contents);
 		$test->contents = str_replace("\t", '', $test->contents);
 
-		if ($expects !== false) {
-			foreach ($expects as $assert => $expect) {
-				if ($assert === 'Location') {
-					$test->assertRegExp($expect, $test->headers['Location']);
-				} else {
-					foreach ($expect as $ex) {
-						$test->$assert($ex, $test->contents);
-					}
+		foreach ($expects as $assert => $expect) {
+			if ($assert === 'Location') {
+				$test->assertRegExp($expect, $test->headers['Location']);
+			} else {
+				foreach ($expect as $ex) {
+					$test->$assert($ex, $test->contents);
 				}
 			}
-			self::dropTables();
 		}
 	}
 

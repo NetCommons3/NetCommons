@@ -78,4 +78,130 @@ class CurrentLibControllerTestPostData {
 		return $post;
 	}
 
+/**
+ * フレーム追加のdataProvider
+ *
+ * @return array
+ */
+	public function getDataProviderByFrameAdd() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$plugins = [
+			'announcements' => [
+				'name' => 'お知らせ',
+				'frame_add_action' => '/announcements/announcements/edit',
+			],
+			'bbses' => [
+				'name' => '掲示板',
+				'frame_add_action' => '/bbses/bbs_blocks',
+			],
+			'blogs' => [
+				'name' => 'ブログ',
+				'frame_add_action' => '/blogs/blog_blocks',
+			],
+			'calendars' => [
+				'name' => 'カレンダー',
+				'frame_add_action' => '/calendars/calendar_frame_settings/edit',
+			],
+			'circular_notices' => [
+				'name' => '回覧板',
+				'frame_add_action' => '/circular_notices/circular_notice_frame_settings/edit',
+			],
+			'faqs' => [
+				'name' => 'FAQ',
+				'frame_add_action' => '/faqs/faq_blocks',
+			],
+			'menus' => [
+				'name' => 'メニュー',
+				'frame_add_action' => '/menus/menu_frame_settings/edit',
+			],
+			'photo_albums' => [
+				'name' => 'フォトアルバム',
+				'frame_add_action' => '/photo_albums/photo_albums/setting',
+			],
+			'questionnaires' => [
+				'name' => 'アンケート',
+				'frame_add_action' => '/questionnaires/questionnaire_blocks',
+			],
+			'reservations' => [
+				'name' => '施設予約',
+				'frame_add_action' => '/reservations/reservation_frame_settings/edit',
+			],
+			'rss_readers' => [
+				'name' => 'RSSリーダー',
+				'frame_add_action' => '/rss_readers/rss_readers/edit',
+			],
+			'searches' => [
+				'name' => '検索ボックス',
+				'frame_add_action' => '/searches/search_frame_settings/edit',
+			],
+			'tasks' => [
+				'name' => 'ToDo',
+				'frame_add_action' => '/tasks/task_blocks',
+			],
+			'topics' => [
+				'name' => '新着',
+				'frame_add_action' => '/topics/topic_frame_settings/edit',
+			],
+			'videos' => [
+				'name' => '動画',
+				'frame_add_action' => '/videos/video_blocks',
+			],
+		];
+
+		foreach ($plugins as $key => $plugin) {
+			$caseKey = sprintf('%s(%s)プラグイン追加', $plugin['name'], $key);
+
+			$results[$caseKey] = [
+				'post' => [
+					'save' => '',
+					'Frame' => [
+						'room_id' => '1',
+						'language_id' => '2',
+						'box_id' => '105',
+						'plugin_key' => $key,
+					],
+					'Plugin' => [
+						'name' => $plugin['name'],
+					],
+				],
+				'expects' => [
+					'Location' =>
+						$ExpectedData->getExpectedFrameAddRedirectAfterPost($plugin['frame_add_action']),
+				],
+			];
+		}
+
+		unset($ExpectedData);
+
+		return $results;
+	}
+
+/**
+ * フレーム追加のプラグインリスト
+ *
+ * @return array
+ */
+	public function getPostDataByFrameEdit() {
+		$post = [
+			'_method' => 'PUT',
+			'data' => [
+				'Frame' => [
+					'id' => '12',
+					'header_type' => 'default',
+				],
+				'FramesLanguage' => [
+					'id' => '10',
+					'name' => 'Annoucnement Edit',
+				],
+				'_Frame' => [
+					'redirect' => '/setting/announcements_page',
+				],
+			],
+		];
+
+		return $post;
+	}
+
 }

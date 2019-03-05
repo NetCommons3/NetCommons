@@ -336,17 +336,31 @@ class CurrentLibControllerTestExpectedData {
  * @return array assetRegExpの結果配列の結果配列
  */
 	public function getExpectedRedirectAfterPost($key) {
+		$fullBaseUrl = preg_quote(Configure::read('App.fullBaseUrl'), '#');
 		switch ($key) {
 			case 'toppage_announcement':
 				$result =
-					'^' . Configure::read('App.fullBaseUrl') . '.*?/$';
+					'^' . $fullBaseUrl . '.*?/$';
 				break;
 			case 'public_announcement_page':
 				$result =
-					'^' . Configure::read('App.fullBaseUrl') . '.*?/announcements_page$';
+					'^' . $fullBaseUrl . '.*?/announcements_page$';
 				break;
 		}
 
+		return '#' . $result . '#';
+	}
+
+/**
+ * POST後のリダイレクトURL
+ *
+ * @param string $frameAddAction Frame追加後に実行するアクション
+ * @return array assetRegExpの結果配列の結果配列
+ */
+	public function getExpectedFrameAddRedirectAfterPost($frameAddAction) {
+		$fullBaseUrl = preg_quote(Configure::read('App.fullBaseUrl'), '#');
+		$result =
+			'^' . $fullBaseUrl . '.*?' . $frameAddAction . '\?frame_id=21&page_id=10\#frame-21' . '$';
 		return '#' . $result . '#';
 	}
 

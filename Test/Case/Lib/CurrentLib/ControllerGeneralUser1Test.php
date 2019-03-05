@@ -46,45 +46,74 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 	}
 
 /**
+ * setUp method
+ *
+ * @return void
+ */
+	public function setUp() {
+		NetCommonsCurrentLibTestUtility::login('2');
+	}
+
+/**
  * tearDown method
  *
  * @return void
  */
 	public function tearDown() {
+		NetCommonsCurrentLibTestUtility::logout();
 		NetCommonsCurrentLibTestUtility::resetCurrentLib();
 		parent::tearDown();
 	}
 
 /**
- *  一般ユーザ1ログインのGETテスト
+ *  一般ユーザ1でのGETテスト
  *
  * @param string $controller generateするコントローラ
  * @param string $url テストするURL
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
- * @dataProvider caseGeneralUser1ByGet
+ *
+ * @dataProvider dataGetRequestMyRoomOfAdministratorByGeneralUser1
+ * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1
+ * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1
+ * @dataProvider dataGetRequestPublicCalendarPageByGeneralUser1
+ *
  * @return void
  */
-	public function testGeneralUser1ByGet($controller, $url, $expects, $exception) {
-		NetCommonsCurrentLibTestUtility::login('2');
-
+	public function testGetRequestByGeneralUser1($controller, $url, $expects, $exception) {
 		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetMethod(
+		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
 		);
-
-		NetCommonsCurrentLibTestUtility::logout();
 	}
 
 /**
- * 一般ユーザ1ログインのGETテストのデータ
+ * 一般ユーザ1のFrame追加テスト
+ *
+ * @param array $post POSTの内容
+ * @dataProvider dataPostRequestFrameAdd
+ * @return void
+ */
+	public function testPostRequestFrameAddByAdministrator($post, $expects) {
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/add';
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * 管理者のマイルーム表示のテストデータ
  *
  * @return array テストデータ
  */
-	public function caseGeneralUser1ByGet() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
+	public function dataGetRequestMyRoomOfAdministratorByGeneralUser1() {
 		$results = [
 			'管理者のマイルーム' => [
 				'controller' => 'Pages.Pages',
@@ -92,6 +121,21 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 				'expects' => false,
 				'exception' => 'ForbiddenException',
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * 一般ユーザ1のマイルーム表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'一般ユーザ1のマイルーム' => [
 				'controller' => 'Pages.Pages',
 				'url' => '/private/private_room_general_user_1',
@@ -114,6 +158,21 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * プライベート(一般ユーザ1)の予定の表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'プライベート(一般ユーザ1)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',
 				'/calendars/calendar_plans/view/calendar_event_key_786?frame_id=11',
@@ -135,6 +194,21 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 				],
 				'exception' => false,
 			],
+		];
+
+		return $results;
+	}
+
+/**
+ * パブリックのカレンダーページの表示のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestPublicCalendarPageByGeneralUser1() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
 			'パブリックのカレンダーページの表示' => [
 				'controller' => 'Pages.Pages',
 				'/calendars_page',
@@ -168,6 +242,19 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 			],
 		];
 
+		return $results;
+	}
+
+/**
+ * フレーム追加のデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestFrameAdd() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$results = $PostData->getDataProviderByFrameAdd();
 		return $results;
 	}
 

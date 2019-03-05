@@ -124,6 +124,29 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 	}
 
 /**
+ *ログインなしのFrame編集テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameEditWithoutLogin() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/edit';
+		$post = $PostData->getPostDataByFrameEdit();
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
  * トップページテスト表示のテストデータ
  *
  * @return array テストデータ

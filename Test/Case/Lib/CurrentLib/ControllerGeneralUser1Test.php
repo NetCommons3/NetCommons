@@ -94,9 +94,32 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */
-	public function testPostRequestFrameAddByAdministrator($post, $expects) {
+	public function testPostRequestFrameAddByGeneralUser1($post, $expects) {
 		$controller = 'Frames.Frames';
 		$url = '/frames/frames/add';
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * 一般ユーザ1でのFrame編集テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameEditByGeneralUser1() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/edit';
+		$post = $PostData->getPostDataByFrameEdit();
 		$expects = false;
 		$exception = 'ForbiddenException';
 

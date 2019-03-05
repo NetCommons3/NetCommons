@@ -113,7 +113,7 @@ class CurrentLibPlugin extends LibAppObject {
 		parent::initialize($controller);
 
 		if (! $this->__NetCommonsSecurity) {
-		$this->__NetCommonsSecurity = new NetCommonsSecurity();
+			$this->__NetCommonsSecurity = new NetCommonsSecurity();
 		}
 		$this->__langId = $this->CurrentLibLanguage->getLangId();
 	}

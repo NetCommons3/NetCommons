@@ -238,6 +238,9 @@ App::uses('SettingMode', 'NetCommons.Lib');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) $current変数を直接書き換えている処理が多数あり、分割できないため
  */
 class CurrentLib extends LibAppObject {
 
@@ -269,32 +272,25 @@ class CurrentLib extends LibAppObject {
 	const PLUGIN_PAGES = CurrentLibPlugin::PLUGIN_PAGES;
 
 /**
- * クラス内で処理するコントローラを保持
- *
- * @var Controller
- */
-	private static $__mainController;
-
-/**
  * 現在処理しているプラグインに必要なデータを保持
+ *
+ * privateメソッドにしたいが、直接書き換える処理が多数行われているため、
+ * publicのままとする
  *
  * @var array
  */
-	public static $current = array();
+	public static $current = [];
 
-///**
-// * Current data
-// *
-// * @var array
-// */
-//	public static $originalCurrent = array();
-//
-///**
-// * 現在処理しているプラグインに対するパーミッションを保持
-// *
-// * @var array
-// */
-//	public static $permission = array();
+/**
+ * 現在処理しているプラグインに対するパーミッションを保持
+ *
+ * NcPermissionクラスのメンバ変数として、定義したいが、
+ * Current::$permissionとして、直接書き換える処理が多数行われているため、
+ * NcPermissionクラスのメンバ変数ではなく、CurrentLibクラスとする。
+ *
+ * @var array
+ */
+	public static $permission = [];
 
 /**
  * 使用するライブラリ
@@ -330,17 +326,9 @@ class CurrentLib extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
+		self::clear();
 		parent::_resetInstance(__CLASS__);
-		self::$current = [];
 	}
-
-/**
- * TODO: 後で削除
- *
- * @param Controller $controller コントローラ
- * @return void
- */
-	public static function terminate(Controller $controller) {}
 
 /**
  * コントローラごとに初期する必要がある$current変数の初期化処理
@@ -398,7 +386,7 @@ class CurrentLib extends LibAppObject {
 		if ($userRoleKey) {
 			$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($userRoleKey);
 			self::$current['DefaultRolePermission'] += $permissions;
-			$this->__mergeCurrentPermissions(null, $permissions);
+			$this->writeCurrentPermissions(null, $permissions);
 		}
 	}
 
@@ -522,19 +510,20 @@ class CurrentLib extends LibAppObject {
 			self::$current += $block;
 
 			$blockKey = $block['Block']['key'];
-			$permissions = $this->CurrentLibBlock->findBlockRolePermissionsByBlockKey($roomId, $blockKey);
+			$permissions =
+				$this->CurrentLibBlock->findBlockRolePermissionsByBlockKey($roomId, $blockKey);
 			if (isset(self::$current['BlockRolePermission'])) {
 				self::$current['BlockRolePermission'] += $permissions;
 			} else {
 				self::$current['BlockRolePermission'] = $permissions;
 			}
-			$this->__mergeCurrentPermissions($roomId, $permissions);
+			$this->writeCurrentPermissions($roomId, $permissions);
 		} else {
 			$blockKey = null;
 		}
 
 		$permissions = $this->CurrentLibBlock->findUseWorkflowPermissionsByBlockKey($roomId, $blockKey);
-		$this->__mergeCurrentPermissions($roomId, $permissions);
+		$this->writeCurrentPermissions($roomId, $permissions);
 	}
 
 /**
@@ -560,7 +549,7 @@ class CurrentLib extends LibAppObject {
 		// * デフォルトロールパーミッションデータのセット
 		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($roomRoleKey);
 		self::$current['DefaultRolePermission'] += $permissions;
-		$this->__mergeCurrentPermissions($roomId, $permissions);
+		$this->writeCurrentPermissions($roomId, $permissions);
 		// * ルームロールパーミッションデータのセット
 		$permissions = $this->CurrentLibRoom->findRoomRolePermissions($roomId);
 		if (isset(self::$current['RoomRolePermission'])) {
@@ -569,28 +558,7 @@ class CurrentLib extends LibAppObject {
 			self::$current['RoomRolePermission'] = $permissions;
 		}
 
-		$this->__mergeCurrentPermissions($roomId, $permissions);
-	}
-
-/**
- * パーミッション関連のデータをCurrentにセットする
- *
- * @param string|int|null $roomId ルームID。nullの場合、roomに紐づかない。
- * @param array $permissions パーミッションデータ
- * @return void
- */
-	private function __mergeCurrentPermissions($roomId, $permissions) {
-		foreach ($permissions as $key => $permission) {
-			if (isset(self::$current['Permission'][$key])) {
-				self::$current['Permission'][$key] =
-							array_merge(self::$current['Permission'][$key], $permission);
-			} else {
-				self::$current['Permission'][$key] = $permission;
-			}
-			if ($roomId) {
-				$this->NcPermission->write($roomId, $key, $permission['value']);
-			}
-		}
+		$this->writeCurrentPermissions($roomId, $permissions);
 	}
 
 /**
@@ -626,6 +594,17 @@ class CurrentLib extends LibAppObject {
 			$frameId = $this->CurrentLibFrame->getCurrentFrameId();
 			$this->__setCurrentFrame($frameId);
 		}
+	}
+
+/**
+ * カレントデータの初期化
+ *
+ * @return array|null Current data.
+ */
+	public static function clear() {
+		self::$current = [];
+		$instance = self::getInstance();
+		$instance->NcPermission->clear();
 	}
 
 /**
@@ -687,6 +666,69 @@ class CurrentLib extends LibAppObject {
 			$roomId = self::read('Room.id');
 		}
 		return $instance->NcPermission->read($roomId, $key);
+	}
+
+/**
+ * パーミッション関連のデータをCurrentにセットする
+ *
+ * 注意）一時的に権限を書き換えるときは、戻す処理を必ず入れること
+ *
+ * @param string|int|null $roomId ルームID。nullの場合、roomに紐づかない。
+ * @param array $permissions パーミッションデータ
+ * @return void
+ */
+	public static function writeCurrentPermissions($roomId, $permissions) {
+		$instance = self::getInstance();
+		foreach ($permissions as $key => $permission) {
+			if (isset(self::$current['Permission'][$key])) {
+				self::$current['Permission'][$key] =
+							array_merge(self::$current['Permission'][$key], $permission);
+			} else {
+				self::$current['Permission'][$key] = $permission;
+			}
+			if ($roomId) {
+				$instance->NcPermission->write($roomId, $key, $permission['value']);
+			}
+		}
+	}
+
+/**
+ * パーミッション関連のデータをCurrentにセットする
+ *
+ * 注意）一時的に権限を書き換えるときは、戻す処理を必ず入れること
+ *
+ * @return void
+ */
+	public static function clearCurrentPermissions() {
+		$instance = self::getInstance();
+		self::$current['Permission'] = [];
+		$instance->NcPermission->clear();
+	}
+
+/**
+ * 取得した結果を$currentにセットする
+ *
+ * これは、旧Currentで使用していたメソッドであり、基本これは使用しない。
+ * ※Wysiwigで使用しているため残す。
+ *
+ * @param array $results 取得結果
+ * @return void
+ * @see https://github.com/NetCommons3/Wysiwyg/blob/3.2.2/Controller/WysiwygImageDownloadController.php#L120
+ */
+	public static function setCurrent($results) {
+		if (! $results) {
+			return;
+		}
+		$models = array_keys($results);
+
+		foreach ($models as $model) {
+			if (array_key_exists('id', $results[$model]) && ! $results[$model]['id']) {
+				continue;
+			}
+			if (! isset(Current::$current[$model])) {
+				self::$current[$model] = $results[$model];
+			}
+		}
 	}
 
 /**

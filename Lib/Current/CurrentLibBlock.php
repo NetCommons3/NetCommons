@@ -152,7 +152,7 @@ class CurrentLibBlock extends LibAppObject {
  * @return array
  */
 	public function getFindFields() {
-		return $this->__makeFields();
+		return $this->__getFields();
 	}
 
 /**
@@ -160,7 +160,7 @@ class CurrentLibBlock extends LibAppObject {
  *
  * @return array
  */
-	private function __makeFields() {
+	private function __getFields() {
 		$fields = [
 			'Block.id',
 			'Block.room_id',
@@ -236,7 +236,7 @@ class CurrentLibBlock extends LibAppObject {
 			return $this->__blocks[$blockId];
 		}
 
-		$fields = $this->__makeFields();
+		$fields = $this->__getFields();
 		if ($this->Language->isMultipleLang()) {
 			$joins = $this->__makeJoinsByMultipleLang();
 		} else {
@@ -279,6 +279,7 @@ class CurrentLibBlock extends LibAppObject {
  * @param string|int $roomId ルームID
  * @param string $blockKey ブロックキー
  * @return array
+ * @throws InternalErrorException
  */
 	public function findBlockRolePermissionsByBlockKey($roomId, $blockKey) {
 		if (isset($this->__rolePermissions[$blockKey])) {
@@ -321,6 +322,7 @@ class CurrentLibBlock extends LibAppObject {
  * @param string|int $roomId ルームID
  * @param array $blockKeys ブロックキーリスト
  * @return void
+ * @throws InternalErrorException
  */
 	public function setBlockRolePermissions($roomId, $blockKeys) {
 		$results = $this->BlockRolePermission->find('all', [
@@ -454,7 +456,7 @@ class CurrentLibBlock extends LibAppObject {
  * @param array $blockSettings ブロック設定データリスト
  * @return array
  */
-	public function __setUseWorkflowPermission($blockKey, $blockSettings) {
+	private function __setUseWorkflowPermission($blockKey, $blockSettings) {
 		if (!$blockSettings) {
 			$this->__rolePermFromSetting[$blockKey]['content_publishable']['value'] = true;
 			$this->__rolePermFromSetting[$blockKey]['content_comment_publishable']['value'] = true;

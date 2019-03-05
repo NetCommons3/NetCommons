@@ -170,7 +170,7 @@ class CurrentLibFrame extends LibAppObject {
  *
  * @return array
  */
-	private function __makeFields() {
+	private function __getFields() {
 		$fields = [
 			'Frame.id',
 			'Frame.room_id',
@@ -197,26 +197,6 @@ class CurrentLibFrame extends LibAppObject {
 		];
 
 		return array_merge($fields, $this->CurrentLibBlock->getFindFields());
-	}
-
-/**
- * 多言語のフレーム取得のためのjoinsを生成する
- *
- * @return array
- */
-	private function __makeJoinsCommon() {
-		$joins = [
-			[
-				'type' => 'LEFT',
-				'table' => $this->Block->table,
-				'alias' => $this->Block->alias,
-				'conditions' => [
-					'Frame.block_id' . ' = ' . 'Block.id',
-				],
-			],
-		];
-
-		return $joins;
 	}
 
 /**
@@ -328,7 +308,7 @@ class CurrentLibFrame extends LibAppObject {
  * @return array
  */
 	public function findFramesByBoxIds($boxIds) {
-		$fields = $this->__makeFields();
+		$fields = $this->__getFields();
 		if ($this->Language->isMultipleLang()) {
 			$joins = $this->__makeJoinsByMultipleLang();
 		} else {
@@ -382,7 +362,7 @@ class CurrentLibFrame extends LibAppObject {
 		if (isset($this->__frames[$frameId])) {
 			return $this->__frames[$frameId];
 		} else {
-			$fields = $this->__makeFields();
+			$fields = $this->__getFields();
 			if ($this->Language->isMultipleLang()) {
 				$joins = $this->__makeJoinsByMultipleLang();
 			} else {

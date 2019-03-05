@@ -10,6 +10,7 @@
  */
 
 App::uses('LibAppObject', 'NetCommons.Lib');
+App::uses('CurrentLib', 'NetCommons.Lib');
 
 /**
  * パーミッションを操作するライブラリ
@@ -25,9 +26,13 @@ class NcPermission extends LibAppObject {
 /**
  * パーミッションデータ保持
  *
+ * NcPermissionクラスのメンバ変数として、定義したいが、
+ * 旧CurrentライブラリでCurrent::$permissionとして、直接書き換える処理が多数行われているため、
+ * NcPermissionクラスのメンバ変数ではなく、CurrentLibクラスとする
+ *
  * @var array
  */
-	public static $permission = array();
+	//public static $permission = [];
 
 /**
  * 使用するライブラリ
@@ -55,7 +60,7 @@ class NcPermission extends LibAppObject {
  */
 	public static function resetInstance() {
 		parent::_resetInstance(__CLASS__);
-		self::$permission = [];
+		CurrentLib::$permission = [];
 	}
 
 /**
@@ -67,7 +72,23 @@ class NcPermission extends LibAppObject {
  * @return void
  */
 	public static function write($roomId, $key, $value) {
-		self::$permission[$roomId]['Permission'][$key]['value'] = $value;
+		CurrentLib::$permission[$roomId]['Permission'][$key]['value'] = $value;
+	}
+
+/**
+ * パーミッションデータをクリアする
+ *
+ * @param int|null $roomId ルームID
+ * @return void
+ */
+	public static function clear($roomId = null) {
+		if ($roomId) {
+			if (isset(CurrentLib::$permission[$roomId])) {
+				unset(CurrentLib::$permission[$roomId]);
+			}
+		} else {
+			CurrentLib::$permission = [];
+		}
 	}
 
 /**
@@ -82,8 +103,8 @@ class NcPermission extends LibAppObject {
  * @return bool パーミッション値
  */
 	public function read($roomId, $key) {
-		if (isset(self::$permission[$roomId]['Permission'][$key]['value'])) {
-			return self::$permission[$roomId]['Permission'][$key]['value'];
+		if (isset(CurrentLib::$permission[$roomId]['Permission'][$key]['value'])) {
+			return CurrentLib::$permission[$roomId]['Permission'][$key]['value'];
 		}
 
 		$roomRoleKey = $this->CurrentLibRoom->getRoomRoleKeyByRoomId($roomId);

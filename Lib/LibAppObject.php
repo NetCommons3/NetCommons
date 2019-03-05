@@ -69,7 +69,6 @@ class LibAppObject {
  * @return void
  */
 	protected static function _loadLibs($libs) {
-		$newClasses = [];
 		foreach ($libs as $class => $path) {
 			if (! isset(self::$_instances[$class])) {
 				App::uses($class, $path);

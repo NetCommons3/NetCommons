@@ -33,6 +33,7 @@ App::uses('CurrentLibPlugin', 'NetCommons.Lib/Current');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) 別ファイルにすると分かりにくくなるため
  */
 class CurrentLibPage extends LibAppObject {
 
@@ -135,14 +136,15 @@ class CurrentLibPage extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
+		self::$__privateRooms = [];
 		parent::_resetInstance(__CLASS__);
 	}
 
 /**
  * プライベートルームとするプラグインの追加
  *
- * @param Controller|null $controller コントローラ
- * @return CurrentPage
+ * @param string $plugin 追加するプラグイン
+ * @return void
  */
 	public static function addPluginAsPrivateRooms($plugin) {
 		self::$__privateRooms[] = $plugin;
@@ -161,7 +163,8 @@ class CurrentLibPage extends LibAppObject {
 			$cacheName = 'current_' .
 					$this->Page->useDbConfig . '_' . $this->Page->tablePrefix . $this->Page->table;
 			$isTest = ($this->Page->useDbConfig === 'test');
-			$this->__cache[$this->Page->alias] = new NetCommonsCache($cacheName, $isTest, 'netcommons_model');
+			$this->__cache[$this->Page->alias] =
+					new NetCommonsCache($cacheName, $isTest, 'netcommons_model');
 		}
 
 		$this->__langId = $this->CurrentLibLanguage->getLangId();
@@ -288,24 +291,19 @@ class CurrentLibPage extends LibAppObject {
 				$this->__page = $topPage;
 			}
 		}
-		$pageId = $this->__page['Page']['id'];
 
 		//full_permalinkの設定
-		$space = $this->CurrentLibRoom->findSpaceByRoomId($this->__page['Page']['room_id']);
-		if ($space['permalink']) {
-			$this->__page['Page']['full_permalink'] = $space['permalink'] . '/';
-		} else {
-			$this->__page['Page']['full_permalink'] = '';
-		}
-		if ($pageId !== $topPage['Page']['id']) {
-			$this->__page['Page']['full_permalink'] .= $this->__page['Page']['permalink'];
-		}
+		$this->__page['Page']['full_permalink'] = $this->__makeFullPermalink(
+			$this->__page['Page']['room_id'],
+			$this->__page['Page']['id'],
+			$this->__page['Page']['permalink']
+		);
 
 		//ページ言語データ取得
-		$this->__page += $this->__findPagesLanguage($pageId);
+		$this->__page += $this->__findPagesLanguage($this->__page['Page']['id']);
 
 		//ページコンテナーデータ取得
-		$this->__page['PageContainer'] = $this->__findPageContainer($pageId);
+		$this->__page['PageContainer'] = $this->__findPageContainer($this->__page['Page']['id']);
 
 		return $this->__page;
 	}
@@ -428,7 +426,6 @@ class CurrentLibPage extends LibAppObject {
 		$results = [];
 		$pageContainerIds = [];
 		foreach ($pageContainers as $container) {
-			$containerType = $container['PageContainer']['container_type'];
 			$pageContainerIds[] = $container['PageContainer']['id'];
 			$results[$container['PageContainer']['id']] = $container['PageContainer'];
 		}
@@ -444,6 +441,48 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
+ * Boxデータを取得するカラムを生成する
+ *
+ * @return array
+ */
+	private function __getFieldsByBoxes() {
+		$fields = [
+			'BoxesPageContainer.id',
+			'BoxesPageContainer.page_container_id',
+			'BoxesPageContainer.page_id',
+			'BoxesPageContainer.container_type',
+			'BoxesPageContainer.box_id',
+			'BoxesPageContainer.is_published',
+			'BoxesPageContainer.weight',
+			'Box.id',
+			'Box.container_id',
+			'Box.type',
+			'Box.space_id',
+			'Box.room_id',
+			'Box.page_id',
+			'Box.container_type',
+			'Box.weight',
+			'Room.id',
+			'Room.space_id',
+			'Room.page_id_top',
+			'Room.parent_id',
+			'Room.weight',
+			'Room.sort_key',
+			'Room.child_count',
+			'Room.active',
+			'Room.in_draft',
+			'Room.default_role_key',
+			'Room.need_approval',
+			'Room.default_participation',
+			'Room.page_layout_permitted',
+			'Room.theme',
+			'RoomsLanguage.id',
+			'RoomsLanguage.name',
+		];
+		return $fields;
+	}
+
+/**
  * ボックスデータの取得
  *
  * @param array $pageContainerIds ページコンテナ―IDリスト
@@ -452,39 +491,7 @@ class CurrentLibPage extends LibAppObject {
 	private function __findBoxes($pageContainerIds) {
 		$query = array(
 			'recursive' => -1,
-			'fields' => [
-				'BoxesPageContainer.id',
-				'BoxesPageContainer.page_container_id',
-				'BoxesPageContainer.page_id',
-				'BoxesPageContainer.container_type',
-				'BoxesPageContainer.box_id',
-				'BoxesPageContainer.is_published',
-				'BoxesPageContainer.weight',
-				'Box.id',
-				'Box.container_id',
-				'Box.type',
-				'Box.space_id',
-				'Box.room_id',
-				'Box.page_id',
-				'Box.container_type',
-				'Box.weight',
-				'Room.id',
-				'Room.space_id',
-				'Room.page_id_top',
-				'Room.parent_id',
-				'Room.weight',
-				'Room.sort_key',
-				'Room.child_count',
-				'Room.active',
-				'Room.in_draft',
-				'Room.default_role_key',
-				'Room.need_approval',
-				'Room.default_participation',
-				'Room.page_layout_permitted',
-				'Room.theme',
-				'RoomsLanguage.id',
-				'RoomsLanguage.name',
-			],
+			'fields' => $this->__getFieldsByBoxes(),
 			'conditions' => array(
 				'BoxesPageContainer.page_container_id' => $pageContainerIds,
 			),
@@ -602,6 +609,31 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
+ * full_permalinkの生成
+ *
+ * @param string|int $roomId ルームID
+ * @param string|int $pageId ページID
+ * @param string $pagePermalink ページのパーマリンク
+ * @return string|null ページID。該当するルームのページIDが存在しない場合、nullとする
+ */
+	private function __makeFullPermalink($roomId, $pageId, $pagePermalink) {
+		$topPage = $this->findTopPage();
+		$space = $this->CurrentLibRoom->findSpaceByRoomId($roomId);
+		if ($space['permalink']) {
+			$fullPermalink = $space['permalink'] . '/';
+		} else {
+			$fullPermalink = '';
+		}
+		if ($pageId !== $topPage['Page']['id']) {
+			$fullPermalink .= $pagePermalink;
+		} else {
+			$fullPermalink = '';
+		}
+
+		return $fullPermalink;
+	}
+
+/**
  * room_idからルームのトップページIDを取得
  *
  * @param string|int $roomId ルームID
@@ -619,7 +651,7 @@ class CurrentLibPage extends LibAppObject {
 /**
  * block_idからルームのトップページIDを取得
  *
- * @param string|int $roomId ルームID
+ * @param string|int $blockId ブロックID
  * @return string|null ページID。該当するルームのページIDが存在しない場合、nullとする
  */
 	private function __getPageIdByBlockId($blockId) {
@@ -651,7 +683,7 @@ class CurrentLibPage extends LibAppObject {
 /**
  * box_idからページIDを取得
  *
- * @param string|int $roomId ルームID
+ * @param string|int $boxId ボックスID
  * @return string|null ページID。該当するルームのページIDが存在しない場合、nullとする
  */
 	private function __getPageIdByBoxId($boxId) {

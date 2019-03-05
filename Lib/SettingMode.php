@@ -46,13 +46,6 @@ class SettingMode extends LibAppObject {
 	private $__isSettingMode = null;
 
 /**
- * ページのルームIDを保持する
- *
- * @var string ページのルームID(intの文字列)
- */
-	private $__pageRoomId = null;
-
-/**
  * インスタンスの取得
  *
  * @return SettingMode

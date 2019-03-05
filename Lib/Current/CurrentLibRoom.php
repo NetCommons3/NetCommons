@@ -30,6 +30,9 @@ App::uses('LibAppObject', 'NetCommons.Lib');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) 別ファイルにすると分かりにくくなるため
  */
 class CurrentLibRoom extends LibAppObject {
 
@@ -149,6 +152,7 @@ class CurrentLibRoom extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
+		self::$__spacesWOLogin = [Space::PUBLIC_SPACE_ID];
 		parent::_resetInstance(__CLASS__);
 	}
 
@@ -216,7 +220,7 @@ class CurrentLibRoom extends LibAppObject {
  *
  * @return array
  */
-	private function __makeFieldsByRoom() {
+	private function __getFieldsByRoom() {
 		$fields = [
 			'Room.id',
 			'Room.space_id',
@@ -237,7 +241,7 @@ class CurrentLibRoom extends LibAppObject {
  *
  * @return array
  */
-	private function __makeFieldsByRoomsLanguage() {
+	private function __getFieldsByRoomsLanguage() {
 		$fields = [
 			'RoomsLanguage.id',
 			'RoomsLanguage.language_id',
@@ -265,7 +269,7 @@ class CurrentLibRoom extends LibAppObject {
 		if (count($findRoomIds) > 0) {
 			$rooms = $this->Room->find('all', array(
 				'recursive' => -1,
-				'fields' => $this->__makeFieldsByRoom(),
+				'fields' => $this->__getFieldsByRoom(),
 				'conditions' => [
 					'id' => $findRoomIds
 				],
@@ -299,7 +303,7 @@ class CurrentLibRoom extends LibAppObject {
 
 		$room = $this->Room->find('first', array(
 			'recursive' => -1,
-			'fields' => $this->__makeFieldsByRoom(),
+			'fields' => $this->__getFieldsByRoom(),
 			'conditions' => [
 				'id' => $roomId
 			],
@@ -333,7 +337,7 @@ class CurrentLibRoom extends LibAppObject {
 	private function __findRoomsLanguage($roomId) {
 		$roomLanguage = $this->RoomsLanguage->find('first', [
 			'recursive' => -1,
-			'fields' => $this->__makeFieldsByRoomsLanguage(),
+			'fields' => $this->__getFieldsByRoomsLanguage(),
 			'conditions' => [
 				'room_id' => $roomId,
 				'language_id' => $this->__langId,
@@ -345,7 +349,7 @@ class CurrentLibRoom extends LibAppObject {
 		if (! $roomLanguage) {
 			$roomLanguage = $this->RoomsLanguage->find('first', [
 				'recursive' => -1,
-				'fields' => $this->__makeFieldsByRoomsLanguage(),
+				'fields' => $this->__getFieldsByRoomsLanguage(),
 				'conditions' => [
 					'room_id' => $roomId,
 					'is_origin' => true,

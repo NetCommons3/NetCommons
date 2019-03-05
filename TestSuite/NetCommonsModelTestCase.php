@@ -35,11 +35,12 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		if ($this->_modelName) {
 			$model = $this->_modelName;
 			//Tracableビヘイビアの削除
-			$this->$model->Behaviors->unload('NetCommons.Trackable');
-			$this->$model->unbindModel(
-				array('belongsTo' => ['TrackableCreator', 'TrackableUpdater']), false
-			);
-
+			if ($this->$model->Behaviors->loaded('NetCommons.Trackable')) {
+				$this->$model->Behaviors->unload('NetCommons.Trackable');
+				$this->$model->unbindModel(
+					array('belongsTo' => ['TrackableCreator', 'TrackableUpdater']), false
+				);
+			}
 			//MailQueueビヘイビアの削除
 			if ($this->$model->Behaviors->loaded('Mails.MailQueue')) {
 				$this->$model->Behaviors->unload('Mails.MailQueue');

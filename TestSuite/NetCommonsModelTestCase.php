@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentSystem', 'NetCommons.Utility');
+App::uses('Current', 'NetCommons.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
@@ -28,7 +28,9 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		(new CurrentSystem())->setLanguage();
+
+		$instance = Current::getInstance();
+		$instance->setCurrentLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;

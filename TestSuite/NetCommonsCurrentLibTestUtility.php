@@ -313,7 +313,7 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * コントローラのPOSTテスト
  *
- * Mockにせずにエラーにならないところまでは実行するが、saveした結果まではチェックしない。
+ * Mockにせずに登録処理を実行するが、saveした結果まではチェックしない。
  *
  * @param ControllerTestCase $test コントローラテストクラス
  * @param string $url テストするURL
@@ -329,9 +329,9 @@ class NetCommonsCurrentLibTestUtility {
 		}
 
 		$test->testAction($url, ['method' => 'POST', 'return' => 'view', 'data' => $post]);
-//debug($test->contents);
-//debug($test->view);
-//debug($test->headers);
+debug($test->contents);
+debug($test->view);
+debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);

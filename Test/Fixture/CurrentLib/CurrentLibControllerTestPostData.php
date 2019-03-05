@@ -179,7 +179,7 @@ class CurrentLibControllerTestPostData {
 	}
 
 /**
- * フレーム追加のプラグインリスト
+ * フレーム編集のプラグインリスト
  *
  * @return array
  */
@@ -197,6 +197,24 @@ class CurrentLibControllerTestPostData {
 				],
 				'_Frame' => [
 					'redirect' => '/setting/announcements_page',
+				],
+			],
+		];
+
+		return $post;
+	}
+
+/**
+ * フレーム削除のプラグインリスト
+ *
+ * @return array
+ */
+	public function getPostDataByFrameDelete() {
+		$post = [
+			'_method' => 'DELETE',
+			'data' => [
+				'Frame' => [
+					'id' => '14',
 				],
 			],
 		];

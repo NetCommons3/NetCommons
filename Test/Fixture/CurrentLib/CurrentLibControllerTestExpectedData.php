@@ -338,13 +338,17 @@ class CurrentLibControllerTestExpectedData {
 	public function getExpectedRedirectAfterPost($key) {
 		$fullBaseUrl = preg_quote(Configure::read('App.fullBaseUrl'), '#');
 		switch ($key) {
-			case 'toppage_announcement':
+			case 'toppage':
 				$result =
 					'^' . $fullBaseUrl . '.*?/$';
 				break;
 			case 'public_announcement_page':
 				$result =
 					'^' . $fullBaseUrl . '.*?/announcements_page$';
+				break;
+			case 'public_announcement_page_setting_mode':
+				$result =
+					'^' . $fullBaseUrl . '.*?/setting/announcements_page$';
 				break;
 		}
 

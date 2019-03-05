@@ -115,7 +115,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 	}
 
 /**
- * 管理者でのFrame追加テスト
+ * Frame追加テスト
  *
  * @param array $post POSTの内容
  * @dataProvider dataPostRequestFrameAdd
@@ -135,7 +135,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 	}
 
 /**
- * 管理者でのFrame編集テスト
+ * Frame編集テスト
  *
  * @return void
  */
@@ -150,7 +150,8 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 		$url = '/frames/frames/edit';
 		$post = $PostData->getPostDataByFrameEdit();
 		$expects = [
-			'Location' => $ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
+			'Location' =>
+				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
 		];
 		$exception = false;
 
@@ -160,6 +161,37 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
 			$this, $url, $post, $expects, $exception
 		);
+	}
+
+/**
+ * Frame削除テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameDeleteByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/delete';
+		$post = $PostData->getPostDataByFrameDelete();
+		$expects = [
+			'Location' =>
+				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page_setting_mode')
+		];
+		$exception = false;
+
+		$_SERVER['HTTP_REFERER'] = '/setting/announcements_page';
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+		unset($_SERVER['HTTP_REFERER']);
 	}
 
 /**
@@ -424,7 +456,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 				'url' => '/announcements/announcements/edit/12',
 				'post' => $PostData->getPostDataAnnouncement('toppage_announcement'),
 				'expects' => [
-					'Location' => $ExpectedData->getExpectedRedirectAfterPost('toppage_announcement'),
+					'Location' => $ExpectedData->getExpectedRedirectAfterPost('toppage'),
 				],
 				'exception' => false,
 			],

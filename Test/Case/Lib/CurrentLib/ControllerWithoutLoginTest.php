@@ -147,6 +147,29 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 	}
 
 /**
+ * Frame削除テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameDeleteWithoutLogin() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/delete';
+		$post = $PostData->getPostDataByFrameDelete();
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
  * トップページテスト表示のテストデータ
  *
  * @return array テストデータ

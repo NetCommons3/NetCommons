@@ -88,7 +88,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 	}
 
 /**
- * 一般ユーザ1のFrame追加テスト
+ * Frame追加テスト
  *
  * @param array $post POSTの内容
  * @dataProvider dataPostRequestFrameAdd
@@ -109,7 +109,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 	}
 
 /**
- * 一般ユーザ1でのFrame編集テスト
+ * Frame編集テスト
  *
  * @return void
  */
@@ -120,6 +120,29 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 		$controller = 'Frames.Frames';
 		$url = '/frames/frames/edit';
 		$post = $PostData->getPostDataByFrameEdit();
+		$expects = false;
+		$exception = 'ForbiddenException';
+
+		$this->generate($controller, [
+			'components' => ['Security'],
+		]);
+		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+			$this, $url, $post, $expects, $exception
+		);
+	}
+
+/**
+ * Frame削除テスト
+ *
+ * @return void
+ */
+	public function testPostRequestFrameDeleteByGeneralUser1() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$controller = 'Frames.Frames';
+		$url = '/frames/frames/delete';
+		$post = $PostData->getPostDataByFrameDelete();
 		$expects = false;
 		$exception = 'ForbiddenException';
 

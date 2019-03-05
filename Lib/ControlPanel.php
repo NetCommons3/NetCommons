@@ -67,6 +67,10 @@ class ControlPanel extends LibAppObject {
  * @return bool
  */
 	public function isControlPanel() {
+		if (! isset($this->_controller->request)) {
+			return false;
+		}
+
 		$CurrentLibPlugin = $this->CurrentLibPlugin;
 		if ($this->_controller->request->params['plugin'] === $CurrentLibPlugin::PLUGIN_CONTROL_PANEL) {
 			return true;

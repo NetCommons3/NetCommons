@@ -64,95 +64,124 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 		NetCommonsCurrentLibTestUtility::resetCurrentLib();
 		parent::tearDown();
 	}
+//
+///**
+// *  一般ユーザ1でのGETテスト
+// *
+// * @param string $controller generateするコントローラ
+// * @param string $url テストするURL
+// * @param array|false $expects 期待値リスト
+// * @param string|false $exception Exception文字列
+// *
+// * @dataProvider dataGetRequestMyRoomOfAdministratorByGeneralUser1
+// * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1
+// * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1
+// * @dataProvider dataGetRequestPublicCalendarPageByGeneralUser1
+// *
+// * @return void
+// */
+//	public function testGetRequestByGeneralUser1($controller, $url, $expects, $exception) {
+//		$this->generate($controller);
+//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+//			$this, $url, $expects, $exception
+//		);
+//	}
 
 /**
- *  一般ユーザ1でのGETテスト
- *
- * @param string $controller generateするコントローラ
- * @param string $url テストするURL
- * @param array|false $expects 期待値リスト
- * @param string|false $exception Exception文字列
- *
- * @dataProvider dataGetRequestMyRoomOfAdministratorByGeneralUser1
- * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1
- * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1
- * @dataProvider dataGetRequestPublicCalendarPageByGeneralUser1
+ * パブリックのお知らせページのセッティングモード表示のテスト
  *
  * @return void
  */
-	public function testGetRequestByGeneralUser1($controller, $url, $expects, $exception) {
+	public function testGetRequestAnnouncementPageWithSettingModeByGeneralUser1() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$controller = 'Pages.Pages';
+		$url = '/setting/announcements_page';
+		$expects = [
+			'Location' =>
+				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
+		];
+		$exception = false;
+
+		//セッティングモードON
+		NetCommonsCurrentLibTestUtility::settingMode(true);
+
 		$this->generate($controller);
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
 		);
+
+		//セッティングモードのクリア
+		NetCommonsCurrentLibTestUtility::settingMode(null);
 	}
-
-/**
- * Frame追加テスト
- *
- * @param array $post POSTの内容
- * @dataProvider dataPostRequestFrameAdd
- * @return void
- */
-	public function testPostRequestFrameAddByGeneralUser1($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * Frame編集テスト
- *
- * @return void
- */
-	public function testPostRequestFrameEditByGeneralUser1() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * Frame削除テスト
- *
- * @return void
- */
-	public function testPostRequestFrameDeleteByGeneralUser1() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
+//
+///**
+// * Frame追加テスト
+// *
+// * @param array $post POSTの内容
+// * @dataProvider dataPostRequestFrameAdd
+// * @return void
+// */
+//	public function testPostRequestFrameAddByGeneralUser1($post, $expects) {
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/add';
+//		$expects = false;
+//		$exception = 'ForbiddenException';
+//
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//	}
+//
+///**
+// * Frame編集テスト
+// *
+// * @return void
+// */
+//	public function testPostRequestFrameEditByGeneralUser1() {
+//		//@var CurrentLibControllerTestPostData
+//		$PostData = new CurrentLibControllerTestPostData();
+//
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/edit';
+//		$post = $PostData->getPostDataByFrameEdit();
+//		$expects = false;
+//		$exception = 'ForbiddenException';
+//
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//	}
+//
+///**
+// * Frame削除テスト
+// *
+// * @return void
+// */
+//	public function testPostRequestFrameDeleteByGeneralUser1() {
+//		//@var CurrentLibControllerTestPostData
+//		$PostData = new CurrentLibControllerTestPostData();
+//
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/delete';
+//		$post = $PostData->getPostDataByFrameDelete();
+//		$expects = false;
+//		$exception = 'ForbiddenException';
+//
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//	}
 
 /**
  * 管理者のマイルーム表示のテストデータ

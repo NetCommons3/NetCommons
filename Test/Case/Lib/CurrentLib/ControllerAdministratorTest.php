@@ -92,6 +92,45 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 	}
 
 /**
+ * パブリックのお知らせページのセッティングモード表示のテスト
+ *
+ * @return void
+ */
+	public function testGetRequestAnnouncementPageWithSettingModeByAdministrator() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$controller = 'Pages.Pages';
+		$url = '/setting/announcements_page';
+		$expects = [
+			'assertContains' => array_merge(
+				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
+				$ExpectedData->getExpectedFrame(['menu']),
+				$ExpectedData->getExpectedMenuList([
+					'public', 'private', 'community_1', 'community_2'
+				]),
+				$ExpectedData->getExpectedSettingMode('off')
+			),
+			'assertNotContains' => [],
+			'assertRegExp' => array_merge([],
+				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
+			),
+		];
+		$exception = false;
+
+		//セッティングモードON
+		NetCommonsCurrentLibTestUtility::settingMode(true);
+
+		$this->generate($controller);
+		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+			$this, $url, $expects, $exception
+		);
+
+		//セッティングモードのクリア
+		NetCommonsCurrentLibTestUtility::settingMode(null);
+	}
+
+/**
  * 管理者でのPOSTテスト
  *
  * @param string $controller generateするコントローラ

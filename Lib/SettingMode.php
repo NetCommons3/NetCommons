@@ -43,7 +43,7 @@ class SettingMode extends LibAppObject {
  *
  * @var bool
  */
-	private $__isSettingMode = null;
+	private static $__isSettingMode = null;
 
 /**
  * インスタンスの取得
@@ -60,6 +60,7 @@ class SettingMode extends LibAppObject {
  * @return void
  */
 	public static function resetInstance() {
+		self::$__isSettingMode = null;
 		parent::_resetInstance(__CLASS__);
 	}
 
@@ -69,25 +70,25 @@ class SettingMode extends LibAppObject {
  * @return bool
  */
 	public function isSettingMode() {
-		if (isset($this->__isSettingMode)) {
-			return $this->__isSettingMode;
+		if (isset(self::$__isSettingMode)) {
+			return self::$__isSettingMode;
 		}
 
 		$tmpSettingMode = CakeSession::read(self::SETTING_MODE_WORD);
 		if ($tmpSettingMode !== null) {
-			$this->__isSettingMode = $tmpSettingMode;
-			return $this->__isSettingMode;
+			self::$__isSettingMode = $tmpSettingMode;
+			return self::$__isSettingMode;
 		}
 
 		$pattern = preg_quote('/' . self::SETTING_MODE_WORD . '/', '/');
 		if (preg_match('/' . $pattern . '/', Router::url())) {
-			$this->__isSettingMode = true;
+			self::$__isSettingMode = true;
 		} else {
-			$this->__isSettingMode = false;
+			self::$__isSettingMode = false;
 		}
-		CakeSession::write(self::SETTING_MODE_WORD, $this->__isSettingMode);
+		CakeSession::write(self::SETTING_MODE_WORD, self::$__isSettingMode);
 
-		return $this->__isSettingMode;
+		return self::$__isSettingMode;
 	}
 
 /**
@@ -97,7 +98,7 @@ class SettingMode extends LibAppObject {
  * @return void
  */
 	public function setSettingMode($settingMode) {
-		$this->__isSettingMode = $settingMode;
+		self::$__isSettingMode = $settingMode;
 		CakeSession::write(self::SETTING_MODE_WORD, $settingMode);
 	}
 

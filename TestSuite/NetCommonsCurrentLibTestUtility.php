@@ -11,6 +11,7 @@
 
 App::uses('AuthComponent', 'Controller/Component');
 App::uses('Current', 'NetCommons.Utility');
+App::uses('SettingMode', 'NetCommons.Lib');
 
 /**
  * Fixture test_schema.sqlを読み込むんでテストするためのユーティリティ
@@ -227,6 +228,25 @@ class NetCommonsCurrentLibTestUtility {
 	}
 
 /**
+ * セッティングモードの変更
+ *
+ * @return void
+ */
+	public static function settingMode($setting) {
+		if (get_class(new Current()) === 'CurrentLib') {
+			$reflectionClass = new ReflectionClass('SettingMode');
+			$property = $reflectionClass->getProperty('__isSettingMode');
+			$property->setAccessible(true);
+			$property->setValue($setting);
+		} else {
+			$reflectionClass = new ReflectionClass('Current');
+			$property = $reflectionClass->getProperty('_isSettingMode');
+			$property->setAccessible(true);
+			$property->setValue($setting);
+		}
+	}
+
+/**
  * 旧Currentのリセット
  *
  * @return void
@@ -303,7 +323,9 @@ class NetCommonsCurrentLibTestUtility {
 		}
 
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
-//debug($test->contents);
+debug($test->contents);
+debug($test->view);
+debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);

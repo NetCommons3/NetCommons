@@ -14,6 +14,7 @@
  *
  * @package NetCommons\Test\Fixture\CurrentLib
  * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class CurrentLibControllerTestExpectedData {
 
@@ -22,6 +23,7 @@ class CurrentLibControllerTestExpectedData {
  *
  * @param array $keys 当メソッドで内部的に処理するキーリスト
  * @return array assertContains(assertNotContains)の結果配列
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function getExpectedAnnouncement($keys) {
 		$results = [];
@@ -72,18 +74,54 @@ class CurrentLibControllerTestExpectedData {
 		$results = [];
 
 		switch ($key) {
-			case 'private_plan':
+			case 'private_plan_1':
 				$results[] = '<h1 data-calendar-name="dispTitle">Private plan 1</h1>';
 				break;
-//			case 'public_plan':
-//				$results[] = '<p>Public Announcement Content 1</p>';
-//				break;
-//			case 'community_1':
-//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
-//				break;
-//			case 'community_2':
-//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
-//				break;
+			case 'private_plan_2':
+				$results[] = '<h1 data-calendar-name="dispTitle">Private plan 2</h1>';
+				break;
+		}
+
+		return $results;
+	}
+
+/**
+ * カレンダーの予定
+ *
+ * @param array $keys 当メソッドで内部的に処理するキーリスト
+ * @return array assetRegExpの結果配列の結果配列
+ */
+	public function getExpectedCalendar($keys) {
+		$results = [];
+
+		foreach ($keys as $key) {
+			switch ($key) {
+				case 'public_plan_1':
+					$result =
+						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
+							'Repeat Plan 1' .
+						'</a>';
+					break;
+				case 'private_plan_1':
+					$result =
+						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
+							'Private plan 1' .
+						'</a>';
+					break;
+				case 'private_plan_2':
+					$result =
+						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
+							'Private plan 2' .
+						'</a>';
+					break;
+				case 'community_plan_1':
+					$result =
+						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
+							'Room plan 1' .
+						'</a>';
+					break;
+			}
+			$results[] = '#' . $result . '#';
 		}
 
 		return $results;
@@ -102,15 +140,6 @@ class CurrentLibControllerTestExpectedData {
 			case 'community_1_bbs_article_1':
 				$results[] = 'Community room 1 bbs 1 article 1 title';
 				break;
-//			case 'public_plan':
-//				$results[] = '<p>Public Announcement Content 1</p>';
-//				break;
-//			case 'community_1':
-//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
-//				break;
-//			case 'community_2':
-//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
-//				break;
 		}
 
 		return $results;
@@ -132,15 +161,6 @@ class CurrentLibControllerTestExpectedData {
 						' <span class="hidden-xs">一覧へ</span>' .
 					'</a>';
 				break;
-//			case 'public_plan':
-//				$results[] = '<p>Public Announcement Content 1</p>';
-//				break;
-//			case 'community_1':
-//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
-//				break;
-//			case 'community_2':
-//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
-//				break;
 		}
 
 		$results[] = '#' . $result . '#';
@@ -257,6 +277,59 @@ class CurrentLibControllerTestExpectedData {
 	}
 
 /**
+ * メニューのアクティブ
+ *
+ * @param string $key 当メソッドで内部的に処理するキー
+ * @return array assetRegExpの結果配列の結果配列
+ */
+	public function getExpectedActiveMenu($key) {
+		switch ($key) {
+			case 'toppage':
+				$result =
+					'<a href=".*?/".*?active">' .
+						'<span class="pull-left">Home</span>';
+				break;
+			case 'public_announcement_page':
+				$result =
+					'<a href=".*?/announcements_page".*?active">' .
+						'<span class="pull-left">Announcements Page</span>';
+				break;
+			case 'public_calendar_page':
+				$result =
+					'<a href=".*?/calendars_page".*?active">' .
+						'<span class="pull-left">Calendars Page</span>';
+				break;
+			case 'private_administrator':
+				$result =
+					'<a href=".*?/private/private_room_system_admistrator".*?active">' .
+						'<span class="pull-left">プライベート</span>';
+				break;
+			case 'private_general_user_1':
+				$result =
+					'<a href=".*?/private/private_room_general_user_1".*?active">' .
+						'<span class="pull-left">プライベート</span>';
+				break;
+			case 'community_1':
+				$result =
+					'<a href=".*?/community/community_room_1".*?active">' .
+						'<span class="pull-left">Community room 1</span>';
+				break;
+			case 'community_1_bbs_page':
+				$result =
+					'<a href=".*?/community/room_1_bbs_page".*?active">' .
+						'<span class="pull-left">Community room 1 Bbs Page</span>';
+				break;
+			case 'community_2':
+				$result =
+					'<a href=".*?/community/community_room_2".*?active">' .
+						'<span class="pull-left">Community room 2</span>';
+				break;
+		}
+
+		return ['#' . $result . '#'];
+	}
+
+/**
  * POST後のリダイレクトURL
  *
  * @param string $key 当メソッドで内部的に処理するキー
@@ -272,15 +345,6 @@ class CurrentLibControllerTestExpectedData {
 				$result =
 					'^' . Configure::read('App.fullBaseUrl') . '.*?/announcements_page$';
 				break;
-//			case 'public_plan':
-//				$results[] = '<p>Public Announcement Content 1</p>';
-//				break;
-//			case 'community_1':
-//				$results[] = '<p>Community Room 1 Announcement Content 1</p>';
-//				break;
-//			case 'community_2':
-//				$results[] = '<p>Community Room 2 Announcement Content 1</p>';
-//				break;
 		}
 
 		return '#' . $result . '#';

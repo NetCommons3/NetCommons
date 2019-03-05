@@ -1,6 +1,6 @@
 <?php
 /**
- * CurrentPage::setPage()のテスト
+ * Current::read()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

@@ -173,15 +173,7 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 		CakeSession::write('Auth.User', null);
 		AuthComponent::$sessionKey = 'Auth.User';
 
-		foreach (['CurrentFrame', 'CurrentPage', 'CurrentSystem'] as $utility) {
-			$reflectionClass = new ReflectionClass($utility);
-			$property = $reflectionClass->getProperty('__memoryCache');
-			$property->setAccessible(true);
-			$property->setValue($utility, []);
-		}
-
-		Current::$current = array();
-		Current::$permission = array();
+		Current::resetInstance();
 
 		OriginalKeyBehavior::$isUnitRandomKey = false;
 

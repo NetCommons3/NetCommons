@@ -1,6 +1,6 @@
 <?php
 /**
- * CurrentLibPage::setPage()のテスト
+ * Current::remove()のテスト
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

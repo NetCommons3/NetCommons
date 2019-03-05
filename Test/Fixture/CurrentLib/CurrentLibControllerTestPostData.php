@@ -71,8 +71,7 @@ class CurrentLibControllerTestPostData {
 					'WorkflowComment' => [
 						'comment' => '',
 					],
-				]
-;
+				];
 				break;
 		}
 

@@ -160,15 +160,7 @@ abstract class NetCommonsCakeTestCase extends CakeTestCase {
 		Configure::write('Config.language', null);
 		SiteSettingUtil::reset();
 
-		foreach (['CurrentFrame', 'CurrentPage', 'CurrentSystem'] as $utility) {
-			$reflectionClass = new ReflectionClass($utility);
-			$property = $reflectionClass->getProperty('__memoryCache');
-			$property->setAccessible(true);
-			$property->setValue($utility, []);
-		}
-
-		Current::$current = array();
-		Current::$permission = array();
+		Current::resetInstance();
 
 		OriginalKeyBehavior::$isUnitRandomKey = false;
 

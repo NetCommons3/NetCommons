@@ -27,10 +27,10 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function setUp() {
-		parent::setUp();
-
 		$instance = Current::getInstance();
 		$instance->setCurrentLanguage();
+
+		parent::setUp();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;

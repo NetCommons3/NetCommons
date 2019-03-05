@@ -33,13 +33,8 @@ class NetCommonsControllerCsrfTokenTest extends NetCommonsControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->generate(
-			'NetCommons.NetCommons', array(
-				'components' => array(
-					'Auth' => array(),
-				)
-			)
-		);
+
+		$this->generate('NetCommons.NetCommons');
 	}
 
 /**

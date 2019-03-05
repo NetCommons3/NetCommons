@@ -46,10 +46,10 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
  * @return void
  */
 	public function setUp() {
-		parent::setUp();
-
 		$instance = Current::getInstance();
 		$instance->setCurrentLanguage();
+
+		parent::setUp();
 
 		if ($this->_helperName) {
 			$this->loadHelper($this->_helperName);

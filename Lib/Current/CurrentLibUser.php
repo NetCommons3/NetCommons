@@ -78,10 +78,11 @@ class CurrentLibUser extends LibAppObject {
  */
 	public function isLoginChanged() {
 		$sessionUser = $this->_controller->Auth->user();
-		if (! $sessionUser) {
+		if (! $sessionUser || !isset($sessionUser['modified'])) {
 			return false;
 		}
-		if (isset($this->__user) &&
+
+		if (isset($this->__user) && isset($this->__user['modified']) &&
 				($this->__user['modified']) !== $sessionUser['modified']) {
 			return true;
 		} else {

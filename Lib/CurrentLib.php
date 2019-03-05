@@ -247,27 +247,45 @@ class CurrentLib extends LibAppObject {
 /**
  * セッティングモードのワード
  *
+ * 適切なライブラリに持っていきたいが、旧Currentライブラリで使用されているため、当クラスにも定義する。
+ *
  * @var string
  */
 	const SETTING_MODE_WORD = SettingMode::SETTING_MODE_WORD;
 
 /**
  * Usersプラグイン名の定数
+ *
+ * 適切なライブラリに持っていきたいが、旧Currentライブラリで使用されているため、当クラスにも定義する。
+ *
+ * @var string
  */
 	const PLUGIN_USERS = CurrentLibPlugin::PLUGIN_USERS;
 
 /**
  * Groupsプラグイン名の定数
+ *
+ * 適切なライブラリに持っていきたいが、旧Currentライブラリで使用されているため、当クラスにも定義する。
+ *
+ * @var string
  */
 	const PLUGIN_GROUPS = CurrentLibPlugin::PLUGIN_GROUPS;
 
 /**
  * Wysiwygプラグイン名の定数
+ *
+ * 適切なライブラリに持っていきたいが、旧Currentライブラリで使用されているため、当クラスにも定義する。
+ *
+ * @var string
  */
 	const PLUGIN_WYSIWYG = CurrentLibPlugin::PLUGIN_WYSIWYG;
 
 /**
  * Pagesプラグイン名の定数
+ *
+ * 適切なライブラリに持っていきたいが、旧Currentライブラリで使用されているため、当クラスにも定義する。
+ *
+ * @var string
  */
 	const PLUGIN_PAGES = CurrentLibPlugin::PLUGIN_PAGES;
 

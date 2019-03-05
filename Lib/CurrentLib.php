@@ -395,9 +395,10 @@ class CurrentLib extends LibAppObject {
  *
  * @return void
  */
-	private function __setCurrentLanguage() {
+	public function setCurrentLanguage() {
 		$language = $this->CurrentLibLanguage->findLanguage();
 		self::$current['Language'] = $language['Language'];
+		$this->CurrentLibLanguage->setConfigure($language['Language']['code']);
 	}
 
 /**
@@ -582,7 +583,7 @@ class CurrentLib extends LibAppObject {
 		$this->__setCurrentUser();
 
 		//言語データのセット
-		$this->__setCurrentLanguage();
+		$this->setCurrentLanguage();
 
 		//プラグイン関連のデータセット
 		$this->__setCurrentPlugin();

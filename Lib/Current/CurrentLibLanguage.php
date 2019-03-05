@@ -80,6 +80,20 @@ class CurrentLibLanguage extends LibAppObject {
 	}
 
 /**
+ * Configureにlanguageをセットする
+ *
+ * @param string $langCode コントローラ
+ * @return void
+ */
+	public function setConfigure($langCode) {
+		if ($this->Language->useDbConfig !== 'test' &&
+				$langCode !== Configure::write('Config.language')) {
+			Configure::write('Config.language', $langCode);
+			$this->_controller->Session->write('Config.language', $langCode);
+		}
+	}
+
+/**
  * 言語データを取得
  *
  * @return array

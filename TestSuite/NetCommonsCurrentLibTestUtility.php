@@ -287,4 +287,73 @@ class NetCommonsCurrentLibTestUtility {
 		$Property->setValue(null);
 	}
 
+/**
+ * コントローラのGETテスト
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testControllerGetMethod(
+			ControllerTestCase $test, $url, $expects, $exception) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
+//debug($test->contents);
+
+		$test->contents = str_replace("\n", '', $test->contents);
+		$test->contents = str_replace("\t", '', $test->contents);
+
+		if ($expects !== false) {
+			foreach ($expects as $assert => $expect) {
+				foreach ($expect as $ex) {
+					$test->$assert($ex, $test->contents);
+				}
+			}
+		}
+	}
+
+/**
+ * コントローラのPOSTテスト
+ *
+ * Mockにせずにエラーにならないところまでは実行するが、saveした結果まではチェックしない。
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testControllerPostMethod(
+			ControllerTestCase $test, $url, $post, $expects, $exception) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		$test->testAction($url, ['method' => 'POST', 'return' => 'view', 'data' => $post]);
+//debug($test->contents);
+//debug($test->view);
+//debug($test->headers);
+
+		$test->contents = str_replace("\n", '', $test->contents);
+		$test->contents = str_replace("\t", '', $test->contents);
+
+		if ($expects !== false) {
+			foreach ($expects as $assert => $expect) {
+				if ($assert === 'Location') {
+					$test->assertRegExp($expect, $test->headers['Location']);
+				} else {
+					foreach ($expect as $ex) {
+						$test->$assert($ex, $test->contents);
+					}
+				}
+			}
+			self::dropTables();
+		}
+	}
+
 }

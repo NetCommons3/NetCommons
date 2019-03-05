@@ -397,8 +397,10 @@ class CurrentLib extends LibAppObject {
  */
 	public function setCurrentLanguage() {
 		$language = $this->CurrentLibLanguage->findLanguage();
-		self::$current['Language'] = $language['Language'];
-		$this->CurrentLibLanguage->setConfigure($language['Language']['code']);
+		if (isset($language['Language'])) {
+			self::$current['Language'] = $language['Language'];
+			$this->CurrentLibLanguage->setConfigure($language['Language']['code']);
+		}
 	}
 
 /**

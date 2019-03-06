@@ -75,10 +75,10 @@ class CurrentLibControllerTestExpectedData {
 
 		switch ($key) {
 			case 'private_plan_1':
-				$results[] = '<h1 data-calendar-name="dispTitle">Private plan 1</h1>';
+				$results[] = '<h1 data-calendar-name="dispTitle">Repeat Private Plan 1</h1>';
 				break;
 			case 'private_plan_2':
-				$results[] = '<h1 data-calendar-name="dispTitle">Private plan 2</h1>';
+				$results[] = '<h1 data-calendar-name="dispTitle">Repeat Private Plan 2</h1>';
 				break;
 		}
 
@@ -99,25 +99,25 @@ class CurrentLibControllerTestExpectedData {
 				case 'public_plan_1':
 					$result =
 						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
-							'Repeat Plan 1' .
+							'Repeat Public Plan 1' .
 						'</a>';
 					break;
 				case 'private_plan_1':
 					$result =
 						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
-							'Private plan 1' .
+							'Repeat Private Plan 1' .
 						'</a>';
 					break;
 				case 'private_plan_2':
 					$result =
 						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
-							'Private plan 2' .
+							'Repeat Private Plan 2' .
 						'</a>';
 					break;
 				case 'community_plan_1':
 					$result =
 						'<a href=".*?/calendars/calendar_plans/view/calendar_event_key_[0-9]+\?frame_id=11">' .
-							'Room plan 1' .
+							'Repeat Room Plan 1' .
 						'</a>';
 					break;
 			}

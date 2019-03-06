@@ -43,6 +43,9 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 			return;
 		}
 		NetCommonsCurrentLibTestUtility::loadTables();
+
+		//ログ出力
+		NetCommonsCurrentLibTestUtility::debugLogTestName('管理者でログイン', $method);
 	}
 
 /**
@@ -73,18 +76,18 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @dataProvider dataGetRequestToppageByAdministrator
- * @dataProvider dataGetRequestMyRoomOfAdministratorByAdministrator
- * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByAdministrator
- * @dataProvider dataGetRequestAnnouncementBlockSettingsByAdministrator
- * @dataProvider dataGetRequestPrivatePlanOfAdministoratorByAdministrator
- * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByAdministrator
- * @dataProvider dataGetRequestBbsArticleOfCommunityByAdministrator
- * @dataProvider dataGetRequestPublicCalendarPageByAdministrator
+ * @dataProvider dataGetRequestToppage
+ * @dataProvider dataGetRequestMyRoomOfAdministrator
+ * @dataProvider dataGetRequestMyRoomOfGeneralUser1
+ * @dataProvider dataGetRequestAnnouncementBlockSettings
+ * @dataProvider dataGetRequestPrivatePlanOfAdministorator
+ * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1
+ * @dataProvider dataGetRequestBbsArticleOfCommunity
+ * @dataProvider dataGetRequestPublicCalendarPage
  *
  * @return void
  */
-	public function testGetRequestByAdministrator($controller, $url, $expects, $exception) {
+	public function testGetRequest($controller, $url, $expects, $exception) {
 		$this->generate($controller);
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
@@ -96,7 +99,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return void
  */
-	public function testGetRequestAnnouncementPageWithSettingModeByAdministrator() {
+	public function testGetRequestAnnouncementPageWithSettingMode() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -139,15 +142,15 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @_dataProvider dataPostRequestAnnouncementOfToppageByAdministrator
- * @_dataProvider dataPostRequestAnnouncementOfPublicPageByAdministrator
- * @_dataProvider dataPostRequestAddCalendarPlanByAdministrator
- * @_dataProvider dataPostRequestEditCalendarPlanByAdministrator
- * @dataProvider dataPostRequestDeleteCalendarPlanByAdministrator
+ * @_dataProvider dataPostRequestAnnouncementOfToppage
+ * @_dataProvider dataPostRequestAnnouncementOfPublicPage
+ * @_dataProvider dataPostRequestAddCalendarPlan
+ * @_dataProvider dataPostRequestEditCalendarPlan
+ * @dataProvider dataPostRequestDeleteCalendarPlan
  *
  * @return void
  */
-	public function testPostRequestByAdministrator($controller, $url, $post, $expects, $exception) {
+	public function testPostRequest($controller, $url, $post, $expects, $exception) {
 		$this->generate($controller, [
 			'components' => ['Security'],
 		]);
@@ -163,7 +166,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */
-	public function testPostRequestFrameAddByAdministrator($post, $expects) {
+	public function testPostRequestFrameAdd($post, $expects) {
 		$controller = 'Frames.Frames';
 		$url = '/frames/frames/add';
 		$exception = false;
@@ -181,7 +184,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return void
  */
-	public function testPostRequestFrameEditByAdministrator() {
+	public function testPostRequestFrameEdit() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -210,7 +213,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return void
  */
-	public function testPostRequestFrameDeleteByAdministrator() {
+	public function testPostRequestFrameDelete() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -241,7 +244,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestToppageByAdministrator() {
+	public function dataGetRequestToppage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -272,7 +275,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestMyRoomOfAdministratorByAdministrator() {
+	public function dataGetRequestMyRoomOfAdministrator() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -306,7 +309,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestMyRoomOfGeneralUser1ByAdministrator() {
+	public function dataGetRequestMyRoomOfGeneralUser1() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -327,7 +330,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestAnnouncementBlockSettingsByAdministrator() {
+	public function dataGetRequestAnnouncementBlockSettings() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -360,7 +363,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPrivatePlanOfAdministoratorByAdministrator() {
+	public function dataGetRequestPrivatePlanOfAdministorator() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -391,7 +394,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPrivatePlanOfGeneralUser1ByAdministrator() {
+	public function dataGetRequestPrivatePlanOfGeneralUser1() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -412,7 +415,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestBbsArticleOfCommunityByAdministrator() {
+	public function dataGetRequestBbsArticleOfCommunity() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -444,7 +447,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPublicCalendarPageByAdministrator() {
+	public function dataGetRequestPublicCalendarPage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -485,7 +488,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataPostRequestAnnouncementOfToppageByAdministrator() {
+	public function dataPostRequestAnnouncementOfToppage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -512,7 +515,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataPostRequestAnnouncementOfPublicPageByAdministrator() {
+	public function dataPostRequestAnnouncementOfPublicPage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -551,7 +554,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataPostRequestAddCalendarPlanByAdministrator() {
+	public function dataPostRequestAddCalendarPlan() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -621,7 +624,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataPostRequestEditCalendarPlanByAdministrator() {
+	public function dataPostRequestEditCalendarPlan() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -699,7 +702,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  *
  * @return array テストデータ
  */
-	public function dataPostRequestDeleteCalendarPlanByAdministrator() {
+	public function dataPostRequestDeleteCalendarPlan() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 

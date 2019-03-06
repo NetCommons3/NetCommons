@@ -125,6 +125,51 @@ class NetCommonsCurrentLibTestUtility {
 	];
 
 /**
+ * テスト名をdebugに出力
+ *
+ * @param $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
+ * @param $method テストメソッド
+ * @return void
+ */
+	public static function debugLogTestName($loginTitle, $method) {
+		$pos = strpos($method, 'with');
+		if ($pos !== false) {
+			$testName = mb_substr($method, 0, $pos - 1);
+			$testSubTitle = mb_substr($method, $pos - 1);
+		} else {
+			$testName = $method;
+			$testSubTitle = '';
+		}
+
+		switch ($testName) {
+			case 'testGetRequest';
+				$testName = 'GETリクエスト';
+				break;
+			case 'testGetRequestAnnouncementPageWithSettingMode':
+				$testName = 'セッティングモードON(パブリックのお知らせページ)';
+				break;
+			case 'testPostRequest';
+				$testName = 'POSTリクエスト';
+				break;
+			case 'testPostRequestFrameAdd';
+				$testName = 'フレーム追加';
+				break;
+			case 'testPostRequestFrameEdit';
+				$testName = 'フレーム編集';
+				break;
+			case 'testPostRequestFrameDelete';
+				$testName = 'フレーム削除';
+				break;
+		}
+
+		//ログ出力
+		CakeLog::debug('');
+		CakeLog::debug('');
+		CakeLog::debug('[' . $loginTitle . '] ' . $testName . $testSubTitle);
+		CakeLog::debug('');
+	}
+
+/**
  * テーブルのロード
  *
  * @return void

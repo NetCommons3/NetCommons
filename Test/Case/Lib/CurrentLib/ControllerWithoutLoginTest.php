@@ -21,7 +21,7 @@ App::uses('Current', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
  */
-class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCase {
+class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
 
 /**
  * By default, all fixtures attached to this class will be truncated and reloaded after each test.
@@ -43,7 +43,10 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 			return;
 		}
 		NetCommonsCurrentLibTestUtility::loadTables();
-	}
+
+		//ログ出力
+		NetCommonsCurrentLibTestUtility::debugLogTestName('ログインなし', $method);
+}
 
 /**
  * tearDown method
@@ -63,16 +66,16 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @dataProvider dataGetRequestToppageWithoutLogin
- * @dataProvider dataGetRequestMyRoomOfAdministratorWithoutLogin
- * @dataProvider dataGetRequestAnnouncementBlockSettingsWithoutLogin
- * @dataProvider dataGetRequestPrivatePlanOfAdministoratorWithoutLogin
- * @dataProvider dataGetRequestBbsArticleOfCommunityWithoutLogin
- * @dataProvider dataGetRequestPublicCalendarPageWithoutLogin
+ * @dataProvider dataGetRequestToppage
+ * @dataProvider dataGetRequestMyRoomOfAdministrator
+ * @dataProvider dataGetRequestAnnouncementBlockSettings
+ * @dataProvider dataGetRequestPrivatePlanOfAdministorator
+ * @dataProvider dataGetRequestBbsArticleOfCommunity
+ * @dataProvider dataGetRequestPublicCalendarPage
  *
  * @return void
  */
-	public function testGetRequestWithoutLogin($controller, $url, $expects, $exception) {
+	public function testGetRequest($controller, $url, $expects, $exception) {
 		$this->generate($controller);
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
@@ -88,12 +91,12 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @dataProvider dataPostRequestAnnouncementOfToppageWithoutLogin
- * @dataProvider dataPostRequestAnnouncementOfPublicPageWithoutLogin
+ * @dataProvider dataPostRequestAnnouncementOfToppage
+ * @dataProvider dataPostRequestAnnouncementOfPublicPage
  *
  * @return void
  */
-	public function testPostRequestWithoutLogin($controller, $url, $post, $expects, $exception) {
+	public function testPostRequest($controller, $url, $post, $expects, $exception) {
 		$this->generate($controller, [
 			'components' => ['Security'],
 		]);
@@ -109,7 +112,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */
-	public function testPostRequestFrameAddWithoutLogin($post, $expects) {
+	public function testPostRequestFrameAdd($post, $expects) {
 		$controller = 'Frames.Frames';
 		$url = '/frames/frames/add';
 		$expects = false;
@@ -128,7 +131,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return void
  */
-	public function testPostRequestFrameEditWithoutLogin() {
+	public function testPostRequestFrameEdit() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -151,7 +154,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return void
  */
-	public function testPostRequestFrameDeleteWithoutLogin() {
+	public function testPostRequestFrameDelete() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -174,7 +177,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestToppageWithoutLogin() {
+	public function dataGetRequestToppage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -208,7 +211,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestMyRoomOfAdministratorWithoutLogin() {
+	public function dataGetRequestMyRoomOfAdministrator() {
 		$results = [
 			'管理者のマイルーム' => [
 				'controller' => 'Pages.Pages',
@@ -226,7 +229,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestAnnouncementBlockSettingsWithoutLogin() {
+	public function dataGetRequestAnnouncementBlockSettings() {
 		$results = [
 			'お知らせのブロック設定表示[Community room 1]' => [
 				'controller' => 'Announcements.AnnouncementBlocks',
@@ -244,7 +247,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPrivatePlanOfAdministoratorWithoutLogin() {
+	public function dataGetRequestPrivatePlanOfAdministorator() {
 		$results = [
 			'プライベート(管理者)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',
@@ -262,7 +265,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestBbsArticleOfCommunityWithoutLogin() {
+	public function dataGetRequestBbsArticleOfCommunity() {
 		$results = [
 			'コミュニティの記事詳細表示' => [
 				'controller' => 'Bbses.BbsArticles',
@@ -280,7 +283,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPublicCalendarPageWithoutLogin() {
+	public function dataGetRequestPublicCalendarPage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -323,7 +326,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataPostRequestAnnouncementOfToppageWithoutLogin() {
+	public function dataPostRequestAnnouncementOfToppage() {
 		//@var CurrentLibControllerTestExpectedData
 		//$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -348,7 +351,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataPostRequestAnnouncementOfPublicPageWithoutLogin() {
+	public function dataPostRequestAnnouncementOfPublicPage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 

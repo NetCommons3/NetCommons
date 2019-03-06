@@ -214,7 +214,8 @@ $startTime = microtime(true);
 //ksort($debug);
 //CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
 $endTime = microtime(true);
-//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export(($endTime - $startTime), true));
+CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') Current::initialize()');
+CakeLog::debug($indent . var_export(($endTime - $startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;

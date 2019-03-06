@@ -43,6 +43,9 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
 			return;
 		}
 		NetCommonsCurrentLibTestUtility::loadTables();
+
+		//ログ出力
+		NetCommonsCurrentLibTestUtility::debugLogTestName('一般ユーザ1でログイン', $method);
 	}
 
 /**
@@ -73,14 +76,14 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @dataProvider dataGetRequestMyRoomOfAdministratorByGeneralUser1
- * @dataProvider dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1
- * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1
- * @dataProvider dataGetRequestPublicCalendarPageByGeneralUser1
+ * @dataProvider dataGetRequestMyRoomOfAdministrator
+ * @dataProvider dataGetRequestMyRoomOfGeneralUser1
+ * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1
+ * @dataProvider dataGetRequestPublicCalendarPage
  *
  * @return void
  */
-	public function testGetRequestByGeneralUser1($controller, $url, $expects, $exception) {
+	public function testGetRequest($controller, $url, $expects, $exception) {
 		$this->generate($controller);
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
@@ -92,7 +95,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return void
  */
-	public function testGetRequestAnnouncementPageWithSettingModeByGeneralUser1() {
+	public function testGetRequestAnnouncementPageWithSettingMode() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -123,7 +126,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */
-	public function testPostRequestFrameAddByGeneralUser1($post, $expects) {
+	public function testPostRequestFrameAdd($post, $expects) {
 		$controller = 'Frames.Frames';
 		$url = '/frames/frames/add';
 		$expects = false;
@@ -142,7 +145,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return void
  */
-	public function testPostRequestFrameEditByGeneralUser1() {
+	public function testPostRequestFrameEdit() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -165,7 +168,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return void
  */
-	public function testPostRequestFrameDeleteByGeneralUser1() {
+	public function testPostRequestFrameDelete() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 
@@ -188,7 +191,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestMyRoomOfAdministratorByGeneralUser1() {
+	public function dataGetRequestMyRoomOfAdministrator() {
 		$results = [
 			'管理者のマイルーム' => [
 				'controller' => 'Pages.Pages',
@@ -206,7 +209,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestMyRoomOfGeneralUser1ByGeneralUser1() {
+	public function dataGetRequestMyRoomOfGeneralUser1() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -243,7 +246,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPrivatePlanOfGeneralUser1ByGeneralUser1() {
+	public function dataGetRequestPrivatePlanOfGeneralUser1() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
@@ -279,7 +282,7 @@ class NetCommonsLibCurrentLibControllerGeneralUser1Test extends ControllerTestCa
  *
  * @return array テストデータ
  */
-	public function dataGetRequestPublicCalendarPageByGeneralUser1() {
+	public function dataGetRequestPublicCalendarPage() {
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 

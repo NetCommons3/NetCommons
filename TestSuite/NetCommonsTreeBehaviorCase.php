@@ -71,6 +71,18 @@ abstract class NetCommonsTreeBehaviorCase extends NetCommonsModelTestCase {
 		if (version_compare(PHP_VERSION, '7.0.0') < 0) {
 			$this->autoFixtures = false;
 			$this->fixtures = null;
+		}
+		parent::__construct($name, $data, $dataName);
+	}
+
+/**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		if (version_compare(PHP_VERSION, '7.0.0') < 0) {
 			$this->markTestSkipped('php 7.x以上でテストができます。');
 		}
 		parent::__construct($name, $data, $dataName);

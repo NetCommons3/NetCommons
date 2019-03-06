@@ -346,9 +346,25 @@ class CurrentLibControllerTestExpectedData {
 				$result =
 					'^' . $fullBaseUrl . '.*?/announcements_page$';
 				break;
+			case 'public_calendars_page':
+				$result =
+					'^' . $fullBaseUrl . '.*?/calendars_page$';
+				break;
 			case 'public_announcement_page_setting_mode':
 				$result =
 					'^' . $fullBaseUrl . '.*?/setting/announcements_page$';
+				break;
+			case 'calendar_plan_with_frame_11':
+				$result =
+					'^' . $fullBaseUrl . '.*?/calendars/calendar_plans/view/[_0-9a-z]+\?frame_id=11$';
+				break;
+			case 'calendar_plan_without_frame':
+				$result =
+					'^' . $fullBaseUrl . '.*?/calendars/calendar_plans/view/[_0-9a-z]+$';
+				break;
+			case 'delete_calendar_plan_without_frame':
+				$result =
+					'^' . $fullBaseUrl . '.*/calendars/calendars/index\?style=largemonthly&year=2019&month=3$';
 				break;
 		}
 

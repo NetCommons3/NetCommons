@@ -139,8 +139,11 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @dataProvider dataPostRequestAnnouncementOfToppageByAdministrator
- * @dataProvider dataPostRequestAnnouncementOfPublicPageByAdministrator
+ * @_dataProvider dataPostRequestAnnouncementOfToppageByAdministrator
+ * @_dataProvider dataPostRequestAnnouncementOfPublicPageByAdministrator
+ * @_dataProvider dataPostRequestAddCalendarPlanByAdministrator
+ * @_dataProvider dataPostRequestEditCalendarPlanByAdministrator
+ * @dataProvider dataPostRequestDeleteCalendarPlanByAdministrator
  *
  * @return void
  */
@@ -540,6 +543,232 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 		$results = $PostData->getDataProviderByFrameAdd();
+		return $results;
+	}
+
+/**
+ * カレンダーの予定追加のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestAddCalendarPlanByAdministrator() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$frameTests = [
+			'11' => 'フレームあり',
+			null => 'フレームなし',
+		];
+
+		$results = [];
+		foreach ($frameTests as $frameId => $testFrameTitle) {
+			$commonSuccessResults = $PostData->getSuccessCommonDataByEditCalendarPlan($frameId);
+			$commonFailureResults = $PostData->getFailureCommonDataByEditCalendarPlan($frameId);
+
+			$frameResults = [
+				'カレンダーの予定追加(' . $testFrameTitle . '、パブリック)' => array_merge(
+					$commonSuccessResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('1', $frameId),
+					]
+				),
+				'カレンダーの予定追加(' . $testFrameTitle . '、管理者のプライベート)' => array_merge(
+					$commonSuccessResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('5', $frameId),
+					]
+				),
+				'カレンダーの予定追加(' . $testFrameTitle . '、一般ユーザ1のプライベート)' => array_merge(
+					$commonFailureResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('6', $frameId),
+					]
+				),
+				'カレンダーの予定追加(' . $testFrameTitle . '、コミュニティ1)' => array_merge(
+					$commonSuccessResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('8', $frameId),
+					]
+				),
+				'カレンダーの予定追加(' . $testFrameTitle . '、コミュニティ2(準備中))' => array_merge(
+					$commonSuccessResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('11', $frameId),
+					]
+				),
+				'カレンダーの予定追加(' . $testFrameTitle . '、会員全員)' => array_merge(
+					$commonSuccessResults,
+					[
+						'url' => $PostData->getPostUrlAddCalendarPlan($frameId),
+						'post' => $PostData->getPostDataAddCalendarPlan('3', $frameId),
+					]
+				),
+			];
+
+			$results = array_merge($results, $frameResults);
+		}
+
+		return $results;
+	}
+
+/**
+ * カレンダーの予定編集のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestEditCalendarPlanByAdministrator() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$frameTests = [
+			'11' => 'フレームあり',
+			null => 'フレームなし',
+		];
+		//$editRrules = [
+		//	'0' => 'この予定のみ',
+		//	'1' => 'これ以降に指定した全ての予定',
+		//	'2' => '設定した全ての予定',
+		//];
+
+		$results = [];
+		foreach ($frameTests as $frameId => $testFrameTitle) {
+			$commonSuccessResults = $PostData->getSuccessCommonDataByEditCalendarPlan($frameId);
+			//$commonFailureResults = $PostData->getFailureCommonDataByEditCalendarPlan($frameId);
+
+			$frameResults = [
+				'カレンダーの予定編集(' . $testFrameTitle . '、繰り返しなし、パブリック)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlEditCalendarPlan('1100', $frameId),
+							'post' => $PostData->getPostDataEditCalendarPlan('1100', '0', $frameId),
+						]
+					),
+				'カレンダーの予定編集(' . $testFrameTitle . '、繰り返しなし、管理者のプライベート)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlEditCalendarPlan('1101', $frameId),
+							'post' => $PostData->getPostDataEditCalendarPlan('1101', '0', $frameId),
+						]
+					),
+				'カレンダーの予定編集(' . $testFrameTitle . '、繰り返しなし、コミュニティ1)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlEditCalendarPlan('1101', $frameId),
+							'post' => $PostData->getPostDataEditCalendarPlan('1101', '0', $frameId),
+						]
+					),
+			];
+			$results = array_merge($results, $frameResults);
+
+			//foreach ($editRrules as $editRrule => $editRruleTile) {
+			//	$frameResults = [
+			//		'カレンダーの予定編集(' . $testFrameTitle . '、繰り返しあり(' . $editRruleTile . ')、パブリック)' =>
+			//			array_merge(
+			//				$commonSuccessResults,
+			//				[
+			//					'url' => $PostData->getPostUrlEditCalendarPlan('2', $frameId),
+			//					'post' => $PostData->getPostDataEditCalendarPlan('2', $editRrule, $frameId),
+			//				]
+			//			),
+			//		'カレンダーの予定編集(' . $testFrameTitle . '、繰り返しあり(' . $editRruleTile . ')、管理者のプライベート)' =>
+			//			array_merge(
+			//				$commonSuccessResults,
+			//				[
+			//					'url' => $PostData->getPostUrlEditCalendarPlan('472', $frameId),
+			//					'post' => $PostData->getPostDataEditCalendarPlan('472', $editRrule, $frameId),
+			//				]
+			//			),
+			//	];
+			//	$results = array_merge($results, $frameResults);
+			//}
+		}
+
+		return $results;
+	}
+
+/**
+ * カレンダーの予定削除のテストデータ
+ *
+ * @return array テストデータ
+ */
+	public function dataPostRequestDeleteCalendarPlanByAdministrator() {
+		//@var CurrentLibControllerTestPostData
+		$PostData = new CurrentLibControllerTestPostData();
+
+		$frameTests = [
+			'11' => 'フレームあり',
+			null => 'フレームなし',
+		];
+		//$editRrules = [
+		//	'0' => 'この予定のみ',
+		//	'1' => 'これ以降に指定した全ての予定',
+		//	'2' => '設定した全ての予定',
+		//];
+
+		$results = [];
+		foreach ($frameTests as $frameId => $testFrameTitle) {
+			$commonSuccessResults = $PostData->getSuccessCommonDataByDeleteCalendarPlan($frameId);
+			//$commonFailureResults = $PostData->getFailureCommonDataByEditCalendarPlan($frameId);
+
+			$frameResults = [
+				'カレンダーの予定削除(' . $testFrameTitle . '、繰り返しなし、パブリック)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlDeleteCalendarPlan('1100', $frameId),
+							'post' => $PostData->getPostDataDeleteCalendarPlan('1100', '0', $frameId),
+						]
+					),
+				'カレンダーの予定削除(' . $testFrameTitle . '、繰り返しなし、管理者のプライベート)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlDeleteCalendarPlan('1101', $frameId),
+							'post' => $PostData->getPostDataDeleteCalendarPlan('1101', '0', $frameId),
+						]
+					),
+				'カレンダーの予定削除(' . $testFrameTitle . '、繰り返しなし、コミュニティ1)' =>
+					array_merge(
+						$commonSuccessResults,
+						[
+							'url' => $PostData->getPostUrlDeleteCalendarPlan('1101', $frameId),
+							'post' => $PostData->getPostDataDeleteCalendarPlan('1101', '0', $frameId),
+						]
+					),
+			];
+			$results = array_merge($results, $frameResults);
+
+			//foreach ($editRrules as $editRrule => $editRruleTile) {
+			//	$frameResults = [
+			//		'カレンダーの予定削除(' . $testFrameTitle . '、繰り返しあり(' . $editRruleTile . ')、パブリック)' =>
+			//			array_merge(
+			//				$commonSuccessResults,
+			//				[
+			//					'url' => $PostData->getPostUrlDeleteCalendarPlan('2', $frameId),
+			//					'post' => $PostData->getPostDataDeleteCalendarPlan('2', $editRrule, $frameId),
+			//				]
+			//			),
+			//		'カレンダーの予定削除(' . $testFrameTitle . '、繰り返しあり(' . $editRruleTile . ')、管理者のプライベート)' =>
+			//			array_merge(
+			//				$commonSuccessResults,
+			//				[
+			//					'url' => $PostData->getPostUrlDeleteCalendarPlan('472', $frameId),
+			//					'post' => $PostData->getPostDataDeleteCalendarPlan('472', $editRrule, $frameId),
+			//				]
+			//			),
+			//	];
+			//	$results = array_merge($results, $frameResults);
+			//}
+		}
+
 		return $results;
 	}
 

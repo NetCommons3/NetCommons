@@ -323,9 +323,9 @@ class NetCommonsCurrentLibTestUtility {
 		}
 
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
-debug($test->contents);
-debug($test->view);
-debug($test->headers);
+//debug($test->contents);
+//debug($test->view);
+//debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
@@ -351,9 +351,10 @@ debug($test->headers);
 		}
 
 		$test->testAction($url, ['method' => 'POST', 'return' => 'view', 'data' => $post]);
-debug($test->contents);
-debug($test->view);
-debug($test->headers);
+//debug($test->contents);
+//debug($test->view);
+//debug($test->headers);
+//debug($test->controller->validationErrors);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
@@ -377,6 +378,8 @@ debug($test->headers);
 		foreach ($expects as $assert => $expect) {
 			if ($assert === 'Location') {
 				$test->assertRegExp($expect, $test->headers['Location']);
+			} elseif ($assert === 'validationErrors') {
+				$test->assertEquals($expect, $test->controller->validationErrors);
 			} else {
 				foreach ($expect as $ex) {
 					$test->$assert($ex, $test->contents);

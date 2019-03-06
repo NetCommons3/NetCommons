@@ -21,7 +21,7 @@ App::uses('Current', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
  */
-class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
+class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCase {
 
 /**
  * By default, all fixtures attached to this class will be truncated and reloaded after each test.
@@ -267,7 +267,7 @@ class NetCommonsLibCurrentLibControllerTest extends ControllerTestCase {
  */
 	public function dataGetRequestBbsArticleOfCommunity() {
 		$results = [
-			'コミュニティの記事詳細表示' => [
+			'コミュニティの掲示板の記事詳細表示' => [
 				'controller' => 'Bbses.BbsArticles',
 				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
 				'expects' => false,

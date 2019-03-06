@@ -420,7 +420,7 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
 		$results = [
-			'コミュニティの記事詳細表示' => [
+			'コミュニティの掲示板の記事詳細表示' => [
 				'controller' => 'Bbses.BbsArticles',
 				'/bbses/bbs_articles/view/15/bbs_article_key_1?frame_id=20',
 				'expects' => [

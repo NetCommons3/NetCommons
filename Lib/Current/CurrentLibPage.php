@@ -97,6 +97,13 @@ class CurrentLibPage extends LibAppObject {
 	private $__page = null;
 
 /**
+ * 一度取得したページコンテナーデータを保持
+ *
+ * @var array|null
+ */
+	private $__pageContainer = null;
+
+/**
  * 言語IDを保持
  *
  * @var string 数値の文字列
@@ -302,10 +309,18 @@ class CurrentLibPage extends LibAppObject {
 		//ページ言語データ取得
 		$this->__page += $this->__findPagesLanguage($this->__page['Page']['id']);
 
-		//ページコンテナーデータ取得
-		$this->__page['PageContainer'] = $this->__findPageContainer($this->__page['Page']['id']);
-
 		return $this->__page;
+	}
+
+/**
+ * ページデータ(コンテナー付き)を取得する
+ *
+ * @return array
+ */
+	public function findCurrentPageWithContainer() {
+		$page = $this->findCurrentPage();
+		$page['PageContainer'] = $this->findPageContainer($page['Page']['id']);
+		return $page;
 	}
 
 /**
@@ -410,7 +425,11 @@ class CurrentLibPage extends LibAppObject {
  * @param string|int $pageId ページID
  * @return array
  */
-	private function __findPageContainer($pageId) {
+	public function findPageContainer($pageId) {
+		if (isset($this->__pageContainer)) {
+			return $this->__pageContainer;
+		}
+
 		$pageContainers = $this->PageContainer->find('all', array(
 			'recursive' => -1,
 			'fields' => [
@@ -437,6 +456,7 @@ class CurrentLibPage extends LibAppObject {
 			$results[$pageContainerId]['Box'] = $boxes;
 		}
 
+		$this->__pageContainer = $results;
 		return $results;
 	}
 
@@ -721,10 +741,10 @@ class CurrentLibPage extends LibAppObject {
  * @return array
  */
 	public function findBoxById($boxId) {
-		if ($this->__page && isset($this->__boxMaps[$boxId])) {
+		if ($this->__pageContainer && isset($this->__boxMaps[$boxId])) {
 			$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
-			if (isset($this->__page['PageContainer'][$pageContainerId]['Box'][$boxId])) {
-				return $this->__page['PageContainer'][$pageContainerId]['Box'][$boxId];
+			if (isset($this->__pageContainer[$pageContainerId]['Box'][$boxId])) {
+				return $this->__pageContainer[$pageContainerId]['Box'][$boxId];
 			} else {
 				return [];
 			}

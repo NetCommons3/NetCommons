@@ -224,6 +224,7 @@ App::uses('SettingMode', 'NetCommons.Lib');
  * )
  * ```
  *
+ * @property Controller $_controller コントローラ
  * @property SettingMode $SettingMode SettingModeライブラリ
  * @property ControlPanel $ControlPanel ControlPanelライブラリ
  * @property NcPermission $NcPermission NcPermissionライブラリ
@@ -477,7 +478,6 @@ class CurrentLib extends LibAppObject {
 				}
 
 				$page = $this->CurrentLibPage->findCurrentPage();
-				unset($page['PageContainer']);
 				self::$current += $page;
 
 				$this->__setCurrentRoom($page['Page']['room_id']);
@@ -486,6 +486,23 @@ class CurrentLib extends LibAppObject {
 				$this->CurrentLibBlock->setBlockRolePermissions($page['Page']['room_id'], $blockKeys);
 				$this->CurrentLibBlock->setUseWorkflowPermissions($page['Page']['room_id'], $blockKeys);
 			}
+		}
+	}
+
+/**
+ * ページコンテナー関連のデータをCurrentにセットする
+ *
+ * GET
+ *
+ * @return void
+ */
+	private function __setCurrentPageContainer() {
+		if (empty($this->_controller->request->params['requested'])) {
+			if (isset(self::$current['Page']['id'])) {
+				self::$current['PageContainer'] =
+						$this->CurrentLibPage->findPageContainer(self::$current['Page']['id']);
+			}
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controller->request->params, true));
 		}
 	}
 
@@ -611,9 +628,25 @@ class CurrentLib extends LibAppObject {
 		if (! $this->ControlPanel->isControlPanel()) {
 			//コントロールパネルでないなら、ページ情報を取得する
 			$this->__setCurrentPage();
+			if ($this->_controller->request->is('get')) {
+				$this->__setCurrentPageContainer();
+			}
 
 			$frameId = $this->CurrentLibFrame->getCurrentFrameId();
 			$this->__setCurrentFrame($frameId);
+		}
+	}
+
+/**
+ * 現在表示している情報の終了処理
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function terminate($controller = null) {
+		if (! $this->_controller->request->is('get') &&
+				$this->_controller->response->statusCode() != 302) {
+			$this->__setCurrentPageContainer();
 		}
 	}
 

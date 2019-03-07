@@ -67,71 +67,71 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 		NetCommonsCurrentLibTestUtility::resetCurrentLib();
 		parent::tearDown();
 	}
-
-/**
- * 管理者でのGETテスト
- *
- * @param string $controller generateするコントローラ
- * @param string $url テストするURL
- * @param array|false $expects 期待値リスト
- * @param string|false $exception Exception文字列
- *
- * @dataProvider dataGetRequestToppage
- * @dataProvider dataGetRequestMyRoomOfAdministrator
- * @dataProvider dataGetRequestMyRoomOfGeneralUser1
- * @dataProvider dataGetRequestAnnouncementBlockSettings
- * @dataProvider dataGetRequestPrivatePlanOfAdministorator
- * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1
- * @dataProvider dataGetRequestBbsArticleOfCommunity
- * @dataProvider dataGetRequestPublicCalendarPage
- *
- * @return void
- */
-	public function testGetRequest($controller, $url, $expects, $exception) {
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-	}
-
-/**
- * パブリックのお知らせページのセッティングモード表示のテスト
- *
- * @return void
- */
-	public function testGetRequestAnnouncementPageWithSettingMode() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$controller = 'Pages.Pages';
-		$url = '/setting/announcements_page';
-		$expects = [
-			'assertContains' => array_merge(
-				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
-				$ExpectedData->getExpectedFrame(['menu']),
-				$ExpectedData->getExpectedMenuList([
-					'public', 'private', 'community_1', 'community_2'
-				]),
-				$ExpectedData->getExpectedSettingMode('off')
-			),
-			'assertNotContains' => [],
-			'assertRegExp' => array_merge([],
-				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
-			),
-		];
-		$exception = false;
-
-		//セッティングモードON
-		NetCommonsCurrentLibTestUtility::settingMode(true);
-
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-
-		//セッティングモードのクリア
-		NetCommonsCurrentLibTestUtility::settingMode(null);
-	}
+//
+///**
+// * 管理者でのGETテスト
+// *
+// * @param string $controller generateするコントローラ
+// * @param string $url テストするURL
+// * @param array|false $expects 期待値リスト
+// * @param string|false $exception Exception文字列
+// *
+// * @dataProvider dataGetRequestToppage
+// * @dataProvider dataGetRequestMyRoomOfAdministrator
+// * @dataProvider dataGetRequestMyRoomOfGeneralUser1
+// * @dataProvider dataGetRequestAnnouncementBlockSettings
+// * @dataProvider dataGetRequestPrivatePlanOfAdministorator
+// * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1
+// * @dataProvider dataGetRequestBbsArticleOfCommunity
+// * @dataProvider dataGetRequestPublicCalendarPage
+// *
+// * @return void
+// */
+//	public function testGetRequest($controller, $url, $expects, $exception) {
+//		$this->generate($controller);
+//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+//			$this, $url, $expects, $exception
+//		);
+//	}
+//
+///**
+// * パブリックのお知らせページのセッティングモード表示のテスト
+// *
+// * @return void
+// */
+//	public function testGetRequestAnnouncementPageWithSettingMode() {
+//		//@var CurrentLibControllerTestExpectedData
+//		$ExpectedData = new CurrentLibControllerTestExpectedData();
+//
+//		$controller = 'Pages.Pages';
+//		$url = '/setting/announcements_page';
+//		$expects = [
+//			'assertContains' => array_merge(
+//				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
+//				$ExpectedData->getExpectedFrame(['menu']),
+//				$ExpectedData->getExpectedMenuList([
+//					'public', 'private', 'community_1', 'community_2'
+//				]),
+//				$ExpectedData->getExpectedSettingMode('off')
+//			),
+//			'assertNotContains' => [],
+//			'assertRegExp' => array_merge([],
+//				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
+//			),
+//		];
+//		$exception = false;
+//
+//		//セッティングモードON
+//		NetCommonsCurrentLibTestUtility::settingMode(true);
+//
+//		$this->generate($controller);
+//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+//			$this, $url, $expects, $exception
+//		);
+//
+//		//セッティングモードのクリア
+//		NetCommonsCurrentLibTestUtility::settingMode(null);
+//	}
 
 /**
  * 管理者でのPOSTテスト
@@ -142,10 +142,10 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
  *
- * @_dataProvider dataPostRequestAnnouncementOfToppage
- * @_dataProvider dataPostRequestAnnouncementOfPublicPage
- * @_dataProvider dataPostRequestAddCalendarPlan
- * @_dataProvider dataPostRequestEditCalendarPlan
+ * @dataProvider dataPostRequestAnnouncementOfToppage
+ * @dataProvider dataPostRequestAnnouncementOfPublicPage
+ * @dataProvider dataPostRequestAddCalendarPlan
+ * @dataProvider dataPostRequestEditCalendarPlan
  * @dataProvider dataPostRequestDeleteCalendarPlan
  *
  * @return void
@@ -158,86 +158,86 @@ class NetCommonsLibCurrentLibControllerAdministratorTest extends ControllerTestC
 			$this, $url, $post, $expects, $exception
 		);
 	}
-
-/**
- * Frame追加テスト
- *
- * @param array $post POSTの内容
- * @dataProvider dataPostRequestFrameAdd
- * @return void
- */
-	public function testPostRequestFrameAdd($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
-		$exception = false;
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * Frame編集テスト
- *
- * @return void
- */
-	public function testPostRequestFrameEdit() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
-		$expects = [
-			'Location' =>
-				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
-		];
-		$exception = false;
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * Frame削除テスト
- *
- * @return void
- */
-	public function testPostRequestFrameDelete() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
-		$expects = [
-			'Location' =>
-				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page_setting_mode')
-		];
-		$exception = false;
-
-		$_SERVER['HTTP_REFERER'] = '/setting/announcements_page';
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-		unset($_SERVER['HTTP_REFERER']);
-	}
+//
+///**
+// * Frame追加テスト
+// *
+// * @param array $post POSTの内容
+// * @dataProvider dataPostRequestFrameAdd
+// * @return void
+// */
+//	public function testPostRequestFrameAdd($post, $expects) {
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/add';
+//		$exception = false;
+//
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//	}
+//
+///**
+// * Frame編集テスト
+// *
+// * @return void
+// */
+//	public function testPostRequestFrameEdit() {
+//		//@var CurrentLibControllerTestExpectedData
+//		$ExpectedData = new CurrentLibControllerTestExpectedData();
+//
+//		//@var CurrentLibControllerTestPostData
+//		$PostData = new CurrentLibControllerTestPostData();
+//
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/edit';
+//		$post = $PostData->getPostDataByFrameEdit();
+//		$expects = [
+//			'Location' =>
+//				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
+//		];
+//		$exception = false;
+//
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//	}
+//
+///**
+// * Frame削除テスト
+// *
+// * @return void
+// */
+//	public function testPostRequestFrameDelete() {
+//		//@var CurrentLibControllerTestExpectedData
+//		$ExpectedData = new CurrentLibControllerTestExpectedData();
+//
+//		//@var CurrentLibControllerTestPostData
+//		$PostData = new CurrentLibControllerTestPostData();
+//
+//		$controller = 'Frames.Frames';
+//		$url = '/frames/frames/delete';
+//		$post = $PostData->getPostDataByFrameDelete();
+//		$expects = [
+//			'Location' =>
+//				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page_setting_mode')
+//		];
+//		$exception = false;
+//
+//		$_SERVER['HTTP_REFERER'] = '/setting/announcements_page';
+//		$this->generate($controller, [
+//			'components' => ['Security'],
+//		]);
+//		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
+//			$this, $url, $post, $expects, $exception
+//		);
+//		unset($_SERVER['HTTP_REFERER']);
+//	}
 
 /**
  * トップページテスト表示のテストデータ

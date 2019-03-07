@@ -249,8 +249,10 @@ CakeLog::debug($indent . var_export(($endTime - $startTime), true));
  * @link http://book.cakephp.org/2.0/ja/controllers.html#request-life-cycle-callbacks
  */
 	public function afterFilter() {
-//		//カレントデータセット
-//		Current::terminate($this);
+		//カレントデータセット
+		$instance = CurrentLib::getInstance();
+		$instance->terminate($this);
+
 		parent::afterFilter();
 	}
 

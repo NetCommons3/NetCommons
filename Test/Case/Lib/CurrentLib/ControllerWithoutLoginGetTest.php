@@ -21,7 +21,7 @@ App::uses('Current', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
  */
-class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCase {
+class NetCommonsLibCurrentLibControllerWithoutLoginGetTest extends ControllerTestCase {
 
 /**
  * By default, all fixtures attached to this class will be truncated and reloaded after each test.
@@ -79,96 +79,6 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 		$this->generate($controller);
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
 			$this, $url, $expects, $exception
-		);
-	}
-
-/**
- * ログインなしのPOSTテスト
- *
- * @param string $controller generateするコントローラ
- * @param string $url テストするURL
- * @param array $post POSTの内容
- * @param array|false $expects 期待値リスト
- * @param string|false $exception Exception文字列
- *
- * @dataProvider dataPostRequestAnnouncementOfToppage
- * @dataProvider dataPostRequestAnnouncementOfPublicPage
- *
- * @return void
- */
-	public function testPostRequest($controller, $url, $post, $expects, $exception) {
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * ログインなしのFrame追加テスト
- *
- * @param array $post POSTの内容
- * @dataProvider dataPostRequestFrameAdd
- * @return void
- */
-	public function testPostRequestFrameAdd($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- *ログインなしのFrame編集テスト
- *
- * @return void
- */
-	public function testPostRequestFrameEdit() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * Frame削除テスト
- *
- * @return void
- */
-	public function testPostRequestFrameDelete() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
-		$expects = false;
-		$exception = 'ForbiddenException';
-
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
 		);
 	}
 
@@ -318,69 +228,6 @@ class NetCommonsLibCurrentLibControllerWithoutLoginTest extends ControllerTestCa
 			],
 		];
 
-		return $results;
-	}
-
-/**
- * トップページのお知らせ登録のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataPostRequestAnnouncementOfToppage() {
-		//@var CurrentLibControllerTestExpectedData
-		//$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$results = [
-			'トップページのお知らせ' => [
-				'controller' => 'Announcements.Announcements',
-				'url' => '/announcements/announcements/edit/12',
-				'post' => $PostData->getPostDataAnnouncement('toppage_announcement'),
-				'expects' => false,
-				'exception' => 'ForbiddenException',
-			],
-		];
-
-		return $results;
-	}
-
-/**
- * パブリックスペースのお知らせ1(Announcements Page)登録のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataPostRequestAnnouncementOfPublicPage() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$results = [
-			'パブリックスペースのお知らせ1(Announcements Page)' => [
-				'controller' => 'Announcements.Announcements',
-				'url' => '/announcements/announcements/edit/8?frame_id=12',
-				'post' => $PostData->getPostDataAnnouncement('public_announcement_2'),
-				'expects' => false,
-				'exception' => 'ForbiddenException',
-			],
-		];
-
-		return $results;
-	}
-
-/**
- * フレーム追加のデータ
- *
- * @return array テストデータ
- */
-	public function dataPostRequestFrameAdd() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$results = $PostData->getDataProviderByFrameAdd();
 		return $results;
 	}
 

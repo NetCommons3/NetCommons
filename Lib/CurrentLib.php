@@ -645,6 +645,7 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controlle
  */
 	public function terminate($controller = null) {
 		if (! $this->_controller->request->is('get') &&
+				$this->_controller->viewClass !== 'Json' &&
 				$this->_controller->response->statusCode() != 302) {
 			$this->__setCurrentPageContainer();
 		}

@@ -380,7 +380,7 @@ class CurrentLibControllerTestExpectedData {
 	public function getExpectedFrameAddRedirectAfterPost($frameAddAction) {
 		$fullBaseUrl = preg_quote(Configure::read('App.fullBaseUrl'), '#');
 		$result =
-			'^' . $fullBaseUrl . '.*?' . $frameAddAction . '\?frame_id=21&page_id=10\#frame-21' . '$';
+			'^' . $fullBaseUrl . '.*?' . $frameAddAction . '\?frame_id=[0-9]+&page_id=10\#frame-[0-9]+' . '$';
 		return '#' . $result . '#';
 	}
 

@@ -10,8 +10,15 @@
  */
 
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('PageLayoutComponent', 'Pages.Controller/Component');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('SettingMode', 'NetCommons.Lib');
+App::uses('File', 'Utility');
+App::uses('Folder', 'Utility');
+
+if (!defined('UPLOADS_ROOT')) {
+	define('UPLOADS_ROOT', NetCommonsCurrentLibTestUtility::getUploadDir());
+}
 
 /**
  * Fixture test_schema.sqlを読み込むんでテストするためのユーティリティ
@@ -211,19 +218,110 @@ class NetCommonsCurrentLibTestUtility {
 	}
 
 /**
- * テーブルをロードできるか否か
+ * Fixtureのパスを返す
+ *
+ * @return string
+ */
+	public static function getFixturePath() {
+		$path = CakePlugin::path('NetCommons') . 'Test' . DS . 'Fixture' . DS;
+		return $path;
+	}
+
+/**
+ * スキーマファイルのフルパスを返す
  *
  * @return string
  */
 	public static function getSchemaFile() {
 		if (get_class(new Current()) === 'CurrentLib') {
-			$schemaFile = CakePlugin::path('NetCommons') .
-					'Test' . DS . 'Fixture' . DS . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
+			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
 		} else {
-			$schemaFile = CakePlugin::path('NetCommons') .
-					'Test' . DS . 'Fixture' . DS . 'CurrentLib' . DS . 'test_schema_current_utility.sql';
+			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_utility.sql';
 		}
 		return $schemaFile;
+	}
+
+/**
+ * tmpディレクトリのパスを返す
+ *
+ * @return string
+ */
+	public static function getTmpDir() {
+		$path = self::getFixturePath() . 'CurrentLib' . DS . 'tmp' . DS;
+		return $path;
+	}
+
+/**
+ * アップロードディレクトリのパスを返す
+ *
+ * @return string
+ */
+	public static function getUploadDir() {
+		$path = self::getFixturePath() . 'CurrentLib' . DS . 'TestUploads' . DS;
+		return $path;
+	}
+
+/**
+ * アップロードディレクトリのパスをセットする
+ *
+ * @return string
+ */
+	public static function prepareUploadDir() {
+		//@var Folder
+		$Folder = new Folder();
+
+		if (! self::clearUploadDir()) {
+			return false;
+		}
+
+		$options = [
+			'from' => self::getFixturePath() . 'CurrentLib' . DS . 'Uploads',
+			'to' => self::getUploadDir(),
+		];
+		if (! $Folder->copy($options)) {
+			return false;
+		}
+
+		return true;
+	}
+
+/**
+ * アップロードディレクトリのパスをセットする
+ *
+ * @return string
+ */
+	public static function clearUploadDir() {
+		if (file_exists(self::getUploadDir() . 'files')) {
+			//@var Folder
+			$Folder = new Folder();
+			return $Folder->delete(self::getUploadDir() . 'files');
+		}
+		return true;
+	}
+
+/**
+ * TemporaryFileのモックとしてFileを使って戻す
+ *
+ * @return string
+ */
+	public static function getTemporaryFileMock($fileInfo) {
+		$extension = pathinfo(
+			$fileInfo['name'],
+			PATHINFO_EXTENSION
+		);
+		$destFileName = Security::hash(mt_rand() . microtime(), 'md5') . '.' . $extension;
+
+		$TmpFile = new File($fileInfo['tmp_name']);
+		$result = $TmpFile->copy(self::getTmpDir() . $destFileName);
+
+		unset($TmpFile);
+
+		$File = new File(self::getTmpDir() . $destFileName);
+		$File->temporaryFolder = new Folder(self::getTmpDir());
+		$File->originalName = $fileInfo['name'];
+		$File->error = $fileInfo['error'];
+
+		return $File;
 	}
 
 /**
@@ -395,7 +493,10 @@ class NetCommonsCurrentLibTestUtility {
 			$test->setExpectedException($exception);
 		}
 
-		$test->testAction($url, ['method' => 'POST', 'return' => 'view', 'data' => $post]);
+		$test->testAction(
+			$url,
+			['method' => 'POST', 'return' => 'view', 'data' => $post]
+		);
 //debug($test->contents);
 //debug($test->view);
 //debug($test->headers);
@@ -403,6 +504,42 @@ class NetCommonsCurrentLibTestUtility {
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
+			self::dropTables();
+		}
+	}
+
+/**
+ * コントローラのPOSTテスト
+ *
+ * Mockにせずに登録処理を実行するが、saveした結果まではチェックしない。
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testJsonControllerPostRequest(
+			ControllerTestCase $test, $url, $post, $expects, $exception) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		$test->testAction(
+			$url,
+			['method' => 'POST', 'return' => 'view', 'type' => 'json', 'data' => $post]
+		);
+//debug($test->contents);
+//debug($test->view);
+//debug($test->headers);
+//debug($test->controller->validationErrors);
+
+		if ($expects !== false) {
+			$contents = json_decode($test->contents, true);
+			foreach ($expects as $key => $value) {
+				$test->assertEquals($value, Hash::get($contents, $key));
+			}
 			self::dropTables();
 		}
 	}

@@ -68,7 +68,7 @@ class NetCommonsAppController extends Controller {
 				'hashType' => User::PASSWORD_HASH_TYPE,
 			],
 		),
-		'DebugKit.Toolbar',
+		//'DebugKit.Toolbar',
 		'Flash',
 		'MobileDetect.MobileDetect',
 		'NetCommons.Asset',
@@ -148,6 +148,12 @@ class NetCommonsAppController extends Controller {
 		//サイトの設定データセット
 		if (Configure::read('NetCommons.installed')) {
 			SiteSettingUtil::initialize();
+		}
+
+		//DebugKitは、debugモードがONのときのみロードするように修正
+		if (Configure::read('debug') &&
+				!in_array('DebugKit.Toolbar', $this->components, true) ) {
+			$this->components[] = 'DebugKit.Toolbar';
 		}
 	}
 

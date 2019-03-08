@@ -789,6 +789,20 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controlle
 /**
  * 指定された$keyの値をセットします
  *
+ * Wysiwigで使用しているsetCurrent()メソッド用に必要
+ *
+ * @param int|null $roomId ルームID
+ * @param string $key パーミッションキー
+ * @param bool $value パーミッション値
+ * @return void
+ */
+	public static function writePermission($roomId, $key, $value) {
+		self::$permission[$roomId]['Permission'][$key]['value'] = $value;
+	}
+
+/**
+ * 指定された$keyの値をセットします
+ *
  * 現在のBlockKeyをセットしたい場合
  * ```
  * Cuurent::write('Block.key', 'block_key)

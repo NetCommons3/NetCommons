@@ -87,50 +87,77 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  *
  * @return void
  */
-	public function testGetRequest($controller, $url, $expects, $exception) {
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-	}
+//	public function testGetRequest($controller, $url, $expects, $exception) {
+//		$this->generate($controller);
+//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+//			$this, $url, $expects, $exception
+//		);
+//	}
 
 /**
  * パブリックのお知らせページのセッティングモード表示のテスト
  *
  * @return void
  */
-	public function testGetRequestAnnouncementPageWithSettingMode() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
+//	public function testGetRequestAnnouncementPageWithSettingMode() {
+//		//@var CurrentLibControllerTestExpectedData
+//		$ExpectedData = new CurrentLibControllerTestExpectedData();
+//
+//		$controller = 'Pages.Pages';
+//		$url = '/setting/announcements_page';
+//		$expects = [
+//			'assertContains' => array_merge(
+//				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
+//				$ExpectedData->getExpectedFrame(['menu']),
+//				$ExpectedData->getExpectedMenuList([
+//					'public', 'private', 'community_1', 'community_2'
+//				]),
+//				$ExpectedData->getExpectedSettingMode('off')
+//			),
+//			'assertNotContains' => [],
+//			'assertRegExp' => array_merge([],
+//				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
+//			),
+//		];
+//		$exception = false;
+//
+//		//セッティングモードON
+//		NetCommonsCurrentLibTestUtility::settingMode(true);
+//
+//		$this->generate($controller);
+//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
+//			$this, $url, $expects, $exception
+//		);
+//
+//		//セッティングモードのクリア
+//		NetCommonsCurrentLibTestUtility::settingMode(null);
+//	}
 
-		$controller = 'Pages.Pages';
-		$url = '/setting/announcements_page';
-		$expects = [
-			'assertContains' => array_merge(
-				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
-				$ExpectedData->getExpectedFrame(['menu']),
-				$ExpectedData->getExpectedMenuList([
-					'public', 'private', 'community_1', 'community_2'
-				]),
-				$ExpectedData->getExpectedSettingMode('off')
-			),
-			'assertNotContains' => [],
-			'assertRegExp' => array_merge([],
-				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
-			),
-		];
-		$exception = false;
-
-		//セッティングモードON
-		NetCommonsCurrentLibTestUtility::settingMode(true);
-
+/**
+ * ファイルダウンロードテスト
+ *
+ *
+ * @param string $controller generateするコントローラ
+ * @param string $url テストするURL
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ *
+ * @dataProvider dataGetRequestWysiwygDownload
+ *
+ * @return void
+ */
+	public function testGetRequestDownload($controller, $url, $expects, $exception) {
+		if (! NetCommonsCurrentLibTestUtility::prepareUploadDir()) {
+			$this->markTestSkipped();
+			return;
+		}
 		$this->generate($controller);
+
 		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
+			$this, $url, $expects, $exception, true
 		);
 
-		//セッティングモードのクリア
-		NetCommonsCurrentLibTestUtility::settingMode(null);
+		NetCommonsCurrentLibTestUtility::clearUploadDir();
 	}
 
 /**
@@ -369,6 +396,47 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
 							'private_plan_2'
 						])
 					),
+				],
+				'exception' => false,
+			],
+		];
+
+		return $results;
+	}
+
+/**
+ * Wysiwygのダウンロード
+ *
+ * @return array テストデータ
+ */
+	public function dataGetRequestWysiwygDownload() {
+		//@var CurrentLibControllerTestExpectedData
+		$ExpectedData = new CurrentLibControllerTestExpectedData();
+
+		$results = [
+			'画像ダウンロード' => [
+				'controller' => 'Wysiwyg.WysiwygImageDownload',
+				'/wysiwyg/image/download/1/1/big',
+				'expects' => [
+//					'assertContains' => array_merge(
+//						$ExpectedData->getExpectedFrame(['menu']),
+//						$ExpectedData->getExpectedMenuList([
+//							'public', 'private', 'community_1', 'community_2'
+//						]),
+//						$ExpectedData->getExpectedSettingMode('on')
+//					),
+//					'assertNotContains' => [],
+//					'assertRegExp' => array_merge(
+//						$ExpectedData->getExpectedCalendar([
+//							'public_plan_1', 'community_plan_1', 'private_plan_1'
+//						]),
+//						$ExpectedData->getExpectedActiveMenu('public_calendar_page')
+//					),
+//					'assertNotRegExp' => array_merge([],
+//						$ExpectedData->getExpectedCalendar([
+//							'private_plan_2'
+//						])
+//					),
 				],
 				'exception' => false,
 			],

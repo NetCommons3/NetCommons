@@ -11,6 +11,7 @@
 
 App::uses('AuthComponent', 'Controller/Component');
 App::uses('PageLayoutComponent', 'Pages.Controller/Component');
+App::uses('GetPageBehavior', 'Pages.Model/Behavior');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('SettingMode', 'NetCommons.Lib');
 App::uses('File', 'Utility');
@@ -460,15 +461,34 @@ class NetCommonsCurrentLibTestUtility {
  * @return void
  */
 	public static function testControllerGetRequest(
-			ControllerTestCase $test, $url, $expects, $exception) {
+			ControllerTestCase $test, $url, $expects, $exception, $outputDebugTitle = false) {
 		if ($expects === false) {
 			$test->setExpectedException($exception);
 		}
 
+		if ($outputDebugTitle) {
+			$key = md5(json_encode($url) . json_encode($expects) . json_encode($exception));
+			CakeLog::debug("=========================================");
+			$startTime = microtime(true);
+		}
+
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
-//debug($test->contents);
-//debug($test->view);
-//debug($test->headers);
+
+		if ($outputDebugTitle) {
+			$endTime = microtime(true);
+			CakeLog::debug('##### ' . var_export($key, true));
+			CakeLog::debug(__METHOD__ . '(' . __LINE__ . ')  UnitTest = Total');
+			CakeLog::debug(var_export(($endTime - $startTime), true));
+			CakeLog::debug("--------");
+			CakeLog::debug("");
+			CakeLog::debug("");
+			CakeLog::debug("");
+			CakeLog::debug("");
+		}
+
+debug($test->contents);
+debug($test->view);
+debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);

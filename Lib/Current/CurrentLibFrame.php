@@ -379,7 +379,7 @@ class CurrentLibFrame extends LibAppObject {
 				'callbacks' => false,
 			]);
 			$this->__frames[$frameId] = $frame;
-			if ($frame['Frame']['block_id']) {
+			if (!empty($frame['Frame']['block_id'])) {
 				$this->CurrentLibBlock->setBlock($frame['Frame']['block_id'], $frame);
 			}
 

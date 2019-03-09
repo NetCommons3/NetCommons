@@ -27,10 +27,10 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		$instance = Current::getInstance();
 		$instance->setCurrentLanguage();
-
-		parent::setUp();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;
@@ -54,7 +54,7 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = array();
+		Current::$current = [];
 		parent::tearDown();
 	}
 
@@ -103,20 +103,20 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		}
 		if ($mockModel === $model) {
 			// php7.2よりget_class()にnullを設定するとE_WARNING. http://php.net/manual/ja/function.get-class.php
-			if (is_null($this->$mockModel)) {
-				return;
-			}
-			if (get_class($this->$mockModel) === $mockModel) {
+			if (is_null($this->$mockModel) ||
+					get_class($this->$mockModel) === $mockModel) {
 				$this->$model = $this->getMockForModel(
 					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
 				);
 			}
 		} else {
-			if (is_null($this->$model->$mockModel)) {
-				return;
+			if (is_object($this->$model->$mockModel)) {
+				$mockClassName = get_class($this->$model->$mockModel);
+			} else {
+				$mockClassName = null;
 			}
-			$mockClassName = get_class($this->$model->$mockModel);
-			if (substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
+			if (! $mockClassName ||
+					substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
 				$this->$model->$mockModel = $this->getMockForModel(
 					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
 				);

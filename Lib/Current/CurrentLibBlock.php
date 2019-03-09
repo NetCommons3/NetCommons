@@ -141,7 +141,7 @@ class CurrentLibBlock extends LibAppObject {
 	public function isBlockIdInRequest() {
 		return empty($this->_controller->request->params['requested']) &&
 					!empty($this->_controller->request->data['Block']['id']) ||
-				isset($this->_controller->request->params['block_id']);
+				!empty($this->_controller->request->params['block_id']);
 	}
 
 /**
@@ -267,10 +267,17 @@ class CurrentLibBlock extends LibAppObject {
  * @return void
  */
 	public function setBlock($blockId, $block) {
-		$this->__blocks[$blockId] = [
-			'Block' => $block['Block'],
-			'BlocksLanguage' => $block['BlocksLanguage']
-		];
+		if ($block) {
+			$this->__blocks[$blockId] = [
+				'Block' => $block['Block'],
+				'BlocksLanguage' => $block['BlocksLanguage']
+			];
+		} else {
+			$this->__blocks[$blockId] = [
+				'Block' => null,
+				'BlocksLanguage' => null
+			];
+		}
 	}
 
 /**

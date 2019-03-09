@@ -446,11 +446,6 @@ class NetCommonsCurrentLibTestUtility {
 			self::__resetOldCurrentUtility();
 		}
 
-//		$class = new ReflectionClass('Router');
-//		$Property = $class->getProperty('_currentRoute');
-//		$Property->setAccessible(true);
-//		$Property->setValue([]);
-
 		$class = new ReflectionClass('PageLayoutComponent');
 		$Property = $class->getProperty('_page');
 		$Property->setAccessible(true);
@@ -477,7 +472,6 @@ class NetCommonsCurrentLibTestUtility {
 			CakeLog::debug("=========================================");
 		}
 
-		Router::$routes = [];
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
 
 		if ($outputDebugTitle) {
@@ -491,13 +485,13 @@ class NetCommonsCurrentLibTestUtility {
 			CakeLog::debug("");
 		}
 
-//debug($test->contents);
-//debug($test->view);
-//debug($test->headers);
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
-			self::dropTables();
+			//self::dropTables();
 		}
 	}
 
@@ -523,10 +517,10 @@ class NetCommonsCurrentLibTestUtility {
 			$url,
 			['method' => 'POST', 'return' => 'view', 'data' => $post]
 		);
-//debug($test->contents);
-//debug($test->view);
-//debug($test->headers);
-//debug($test->controller->validationErrors);
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
+		//debug($test->controller->validationErrors);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
@@ -556,10 +550,10 @@ class NetCommonsCurrentLibTestUtility {
 			$url,
 			['method' => 'POST', 'return' => 'view', 'type' => 'json', 'data' => $post]
 		);
-//debug($test->contents);
-//debug($test->view);
-//debug($test->headers);
-//debug($test->controller->validationErrors);
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
+		//debug($test->controller->validationErrors);
 
 		if ($expects !== false) {
 			$contents = json_decode($test->contents, true);
@@ -578,8 +572,6 @@ class NetCommonsCurrentLibTestUtility {
  * @return void
  */
 	private static function __assertController(ControllerTestCase $test, $expects) {
-//debug($expects);
-
 		$test->contents = str_replace("\n", '', $test->contents);
 		$test->contents = str_replace("\t", '', $test->contents);
 

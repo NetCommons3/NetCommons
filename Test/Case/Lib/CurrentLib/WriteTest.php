@@ -29,20 +29,6 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
 	public $autoFixtures = false;
 
 /**
- * Called when a test case method is about to start (to be overridden when needed.)
- *
- * @param string $method Test method about to get executed.
- * @return void
- */
-	public function startTest($method) {
-		//Currentの実態がCurrentLibでなかったら処理しない
-		if (get_class(new Current()) !== 'CurrentLib') {
-			$this->markTestSkipped();
-			return;
-		}
-	}
-
-/**
  * setUp method
  *
  * @return void
@@ -50,7 +36,7 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		CurrentLib::$current = [
+		Current::$current = [
 			'Frame' => [
 				'id' => '1',
 			],
@@ -75,7 +61,7 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		CurrentLib::$current = [];
+		Current::$current = [];
 		parent::tearDown();
 	}
 
@@ -308,12 +294,12 @@ class NetCommonsLibCurrentLibWriteTest extends CakeTestCase {
  */
 	public function testWrite($key, $value, $expectedKey, $expectedValue) {
 		//テスト実施
-		CurrentLib::write($key, $value);
+		Current::write($key, $value);
 
 		if (is_null($expectedKey)) {
-			$result = CurrentLib::read();
+			$result = Current::read();
 		} else {
-			$result = CurrentLib::read($expectedKey);
+			$result = Current::read($expectedKey);
 		}
 		$this->assertEquals($result, $expectedValue);
 	}

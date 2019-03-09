@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -87,55 +86,25 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  *
  * @return void
  */
-//	public function testGetRequest($controller, $url, $expects, $exception) {
-//		$this->generate($controller);
-//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-//			$this, $url, $expects, $exception
-//		);
-//	}
+	public function testGetRequest($controller, $url, $expects, $exception) {
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequest($this, $controller, $url, $expects, $exception);
+	}
 
 /**
  * パブリックのお知らせページのセッティングモード表示のテスト
  *
  * @return void
  */
-//	public function testGetRequestAnnouncementPageWithSettingMode() {
-//		//@var CurrentLibControllerTestExpectedData
-//		$ExpectedData = new CurrentLibControllerTestExpectedData();
-//
-//		$controller = 'Pages.Pages';
-//		$url = '/setting/announcements_page';
-//		$expects = [
-//			'assertContains' => array_merge(
-//				$ExpectedData->getExpectedAnnouncement(['public_1', 'public_2', 'public_3']),
-//				$ExpectedData->getExpectedFrame(['menu']),
-//				$ExpectedData->getExpectedMenuList([
-//					'public', 'private', 'community_1', 'community_2'
-//				]),
-//				$ExpectedData->getExpectedSettingMode('off')
-//			),
-//			'assertNotContains' => [],
-//			'assertRegExp' => array_merge([],
-//				$ExpectedData->getExpectedActiveMenu('public_announcement_page')
-//			),
-//		];
-//		$exception = false;
-//
-//		//セッティングモードON
-//		NetCommonsCurrentLibTestUtility::settingMode(true);
-//
-//		$this->generate($controller);
-//		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-//			$this, $url, $expects, $exception
-//		);
-//
-//		//セッティングモードのクリア
-//		NetCommonsCurrentLibTestUtility::settingMode(null);
-//	}
+	public function testGetRequestAnnouncementPageWithSettingMode() {
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequestAnnouncementPageWithSettingMode($this);
+	}
 
 /**
  * ファイルダウンロードテスト
- *
  *
  * @param string $controller generateするコントローラ
  * @param string $url テストするURL
@@ -146,18 +115,11 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  *
  * @return void
  */
-	public function testGetRequestDownload($controller, $url, $expects, $exception) {
-		if (! NetCommonsCurrentLibTestUtility::prepareUploadDir()) {
-			$this->markTestSkipped();
-			return;
-		}
-		$this->generate($controller);
-
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception, true
-		);
-
-		NetCommonsCurrentLibTestUtility::clearUploadDir();
+	public function testGetRequestDownload(
+			$controller, $url, $expects, $exception) {
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequestDownload($this, $controller, $url, $expects, $exception);
 	}
 
 /**
@@ -410,33 +372,13 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  * @return array テストデータ
  */
 	public function dataGetRequestWysiwygDownload() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		$results = [
 			'画像ダウンロード' => [
 				'controller' => 'Wysiwyg.WysiwygImageDownload',
 				'/wysiwyg/image/download/1/1/big',
 				'expects' => [
-//					'assertContains' => array_merge(
-//						$ExpectedData->getExpectedFrame(['menu']),
-//						$ExpectedData->getExpectedMenuList([
-//							'public', 'private', 'community_1', 'community_2'
-//						]),
-//						$ExpectedData->getExpectedSettingMode('on')
-//					),
-//					'assertNotContains' => [],
-//					'assertRegExp' => array_merge(
-//						$ExpectedData->getExpectedCalendar([
-//							'public_plan_1', 'community_plan_1', 'private_plan_1'
-//						]),
-//						$ExpectedData->getExpectedActiveMenu('public_calendar_page')
-//					),
-//					'assertNotRegExp' => array_merge([],
-//						$ExpectedData->getExpectedCalendar([
-//							'private_plan_2'
-//						])
-//					),
+					'headers.Content-Disposition' => '#45e1da4f4a632c256d8e980afa7f4991\.png$#',
+					'headers.Content-Length' => '#^6483$#',
 				],
 				'exception' => false,
 			],

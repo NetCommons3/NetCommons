@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -86,12 +85,9 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * @return void
  */
 	public function testPostRequest($controller, $url, $post, $expects, $exception) {
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequest($this, $controller, $url, $post, $expects, $exception);
 	}
 
 /**
@@ -102,16 +98,11 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * @return void
  */
 	public function testPostRequestFrameAdd($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
 		$exception = false;
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameAdd($this, $post, $expects, $exception);
 	}
 
 /**
@@ -123,24 +114,15 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
 		$expects = [
-			'Location' =>
+			'headers.Location' =>
 				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
 		];
 		$exception = false;
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameEdit($this, $expects, $exception);
 	}
 
 /**
@@ -152,26 +134,15 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
 		//@var CurrentLibControllerTestExpectedData
 		$ExpectedData = new CurrentLibControllerTestExpectedData();
 
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
 		$expects = [
-			'Location' =>
+			'headers.Location' =>
 				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page_setting_mode')
 		];
 		$exception = false;
 
-		$_SERVER['HTTP_REFERER'] = '/setting/announcements_page';
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-		unset($_SERVER['HTTP_REFERER']);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameDelete($this, $expects, $exception);
 	}
 
 /**
@@ -188,39 +159,11 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * @return void
  */
 	public function testPostRequestWysiwygUploads($controller, $url, $post, $expects, $exception) {
-		if (! NetCommonsCurrentLibTestUtility::prepareUploadDir()) {
-			$this->markTestSkipped();
-			return;
-		}
-
-		$_FILES = $post['_FILES'];
-
-		$this->generate($controller, [
-			'components' => [
-				'Security',
-				'Wysiwyg.Wysiwyg' => ['isUploadedFile'],
-				'Files.FileUpload' => ['getTemporaryUploadFile']
-			],
-		]);
-
-		$this->controller->Wysiwyg->expects($this->once())
-			->method('isUploadedFile')
-			->will($this->returnValue(true));
-
-		$TmpUploadFile = NetCommonsCurrentLibTestUtility::getTemporaryFileMock($post['_fileInfo']);
-		$this->controller->FileUpload
-			->expects($this->once())->method('getTemporaryUploadFile')
-			->with('Wysiwyg.file')
-			->will($this->returnValue($TmpUploadFile));
-
-		unset($post['_FILES'], $post['_fileInfo']);
-		NetCommonsCurrentLibTestUtility::testJsonControllerPostRequest(
-			$this, $url, $post, $expects, $exception
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestWysiwygUploads(
+			$this, $controller, $url, $post, $expects, $exception
 		);
-
-		unset($_FILES);
-
-		NetCommonsCurrentLibTestUtility::clearUploadDir();
 	}
 
 /**
@@ -241,7 +184,7 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
 				'url' => '/announcements/announcements/edit/12',
 				'post' => $PostData->getPostDataAnnouncement('toppage_announcement'),
 				'expects' => [
-					'Location' => $ExpectedData->getExpectedRedirectAfterPost('toppage'),
+					'headers.Location' => $ExpectedData->getExpectedRedirectAfterPost('toppage'),
 				],
 				'exception' => false,
 			],
@@ -268,7 +211,7 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
 				'url' => '/announcements/announcements/edit/8?frame_id=12',
 				'post' => $PostData->getPostDataAnnouncement('public_announcement_2'),
 				'expects' => [
-					'Location' => $ExpectedData->getExpectedRedirectAfterPost('public_announcement_page'),
+					'headers.Location' => $ExpectedData->getExpectedRedirectAfterPost('public_announcement_page'),
 				],
 				'exception' => false,
 			],

@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -46,7 +45,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginGetTest extends ControllerTes
 
 		//ログ出力
 		NetCommonsCurrentLibTestUtility::debugLogTestName('ログインなし', $method);
-}
+	}
 
 /**
  * tearDown method
@@ -76,10 +75,9 @@ class NetCommonsLibCurrentLibControllerWithoutLoginGetTest extends ControllerTes
  * @return void
  */
 	public function testGetRequest($controller, $url, $expects, $exception) {
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequest($this, $controller, $url, $expects, $exception);
 	}
 
 /**

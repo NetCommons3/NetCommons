@@ -12,6 +12,7 @@
 App::uses('AuthComponent', 'Controller/Component');
 App::uses('PageLayoutComponent', 'Pages.Controller/Component');
 App::uses('GetPageBehavior', 'Pages.Model/Behavior');
+App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 App::uses('SettingMode', 'NetCommons.Lib');
 App::uses('File', 'Utility');
@@ -445,6 +446,11 @@ class NetCommonsCurrentLibTestUtility {
 			self::__resetOldCurrentUtility();
 		}
 
+//		$class = new ReflectionClass('Router');
+//		$Property = $class->getProperty('_currentRoute');
+//		$Property->setAccessible(true);
+//		$Property->setValue([]);
+
 		$class = new ReflectionClass('PageLayoutComponent');
 		$Property = $class->getProperty('_page');
 		$Property->setAccessible(true);
@@ -469,16 +475,15 @@ class NetCommonsCurrentLibTestUtility {
 		if ($outputDebugTitle) {
 			$key = md5(json_encode($url) . json_encode($expects) . json_encode($exception));
 			CakeLog::debug("=========================================");
-			$startTime = microtime(true);
 		}
 
+		Router::$routes = [];
 		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
 
 		if ($outputDebugTitle) {
-			$endTime = microtime(true);
 			CakeLog::debug('##### ' . var_export($key, true));
-			CakeLog::debug(__METHOD__ . '(' . __LINE__ . ')  UnitTest = Total');
-			CakeLog::debug(var_export(($endTime - $startTime), true));
+			CakeLog::debug(__METHOD__ . '(' . __LINE__ . ')  beforeFilter - afterFilter = Total');
+			CakeLog::debug(var_export(($test->controller->endTime - $test->controller->startTime), true));
 			CakeLog::debug("--------");
 			CakeLog::debug("");
 			CakeLog::debug("");
@@ -486,12 +491,13 @@ class NetCommonsCurrentLibTestUtility {
 			CakeLog::debug("");
 		}
 
-debug($test->contents);
-debug($test->view);
-debug($test->headers);
+//debug($test->contents);
+//debug($test->view);
+//debug($test->headers);
 
 		if ($expects !== false) {
 			self::__assertController($test, $expects);
+			self::dropTables();
 		}
 	}
 
@@ -578,8 +584,9 @@ debug($test->headers);
 		$test->contents = str_replace("\t", '', $test->contents);
 
 		foreach ($expects as $assert => $expect) {
-			if ($assert === 'Location') {
-				$test->assertRegExp($expect, $test->headers['Location']);
+			if (strpos($assert, 'headers') !== false) {
+				list(, $key) = explode('.', $assert);
+				$test->assertRegExp($expect, $test->headers[$key]);
 			} elseif ($assert === 'validationErrors') {
 				$test->assertEquals($expect, $test->controller->validationErrors);
 			} else {

@@ -167,7 +167,7 @@ class CurrentLibControllerTestPostData {
 					],
 				],
 				'expects' => [
-					'Location' =>
+					'headers.Location' =>
 						$ExpectedData->getExpectedFrameAddRedirectAfterPost($plugin['frame_add_action']),
 				],
 			];
@@ -710,7 +710,7 @@ class CurrentLibControllerTestPostData {
 				'url' => '',
 				'post' => [],
 				'expects' => [
-					'Location' =>
+					'headers.Location' =>
 						$ExpectedData->getExpectedRedirectAfterPost('calendar_plan_with_frame_' . $frameId),
 				],
 				'exception' => false,
@@ -721,7 +721,7 @@ class CurrentLibControllerTestPostData {
 				'url' => '',
 				'post' => [],
 				'expects' => [
-					'Location' =>
+					'headers.Location' =>
 						$ExpectedData->getExpectedRedirectAfterPost('calendar_plan_without_frame'),
 				],
 				'exception' => false,
@@ -745,7 +745,7 @@ class CurrentLibControllerTestPostData {
 				'url' => '',
 				'post' => [],
 				'expects' => [
-					'Location' =>
+					'headers.Location' =>
 						$ExpectedData->getExpectedRedirectAfterPost('public_calendars_page'),
 				],
 				'exception' => false,
@@ -756,7 +756,7 @@ class CurrentLibControllerTestPostData {
 				'url' => '',
 				'post' => [],
 				'expects' => [
-					'Location' =>
+					'headers.Location' =>
 						$ExpectedData->getExpectedRedirectAfterPost('delete_calendar_plan_without_frame'),
 				],
 				'exception' => false,

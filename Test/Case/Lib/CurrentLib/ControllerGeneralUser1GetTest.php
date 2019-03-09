@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -84,10 +83,9 @@ class NetCommonsLibCurrentLibControllerGeneralUser1GetTest extends ControllerTes
  * @return void
  */
 	public function testGetRequest($controller, $url, $expects, $exception) {
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequest($this, $controller, $url, $expects, $exception);
 	}
 
 /**
@@ -96,27 +94,9 @@ class NetCommonsLibCurrentLibControllerGeneralUser1GetTest extends ControllerTes
  * @return void
  */
 	public function testGetRequestAnnouncementPageWithSettingMode() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$controller = 'Pages.Pages';
-		$url = '/setting/announcements_page';
-		$expects = [
-			'Location' =>
-				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
-		];
-		$exception = false;
-
-		//セッティングモードON
-		NetCommonsCurrentLibTestUtility::settingMode(true);
-
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-
-		//セッティングモードのクリア
-		NetCommonsCurrentLibTestUtility::settingMode(null);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testGetRequestAnnouncementPageWithSettingModeAsRedirectOff($this);
 	}
 
 /**

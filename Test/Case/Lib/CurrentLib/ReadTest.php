@@ -10,14 +10,13 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::read()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
+ * @package NetCommons\NetCommons\Test\Case\Lib\Current
  */
 class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
 
@@ -30,20 +29,6 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
 	public $autoFixtures = false;
 
 /**
- * Called when a test case method is about to start (to be overridden when needed.)
- *
- * @param string $method Test method about to get executed.
- * @return void
- */
-	public function startTest($method) {
-		//Currentの実態がCurrentLibでなかったら処理しない
-		if (get_class(new Current()) !== 'CurrentLib') {
-			$this->markTestSkipped();
-			return;
-		}
-	}
-
-/**
  * setUp method
  *
  * @return void
@@ -51,7 +36,7 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		CurrentLib::$current = [
+		Current::$current = [
 			'Frame' => [
 				'id' => '1',
 			],
@@ -76,7 +61,7 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		CurrentLib::$current = [];
+		Current::$current = [];
 		parent::tearDown();
 	}
 
@@ -175,11 +160,11 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
  */
 	public function testReadWithoutDefault($key, $expected) {
 		//テスト実施
-		$result = CurrentLib::read($key);
+		$result = Current::read($key);
 		$this->assertEquals($result, $expected);
 
 		if (is_null($key)) {
-			$result = CurrentLib::read();
+			$result = Current::read();
 			$this->assertEquals($result, $expected);
 		}
 	}
@@ -197,7 +182,7 @@ class NetCommonsLibCurrentLibReadTest extends CakeTestCase {
 		if (is_null($expected)) {
 			$expected = 'default';
 		}
-		$result = CurrentLib::read($key, 'default');
+		$result = Current::read($key, 'default');
 		$this->assertEquals($result, $expected);
 	}
 

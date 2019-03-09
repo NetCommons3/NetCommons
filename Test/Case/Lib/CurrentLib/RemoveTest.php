@@ -10,16 +10,15 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentLib', 'NetCommons.Lib');
 App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::remove()のテスト
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
+ * @package NetCommons\NetCommons\Test\Case\Lib\Current
  */
-class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
+class NetCommonsLibCurrentLibRemoveTest extends CakeTestCase {
 
 /**
  * By default, all fixtures attached to this class will be truncated and reloaded after each test.
@@ -30,20 +29,6 @@ class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
 	public $autoFixtures = false;
 
 /**
- * Called when a test case method is about to start (to be overridden when needed.)
- *
- * @param string $method Test method about to get executed.
- * @return void
- */
-	public function startTest($method) {
-		//Currentの実態がCurrentLibでなかったら処理しない
-		if (get_class(new Current()) !== 'CurrentLib') {
-			$this->markTestSkipped();
-			return;
-		}
-	}
-
-/**
  * setUp method
  *
  * @return void
@@ -51,7 +36,7 @@ class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		CurrentLib::$current = [
+		Current::$current = [
 			'Frame' => [
 				'id' => '1',
 			],
@@ -76,7 +61,7 @@ class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		CurrentLib::$current = [];
+		Current::$current = [];
 		parent::tearDown();
 	}
 
@@ -214,7 +199,7 @@ class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
 	}
 
 /**
- * CurrentLib::write()のテスト
+ * Current::write()のテスト
  *
  * @param string|null $key 削除するキー
  * @param string|null $expectedKey 期待値のチェックするキー
@@ -224,12 +209,12 @@ class NetCommonsLibCurrentLibLibRemoveTest extends CakeTestCase {
  */
 	public function testRemove($key, $expectedKey, $expectedValue) {
 		//テスト実施
-		CurrentLib::remove($key);
+		Current::remove($key);
 
 		if (is_null($expectedKey)) {
-			$result = CurrentLib::read();
+			$result = Current::read();
 		} else {
-			$result = CurrentLib::read($expectedKey);
+			$result = Current::read($expectedKey);
 		}
 		$this->assertEquals($result, $expectedValue);
 	}

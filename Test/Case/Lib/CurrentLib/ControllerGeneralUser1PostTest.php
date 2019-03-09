@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -69,57 +68,6 @@ class NetCommonsLibCurrentLibControllerGeneralUser1PostTest extends ControllerTe
 	}
 
 /**
- *  一般ユーザ1でのGETテスト
- *
- * @param string $controller generateするコントローラ
- * @param string $url テストするURL
- * @param array|false $expects 期待値リスト
- * @param string|false $exception Exception文字列
- *
- * @dataProvider dataGetRequestMyRoomOfAdministrator
- * @dataProvider dataGetRequestMyRoomOfGeneralUser1
- * @dataProvider dataGetRequestPrivatePlanOfGeneralUser1
- * @dataProvider dataGetRequestPublicCalendarPage
- *
- * @return void
- */
-	public function testGetRequest($controller, $url, $expects, $exception) {
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-	}
-
-/**
- * パブリックのお知らせページのセッティングモード表示のテスト
- *
- * @return void
- */
-	public function testGetRequestAnnouncementPageWithSettingMode() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$controller = 'Pages.Pages';
-		$url = '/setting/announcements_page';
-		$expects = [
-			'Location' =>
-				$ExpectedData->getExpectedRedirectAfterPost('public_announcement_page')
-		];
-		$exception = false;
-
-		//セッティングモードON
-		NetCommonsCurrentLibTestUtility::settingMode(true);
-
-		$this->generate($controller);
-		NetCommonsCurrentLibTestUtility::testControllerGetRequest(
-			$this, $url, $expects, $exception
-		);
-
-		//セッティングモードのクリア
-		NetCommonsCurrentLibTestUtility::settingMode(null);
-	}
-
-/**
  * Frame追加テスト
  *
  * @param array $post POSTの内容
@@ -127,17 +75,12 @@ class NetCommonsLibCurrentLibControllerGeneralUser1PostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameAdd($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameAdd($this, $post, $expects, $exception);
 	}
 
 /**
@@ -146,21 +89,12 @@ class NetCommonsLibCurrentLibControllerGeneralUser1PostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameEdit() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameEdit($this, $expects, $exception);
 	}
 
 /**
@@ -169,158 +103,12 @@ class NetCommonsLibCurrentLibControllerGeneralUser1PostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameDelete() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
-	}
-
-/**
- * 管理者のマイルーム表示のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataGetRequestMyRoomOfAdministrator() {
-		$results = [
-			'管理者のマイルーム' => [
-				'controller' => 'Pages.Pages',
-				'url' => '/private/private_room_system_admistrator',
-				'expects' => false,
-				'exception' => 'ForbiddenException',
-			],
-		];
-
-		return $results;
-	}
-
-/**
- * 一般ユーザ1のマイルーム表示のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataGetRequestMyRoomOfGeneralUser1() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$results = [
-			'一般ユーザ1のマイルーム' => [
-				'controller' => 'Pages.Pages',
-				'url' => '/private/private_room_general_user_1',
-				'expects' => [
-					'assertContains' => array_merge(
-						$ExpectedData->getExpectedFrame(['menu']),
-						$ExpectedData->getExpectedMenuList([
-							'public', 'private', 'community_1'
-						]),
-						$ExpectedData->getExpectedSettingMode('on')
-					),
-					'assertNotContains' => array_merge([],
-						$ExpectedData->getExpectedMenuList([
-							'community_2'
-						])
-					),
-					'assertRegExp' => array_merge([],
-						$ExpectedData->getExpectedActiveMenu('private_general_user_1')
-					),
-				],
-				'exception' => false,
-			],
-		];
-
-		return $results;
-	}
-
-/**
- * プライベート(一般ユーザ1)の予定の表示のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataGetRequestPrivatePlanOfGeneralUser1() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$results = [
-			'プライベート(一般ユーザ1)の予定の表示' => [
-				'controller' => 'Calendars.CalendarPlans',
-				'/calendars/calendar_plans/view/calendar_event_key_786?frame_id=11',
-				'expects' => [
-					'assertContains' => array_merge(
-						$ExpectedData->getExpectedFrame(['menu']),
-						$ExpectedData->getExpectedMenuList([
-							'public', 'private', 'community_1'
-						]),
-						$ExpectedData->getExpectedCalendarPlanView('private_plan_2')
-					),
-					'assertNotContains' => array_merge([],
-						$ExpectedData->getExpectedSettingMode('on'),
-						$ExpectedData->getExpectedSettingMode('off'),
-						$ExpectedData->getExpectedMenuList([
-							'community_2'
-						])
-					),
-				],
-				'exception' => false,
-			],
-		];
-
-		return $results;
-	}
-
-/**
- * パブリックのカレンダーページの表示のテストデータ
- *
- * @return array テストデータ
- */
-	public function dataGetRequestPublicCalendarPage() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
-		$results = [
-			'パブリックのカレンダーページの表示' => [
-				'controller' => 'Pages.Pages',
-				'/calendars_page',
-				'expects' => [
-					'assertContains' => array_merge(
-						$ExpectedData->getExpectedFrame(['menu']),
-						$ExpectedData->getExpectedMenuList([
-							'public', 'private', 'community_1'
-						])
-					),
-					'assertNotContains' => array_merge([],
-						$ExpectedData->getExpectedSettingMode('on'),
-						$ExpectedData->getExpectedSettingMode('off'),
-						$ExpectedData->getExpectedMenuList([
-							'community_2'
-						])
-					),
-					'assertRegExp' => array_merge(
-						$ExpectedData->getExpectedCalendar([
-							'public_plan_1', 'community_plan_1', 'private_plan_2'
-						]),
-						$ExpectedData->getExpectedActiveMenu('public_calendar_page')
-					),
-					'assertNotRegExp' => array_merge([],
-						$ExpectedData->getExpectedCalendar([
-							'private_plan_1'
-						])
-					),
-				],
-				'exception' => false,
-			],
-		];
-
-		return $results;
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameDelete($this, $expects, $exception);
 	}
 
 /**
@@ -331,7 +119,6 @@ class NetCommonsLibCurrentLibControllerGeneralUser1PostTest extends ControllerTe
 	public function dataPostRequestFrameAdd() {
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
-
 		$results = $PostData->getDataProviderByFrameAdd();
 		return $results;
 	}

@@ -10,10 +10,9 @@
  */
 
 App::uses('NetCommonsCurrentLibTestUtility', 'NetCommons.TestSuite');
+App::uses('NetCommonsCurrentLibTestRun', 'NetCommons.TestSuite');
 App::uses('CurrentLibControllerTestExpectedData', 'NetCommons.Test/Fixture/CurrentLib');
 App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLib');
-App::uses('CurrentLib', 'NetCommons.Lib');
-App::uses('Current', 'NetCommons.Utility');
 
 /**
  * Current::initialize()のControllerテスト
@@ -46,7 +45,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
 
 		//ログ出力
 		NetCommonsCurrentLibTestUtility::debugLogTestName('ログインなし', $method);
-}
+	}
 
 /**
  * tearDown method
@@ -73,12 +72,9 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequest($controller, $url, $post, $expects, $exception) {
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequest($this, $controller, $url, $post, $expects, $exception);
 	}
 
 /**
@@ -89,17 +85,12 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameAdd($post, $expects) {
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/add';
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameAdd($this, $post, $expects, $exception);
 	}
 
 /**
@@ -108,21 +99,12 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameEdit() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/edit';
-		$post = $PostData->getPostDataByFrameEdit();
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameEdit($this, $expects, $exception);
 	}
 
 /**
@@ -131,21 +113,12 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return void
  */
 	public function testPostRequestFrameDelete() {
-		//@var CurrentLibControllerTestPostData
-		$PostData = new CurrentLibControllerTestPostData();
-
-		$controller = 'Frames.Frames';
-		$url = '/frames/frames/delete';
-		$post = $PostData->getPostDataByFrameDelete();
 		$expects = false;
 		$exception = 'ForbiddenException';
 
-		$this->generate($controller, [
-			'components' => ['Security'],
-		]);
-		NetCommonsCurrentLibTestUtility::testControllerPostRequest(
-			$this, $url, $post, $expects, $exception
-		);
+		//@var NetCommonsCurrentLibTestRun
+		$TestRun = new NetCommonsCurrentLibTestRun();
+		$TestRun->testPostRequestFrameDelete($this, $expects, $exception);
 	}
 
 /**

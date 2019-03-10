@@ -814,15 +814,6 @@ class CurrentLibControllerTestPostData {
 					'Room' => [
 						'id' => '1',
 					],
-//					'Wysiwyg' => [
-//						'file' => [
-//							'name' => 'Test.png',
-//							'type' => 'image/png',
-//							'tmp_name' => NetCommonsCurrentLibTestUtility::getTmpDir() . '/tmp/phpGeqf03',
-//							'error' => 0,
-//							'size' => 6385,
-//						],
-//					],
 					'_FILES' => [
 						'data' => [
 							'name' => [

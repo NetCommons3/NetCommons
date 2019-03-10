@@ -89,7 +89,9 @@ class CurrentLibLanguage extends LibAppObject {
 		if ($this->Language->useDbConfig !== 'test' &&
 				$langCode !== Configure::write('Config.language')) {
 			Configure::write('Config.language', $langCode);
-			$this->_controller->Session->write('Config.language', $langCode);
+			if (!empty($this->_controller)) {
+				$this->_controller->Session->write('Config.language', $langCode);
+			}
 		}
 	}
 

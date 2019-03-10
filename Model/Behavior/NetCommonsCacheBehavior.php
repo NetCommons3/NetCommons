@@ -95,6 +95,18 @@ class NetCommonsCacheBehavior extends ModelBehavior {
 	}
 
 /**
+ * find()でキャッシュする際にクエリオプションをもとにキャッシュキー生成する
+ *
+ * @param Model $model ビヘイビア呼び出し元モデル
+ * @param array $queryOptions find()のクエリオプション
+ * @return string
+ */
+	public function createCacheQueryKey(Model $model, $queryOptions) {
+		$cacheKey = md5(json_encode($queryOptions));
+		return $cacheKey;
+	}
+
+/**
  * キャッシュからの読み込み
  * もし、キャッシュに無ければ、findで取得し、キャッシュに登録する。
  *

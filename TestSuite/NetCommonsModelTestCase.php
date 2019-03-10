@@ -10,7 +10,7 @@
  */
 
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentSystem', 'NetCommons.Utility');
+App::uses('Current', 'NetCommons.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 
 /**
@@ -22,22 +22,33 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 
 /**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		$instance = Current::getInstance();
+		$instance->setCurrentLanguage();
+	}
+
+/**
  * setUp method
  *
  * @return void
  */
 	public function setUp() {
 		parent::setUp();
-		(new CurrentSystem())->setLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;
 			//Tracableビヘイビアの削除
-			$this->$model->Behaviors->unload('NetCommons.Trackable');
-			$this->$model->unbindModel(
-				array('belongsTo' => ['TrackableCreator', 'TrackableUpdater']), false
-			);
-
+			if ($this->$model->Behaviors->loaded('NetCommons.Trackable')) {
+				$this->$model->Behaviors->unload('NetCommons.Trackable');
+				$this->$model->unbindModel(
+					array('belongsTo' => ['TrackableCreator', 'TrackableUpdater']), false
+				);
+			}
 			//MailQueueビヘイビアの削除
 			if ($this->$model->Behaviors->loaded('Mails.MailQueue')) {
 				$this->$model->Behaviors->unload('Mails.MailQueue');
@@ -51,7 +62,7 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = array();
+		Current::$current = [];
 		parent::tearDown();
 	}
 
@@ -100,20 +111,20 @@ abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 		}
 		if ($mockModel === $model) {
 			// php7.2よりget_class()にnullを設定するとE_WARNING. http://php.net/manual/ja/function.get-class.php
-			if (is_null($this->$mockModel)) {
-				return;
-			}
-			if (get_class($this->$mockModel) === $mockModel) {
+			if (is_null($this->$mockModel) ||
+					get_class($this->$mockModel) === $mockModel) {
 				$this->$model = $this->getMockForModel(
 					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
 				);
 			}
 		} else {
-			if (is_null($this->$model->$mockModel)) {
-				return;
+			if (is_object($this->$model->$mockModel)) {
+				$mockClassName = get_class($this->$model->$mockModel);
+			} else {
+				$mockClassName = null;
 			}
-			$mockClassName = get_class($this->$model->$mockModel);
-			if (substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
+			if (! $mockClassName ||
+					substr($mockClassName, 0, strlen('Mock_')) !== 'Mock_') {
 				$this->$model->$mockModel = $this->getMockForModel(
 					$mockPlugin . '.' . $mockModel, $mockMethod, array('plugin' => $mockPlugin)
 				);

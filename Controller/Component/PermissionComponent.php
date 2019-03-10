@@ -11,7 +11,6 @@
 
 App::uses('Component', 'Controller');
 App::uses('NetCommonsTime', 'NetCommons.Utility');
-App::uses('Block', 'Blocks.Model');
 
 /**
  * Permission Component
@@ -290,6 +289,8 @@ class PermissionComponent extends Component {
  * @return bool
  */
 	public function checkBlockAccess(Controller $controller) {
+		App::uses('Block', 'Blocks.Model');
+
 		//ブロックがない場合、trueとする
 		if (! Current::read('Block')) {
 			return true;

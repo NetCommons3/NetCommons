@@ -26,7 +26,7 @@ class HashSpeedupTestNoExec extends CakeTestCase {
  *
  * @var array
  */
-	const MEASUREMENT_NUMBER = 0;
+	const MEASUREMENT_NUMBER = 10;
 
 /**
  * 開始時間
@@ -48,6 +48,17 @@ class HashSpeedupTestNoExec extends CakeTestCase {
  * @var array
  */
 	private $__data = [];
+
+/**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		//開発環境でのみテストする。テストする際は、当コメントを削除する
+		$this->markTestSkipped();
+	}
 
 /**
  * setUp method

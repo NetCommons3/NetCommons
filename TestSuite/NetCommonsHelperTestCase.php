@@ -15,7 +15,7 @@ App::uses('CakeResponse', 'Network');
 App::uses('View', 'View');
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 App::uses('NetCommonsControllerTestCase', 'NetCommons.TestSuite');
-App::uses('CurrentSystem', 'NetCommons.Utility');
+App::uses('Current', 'NetCommons.Utility');
 
 /**
  * NetCommonsHelperTestCase class
@@ -46,8 +46,10 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
  * @return void
  */
 	public function setUp() {
+		$instance = Current::getInstance();
+		$instance->setCurrentLanguage();
+
 		parent::setUp();
-		(new CurrentSystem())->setLanguage();
 
 		if ($this->_helperName) {
 			$this->loadHelper($this->_helperName);
@@ -60,8 +62,8 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
  * @return void
  */
 	public function tearDown() {
-		Current::$current = array();
-		Current::$request = null;
+		Current::resetInstance();
+
 		unset($this->_Controller);
 		parent::tearDown();
 	}
@@ -99,8 +101,6 @@ abstract class NetCommonsHelperTestCase extends NetCommonsControllerTestCase {
 		foreach ($controllerVars as $key => $value) {
 			$Controller->$key = $value;
 		}
-
-		Current::$request = $Controller->request;
 
 		$View = new View($Controller);
 		$View->plugin = $camelPlugin;

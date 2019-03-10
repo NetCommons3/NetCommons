@@ -10,11 +10,13 @@
 
 App::uses('Controller', 'Controller');
 App::uses('Utility', 'Inflector');
-App::uses('Current', 'NetCommons.Utility');
+//App::uses('Current', 'NetCommons.Utility');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
 App::uses('User', 'Users.Model');
+
+App::uses('CurrentLib', 'NetCommons.Lib');
 
 /**
  * NetCommonsApp Controller
@@ -66,7 +68,7 @@ class NetCommonsAppController extends Controller {
 				'hashType' => User::PASSWORD_HASH_TYPE,
 			],
 		),
-		'DebugKit.Toolbar',
+		//'DebugKit.Toolbar',
 		'Flash',
 		'MobileDetect.MobileDetect',
 		'NetCommons.Asset',
@@ -147,6 +149,12 @@ class NetCommonsAppController extends Controller {
 		if (Configure::read('NetCommons.installed')) {
 			SiteSettingUtil::initialize();
 		}
+
+		//DebugKitは、debugモードがONのときのみロードするように修正
+		if (Configure::read('debug') &&
+				!in_array('DebugKit.Toolbar', $this->components, true) ) {
+			$this->components[] = 'DebugKit.Toolbar';
+		}
 	}
 
 /**
@@ -194,7 +202,26 @@ class NetCommonsAppController extends Controller {
 		$this->_setLanguage();
 
 		//カレントデータセット
-		Current::initialize($this);
+if (empty($this->request->params['requested'])) {
+	$indent = '';
+} else {
+	$indent = '  ';
+}
+$startTime = microtime(true);
+		//@var $instance CurrentLib
+		$instance = CurrentLib::getInstance();
+		$instance->initialize($this);
+
+//$debug = CurrentLib::$current;
+//unset($debug['PluginsRoom']);
+//ksort($debug);
+//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+//$debug = NcPermission::$permission;
+//ksort($debug);
+//CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') ' . var_export($debug, true));
+$endTime = microtime(true);
+CakeLog::debug($indent . __METHOD__ . '(' . __LINE__ . ') Current::initialize()');
+CakeLog::debug($indent . var_export(($endTime - $startTime), true));
 
 		if (! $this->AccessCtrl->allowAccess()) {
 			return;
@@ -229,7 +256,8 @@ class NetCommonsAppController extends Controller {
  */
 	public function afterFilter() {
 		//カレントデータセット
-		Current::terminate($this);
+		$instance = CurrentLib::getInstance();
+		$instance->terminate($this);
 
 		parent::afterFilter();
 	}

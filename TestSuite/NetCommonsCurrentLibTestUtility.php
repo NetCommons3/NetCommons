@@ -10,6 +10,17 @@
  */
 
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('PageLayoutComponent', 'Pages.Controller/Component');
+App::uses('GetPageBehavior', 'Pages.Model/Behavior');
+App::uses('CurrentLib', 'NetCommons.Lib');
+App::uses('Current', 'NetCommons.Utility');
+App::uses('SettingMode', 'NetCommons.Lib');
+App::uses('File', 'Utility');
+App::uses('Folder', 'Utility');
+
+if (!defined('UPLOADS_ROOT')) {
+	define('UPLOADS_ROOT', NetCommonsCurrentLibTestUtility::getUploadDir());
+}
 
 /**
  * Fixture test_schema.sqlを読み込むんでテストするためのユーティリティ
@@ -52,6 +63,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'system_administrator',
 			'handlename' => 'System administrator',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'system_administrator',
@@ -66,6 +78,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 1',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -80,6 +93,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 2',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -94,6 +108,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 3',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'common_user',
@@ -108,6 +123,7 @@ class NetCommonsCurrentLibTestUtility {
 				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
 			'role_key' => 'guest_user',
 			'handlename' => 'Guest user 1',
+			'modified' => '2019-03-02 00:00:00',
 			'UserRoleSetting' => [
 				'id' => '1',
 				'role_key' => 'guest_user',
@@ -116,6 +132,51 @@ class NetCommonsCurrentLibTestUtility {
 			],
 		],
 	];
+
+/**
+ * テスト名をdebugに出力
+ *
+ * @param $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
+ * @param $method テストメソッド
+ * @return void
+ */
+	public static function debugLogTestName($loginTitle, $method) {
+		$pos = strpos($method, 'with');
+		if ($pos !== false) {
+			$testName = mb_substr($method, 0, $pos - 1);
+			$testSubTitle = mb_substr($method, $pos - 1);
+		} else {
+			$testName = $method;
+			$testSubTitle = '';
+		}
+
+		switch ($testName) {
+			case 'testGetRequest';
+				$testName = 'GETリクエスト';
+				break;
+			case 'testGetRequestAnnouncementPageWithSettingMode':
+				$testName = 'セッティングモードON(パブリックのお知らせページ)';
+				break;
+			case 'testPostRequest';
+				$testName = 'POSTリクエスト';
+				break;
+			case 'testPostRequestFrameAdd';
+				$testName = 'フレーム追加';
+				break;
+			case 'testPostRequestFrameEdit';
+				$testName = 'フレーム編集';
+				break;
+			case 'testPostRequestFrameDelete';
+				$testName = 'フレーム削除';
+				break;
+		}
+
+		//ログ出力
+		CakeLog::debug('');
+		CakeLog::debug('');
+		CakeLog::debug('[' . $loginTitle . '] ' . $testName . $testSubTitle);
+		CakeLog::debug('');
+	}
 
 /**
  * テーブルのロード
@@ -159,13 +220,110 @@ class NetCommonsCurrentLibTestUtility {
 	}
 
 /**
- * テーブルをロードできるか否か
+ * Fixtureのパスを返す
+ *
+ * @return string
+ */
+	public static function getFixturePath() {
+		$path = CakePlugin::path('NetCommons') . 'Test' . DS . 'Fixture' . DS;
+		return $path;
+	}
+
+/**
+ * スキーマファイルのフルパスを返す
  *
  * @return string
  */
 	public static function getSchemaFile() {
-		$schemaFile = CakePlugin::path('NetCommons') . 'Test' . DS . 'Fixture' . DS . 'test_schema.sql';
+		if (get_class(new Current()) === 'CurrentLib') {
+			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
+		} else {
+			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_utility.sql';
+		}
 		return $schemaFile;
+	}
+
+/**
+ * tmpディレクトリのパスを返す
+ *
+ * @return string
+ */
+	public static function getTmpDir() {
+		$path = self::getFixturePath() . 'CurrentLib' . DS . 'tmp' . DS;
+		return $path;
+	}
+
+/**
+ * アップロードディレクトリのパスを返す
+ *
+ * @return string
+ */
+	public static function getUploadDir() {
+		$path = self::getFixturePath() . 'CurrentLib' . DS . 'TestUploads' . DS;
+		return $path;
+	}
+
+/**
+ * アップロードディレクトリのパスをセットする
+ *
+ * @return string
+ */
+	public static function prepareUploadDir() {
+		//@var Folder
+		$Folder = new Folder();
+
+		if (! self::clearUploadDir()) {
+			return false;
+		}
+
+		$options = [
+			'from' => self::getFixturePath() . 'CurrentLib' . DS . 'Uploads',
+			'to' => self::getUploadDir(),
+		];
+		if (! $Folder->copy($options)) {
+			return false;
+		}
+
+		return true;
+	}
+
+/**
+ * アップロードディレクトリのパスをセットする
+ *
+ * @return string
+ */
+	public static function clearUploadDir() {
+		if (file_exists(self::getUploadDir() . 'files')) {
+			//@var Folder
+			$Folder = new Folder();
+			return $Folder->delete(self::getUploadDir() . 'files');
+		}
+		return true;
+	}
+
+/**
+ * TemporaryFileのモックとしてFileを使って戻す
+ *
+ * @return string
+ */
+	public static function getTemporaryFileMock($fileInfo) {
+		$extension = pathinfo(
+			$fileInfo['name'],
+			PATHINFO_EXTENSION
+		);
+		$destFileName = Security::hash(mt_rand() . microtime(), 'md5') . '.' . $extension;
+
+		$TmpFile = new File($fileInfo['tmp_name']);
+		$result = $TmpFile->copy(self::getTmpDir() . $destFileName);
+
+		unset($TmpFile);
+
+		$File = new File(self::getTmpDir() . $destFileName);
+		$File->temporaryFolder = new Folder(self::getTmpDir());
+		$File->originalName = $fileInfo['name'];
+		$File->error = $fileInfo['error'];
+
+		return $File;
 	}
 
 /**
@@ -215,11 +373,30 @@ class NetCommonsCurrentLibTestUtility {
 	}
 
 /**
+ * セッティングモードの変更
+ *
+ * @return void
+ */
+	public static function settingMode($setting) {
+		if (get_class(new Current()) === 'CurrentLib') {
+			$reflectionClass = new ReflectionClass('SettingMode');
+			$property = $reflectionClass->getProperty('__isSettingMode');
+			$property->setAccessible(true);
+			$property->setValue($setting);
+		} else {
+			$reflectionClass = new ReflectionClass('Current');
+			$property = $reflectionClass->getProperty('_isSettingMode');
+			$property->setAccessible(true);
+			$property->setValue($setting);
+		}
+	}
+
+/**
  * 旧Currentのリセット
  *
  * @return void
  */
-	public static function resetCurrentUtility() {
+	private static function __resetOldCurrentUtility() {
 		Current::$current = [];
 		Current::$originalCurrent = [];
 		Current::$permission = [];
@@ -251,15 +428,165 @@ class NetCommonsCurrentLibTestUtility {
 		$Property->setAccessible(true);
 		$Property->setValue(null);
 
-		$class = new ReflectionClass('PageLayoutComponent');
-		$Property = $class->getProperty('_page');
-		$Property->setAccessible(true);
-		$Property->setValue(null);
-
 		$class = new ReflectionClass('GetPageBehavior');
 		$Property = $class->getProperty('__memoryPageWithFrame');
 		$Property->setAccessible(true);
 		$Property->setValue([]);
+	}
+
+/**
+ * Currentライブラリのリセット
+ *
+ * @return void
+ */
+	public static function resetCurrentLib() {
+		if (get_class(new Current()) === 'CurrentLib') {
+			Current::resetInstance();
+		} else {
+			self::__resetOldCurrentUtility();
+		}
+
+		$class = new ReflectionClass('PageLayoutComponent');
+		$Property = $class->getProperty('_page');
+		$Property->setAccessible(true);
+		$Property->setValue(null);
+	}
+
+/**
+ * コントローラのGETテスト
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testControllerGetRequest(
+			ControllerTestCase $test, $url, $expects, $exception, $outputDebugTitle = false) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		if ($outputDebugTitle) {
+			$key = md5(json_encode($url) . json_encode($expects) . json_encode($exception));
+			CakeLog::debug("=========================================");
+		}
+
+		$test->testAction($url, ['method' => 'GET', 'return' => 'view']);
+
+		if ($outputDebugTitle) {
+			CakeLog::debug('##### ' . var_export($key, true));
+			CakeLog::debug(__METHOD__ . '(' . __LINE__ . ')  beforeFilter - afterFilter = Total');
+			CakeLog::debug(var_export(($test->controller->endTime - $test->controller->startTime), true));
+			CakeLog::debug("--------");
+			CakeLog::debug("");
+			CakeLog::debug("");
+			CakeLog::debug("");
+			CakeLog::debug("");
+		}
+
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
+
+		if ($expects !== false) {
+			self::__assertController($test, $expects);
+			//self::dropTables();
+		}
+	}
+
+/**
+ * コントローラのPOSTテスト
+ *
+ * Mockにせずに登録処理を実行するが、saveした結果まではチェックしない。
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testControllerPostRequest(
+			ControllerTestCase $test, $url, $post, $expects, $exception) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		$test->testAction(
+			$url,
+			['method' => 'POST', 'return' => 'view', 'data' => $post]
+		);
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
+		//debug($test->controller->validationErrors);
+
+		if ($expects !== false) {
+			self::__assertController($test, $expects);
+			self::dropTables();
+		}
+	}
+
+/**
+ * コントローラのPOSTテスト
+ *
+ * Mockにせずに登録処理を実行するが、saveした結果まではチェックしない。
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param string $url テストするURL
+ * @param array $post POSTの内容
+ * @param array|false $expects 期待値リスト
+ * @param string|false $exception Exception文字列
+ * @return void
+ */
+	public static function testJsonControllerPostRequest(
+			ControllerTestCase $test, $url, $post, $expects, $exception) {
+		if ($expects === false) {
+			$test->setExpectedException($exception);
+		}
+
+		$test->testAction(
+			$url,
+			['method' => 'POST', 'return' => 'view', 'type' => 'json', 'data' => $post]
+		);
+		//debug($test->contents);
+		//debug($test->view);
+		//debug($test->headers);
+		//debug($test->controller->validationErrors);
+
+		if ($expects !== false) {
+			$contents = json_decode($test->contents, true);
+			foreach ($expects as $key => $value) {
+				$test->assertEquals($value, Hash::get($contents, $key));
+			}
+			self::dropTables();
+		}
+	}
+
+/**
+ * コントローラの検証
+ *
+ * @param ControllerTestCase $test コントローラテストクラス
+ * @param array|false $expects 期待値リスト
+ * @return void
+ */
+	private static function __assertController(ControllerTestCase $test, $expects) {
+		$test->contents = str_replace("\n", '', $test->contents);
+		$test->contents = str_replace("\t", '', $test->contents);
+
+		foreach ($expects as $assert => $expect) {
+			if (strpos($assert, 'headers') !== false) {
+				list(, $key) = explode('.', $assert);
+				$test->assertRegExp($expect, $test->headers[$key]);
+			} elseif ($assert === 'validationErrors') {
+				$test->assertEquals($expect, $test->controller->validationErrors);
+			} else {
+				foreach ($expect as $ex) {
+					$test->$assert($ex, $test->contents);
+				}
+			}
+		}
 	}
 
 }

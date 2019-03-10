@@ -13,9 +13,6 @@ CakeLog::drop('stdout');
 CakeLog::drop('stderr');
 
 App::uses('Current', 'NetCommons.Utility');
-App::uses('CurrentFrame', 'NetCommons.Utility');
-App::uses('CurrentPage', 'NetCommons.Utility');
-App::uses('CurrentSystem', 'NetCommons.Utility');
 App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
 App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');

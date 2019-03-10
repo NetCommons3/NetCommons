@@ -378,7 +378,8 @@ class CurrentLibBlock extends LibAppObject {
  */
 	public function findUseWorkflowPermissionsByBlockKey($roomId, $blockKey) {
 		$room = $this->CurrentLibRoom->findRoomById($roomId);
-		if ($room['Room']['need_approval']) {
+		if (! $room ||
+				$room['Room']['need_approval']) {
 			return [];
 		}
 

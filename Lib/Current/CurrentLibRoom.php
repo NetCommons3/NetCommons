@@ -311,8 +311,10 @@ class CurrentLibRoom extends LibAppObject {
 		));
 
 		$this->__rooms[$roomId] = $room;
-		$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
-		$this->__rooms[$roomId]['Space'] = $this->Space->getSpace($room['Room']['space_id']);
+		if ($room) {
+			$this->__rooms[$roomId] += $this->__findRoomsLanguage($roomId);
+			$this->__rooms[$roomId]['Space'] = $this->Space->getSpace($room['Room']['space_id']);
+		}
 
 		return $this->__rooms[$roomId];
 	}

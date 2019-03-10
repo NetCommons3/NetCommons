@@ -22,15 +22,23 @@ App::uses('OriginalKeyBehavior', 'NetCommons.Model/Behavior');
 abstract class NetCommonsModelTestCase extends NetCommonsCakeTestCase {
 
 /**
+ * Called when a test case method is about to start (to be overridden when needed.)
+ *
+ * @param string $method Test method about to get executed.
+ * @return void
+ */
+	public function startTest($method) {
+		$instance = Current::getInstance();
+		$instance->setCurrentLanguage();
+	}
+
+/**
  * setUp method
  *
  * @return void
  */
 	public function setUp() {
 		parent::setUp();
-
-		$instance = Current::getInstance();
-		$instance->setCurrentLanguage();
 
 		if ($this->_modelName) {
 			$model = $this->_modelName;

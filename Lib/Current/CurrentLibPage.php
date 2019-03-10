@@ -544,9 +544,9 @@ class CurrentLibPage extends LibAppObject {
 			],
 			'order' => [
 				'BoxesPageContainer.page_container_id',
-				'BoxesPageContainer.is_published',
-				'BoxesPageContainer.box_id',
 				'BoxesPageContainer.weight',
+				//'BoxesPageContainer.box_id',
+				//'BoxesPageContainer.is_published',
 			],
 			'callbacks' => false,
 		);

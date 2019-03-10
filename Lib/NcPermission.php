@@ -103,8 +103,17 @@ class NcPermission extends LibAppObject {
  * @return bool パーミッション値
  */
 	public function read($roomId, $key) {
+		//UnitTestで使用するため、下のcontrollerのチェック前に行う。
 		if (isset(CurrentLib::$permission[$roomId]['Permission'][$key]['value'])) {
 			return CurrentLib::$permission[$roomId]['Permission'][$key]['value'];
+		}
+
+		//コントローラがない場合、初期データが取得されていないため、falseとする。
+		//PurifiableBehavior->setup()でCurrent::permissionを呼んでいる。
+		//ここで呼んでいるが、パースする直前でもCurrent::permissionを呼んでチェックしてるため、影響ない。
+		//@see https://github.com/NetCommons3/Wysiwyg/blob/3.2.2/Model/Behavior/PurifiableBehavior.php#L317-L324
+		if (empty($this->_controller)) {
+			return false;
 		}
 
 		$roomRoleKey = $this->CurrentLibRoom->getRoomRoleKeyByRoomId($roomId);
@@ -120,6 +129,8 @@ class NcPermission extends LibAppObject {
 		foreach ($permissions as $key => $permission) {
 			$this->write($roomId, $key, $permission['value']);
 		}
+
+		return CurrentLib::$permission[$roomId]['Permission'][$key]['value'];
 	}
 
 }

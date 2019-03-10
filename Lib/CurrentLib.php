@@ -526,12 +526,14 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controlle
 			//フレームIDがなく、ブロックIDがある場合
 			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
 			$block = $this->CurrentLibBlock->findBlockById($blockId);
-			//ルーム関連データのセット
-			$this->__setCurrentRoom($block['Block']['room_id']);
-			//ブロック関連データのセット
-			$this->__setCurrentBlock($block['Block']['room_id'], $blockId);
-			//当該ルーム内で設置しているフレームに遷移した方がい良いが、パフォーマンスが遅くなるため、
-			//フレームなしとして、各設定のデフォルトを使用する。
+			if (! empty($block['Block']['room_id'])) {
+				//ルーム関連データのセット
+				$this->__setCurrentRoom($block['Block']['room_id']);
+				//ブロック関連データのセット
+				$this->__setCurrentBlock($block['Block']['room_id'], $blockId);
+				//当該ルーム内で設置しているフレームに遷移した方がい良いが、パフォーマンスが遅くなるため、
+				//フレームなしとして、各設定のデフォルトを使用する。
+			}
 		}
 	}
 

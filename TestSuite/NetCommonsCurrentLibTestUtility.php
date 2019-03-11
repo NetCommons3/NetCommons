@@ -59,8 +59,7 @@ class NetCommonsCurrentLibTestUtility {
 		'1' => [
 			'id' => '1',
 			'username' => 'admin',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'system_administrator',
 			'handlename' => 'System administrator',
 			'modified' => '2019-03-02 00:00:00',
@@ -74,8 +73,7 @@ class NetCommonsCurrentLibTestUtility {
 		'2' => [
 			'id' => '2',
 			'username' => 'general_user_1',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 1',
 			'modified' => '2019-03-02 00:00:00',
@@ -89,8 +87,7 @@ class NetCommonsCurrentLibTestUtility {
 		'3' => [
 			'id' => '3',
 			'username' => 'general_user_2',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 2',
 			'modified' => '2019-03-02 00:00:00',
@@ -104,8 +101,7 @@ class NetCommonsCurrentLibTestUtility {
 		'4' => [
 			'id' => '4',
 			'username' => 'general_user_3',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 3',
 			'modified' => '2019-03-02 00:00:00',
@@ -119,8 +115,7 @@ class NetCommonsCurrentLibTestUtility {
 		'5' => [
 			'id' => '5',
 			'username' => 'guest_user_1',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'guest_user',
 			'handlename' => 'Guest user 1',
 			'modified' => '2019-03-02 00:00:00',
@@ -213,10 +208,11 @@ class NetCommonsCurrentLibTestUtility {
  * @return bool
  */
 	public static function canLoadTables() {
+		$travis = getenv('TRAVIS_BUILD_DIR');
 		$db = ConnectionManager::getDataSource('test');
 		$schemaFile = self::getSchemaFile();
 		$installed = Configure::read('NetCommons.installed');
-		return ($db->config['prefix'] === '' && file_exists($schemaFile) && $installed);
+		return ($installed && !$travis && $db->config['prefix'] === '' && file_exists($schemaFile));
 	}
 
 /**

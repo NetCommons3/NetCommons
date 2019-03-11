@@ -392,6 +392,8 @@ class CurrentLibPage extends LibAppObject {
 			$pageId = $this->getPageIdByPermalink($permalink);
 		} elseif (!empty($this->_controller->request->params['pageEdit'])) {
 			//ページ編集するアクションの場合、URLのパスにpage_idが含まれている
+			//※通常だと、NetCommons/Config/routes.phpでpass.0がblock_id、pass.1がcontent_keyとして
+			//　扱われるため、Pages/Config/routes.phpでそうならないように設定する必要がる。
 			if (isset($this->_controller->request->params['pass'][1])) {
 				//URLのパスが、/:plugin/:controller/:action/(room_id)/(page_id)
 				$pageId = $this->_controller->request->params['pass'][1];

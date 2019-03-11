@@ -216,7 +216,6 @@ class NetCommonsAppController extends Controller {
 		//$startTime = microtime(true);
 
 		//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
-		//@var $instance CurrentLib
 		//@codeCoverageIgnoreStart
 		if (empty($this->CurrentLib)) {
 			$this->CurrentLib = CurrentLib::getInstance();

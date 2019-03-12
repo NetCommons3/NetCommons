@@ -34,6 +34,7 @@ App::uses('CurrentLibPlugin', 'NetCommons.Lib/Current');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CurrentLibPage extends LibAppObject {
 
@@ -94,14 +95,21 @@ class CurrentLibPage extends LibAppObject {
  *
  * @var array|null
  */
-	private $__page = null;
+	private $__currentPage = null;
+
+/**
+ * 一度取得したページデータを保持
+ *
+ * @var array
+ */
+	private $__pages = [];
 
 /**
  * 一度取得したページコンテナーデータを保持
  *
  * @var array|null
  */
-	private $__pageContainer = null;
+	private $__curPageContainer = null;
 
 /**
  * 言語IDを保持
@@ -111,7 +119,7 @@ class CurrentLibPage extends LibAppObject {
 	private $__langId = null;
 
 /**
- * $__pageに保持したボックスデータを取得するための情報保持
+ * $__currentPageに保持したボックスデータを取得するための情報保持
  *
  * ```
  * $this->__boxMaps = [
@@ -268,20 +276,53 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
+ * トップページのページIDか否かチェックする
+ *
+ * @param string|int $pageId ページID
+ * @return bool
+ */
+	public function isTopPageId($pageId) {
+		$topPage = $this->findTopPage();
+		return $topPage['Page']['id'] == $pageId;
+	}
+
+/**
  * ページデータを取得する
  *
  * @return array
  */
 	public function findCurrentPage() {
-		if ($this->__page) {
-			return $this->__page;
+		if (! $this->__currentPage) {
+			$pageId = $this->__getCurrentPageId();
+			$this->__currentPage = $this->findPage($pageId);
+		}
+		return $this->__currentPage;
+	}
+
+/**
+ * ページデータをセットする
+ *
+ * @param array $page ページデータ
+ * @return array
+ */
+	public function setCurrentPage($page) {
+		$this->__currentPage = $page;
+	}
+
+/**
+ * ページデータを取得する
+ *
+ * @param string|int $pageId ページID
+ * @return array
+ */
+	public function findPage($pageId) {
+		if (isset($this->__pages[$pageId])) {
+			return $this->__pages[$pageId];
 		}
 
-		$pageId = $this->__getCurrentPageId();
 		$topPage = $this->findTopPage();
-
 		if (! $pageId || $pageId === $topPage['Page']['id']) {
-			$this->__page = $topPage;
+			$page = $topPage;
 		} else {
 			$page = $this->Page->find('first', [
 				'recursive' => -1,
@@ -292,24 +333,38 @@ class CurrentLibPage extends LibAppObject {
 				'callbacks' => false,
 			]);
 			//ページ情報がなかった場合、トップページで表示する
-			if ($page) {
-				$this->__page = $page;
-			} else {
-				$this->__page = $topPage;
+			if (! $page) {
+				$page = $topPage;
 			}
 		}
 
 		//full_permalinkの設定
-		$this->__page['Page']['full_permalink'] = $this->__makeFullPermalink(
-			$this->__page['Page']['room_id'],
-			$this->__page['Page']['id'],
-			$this->__page['Page']['permalink']
+		$page['Page']['full_permalink'] = $this->__makeFullPermalink(
+			$page['Page']['room_id'],
+			$page['Page']['id'],
+			$page['Page']['permalink']
 		);
 
 		//ページ言語データ取得
-		$this->__page += $this->__findPagesLanguage($this->__page['Page']['id']);
+		$page += $this->__findPagesLanguage($page['Page']['id']);
 
-		return $this->__page;
+		$this->__pages[$pageId] = $page;
+		return $page;
+	}
+
+/**
+ * ページデータ(コンテナー付き)を取得する
+ *
+ * @return array
+ */
+	public function findCurrentPageContainer() {
+		if (! isset($this->__curPageContainer)) {
+			$page = $this->findCurrentPage();
+			if ($page) {
+				$this->__curPageContainer = $this->findPageContainer($page['Page']['id']);
+			}
+		}
+		return $this->__curPageContainer;
 	}
 
 /**
@@ -319,7 +374,7 @@ class CurrentLibPage extends LibAppObject {
  */
 	public function findCurrentPageWithContainer() {
 		$page = $this->findCurrentPage();
-		$page['PageContainer'] = $this->findPageContainer($page['Page']['id']);
+		$page['PageContainer'] = $this->findCurrentPageContainer();
 		return $page;
 	}
 
@@ -338,6 +393,8 @@ class CurrentLibPage extends LibAppObject {
 			$pageId = $this->getPageIdByPermalink($permalink);
 		} elseif (!empty($this->_controller->request->params['pageEdit'])) {
 			//ページ編集するアクションの場合、URLのパスにpage_idが含まれている
+			//※通常だと、NetCommons/Config/routes.phpでpass.0がblock_id、pass.1がcontent_keyとして
+			//　扱われるため、Pages/Config/routes.phpでそうならないように設定する必要がる。
 			if (isset($this->_controller->request->params['pass'][1])) {
 				//URLのパスが、/:plugin/:controller/:action/(room_id)/(page_id)
 				$pageId = $this->_controller->request->params['pass'][1];
@@ -426,10 +483,6 @@ class CurrentLibPage extends LibAppObject {
  * @return array
  */
 	public function findPageContainer($pageId) {
-		if (isset($this->__pageContainer)) {
-			return $this->__pageContainer;
-		}
-
 		$pageContainers = $this->PageContainer->find('all', array(
 			'recursive' => -1,
 			'fields' => [
@@ -456,7 +509,6 @@ class CurrentLibPage extends LibAppObject {
 			$results[$pageContainerId]['Box'] = $boxes;
 		}
 
-		$this->__pageContainer = $results;
 		return $results;
 	}
 
@@ -590,11 +642,10 @@ class CurrentLibPage extends LibAppObject {
  *
  * @param string $permalink パーマリンク
  * @param string|int|null $spaceId スペースID
- * @return string ページID(intの文字列)
+ * @return string|int|false ページID
  */
 	public function getPageIdByPermalink($permalink, $spaceId = null) {
-		$permalink = implode('/', $this->_controller->request->params['pass']);
-		if ($permalink === '') {
+		if ($permalink == '') {
 			$page = $this->findTopPage();
 		} else {
 			if ($spaceId) {
@@ -625,7 +676,11 @@ class CurrentLibPage extends LibAppObject {
 			]);
 		}
 
-		return $page['Page']['id'];
+		if ($page) {
+			return $page['Page']['id'];
+		} else {
+			return false;
+		}
 	}
 
 /**
@@ -741,10 +796,10 @@ class CurrentLibPage extends LibAppObject {
  * @return array
  */
 	public function findBoxById($boxId) {
-		if ($this->__pageContainer && isset($this->__boxMaps[$boxId])) {
+		if ($this->__curPageContainer && isset($this->__boxMaps[$boxId])) {
 			$pageContainerId = $this->__boxMaps[$boxId]['page_container_id'];
-			if (isset($this->__pageContainer[$pageContainerId]['Box'][$boxId])) {
-				return $this->__pageContainer[$pageContainerId]['Box'][$boxId];
+			if (isset($this->__curPageContainer[$pageContainerId]['Box'][$boxId])) {
+				return $this->__curPageContainer[$pageContainerId]['Box'][$boxId];
 			} else {
 				return [];
 			}

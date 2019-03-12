@@ -33,6 +33,8 @@ if (!defined('UPLOADS_ROOT')) {
  *
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsCurrentLibTestUtility {
 
@@ -59,8 +61,7 @@ class NetCommonsCurrentLibTestUtility {
 		'1' => [
 			'id' => '1',
 			'username' => 'admin',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'system_administrator',
 			'handlename' => 'System administrator',
 			'modified' => '2019-03-02 00:00:00',
@@ -74,8 +75,7 @@ class NetCommonsCurrentLibTestUtility {
 		'2' => [
 			'id' => '2',
 			'username' => 'general_user_1',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 1',
 			'modified' => '2019-03-02 00:00:00',
@@ -89,8 +89,7 @@ class NetCommonsCurrentLibTestUtility {
 		'3' => [
 			'id' => '3',
 			'username' => 'general_user_2',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 2',
 			'modified' => '2019-03-02 00:00:00',
@@ -104,8 +103,7 @@ class NetCommonsCurrentLibTestUtility {
 		'4' => [
 			'id' => '4',
 			'username' => 'general_user_3',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'common_user',
 			'handlename' => 'General user 3',
 			'modified' => '2019-03-02 00:00:00',
@@ -119,8 +117,7 @@ class NetCommonsCurrentLibTestUtility {
 		'5' => [
 			'id' => '5',
 			'username' => 'guest_user_1',
-			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c' .
-				'47f64f82f5a73ba1c9f39cdbd62c040a2b619d3922560eace8973a7588605b33ea19bd13390e6e1f769ef8',
+			'password' => 'bf52eec7654a236513801b3d19c0ab557c36f3f29c',
 			'role_key' => 'guest_user',
 			'handlename' => 'Guest user 1',
 			'modified' => '2019-03-02 00:00:00',
@@ -136,8 +133,8 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * テスト名をdebugに出力
  *
- * @param $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
- * @param $method テストメソッド
+ * @param string $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
+ * @param string $method テストメソッド
  * @return void
  */
 	public static function debugLogTestName($loginTitle, $method) {
@@ -213,10 +210,11 @@ class NetCommonsCurrentLibTestUtility {
  * @return bool
  */
 	public static function canLoadTables() {
+		$travis = getenv('TRAVIS_BUILD_DIR');
 		$db = ConnectionManager::getDataSource('test');
 		$schemaFile = self::getSchemaFile();
 		$installed = Configure::read('NetCommons.installed');
-		return ($db->config['prefix'] === '' && file_exists($schemaFile) && $installed);
+		return ($installed && !$travis && $db->config['prefix'] === '' && file_exists($schemaFile));
 	}
 
 /**
@@ -304,6 +302,7 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * TemporaryFileのモックとしてFileを使って戻す
  *
+ * @param array $fileInfo アップロードファイル情報
  * @return string
  */
 	public static function getTemporaryFileMock($fileInfo) {
@@ -314,7 +313,7 @@ class NetCommonsCurrentLibTestUtility {
 		$destFileName = Security::hash(mt_rand() . microtime(), 'md5') . '.' . $extension;
 
 		$TmpFile = new File($fileInfo['tmp_name']);
-		$result = $TmpFile->copy(self::getTmpDir() . $destFileName);
+		$TmpFile->copy(self::getTmpDir() . $destFileName);
 
 		unset($TmpFile);
 
@@ -375,6 +374,7 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * セッティングモードの変更
  *
+ * @param bool $setting セッティングモード
  * @return void
  */
 	public static function settingMode($setting) {
@@ -459,7 +459,9 @@ class NetCommonsCurrentLibTestUtility {
  * @param string $url テストするURL
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
+ * @param string|false $outputDebugTitle 出力するdebugのタイトル
  * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function testControllerGetRequest(
 			ControllerTestCase $test, $url, $expects, $exception, $outputDebugTitle = false) {

@@ -26,7 +26,7 @@ class NetCommonsCurrentLibTestRun {
  *
  * @var CurrentLibControllerTestExpectedData
  */
-	public $__ExpectedData;
+	private $__ExpectedData;
 
 /**
  * POSTデータクラス
@@ -38,9 +38,7 @@ class NetCommonsCurrentLibTestRun {
 /**
  * Constructor.
  *
- * @param CakeRequest $request Request object for this controller. Can be null for testing,
- *  but expect that features that use the request parameters will not work.
- * @param CakeResponse $response Response object for this controller.
+ * @return void
  */
 	public function __construct() {
 		$this->__ExpectedData = new CurrentLibControllerTestExpectedData();
@@ -70,11 +68,10 @@ class NetCommonsCurrentLibTestRun {
 /**
  * パブリックのお知らせページのセッティングモード表示のテスト
  *
- * @param ControllerTestCase $test コントローラテストクラス
-  * @return void
+ * @param ControllerTestCase &$test コントローラテストクラス
+ * @return void
  */
-	public function testGetRequestAnnouncementPageWithSettingMode(
-			ControllerTestCase &$test) {
+	public function testGetRequestAnnouncementPageWithSettingMode(ControllerTestCase &$test) {
 		$controller = 'Pages.Pages';
 		$url = '/setting/announcements_page';
 		$expects = [
@@ -110,7 +107,7 @@ class NetCommonsCurrentLibTestRun {
  * パブリックのお知らせページのセッティングモード表示のテスト
  *
  * @param ControllerTestCase &$test コントローラテストクラス
-  * @return void
+ * @return void
  */
 	public function testGetRequestAnnouncementPageWithSettingModeAsRedirectOff(
 			ControllerTestCase &$test) {
@@ -260,7 +257,7 @@ class NetCommonsCurrentLibTestRun {
 /**
  * Wysiwygのアップロードテスト
  *
- * @param ControllerTestCase $test コントローラテストクラス
+ * @param ControllerTestCase &$test コントローラテストクラス
  * @param string $controller generateするコントローラ
  * @param string $url テストするURL
  * @param array $post POSTの内容

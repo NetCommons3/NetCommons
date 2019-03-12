@@ -241,6 +241,7 @@ App::uses('SettingMode', 'NetCommons.Lib');
  * @package NetCommons\NetCommons\Utility
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.TooManyMethods) 別ファイルにすると分かりにくくなるため
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) $current変数を直接書き換えている処理が多数あり、分割できないため
  */
 class CurrentLib extends LibAppObject {
@@ -470,22 +471,63 @@ class CurrentLib extends LibAppObject {
 			if ($roomId) {
 				$this->__setCurrentRoom($roomId);
 			} else {
-				$topPage = $this->CurrentLibPage->findTopPage();
-				if (isset($topPage['Page'])) {
-					self::$current['TopPage'] = $topPage['Page'];
-				} else {
-					self::$current['TopPage'] = null;
-				}
-
-				$page = $this->CurrentLibPage->findCurrentPage();
-				self::$current += $page;
-
-				$this->__setCurrentRoom($page['Page']['room_id']);
-
-				$blockKeys = $this->CurrentLibBlock->getBlockKeysInCurrentPage();
-				$this->CurrentLibBlock->setBlockRolePermissions($page['Page']['room_id'], $blockKeys);
-				$this->CurrentLibBlock->setUseWorkflowPermissions($page['Page']['room_id'], $blockKeys);
+				$this->setCurrentPage();
 			}
+		}
+	}
+
+/**
+ * ページ関連のデータをCurrentにセットする
+ *
+ * @param string|int $pageId ページID
+ * @return bool セット出来たか否か
+ */
+	public function setCurrentPage($pageId = null) {
+		$topPage = $this->CurrentLibPage->findTopPage();
+		if (isset($topPage['Page'])) {
+			self::$current['TopPage'] = $topPage['Page'];
+		} else {
+			self::$current['TopPage'] = null;
+		}
+
+		if ($pageId) {
+			$page = $this->CurrentLibPage->findPage($pageId);
+			if ($page['Page']['id'] == $pageId) {
+				$this->CurrentLibPage->setCurrentPage($page);
+			} else {
+				return false;
+			}
+		} else {
+			$page = $this->CurrentLibPage->findCurrentPage();
+		}
+		if ($page) {
+			self::$current += $page;
+
+			$this->__setCurrentRoom($page['Page']['room_id']);
+
+			$blockKeys = $this->CurrentLibBlock->getBlockKeysInCurrentPage();
+			$this->CurrentLibBlock->setBlockRolePermissions($page['Page']['room_id'], $blockKeys);
+			$this->CurrentLibBlock->setUseWorkflowPermissions($page['Page']['room_id'], $blockKeys);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+/**
+ * ページ関連のデータをCurrentにセットする
+ *
+ * @param string $permalink パーマリンク
+ * @param string|int|null $spaceId スペースID
+ * @return bool セット出来たか否か
+ */
+	public function setCurrentPageByPermalink($permalink, $spaceId) {
+		$pageId = $this->CurrentLibPage->getPageIdByPermalink($permalink, $spaceId);
+		if ($pageId) {
+			$result = $this->setCurrentPage($pageId);
+			return $result;
+		} else {
+			return false;
 		}
 	}
 
@@ -500,9 +542,8 @@ class CurrentLib extends LibAppObject {
 		if (empty($this->_controller->request->params['requested'])) {
 			if (isset(self::$current['Page']['id'])) {
 				self::$current['PageContainer'] =
-						$this->CurrentLibPage->findPageContainer(self::$current['Page']['id']);
+						$this->CurrentLibPage->findCurrentPageContainer();
 			}
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controller->request->params, true));
 		}
 	}
 
@@ -588,7 +629,11 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controlle
 
 		// * デフォルトロールパーミッションデータのセット
 		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($roomRoleKey);
-		self::$current['DefaultRolePermission'] += $permissions;
+		if (isset(self::$current['DefaultRolePermission'])) {
+			self::$current['DefaultRolePermission'] += $permissions;
+		} else {
+			self::$current['DefaultRolePermission'] = $permissions;
+		}
 		$this->writeCurrentPermissions($roomId, $permissions);
 		// * ルームロールパーミッションデータのセット
 		$permissions = $this->CurrentLibRoom->findRoomRolePermissions($roomId);
@@ -607,13 +652,24 @@ CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->_controlle
  * @param Controller $controller コントローラ
  * @return void
  */
-	public function initialize($controller = null) {
+	public function doInitializeLibs($controller) {
 		//イニシャライズの実行
 		parent::initialize($controller);
 		$libs = array_keys($this->libs);
 		foreach ($libs as $class) {
 			parent::$_instances[$class]->initialize($controller);
 		}
+	}
+
+/**
+ * 現在表示している情報の初期設定
+ *
+ * @param Controller $controller コントローラ
+ * @return void
+ */
+	public function initialize($controller = null) {
+		//イニシャライズの実行
+		$this->doInitializeLibs($controller);
 
 		//コントローラごとに初期する必要がある$currentの中身を初期化する
 		$this->__clearCurrent();

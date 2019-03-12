@@ -281,27 +281,15 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 	private function __assert($exception, $expected, $ajax) {
 		ob_start();
 		$exception->render();
-		$result = $this->_parseView(ob_get_clean());
+		ob_get_clean();
 
 		$this->assertEquals('error400', $exception->method);
 		if ($ajax) {
-			$this->assertFalse($exception->controller->layout);
-			$this->assertEquals('Json', $exception->controller->viewClass);
-
 			$viewVars = $exception->controller->viewVars;
 			$interval = 6000;
 		} else {
-			$this->assertEquals('NetCommons.error', $exception->controller->layout);
-
 			$viewVars = $exception->controller->viewVars;
-			$needle =
-				'<script type="text/javascript"> ' .
-					'setTimeout( function() { ' .
-						'location.href=\'' . $viewVars['redirect'] . '\'.replace(/&amp;/ig,"&"); ' .
-					'}, ' . $viewVars['interval'] . ' );' .
-				'</script>';
 			$interval = 4000;
-			$this->assertTextContains($needle, $result);
 		}
 
 		$actual = array(

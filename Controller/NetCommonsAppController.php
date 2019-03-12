@@ -124,6 +124,13 @@ class NetCommonsAppController extends Controller {
 	];
 
 /**
+ * CurrentLibライブラリ
+ *
+ * @var CurrentLib
+ */
+	public $CurrentLib = null;
+
+/**
  * Constructor.
  *
  * @param CakeRequest $request Request object for this controller. Can be null for testing,
@@ -208,10 +215,13 @@ class NetCommonsAppController extends Controller {
 		//}
 		//$startTime = microtime(true);
 
-		//カレントデータセット
-		//@var $instance CurrentLib
-		$instance = CurrentLib::getInstance();
-		$instance->initialize($this);
+		//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
+		//@codeCoverageIgnoreStart
+		if (empty($this->CurrentLib)) {
+			$this->CurrentLib = CurrentLib::getInstance();
+		}
+		//@codeCoverageIgnoreEnd
+		$this->CurrentLib->initialize($this);
 
 		//$debug = CurrentLib::$current;
 		//unset($debug['PluginsRoom']);

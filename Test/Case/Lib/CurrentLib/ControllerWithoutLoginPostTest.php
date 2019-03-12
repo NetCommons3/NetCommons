@@ -81,6 +81,7 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * ログインなしのFrame追加テスト
  *
  * @param array $post POSTの内容
+ * @param array $expects 期待値リスト
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */
@@ -152,9 +153,6 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return array テストデータ
  */
 	public function dataPostRequestAnnouncementOfPublicPage() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 

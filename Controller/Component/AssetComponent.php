@@ -53,7 +53,11 @@ class AssetComponent extends Component {
 			return Current::read('Page.theme');
 		}
 
-		$controller->Page = ClassRegistry::init('Pages.Page');
+		//@codeCoverageIgnoreStart
+		if (empty($controller->Page)) {
+			$controller->Page = ClassRegistry::init('Pages.Page');
+		}
+		//@codeCoverageIgnoreEnd
 		if (Current::read('Page.id')) {
 			$parentIds = $controller->Page->getPath(Current::read('Page.id'), array('id'));
 			$page = $controller->Page->find('first', array(

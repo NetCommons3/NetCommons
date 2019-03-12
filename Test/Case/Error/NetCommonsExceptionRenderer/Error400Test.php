@@ -281,6 +281,7 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 	private function __assert($exception, $expected, $ajax) {
 		ob_start();
 		$exception->render();
+		ob_get_clean();
 
 		$this->assertEquals('error400', $exception->method);
 		if ($ajax) {

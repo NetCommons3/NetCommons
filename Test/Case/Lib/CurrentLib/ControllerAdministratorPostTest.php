@@ -95,6 +95,7 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * Frame追加テスト
  *
  * @param array $post POSTの内容
+ * @param array $expects 期待値リスト
  * @dataProvider dataPostRequestFrameAdd
  * @return void
  */

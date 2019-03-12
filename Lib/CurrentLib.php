@@ -241,6 +241,7 @@ App::uses('SettingMode', 'NetCommons.Lib');
  * @package NetCommons\NetCommons\Utility
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.TooManyMethods) 別ファイルにすると分かりにくくなるため
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) $current変数を直接書き換えている処理が多数あり、分割できないため
  */
 class CurrentLib extends LibAppObject {
@@ -516,7 +517,8 @@ class CurrentLib extends LibAppObject {
 /**
  * ページ関連のデータをCurrentにセットする
  *
- * @param string|int $pageId ページID
+ * @param string $permalink パーマリンク
+ * @param string|int|null $spaceId スペースID
  * @return bool セット出来たか否か
  */
 	public function setCurrentPageByPermalink($permalink, $spaceId) {

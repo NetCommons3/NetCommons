@@ -19,6 +19,7 @@ App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLi
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerTestCase {
 
@@ -464,9 +465,6 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * @return array テストデータ
  */
 	public function dataPostRequestWysiwygUploads() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 

@@ -34,6 +34,7 @@ App::uses('CurrentLibPlugin', 'NetCommons.Lib/Current');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity) 別ファイルにすると分かりにくくなるため
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class CurrentLibPage extends LibAppObject {
 
@@ -101,7 +102,7 @@ class CurrentLibPage extends LibAppObject {
  *
  * @var array
  */
-	private $__pages= [];
+	private $__pages = [];
 
 /**
  * 一度取得したページコンテナーデータを保持

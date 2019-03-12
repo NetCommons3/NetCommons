@@ -19,6 +19,7 @@ App::uses('CurrentLibControllerTestPostData', 'NetCommons.Test/Fixture/CurrentLi
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Test\Case\Lib\CurrentLib
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTestCase {
 
@@ -193,9 +194,6 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  * @return array テストデータ
  */
 	public function dataGetRequestMyRoomOfGeneralUser1() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		$results = [
 			'一般ユーザ1のマイルーム' => [
 				'controller' => 'Pages.Pages',
@@ -278,9 +276,6 @@ class NetCommonsLibCurrentLibControllerAdministratorGetTest extends ControllerTe
  * @return array テストデータ
  */
 	public function dataGetRequestPrivatePlanOfGeneralUser1() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		$results = [
 			'プライベート(一般ユーザ1)の予定の表示' => [
 				'controller' => 'Calendars.CalendarPlans',

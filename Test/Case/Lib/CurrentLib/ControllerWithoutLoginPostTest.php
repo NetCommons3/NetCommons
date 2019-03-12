@@ -152,9 +152,6 @@ class NetCommonsLibCurrentLibControllerWithoutLoginPostTest extends ControllerTe
  * @return array テストデータ
  */
 	public function dataPostRequestAnnouncementOfPublicPage() {
-		//@var CurrentLibControllerTestExpectedData
-		$ExpectedData = new CurrentLibControllerTestExpectedData();
-
 		//@var CurrentLibControllerTestPostData
 		$PostData = new CurrentLibControllerTestPostData();
 

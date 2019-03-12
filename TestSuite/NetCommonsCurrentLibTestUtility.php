@@ -33,6 +33,8 @@ if (!defined('UPLOADS_ROOT')) {
  *
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsCurrentLibTestUtility {
 
@@ -131,8 +133,8 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * テスト名をdebugに出力
  *
- * @param $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
- * @param $method テストメソッド
+ * @param string $loginTitle ログインタイトル(ログインなし、管理者でログインなどをセットする)
+ * @param string $method テストメソッド
  * @return void
  */
 	public static function debugLogTestName($loginTitle, $method) {
@@ -300,6 +302,7 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * TemporaryFileのモックとしてFileを使って戻す
  *
+ * @param array $fileInfo アップロードファイル情報
  * @return string
  */
 	public static function getTemporaryFileMock($fileInfo) {
@@ -310,7 +313,7 @@ class NetCommonsCurrentLibTestUtility {
 		$destFileName = Security::hash(mt_rand() . microtime(), 'md5') . '.' . $extension;
 
 		$TmpFile = new File($fileInfo['tmp_name']);
-		$result = $TmpFile->copy(self::getTmpDir() . $destFileName);
+		$TmpFile->copy(self::getTmpDir() . $destFileName);
 
 		unset($TmpFile);
 
@@ -371,6 +374,7 @@ class NetCommonsCurrentLibTestUtility {
 /**
  * セッティングモードの変更
  *
+ * @param bool $setting セッティングモード
  * @return void
  */
 	public static function settingMode($setting) {
@@ -455,7 +459,9 @@ class NetCommonsCurrentLibTestUtility {
  * @param string $url テストするURL
  * @param array|false $expects 期待値リスト
  * @param string|false $exception Exception文字列
+ * @param string|false $outputDebugTitle 出力するdebugのタイトル
  * @return void
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public static function testControllerGetRequest(
 			ControllerTestCase $test, $url, $expects, $exception, $outputDebugTitle = false) {

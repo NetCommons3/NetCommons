@@ -225,7 +225,6 @@ class CurrentLibControllerTestPostData {
 /**
  * カレンダーの予定追加
  *
- * @param string|int $planRoomId 公開範囲のルームID
  * @param string|int|null $frameId フレームID
  * @return string POSTのURL
  */
@@ -356,6 +355,7 @@ class CurrentLibControllerTestPostData {
  * @param string|int $editRrule 編集ルール 0:この予定のみ、1:それ以降、2:すべて
  * @param string|int|null $frameId フレームID
  * @return array POSTの内容
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 	public function getPostDataEditCalendarPlan($originEventId, $editRrule, $frameId) {
 		switch ($originEventId) {
@@ -698,6 +698,7 @@ class CurrentLibControllerTestPostData {
 /**
  * カレンダーの予定追加(編集)のdataProviderで使用する共通正常データ
  *
+ * @param string|int|null $frameId フレームID
  * @return array
  */
 	public function getSuccessCommonDataByEditCalendarPlan($frameId) {
@@ -733,6 +734,7 @@ class CurrentLibControllerTestPostData {
 /**
  * カレンダーの予定削除のdataProviderで使用する共通正常データ
  *
+ * @param string|int|null $frameId フレームID
  * @return array
  */
 	public function getSuccessCommonDataByDeleteCalendarPlan($frameId) {
@@ -770,6 +772,7 @@ class CurrentLibControllerTestPostData {
  *
  * バリデーションエラーになるため、Exceptionではない。
  *
+ * @param string|int|null $frameId フレームID
  * @return array
  */
 	public function getFailureCommonDataByEditCalendarPlan($frameId) {

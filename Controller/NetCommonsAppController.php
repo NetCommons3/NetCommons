@@ -215,13 +215,15 @@ class NetCommonsAppController extends Controller {
 		//}
 		//$startTime = microtime(true);
 
-		//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
-		//@codeCoverageIgnoreStart
-		if (empty($this->CurrentLib)) {
-			$this->CurrentLib = CurrentLib::getInstance();
+		if (Configure::read('NetCommons.installed')) {
+			//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
+			//@codeCoverageIgnoreStart
+			if (empty($this->CurrentLib)) {
+				$this->CurrentLib = CurrentLib::getInstance();
+			}
+			//@codeCoverageIgnoreEnd
+			$this->CurrentLib->initialize($this);
 		}
-		//@codeCoverageIgnoreEnd
-		$this->CurrentLib->initialize($this);
 
 		//$debug = CurrentLib::$current;
 		//unset($debug['PluginsRoom']);

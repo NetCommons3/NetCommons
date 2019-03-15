@@ -130,7 +130,7 @@ class NcPermission extends LibAppObject {
 			$this->write($roomId, $key, $permission['value']);
 		}
 
-		if (! isset(CurrentLib::$permission[$roomId])) {
+		if (!isset(CurrentLib::$permission[$roomId]['Permission'][$key]['value'])) {
 			return false;
 		}
 

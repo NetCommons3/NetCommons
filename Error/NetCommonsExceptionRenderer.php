@@ -297,7 +297,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			'class' => 'danger',
 		), $results);
 
-		if ($this->controller->request->is('ajax')) {
+		if ($this->controller->request->is('ajax') ||
+				$this->controller->viewClass === 'Json') {
 			$this->controller->viewClass = 'Json';
 			$this->controller->layout = false;
 			if (Configure::read('debug')) {

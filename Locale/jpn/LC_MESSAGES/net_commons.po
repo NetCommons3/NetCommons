@@ -277,6 +277,9 @@ msgstr "ページが自動的に更新されない場合は<a href=\"%s\">こち
 msgid "Not found."
 msgstr "登録されていません。"
 
+msgid "Not found %s."
+msgstr "%sが登録されていません。"
+
 #: Blogs/View/BlogEntries/index.ctp:87
 #: Cabinets/View/CabinetFiles/index.ctp:201
 #: Registrations/View/RegistrationBlocks/answer_list.ctp:6

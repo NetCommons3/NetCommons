@@ -720,6 +720,9 @@ msgstr "%sを削除します。本当によろしいですか。"
 msgid "Please input %s."
 msgstr "%sを入力してください。"
 
+msgid "Please choice %s."
+msgstr "%sを選択してください。"
+
 #: Workflow/Model/WorkflowComment.php:71
 #: Workflow/Test/Case/Model/Behavior/WorkflowCommentBehavior/ValidatesTest.php:144
 #: Workflow/Test/Case/Model/WorkflowComment/ValidateTest.php:78

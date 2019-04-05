@@ -2077,3 +2077,6 @@ msgstr ""
 
 msgid "The input authority is invalid."
 msgstr "権限が不正です。"
+
+msgid "Date"
+msgstr "日付"

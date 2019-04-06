@@ -684,6 +684,30 @@ class CurrentLibPage extends LibAppObject {
 	}
 
 /**
+ * 対象ルームのトップページのページIDを取得
+ *
+ * @param string|int $roomId ルームID
+ * @return string|int|false ページID
+ */
+	public function getPageIdByRoomWeightTop($roomId) {
+		$page = $this->Page->find('first', [
+			'recursive' => -1,
+			'fields' => ['Page.id'],
+			'conditions' => [
+				'Page.room_id' => $roomId,
+				'Page.weight' => 1,
+			],
+			'callbacks' => false,
+		]);
+
+		if ($page) {
+			return $page['Page']['id'];
+		} else {
+			return false;
+		}
+	}
+
+/**
  * full_permalinkの生成
  *
  * @param string|int $roomId ルームID

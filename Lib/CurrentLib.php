@@ -397,6 +397,7 @@ class CurrentLib extends LibAppObject {
 		}
 
 		if ($isLoginChanged ||
+				! isset(self::$current['User']) ||
 				empty($this->_controller->request->params['requested'])) {
 			self::$current['User'] = $this->CurrentLibUser->getLoginUser();
 		}

@@ -198,7 +198,7 @@ class NetCommonsAppController extends Controller {
 			$this->request->allowMethod($this->_allowMethods);
 		}
 
-//		Security::setHash('sha512');
+		Security::setHash('sha512');
 
 		//言語のセット
 		$this->_setLanguage();

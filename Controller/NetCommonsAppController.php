@@ -14,7 +14,6 @@ App::uses('Utility', 'Inflector');
 App::uses('NetCommonsUrl', 'NetCommons.Utility');
 App::uses('PermissionComponent', 'NetCommons.Controller/Component');
 App::uses('SiteSettingUtil', 'SiteManager.Utility');
-App::uses('User', 'Users.Model');
 
 App::uses('CurrentLib', 'NetCommons.Lib');
 
@@ -63,10 +62,6 @@ class NetCommonsAppController extends Controller {
 				'controller' => 'pages',
 				'action' => 'index',
 			),
-			'passwordHasher' => [
-				'className' => 'Simple',
-				'hashType' => User::PASSWORD_HASH_TYPE,
-			],
 		),
 		//'DebugKit.Toolbar',
 		'Flash',
@@ -156,11 +151,12 @@ class NetCommonsAppController extends Controller {
 		if (Configure::read('NetCommons.installed')) {
 			SiteSettingUtil::initialize();
 		}
+CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->components, true));
 
 		//DebugKitは、debugモードがONのときのみロードするように修正
 		if (Configure::read('debug') &&
 				!in_array('DebugKit.Toolbar', $this->components, true) ) {
-			$this->components[] = 'DebugKit.Toolbar';
+			//$this->components[] = 'DebugKit.Toolbar';
 		}
 	}
 
@@ -203,7 +199,7 @@ class NetCommonsAppController extends Controller {
 			$this->request->allowMethod($this->_allowMethods);
 		}
 
-		Security::setHash('sha512');
+//		Security::setHash('sha512');
 
 		//言語のセット
 		$this->_setLanguage();

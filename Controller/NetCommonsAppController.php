@@ -151,12 +151,11 @@ class NetCommonsAppController extends Controller {
 		if (Configure::read('NetCommons.installed')) {
 			SiteSettingUtil::initialize();
 		}
-CakeLog::debug(__METHOD__ . '(' . __LINE__ . ') ' . var_export($this->components, true));
 
 		//DebugKitは、debugモードがONのときのみロードするように修正
 		if (Configure::read('debug') &&
 				!in_array('DebugKit.Toolbar', $this->components, true) ) {
-			//$this->components[] = 'DebugKit.Toolbar';
+			$this->components[] = 'DebugKit.Toolbar';
 		}
 	}
 

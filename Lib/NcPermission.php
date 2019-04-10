@@ -120,14 +120,14 @@ class NcPermission extends LibAppObject {
 
 		// * デフォルトロールパーミッションデータのセット
 		$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($roomRoleKey);
-		foreach ($permissions as $key => $permission) {
-			$this->write($roomId, $key, $permission['value']);
+		foreach ($permissions as $perm => $permission) {
+			$this->write($roomId, $perm, $permission['value']);
 		}
 
 		// * ルームロールパーミッションデータのセット
 		$permissions = $this->CurrentLibRoom->findRoomRolePermissions($roomId);
-		foreach ($permissions as $key => $permission) {
-			$this->write($roomId, $key, $permission['value']);
+		foreach ($permissions as $perm => $permission) {
+			$this->write($roomId, $perm, $permission['value']);
 		}
 
 		if (!isset(CurrentLib::$permission[$roomId]['Permission'][$key]['value'])) {

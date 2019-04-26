@@ -106,6 +106,8 @@ class NcPermission extends LibAppObject {
 		//UnitTestで使用するため、下のcontrollerのチェック前に行う。
 		if (isset(CurrentLib::$permission[$roomId]['Permission'][$key]['value'])) {
 			return CurrentLib::$permission[$roomId]['Permission'][$key]['value'];
+		} elseif (isset(CurrentLib::$permission['0']['Permission'][$key]['value'])) {
+			return CurrentLib::$permission['0']['Permission'][$key]['value'];
 		}
 
 		//コントローラがない場合、初期データが取得されていないため、falseとする。

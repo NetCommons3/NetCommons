@@ -407,7 +407,7 @@ class CurrentLib extends LibAppObject {
 		if ($userRoleKey) {
 			$permissions = $this->CurrentLibPermission->findDefaultRolePermissions($userRoleKey);
 			self::$current['DefaultRolePermission'] += $permissions;
-			$this->writeCurrentPermissions(null, $permissions);
+			$this->writeCurrentPermissions('0', $permissions);
 		}
 	}
 
@@ -803,6 +803,8 @@ class CurrentLib extends LibAppObject {
 			}
 			if ($roomId) {
 				$instance->NcPermission->write($roomId, $key, $permission['value']);
+			} else {
+				$instance->NcPermission->write('0', $key, $permission['value']);
 			}
 		}
 	}

@@ -264,8 +264,10 @@ class NetCommonsAppController extends Controller {
  */
 	public function afterFilter() {
 		//カレントデータセット
-		$instance = CurrentLib::getInstance();
-		$instance->terminate($this);
+		if (Configure::read('NetCommons.installed')) {
+			$instance = CurrentLib::getInstance();
+			$instance->terminate($this);
+		}
 
 		parent::afterFilter();
 	}

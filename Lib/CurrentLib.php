@@ -619,7 +619,12 @@ class CurrentLib extends LibAppObject {
 		self::$current += $this->CurrentLibRoom->findRoomById($roomId);
 
 		//ルームのプラグインデータのセット
-		self::$current['PluginsRoom'] = $this->CurrentLibRoom->findPluginsRoom($roomId);
+		if (!empty(self::$current['Space']['after_user_save_model'])) {
+			$roomIdTop = self::$current['Space']['room_id_root'];
+			self::$current['PluginsRoom'] = $this->CurrentLibRoom->findPluginsRoom($roomIdTop);
+		} else {
+			self::$current['PluginsRoom'] = $this->CurrentLibRoom->findPluginsRoom($roomId);
+		}
 
 		//ユーザのルーム権限データのセット
 		self::$current += $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId);

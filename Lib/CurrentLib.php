@@ -725,6 +725,9 @@ class CurrentLib extends LibAppObject {
 		self::$current = [];
 		$instance = self::getInstance();
 		$instance->NcPermission->clear();
+		$instance->CurrentLibLanguage->clear();
+		$instance->CurrentLibPlugin->clear();
+		$instance->CurrentLibPermission->clear();
 	}
 
 /**

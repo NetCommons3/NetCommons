@@ -32,6 +32,15 @@ class CurrentLibPermission extends LibAppObject {
 	];
 
 /**
+ * デフォルト権限データ
+ *
+ * これは、UnitTestで使用する。あれば、DBから取得せずにセットされている値を使用する。
+ *
+ * @var array|null
+ */
+	private static $__defaultPermissions = null;
+
+/**
  * インスタンスの取得
  *
  * @return CurrentPermission
@@ -56,6 +65,12 @@ class CurrentLibPermission extends LibAppObject {
  * @return array
  */
 	public function findDefaultRolePermissions($roleKey) {
+		//@codeCoverageIgnoreStart
+		if (isset(self::$__defaultPermissions)) {
+			return self::$__defaultPermissions;
+		}
+		//@codeCoverageIgnoreEnd
+
 		$queryOptions = [
 			'recursive' => -1,
 			'fields' => [
@@ -81,6 +96,15 @@ class CurrentLibPermission extends LibAppObject {
 
 		$this->DefaultRolePermission->cacheWrite($results, 'current', $cacheKey);
 		return $results;
+	}
+
+/**
+ * デフォルト権限データをクリアする
+ *
+ * @return void
+ */
+	public static function clear() {
+		self::$__defaultPermissions = null;
 	}
 
 }

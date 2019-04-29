@@ -34,6 +34,15 @@ class CurrentLibLanguage extends LibAppObject {
 	];
 
 /**
+ * 言語データ
+ *
+ * これは、UnitTestで使用する。あれば、DBから取得せずにセットされている値を使用する。
+ *
+ * @var array|null
+ */
+	private static $__language = null;
+
+/**
  * 言語ID
  *
  * @var string|null 数値型の文字列
@@ -101,11 +110,18 @@ class CurrentLibLanguage extends LibAppObject {
  * @return array
  */
 	public function findLanguage() {
+		//@codeCoverageIgnoreStart
+		if (isset(self::$__language)) {
+			return self::$__language;
+		}
+		//@codeCoverageIgnoreEnd
+
 		$langCode = Configure::read('Config.language');
 
-		$rseult = $this->Language->cacheRead('current', $langCode);
-		if ($rseult) {
-			return $rseult;
+		$result = $this->Language->cacheRead('current', $langCode);
+		if ($result) {
+			self::$__language = $result;
+			return $result;
 		}
 
 		$language = $this->Language->getLanguage('first', array(
@@ -140,6 +156,15 @@ class CurrentLibLanguage extends LibAppObject {
 			$this->__langId = $language['Language']['id'];
 		}
 		return $this->__langId;
+	}
+
+/**
+ * 言語データをクリアする
+ *
+ * @return void
+ */
+	public static function clear() {
+		self::$__language = null;
 	}
 
 }

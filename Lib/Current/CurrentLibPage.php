@@ -259,6 +259,14 @@ class CurrentLibPage extends LibAppObject {
 			'callbacks' => false,
 		]);
 
+		//@codeCoverageIgnoreStart
+		if (empty($topPageId['Page']['id'])) {
+			//トップページのデータが存在しないことは通常あり得ないがが、UnitTestではあり得るので、
+			//その場合、空で抜ける。
+			return [];
+		}
+		//@codeCoverageIgnoreEnd
+
 		$this->__cache[$this->Page->alias]->write($topPageId['Page']['id'], 'current', 'top_page_id');
 
 		$topPage = $this->Page->find('first', [
@@ -283,6 +291,13 @@ class CurrentLibPage extends LibAppObject {
  */
 	public function isTopPageId($pageId) {
 		$topPage = $this->findTopPage();
+		//@codeCoverageIgnoreStart
+		if (! $topPage) {
+			//トップページのデータが存在しないことは通常あり得ないがが、UnitTestではあり得るので、
+			//その場合、空で抜ける。
+			return false;
+		}
+		//@codeCoverageIgnoreEnd
 		return $topPage['Page']['id'] == $pageId;
 	}
 
@@ -321,6 +336,14 @@ class CurrentLibPage extends LibAppObject {
 		}
 
 		$topPage = $this->findTopPage();
+		//@codeCoverageIgnoreStart
+		if (! $topPage) {
+			//トップページのデータが存在しないことは通常あり得ないがが、UnitTestではあり得るので、
+			//その場合、空で抜ける。
+			return [];
+		}
+		//@codeCoverageIgnoreEnd
+
 		if (! $pageId || $pageId === $topPage['Page']['id']) {
 			$page = $topPage;
 		} else {

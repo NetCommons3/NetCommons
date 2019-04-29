@@ -86,6 +86,24 @@ class CurrentLibPlugin extends LibAppObject {
 	private $__langId = null;
 
 /**
+ * プラグインデータ
+ *
+ * これは、UnitTestで使用する。あれば、DBから取得せずにセットされている値を使用する。
+ *
+ * @var array|null
+ */
+	private static $__plugins = null;
+
+/**
+ * プラグイン権限データ
+ *
+ * これは、UnitTestで使用する。あれば、DBから取得せずにセットされている値を使用する。
+ *
+ * @var array|null
+ */
+	private static $__pluginRoles = null;
+
+/**
  * インスタンスの取得
  *
  * @return CurrentLibPlugin
@@ -126,6 +144,12 @@ class CurrentLibPlugin extends LibAppObject {
  * @return array
  */
 	public function findPlugins($pluginKeys, $langId) {
+		//@codeCoverageIgnoreStart
+		if (isset(self::$__plugins)) {
+			return self::$__plugins;
+		}
+		//@codeCoverageIgnoreEnd
+
 		$queryOptions = [
 			'recursive' => -1,
 			'fields' => [
@@ -195,6 +219,12 @@ class CurrentLibPlugin extends LibAppObject {
  * @return array
  */
 	public function findPluginRole($userRoleKey) {
+		//@codeCoverageIgnoreStart
+		if (isset(self::$__pluginRoles)) {
+			return self::$__pluginRoles;
+		}
+		//@codeCoverageIgnoreEnd
+
 		//ログインしていない、IPアドレスによる制御
 		if (! $userRoleKey ||
 				! $this->__NetCommonsSecurity->enableAllowSystemPluginIps()) {
@@ -246,6 +276,16 @@ class CurrentLibPlugin extends LibAppObject {
 			}
 		}
 		return false;
+	}
+
+/**
+ * プラグインデータをクリアする
+ *
+ * @return void
+ */
+	public static function clear() {
+		self::$__plugins = null;
+		self::$__pluginRoles = null;
 	}
 
 }

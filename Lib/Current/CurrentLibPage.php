@@ -670,6 +670,11 @@ class CurrentLibPage extends LibAppObject {
 	public function getPageIdByPermalink($permalink, $spaceId = null) {
 		if ($permalink == '') {
 			$page = $this->findTopPage();
+			if ($page) {
+				return $page['Page']['id'];
+			} else {
+				return false;
+			}
 		} else {
 			if ($spaceId) {
 				//引数にスペースIDがある場合は、そっちを優先する
@@ -678,10 +683,18 @@ class CurrentLibPage extends LibAppObject {
 			} else {
 				$spaceId = Space::PUBLIC_SPACE_ID;
 			}
-			$page = $this->Page->find('first', [
+			$pages = $this->Page->find('all', [
 				'recursive' => -1,
-				'fields' => ['Page.id'],
+				'fields' => ['Page.id', 'Page.room_id', 'PagesLanguage.language_id'],
 				'joins' => [
+					[
+						'type' => 'LEFT',
+						'table' => $this->PagesLanguage->table,
+						'alias' => $this->PagesLanguage->alias,
+						'conditions' => [
+							'PagesLanguage.page_id' . ' = ' . 'Page.id'
+						],
+					],
 					[
 						'table' => $this->Room->table,
 						'alias' => $this->Room->alias,
@@ -697,12 +710,21 @@ class CurrentLibPage extends LibAppObject {
 				],
 				'callbacks' => false,
 			]);
-		}
-
-		if ($page) {
-			return $page['Page']['id'];
-		} else {
-			return false;
+			if (count($pages) > 1) {
+				//２レコード取得できた場合、該当言語の方を表示させる
+				foreach ($pages as $page) {
+					if ($page['PagesLanguage']['language_id'] == $this->__langId) {
+						return $page['Page']['id'];
+					}
+				}
+				//ヒットしなければ、最初の方を返す。
+				return $pages[0]['Page']['id'];
+			} elseif (count($pages) === 1) {
+				//１レコードしかヒットしなかった場合、そのページIDを返す
+				return $pages[0]['Page']['id'];
+			} else {
+				return false;
+			}
 		}
 	}
 

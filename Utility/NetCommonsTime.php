@@ -110,6 +110,10 @@ class NetCommonsTime {
  * @return string サーバタイムゾーンに変換された日時
  */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
+		if (! Validation::datetime($userDatetime)) {
+			//日時型じゃない場合、変換できないので、そのまま返す。
+			return $userDatetime;
+		}
 		if (! $userTimezone) {
 			$userTimezone = $this->getUserTimezone();
 		}
@@ -131,8 +135,9 @@ class NetCommonsTime {
 		$serverDatetimeData = $data;
 		$convertKeyNameList = Hash::filter($convertKeyNameList);
 		foreach ($convertKeyNameList as $keyName) {
-			if (Hash::get($data, $keyName)) {
-				$_serverDatetime = $this->toServerDatetime(Hash::get($data, $keyName), $userTimezone);
+			$date = Hash::get($data, $keyName);
+			if ($date) {
+				$_serverDatetime = $this->toServerDatetime($date, $userTimezone);
 				$serverDatetimeData = Hash::insert($serverDatetimeData, $keyName, $_serverDatetime);
 			}
 		}

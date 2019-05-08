@@ -110,7 +110,8 @@ class NetCommonsTime {
  * @return string サーバタイムゾーンに変換された日時
  */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
-		if (! Validation::datetime($userDatetime)) {
+		if (! Validation::date($userDatetime) &&
+				! Validation::datetime($userDatetime)) {
 			//日時型じゃない場合、変換できないので、そのまま返す。
 			return $userDatetime;
 		}

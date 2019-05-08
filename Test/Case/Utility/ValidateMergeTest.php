@@ -53,6 +53,7 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 				),
 			),
 		);
+		
 		$after = ValidateMerge::merge($validate, $validate);
 		$this->assertSame($after, $validate);
 	}
@@ -66,31 +67,32 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 				),
 			)
 		);
-		$append = [
-			'page_container_id' => [
-				'foo' => [
-					'rule' => ['foo'],
+		$append = array(
+			'page_container_id' => array(
+				'foo' => array(
+					'rule' => array('foo'),
 					'message' => 'foo message'
-				]
-			]
-		];
+				)
+			)
+		);
+
 		$after = ValidateMerge::merge($validate, $append);
-		$expected = [
+
+		$expected = array(
 			'page_container_id' => array(
 				'numeric' => array(
 					'rule' => array('numeric'),
 					'message' => __d('net_commons', 'Invalid request.'),
 				),
-				'foo' => [
-					'rule' => ['foo'],
+				'foo' => array(
+					'rule' => array('foo'),
 					'message' => 'foo message'
-				]
+				)
 			)
-		];
+		);
 		$this->assertSame($expected, $after);
 
 		// もう一度$appendをたしても同じ
-
 		$after = ValidateMerge::merge($after, $append);
 		$this->assertSame($expected, $after);
 	}
@@ -121,7 +123,9 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 				)
 			)
 		);
+
 		$after = ValidateMerge::merge($validate, $append);
+
 		$expected = array(
 			'container_type' => array(
 				'inList' => array(

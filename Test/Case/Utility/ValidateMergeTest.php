@@ -10,9 +10,8 @@
  * @copyright Copyright 2017, researchmap Project
  */
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
-App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
-class NetCommonsTimeTest extends NetCommonsCakeTestCase {
+class ValidateMergeTest extends NetCommonsCakeTestCase {
 	public function testMergeRepeatOK() {
 		$validate = array(
 			'page_container_id' => array(

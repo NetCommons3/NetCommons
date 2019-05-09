@@ -11,6 +11,7 @@
  */
 
 App::uses('Model', 'Model');
+App::uses('ValidateMerge', 'NetCommons.Utility');
 
 /**
  * NetCommonsApp Model

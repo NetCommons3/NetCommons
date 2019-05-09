@@ -1,6 +1,14 @@
 <?php
 /**
- * ValidateMerge.php
+ * バリデートルール結合用クラス
+ *
+ * モデルやビヘイビアで $this->validate = Hash::merge($this->validate, [バリデートルール...]); で
+ * beforeValidate()がよばれるたびに配列要素が増え続ける問題に対処するために作成
+ *
+ * 【注意】
+ * このクラスを使う前にバリデートルールをbeforeValidateでマージする必用があるかを検討しなおすこと。
+ *
+ * @see https://github.com/NetCommons3/NetCommons3/issues/1486#issuecomment-490684660
  *
  * @author Japan Science and Technology Agency
  * @author National Institute of Informatics
@@ -10,7 +18,21 @@
  * @copyright Copyright 2017, researchmap Project
  */
 
+/**
+ * Class ValidateMerge
+ */
 class ValidateMerge {
+
+/**
+ * merge
+ *
+ * このメソッドは使わないで済むならつかない方がよいです（ファイルコメント参照）
+ *
+ * @param array $data マージ元配列
+ * @param array $merge マージする配列
+ * @return mixed
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 	public static function merge($data, $merge) {
 		$args = array_slice(func_get_args(), 1);
 		$return = $data;
@@ -45,7 +67,6 @@ class ValidateMerge {
 			unset($curMerge);
 		}
 		return $return;
-
 	}
 
 }

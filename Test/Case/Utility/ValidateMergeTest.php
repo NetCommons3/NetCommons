@@ -11,7 +11,16 @@
  */
 App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
 
+/**
+ * Class ValidateMergeTest
+ */
 class ValidateMergeTest extends NetCommonsCakeTestCase {
+
+/**
+ * 繰り返しマージしても要素が増えない
+ *
+ * @return void
+ */
 	public function testMergeRepeatOK() {
 		$validate = array(
 			'page_container_id' => array(
@@ -57,6 +66,11 @@ class ValidateMergeTest extends NetCommonsCakeTestCase {
 		$this->assertSame($after, $validate);
 	}
 
+/**
+ * 文字列キーの要素がマージで追加されること
+ *
+ * @return void
+ */
 	public function testMergeWhenAppend() {
 		$validate = array(
 			'page_container_id' => array(
@@ -96,6 +110,11 @@ class ValidateMergeTest extends NetCommonsCakeTestCase {
 		$this->assertSame($expected, $after);
 	}
 
+/**
+ * 数値キーの場合は「値」が配列に存在しないときだけ追加される
+ *
+ * @return void
+ */
 	public function testIntKey() {
 		$validate = array(
 			'container_type' => array(

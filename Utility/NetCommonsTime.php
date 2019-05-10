@@ -66,6 +66,10 @@ class NetCommonsTime {
  * @return string ユーザタイムゾーンの日時
  */
 	public function toUserDatetime($serverDatetime) {
+		if (! $this->isDatetime($serverDatetime)) {
+			//日時型じゃない場合、変換できないので、そのまま返す。
+			return $serverDatetime;
+		}
 		$userTimezone = $this->getUserTimezone();
 		$date = new DateTime($serverDatetime, new DateTimeZone('UTC'));
 
@@ -110,8 +114,7 @@ class NetCommonsTime {
  * @return string サーバタイムゾーンに変換された日時
  */
 	public function toServerDatetime($userDatetime, $userTimezone = null) {
-		if (! Validation::date($userDatetime) &&
-				! Validation::datetime($userDatetime)) {
+		if (! $this->isDatetime($userDatetime)) {
 			//日時型じゃない場合、変換できないので、そのまま返す。
 			return $userDatetime;
 		}

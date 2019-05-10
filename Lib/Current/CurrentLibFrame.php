@@ -143,8 +143,9 @@ class CurrentLibFrame extends LibAppObject {
 			//異なる場合、blockの方を信じる
 			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
 			$block = $this->CurrentLibBlock->findBlockById($blockId);
-			if (isset($block['Block']['id']) &&
-					$block['Block']['id'] !== $frame['Frame']['block_id']) {
+			if (isset($block['Block']['room_id']) &&
+					($block['Block']['room_id'] !== $frame['Frame']['room_id'] ||
+					$block['Block']['plugin_key'] !== $frame['Frame']['plugin_key'])) {
 				return null;
 			}
 		}

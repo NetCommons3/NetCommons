@@ -83,9 +83,9 @@ class NetCommonsUrl {
 		}
 
 		if ($defaultAction && ! Current::isControlPanel()) {
-			if (Current::read('Block.id')) {
-				$url .= '/' . Current::read('Block.id');
-			}
+			//if (Current::read('Block.id')) {
+			//	$url .= '/' . Current::read('Block.id');
+			//}
 
 			$urlQuery = '';
 			if (Current::read('Frame.id')) {

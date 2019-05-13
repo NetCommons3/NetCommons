@@ -42,12 +42,12 @@ class NetCommonsUrl {
 			if (Hash::get($page, 'Page.full_permalink')) {
 				$url .= h(Hash::get($page, 'Page.full_permalink'));
 			} else {
-				if (Current::read('Space.permalink')) {
-					$url .= Current::read('Space.permalink') . '/';
-				}
 				if (Hash::get($page, 'Page.id') === Current::read('TopPage.id')) {
 					$url .= '';
 				} else {
+					if (Current::read('Space.permalink')) {
+						$url .= Current::read('Space.permalink') . '/';
+					}
 					$url .= h(Hash::get($page, 'Page.permalink'));
 				}
 			}

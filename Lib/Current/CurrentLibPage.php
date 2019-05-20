@@ -321,7 +321,19 @@ class CurrentLibPage extends LibAppObject {
  * @return array
  */
 	public function setCurrentPage($page) {
-		$this->__currentPage = $page;
+		if (isset($this->__currentPage['Page']['id'])) {
+			$isChangePage = $this->__currentPage['Page']['id'] !== $page['Page']['id'];
+		} else {
+			$isChangePage = true;
+		}
+		if ($isChangePage) {
+			$this->__currentPage = $page;
+			if (isset($this->__curPageContainer)) {
+				//既にコンテナーが取得されている場合、再取得を行う
+				$this->__curPageContainer = null;
+				$this->findCurrentPageContainer();
+			}
+		}
 	}
 
 /**

@@ -579,8 +579,7 @@ class CurrentLib extends LibAppObject {
 			}
 		}
 
-		if (!empty($frame['Frame']['room_id']) &&
-				!empty($blockId)) {
+		if (!empty($frame['Frame']['room_id'])) {
 			//ルーム関連データのセット
 			$this->__setCurrentRoom($frame['Frame']['room_id']);
 			//ブロック関連データのセット

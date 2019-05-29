@@ -560,22 +560,35 @@ class CurrentLib extends LibAppObject {
 			$frame = $this->CurrentLibFrame->findFrameById($frameId);
 			self::$current += $frame;
 			self::$current += $this->CurrentLibPage->findBoxById($frame['Frame']['box_id']);
+			$blockId = $frame['Frame']['block_id'];
+		}
+
+		if ($this->CurrentLibBlock->isBlockIdInRequest()) {
+			//リクエストにブロックIDがある場合
+			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
+			$block = $this->CurrentLibBlock->findBlockById($blockId);
+
+			if ($this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) &&
+					! $this->CurrentLibFrame->isSameBlockByRequestBlockAndFrameBlock($frame, $block)) {
+				$this->CurrentLibFrame->setBlockInFrame($frame['Frame']['id'], $block);
+				self::$current['Block'] = $block['Block'];
+				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
+				$blockId = $block['Block']['id'];
+			} else {
+				$blockId = $frame['Frame']['block_id'];
+			}
+		}
+
+		if (!empty($frame['Frame']['room_id']) &&
+				!empty($blockId)) {
 			//ルーム関連データのセット
 			$this->__setCurrentRoom($frame['Frame']['room_id']);
 			//ブロック関連データのセット
-			$this->__setCurrentBlock($frame['Frame']['room_id'], $frame['Frame']['block_id']);
-		} elseif ($this->CurrentLibBlock->isBlockIdInRequest()) {
-			//フレームIDがなく、ブロックIDがある場合
-			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
-			$block = $this->CurrentLibBlock->findBlockById($blockId);
-			if (! empty($block['Block']['room_id'])) {
-				//ルーム関連データのセット
-				$this->__setCurrentRoom($block['Block']['room_id']);
-				//ブロック関連データのセット
-				$this->__setCurrentBlock($block['Block']['room_id'], $blockId);
-				//当該ルーム内で設置しているフレームに遷移した方がい良いが、パフォーマンスが遅くなるため、
-				//フレームなしとして、各設定のデフォルトを使用する。
-			}
+			$this->__setCurrentBlock($frame['Frame']['room_id'], $blockId);
+
+			//当該ルーム内で設置しているフレームに遷移した方がい良いが、パフォーマンスが遅くなるため、
+			//フレームなしとして、各設定のデフォルトを使用する。
+			//バグっぽかったら、ここに組み込む。
 		}
 	}
 

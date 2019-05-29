@@ -139,13 +139,11 @@ class CurrentLibFrame extends LibAppObject {
 
 		if ($frame['Frame']['block_id'] &&
 				$this->CurrentLibBlock->isBlockIdInRequest()) {
-			//ブロックIDとフレームのblock_idが指定されている場合、そのblock_idが同じかチェックする
-			//異なる場合、blockの方を信じる
 			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
 			$block = $this->CurrentLibBlock->findBlockById($blockId);
-			if (isset($block['Block']['room_id']) &&
-					($block['Block']['room_id'] !== $frame['Frame']['room_id'] ||
-					$block['Block']['plugin_key'] !== $frame['Frame']['plugin_key'])) {
+			//指定されたブロックとフレームのブロックについて、
+			//ルームIDとプラグインキーが同じかチェックする
+			if (! $this->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block)) {
 				return null;
 			}
 		}
@@ -385,6 +383,52 @@ class CurrentLibFrame extends LibAppObject {
 			}
 
 			return $frame;
+		}
+	}
+
+/**
+ * フレームデータの中にBlockをセットする
+ *
+ * @param string|int $frameId フレームID
+ * @param array $block ブロックデータ
+ * @return void
+ */
+	public function setBlockInFrame($frameId, $block) {
+		$this->__frames[$frameId]['Frame']['block_id'] = $block['Block']['id'];
+		$this->__frames[$frameId]['Block'] = $block['Block'];
+		$this->__frames[$frameId]['BlocksLanguage'] = $block['BlocksLanguage'];
+	}
+
+/**
+ * リクエストのBlockとFrameのBlockが同じプラグインと同じルームかどうかチェックする。
+ *
+ * @param array $frame フレームデータ
+ * @param array $block ブロックデータ
+ * @return bool
+ */
+	public function isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) {
+		if (isset($block['Block']['room_id']) &&
+				($block['Block']['room_id'] !== $frame['Frame']['room_id'] ||
+				$block['Block']['plugin_key'] !== $frame['Frame']['plugin_key'])) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+/**
+ * リクエストのBlockとFrameのBlockが同じかどうかチェックする
+ *
+ * @param array $frame フレームデータ
+ * @param array $block ブロックデータ
+ * @return bool
+ */
+	public function isSameBlockByRequestBlockAndFrameBlock($frame, $block) {
+		if (isset($block['Block']['id']) &&
+					$block['Block']['id'] !== $frame['Frame']['block_id']) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 

@@ -20,6 +20,10 @@ if (AuthComponent::user()) {
 } else {
 	$ncSystemHeaderCss = 'nc-system-header-nologgedin';
 }
+
+if (empty($navbarStyle)) {
+	$navbarStyle = 'navbar-inverse';
+}
 ?>
 
 <?php if ($flashMessage = $this->fetch('flashMessage')) : ?>
@@ -27,7 +31,7 @@ if (AuthComponent::user()) {
 <?php endif; ?>
 
 <header id="nc-system-header" class="<?php echo $ncSystemHeaderCss; ?>">
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar <?php echo h($navbarStyle); ?> navbar-fixed-top" role="navigation">
 		<div class="<?php echo $pageContainerCss; ?> clearfix text-nowrap">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nc-system-header-navbar">

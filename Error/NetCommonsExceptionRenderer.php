@@ -259,6 +259,12 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  */
 	public function error500($error) {
 		$message = $error->getMessage();
+
+		//セッションを削除しないため、
+		//リダイレクトで無限ループが走ってしまうことがあるので、
+		//リダイレクトURLのみクリアする
+		$this->controller->Session->delete('Auth.redirect');
+
 		if (! Configure::read('debug')) {
 			$message = __d('net_commons', 'An Internal Error Has Occurred.');
 			$code = 500;

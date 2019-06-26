@@ -77,8 +77,8 @@ class NetCommonsComponent extends Component {
 		if (! $message) {
 			$message = __d('net_commons', 'Failed on validation errors. Please check the input data.');
 		}
-		CakeLog::info('[ValidationErrors] ' . $this->controller->request->here());
 		if (Configure::read('debug')) {
+			CakeLog::info('[ValidationErrors] ' . $this->controller->request->here());
 			CakeLog::info(print_r($errors, true));
 			//CakeLog::info(print_r($this->request->data, true));
 		}

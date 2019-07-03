@@ -561,6 +561,7 @@ class CurrentLib extends LibAppObject {
 			self::$current += $frame;
 			self::$current += $this->CurrentLibPage->findBoxById($frame['Frame']['box_id']);
 			$blockId = $frame['Frame']['block_id'];
+			$roomId = $frame['Frame']['room_id'];
 		}
 
 		if ($this->CurrentLibBlock->isBlockIdInRequest()) {
@@ -568,22 +569,28 @@ class CurrentLib extends LibAppObject {
 			$blockId = $this->CurrentLibBlock->getCurrentBlockId();
 			$block = $this->CurrentLibBlock->findBlockById($blockId);
 
-			if ($this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) &&
+			if (empty($frame) && !empty($block)) {
+				self::$current['Block'] = $block['Block'];
+				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
+				$roomId = $block['Block']['room_id'];
+			} elseif ($this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) &&
 					! $this->CurrentLibFrame->isSameBlockByRequestBlockAndFrameBlock($frame, $block)) {
 				$this->CurrentLibFrame->setBlockInFrame($frame['Frame']['id'], $block);
 				self::$current['Block'] = $block['Block'];
 				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
 				$blockId = $block['Block']['id'];
+				$roomId = $block['Block']['room_id'];
 			} else {
 				$blockId = $frame['Frame']['block_id'];
+				$roomId = $frame['Frame']['room_id'];
 			}
 		}
 
-		if (!empty($frame['Frame']['room_id'])) {
+		if (!empty($roomId)) {
 			//ルーム関連データのセット
-			$this->__setCurrentRoom($frame['Frame']['room_id']);
+			$this->__setCurrentRoom($roomId);
 			//ブロック関連データのセット
-			$this->__setCurrentBlock($frame['Frame']['room_id'], $blockId);
+			$this->__setCurrentBlock($roomId, $blockId);
 
 			//当該ルーム内で設置しているフレームに遷移した方がい良いが、パフォーマンスが遅くなるため、
 			//フレームなしとして、各設定のデフォルトを使用する。

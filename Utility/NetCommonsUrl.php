@@ -72,14 +72,13 @@ class NetCommonsUrl {
 	public static function backToIndexUrl($defaultField = 'default_action', $full = false) {
 		if (Current::read('Frame.' . $defaultField)) {
 			$defaultAction = Current::read('Frame.' . $defaultField);
-			$url = $defaultAction;
 		} else {
 			$defaultAction = Current::read('Plugin.' . $defaultField);
-			if (substr($defaultAction, 0, 1) === '/') {
-				$url = $defaultAction;
-			} else {
-				$url = '/' . Current::read('Plugin.key') . '/' . $defaultAction;
-			}
+		}
+		if (substr($defaultAction, 0, 1) === '/') {
+			$url = $defaultAction;
+		} else {
+			$url = '/' . Current::read('Plugin.key') . '/' . $defaultAction;
 		}
 
 		if ($defaultAction && ! Current::isControlPanel()) {

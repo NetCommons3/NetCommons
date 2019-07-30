@@ -635,7 +635,7 @@ class CurrentLib extends LibAppObject {
  */
 	private function __setCurrentRoom($roomId) {
 		//ルームデータのセット
-		self::$current += $this->CurrentLibRoom->findRoomById($roomId);
+		self::$current = array_merge(self::$current, $this->CurrentLibRoom->findRoomById($roomId));
 
 		//ルームのプラグインデータのセット
 		if (!empty(self::$current['Space']['after_user_save_model'])) {
@@ -646,7 +646,7 @@ class CurrentLib extends LibAppObject {
 		}
 
 		//ユーザのルーム権限データのセット
-		self::$current += $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId);
+		self::$current = array_merge(self::$current, $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId));
 		$roomRoleKey = $this->CurrentLibRoom->getRoomRoleKeyByRoomId($roomId);
 		if (! $roomRoleKey) {
 			$roomRoleKey = Role::ROOM_ROLE_KEY_VISITOR;

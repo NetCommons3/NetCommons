@@ -245,7 +245,8 @@ abstract class NetCommonsControllerTestCase extends NetCommonsControllerBaseTest
 	protected function _mockForReturn($mockModel, $mockMethod, $return, $count = 1) {
 		list($mockPlugin, $mockModel) = pluginSplit($mockModel);
 
-		if (substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
+		if (empty($this->controller->$mockModel) ||
+				substr(get_class($this->controller->$mockModel), 0, strlen('Mock_')) !== 'Mock_') {
 			$this->controller->$mockModel = $this->getMockForModel(
 				$mockPlugin . '.' . $mockModel,
 				array($mockMethod),

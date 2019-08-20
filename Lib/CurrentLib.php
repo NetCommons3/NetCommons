@@ -390,14 +390,13 @@ class CurrentLib extends LibAppObject {
  * @return void
  */
 	private function __setCurrentUser() {
-		//ログイン情報が変わっている場合、ログイン情報の更新
-		$isLoginChanged = $this->CurrentLibUser->isLoginChanged();
-		if ($isLoginChanged) {
-			$this->CurrentLibUser->renewSessionUser();
-		}
+		////ログイン情報が変わっている場合、ログイン情報の更新
+		//$isLoginChanged = $this->CurrentLibUser->isLoginChanged();
+		//if ($isLoginChanged) {
+		//	$this->CurrentLibUser->renewSessionUser();
+		//}
 
-		if ($isLoginChanged ||
-				! isset(self::$current['User']) ||
+		if (! isset(self::$current['User']) ||
 				empty($this->_controller->request->params['requested'])) {
 			self::$current['User'] = $this->CurrentLibUser->getLoginUser();
 		}

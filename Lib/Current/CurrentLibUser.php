@@ -11,6 +11,7 @@
 
 App::uses('LibAppObject', 'NetCommons.Lib');
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('UserAttributeChoice', 'UserAttributes.Model');
 
 /**
  * NetCommonsの機能に必要な情報(ユーザ)を取得する内容をまとめたUtility
@@ -69,6 +70,9 @@ class CurrentLibUser extends LibAppObject {
 		parent::initialize($controller);
 
 		$this->__user = $this->_controller->Auth->user();
+		if ($this->isLoginChanged()) {
+			$this->renewSessionUser();
+		}
 	}
 
 /**
@@ -77,13 +81,22 @@ class CurrentLibUser extends LibAppObject {
  * @return bool
  */
 	public function isLoginChanged() {
-		$sessionUser = $this->_controller->Auth->user();
+		$sessionUser = $this->__user;
 		if (! $sessionUser || !isset($sessionUser['modified'])) {
 			return false;
 		}
 
-		if (isset($this->__user) && isset($this->__user['modified']) &&
-				($this->__user['modified']) !== $sessionUser['modified']) {
+		$latestUser = $this->User->find('first', array(
+			'recursive' => -1,
+			'fields' => ['modified'],
+			'conditions' => array(
+				'User.id' => $sessionUser['id'],
+			),
+			'callbacks' => false,
+		));
+
+		if ($latestUser &&
+				$latestUser[$this->User->alias]['modified'] !== $sessionUser['modified']) {
 			return true;
 		} else {
 			return false;
@@ -101,15 +114,23 @@ class CurrentLibUser extends LibAppObject {
 			'recursive' => 0,
 			'conditions' => array(
 				'User.id' => $sessionUser['id'],
-				'User.modified !=' => $sessionUser['modified'],
+				//'User.modified !=' => $sessionUser['modified'],
 			),
 			'callbacks' => false,
 		));
 		if ($changeUser) {
-			$sessionUser = $changeUser['User'];
-			unset($changeUser['User']);
-			foreach ($changeUser as $key => $value) {
-				$this->_controller->Session->write(AuthComponent::$sessionKey . '.' . $key, $value);
+			$status = (string)$changeUser['User']['status'];
+			if ($status === UserAttributeChoice::STATUS_CODE_ACTIVE) {
+				foreach ($changeUser['User'] as $key => $value) {
+					$this->_controller->Session->write(AuthComponent::$sessionKey . '.' . $key, $value);
+				}
+
+				unset($changeUser['User']);
+				foreach ($changeUser as $key => $value) {
+					$this->_controller->Session->write(AuthComponent::$sessionKey . '.' . $key, $value);
+				}
+			} else {
+				$this->_controller->Session->delete(AuthComponent::$sessionKey);
 			}
 		}
 		$this->__user = $this->_controller->Session->read(AuthComponent::$sessionKey);

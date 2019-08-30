@@ -67,7 +67,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 			$pattern .= preg_quote('_-<>,.$%#@!\\\'"+&?=~:;|][()*^{}/', '/');
 		}
 
-		return !(bool)preg_match('/[^' . $pattern . ']/', $value);
+		return !(bool)preg_match('/[^' . $pattern . ']/', mb_strtolower($value));
 	}
 
 /**

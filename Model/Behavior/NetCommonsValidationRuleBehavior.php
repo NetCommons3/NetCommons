@@ -60,7 +60,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 					$symbolsPerttern = '/[' . preg_quote($options['errorSymbols'], '/') . ']/';
 				}
 
-				if (preg_match($symbolsPerttern, $value)) {
+				if (preg_match($symbolsPerttern, mb_strtolower($value))) {
 					return false;
 				}
 			}

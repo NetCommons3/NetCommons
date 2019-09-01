@@ -87,7 +87,11 @@ class AssetComponent extends Component {
 			return $theme;
 		}
 
-		$controller->Room = ClassRegistry::init('Rooms.Room');
+		//@codeCoverageIgnoreStart
+		if (empty($controller->Room)) {
+			$controller->Room = ClassRegistry::init('Rooms.Room');
+		}
+		//@codeCoverageIgnoreEnd
 		$parentIds = $controller->Room->getPath(Current::read('Room.id'), array('id'));
 		$room = $controller->Room->find('first', array(
 			'recursive' => -1,

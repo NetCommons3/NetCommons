@@ -61,7 +61,7 @@ class ValidateMergeTest extends NetCommonsCakeTestCase {
 				),
 			),
 		);
-		
+
 		$after = ValidateMerge::merge($validate, $validate);
 		$this->assertSame($after, $validate);
 	}
@@ -166,6 +166,6 @@ class ValidateMergeTest extends NetCommonsCakeTestCase {
 
 		$after = ValidateMerge::merge($after, $append);
 		$this->assertSame($expected, $after);
-
 	}
+
 }

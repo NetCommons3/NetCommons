@@ -18,6 +18,7 @@ App::uses('NetCommonsCakeTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\TestSuite
  * @codeCoverageIgnore
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class NetCommonsControllerTestCase extends NetCommonsControllerBaseTestCase {
 

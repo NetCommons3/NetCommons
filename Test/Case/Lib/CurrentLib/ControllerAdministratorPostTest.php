@@ -503,25 +503,25 @@ class NetCommonsLibCurrentLibControllerAdministratorPostTest extends ControllerT
  * @return array テストデータ
  */
 	public function dataPostRequestGroupAdd() {
-//		//@var CurrentLibControllerTestPostData
-//		$PostData = new CurrentLibControllerTestPostData();
-//		$userId = '1';
-//
-//		$results = [
-//			'グループ追加' => [
-//				'controller' => 'Groups.Groups',
-//				'url' => '/groups/groups/add/' . $userId,
-//				'post' => $PostData->getPostDataUploads('wysiwyg_image'),
-//				'expects' => [
-//					'statusCode' => 200,
-//					'file.id' => '3',
-//					'file.original_name' => 'Test.png'
-//				],
-//				'exception' => false,
-//			],
-//		];
-//
-//		return $results;
+		////@var CurrentLibControllerTestPostData
+		//$PostData = new CurrentLibControllerTestPostData();
+		//$userId = '1';
+		//
+		$results = [
+		//	'グループ追加' => [
+		//		'controller' => 'Groups.Groups',
+		//		'url' => '/groups/groups/add/' . $userId,
+		//		'post' => $PostData->getPostDataUploads('wysiwyg_image'),
+		//		'expects' => [
+		//			'statusCode' => 200,
+		//			'file.id' => '3',
+		//			'file.original_name' => 'Test.png'
+		//		],
+		//		'exception' => false,
+		//	],
+		];
+
+		return $results;
 	}
 
 }

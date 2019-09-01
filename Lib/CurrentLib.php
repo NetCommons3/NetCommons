@@ -572,8 +572,8 @@ class CurrentLib extends LibAppObject {
 				self::$current['Block'] = $block['Block'];
 				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
 				$roomId = $block['Block']['room_id'];
-			} elseif ($this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) &&
-					! $this->CurrentLibFrame->isSameBlockByRequestBlockAndFrameBlock($frame, $block)) {
+			} elseif (! $this->CurrentLibFrame->isSameBlockByRequestBlockAndFrameBlock($frame, $block) &&
+					$this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block)) {
 				$this->CurrentLibFrame->setBlockInFrame($frame['Frame']['id'], $block);
 				self::$current['Block'] = $block['Block'];
 				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
@@ -645,7 +645,8 @@ class CurrentLib extends LibAppObject {
 		}
 
 		//ユーザのルーム権限データのセット
-		self::$current = array_merge(self::$current, $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId));
+		self::$current =
+			array_merge(self::$current, $this->CurrentLibRoom->findUserRoomRoleByRoomId($roomId));
 		$roomRoleKey = $this->CurrentLibRoom->getRoomRoleKeyByRoomId($roomId);
 		if (! $roomRoleKey) {
 			$roomRoleKey = Role::ROOM_ROLE_KEY_VISITOR;

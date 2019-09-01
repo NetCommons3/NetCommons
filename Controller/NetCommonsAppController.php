@@ -210,15 +210,7 @@ class NetCommonsAppController extends Controller {
 		//}
 		//$startTime = microtime(true);
 
-		if (Configure::read('NetCommons.installed')) {
-			//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
-			//@codeCoverageIgnoreStart
-			if (empty($this->CurrentLib)) {
-				$this->CurrentLib = CurrentLib::getInstance();
-			}
-			//@codeCoverageIgnoreEnd
-			$this->CurrentLib->initialize($this);
-		}
+		$this->__loadCurrentLib();
 
 		//$debug = CurrentLib::$current;
 		//unset($debug['PluginsRoom']);
@@ -296,6 +288,23 @@ class NetCommonsAppController extends Controller {
 		$this->set('switchLanguages', $languages);
 
 		$this->set('hasSwitchLang', count($languages) > 1);
+	}
+
+/**
+ * CurrentLibをロードする
+ *
+ * @return void
+ */
+	private function __loadCurrentLib() {
+		if (Configure::read('NetCommons.installed')) {
+			//カレントデータセット UnitTestでMockに差し替えられるようにメンバ変数としておく
+			//@codeCoverageIgnoreStart
+			if (empty($this->CurrentLib)) {
+				$this->CurrentLib = CurrentLib::getInstance();
+			}
+			//@codeCoverageIgnoreEnd
+			$this->CurrentLib->initialize($this);
+		}
 	}
 
 /**

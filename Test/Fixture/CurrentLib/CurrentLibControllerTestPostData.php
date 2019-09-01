@@ -867,56 +867,57 @@ class CurrentLibControllerTestPostData {
  * @return array POSTの内容
  */
 	public function getPostDataGroupAdd($key) {
-//		switch ($key) {
-//			case 'wysiwyg_image':
-//			case 'wysiwyg_file':
-//				$post = [
-//					'Block' => [
-//						'key' => '',
-//						'room_id' => '1',
-//					],
-//					'Room' => [
-//						'id' => '1',
-//					],
-//					'_FILES' => [
-//						'data' => [
-//							'name' => [
-//								'Wysiwyg' => [
-//									'file' => 'Test.png',
-//								],
-//							],
-//							'type' => [
-//								'Wysiwyg' => [
-//									'file' => 'image/png',
-//								],
-//							],
-//							'tmp_name' => [
-//								'Wysiwyg' => [
-//									'file' => NetCommonsCurrentLibTestUtility::getTmpDir() . 'phpGeqf03',
-//								],
-//							],
-//							'error' => [
-//								'Wysiwyg' => [
-//									'file' => 0,
-//								],
-//							],
-//							'size' => [
-//								'Wysiwyg' => [
-//									'file' => 6403,
-//								],
-//							],
-//						],
-//					],
-//					'_fileInfo' => [
-//						'name' => 'Test.png',
-//						'type' => 'image/png',
-//						'tmp_name' => NetCommonsCurrentLibTestUtility::getTmpDir() . 'phpGeqf03',
-//						'error' => 0,
-//						'size' => 6385,
-//					]
-//				];
-//				break;
-//		}
+		$post = [];
+		//switch ($key) {
+		//	case 'wysiwyg_image':
+		//	case 'wysiwyg_file':
+		//		$post = [
+		//			'Block' => [
+		//				'key' => '',
+		//				'room_id' => '1',
+		//			],
+		//			'Room' => [
+		//				'id' => '1',
+		//			],
+		//			'_FILES' => [
+		//				'data' => [
+		//					'name' => [
+		//						'Wysiwyg' => [
+		//							'file' => 'Test.png',
+		//						],
+		//					],
+		//					'type' => [
+		//						'Wysiwyg' => [
+		//							'file' => 'image/png',
+		//						],
+		//					],
+		//					'tmp_name' => [
+		//						'Wysiwyg' => [
+		//							'file' => NetCommonsCurrentLibTestUtility::getTmpDir() . 'phpGeqf03',
+		//						],
+		//					],
+		//					'error' => [
+		//						'Wysiwyg' => [
+		//							'file' => 0,
+		//						],
+		//					],
+		//					'size' => [
+		//						'Wysiwyg' => [
+		//							'file' => 6403,
+		//						],
+		//					],
+		//				],
+		//			],
+		//			'_fileInfo' => [
+		//				'name' => 'Test.png',
+		//				'type' => 'image/png',
+		//				'tmp_name' => NetCommonsCurrentLibTestUtility::getTmpDir() . 'phpGeqf03',
+		//				'error' => 0,
+		//				'size' => 6385,
+		//			]
+		//		];
+		//		break;
+		//}
 
 		return $post;
 	}

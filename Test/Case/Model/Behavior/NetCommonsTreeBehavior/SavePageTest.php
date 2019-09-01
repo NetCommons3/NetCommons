@@ -78,7 +78,7 @@ class PageSavePageTest extends NetCommonsSaveTest {
 		// * 新規の登録処理
 		$results[1] = array($data);
 		$results[1][0]['Page']['id'] = null;
-		$results[1][0]['Page']['permalink'] = 'insert_key';
+		$results[1][0]['Page']['permalink'] = 'home/insert_key';
 		$results[1][0]['Page']['slug'] = 'insert_key';
 		unset($results[1][0]['Page']['created_user']);
 

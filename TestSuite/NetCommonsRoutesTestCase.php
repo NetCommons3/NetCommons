@@ -42,7 +42,7 @@ abstract class NetCommonsRoutesTestCase extends NetCommonsCakeTestCase {
  */
 	public function tearDown() {
 		Router::reload();
-		Current::isSettingMode(false);
+		Current::setSettingMode(false);
 		parent::tearDown();
 	}
 
@@ -58,7 +58,7 @@ abstract class NetCommonsRoutesTestCase extends NetCommonsCakeTestCase {
  */
 	public function testRoutes($url, $expected, $settingMode = false) {
 		$expected = Hash::merge(array('pass' => [], 'named' => []), $expected);
-		Current::isSettingMode($settingMode);
+		Current::setSettingMode($settingMode);
 
 		//テスト実施
 		$params = Router::parse($url);

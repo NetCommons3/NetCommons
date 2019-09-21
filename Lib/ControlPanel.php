@@ -77,7 +77,7 @@ class ControlPanel extends LibAppObject {
 		}
 
 		$plugin = $this->CurrentLibPlugin->findPlugin($this->_controller->request->params['plugin']);
-		if (! $plugin || isset($plugin['Plugin'])) {
+		if (! $plugin || !isset($plugin['Plugin'])) {
 			return false;
 		}
 

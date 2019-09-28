@@ -463,7 +463,7 @@ class CurrentLib extends LibAppObject {
 				//Wysiwygの場合、ページ情報を取得する必要なし
 				if (isset($this->_controller->request->data['Room']['id'])) {
 					$roomId = $this->_controller->request->data['Room']['id'];
-				} else {
+				} elseif (!empty($this->_controller->request->params['pass'][0])) {
 					$roomId = $this->_controller->request->params['pass'][0];
 				}
 			}

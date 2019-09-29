@@ -226,6 +226,9 @@ class CurrentLibPlugin extends LibAppObject {
 		//@codeCoverageIgnoreEnd
 
 		//ログインしていない、IPアドレスによる制御
+		if (! $this->__NetCommonsSecurity) {
+			$this->__NetCommonsSecurity = new NetCommonsSecurity();
+		}
 		if (! $userRoleKey ||
 				! $this->__NetCommonsSecurity->enableAllowSystemPluginIps()) {
 			return [];

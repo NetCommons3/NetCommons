@@ -435,7 +435,8 @@ class CurrentLibPage extends LibAppObject {
 				$pageId = $this->_controller->request->params['pass'][1];
 			} else {
 				//URLのパスが、/:plugin/:controller/:action/(room_id)の場合、ルームの先頭のpage_id
-				$roomId = $this->_controller->request->params['pass'][0];
+				$roomId = isset($this->_controller->request->params['pass'][0]) ?
+					$this->_controller->request->params['pass'][0] : null;
 				$pageId = $this->__getPageIdByRoomId($roomId);
 			}
 		} elseif (isset($this->_controller->request->query['page_id'])) {

@@ -106,7 +106,7 @@ class CurrentLibBlock extends LibAppObject {
 /**
  * ブロックIDの取得
  *
- * @return string|null ブロックID(intの文字列)。nullの場合、パラメータ等からblock_idが取得できなかった
+ * @return int|null ブロックID(int)。nullの場合、パラメータ等からblock_idが取得できなかった
  */
 	public function getCurrentBlockId() {
 		if (empty($this->_controller->request->params['requested']) &&
@@ -115,9 +115,9 @@ class CurrentLibBlock extends LibAppObject {
 		} elseif (isset($this->_controller->request->params['block_id'])) {
 			$blockId = $this->_controller->request->params['block_id'];
 		} else {
-			$blockId = null;
+			return null;
 		}
-		return $blockId;
+		return (int)$blockId;
 	}
 
 /**

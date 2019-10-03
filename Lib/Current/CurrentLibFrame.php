@@ -104,7 +104,7 @@ class CurrentLibFrame extends LibAppObject {
 /**
  * リクエストの中からフレームIDを取得
  *
- * @return string|null フレームID。nullの場合、パラメータ等からframe_idが取得できなかった
+ * @return int|null フレームID。nullの場合、パラメータ等からframe_idが取得できなかった
  */
 	private function __getFrameIdInRequest() {
 		if (empty($this->_controller->request->params['requested']) &&
@@ -117,9 +117,10 @@ class CurrentLibFrame extends LibAppObject {
 		} elseif (isset($this->_controller->request->query['frame_id'])) {
 			$frameId = $this->_controller->request->query['frame_id'];
 		} else {
-			$frameId = null;
+			//$frameId = null;
+			return null;
 		}
-		return $frameId;
+		return (int)$frameId;
 	}
 
 /**

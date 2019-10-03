@@ -65,7 +65,10 @@ class NetCommonsTimeComponent extends Component {
 	protected function _convertTimezone(Controller $controller) {
 		if (isset($controller->request->data['_NetCommonsTime']['user_timezone'])) {
 			$userTimezone = $controller->request->data['_NetCommonsTime']['user_timezone'];
-			$convertFields = explode(',', $controller->request->data['_NetCommonsTime']['convert_fields']);
+			$convertFieldsString = isset($controller->request->data['_NetCommonsTime']['convert_fields']) ?
+				$controller->request->data['_NetCommonsTime']['convert_fields'] :
+				'';
+			$convertFields = explode(',', $convertFieldsString);
 			$controller->request->data = $this->_netCommonsTime->toServerDatetimeArray(
 				$controller->request->data,
 				$convertFields,

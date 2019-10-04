@@ -255,6 +255,10 @@ class NetCommonsAppController extends Controller {
  * @link http://book.cakephp.org/2.0/ja/controllers.html#request-life-cycle-callbacks
  */
 	public function afterFilter() {
+		// CakeErrorControllerだったらCurrentLib::terminate実行しない
+		if ($this instanceof CakeErrorController) {
+			return parent::afterFilter();
+		}
 		//カレントデータセット
 		if (Configure::read('NetCommons.installed')) {
 			//@codeCoverageIgnoreStart

@@ -419,6 +419,9 @@ class CurrentLibPage extends LibAppObject {
  * @return string|null ページID。nullの場合、パラメータ等からpage_idが取得できなかった
  */
 	private function __getPageIdInRequest() {
+		if (!($this->_controller instanceof Controller)) {
+			return null;
+		}
 		if (isset($this->_controller->request->data['Page']['id'])) {
 			//POSTにpage_idが含まれている場合、それが優先とする
 			$pageId = $this->_controller->request->data['Page']['id'];

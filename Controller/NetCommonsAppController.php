@@ -22,6 +22,7 @@ App::uses('CurrentLib', 'NetCommons.Lib');
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Controller
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsAppController extends Controller {
 
@@ -154,7 +155,8 @@ class NetCommonsAppController extends Controller {
 
 		//DebugKitは、debugモードがONのときのみロードするように修正
 		if (Configure::read('debug') &&
-				!in_array('DebugKit.Toolbar', $this->components, true) ) {
+				!in_array('DebugKit.Toolbar', $this->components, true) &&
+				substr(get_class($this), 0, 5) !== 'Mock_') {
 			$this->components[] = 'DebugKit.Toolbar';
 		}
 	}

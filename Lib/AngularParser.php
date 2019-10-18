@@ -27,13 +27,23 @@ class AngularParser {
 		if (is_array($values)) {
 			$cleansingRequest = function (&$value) {
 				if (is_string($value)) {
-					$value = str_replace(['{{', '}}', "\0"], ['{ { ', ' } }', ''], $value);
+					$value = self::convertText($value);
 				}
 			};
 			return array_walk_recursive($values, $cleansingRequest);
 		} else {
 			return false;
 		}
+	}
+
+/**
+ * テキスト文字を変換する
+ *
+ * @param string $value 変換する値
+ * @return string 変換後の値
+ */
+	public static function convertText($value) {
+		return str_replace(['{{', '}}', "\0"], ['{ { ', ' } }', ''], $value);
 	}
 
 }

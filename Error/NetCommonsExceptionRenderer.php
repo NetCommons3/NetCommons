@@ -208,6 +208,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 	protected function _is403And404($error) {
 		return $error->getMessage() === 'Permission denied' ||
 				$error->getCode() === 403 ||
+				$error->getCode() === 404 ||
 				get_class($error) === 'MissingControllerException';
 	}
 

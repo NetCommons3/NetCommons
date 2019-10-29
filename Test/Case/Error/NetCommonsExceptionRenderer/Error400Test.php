@@ -121,32 +121,32 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 	}
 
 /**
- * MissingControllerExceptionのログインなしテスト
+ * ForbiddenExceptionのログインなしテスト
  *
  * @return void
  */
-	public function testMissingControllerExceptionWOLogin() {
+	public function testForbiddenExceptionWOLogin() {
 		$exception = new NetCommonsExceptionRenderer(
-			new MissingControllerException('TestMissingController')
+			new ForbiddenException()
 		);
 		$exception = $this->_mockSession($exception);
 
 		$this->__assert($exception, array(
-			'code' => 404,
-			'name' => 'Not Found',
+			'code' => 403,
+			'name' => 'Forbidden',
 			'message' => __d('net_commons', 'Permission denied. You must be logged.'),
 			'redirect' => '/auth/login',
 		), false);
 	}
 
 /**
- * MissingControllerExceptionのログインありテスト
+ * ForbiddenExceptionのログインありテスト
  *
  * @return void
  */
-	public function testMissingControllerExceptionWithLogin() {
+	public function testForbiddenExceptionWithLogin() {
 		$exception = new NetCommonsExceptionRenderer(
-			new MissingControllerException('TestMissingController')
+			new ForbiddenException()
 		);
 
 		$exception = $this->_mockAuth($exception);
@@ -159,21 +159,21 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 		));
 
 		$this->__assert($exception, array(
-			'code' => 404,
-			'name' => 'Not Found',
+			'code' => 403,
+			'name' => 'Forbidden',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/',
 		), false);
 	}
 
 /**
- * MissingControllerExceptionのログイン直後でリダイレクト先のページがないテスト
+ * ForbiddenExceptionのログイン直後でリダイレクト先のページがないテスト
  *
  * @return void
  */
-	public function testMissingControllerExceptionWithLoginWOPage1() {
+	public function testForbiddenExceptionWithLoginWOPage1() {
 		$exception = new NetCommonsExceptionRenderer(
-			new MissingControllerException('TestMissingController')
+			new ForbiddenException()
 		);
 		$exception->SiteSetting = $this->getMock('SiteSetting', array('getDefaultStartPage'));
 		$exception->SiteSetting
@@ -190,21 +190,21 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 		));
 
 		$this->__assert($exception, array(
-			'code' => 404,
-			'name' => 'Not Found',
+			'code' => 403,
+			'name' => 'Forbidden',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/mypage1',
 		), false);
 	}
 
 /**
- * MissingControllerExceptionのログイン直後でリダイレクト先のページがないテスト
+ * ForbiddenExceptionのログイン直後でリダイレクト先のページがないテスト
  *
  * @return void
  */
-	public function testMissingControllerExceptionWithLoginWOPage2() {
+	public function testForbiddenExceptionWithLoginWOPage2() {
 		$exception = new NetCommonsExceptionRenderer(
-			new MissingControllerException('TestMissingController')
+			new ForbiddenException()
 		);
 		$exception->SiteSetting = $this->getMock('SiteSetting', array('getDefaultStartPage'));
 		$exception->SiteSetting
@@ -221,8 +221,8 @@ class ErrorNetCommonsExceptionRendererError400Test extends NetCommonsControllerT
 		));
 
 		$this->__assert($exception, array(
-			'code' => 404,
-			'name' => 'Not Found',
+			'code' => 403,
+			'name' => 'Forbidden',
 			'message' => __d('net_commons', 'Permission denied. Bad account.'),
 			'redirect' => '/mypage2',
 		), false);

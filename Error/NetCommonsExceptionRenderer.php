@@ -186,7 +186,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$message = __d(
 				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
 			);
-		} elseif ($this->_is403And404($error)) {
+		} elseif ($message === 'Forbidden') {
 			if ($this->controller->Auth->user()) {
 				$message = __d('net_commons', 'Permission denied. Bad account.');
 			} else {
@@ -206,8 +206,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  * @return bool
  */
 	protected function _is403And404($error) {
-		return $error->getMessage() === 'Permission denied' ||
-				$error->getCode() === 403 ||
+		return $error->getCode() === 403 ||
 				$error->getCode() === 404 ||
 				get_class($error) === 'MissingControllerException';
 	}

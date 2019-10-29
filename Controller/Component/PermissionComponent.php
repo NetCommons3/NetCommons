@@ -199,7 +199,7 @@ class PermissionComponent extends Component {
 		}
 
 		//if ($controller->Auth->user('id')) {
-			throw new ForbiddenException('This controller or action is permission denied');
+			throw new ForbiddenException();
 		//} else {
 		//	return $controller->redirect($controller->Auth->redirect());
 		//}

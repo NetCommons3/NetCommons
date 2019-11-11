@@ -71,6 +71,13 @@ class NetCommonsCache {
 	private $__isTest = false;
 
 /**
+ * インストールされているか否か
+ *
+ * @var bool
+ */
+	private $__isInstalled = false;
+
+/**
  * コンストラクタ
  *
  * @param string $cacheName キャッシュ名
@@ -87,8 +94,9 @@ class NetCommonsCache {
 		$this->__isTest = $isTest;
 		$this->__cacheType = $cacheType;
 		$this->__setting = Cache::settings($this->__cacheType);
+		$this->__isInstalled = Configure::read('NetCommons.installed');
 
-		if (! $this->__isTest) {
+		if (! $this->__isTest && $this->__isInstalled) {
 			$result = Cache::read($this->__cacheName, $this->__cacheType);
 			if ($result !== false) {
 				$this->__data = $result;
@@ -147,7 +155,7 @@ class NetCommonsCache {
 			$this->__data[$mainKey][$subKey] = $value;
 		}
 
-		if (! $this->__isTest) {
+		if (! $this->__isTest && $this->__isInstalled) {
 			Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
 		}
 	}
@@ -172,7 +180,7 @@ class NetCommonsCache {
 			}
 		}
 
-		if (! $this->__isTest) {
+		if (! $this->__isTest && $this->__isInstalled) {
 			$success = Cache::write($this->__cacheName, $this->__data, $this->__cacheType);
 			if (! $success) {
 				$this->__triggerWarning('delete');
@@ -188,7 +196,7 @@ class NetCommonsCache {
 	public function clear() {
 		$this->__data = [];
 
-		if (! $this->__isTest) {
+		if (! $this->__isTest && $this->__isInstalled) {
 			if (file_exists($this->__setting['path'] . $this->__setting['prefix'] . $this->__cacheName)) {
 				$success = Cache::delete($this->__cacheName, $this->__cacheType);
 			} else {

@@ -197,15 +197,16 @@ class NetCommonsCache {
 		$this->__data = [];
 
 		if (! $this->__isTest && $this->__isInstalled) {
-			$engine = Cache::engine($this->__cacheType);
-			if ($engine && $engine->key($this->__cacheName)) {
-				$success = Cache::delete($this->__cacheName, $this->__cacheType);
-			} else {
-				$success = true;
-			}
-			if (! $success) {
-				$this->__triggerWarning('clear');
-			}
+			//$engine = Cache::engine($this->__cacheType);
+			//if ($engine && $engine->key($this->__cacheName)) {
+			//	$success = Cache::delete($this->__cacheName, $this->__cacheType);
+				Cache::delete($this->__cacheName, $this->__cacheType);
+			//} else {
+			//	$success = true;
+			//}
+			//if (! $success) {
+			//	$this->__triggerWarning('clear');
+			//}
 		}
 	}
 

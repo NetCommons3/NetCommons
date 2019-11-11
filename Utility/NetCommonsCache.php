@@ -189,7 +189,8 @@ class NetCommonsCache {
 		$this->__data = [];
 
 		if (! $this->__isTest) {
-			if (file_exists($this->__setting['path'] . $this->__setting['prefix'] . $this->__cacheName)) {
+			$engine = Cache::engine($this->__cacheType);
+			if ($engine && $engine->key($this->__cacheName)) {
 				$success = Cache::delete($this->__cacheName, $this->__cacheType);
 			} else {
 				$success = true;

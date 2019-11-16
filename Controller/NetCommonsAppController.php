@@ -157,7 +157,7 @@ class NetCommonsAppController extends Controller {
 		if (Configure::read('debug') &&
 				!in_array('DebugKit.Toolbar', $this->components, true) &&
 				substr(get_class($this), 0, 5) !== 'Mock_') {
-			//$this->components[] = 'DebugKit.Toolbar';
+			$this->components[] = 'DebugKit.Toolbar';
 		}
 	}
 

@@ -17,13 +17,13 @@
 <?php if (Configure::read('debug') > 0) : ?>
 	<article class="error-body">
 		<strong><?php echo __d('net_commons', 'Error'); ?>: </strong>
-		<?php echo __d('net_commons', 'The requested address \'%s\' was not found on this server.', $url); ?>
+		<?php echo __d('net_commons', 'The requested address \'%s\' was not found on this server.', h($url)); ?>
 	</article>
 <?php endif; ?>
 
 <?php if (isset($redirect)) : ?>
 	<div class="error-redirect">
-		<?php echo __d('net_commons', 'The page will be automatically reloaded. If otherwise, please click <a href="%s">here</a>.', $redirect); ?>
+		<?php echo __d('net_commons', 'The page will be automatically reloaded. If otherwise, please click <a href="%s">here</a>.', h($redirect)); ?>
 	</div>
 <?php endif; ?>
 

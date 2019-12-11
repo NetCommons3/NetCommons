@@ -47,4 +47,3 @@ if (Configure::read('debug') > 0) {
 		);
 	</script>
 <?php endif;
-

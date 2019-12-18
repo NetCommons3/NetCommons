@@ -271,7 +271,15 @@ class NetCommonsAppController extends Controller {
 			$this->CurrentLib->terminate($this);
 		}
 
-		parent::afterFilter();
+        if (Current::isLogin()) {
+            // ログインしている場合はキャッシュしない
+            $this->response->header('Pragma', 'no-cache');
+        } else {
+            // CDN（Proxy）で使われるキャッシュヘッダーをセットする
+            $this->response->header('Cache-Control', 's-maxage=60, public');
+        }
+
+        parent::afterFilter();
 	}
 
 /**

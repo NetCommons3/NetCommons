@@ -276,7 +276,11 @@ class NetCommonsAppController extends Controller {
 			$this->response->header('Pragma', 'no-cache');
 		} else {
 			// CDN（Proxy）で使われるキャッシュヘッダーをセットする
-			$this->response->header('Cache-Control', 's-maxage=60, public');
+			$maxage = Configure::read('App.Cache.sMaxAge');
+			if (!isset($maxage)) {
+				$maxage = 60;
+			}
+			$this->response->header('Cache-Control', 's-maxage=' . $maxage . ', public');
 		}
 
 		parent::afterFilter();

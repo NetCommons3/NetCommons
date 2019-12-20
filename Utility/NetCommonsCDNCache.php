@@ -15,10 +15,14 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Utility
  */
-class NetCommonsCDNCache
-{
-	public function clear()
-	{
+class NetCommonsCDNCache {
+
+/**
+ * Clear CDN Cache
+ *
+ * @return void
+ */
+	public function clear() {
 		$data = array(
 			"Site" => array(
 				"Domain" => Configure::read('App.fullBaseUrl')
@@ -33,7 +37,7 @@ class NetCommonsCDNCache
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_USERPWD, "$accessToken:$accessTokenSecret");
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 
 		curl_exec($curl);

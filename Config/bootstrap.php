@@ -27,7 +27,10 @@ if (! defined('NC3_VERSION')) {
 
 // Load application configurations
 $conf = array();
-$files = array('application.yml', 'application.local.yml', 'application.' . env('HTTP_HOST') . '.yml', 'application.' . env('HTTP_X_FORWARDED_HOST') . '.yml');
+$files = array('application.yml',
+	'application.local.yml',
+	'application.' . env('HTTP_HOST') . '.yml',
+	'application.' . env('HTTP_X_FORWARDED_HOST') . '.yml');
 foreach ($files as $file) {
 	if (file_exists(APP . 'Config' . DS . $file)) {
 		$conf = array_replace_recursive($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));

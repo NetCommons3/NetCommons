@@ -13,16 +13,18 @@
  * NetCommons用CDNキャッシュ Utility
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Wataru Nishimoto <watura@willbooster.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @package NetCommons\NetCommons\Utility
  */
 class NetCommonsCDNCache {
 
 /**
- * Clear CDN Cache
+ * Invalidate CDN Cache
  *
  * @return void
  */
-	public function clear() {
+	public function invalidate() {
 		$data = array(
 			"Site" => array(
 				"Domain" => Configure::read('App.fullBaseUrl')

@@ -10,7 +10,6 @@
  */
 
 App::uses('Cache', 'Cache');
-App::uses('NetCommonsCDNCache', 'NetCommons.Utility');
 
 /**
  * Configure the cache used for general framework caching. Path information,
@@ -202,7 +201,6 @@ class NetCommonsCache {
 			//if ($engine && $engine->key($this->__cacheName)) {
 			//	$success = Cache::delete($this->__cacheName, $this->__cacheType);
 				Cache::delete($this->__cacheName, $this->__cacheType);
-				(new NetCommonsCDNCache())->clear();
 			//} else {
 			//	$success = true;
 			//}

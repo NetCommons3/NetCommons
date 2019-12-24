@@ -11,6 +11,7 @@
  */
 
 App::uses('Model', 'Model');
+App::uses('NetCommonsCDNCache', 'NetCommons.Utility');
 App::uses('ValidateMerge', 'NetCommons.Utility');
 
 /**
@@ -96,6 +97,14 @@ class NetCommonsAppModel extends Model {
  * @var string
  */
 	public $contentKey = null;
+
+/**
+ * invalidateCDN cache
+ * DB 保存/削除時に CDN のキャッシュを invalidate するか
+ *
+ * @var boolean
+ */
+	public $invalidateCDN = true;
 
 /**
  * Constructor. DataSourceの選択
@@ -319,6 +328,11 @@ class NetCommonsAppModel extends Model {
 	public function commit() {
 		$dataSource = $this->getDataSource();
 		$dataSource->commit();
+
+		if ($this->invalidateCDN) {
+			$cdnCache = new NetCommonsCDNCache();
+			$cdnCache->invalidate();
+		}
 	}
 
 /**

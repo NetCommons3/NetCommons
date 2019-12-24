@@ -50,7 +50,8 @@
         "netcommons/mails": "@dev",
         "netcommons/topics": "@dev",
         "netcommons/menus": "@dev",
-        "netcommons/clean-up": "@dev"
+        "netcommons/clean-up": "@dev",
+        "ext-curl": "*"
     },
     "config": {
         "vendor-dir": "vendors",

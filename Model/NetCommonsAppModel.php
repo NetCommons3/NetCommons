@@ -102,7 +102,7 @@ class NetCommonsAppModel extends Model {
  * invalidateCDN cache
  * DB 保存/削除時に CDN のキャッシュを invalidate するか
  *
- * @var boolean
+ * @var bool
  */
 	public $invalidateCDN = true;
 

@@ -168,9 +168,12 @@ class NetCommonsAppModel extends Model {
 		//
 		//// Randomly use a slave
 		////$dataSource = (count($slaves) !== 0) ? $slaves[rand(0, count($slaves) - 1)] : 'master';
+		$database = Configure::read('App.database');
+		if (isset($database)) {
+			return $database;
+		}
+		return 'master';
 
-		$dataSource = 'master';
-		return $dataSource;
 	}
 
 /**
@@ -179,7 +182,12 @@ class NetCommonsAppModel extends Model {
  * @return void
  */
 	public function setMasterDataSource() {
-		self::$__changeDbConfig = 'master';
+		$database = Configure::read('App.database');
+		if (isset($database)) {
+			self::$__changeDbConfig = $database;
+		} else {
+			self::$__changeDbConfig = 'master';
+		}
 	}
 
 /**

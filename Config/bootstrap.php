@@ -27,13 +27,16 @@ if (! defined('NC3_VERSION')) {
 
 // Load application configurations
 $conf = array();
-$files = array('application.yml', 'application.local.yml');
+$files = array('application.yml',
+	'application.local.yml',
+	'application.' . env('HTTP_HOST') . '.yml',
+	'application.' . env('HTTP_X_FORWARDED_HOST') . '.yml');
 foreach ($files as $file) {
 	if (file_exists(APP . 'Config' . DS . $file)) {
-		$conf = array_merge($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));
-		Configure::write($conf);
+		$conf = array_replace_recursive($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));
 	}
 }
+Configure::write($conf);
 
 // Load all plugins
 $plugins = App::objects('plugins');

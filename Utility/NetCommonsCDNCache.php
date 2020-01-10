@@ -27,15 +27,19 @@ class NetCommonsCDNCache {
 	public function invalidate() {
 		$data = array(
 			"Site" => array(
-				"Domain" => Configure::read('App.fullBaseUrl')
+				"Domain" => Configure::read('App.cacheDomain')
 			)
 		);
 
 		$curl = curl_init();
-		$accessToken = Configure::read('CDN.accessToken');
-		$accessTokenSecret = Configure::read('CDN.accessTokenSecret');
+		$accessToken = env('CDN_ACCESS_TOKEN');
+		$accessTokenSecret = env('CDN_ACCESS_TOKEN_SECRET');
+		if (!(isset($accessToken) && isset($accessTokenSecret))) {
+			return;
+		}
 
-		curl_setopt($curl, CURLOPT_URL, Configure::read('CDN.apiUrl') . 'deleteallcache');
+		curl_setopt($curl, CURLOPT_URL,
+			'https://secure.sakura.ad.jp/cloud/zone/is1a/api/webaccel/1.0/deleteallcache');
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_USERPWD, "$accessToken:$accessTokenSecret");
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);

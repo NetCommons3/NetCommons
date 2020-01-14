@@ -186,6 +186,42 @@ class NetCommonsAppController extends Controller {
 		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
 			$this->params['pass'] = array();
 		}
+
+		if ($this->__updateFullBaseUrl()) {
+			$this->redirect($this->request->here);
+		}
+	}
+
+/**
+ * set and return member or non member url if redirect needed
+ *
+ * @return bool
+ */
+	private function __updateFullBaseUrl() {
+		// 以下の redirect 処理は未ログイン時のみ実施
+		if (Current::isLogin()) {
+			return false;
+		}
+
+		$memberUrl = Configure::read('App.memberUrl');
+
+		if (!isset($memberUrl)) {
+			return false;
+		}
+
+		$nonMemberUrl = str_replace("member-", "", $memberUrl);
+		$authControllers = array('auth', 'auth_general');
+		$isAuthController = in_array($this->request->controller, $authControllers);
+		// Auth 関連の URL の場合は memberUrl を fullBaseUrl にセットし、
+		// Auth 関連以外の URL の場合は nonMemberUrl を fullBaseUrl にセットする
+		if ($isAuthController && Router::fullBaseUrl() != $memberUrl) {
+			Router::fullBaseUrl($memberUrl);
+			return true;
+		} elseif (!$isAuthController && Router::fullBaseUrl() == $memberUrl) {
+			Router::fullBaseUrl($nonMemberUrl);
+			return true;
+		}
+		return false;
 	}
 
 /**

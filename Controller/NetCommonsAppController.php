@@ -23,6 +23,7 @@ App::uses('CurrentLib', 'NetCommons.Lib');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\NetCommons\Controller
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class NetCommonsAppController extends Controller {
 

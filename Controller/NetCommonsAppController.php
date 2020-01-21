@@ -251,6 +251,18 @@ class NetCommonsAppController extends Controller {
 	}
 
 /**
+ * Returns the referring URL for this request.
+ *
+ * @param string $default Default URL to use if HTTP_REFERER cannot be read from headers
+ * @param bool $local If true, restrict referring URLs to local server
+ * @return string Referring URL
+ * @link https://book.cakephp.org/2.0/en/controllers.html#Controller::referer
+ */
+	public function referer($default = null, $local = true) {
+		return parent::referer($default, $local);
+	}
+
+/**
  * Called after the controller action is run and rendered.
  *
  * @return void

@@ -120,7 +120,7 @@ class SnsButtonHelper extends AppHelper {
 		$dataText = '';
 		if ($text !== null) {
 			$dataText = sprintf(' data-text="%s - %s"',
-				$text,
+				h($text),
 				SiteSettingUtil::read('App.site_name')
 			);
 		}

@@ -57,6 +57,7 @@ class NetCommonsComponent extends Component {
 		$results = NetCommonsAppController::camelizeKeyRecursive($results);
 		$this->controller->set(compact('results'));
 		$this->controller->set('_serialize', 'results');
+		$this->controller->set('_jsonOptions', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 	}
 
 /**

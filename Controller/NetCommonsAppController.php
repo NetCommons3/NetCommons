@@ -203,6 +203,11 @@ class NetCommonsAppController extends Controller {
 		if (Current::isLogin()) {
 			return false;
 		}
+		$authControllers = array('auth', 'auth_general');
+		$isAuthController = in_array($this->request->controller, $authControllers);
+		if (isset($_SERVER['HTTP_X_WEBACCEL_GUARD']) && !$isAuthController) {
+			return false;
+		}
 
 		$memberUrl = Configure::read('App.memberUrl');
 
@@ -211,8 +216,6 @@ class NetCommonsAppController extends Controller {
 		}
 
 		$nonMemberUrl = str_replace("member-", "", $memberUrl);
-		$authControllers = array('auth', 'auth_general');
-		$isAuthController = in_array($this->request->controller, $authControllers);
 		// Auth 関連の URL の場合は memberUrl を fullBaseUrl にセットし、
 		// Auth 関連以外の URL の場合は nonMemberUrl を fullBaseUrl にセットする
 		if ($isAuthController && Router::fullBaseUrl() != $memberUrl) {

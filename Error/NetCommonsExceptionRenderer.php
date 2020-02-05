@@ -126,6 +126,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  *
  * @param Exception $error Exception
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function error400($error) {
 		$message = $error->getMessage();

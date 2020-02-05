@@ -126,6 +126,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  *
  * @param Exception $error Exception
  * @return void
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 	public function error400($error) {
 		$message = $error->getMessage();
@@ -151,7 +152,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 
 		} elseif ($this->_is403And404($error)) {
 			list($redirect, $redirectUrl) = $this->_get403And404Redirect();
-			if (! $this->controller->request->is('ajax')) {
+			if (! $this->controller->request->is('ajax') &&
+					$this->__loadedAuthComponent()) {
 				$this->controller->Auth->redirectUrl($redirectUrl);
 			}
 
@@ -187,7 +189,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 				'net_commons', 'Under maintenance. Nobody is allowed to login except for administrators.'
 			);
 		} elseif ($message === 'Forbidden') {
-			if ($this->controller->Auth->user()) {
+			if ($this->__isLoggedIn()) {
 				$message = __d('net_commons', 'Permission denied. Bad account.');
 			} else {
 				$message = __d('net_commons', 'Permission denied. You must be logged.');
@@ -217,7 +219,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
  * @return array array($redirect, $redirectUrl)
  */
 	protected function _get403And404Redirect() {
-		if ($this->controller->Auth->user()) {
+		if ($this->__isLoggedIn()) {
 			$referer = Router::parse($this->controller->request->referer(true));
 			$here = Router::parse($this->controller->request->here(false));
 
@@ -249,6 +251,24 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 		}
 
 		return array($redirect, $redirectUrl);
+	}
+
+/**
+ * Authコンポーネントがロードされているか否か
+ *
+ * @return bool
+ */
+	private function __loadedAuthComponent() {
+		return ! empty($this->controller->Auth);
+	}
+
+/**
+ * ログインしているかいない
+ *
+ * @return bool
+ */
+	private function __isLoggedIn() {
+		return $this->__loadedAuthComponent() && $this->controller->Auth->user();
 	}
 
 /**

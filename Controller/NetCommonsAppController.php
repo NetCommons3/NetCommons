@@ -257,6 +257,7 @@ class NetCommonsAppController extends Controller {
  * @param bool $local If true, restrict referring URLs to local server
  * @return string Referring URL
  * @link https://book.cakephp.org/2.0/en/controllers.html#Controller::referer
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function referer($default = null, $local = true) {
 		return parent::referer($default, $local);

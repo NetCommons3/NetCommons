@@ -32,8 +32,8 @@ class NetCommonsCDNCache {
 		);
 
 		$curl = curl_init();
-		$accessToken = env('CDN_ACCESS_TOKEN');
-		$accessTokenSecret = env('CDN_ACCESS_TOKEN_SECRET');
+		$accessToken = Configure::read('Cdn.AccessToken');
+		$accessTokenSecret = Configure::read('Cdn.Secret');
 		if (!(isset($accessToken) && isset($accessTokenSecret))) {
 			return;
 		}

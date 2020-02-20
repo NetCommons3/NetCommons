@@ -8,10 +8,15 @@ var NetCommonsApp = angular.module('NetCommonsApp', ['ngAnimate', 'ui.bootstrap'
 //CakePHPがX-Requested-Withで判断しているため
 NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-  $httpProvider.defaults.headers.common['If-Modified-Since'] =
-      new Date() . toUTCString();
-}]);
 
+  // Disable cache in GET requests via Ajax
+  if (!$httpProvider.defaults.headers.get) {
+    $httpProvider.defaults.headers.get = {};
+  }
+  $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
+  $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+  $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+}]);
 
 /**
  * ncHtmlContent filter

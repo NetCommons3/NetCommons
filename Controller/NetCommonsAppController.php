@@ -206,7 +206,7 @@ class NetCommonsAppController extends Controller {
 
 		$memberUrl = Configure::read('App.memberUrl');
 
-		if (!isset($memberUrl)) {
+		if (!isset($memberUrl) || $this->request->plugin == 'net_commons') {
 			return false;
 		}
 

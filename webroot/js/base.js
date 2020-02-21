@@ -1,6 +1,7 @@
 /**
  * @fileoverview NetCommonsApp Javascript
  * @author nakajimashouhei@gmail.com (Shohei Nakajima)
+ * @author exkazuu@willbooster.com (Kazunori Sakamoto)
  */
 
 var NetCommonsApp = angular.module('NetCommonsApp', ['ngAnimate', 'ui.bootstrap']);
@@ -167,7 +168,7 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    ['$scope', '$location', '$window', 'NC3_URL', function($scope, $location, $window, NC3_URL) {
+    ['$scope', '$location', '$window', '$http', 'NC3_URL', function($scope, $location, $window, $http, NC3_URL) {
 
       /**
        * Base URL
@@ -273,5 +274,24 @@ NetCommonsApp.controller('NetCommons.base',
             $window.scrollTo(0, 0);
           }
         }).trigger('hashchange');
+      };
+
+      /**
+       * updateTokens
+       *
+       * @return {void}
+       */
+      $scope.updateTokens = function() {
+        var $token = $('input[name="data[_Token][key]"]');
+        var $submit = $token.closest('form').find(':submit');
+        $submit.attr('disabled', 'disabled');
+        $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
+          .then(function(response) {
+              var token = response.data;
+              $token.val(token.data._Token.key);
+              $submit.removeAttr('disabled');
+            },
+            function() {
+            });
       };
     }]);

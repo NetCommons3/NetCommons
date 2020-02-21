@@ -211,14 +211,14 @@ class NetCommonsAppController extends Controller {
 		}
 
 		$nonMemberUrl = str_replace("member-", "", $memberUrl);
-		$authControllers = array('auth', 'auth_general');
-		$isAuthController = in_array($this->request->controller, $authControllers, true);
-		// Auth 関連の URL の場合は memberUrl を fullBaseUrl にセットし、
-		// Auth 関連以外の URL の場合は nonMemberUrl を fullBaseUrl にセットする
-		if ($isAuthController && Router::fullBaseUrl() !== $memberUrl) {
+		$authPlugins = array('auth', 'auth_general');
+		$isAuthPlugin = in_array($this->request->plugin, $authPlugins, true);
+		// Auth 関連の Plugin の場合は memberUrl を fullBaseUrl にセットし、
+		// Auth 関連以外の Plugin の場合は nonMemberUrl を fullBaseUrl にセットする
+		if ($isAuthPlugin && Router::fullBaseUrl() !== $memberUrl) {
 			Router::fullBaseUrl($memberUrl);
 			return true;
-		} elseif (!$isAuthController && Router::fullBaseUrl() === $memberUrl) {
+		} elseif (!$isAuthPlugin && Router::fullBaseUrl() === $memberUrl) {
 			Router::fullBaseUrl($nonMemberUrl);
 			return true;
 		}

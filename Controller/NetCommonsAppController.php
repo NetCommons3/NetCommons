@@ -321,8 +321,8 @@ class NetCommonsAppController extends Controller {
 			$this->CurrentLib->terminate($this);
 		}
 
-		if (Current::isLogin() || $this->request->is('ajax')) {
-			// ログインしている場合はキャッシュしない
+		if (Current::isLogin() || $this->request->is('ajax') ||
+				$this->request->query('no-cache')) {
 			$this->response->header('Pragma', 'no-cache');
 		}
 

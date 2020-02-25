@@ -199,14 +199,18 @@ class NetCommonsAppController extends Controller {
  * @return bool
  */
 	private function __updateFullBaseUrl() {
-		// 以下の redirect 処理は未ログイン時のみ実施
+		// ログイン済みの場合は、memberにリダイレクトしない
 		if (Current::isLogin()) {
 			return false;
 		}
 
-		$memberUrl = Configure::read('App.memberUrl');
+		// NetCommonsプラグインの処理では、memberにリダイレクトしない
+		if ($this->request->plugin == 'net_commons') {
+			return false;
+		}
 
-		if (!isset($memberUrl) || $this->request->plugin == 'net_commons') {
+		$memberUrl = Configure::read('App.memberUrl');
+		if (!isset($memberUrl)) {
 			return false;
 		}
 
@@ -232,6 +236,10 @@ class NetCommonsAppController extends Controller {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+
+		if ($this->request->is('ajax') || $this->request->query('no-cache')) {
+			$this->response->header('Pragma', 'no-cache');
+		}
 
 		if (empty($this->request->params['requested'])) {
 			$this->request->allowMethod($this->_allowMethods);
@@ -321,8 +329,7 @@ class NetCommonsAppController extends Controller {
 			$this->CurrentLib->terminate($this);
 		}
 
-		if (Current::isLogin() || $this->request->is('ajax') ||
-				$this->request->query('no-cache')) {
+		if (Current::isLogin()) {
 			$this->response->header('Pragma', 'no-cache');
 		}
 

@@ -106,6 +106,8 @@ class NetCommonsComponent extends Component {
  * @return void
  */
 	public function setFlashNotification($message, $params = array(), $status = 200) {
+		$this->controller->response->header('Pragma', 'no-cache');
+
 		if (is_string($params)) {
 			$params = array('class' => $params);
 		}

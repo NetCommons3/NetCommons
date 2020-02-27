@@ -5,13 +5,14 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
+ * @author Wataru Nishimoto <watura@willbooster.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 
 App::uses('Model', 'Model');
-App::uses('NetCommonsCache', 'NetCommons.Utility');
 App::uses('NetCommonsCDNCache', 'NetCommons.Utility');
 App::uses('ValidateMerge', 'NetCommons.Utility');
 
@@ -31,18 +32,13 @@ App::uses('ValidateMerge', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
+ * @author Wataru Nishimoto <watura@willbooster.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class NetCommonsAppModel extends Model {
-
-/**
- * 高頻度なキャッシュ無効化を防ぐために、無効化のリクエストを無視する期間（秒）
- *
- * @var float
- */
-	const NO_CACHE_INVALIDATION_DURATION_SEC = 1.0;
 
 /**
  * use behaviors
@@ -338,14 +334,8 @@ class NetCommonsAppModel extends Model {
 		$dataSource->commit();
 
 		if ($this->invalidateCDN) {
-			$ncCache = new NetCommonsCache('cache_invalidated_at', false, 'netcommons_core');
-			$lastTime = floatval($ncCache->read());
-			$now = microtime(true);
-			if ($now - $lastTime > self::NO_CACHE_INVALIDATION_DURATION_SEC) {
-				$ncCache->write($now);
-				$cdnCache = new NetCommonsCDNCache();
-				$cdnCache->invalidate();
-			}
+			$cdnCache = new NetCommonsCDNCache();
+			$cdnCache->invalidate();
 		}
 	}
 

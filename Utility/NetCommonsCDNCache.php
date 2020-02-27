@@ -36,7 +36,7 @@ class NetCommonsCDNCache {
  * @return void
  */
 	public function invalidate() {
-		$ncCache = new NetCommonsCache('cache_invalidated_at', false, 'netcommons_core');
+		$ncCache = new NetCommonsCache('cdn_cache_invalidated_at', false, 'netcommons_core');
 		$lastTime = floatval($ncCache->read());
 		$now = microtime(true);
 		if ($now - $lastTime > self::NO_CACHE_INVALIDATION_DURATION_SEC) {
@@ -50,7 +50,7 @@ class NetCommonsCDNCache {
 	 *
 	 * @return void
 	 */
-	public function postInvalidationRequest() {
+	private function postInvalidationRequest() {
 		$cacheDomain = Configure::read('App.cacheDomain');
 		if (!isset($cacheDomain)) {
 			return;

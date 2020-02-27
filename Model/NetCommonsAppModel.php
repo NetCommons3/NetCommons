@@ -5,6 +5,8 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
+ * @author Wataru Nishimoto <watura@willbooster.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -30,6 +32,8 @@ App::uses('ValidateMerge', 'NetCommons.Utility');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @author Jun Nishikawa <topaz2@m0n0m0n0.com>
  * @author Takako Miyagawa <nekoget@gmail.com>
+ * @author Wataru Nishimoto <watura@willbooster.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @package NetCommons\NetCommons\Model
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)

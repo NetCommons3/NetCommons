@@ -3,6 +3,7 @@
  * NetCommonsApp Controller
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -21,6 +22,7 @@ App::uses('CurrentLib', 'NetCommons.Lib');
  * NetCommonsApp Controller
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @author Kazunori Sakamoto <exkazuu@willbooster.com>
  * @package NetCommons\NetCommons\Controller
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -104,8 +106,9 @@ class NetCommonsAppController extends Controller {
 		'M17n.M17n',
 		'NetCommons.BackTo',
 		'NetCommons.Button',
-		'NetCommons.LinkButton',
+		'NetCommons.CDNCache',
 		'NetCommons.Date',
+		'NetCommons.LinkButton',
 		'NetCommons.MessageFlash',
 		'NetCommons.NetCommonsForm',
 		'NetCommons.NetCommonsHtml',

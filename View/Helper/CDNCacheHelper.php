@@ -21,8 +21,9 @@ class CDNCacheHelper extends AppHelper {
  * @return bool a boolean value whether the page is cacheable or not.
  */
 	public function isCacheable() {
-		$nonCacheable = $this->_View->response->header()['Pragma'] === 'no-cache' ||
-				strncmp('origin-', $_SERVER['SERVER_NAME'], 7) !== 0;
-		return ! $nonCacheable;
+		$nonCacheable = (isset($this->_View->response->header()['Pragma']) &&
+				$this->_View->response->header()['Pragma'] === 'no-cache') ||
+			strncmp('origin-', $_SERVER['SERVER_NAME'], 7) !== 0;
+		return !$nonCacheable;
 	}
 }

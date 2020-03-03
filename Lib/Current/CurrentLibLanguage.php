@@ -80,6 +80,9 @@ class CurrentLibLanguage extends LibAppObject {
 			if (isset($this->_controller->request->query['lang']) &&
 					! array_key_exists('search', $this->_controller->request->query)) {
 				$langCode = $this->_controller->request->query['lang'];
+				if (in_array($langCode, ['english', 'japanese'], true)) {
+					$langCode = substr($langCode, 0, 2);
+				}
 				Configure::write('Config.language', $langCode);
 				$this->_controller->Session->write('Config.language', $langCode);
 			} elseif ($this->_controller->Session->check('Config.language')) {

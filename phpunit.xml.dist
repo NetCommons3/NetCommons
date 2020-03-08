@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendors/autoload.php">
+	<php>
+		<ini name="memory_limit" value="-1"/>
+	</php>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".ctp">app/Plugin/NetCommons</directory>

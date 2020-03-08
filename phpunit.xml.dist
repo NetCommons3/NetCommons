@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendors/autoload.php">
 	<php>
-		<ini name="memory_limit" value="-1"/>
+		<ini name="memory_limit" value="512M"/>
 	</php>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">

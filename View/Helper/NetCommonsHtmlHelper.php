@@ -120,15 +120,15 @@ class NetCommonsHtmlHelper extends AppHelper {
 			self::$__convertPaths[$path] = $convUrl;
 			$covPaths[] = $convUrl;
 		}
-		if (strncmp($_SERVER['HTTP_HOST'], 'member-', 7) === 0) {
-			foreach ($covPaths as &$covPath) {
-				if (strncmp($covPath, '/', 1) === 0 &&
-						$covPath !== '/components/bootstrap/dist/css/bootstrap.min.css') {
-					$covPath = 'https://' . substr($_SERVER['HTTP_HOST'], 7) . $covPath;
-				}
-			}
-			unset($covPath);
-		}
+		//if (strncmp($_SERVER['HTTP_HOST'], 'member-', 7) === 0) {
+		//	foreach ($covPaths as &$covPath) {
+		//		if (strncmp($covPath, '/', 1) === 0 &&
+		//				$covPath !== '/components/bootstrap/dist/css/bootstrap.min.css') {
+		//			$covPath = 'https://' . substr($_SERVER['HTTP_HOST'], 7) . $covPath;
+		//		}
+		//	}
+		//	unset($covPath);
+		//}
 
 		return $covPaths;
 	}

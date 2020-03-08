@@ -438,7 +438,11 @@ class CurrentLib extends LibAppObject {
 		}
 
 		$plugin = $this->CurrentLibPlugin->findPlugin($pluginKey);
-		self::$current['Plugin'] = $plugin['Plugin'];
+		if (isset($plugin['Plugin'])) {
+			self::$current['Plugin'] = $plugin['Plugin'];
+		} else {
+			self::$current['Plugin'] = null;
+		}
 
 		if (empty($this->_controller->request->params['requested'])) {
 			//管理系のプラグイン取得

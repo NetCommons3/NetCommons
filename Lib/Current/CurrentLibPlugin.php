@@ -273,7 +273,7 @@ class CurrentLibPlugin extends LibAppObject {
 		} else {
 			$roleKey = null;
 		}
-		$pluginRoles = $this->findPluginRole($user['role_key']);
+		$pluginRoles = $this->findPluginRole($roleKey);
 		if (! isset($pluginRoles['PluginsRole'])) {
 			return false;
 		}

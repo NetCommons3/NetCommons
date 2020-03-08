@@ -128,7 +128,11 @@ class CurrentLibBlock extends LibAppObject {
 	public function getBlockKeysInCurrentPage() {
 		$blockKeys = [];
 		foreach ($this->__blocks as $block) {
-			$blockKeys[] = $block['Block']['key'];
+			if (isset($block['Block']['key'])) {
+				$blockKeys[] = $block['Block']['key'];
+			} else {
+				$blockKeys[] = null;
+			}
 		}
 		return array_unique($blockKeys);
 	}

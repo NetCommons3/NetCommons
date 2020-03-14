@@ -120,15 +120,6 @@ class NetCommonsHtmlHelper extends AppHelper {
 			self::$__convertPaths[$path] = $convUrl;
 			$covPaths[] = $convUrl;
 		}
-		//if (strncmp($_SERVER['HTTP_HOST'], 'member-', 7) === 0) {
-		//	foreach ($covPaths as &$covPath) {
-		//		if (strncmp($covPath, '/', 1) === 0 &&
-		//				$covPath !== '/components/bootstrap/dist/css/bootstrap.min.css') {
-		//			$covPath = 'https://' . substr($_SERVER['HTTP_HOST'], 7) . $covPath;
-		//		}
-		//	}
-		//	unset($covPath);
-		//}
 
 		return $covPaths;
 	}
@@ -149,6 +140,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		);
 
 		$url = $this->__convertWebrootPath($url);
+		$url = $this->__convertCDNUrls($url);
 		return $this->Html->script($url, array_merge($defaultOptions, $options));
 	}
 
@@ -168,6 +160,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 		);
 
 		$path = $this->__convertWebrootPath($path);
+		$path = $this->__convertCDNUrls($path);
 		return $this->Html->css($path, array_merge($defaultOptions, $options));
 	}
 
@@ -246,6 +239,7 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$paths = $this->__convertWebrootPath($path);
 			$path = $paths[0];
 		}
+		$path = $this->__convertCDNUrls($path);
 		$path = $this->__getUrl($path, $options);
 		$output = $this->Html->image($path, $options);
 		return $output;
@@ -354,6 +348,39 @@ class NetCommonsHtmlHelper extends AppHelper {
 		}
 
 		return ['title' => $title, 'url' => $url];
+	}
+
+/**
+ * CDNを介するようなURLに変換
+ *
+ * @param string|array $urls 変換するURL
+ * @return string
+ */
+	private function __convertCDNUrls($urls) {
+		if (strncmp($_SERVER['HTTP_HOST'], 'member-', 7) !== 0) {
+			return $urls;
+		}
+		if (is_string($urls)) {
+			return $this->__convertCDNUrl($urls);
+		}
+		foreach ($urls as &$url) {
+			$url = $this->__convertCDNUrl($url);
+		}
+		return $urls;
+	}
+
+/**
+ * CDNを介するようなURLに変換
+ *
+ * @param string $url 変換するURL
+ * @return string
+ */
+	private function __convertCDNUrl($url) {
+		if (strncmp($url, '/', 1) === 0 && strpos($url, 'bootstrap.min.css') == false
+				&& strpos($url, 'tinymce.min.js') == false) {
+			$url = 'https://' . substr($_SERVER['HTTP_HOST'], 7) . $url;
+		}
+		return $url;
 	}
 
 /**

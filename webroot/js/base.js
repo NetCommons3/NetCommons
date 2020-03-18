@@ -277,6 +277,61 @@ NetCommonsApp.controller('NetCommons.base',
       };
 
       /**
+       * updateLikes
+       *
+       * @return {void}
+       */
+      $scope.updateLikes = function() {
+        var $buttons = $('span.like-button');
+        var condsStrsObj = {};
+        $buttons.each(function() { condsStrsObj[this.className.split(' ')[0]] = 0; });
+        var condsStrs = Object.keys(condsStrsObj);
+        if (!condsStrs.length) return;
+
+        var iCondsStrs = 0;
+        var condsStrsList = [];
+        do {
+          // Since the maximum length of a URL is about 2000
+          var list = [];
+          var strLength = 0;
+          for (; iCondsStrs < condsStrs.length && strLength < 1900; iCondsStrs++) {
+            list.push(condsStrs[iCondsStrs]);
+            strLength += condsStrs[iCondsStrs].length;
+          }
+          condsStrsList.push(list);
+        } while (iCondsStrs < condsStrs.length);
+
+        var promise = Promise.resolve();
+        for (var iList = 0; iList < condsStrsList.length; iList++) {
+          (function(iList) {
+            var condsStrs = condsStrsList[iList];
+            promise = promise.then(function() {
+              var params = '?like_conds_strs=' + condsStrs.join(',');
+              return $http.get(NC3_URL + '/likes/likes/load.json' + params).then(
+                function(response) {
+                  var likes = response.data.likes;
+                  for (var i = 0; i < condsStrs.length; i++) {
+                    var condsStr = condsStrs[i];
+                    var like = likes[condsStr] || {
+                      like_count: 0,
+                      unlike_count: 0,
+                      disabled: false,
+                    };
+                    var queryPrefix = '.' + condsStr;
+                    $(queryPrefix + ' .like-count').text(like.like_count);
+                    $(queryPrefix + ' .unlike-count').text(like.unlike_count);
+                    $(queryPrefix + ' > a').css('display', like.disabled ? 'none' : '');
+                    $(queryPrefix + ' > .text-muted').css('display', like.disabled ? '' : 'none');
+                  }
+                },
+                function() {
+                });
+            });
+          }(iList));
+        }
+      };
+
+      /**
        * updateTokens
        *
        * @return {void}

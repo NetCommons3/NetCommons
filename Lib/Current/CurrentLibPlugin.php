@@ -268,7 +268,12 @@ class CurrentLibPlugin extends LibAppObject {
  */
 	public function allowSystemPlugin($pluginKey) {
 		$user = $this->CurrentLibUser->getLoginUser();
-		$pluginRoles = $this->findPluginRole($user['role_key']);
+		if (isset($user['role_key'])) {
+			$roleKey = $user['role_key'];
+		} else {
+			$roleKey = null;
+		}
+		$pluginRoles = $this->findPluginRole($roleKey);
 		if (! isset($pluginRoles['PluginsRole'])) {
 			return false;
 		}

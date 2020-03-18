@@ -69,9 +69,9 @@ class NetCommonsTimeTest extends NetCommonsCakeTestCase {
 	public function testOutRangeUnixtimeConvert() {
 		date_default_timezone_set('UTC');
 
-		$outRange = new DateTime('0000-01-01 00:00:00', new DateTimeZone('UTC'));
+		$outRange = new DateTime('1888-01-01 00:00:00', new DateTimeZone('UTC'));
 		$outRange->setTimezone(new DateTimeZone('Asia/Tokyo'));
-		$this->assertEquals('0000-01-01 09:00:00', $outRange->format('Y-m-d H:i:s'));
+		$this->assertEquals('1888-01-01 09:00:00', $outRange->format('Y-m-d H:i:s'));
 
 		$outRange = new DateTime('9999-01-01 00:00:00', new DateTimeZone('UTC'));
 		$outRange->setTimezone(new DateTimeZone('Asia/Tokyo'));

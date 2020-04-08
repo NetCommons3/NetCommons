@@ -44,7 +44,7 @@ class AngularParser {
  */
 	public static function convertText($value) {
 		$value = str_replace(['{{', '}}', "\0"], ['{ { ', ' } }', ''], $value);
-		return str_replace(['{{', '}}', "\0"], ['{ { ', ' } }', ''], $value);
+		return str_replace(['}}'], [' } }'], $value);
 	}
 
 }

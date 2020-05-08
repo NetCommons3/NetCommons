@@ -84,12 +84,14 @@ class AngularParserTest extends CakeTestCase {
 		$results['test_case_1'] = [
 			'input' => [
 				'{{{root_1}}}',
+				'{{{{{root_1}}}}}',
 				'{ {{root_2}} }',
 				'{{ {root_3} }}',
 				'{{{{root_4}}}}',
 			],
 			'expect' => [
 				'{ { {root_1 }  } }',
+				'{ { { { {root_1 } } }  } }',
 				'{ { { root_2 } } }',
 				'{ {  {root_3}  } }',
 				'{ { { { root_4 } } } }',
@@ -110,9 +112,23 @@ class AngularParserTest extends CakeTestCase {
 	public function testParser($input, $expect) {
 		//テスト実施
 		AngularParser::parse($input);
-		$this->assertTrue(AngularParser::parse($input));
 		//debug($input);
 		$this->assertEquals($input, $expect);
+	}
+
+/**
+ * AngularParser::convertText()のテスト
+ *
+ * @param array $input 入力値
+ * @param array $expect 期待値
+ * @dataProvider dataProvider
+ * @return void
+ */
+	public function testConvertText($input, $expect) {
+		//テスト実施
+		$input[0] = AngularParser::convertText($input[0]);
+		//debug($input);
+		$this->assertEquals($input[0], $expect[0]);
 	}
 
 }

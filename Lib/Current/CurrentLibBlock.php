@@ -420,7 +420,7 @@ class CurrentLibBlock extends LibAppObject {
 		}
 		$this->__setUseWorkflowPermission($blockKey, $blockSettings);
 
-		return $this->__rolePermissions[$blockKey];
+		return $this->__rolePermFromSetting[$blockKey];
 	}
 
 /**
@@ -473,7 +473,7 @@ class CurrentLibBlock extends LibAppObject {
 			$this->__rolePermFromSetting[$blockKey]['content_publishable']['value'] = true;
 			$this->__rolePermFromSetting[$blockKey]['content_comment_publishable']['value'] = true;
 		} else {
-			$this->__rolePermissions[$blockKey] = [];
+			$this->__rolePermFromSetting[$blockKey] = [];
 			if (empty($blockSettings[BlockSettingBehavior::FIELD_USE_WORKFLOW])) {
 				$this->__rolePermFromSetting[$blockKey]['content_publishable']['value'] = true;
 			}

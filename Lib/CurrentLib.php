@@ -438,7 +438,11 @@ class CurrentLib extends LibAppObject {
 		}
 
 		$plugin = $this->CurrentLibPlugin->findPlugin($pluginKey);
-		self::$current['Plugin'] = $plugin['Plugin'];
+		if (isset($plugin['Plugin'])) {
+			self::$current['Plugin'] = $plugin['Plugin'];
+		} else {
+			self::$current['Plugin'] = null;
+		}
 
 		if (empty($this->_controller->request->params['requested'])) {
 			//管理系のプラグイン取得
@@ -571,7 +575,11 @@ class CurrentLib extends LibAppObject {
 			if (empty($frame) && !empty($block)) {
 				self::$current['Block'] = $block['Block'];
 				self::$current['BlocksLanguage'] = $block['BlocksLanguage'];
-				$roomId = $block['Block']['room_id'];
+				if (isset($block['Block']['room_id'])) {
+					$roomId = $block['Block']['room_id'];
+				} else {
+					$roomId = null;
+				}
 			} elseif (! $this->CurrentLibFrame->isSameBlockByRequestBlockAndFrameBlock($frame, $block) &&
 					$this->CurrentLibFrame->isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block)) {
 				$this->CurrentLibFrame->setBlockInFrame($frame['Frame']['id'], $block);

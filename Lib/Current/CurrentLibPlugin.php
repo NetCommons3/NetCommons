@@ -244,7 +244,6 @@ class CurrentLibPlugin extends LibAppObject {
 			),
 		];
 		$cacheKey = $this->PluginsRole->createCacheQueryKey($queryOptions);
-
 		$pluginsRoles = $this->PluginsRole->cacheRead('current', $cacheKey);
 		if ($pluginsRoles) {
 			return $pluginsRoles;
@@ -256,7 +255,7 @@ class CurrentLibPlugin extends LibAppObject {
 			$key = $pluginsRole['PluginsRole']['id'];
 			$results['PluginsRole'][$key] = $pluginsRole['PluginsRole'];
 		}
-		$this->Plugin->cacheWrite($results, 'current', $cacheKey);
+		$this->PluginsRole->cacheWrite($results, 'current', $cacheKey);
 		return $results;
 	}
 

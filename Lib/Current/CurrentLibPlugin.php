@@ -172,7 +172,7 @@ class CurrentLibPlugin extends LibAppObject {
 				'frame_add_action',
 				'display_topics',
 				'display_search',
-				'serialize_data',
+				//'serialize_data',
 			],
 			'conditions' => [
 				//'key' => $pluginKeys,

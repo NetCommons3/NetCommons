@@ -240,6 +240,11 @@ class NetCommonsAppController extends Controller {
 	public function beforeFilter() {
 		parent::beforeFilter();
 
+		if (!empty($this->request->params['ext']) &&
+				$this->request->params['ext'] === 'json') {
+			$this->request->addDetector('ajax', ['param' => 'ext', 'value' => 'json']);
+		}
+
 		if ($this->request->is('ajax') || $this->request->query('no-cache')) {
 			$this->response->header('Pragma', 'no-cache');
 		}

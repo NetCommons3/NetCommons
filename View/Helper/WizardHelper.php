@@ -111,7 +111,7 @@ class WizardHelper extends AppHelper {
 	public function navibar($activeKey, $small = false) {
 		$output = '';
 
-		$stepWidth = ' style="width: ' . 100 / count($this->settings['navibar']) . '%;"';
+		$defaultStepWidth = ' style="width: ' . 100 / count($this->settings['navibar']) . '%;"';
 
 		if ($small) {
 			$smallCss = ' small';
@@ -126,6 +126,12 @@ class WizardHelper extends AppHelper {
 		$backLink = true;
 		foreach ($this->settings['navibar'] as $key => $step) {
 			$index++;
+
+			if (isset($step['width'])) {
+				$stepWidth = $step['width'];
+			} else {
+				$stepWidth = $defaultStepWidth;
+			}
 
 			$badge = '<span class="badge">' . $index . '</span>';
 			$currentClass = '';

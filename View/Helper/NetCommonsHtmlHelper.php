@@ -357,7 +357,8 @@ class NetCommonsHtmlHelper extends AppHelper {
  * @return string
  */
 	private function __convertCDNUrls($urls) {
-		if (strncmp($_SERVER['HTTP_HOST'], 'member-', 7) !== 0) {
+		$httpHost = $_SERVER['HTTP_HOST'] ?? '';
+		if (strncmp($httpHost, 'member-', 7) !== 0) {
 			return $urls;
 		}
 		if (is_string($urls)) {
@@ -378,7 +379,8 @@ class NetCommonsHtmlHelper extends AppHelper {
 	private function __convertCDNUrl($url) {
 		if (strncmp($url, '/', 1) === 0 && strpos($url, 'bootstrap.min.css') == false
 				&& strpos($url, 'tinymce.min.js') == false) {
-			$url = 'https://' . substr($_SERVER['HTTP_HOST'], 7) . $url;
+			$httpHost = $_SERVER['HTTP_HOST'] ?? '';
+			$url = 'https://' . substr($httpHost, 7) . $url;
 		}
 		return $url;
 	}

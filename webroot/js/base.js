@@ -344,7 +344,7 @@ NetCommonsApp.controller('NetCommons.base',
           var $submit = $token.closest('form').find(':submit');
           $submit.attr('disabled', 'disabled');
           $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
-            .then(function(response) {
+              .then(function(response) {
                 var token = response.data;
                 $token.val(token.data._Token.key);
                 $submit.removeAttr('disabled');

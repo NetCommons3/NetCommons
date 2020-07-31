@@ -10,12 +10,7 @@
 ?>
 <footer id="nc-system-footer" role="contentinfo">
 	<div class="box-footer">
-		<div class="copyright">
-			Powered by <a href="https://edumap.jp/" target="_blank">edumap</a><br>
-			<span class="small">（<a href="https://www.s4e.jp/" target="_blank">教育のための科学研究所</a>,
-				<a href="https://www.nttdata.com/jp/ja/" target="_blank">ＮＴＴデータ</a>,
-				<a href="https://www.sakura.ad.jp/" target="_blank">さくらインターネット</a>）</span>
-		</div>
+		<div class="copyright">Powered by NetCommons</div>
 	</div>
 </footer>
 

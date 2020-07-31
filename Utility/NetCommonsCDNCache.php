@@ -41,16 +41,16 @@ class NetCommonsCDNCache {
 		$now = microtime(true);
 		if ($now - $lastTime > self::NO_CACHE_INVALIDATION_DURATION_SEC) {
 			$ncCache->write($now);
-			$this->postInvalidationRequest();
+			$this->__postInvalidationRequest();
 		}
 	}
 
-	/**
-	 * Invalidate CDN Cache
-	 *
-	 * @return void
-	 */
-	private function postInvalidationRequest() {
+/**
+ * Invalidate CDN Cache
+ *
+ * @return void
+ */
+	private function __postInvalidationRequest() {
 		$cacheDomain = Configure::read('App.cacheDomain');
 		if (!isset($cacheDomain)) {
 			return;

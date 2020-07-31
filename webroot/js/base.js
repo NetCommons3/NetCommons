@@ -19,6 +19,7 @@ NetCommonsApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 }]);
 
+
 /**
  * ncHtmlContent filter
  *
@@ -168,185 +169,187 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    ['$scope', '$location', '$window', '$http', 'NC3_URL', function($scope, $location, $window, $http, NC3_URL) {
+    ['$scope', '$location', '$window', '$http', 'NC3_URL',
+      function($scope, $location, $window, $http, NC3_URL) {
 
-      /**
-       * Base URL
-       *
-       * @type {string}
-       */
-      $scope.baseUrl = NC3_URL;
+        /**
+         * Base URL
+         *
+         * @type {string}
+         */
+        $scope.baseUrl = NC3_URL;
 
-      /**
-       * sending
-       *
-       * @type {boolean}
-       */
-      $scope.sending = false;
+        /**
+         * sending
+         *
+         * @type {boolean}
+         */
+        $scope.sending = false;
 
-      /**
-       * messages
-       *
-       * @type {Object}
-       */
-      $scope.messages = {};
+        /**
+         * messages
+         *
+         * @type {Object}
+         */
+        $scope.messages = {};
 
-      /**
-       * top
-       *
-       * @type {function}
-       */
-      $scope.top = function() {
-        $location.hash('nc-modal-top');
-        $anchorScroll();
-      };
-
-      /**
-       * flash message method
-       *
-       * @param {string} message
-       * @param {string} messageClass
-       * @param {int} interval
-       * @return {void}
-       */
-      $scope.flashMessage = function(message, messageClass, interval) {
-        $scope.flash = {
-          message: message,
-          class: messageClass
+        /**
+         * top
+         *
+         * @type {function}
+         */
+        $scope.top = function() {
+          $location.hash('nc-modal-top');
+          $anchorScroll();
         };
-        $('#nc-flash-message').removeClass('hidden');
-        if (interval > 0) {
-          $('#nc-flash-message').fadeIn(500).fadeTo(interval, 1).fadeOut(2000);
-        } else {
-          $('#nc-flash-message').fadeIn(500);
-        }
-      };
 
-      /**
-       * submit
-       *
-       * @type {function}
-       */
-      $scope.submit = function($event) {
-        if ($scope.sending) {
-          $event.preventDefault();
-        }
-        $scope.sending = true;
-      };
+        /**
+         * flash message method
+         *
+         * @param {string} message
+         * @param {string} messageClass
+         * @param {int} interval
+         * @return {void}
+         */
+        $scope.flashMessage = function(message, messageClass, interval) {
+          $scope.flash = {
+            message: message,
+            class: messageClass
+          };
+          $('#nc-flash-message').removeClass('hidden');
+          if (interval > 0) {
+            $('#nc-flash-message').fadeIn(500).fadeTo(interval, 1).fadeOut(2000);
+          } else {
+            $('#nc-flash-message').fadeIn(500);
+          }
+        };
 
-      /**
-       * cancel
-       *
-       * @type {function}
-       */
-      $scope.cancel = function(url) {
-        $scope.sending = true;
-        if ($window.location.href === url) {
-          $window.location.reload();
-        } else {
-          $window.location.href = url;
-        }
-      };
+        /**
+         * submit
+         *
+         * @type {function}
+         */
+        $scope.submit = function($event) {
+          if ($scope.sending) {
+            $event.preventDefault();
+          }
+          $scope.sending = true;
+        };
 
-      /**
-       * hashChange
-       *
-       * @return {void}
-       */
-      $scope.hashChange = function() {
-        $($window).bind('hashchange', function() {
-          var hash = $location.hash();
-          var frameId = $window.location.href.match('frame_id=([0-9]+)');
-          var element = null;
-          try {
-            if (hash) {
-              if (hash.substr(0, 1) === '/') {
-                element = $('#' + hash.substr(1));
-              } else {
-                element = $('#' + hash);
+        /**
+         * cancel
+         *
+         * @type {function}
+         */
+        $scope.cancel = function(url) {
+          $scope.sending = true;
+          if ($window.location.href === url) {
+            $window.location.reload();
+          } else {
+            $window.location.href = url;
+          }
+        };
+
+        /**
+         * hashChange
+         *
+         * @return {void}
+         */
+        $scope.hashChange = function() {
+          $($window).bind('hashchange', function() {
+            var hash = $location.hash();
+            var frameId = $window.location.href.match('frame_id=([0-9]+)');
+            var element = null;
+            try {
+              if (hash) {
+                if (hash.substr(0, 1) === '/') {
+                  element = $('#' + hash.substr(1));
+                } else {
+                  element = $('#' + hash);
+                }
+              } else if (frameId) {
+                element = $('#frame-' + frameId[1]);
               }
-            } else if (frameId) {
-              element = $('#frame-' + frameId[1]);
+              var pos = element.offset().top;
+              $window.scrollTo(0, pos - 100);
+            } catch (err) {
+              $window.scrollTo(0, 0);
             }
-            var pos = element.offset().top;
-            $window.scrollTo(0, pos - 100);
-          } catch (err) {
-            $window.scrollTo(0, 0);
+          }).trigger('hashchange');
+        };
+
+        /**
+         * updateLikes
+         *
+         * @return {void}
+         */
+        $scope.updateLikes = function() {
+          var $buttons = $('span.like-button');
+          var condsStrsObj = {};
+          $buttons.each(function() { condsStrsObj[this.className.split(' ')[0]] = 0; });
+          var condsStrs = Object.keys(condsStrsObj);
+          if (!condsStrs.length) return;
+
+          var iCondsStrs = 0;
+          var condsStrsList = [];
+          do {
+            // Since the maximum length of a URL is about 2000
+            var list = [];
+            var strLength = 0;
+            for (; iCondsStrs < condsStrs.length && strLength < 1900; iCondsStrs++) {
+              list.push(condsStrs[iCondsStrs]);
+              strLength += condsStrs[iCondsStrs].length;
+            }
+            condsStrsList.push(list);
+          } while (iCondsStrs < condsStrs.length);
+
+          var promise = Promise.resolve();
+          for (var iList = 0; iList < condsStrsList.length; iList++) {
+            (function(iList) {
+              var condsStrs = condsStrsList[iList];
+              promise = promise.then(function() {
+                var params = '?like_conds_strs=' + condsStrs.join(',');
+                return $http.get(NC3_URL + '/likes/likes/load.json' + params).then(
+                    function(response) {
+                      var likes = response.data.likes;
+                      for (var i = 0; i < condsStrs.length; i++) {
+                        var condsStr = condsStrs[i];
+                        var like = likes[condsStr] || {
+                          like_count: 0,
+                          unlike_count: 0,
+                          disabled: false,
+                        };
+                        var queryPrefix = '.' + condsStr;
+                        $(queryPrefix + ' .like-count').text(like.like_count);
+                        $(queryPrefix + ' .unlike-count').text(like.unlike_count);
+                        $(queryPrefix + ' > a').css('display', like.disabled ? 'none' : '');
+                        $(queryPrefix + ' > .text-muted')
+                              .css('display', like.disabled ? '' : 'none');
+                      }
+                    },
+                    function() {
+                    });
+              });
+            }(iList));
           }
-        }).trigger('hashchange');
-      };
+        };
 
-      /**
-       * updateLikes
-       *
-       * @return {void}
-       */
-      $scope.updateLikes = function() {
-        var $buttons = $('span.like-button');
-        var condsStrsObj = {};
-        $buttons.each(function() { condsStrsObj[this.className.split(' ')[0]] = 0; });
-        var condsStrs = Object.keys(condsStrsObj);
-        if (!condsStrs.length) return;
-
-        var iCondsStrs = 0;
-        var condsStrsList = [];
-        do {
-          // Since the maximum length of a URL is about 2000
-          var list = [];
-          var strLength = 0;
-          for (; iCondsStrs < condsStrs.length && strLength < 1900; iCondsStrs++) {
-            list.push(condsStrs[iCondsStrs]);
-            strLength += condsStrs[iCondsStrs].length;
-          }
-          condsStrsList.push(list);
-        } while (iCondsStrs < condsStrs.length);
-
-        var promise = Promise.resolve();
-        for (var iList = 0; iList < condsStrsList.length; iList++) {
-          (function(iList) {
-            var condsStrs = condsStrsList[iList];
-            promise = promise.then(function() {
-              var params = '?like_conds_strs=' + condsStrs.join(',');
-              return $http.get(NC3_URL + '/likes/likes/load.json' + params).then(
-                function(response) {
-                  var likes = response.data.likes;
-                  for (var i = 0; i < condsStrs.length; i++) {
-                    var condsStr = condsStrs[i];
-                    var like = likes[condsStr] || {
-                      like_count: 0,
-                      unlike_count: 0,
-                      disabled: false,
-                    };
-                    var queryPrefix = '.' + condsStr;
-                    $(queryPrefix + ' .like-count').text(like.like_count);
-                    $(queryPrefix + ' .unlike-count').text(like.unlike_count);
-                    $(queryPrefix + ' > a').css('display', like.disabled ? 'none' : '');
-                    $(queryPrefix + ' > .text-muted').css('display', like.disabled ? '' : 'none');
-                  }
-                },
-                function() {
-                });
-            });
-          }(iList));
-        }
-      };
-
-      /**
-       * updateTokens
-       *
-       * @return {void}
-       */
-      $scope.updateTokens = function() {
-        var $token = $('input[name="data[_Token][key]"]');
-        var $submit = $token.closest('form').find(':submit');
-        $submit.attr('disabled', 'disabled');
-        $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
-          .then(function(response) {
-              var token = response.data;
-              $token.val(token.data._Token.key);
-              $submit.removeAttr('disabled');
-            },
-            function() {
-            });
-      };
-    }]);
+        /**
+         * updateTokens
+         *
+         * @return {void}
+         */
+        $scope.updateTokens = function() {
+          var $token = $('input[name="data[_Token][key]"]');
+          var $submit = $token.closest('form').find(':submit');
+          $submit.attr('disabled', 'disabled');
+          $http.get(NC3_URL + '/net_commons/net_commons/csrfToken.json')
+            .then(function(response) {
+                var token = response.data;
+                $token.val(token.data._Token.key);
+                $submit.removeAttr('disabled');
+              },
+              function() {
+              });
+        };
+      }]);

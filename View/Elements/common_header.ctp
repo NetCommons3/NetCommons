@@ -123,7 +123,8 @@ if (empty($navbarStyle)) {
 							</li>
 						<?php endif; ?>
 						<li>
-							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'), Configure::read('App.memberUrl'). '/auth/login'); ?>
+							<?php echo $this->NetCommonsHtml->link(__d('net_commons', 'Login'),
+									Configure::read('App.memberUrl') . '/auth/login'); ?>
 						</li>
 					<?php endif; ?>
 

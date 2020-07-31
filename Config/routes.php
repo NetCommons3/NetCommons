@@ -12,9 +12,9 @@ App::uses('SlugRoute', 'Pages.Routing/Route');
 App::uses('Current', 'NetCommons.Utility');
 
 Router::connect(
-       '/invalidate',
-       array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'invalidate'),
-       array('routeClass' => 'SlugRoute')
+	'/invalidate',
+	array('plugin' => 'pages', 'controller' => 'pages', 'action' => 'invalidate'),
+	array('routeClass' => 'SlugRoute')
 );
 
 Router::connect(

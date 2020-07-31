@@ -245,10 +245,6 @@ class NetCommonsAppController extends Controller {
 			$this->request->addDetector('ajax', ['param' => 'ext', 'value' => 'json']);
 		}
 
-		if ($this->request->is('ajax') || $this->request->query('no-cache')) {
-			$this->response->header('Pragma', 'no-cache');
-		}
-
 		if (empty($this->request->params['requested'])) {
 			$this->request->allowMethod($this->_allowMethods);
 		}

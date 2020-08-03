@@ -237,6 +237,7 @@ class NetCommonsAppController extends Controller {
  *
  * @return void
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 	public function beforeFilter() {
 		parent::beforeFilter();

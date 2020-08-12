@@ -245,8 +245,12 @@ class NetCommonsHtmlHelper extends AppHelper {
 /**
  * URLの取得
  *
- * @param mixed $url URL
- * @param bool $full フルパスで表示するか否か
+ * @param string|array|null $url URL
+ * @param bool|array $full フルパスで表示するか否か
+ *   arrayを指定する場合、
+ *    - escape - エスケープの有無
+ *    - full - フルパスで出力するか否か
+ *    - hasBlock - block_idをURLに含めるか否か
  * @return string URL
  * @link http://book.cakephp.org/2.0/ja/core-libraries/helpers/html.html#HtmlHelper::url HtmlHelper::url
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
@@ -258,7 +262,13 @@ class NetCommonsHtmlHelper extends AppHelper {
 			$url = $paths[0];
 		}
 
-		$url = $this->__getUrl($url);
+		if (is_array($full)) {
+			$options = $full;
+		} else {
+			$options = [];
+		}
+
+		$url = $this->__getUrl($url, $options);
 		if ($full) {
 			$output = $this->Html->url($url, $full);
 		} else {

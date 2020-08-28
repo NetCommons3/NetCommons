@@ -14,17 +14,6 @@ if (ini_get('xdebug.max_nesting_level')) {
 	ini_set('xdebug.max_nesting_level', 200);
 }
 
-if (! defined('NC3_VERSION')) {
-	App::uses('NetCommonsCache', 'NetCommons.Utility');
-	$ncCache = new NetCommonsCache('version', false, 'netcommons_core');
-	$version = $ncCache->read();
-	if ($version) {
-		define('NC3_VERSION', trim($version));
-	} else {
-		define('NC3_VERSION', '3.2.1');
-	}
-}
-
 // Load application configurations
 $conf = array();
 $files = array('application.yml', 'application.local.yml');
@@ -32,6 +21,19 @@ foreach ($files as $file) {
 	if (file_exists(APP . 'Config' . DS . $file)) {
 		$conf = array_merge($conf, Spyc::YAMLLoad(APP . 'Config' . DS . $file));
 		Configure::write($conf);
+	}
+}
+
+if (! defined('NC3_VERSION')) {
+	App::uses('NetCommonsCache', 'NetCommons.Utility');
+	$ncCache = new NetCommonsCache('version', false, 'netcommons_core');
+	$version = $ncCache->read();
+	if ($version) {
+		define('NC3_VERSION', trim($version));
+	} elseif (file_exists(APP . 'VERSION')) {
+		define('NC3_VERSION', trim(file_get_contents(APP . 'VERSION')));
+	} else {
+		define('NC3_VERSION', '3.2.1');
 	}
 }
 

@@ -104,6 +104,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  * - max => maximum number of non-zero choices that can be made
  * - min => minimum number of non-zero choices that can be made
  *
+ * @param Model $model 呼び出し元モデル
  * @param array $check Value to check
  * @param array $options Options for the check.
  * @param bool $caseInsensitive Set to true for case insensitive comparison.

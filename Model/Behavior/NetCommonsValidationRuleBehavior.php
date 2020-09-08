@@ -108,6 +108,7 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
  * @param array $options Options for the check.
  * @param bool $caseInsensitive Set to true for case insensitive comparison.
  * @return bool
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 	public function multiple(Model $model, $check, $options = array(), $caseInsensitive = false) {
 		$checkValues = array_shift($check);

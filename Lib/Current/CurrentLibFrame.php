@@ -411,6 +411,10 @@ class CurrentLibFrame extends LibAppObject {
 		if (isset($block['Block']['room_id']) &&
 				($block['Block']['room_id'] !== $frame['Frame']['room_id'] ||
 				$block['Block']['plugin_key'] !== $frame['Frame']['plugin_key'])) {
+			// 施設予約は全体でブロック1つなので一致チェックしない
+			if ($block['Block']['plugin_key'] === 'reservations' && $block['Block']['plugin_key'] === $frame['Frame']['plugin_key']) {
+				return true;
+			}
 			return false;
 		} else {
 			return true;

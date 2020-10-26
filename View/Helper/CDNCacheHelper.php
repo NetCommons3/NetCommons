@@ -23,7 +23,8 @@ class CDNCacheHelper extends AppHelper {
 	public function isCacheable() {
 		$nonCacheable = (isset($this->_View->response->header()['Pragma']) &&
 				$this->_View->response->header()['Pragma'] === 'no-cache') ||
-			strncmp('origin-', $_SERVER['HTTP_HOST'], 7) !== 0;
+				(strncmp('origin-', $_SERVER['HTTP_HOST'], 7) !== 0 &&
+				strncmp('origin.', $_SERVER['HTTP_HOST'], 7) !== 0);
 		return !$nonCacheable;
 	}
 }

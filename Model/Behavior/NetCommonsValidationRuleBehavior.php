@@ -95,4 +95,31 @@ class NetCommonsValidationRuleBehavior extends ModelBehavior {
 		return false;
 	}
 
+/**
+ * multipleをNC3用にカスタマイズ
+ *
+ * Valid Options
+ *
+ * - in => provide a list of choices that selections must be made from
+ * - max => maximum number of non-zero choices that can be made
+ * - min => minimum number of non-zero choices that can be made
+ *
+ * @param Model $model 呼び出し元モデル
+ * @param array $check Value to check
+ * @param array $options Options for the check.
+ * @param bool $caseInsensitive Set to true for case insensitive comparison.
+ * @return bool
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
+	public function multiple(Model $model, $check, $options = array(), $caseInsensitive = false) {
+		$checkValues = array_shift($check);
+		$checkValues = (array)$checkValues;
+		foreach ($checkValues as $value) {
+			if (! is_scalar($value)) {
+				return false;
+			}
+		}
+		return Validation::multiple($checkValues, $options, $caseInsensitive);
+	}
+
 }

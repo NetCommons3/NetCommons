@@ -26,6 +26,13 @@ class NetCommonsHtmlHelperUrlTest extends NetCommonsHelperTestCase {
 	public $plugin = 'net_commons';
 
 /**
+ * Plugin name
+ *
+ * @var string
+ */
+	public $fixtures = [];
+
+/**
  * setUp method
  *
  * @return void
@@ -69,6 +76,27 @@ class NetCommonsHtmlHelperUrlTest extends NetCommonsHelperTestCase {
 			'?' => array('one' => 'value', 'two' => 'value', 'three' => 'purple')
 		));
 		$this->assertEquals("/net_commons/posts/index/page:1?one=value&amp;two=value&amp;three=purple", $result);
+
+		//fullパスのチェック
+		$result = $this->NetCommonsHtml->url(array(
+			'controller' => 'posts', 'action' => 'index', 'page' => '1'
+		), true);
+		$this->assertRegExp(
+			'/^(.+)?[^\/]' . preg_quote('/net_commons/posts/index/page:1', '/') . '$/', $result
+		);
+
+		//以降、block_idのチェック
+		CurrentLib::write('Block.id', '2');
+
+		$result = $this->NetCommonsHtml->url(array(
+			'controller' => 'posts', 'action' => 'test'
+		));
+		$this->assertEquals("/net_commons/posts/test/2", $result);
+
+		$result = $this->NetCommonsHtml->url(array(
+			'controller' => 'posts', 'action' => 'test'
+		), ['hasBlock' => false]);
+		$this->assertEquals("/net_commons/posts/test", $result);
 	}
 
 }

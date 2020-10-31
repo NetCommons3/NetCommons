@@ -368,7 +368,9 @@ class NetCommonsHtmlHelper extends AppHelper {
  */
 	private function __convertCDNUrls($urls) {
 		$httpHost = $_SERVER['HTTP_HOST'] ?? '';
-		if (strncmp($httpHost, 'member-', 7) !== 0) {
+		$nonMember = strncmp($httpHost, 'member-', 7) !== 0 &&
+			strncmp($httpHost, 'member.', 7) !== 0;
+		if ($nonMember) {
 			return $urls;
 		}
 		if (is_string($urls)) {

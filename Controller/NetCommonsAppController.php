@@ -217,7 +217,7 @@ class NetCommonsAppController extends Controller {
 			return false;
 		}
 
-		$nonMemberUrl = preg_replace("/^member[.-]/", "", $memberUrl);
+		$nonMemberUrl = preg_replace("#^(http(s)?://)member[.-]#", "$1", $memberUrl);
 		$authPlugins = array('auth', 'auth_general');
 		$isAuthPlugin = in_array($this->request->plugin, $authPlugins, true);
 		// Auth 関連の Plugin の場合は memberUrl を fullBaseUrl にセットし、

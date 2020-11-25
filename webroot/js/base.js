@@ -216,11 +216,11 @@ NetCommonsApp.controller('NetCommons.base',
             message: message,
             class: messageClass
           };
-          $('#nc-flash-message').removeClass('hidden');
+          $('#nc-ajax-flash-message').removeClass('hidden');
           if (interval > 0) {
-            $('#nc-flash-message').fadeIn(500).fadeTo(interval, 1).fadeOut(2000);
+            $('#nc-ajax-flash-message').fadeIn(500).fadeTo(500, 1).fadeOut(interval);
           } else {
-            $('#nc-flash-message').fadeIn(500);
+            $('#nc-ajax-flash-message').fadeIn(500);
           }
         };
 

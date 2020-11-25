@@ -10,7 +10,7 @@
 ?>
 
 <?php $this->startIfEmpty('flashMessage'); ?>
-<div id="nc-flash-message" class="alert alert-{{flash.class}} alert-dismissable hidden">
+<div id="nc-ajax-flash-message" class="alert alert-{{flash.class}} alert-dismissable hidden">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	<div>
 		{{flash.message}}

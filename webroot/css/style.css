@@ -215,14 +215,16 @@ span.input-group-addon:not(:first-child):not(:last-child) {
 /*
  * メッセージの出力
  */
-#nc-flash-message {
+#nc-flash-message,
+#nc-ajax-flash-message {
 	z-index: 2000;
 	top: 0px;
 	position: fixed;
 	width: 100%;
 	text-align: center;
 }
-#nc-flash-message .pull-right {
+#nc-flash-message .pull-right,
+#nc-ajax-flash-message .pull-right {
 	margin-right: 20px;
 }
 

@@ -159,7 +159,7 @@ class CurrentLibPlugin extends LibAppObject {
 				//'is_translation',
 				//'is_original_copy',
 				'key',
-				//'is_m17n',
+				'is_m17n',
 				'name',
 				'namespace',
 				'weight',

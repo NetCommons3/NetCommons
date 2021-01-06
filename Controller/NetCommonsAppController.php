@@ -186,6 +186,17 @@ class NetCommonsAppController extends Controller {
 		if (in_array($this->params['action'], ['emptyRender', 'throwBadRequest', 'emptyFrame'])) {
 			$this->params['pass'] = array();
 		}
+
+		//$this->params['named']の値がスカラー値以外なら除去する
+		if (isset($this->request->params['named'])) {
+			$named = [];
+			foreach ($this->request->params['named'] as $key => $value) {
+				if (is_scalar($value)) {
+					$named[$key] = (string)$value;
+				}
+			}
+			$this->request->params['named'] = $named;
+		}
 	}
 
 /**

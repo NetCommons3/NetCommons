@@ -169,9 +169,8 @@ NetCommonsApp.factory('ajaxSendPost', ['$http', '$q', 'NC3_URL', function($http,
  * base controller
  */
 NetCommonsApp.controller('NetCommons.base',
-    ['$scope', '$location', '$window', '$http', 'NC3_URL',
-      function($scope, $location, $window, $http, NC3_URL) {
-
+    ['$scope', '$location', '$window', '$http', 'NC3_URL', '$q',
+      function($scope, $location, $window, $http, NC3_URL, $q) {
         /**
          * Base URL
          *
@@ -293,9 +292,9 @@ NetCommonsApp.controller('NetCommons.base',
           var iCondsStrs = 0;
           var condsStrsList = [];
           do {
-            // Since the maximum length of a URL is about 2000
             var list = [];
             var strLength = 0;
+            // Since the maximum length of a URL is about 2000
             for (; iCondsStrs < condsStrs.length && strLength < 1900; iCondsStrs++) {
               list.push(condsStrs[iCondsStrs]);
               strLength += condsStrs[iCondsStrs].length;
@@ -303,11 +302,15 @@ NetCommonsApp.controller('NetCommons.base',
             condsStrsList.push(list);
           } while (iCondsStrs < condsStrs.length);
 
-          var promise = Promise.resolve();
+          var deferred = $q.defer();
+          var promise = deferred.promise;
           for (var iList = 0; iList < condsStrsList.length; iList++) {
+            // Pass iList to the following anonymous function to keep the current value
             (function(iList) {
               var condsStrs = condsStrsList[iList];
+              // Chain promise.then() to call API sequentially
               promise = promise.then(function() {
+                console.log(condsStrs);
                 var params = '?like_conds_strs=' + condsStrs.join(',');
                 return $http.get(NC3_URL + '/likes/likes/load.json' + params).then(
                     function(response) {
@@ -326,12 +329,11 @@ NetCommonsApp.controller('NetCommons.base',
                         $(queryPrefix + ' > .text-muted')
                               .css('display', like.disabled ? '' : 'none');
                       }
-                    },
-                    function() {
                     });
               });
             }(iList));
           }
+          deferred.resolve();
         };
 
         /**

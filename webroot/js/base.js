@@ -310,7 +310,6 @@ NetCommonsApp.controller('NetCommons.base',
               var condsStrs = condsStrsList[iList];
               // Chain promise.then() to call API sequentially
               promise = promise.then(function() {
-                console.log(condsStrs);
                 var params = '?like_conds_strs=' + condsStrs.join(',');
                 return $http.get(NC3_URL + '/likes/likes/load.json' + params).then(
                     function(response) {

@@ -33,6 +33,10 @@ if (isset($url)) {
 	$firstOption['url'] = $url;
 	$numbersOption['url'] = $url;
 	$lastOption['url'] = $url;
+} else {
+	if (isset($this->Paginator->options['url']['?']['frame_id'])) {
+		$this->Paginator->options['url']['?']['frame_id'] = \CurrentLib::read('Frame.id');
+	}
 }
 ?>
 

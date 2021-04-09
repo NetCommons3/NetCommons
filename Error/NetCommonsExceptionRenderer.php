@@ -223,7 +223,8 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 			$referer = Router::parse($this->controller->request->referer(true));
 			$here = Router::parse($this->controller->request->here(false));
 
-			if ($referer['action'] === 'login' || $here['action'] === 'login') {
+			if ((isset($referer['action']) && $referer['action'] === 'login') ||
+				(isset($here['action']) && $here['action'] === 'login')) {
 				//テストでMockに差し替えが必要なための処理であるので、カバレッジレポートから除外する。
 				//@codeCoverageIgnoreStart
 				if (empty($this->SiteSetting)) {

@@ -2086,3 +2086,6 @@ msgstr "権限が不正です。"
 
 msgid "Date"
 msgstr "日付"
+
+msgid "Internet Explorer(IE) is deprecated. If you are using IE, please change to the latest version such as Edge, Chrome, Firefox, etc."
+msgstr "お使いのブラウザがInternet Explorer(IE)のようです。<br>NetCommonsではIEの利用を推奨していません。<br>お手数ですが、EdgeやChrome, Firefoxの最新版をご利用ください。"

@@ -65,7 +65,7 @@ class DeprecatedBrowserComponent extends Component {
  */
 	public function isDeprecatedBrowser() {
 		$browser = strtolower(env('HTTP_USER_AGENT'));
-		return (strstr($browser , 'trident') || strstr($browser , 'msie'));
+		return (strstr($browser, 'trident') || strstr($browser, 'msie'));
 	}
 
 /**

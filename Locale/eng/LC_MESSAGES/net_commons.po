@@ -2042,3 +2042,6 @@ msgstr ""
 
 msgid "URL"
 msgstr ""
+
+msgid "Internet Explorer(IE) is deprecated. If you are using IE, please change to the latest version such as Edge, Chrome, Firefox, etc."
+msgstr "Internet Explorer(IE) is deprecated.<br>If you are using IE, please change to the latest version such as Edge, Chrome, Firefox, etc."

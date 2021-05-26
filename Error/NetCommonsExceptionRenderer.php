@@ -150,7 +150,7 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 				get_class($error) === 'BadRequestException') {
 			$redirect = $this->controller->request->referer(true);
 
-		} elseif ($this->_is403And404($error)) {
+		} elseif ($this->_is403And404And408($error)) {
 			list($redirect, $redirectUrl) = $this->_get403And404Redirect();
 			if (! $this->controller->request->is('ajax') &&
 					$this->__loadedAuthComponent()) {
@@ -202,14 +202,15 @@ class NetCommonsExceptionRenderer extends ExceptionRenderer {
 	}
 
 /**
- * 403か404のエラーかチェックする
+ * 403か404,408のエラーかチェックする
  *
  * @param Exception $error Exception
  * @return bool
  */
-	protected function _is403And404($error) {
+	protected function _is403And404And408($error) {
 		return $error->getCode() === 403 ||
 				$error->getCode() === 404 ||
+				$error->getCode() === 408 ||
 				get_class($error) === 'MissingControllerException';
 	}
 

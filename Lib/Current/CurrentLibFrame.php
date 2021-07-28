@@ -409,8 +409,9 @@ class CurrentLibFrame extends LibAppObject {
  */
 	public function isSameRoomAndPluginByRequestBlockAndFrameBlock($frame, $block) {
 		// 施設予約は全体でブロック1つなのでルームの一致チェックはしない
-		if ($block['Block']['plugin_key'] === 'reservations' &&
-			$block['Block']['plugin_key'] === $frame['Frame']['plugin_key']) {
+		if (isset($block['Block']['plugin_key']) &&
+				$block['Block']['plugin_key'] === 'reservations' &&
+				$block['Block']['plugin_key'] === $frame['Frame']['plugin_key']) {
 			return true;
 		}
 		if (isset($block['Block']['room_id']) &&

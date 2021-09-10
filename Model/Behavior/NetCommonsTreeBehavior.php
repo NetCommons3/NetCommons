@@ -851,7 +851,7 @@ class NetCommonsTreeBehavior extends ModelBehavior {
 			];
 		} else {
 			$fields = [
-				substr($keyPath, 3), substr($valuePath, 3), $model->primaryKey, $settings['parent'],
+				substr($keyPath, 4), substr($valuePath, 4), $model->primaryKey, $settings['parent'],
 			];
 		}
 

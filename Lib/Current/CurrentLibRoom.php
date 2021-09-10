@@ -394,6 +394,9 @@ class CurrentLibRoom extends LibAppObject {
 				],
 			],
 		]);
+		if (! $room) {
+			return [];
+		}
 
 		$roomId = $room['Room']['id'];
 		$this->__privateRoomId = $roomId;

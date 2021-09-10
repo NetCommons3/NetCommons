@@ -237,6 +237,8 @@ msgstr ""
 #:
 msgid "Not found"
 msgstr ""
+msgid "Not Found"
+msgstr ""
 
 #: NetCommons/View/Errors/error400.ctp:20
 #: NetCommons/View/Errors/error500.ctp:20

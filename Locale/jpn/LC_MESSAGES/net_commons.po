@@ -246,6 +246,8 @@ msgstr "不正なリクエストの可能性があります。"
 #:
 msgid "Not found"
 msgstr "ページが見つかりません。"
+msgid "Not Found"
+msgstr "ページが見つかりません。"
 
 #: NetCommons/View/Errors/error400.ctp:20
 #: NetCommons/View/Errors/error500.ctp:20

@@ -14,6 +14,15 @@ App::uses('AppHelper', 'View/Helper');
 /**
  * NetCommonsでFormHelperをOverrideしたHelper
  *
+ * @property FormHelper $Form
+ * @property HtmlHelper $Html
+ * @property FilesFormHelper $FilesForm
+ * @property ButtonHelper $Button
+ * @property FormInputHelper $FormInput
+ * @property NetCommonsHtmlHelper $NetCommonsHtml
+ * @property NetCommonsTimeHelper $NetCommonsTime
+ * @property DatetimePickerHelper $DatetimePicker
+ *
  * @package NetCommons\NetCommons\View\Helper
  */
 class NetCommonsFormHelper extends AppHelper {

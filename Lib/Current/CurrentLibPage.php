@@ -139,7 +139,7 @@ class CurrentLibPage extends LibAppObject {
 /**
  * インスタンスの取得
  *
- * @return CurrentPage
+ * @return CurrentLibPage
  */
 	public static function getInstance() {
 		return parent::_getInstance(__CLASS__);

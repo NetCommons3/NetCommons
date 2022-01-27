@@ -784,7 +784,7 @@ class CurrentLibPage extends LibAppObject {
 		} else {
 			$fullPermalink = '';
 		}
-		if ($pageId !== $topPage['Page']['id']) {
+		if ($pageId !== $topPage['Page']['id'] && $pagePermalink) {
 			$fullPermalink .= $pagePermalink;
 		} else {
 			$fullPermalink = '';

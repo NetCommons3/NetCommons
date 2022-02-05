@@ -192,7 +192,7 @@ class FormInputHelper extends AppHelper {
 
 				$inputOptions['id'] = $domId;
 				$inputOptions['value'] = $key;
-				$inputOptions['checked'] = in_array($key, $default, true);
+				$inputOptions['checked'] = $this->__inArrayForChecked($key, $default);
 
 				$input .= $this->__bootstrapCheckbox(
 					$fieldName . '.' . $index, $checkboxClass, $label, $escape, $inputOptions
@@ -230,6 +230,25 @@ class FormInputHelper extends AppHelper {
 		}
 
 		return $output;
+	}
+
+/**
+ * チェックボックスのchecked用のin_array
+ *
+ * $array['1'] = 'ABC';とした場合、添え字が勝手にintに代わってしまうため、
+ * strict=trueの場合、ヒットしないことがある。そのため数値型の場合は、文字列でもチェックする
+ *
+ * @param mixed $needle 探す値。
+ * @param array $haystack 探すリスト
+ * @return bool
+ */
+	private function __inArrayForChecked($needle, $haystack) {
+		if (is_numeric($needle)) {
+			return in_array($needle, $haystack, true) ||
+				in_array((string)$needle, $haystack, true);
+		} else {
+			return in_array($needle, $haystack, true);
+		}
 	}
 
 /**
@@ -569,4 +588,3 @@ class FormInputHelper extends AppHelper {
 	}
 
 }
-

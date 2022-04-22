@@ -38,7 +38,7 @@ jobs:
         NC3_BUILD_DIR: "/opt/nc3"
         NC3_DOCKER_DIR: "/opt/docker"
         NC3_GIT_URL: "git://github.com/NetCommons3/NetCommons3.git"
-        NC3_GIT_BRANCH: "master"
+        NC3_GIT_BRANCH: "availability"
         PLUGIN_BUILD_DIR: ${{ github.workspace }}
         PHP_VERSION: ${{ matrix.php }}
         MYSQL_VERSION: ${{ matrix.mysql }}

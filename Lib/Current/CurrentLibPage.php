@@ -139,7 +139,7 @@ class CurrentLibPage extends LibAppObject {
 /**
  * インスタンスの取得
  *
- * @return CurrentPage
+ * @return CurrentLibPage
  */
 	public static function getInstance() {
 		return parent::_getInstance(__CLASS__);
@@ -784,7 +784,7 @@ class CurrentLibPage extends LibAppObject {
 		} else {
 			$fullPermalink = '';
 		}
-		if ($pageId !== $topPage['Page']['id']) {
+		if ($pageId !== $topPage['Page']['id'] && $pagePermalink) {
 			$fullPermalink .= $pagePermalink;
 		} else {
 			$fullPermalink = '';

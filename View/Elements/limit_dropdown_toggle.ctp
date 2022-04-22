@@ -12,7 +12,7 @@
 
 <span class="btn-group">
 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		<?php echo $displayNumberOptions[$currentLimit]; ?>
+		<?php echo $displayNumberOptions[$currentLimit] ?? ''; ?>
 		<span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" role="menu">

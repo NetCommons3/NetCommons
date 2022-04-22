@@ -193,6 +193,15 @@ NetCommonsApp.controller('NetCommons.base',
         $scope.messages = {};
 
         /**
+         * 検索後に戻るボタンでもどったときにsendingマークが表示されっぱなしになるのを抑止
+         */
+        $window.onpageshow = function() {
+          $scope.$apply(function() {
+            $scope.sending = false;
+          });
+        };
+
+        /**
          * top
          *
          * @type {function}

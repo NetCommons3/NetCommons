@@ -221,14 +221,17 @@ class CurrentLibPage extends LibAppObject {
 		$cacheTopPageId = $this->__cache[$this->Page->alias]->read('current', 'top_page_id');
 		if ($cacheTopPageId) {
 			$result = $this->Page->find('first', [
-				'fields' => ['weight'],
+				'fields' => ['weight', 'theme'],
 				'recursive' => -1,
 				'conditions' => [
 					'Page.id' => $cacheTopPageId,
 				],
 				'callbacks' => false,
 			]);
-			if ($result[$this->Page->alias]['weight'] == '1') {
+
+			$cacheTop = $this->__cache[$this->Page->alias]->read('current', 'top_page');
+			if ($result[$this->Page->alias]['weight'] == '1' &&
+					$result[$this->Page->alias]['theme'] === $cacheTop['Page']['theme']) {
 				//キャッシュのトップページの内容と変わってなければ、キャッシュの内容を
 				$this->__topPage = $this->__cache[$this->Page->alias]->read('current', 'top_page');
 				return $this->__topPage;

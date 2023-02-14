@@ -210,11 +210,7 @@ class NetCommonsCurrentLibTestUtility {
  * @return bool
  */
 	public static function canLoadTables() {
-		$travis = getenv('TRAVIS_BUILD_DIR');
-		$db = ConnectionManager::getDataSource('test');
-		$schemaFile = self::getSchemaFile();
-		$installed = Configure::read('NetCommons.installed');
-		return ($installed && !$travis && $db->config['prefix'] === '' && file_exists($schemaFile));
+		return (!getenv('NC3_DOCKER_DIR') || getenv('NC3_LOCAL_TEST'));
 	}
 
 /**

@@ -363,8 +363,10 @@ class CurrentLibControllerTestExpectedData {
 					'^' . $fullBaseUrl . '.*?/calendars/calendar_plans/view/[_0-9a-z]+$';
 				break;
 			case 'delete_calendar_plan_without_frame':
+				$year = gmdate('Y');
+				$month = gmdate('n');
 				$result =
-					'^' . $fullBaseUrl . '.*/calendars/calendars/index\?style=largemonthly&year=2019&month=3$';
+					'^' . $fullBaseUrl . '.*/calendars/calendars/index\?style=largemonthly&year=' . $year . '&month=' . $month . '$';
 				break;
 		}
 

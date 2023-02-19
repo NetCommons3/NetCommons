@@ -193,6 +193,9 @@ class NetCommonsCurrentLibTestUtility {
 
 			self::$__loadedTables = true;
 		}
+
+		Configure::write('App.base', '');
+		Router::reload();
 	}
 
 /**
@@ -210,11 +213,7 @@ class NetCommonsCurrentLibTestUtility {
  * @return bool
  */
 	public static function canLoadTables() {
-		$travis = getenv('TRAVIS_BUILD_DIR');
-		$db = ConnectionManager::getDataSource('test');
-		$schemaFile = self::getSchemaFile();
-		$installed = Configure::read('NetCommons.installed');
-		return ($installed && !$travis && $db->config['prefix'] === '' && file_exists($schemaFile));
+		return (bool)getenv('NC3_LOCAL_TEST');
 	}
 
 /**
@@ -233,11 +232,7 @@ class NetCommonsCurrentLibTestUtility {
  * @return string
  */
 	public static function getSchemaFile() {
-		if (get_class(new Current()) === 'CurrentLib') {
-			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
-		} else {
-			$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_utility.sql';
-		}
+		$schemaFile = self::getFixturePath() . 'CurrentLib' . DS . 'test_schema_current_lib.sql';
 		return $schemaFile;
 	}
 
@@ -378,17 +373,17 @@ class NetCommonsCurrentLibTestUtility {
  * @return void
  */
 	public static function settingMode($setting) {
-		if (get_class(new Current()) === 'CurrentLib') {
+		//if (get_class(new Current()) === 'CurrentLib') {
 			$reflectionClass = new ReflectionClass('SettingMode');
 			$property = $reflectionClass->getProperty('__isSettingMode');
 			$property->setAccessible(true);
 			$property->setValue($setting);
-		} else {
-			$reflectionClass = new ReflectionClass('Current');
-			$property = $reflectionClass->getProperty('_isSettingMode');
-			$property->setAccessible(true);
-			$property->setValue($setting);
-		}
+		//} else {
+		//	$reflectionClass = new ReflectionClass('Current');
+		//	$property = $reflectionClass->getProperty('_isSettingMode');
+		//	$property->setAccessible(true);
+		//	$property->setValue($setting);
+		//}
 	}
 
 /**
@@ -396,43 +391,43 @@ class NetCommonsCurrentLibTestUtility {
  *
  * @return void
  */
-	private static function __resetOldCurrentUtility() {
-		Current::$current = [];
-		Current::$originalCurrent = [];
-		Current::$permission = [];
-
-		$class = new ReflectionClass('Current');
-		foreach (['_instance', '_instanceSystem', '_instanceFrame', '_instancePage'] as $prop) {
-			$Property = $class->getProperty($prop);
-			$Property->setAccessible(true);
-			$Property->setValue(null);
-		}
-
-		$class = new ReflectionClass('CurrentFrame');
-		$Property = $class->getProperty('__memoryCache');
-		$Property->setAccessible(true);
-		$Property->setValue([]);
-
-		$class = new ReflectionClass('CurrentFrame');
-		$Property = $class->getProperty('__roomIds');
-		$Property->setAccessible(true);
-		$Property->setValue([]);
-
-		$class = new ReflectionClass('CurrentPage');
-		$Property = $class->getProperty('__memoryCache');
-		$Property->setAccessible(true);
-		$Property->setValue([]);
-
-		$class = new ReflectionClass('CurrentSystem');
-		$Property = $class->getProperty('__memoryCache');
-		$Property->setAccessible(true);
-		$Property->setValue(null);
-
-		$class = new ReflectionClass('GetPageBehavior');
-		$Property = $class->getProperty('__memoryPageWithFrame');
-		$Property->setAccessible(true);
-		$Property->setValue([]);
-	}
+	//private static function __resetOldCurrentUtility() {
+	//	Current::$current = [];
+	//	Current::$originalCurrent = [];
+	//	Current::$permission = [];
+	//
+	//	$class = new ReflectionClass('Current');
+	//	foreach (['_instance', '_instanceSystem', '_instanceFrame', '_instancePage'] as $prop) {
+	//		$Property = $class->getProperty($prop);
+	//		$Property->setAccessible(true);
+	//		$Property->setValue(null);
+	//	}
+	//
+	//	$class = new ReflectionClass('CurrentFrame');
+	//	$Property = $class->getProperty('__memoryCache');
+	//	$Property->setAccessible(true);
+	//	$Property->setValue([]);
+	//
+	//	$class = new ReflectionClass('CurrentFrame');
+	//	$Property = $class->getProperty('__roomIds');
+	//	$Property->setAccessible(true);
+	//	$Property->setValue([]);
+	//
+	//	$class = new ReflectionClass('CurrentPage');
+	//	$Property = $class->getProperty('__memoryCache');
+	//	$Property->setAccessible(true);
+	//	$Property->setValue([]);
+	//
+	//	$class = new ReflectionClass('CurrentSystem');
+	//	$Property = $class->getProperty('__memoryCache');
+	//	$Property->setAccessible(true);
+	//	$Property->setValue(null);
+	//
+	//	$class = new ReflectionClass('GetPageBehavior');
+	//	$Property = $class->getProperty('__memoryPageWithFrame');
+	//	$Property->setAccessible(true);
+	//	$Property->setValue([]);
+	//}
 
 /**
  * Currentライブラリのリセット
@@ -440,11 +435,11 @@ class NetCommonsCurrentLibTestUtility {
  * @return void
  */
 	public static function resetCurrentLib() {
-		if (get_class(new Current()) === 'CurrentLib') {
-			Current::resetInstance();
-		} else {
-			self::__resetOldCurrentUtility();
-		}
+		//if (get_class(new Current()) === 'CurrentLib') {
+			CurrentLib::resetInstance();
+		//} else {
+		//	self::__resetOldCurrentUtility();
+		//}
 
 		$class = new ReflectionClass('PageLayoutComponent');
 		$Property = $class->getProperty('_page');

@@ -241,7 +241,7 @@ class NetCommonsCurrentLibTestRun {
 		$url = '/frames/frames/delete';
 		$post = $this->__PostData->getPostDataByFrameDelete();
 
-		$_SERVER['HTTP_REFERER'] = '/setting/announcements_page';
+		$_SERVER['HTTP_REFERER'] = Configure::read('App.fullBaseUrl') . '/setting/announcements_page';
 
 		$test->generate($controller, [
 			'components' => ['Security'],

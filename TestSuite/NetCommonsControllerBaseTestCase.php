@@ -145,6 +145,7 @@ abstract class NetCommonsControllerBaseTestCase extends ControllerTestCase {
 
 		parent::setUp();
 
+		Configure::write('App.base', '');
 		Configure::write('NetCommons.installed', true);
 		Configure::write('Config.language', 'ja');
 		Current::$current['Language'] = [

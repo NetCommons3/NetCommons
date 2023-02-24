@@ -75,14 +75,20 @@ class NetCommonsTestSuite extends CakeTestSuite {
 		$Folder = new Folder($directory);
 		$files = $Folder->tree(null, true, 'files');
 
+		$tests = [];
 		foreach ($files as $file) {
 			if (preg_match('/\/All([\w]+)Test\.php$/', $file)) {
 				continue;
 			}
 
 			if (substr($file, -8) === 'Test.php') {
-				$this->addTestFile($file);
+				$tests[] = $file;
 			}
+		}
+
+		sort($tests);
+		foreach ($tests as $file) {
+			$this->addTestFile($file);
 		}
 	}
 

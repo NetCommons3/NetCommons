@@ -262,7 +262,7 @@ class FormInputHelper extends AppHelper {
  * @return string
  */
 	private function __bootstrapCheckbox($fieldName, $checkboxClass, $label, $escape, $inputOptions) {
-		$domId = Hash::get($inputOptions, 'id', $this->domId($fieldName));
+		$domId = Hash::get($inputOptions, 'id', $this->Form->domId($fieldName));
 		$inputOptions = Hash::remove($inputOptions, 'type');
 
 		$input = '<div class="' . $checkboxClass . '">';

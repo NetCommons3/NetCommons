@@ -306,6 +306,10 @@ class NetCommonsAppController extends Controller {
 	protected function _setLanguage() {
 		if (isset($this->request->query['lang']) &&
 				! array_key_exists('search', $this->request->query)) {
+			if (!is_string($this->request->query['lang']) ||
+					!in_array($this->request->query['lang'], ['ja', 'en'], true)) {
+				$this->request->query['lang'] = Configure::read('Config.language');
+			}
 			Configure::write('Config.language', $this->request->query['lang']);
 			$this->Session->write('Config.language', $this->request->query['lang']);
 
